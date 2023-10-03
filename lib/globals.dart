@@ -1,5 +1,5 @@
-import 'package:tiktoklikescroller/tiktoklikescroller.dart';
+import 'package:flutter/material.dart';
 
-String selectedPage = 'Home';
-
-Controller gcontroller = Controller();
+const double appBarFontSize = 22;
+const Color themeColor1 = Color.fromRGBO(15, 23, 42, 1);
+const Color themeColor2 = Color.fromRGBO(51, 65, 85, 1);
