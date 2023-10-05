@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:nested_navigation_demo_flutter/globals.dart';
 import 'package:nested_navigation_demo_flutter/models/challenge.dart';
 
-class HomeChallenge extends StatelessWidget {
+class HomeChallenge extends StatefulWidget {
   const HomeChallenge(
       {super.key, required this.title, required this.challenge});
   final String title;
   final Challenge challenge;
 
+  @override
+  State<HomeChallenge> createState() => _HomeChallengeState();
+}
+
+class _HomeChallengeState extends State<HomeChallenge> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +23,7 @@ class HomeChallenge extends StatelessWidget {
         title: Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            '$title/${challenge.title}',
+            '${widget.title}/${widget.challenge.title}',
             style:
                 const TextStyle(color: Colors.black, fontSize: appBarFontSize),
           ),
@@ -45,7 +50,7 @@ class HomeChallenge extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: const Color.fromRGBO(241, 245, 249, 1),
                     image: DecorationImage(
-                      image: AssetImage(challenge.thumbnailPath),
+                      image: AssetImage(widget.challenge.thumbnailPath),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
@@ -62,7 +67,7 @@ class HomeChallenge extends StatelessWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16))),
                   child: Text(
-                    challenge.description,
+                    widget.challenge.description,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 4,
                     textDirection: TextDirection.ltr,
@@ -80,7 +85,7 @@ class HomeChallenge extends StatelessWidget {
                     children: [
                       const Text('Start',
                           style: TextStyle(fontWeight: FontWeight.w500)),
-                      Text(_dateFormat(challenge.startDate),
+                      Text(_dateFormat(widget.challenge.startDate),
                           style: const TextStyle(color: themeColor3))
                     ],
                   )),
@@ -94,7 +99,7 @@ class HomeChallenge extends StatelessWidget {
                         style: TextStyle(fontWeight: FontWeight.w500),
                       ),
                       Text(
-                        _dateFormat(challenge.endDate),
+                        _dateFormat(widget.challenge.endDate),
                         style: const TextStyle(color: themeColor3),
                       )
                     ],
@@ -118,66 +123,7 @@ class HomeChallenge extends StatelessWidget {
               const SizedBox(
                 height: 11,
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: Column(children: [
-                  Row(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(241, 245, 249, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
-                        child: const Text(
-                          'Run 1 Km',
-                          style: TextStyle(fontSize: 12, color: themeColor3),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(241, 245, 249, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
-                        child: const Text(
-                          'Every Day',
-                          style: TextStyle(fontSize: 12, color: themeColor3),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                            color: Color.fromRGBO(241, 245, 249, 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
-                        child: const Text(
-                          'GPS',
-                          style: TextStyle(fontSize: 12, color: themeColor3),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 5,
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                  ),
-                ]),
-              ),
+              acceptanceCriteria(),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Padding(
                   padding: const EdgeInsets.only(
@@ -256,5 +202,102 @@ class HomeChallenge extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(16))),
       child: Center(child: Icon(iconData)),
     );
+  }
+
+  int _index = 0;
+  acceptanceCriteria() {
+    return Container(
+        height: 71,
+        child: PageView.builder(
+          itemCount: widget.challenge.acceptanceCriteria.length,
+          controller: PageController(viewportFraction: 1),
+          onPageChanged: (int index) => setState(() => _index = index),
+          itemBuilder: (_, i) {
+            return Transform.scale(
+              scale: i == _index ? 1 : 0.9,
+              child: singleAcceptanceCriteria(i),
+            );
+          },
+        ));
+  }
+
+  singleAcceptanceCriteria(int index) {
+    return Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+            borderRadius: const BorderRadius.all(Radius.circular(16))),
+        child: Column(children: [
+          Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text(
+                  '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text(
+                  widget.challenge.acceptanceCriteria[index].frequence,
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Icon(getIconData(index), color: themeColor3, size: 14,),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 5,
+            decoration: const BoxDecoration(
+                color: themeColor1,
+                borderRadius: BorderRadius.all(Radius.circular(16))),
+            child: Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  widthFactor: widget.challenge.acceptanceCriteria[index].progress/100,
+                  heightFactor: 1,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.all(Radius.circular(16))),
+                  ),
+                )),
+          ),
+        ]));
+  }
+  
+  IconData getIconData(int index) {
+    if (widget.challenge.acceptanceCriteria[index].tracking == 'camera') {
+      return Icons.camera_alt_outlined;
+    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'gps') {
+      return Icons.gps_not_fixed;
+    }else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
+      return Icons.notes;
+    }else if (widget.challenge.acceptanceCriteria[index].tracking == 'numbers') {
+      return Icons.numbers;
+    } else {
+      return Icons.not_accessible;
+    }
   }
 }
