@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class Challenge {
   final int id;
@@ -75,16 +74,20 @@ class Activity {
 enum ChallengStatus {
   success('Success'),
   failed('Failed'),
-  inProgress('InProgress');
+  inProgress('InProgress'),
+  backlog('Backlog');
 
   const ChallengStatus(String status);
 
   static ChallengStatus factory(String status) {
-    if (status == 'Success')
+    if (status == 'Success') {
       return ChallengStatus.success;
-    else if (status == 'Failed')
+    } else if (status == 'Failed') {
       return ChallengStatus.failed;
-    else
+    } else if (status == 'Backlog') {
+      return ChallengStatus.backlog;
+    } else {
       return ChallengStatus.inProgress;
+    }
   }
 }

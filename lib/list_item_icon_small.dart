@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
+import 'package:nested_navigation_demo_flutter/globals.dart';
 
-class ListItemSmall extends StatelessWidget {
-  const ListItemSmall(
-      {super.key, required this.onTap, required this.challenge});
+class ListItemIconSmall extends StatelessWidget {
+  const ListItemIconSmall(
+      {super.key, required this.onTap, required this.icon, required this.title});
 
   final dynamic Function() onTap;
 
-  final Challenge challenge;
+  final IconData icon;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +27,13 @@ class ListItemSmall extends StatelessWidget {
               Container(
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(
-                    color: const Color.fromRGBO(241, 245, 249, 1),
-                    image: DecorationImage(
-                      image: AssetImage(challenge.thumbnailPath),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
                 margin: const EdgeInsets.all(12),
+                child: Center(child: Icon(icon, color: themeColor3,)),
               ),
-              Text(challenge.title)
+              Text(title)
             ],
           ),
         ),

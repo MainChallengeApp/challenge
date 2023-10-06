@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nested_navigation_demo_flutter/globals.dart';
-import 'package:nested_navigation_demo_flutter/list_item_small.dart';
+import 'package:nested_navigation_demo_flutter/list_item_challenge_small.dart';
 import 'package:nested_navigation_demo_flutter/models/challenge.dart';
 
 class ColorsListPage extends StatefulWidget {
@@ -67,7 +67,7 @@ class _ColorsListPageState extends State<ColorsListPage> {
                 itemBuilder: (BuildContext content, int index) {
                   if (index == challenges.length) return Container();
                   Challenge challenge = challenges[index];
-                  return ListItemSmall(
+                  return ListItemChallengeSmall(
                     onTap: () => widget.onPush?.call(challenge.id),
                     challenge: challenge,
                   );

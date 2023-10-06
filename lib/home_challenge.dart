@@ -13,6 +13,8 @@ class HomeChallenge extends StatefulWidget {
 }
 
 class _HomeChallengeState extends State<HomeChallenge> {
+  bool isDescriptionExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,25 +60,31 @@ class _HomeChallengeState extends State<HomeChallenge> {
               const SizedBox(
                 height: 16,
               ),
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(16))),
-                  child: Text(
-                    widget.challenge.description,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
-                    textDirection: TextDirection.ltr,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
-                  )),
+              GestureDetector(
+                onTap: () => setState(() {isDescriptionExpanded = !isDescriptionExpanded;}),
+                child: Container(
+                    height: isDescriptionExpanded ? 403 : 80,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromRGBO(226, 232, 240, 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16))),
+                    child: Text(
+                      widget.challenge.description,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: isDescriptionExpanded ? 999 :4,
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(fontSize: 12, color: themeColor3),
+                    )),
+              ),
+              isDescriptionExpanded ? Container() : 
               const SizedBox(
                 height: 16,
               ),
+              isDescriptionExpanded ? Container() :
               Row(
                 children: [
                   Expanded(
@@ -106,10 +114,12 @@ class _HomeChallengeState extends State<HomeChallenge> {
                   )),
                 ],
               ),
+              isDescriptionExpanded ? Container() :
               const SizedBox(
                 height:
                     11, // actually 16 but there is somehow more space between?
               ),
+              isDescriptionExpanded ? Container() :
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -120,39 +130,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
                   Icon(Icons.arrow_right)
                 ],
               ),
+              isDescriptionExpanded ? Container() :
               const SizedBox(
                 height: 11,
               ),
+              isDescriptionExpanded ? Container() :
               acceptanceCriteria(),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 10, bottom: 10),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: themeColor3.withAlpha(100),
-                  ),
-                ),
-                const Padding(
-                  padding:
-                      EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: themeColor3,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 10, bottom: 10),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: themeColor3.withAlpha(100),
-                  ),
-                )
-              ]),
+              isDescriptionExpanded ? Container() :
+              dots(),
+              isDescriptionExpanded ? Container() :
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -162,10 +148,13 @@ class _HomeChallengeState extends State<HomeChallenge> {
                   documentationButton(Icons.camera_alt_outlined),
                 ],
               ),
+              isDescriptionExpanded ? Container() :
               const SizedBox(
                 height: 16,
               ),
+              isDescriptionExpanded ? Container() :
               Expanded(child: Container()),
+              isDescriptionExpanded ? Container() :
               Container(
                 height: 53,
                 width: double.infinity,
@@ -204,17 +193,17 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  int _index = 0;
+  int selectedAcceptanceCriteria = 0;
   acceptanceCriteria() {
-    return Container(
+    return SizedBox(
         height: 71,
         child: PageView.builder(
           itemCount: widget.challenge.acceptanceCriteria.length,
           controller: PageController(viewportFraction: 1),
-          onPageChanged: (int index) => setState(() => _index = index),
+          onPageChanged: (int index) => setState(() => selectedAcceptanceCriteria = index),
           itemBuilder: (_, i) {
             return Transform.scale(
-              scale: i == _index ? 1 : 0.9,
+              scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
               child: singleAcceptanceCriteria(i),
             );
           },
@@ -259,7 +248,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                 decoration: const BoxDecoration(
                     color: Color.fromRGBO(241, 245, 249, 1),
                     borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Icon(getIconData(index), color: themeColor3, size: 14,),
+                child: Icon(getIconData(index), color: themeColor3, size: 14),
               ),
             ],
           ),
@@ -270,7 +259,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
             width: double.infinity,
             height: 5,
             decoration: const BoxDecoration(
-                color: themeColor1,
+                color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(16))),
             child: Align(
                 alignment: Alignment.centerLeft,
@@ -299,5 +288,50 @@ class _HomeChallengeState extends State<HomeChallenge> {
     } else {
       return Icons.not_accessible;
     }
+  }
+  
+  dots() {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(widget.challenge.acceptanceCriteria.length, (index) => Padding(
+                  padding: const EdgeInsets.only(
+                      left: 5, right: 5, top: 10, bottom: 23),
+                  child: Icon(
+                    Icons.fiber_manual_record,
+                    size: 6,
+                    color: index == selectedAcceptanceCriteria ? themeColor3 : themeColor3.withAlpha(100),
+                  ),
+                ))
+    
+    //  [
+                // Padding(
+                //   padding: const EdgeInsets.only(
+                //       left: 5, right: 5, top: 10, bottom: 23),
+                //   child: Icon(
+                //     Icons.fiber_manual_record,
+                //     size: 6,
+                //     color: themeColor3.withAlpha(100),
+                //   ),
+                // ),
+    //             const Padding(
+    //               padding:
+    //                   EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 23),
+    //               child: Icon(
+    //                 Icons.fiber_manual_record,
+    //                 size: 6,
+    //                 color: themeColor3,
+    //               ),
+    //             ),
+    //             Padding(
+    //               padding: const EdgeInsets.only(
+    //                   left: 5, right: 5, top: 10, bottom: 23),
+    //               child: Icon(
+    //                 Icons.fiber_manual_record,
+    //                 size: 6,
+    //                 color: themeColor3.withAlpha(100),
+    //               ),
+    //             )
+              
+    //           ]
+              
+              );
   }
 }

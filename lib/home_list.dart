@@ -2,14 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nested_navigation_demo_flutter/globals.dart';
-import 'package:nested_navigation_demo_flutter/list_item_small.dart';
+import 'package:nested_navigation_demo_flutter/list_item_challenge_small.dart';
+import 'package:nested_navigation_demo_flutter/list_item_icon_small.dart';
+import 'package:nested_navigation_demo_flutter/list_item_search_bar.dart';
 import 'package:nested_navigation_demo_flutter/models/challenge.dart';
 
 class HomeList extends StatefulWidget {
   const HomeList(
-      {super.key, required this.title, this.onPush});
+      {super.key, required this.title, this.onPush, this.tapOnNewChallenge});
   final String title;
   final ValueChanged<Challenge>? onPush;
+  final Function? tapOnNewChallenge;
 
 
   @override
@@ -59,12 +62,14 @@ class _HomeListState extends State<HomeList> {
             final challenges = snapshot.data!;
 
             return ListView.separated(
-        itemCount: challenges.length + 1, // +1 for extra separator at the end
+        itemCount: challenges.length + 1 + 1 + 1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
         separatorBuilder: (context, index) => const SizedBox(height: 17,),
         itemBuilder: (BuildContext content, int index) {
-          if (index == challenges.length) return Container();
-          Challenge challenge = challenges[index];
-          return ListItemSmall(
+          if(index == 0) return const ListItemSearchbar();
+          if(index == 1) return ListItemIconSmall(onTap:  () => widget.tapOnNewChallenge!.call(), icon: Icons.plus_one, title: "new Challenge",);
+          if (index == challenges.length + 1 + 1) return Container(); // +1 for new Challenge listitem + 1 for searchbar
+          Challenge challenge = challenges[index - 1 -1 ];  // -1 for new Challenge listitem - 1 for searchbar
+          return ListItemChallengeSmall(
             onTap: () => widget.onPush?.call(challenge),
             challenge: challenge,
           );
