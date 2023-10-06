@@ -43,9 +43,166 @@ class _EditChallengeState extends State<EditChallenge> {
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
               borderRadius: const BorderRadius.all(Radius.circular(16))),
-          // margin: EdgeInsets.only(bottom:16),
+          child: Column(
+            children: [
+              thumbnailUploadAndTitle(),
+              // storageLocation(),
+              description(),
+              startAndEndDate(),
+              acceptanceCriteriaButton(),
+              Expanded(child: SizedBox()),
+              saveButton()
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Container saveButton() {
+    return Container(
+              height: 53,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: themeColor2,
+                  border: Border.all(
+                      width: 1,
+                      color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              child: const Center(
+                  child: Text(
+                'Save',
+                style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              )),
+            );
+  }
+
+  Container acceptanceCriteriaButton() {
+    return standardContainer(child: 
+              Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  margin: const EdgeInsets.only(right: 12),
+                  decoration: const BoxDecoration(
+                      color: Color.fromRGBO(241, 245, 249, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: const Center(
+                      child: Icon(
+                    Icons.check,
+                    color: themeColor3,
+                  )),
+                ),
+                const SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('Acceptance Criteria')),
+                  ),
+                  Expanded(child: SizedBox(),),
+                  Icon(Icons.chevron_right_outlined, color: themeColor3,)
+              ],
+            ),
+            );
+  }
+
+  Row startAndEndDate() {
+    return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(child: standardContainer(child: Align(alignment: Alignment.centerLeft ,child: Text("Start")))),
+                const SizedBox(width: 16),
+                Expanded(child: standardContainer(child: Align(alignment: Alignment.centerLeft ,child: Text("End")))),
+              ],
+            );
+  }
+
+  Container description() {
+    return standardContainer(
+              heightFactor: 3,
+              child: const TextField(
+                maxLines: 100,
+                decoration: InputDecoration.collapsed(
+                          hintText: 'Description')
+              )
+            );
+  }
+
+  Container storageLocation() {
+    return standardContainer(child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  margin: const EdgeInsets.only(right: 12),
+                  decoration: const BoxDecoration(
+                      color: Color.fromRGBO(241, 245, 249, 1),
+                      borderRadius: BorderRadius.all(Radius.circular(12))),
+                  child: const Center(
+                      child: Icon(
+                    Icons.save,
+                    color: themeColor3,
+                  )),
+                ),
+                const SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Storage Location"),
+                  ),
+                )
+              ],
+            ));
+  }
+
+  Container thumbnailUploadAndTitle() {
+    return standardContainer(
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    margin: const EdgeInsets.only(right: 12),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: const Center(
+                        child: Icon(
+                      Icons.upload,
+                      color: themeColor3,
+                    )),
+                  ),
+                  const SizedBox(
+                    width: 200,
+                    height: 40,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextField(
+                        decoration: InputDecoration.collapsed(
+                            hintText: 'Title'),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+  }
+
+  Container standardContainer({required Widget child, double heightFactor = 1}) {
+    return Container(
+      // width: double.infinity,
+      height: 64 * heightFactor,
+      padding: const EdgeInsets.all(12),
+      margin:const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
+      child: child,
     );
   }
 
@@ -61,7 +218,8 @@ class _EditChallengeState extends State<EditChallenge> {
         child: PageView.builder(
           itemCount: widget.challenge.acceptanceCriteria.length,
           controller: PageController(viewportFraction: 1),
-          onPageChanged: (int index) => setState(() => selectedAcceptanceCriteria = index),
+          onPageChanged: (int index) =>
+              setState(() => selectedAcceptanceCriteria = index),
           itemBuilder: (_, i) {
             return Transform.scale(
               scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
@@ -125,7 +283,8 @@ class _EditChallengeState extends State<EditChallenge> {
             child: Align(
                 alignment: Alignment.centerLeft,
                 child: FractionallySizedBox(
-                  widthFactor: widget.challenge.acceptanceCriteria[index].progress/100,
+                  widthFactor:
+                      widget.challenge.acceptanceCriteria[index].progress / 100,
                   heightFactor: 1,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -136,32 +295,37 @@ class _EditChallengeState extends State<EditChallenge> {
           ),
         ]));
   }
-  
+
   IconData getIconData(int index) {
     if (widget.challenge.acceptanceCriteria[index].tracking == 'camera') {
       return Icons.camera_alt_outlined;
     } else if (widget.challenge.acceptanceCriteria[index].tracking == 'gps') {
       return Icons.gps_not_fixed;
-    }else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
+    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
       return Icons.notes;
-    }else if (widget.challenge.acceptanceCriteria[index].tracking == 'numbers') {
+    } else if (widget.challenge.acceptanceCriteria[index].tracking ==
+        'numbers') {
       return Icons.numbers;
     } else {
       return Icons.not_accessible;
     }
   }
-  
+
   dots() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(widget.challenge.acceptanceCriteria.length, (index) => Padding(
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+            widget.challenge.acceptanceCriteria.length,
+            (index) => Padding(
                   padding: const EdgeInsets.only(
                       left: 5, right: 5, top: 10, bottom: 23),
                   child: Icon(
                     Icons.fiber_manual_record,
                     size: 6,
-                    color: index == selectedAcceptanceCriteria ? themeColor3 : themeColor3.withAlpha(100),
+                    color: index == selectedAcceptanceCriteria
+                        ? themeColor3
+                        : themeColor3.withAlpha(100),
                   ),
-                ))
-              
-              );
+                )));
   }
 }
