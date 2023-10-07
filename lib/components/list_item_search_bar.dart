@@ -1,11 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:nested_navigation_demo_flutter/globals.dart';
 
-class ListItemSearchbar extends StatelessWidget {
-  const ListItemSearchbar(
-      {super.key});
+class ListItemSearchbar extends StatefulWidget {
+  ListItemSearchbar({super.key, this.changeList});
 
+  Function(String)? changeList;
 
+  @override
+  State<ListItemSearchbar> createState() => _ListItemSearchbarState();
+}
+
+class _ListItemSearchbarState extends State<ListItemSearchbar> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -25,18 +32,23 @@ class ListItemSearchbar extends StatelessWidget {
                   color: Color.fromRGBO(241, 245, 249, 1),
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               margin: const EdgeInsets.all(12),
-              child: Center(child: Icon(Icons.search, color: themeColor3,)),
+              child: const Center(
+                  child: Icon(
+                Icons.search,
+                color: themeColor3,
+              )),
             ),
-            Container(
+            SizedBox(
               width: 270,
               height: 40,
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: const TextField(
-                  decoration: InputDecoration.collapsed(
-                  hintText: 'Search'
+                child: TextField(
+                  onChanged: widget.changeList ?? (value) {},
+                  decoration: const InputDecoration.collapsed(
+                    hintText: 'Search',
+                  ),
                 ),
-                          ),
               ),
             )
             // Text(title)
@@ -45,4 +57,5 @@ class ListItemSearchbar extends StatelessWidget {
       ),
     );
   }
+
 }

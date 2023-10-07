@@ -1,0 +1,45 @@
+import 'package:flutter/widgets.dart';
+import 'package:nested_navigation_demo_flutter/models/challenge.dart';
+import 'package:nested_navigation_demo_flutter/search/search_challenge.dart';
+import 'package:nested_navigation_demo_flutter/search/search_list.dart';
+import 'package:nested_navigation_demo_flutter/components/tab_navigator.dart';
+
+class SearchTabNavigatorRoutes {
+  static const String root = '/';
+  static const String detail = '/detail';
+}
+
+class SearchTabNavigator extends TabNavigator {
+  const SearchTabNavigator(
+      {super.key, required super.navigatorKey, required super.tabItem});
+
+  @override
+  void ppush(BuildContext context,
+      {int challengeId = 0, Challenge? challenge}) {
+    var routeBuilders = prouteBuilders(context, challenge: challenge!);
+
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            routeBuilders[TabNavigatorRoutes.detail]!(context),
+      ),
+    );
+  }
+
+  @override
+  Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
+      {int challengeId = 0, Challenge? challenge}) {
+    return {
+      SearchTabNavigatorRoutes.root: (context) => SearchList(
+          title: tabItem.name,
+          onPush: (c) => ppush(context, challenge: c)),
+      SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
+            title: tabItem.name,
+            challenge: challenge!,
+          )
+    };
+  }
+}

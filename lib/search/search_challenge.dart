@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:nested_navigation_demo_flutter/globals.dart';
 import 'package:nested_navigation_demo_flutter/models/challenge.dart';
 
-class HomeChallenge extends StatefulWidget {
-  const HomeChallenge(
+class SearchChallenge extends StatefulWidget {
+  const SearchChallenge(
       {super.key, required this.title, required this.challenge});
   final String title;
   final Challenge challenge;
 
   @override
-  State<HomeChallenge> createState() => _HomeChallengeState();
+  State<SearchChallenge> createState() => _SearchChallengeState();
 }
 
-class _HomeChallengeState extends State<HomeChallenge> {
+class _SearchChallengeState extends State<SearchChallenge> {
   bool isDescriptionExpanded = false;
 
   @override
@@ -63,7 +63,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
               GestureDetector(
                 onTap: () => setState(() {isDescriptionExpanded = !isDescriptionExpanded;}),
                 child: Container(
-                    height: isDescriptionExpanded ? 403 : 80,
+                    height: isDescriptionExpanded ? 399 : 80,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -82,53 +82,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
               ),
               isDescriptionExpanded ? Container() : 
               const SizedBox(
-                height: 16,
+                height: 11,
               ),
               isDescriptionExpanded ? Container() :
-              Row(
-                children: [
-                  Expanded(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Start',
-                          style: TextStyle(fontWeight: FontWeight.w500)),
-                      Text(_dateFormat(widget.challenge.startDate),
-                          style: const TextStyle(color: themeColor3))
-                    ],
-                  )),
-                  const Text('  |  '),
-                  Expanded(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'End',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        _dateFormat(widget.challenge.endDate),
-                        style: const TextStyle(color: themeColor3),
-                      )
-                    ],
-                  )),
-                ],
-              ),
-              isDescriptionExpanded ? Container() :
-              const SizedBox(
-                height:
-                    11, // actually 16 but there is somehow more space between?
-              ),
-              isDescriptionExpanded ? Container() :
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Acceptance Criteria',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Icon(Icons.arrow_right)
-                ],
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                      'Acceptance Criteria',
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
               ),
               isDescriptionExpanded ? Container() :
               const SizedBox(
@@ -137,36 +99,21 @@ class _HomeChallengeState extends State<HomeChallenge> {
               isDescriptionExpanded ? Container() :
               acceptanceCriteria(),
               isDescriptionExpanded ? Container() :
-              dots(),
-              isDescriptionExpanded ? Container() :
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  documentationButton(Icons.numbers),
-                  documentationButton(Icons.notes),
-                  documentationButton(Icons.gps_fixed),
-                  documentationButton(Icons.camera_alt_outlined),
-                ],
-              ),
-              isDescriptionExpanded ? Container() :
-              const SizedBox(
-                height: 16,
-              ),
-              isDescriptionExpanded ? Container() :
               Expanded(child: Container()),
               isDescriptionExpanded ? Container() :
               Container(
                 height: 53,
                 width: double.infinity,
                 decoration: BoxDecoration(
+                  color: themeColor2,
                     border: Border.all(
                         width: 1,
                         color: const Color.fromRGBO(226, 232, 240, 1)),
                     borderRadius: const BorderRadius.all(Radius.circular(16))),
                 child: const Center(
                     child: Text(
-                  'End Challenge',
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  'Accept',
+                  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
                 )),
               )
             ],

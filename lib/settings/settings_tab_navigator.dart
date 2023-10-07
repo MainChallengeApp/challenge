@@ -1,18 +1,17 @@
 import 'package:flutter/widgets.dart';
-import 'package:nested_navigation_demo_flutter/edit_challenge.dart';
-import 'package:nested_navigation_demo_flutter/home_challenge.dart';
-import 'package:nested_navigation_demo_flutter/home_list.dart';
+import 'package:nested_navigation_demo_flutter/home/home_challenge.dart';
 import 'package:nested_navigation_demo_flutter/models/challenge.dart';
-import 'package:nested_navigation_demo_flutter/tab_navigators/tab_navigator.dart';
+import 'package:nested_navigation_demo_flutter/settings/settings_list.dart';
+import 'package:nested_navigation_demo_flutter/components/tab_navigator.dart';
 
-class HomeTabNavigatorRoutes {
+class SettingsTabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
   static const String newChallenge = '/newChallenge';
 }
-class HomeTabNavigator extends TabNavigator {
+class SettingsTabNavigator extends TabNavigator {
   
-  const HomeTabNavigator({super.key, required super.navigatorKey, required super.tabItem});
+  const SettingsTabNavigator({super.key, required super.navigatorKey, required super.tabItem});
 
   @override
   void ppush(BuildContext context, {int challengeId = 0
@@ -43,7 +42,7 @@ void tapOnNewChallenge(BuildContext context) {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) =>
-            routeBuilders[HomeTabNavigatorRoutes.newChallenge]!(context),
+            routeBuilders[SettingsTabNavigatorRoutes.newChallenge]!(context),
       ),
     );
   }
@@ -52,17 +51,12 @@ void tapOnNewChallenge(BuildContext context) {
     Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, Challenge? challenge}) {
     return {
-      HomeTabNavigatorRoutes.root: (context) => HomeList(
+      SettingsTabNavigatorRoutes.root: (context) => SettingsList(
             title: tabItem.name,
             onPush: (c) =>
                 ppush(context, challenge: c),
-            tapOnNewChallenge: () => tapOnNewChallenge(context)
           ),
-      HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
-            title: tabItem.name,
-            challenge: challenge!,
-          ),
-      HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
+      SettingsTabNavigatorRoutes.detail: (context) => HomeChallenge(
             title: tabItem.name,
             challenge: challenge!,
           ),

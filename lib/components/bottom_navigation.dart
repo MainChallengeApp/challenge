@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/tab_item.dart';
+import 'package:nested_navigation_demo_flutter/components/tab_item.dart';
 
-import 'globals.dart';
+import '../globals.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation(

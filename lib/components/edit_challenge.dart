@@ -50,7 +50,7 @@ class _EditChallengeState extends State<EditChallenge> {
               description(),
               startAndEndDate(),
               acceptanceCriteriaButton(),
-              Expanded(child: SizedBox()),
+              const Expanded(child: SizedBox()),
               saveButton()
             ],
           ),
@@ -101,8 +101,8 @@ class _EditChallengeState extends State<EditChallenge> {
                     alignment: Alignment.centerLeft,
                     child: Text('Acceptance Criteria')),
                   ),
-                  Expanded(child: SizedBox(),),
-                  Icon(Icons.chevron_right_outlined, color: themeColor3,)
+                  const Expanded(child: SizedBox(),),
+                  const Icon(Icons.chevron_right_outlined, color: themeColor3,)
               ],
             ),
             );
@@ -112,9 +112,9 @@ class _EditChallengeState extends State<EditChallenge> {
     return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(child: standardContainer(child: Align(alignment: Alignment.centerLeft ,child: Text("Start")))),
+                Expanded(child: standardContainer(child: const Align(alignment: Alignment.centerLeft ,child: Text("Start")))),
                 const SizedBox(width: 16),
-                Expanded(child: standardContainer(child: Align(alignment: Alignment.centerLeft ,child: Text("End")))),
+                Expanded(child: standardContainer(child: const Align(alignment: Alignment.centerLeft ,child: Text("End")))),
               ],
             );
   }
@@ -206,9 +206,6 @@ class _EditChallengeState extends State<EditChallenge> {
     );
   }
 
-  String _dateFormat(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
-  }
 
   int selectedAcceptanceCriteria = 0;
 
