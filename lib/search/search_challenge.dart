@@ -61,8 +61,11 @@ class _SearchChallengeState extends State<SearchChallenge> {
                 height: 16,
               ),
               GestureDetector(
-                onTap: () => setState(() {isDescriptionExpanded = !isDescriptionExpanded;}),
+                onTap: () => setState(() {
+                  isDescriptionExpanded = !isDescriptionExpanded;
+                }),
                 child: Container(
+                    width: double.infinity,
                     height: isDescriptionExpanded ? 399 : 80,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -74,48 +77,54 @@ class _SearchChallengeState extends State<SearchChallenge> {
                     child: Text(
                       widget.challenge.description,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: isDescriptionExpanded ? 999 :4,
+                      maxLines: isDescriptionExpanded ? 999 : 4,
                       textDirection: TextDirection.ltr,
                       textAlign: TextAlign.justify,
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     )),
               ),
-              isDescriptionExpanded ? Container() : 
-              const SizedBox(
-                height: 11,
-              ),
-              isDescriptionExpanded ? Container() :
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                      'Acceptance Criteria',
-                      style: TextStyle(fontWeight: FontWeight.w500),
+              // isDescriptionExpanded
+              //     ? Container()
+              //     : const SizedBox(
+              //         height: 11,
+              //       ),
+              // isDescriptionExpanded
+              //     ? Container()
+              //     : const Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Text(
+              //           'Acceptance Criteria',
+              //           style: TextStyle(fontWeight: FontWeight.w500),
+              //         ),
+              //       ),
+              isDescriptionExpanded
+                  ? Container()
+                  : const SizedBox(
+                      height: 16,
                     ),
-              ),
-              isDescriptionExpanded ? Container() :
-              const SizedBox(
-                height: 11,
-              ),
-              isDescriptionExpanded ? Container() :
-              acceptanceCriteria(),
-              isDescriptionExpanded ? Container() :
-              Expanded(child: Container()),
-              isDescriptionExpanded ? Container() :
-              Container(
-                height: 53,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: themeColor2,
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: const Center(
-                    child: Text(
-                  'Accept',
-                  style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-                )),
-              )
+              isDescriptionExpanded ? Container() : acceptanceCriteria(),
+              isDescriptionExpanded
+                  ? Container()
+                  : Expanded(child: Container()),
+              isDescriptionExpanded
+                  ? Container()
+                  : Container(
+                      height: 55,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: themeColor2,
+                          border: Border.all(
+                              width: 1,
+                              color: const Color.fromRGBO(226, 232, 240, 1)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16))),
+                      child: const Center(
+                          child: Text(
+                        'Accept',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.white),
+                      )),
+                    )
             ],
           ),
         ),
@@ -142,19 +151,18 @@ class _SearchChallengeState extends State<SearchChallenge> {
 
   int selectedAcceptanceCriteria = 0;
   acceptanceCriteria() {
-    return SizedBox(
-        height: 71,
-        child: PageView.builder(
-          itemCount: widget.challenge.acceptanceCriteria.length,
-          controller: PageController(viewportFraction: 1),
-          onPageChanged: (int index) => setState(() => selectedAcceptanceCriteria = index),
-          itemBuilder: (_, i) {
-            return Transform.scale(
-              scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
-              child: singleAcceptanceCriteria(i),
-            );
-          },
-        ));
+    return Container(
+      height: 200,
+      child: ListView.separated(
+        itemCount: widget.challenge.acceptanceCriteria.length,
+        separatorBuilder: (context, index) => SizedBox(
+          height: 16,
+        ),
+        itemBuilder: (_, i) {
+          return singleAcceptanceCriteria(i);
+        },
+      ),
+    );
   }
 
   singleAcceptanceCriteria(int index) {
@@ -164,121 +172,54 @@ class _SearchChallengeState extends State<SearchChallenge> {
             border: Border.all(
                 width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: Column(children: [
-          Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(
-                  '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                ),
+        child: Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Text(
+                '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                style: const TextStyle(fontSize: 12, color: themeColor3),
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(
-                  widget.challenge.acceptanceCriteria[index].frequence,
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Text(
+                widget.challenge.acceptanceCriteria[index].frequence,
+                style: const TextStyle(fontSize: 12, color: themeColor3),
               ),
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Icon(getIconData(index), color: themeColor3, size: 14),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            width: double.infinity,
-            height: 5,
-            decoration: const BoxDecoration(
-                color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(16))),
-            child: Align(
-                alignment: Alignment.centerLeft,
-                child: FractionallySizedBox(
-                  widthFactor: widget.challenge.acceptanceCriteria[index].progress/100,
-                  heightFactor: 1,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.green,
-                        borderRadius: BorderRadius.all(Radius.circular(16))),
-                  ),
-                )),
-          ),
-        ]));
+            ),
+            Expanded(child: Container()),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Icon(getIconData(index), color: themeColor3, size: 14),
+            ),
+          ],
+        ));
   }
-  
+
   IconData getIconData(int index) {
     if (widget.challenge.acceptanceCriteria[index].tracking == 'camera') {
       return Icons.camera_alt_outlined;
     } else if (widget.challenge.acceptanceCriteria[index].tracking == 'gps') {
       return Icons.gps_not_fixed;
-    }else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
+    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
       return Icons.notes;
-    }else if (widget.challenge.acceptanceCriteria[index].tracking == 'numbers') {
+    } else if (widget.challenge.acceptanceCriteria[index].tracking ==
+        'numbers') {
       return Icons.numbers;
     } else {
       return Icons.not_accessible;
     }
-  }
-  
-  dots() {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(widget.challenge.acceptanceCriteria.length, (index) => Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 10, bottom: 23),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: index == selectedAcceptanceCriteria ? themeColor3 : themeColor3.withAlpha(100),
-                  ),
-                ))
-    
-    //  [
-                // Padding(
-                //   padding: const EdgeInsets.only(
-                //       left: 5, right: 5, top: 10, bottom: 23),
-                //   child: Icon(
-                //     Icons.fiber_manual_record,
-                //     size: 6,
-                //     color: themeColor3.withAlpha(100),
-                //   ),
-                // ),
-    //             const Padding(
-    //               padding:
-    //                   EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 23),
-    //               child: Icon(
-    //                 Icons.fiber_manual_record,
-    //                 size: 6,
-    //                 color: themeColor3,
-    //               ),
-    //             ),
-    //             Padding(
-    //               padding: const EdgeInsets.only(
-    //                   left: 5, right: 5, top: 10, bottom: 23),
-    //               child: Icon(
-    //                 Icons.fiber_manual_record,
-    //                 size: 6,
-    //                 color: themeColor3.withAlpha(100),
-    //               ),
-    //             )
-              
-    //           ]
-              
-              );
   }
 }

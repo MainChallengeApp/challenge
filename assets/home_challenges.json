@@ -21,7 +21,17 @@
             {
                 "activity" : {
                     "title": "Run",
-                    "amount": 2.0,
+                    "amount": 3.0,
+                    "unit": "Km"
+                },
+                "frequence" : "every day",
+                "tracking" : "camera",
+                "progress": 85
+            },
+            {
+                "activity" : {
+                    "title": "Run",
+                    "amount": 4.0,
                     "unit": "Km"
                 },
                 "frequence" : "every day",

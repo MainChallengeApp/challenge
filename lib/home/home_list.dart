@@ -61,14 +61,14 @@ class _HomeListState extends State<HomeList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            final challenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();;
+            final challenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
 
             return ListView.separated(
         itemCount: challenges.length + 1 + 1 + 1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
         separatorBuilder: (context, index) => const SizedBox(height: 17,),
         itemBuilder: (BuildContext content, int index) {
           if(index == 0) return ListItemSearchbar(changeList: changeList,);
-          if(index == 1) return ListItemIconSmall(onTap:  () => widget.tapOnNewChallenge!.call(), icon: Icons.plus_one, title: "New Challenge",);
+          if(index == 1) return ListItemIconSmall(onTap:  () => widget.tapOnNewChallenge!.call(), icon: Icons.add, title: "New Challenge",);
           if (index == challenges.length + 1 + 1) return Container(); // +1 for new Challenge listitem + 1 for searchbar
           Challenge challenge = challenges[index - 1 -1 ];  // -1 for new Challenge listitem - 1 for searchbar
           return ListItemChallengeSmall(
