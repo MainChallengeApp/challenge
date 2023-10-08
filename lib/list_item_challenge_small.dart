@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
+import 'package:challenge/models/challenge.dart';
 
 class ListItemChallengeSmall extends StatelessWidget {
   const ListItemChallengeSmall(

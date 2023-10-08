@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/globals.dart';
-import 'package:nested_navigation_demo_flutter/components/list_item_icon_small.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/components/list_item_icon_small.dart';
+import 'package:challenge/models/challenge.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList(

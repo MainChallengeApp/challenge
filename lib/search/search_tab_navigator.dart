@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
-import 'package:nested_navigation_demo_flutter/search/search_challenge.dart';
-import 'package:nested_navigation_demo_flutter/search/search_list.dart';
-import 'package:nested_navigation_demo_flutter/components/tab_navigator.dart';
+import 'package:challenge/models/challenge.dart';
+import 'package:challenge/search/search_challenge.dart';
+import 'package:challenge/search/search_list.dart';
+import 'package:challenge/components/tab_navigator.dart';
 
 class SearchTabNavigatorRoutes {
   static const String root = '/';

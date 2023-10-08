@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/globals.dart';
+import 'package:challenge/globals.dart';
 
 class ListItemSearchbar extends StatefulWidget {
   ListItemSearchbar({super.key, this.changeList});

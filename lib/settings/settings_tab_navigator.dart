@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:nested_navigation_demo_flutter/home/home_challenge.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
-import 'package:nested_navigation_demo_flutter/settings/settings_list.dart';
-import 'package:nested_navigation_demo_flutter/components/tab_navigator.dart';
+import 'package:challenge/home/home_challenge.dart';
+import 'package:challenge/models/challenge.dart';
+import 'package:challenge/settings/settings_list.dart';
+import 'package:challenge/components/tab_navigator.dart';
 
 class SettingsTabNavigatorRoutes {
   static const String root = '/';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/globals.dart';
+import 'package:challenge/globals.dart';
 
 class ColorDetailPage extends StatelessWidget {
   const ColorDetailPage(

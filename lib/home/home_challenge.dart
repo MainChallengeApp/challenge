@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/globals.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge.dart';
 
 class HomeChallenge extends StatefulWidget {
   const HomeChallenge(

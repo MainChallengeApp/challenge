@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/components/bottom_navigation.dart';
-import 'package:nested_navigation_demo_flutter/settings/settings_tab_navigator.dart';
-import 'package:nested_navigation_demo_flutter/components/tab_item.dart';
-import 'package:nested_navigation_demo_flutter/home/home_tab_navigator.dart';
-import 'package:nested_navigation_demo_flutter/search/search_tab_navigator.dart';
-import 'package:nested_navigation_demo_flutter/components/tab_navigator.dart';
+import 'package:challenge/components/bottom_navigation.dart';
+import 'package:challenge/settings/settings_tab_navigator.dart';
+import 'package:challenge/components/tab_item.dart';
+import 'package:challenge/home/home_tab_navigator.dart';
+import 'package:challenge/search/search_tab_navigator.dart';
+import 'package:challenge/components/tab_navigator.dart';
 
 class App extends StatefulWidget {
   const App({super.key});

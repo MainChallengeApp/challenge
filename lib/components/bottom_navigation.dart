@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/components/tab_item.dart';
+import 'package:challenge/components/tab_item.dart';
 
 import '../globals.dart';
 

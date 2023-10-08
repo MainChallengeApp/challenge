@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/color_detail_page.dart';
-import 'package:nested_navigation_demo_flutter/colors_list_page.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
-import 'package:nested_navigation_demo_flutter/components/tab_item.dart';
+import 'package:challenge/color_detail_page.dart';
+import 'package:challenge/colors_list_page.dart';
+import 'package:challenge/models/challenge.dart';
+import 'package:challenge/components/tab_item.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';

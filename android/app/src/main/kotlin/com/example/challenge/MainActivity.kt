@@ -1,4 +1,4 @@
-package com.codingwithflutter.nested_navigation_demo_flutter
+package com.example.challenge
 
 import io.flutter.embedding.android.FlutterActivity
 

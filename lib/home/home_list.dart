@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nested_navigation_demo_flutter/globals.dart';
-import 'package:nested_navigation_demo_flutter/list_item_challenge_small.dart';
-import 'package:nested_navigation_demo_flutter/components/list_item_icon_small.dart';
-import 'package:nested_navigation_demo_flutter/components/list_item_search_bar.dart';
-import 'package:nested_navigation_demo_flutter/models/challenge.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/list_item_challenge_small.dart';
+import 'package:challenge/components/list_item_icon_small.dart';
+import 'package:challenge/components/list_item_search_bar.dart';
+import 'package:challenge/models/challenge.dart';
 
 class HomeList extends StatefulWidget {
   const HomeList(
