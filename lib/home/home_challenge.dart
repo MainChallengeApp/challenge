@@ -149,7 +149,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                       children: [
                         documentationButton(Icons.numbers),
                         documentationButton(Icons.notes),
-                        documentationButton(Icons.gps_fixed),
+                        documentationButton(Icons.gps_not_fixed),
                         documentationButton(Icons.camera_alt_outlined),
                       ],
                     ),
@@ -241,7 +241,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
             // width: 40,
             height: 40,
             decoration: BoxDecoration(
-                color: Colors.green,
+                color: widget.challenge.status == ChallengStatus.failed ? Colors.red  : Colors.green,
                 borderRadius: const BorderRadius.all(Radius.circular(16))),
           ),
         ),
