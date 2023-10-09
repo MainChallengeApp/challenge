@@ -442,6 +442,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   void deleteChallenge() {
     Slidable.of(context2)?.close();
+    Navigator.pop(context);
     // Todo: delete Challenge
   }
 }

@@ -1,3 +1,4 @@
+import 'package:challenge/components/edit_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -108,23 +109,26 @@ class _SearchChallengeState extends State<SearchChallenge> {
                   : Expanded(child: Container()),
               isDescriptionExpanded
                   ? Container()
-                  : Container(
-                      height: 55,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: themeColor2,
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromRGBO(226, 232, 240, 1)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16))),
-                      child: const Center(
-                          child: Text(
-                        'Accept',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500, color: Colors.white),
-                      )),
-                    )
+                  : GestureDetector(
+                    onTap: onTapAcceptChallenge,
+                    child: Container(
+                        height: 55,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: themeColor2,
+                            border: Border.all(
+                                width: 1,
+                                color: const Color.fromRGBO(226, 232, 240, 1)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
+                        child: const Center(
+                            child: Text(
+                          'Edit',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500, color: Colors.white),
+                        )),
+                      ),
+                  )
             ],
           ),
         ),
@@ -221,5 +225,17 @@ class _SearchChallengeState extends State<SearchChallenge> {
     } else {
       return Icons.not_accessible;
     }
+  }
+
+  void onTapAcceptChallenge() {
+        Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => EditChallenge(
+            title: widget.title, challenge: widget.challenge),
+      ),
+    );
   }
 }

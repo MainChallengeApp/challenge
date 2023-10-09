@@ -51,6 +51,7 @@ class _EditChallengeState extends State<EditChallenge> {
               description(),
               startAndEndDate(),
               acceptanceCriteriaButton(),
+              acceptanceCriteria(),
               // SizedBox(
               //   height: 100,
               //   child: ListView.separated(
@@ -62,7 +63,7 @@ class _EditChallengeState extends State<EditChallenge> {
               //         singleAcceptanceCriteria(index),
               //   ),
               // ),
-              const Expanded(child: SizedBox()),
+              // const Expanded(child: SizedBox()),
               buttons()
             ],
           ),
@@ -72,111 +73,98 @@ class _EditChallengeState extends State<EditChallenge> {
   }
 
   buttons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        // Expanded(
-        //   child: Container(
-        //     height: 55,
-        //     width: 100,
-        //     decoration: BoxDecoration(
-        //         color: Colors.white,
-        //         border: Border.all(
-        //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-        //         borderRadius: const BorderRadius.all(Radius.circular(16))),
-        //     child: const Center(
-        //         child: Text(
-        //       'Delete',
-        //       style:
-        //           TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-        //     )),
-        //   ),
-        // ),
-        // const SizedBox(
-        //   width: 16,
-        // ),
-        Expanded(
-          child: Container(
-            height: 55,
-            decoration: BoxDecoration(
-                color: themeColor2,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            child: const Center(
-                child: Text(
-              'Save',
-              style:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            )),
-          ),
+        SizedBox(height: 16,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            // Expanded(
+            //   child: Container(
+            //     height: 55,
+            //     width: 100,
+            //     decoration: BoxDecoration(
+            //         color: Colors.white,
+            //         border: Border.all(
+            //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+            //         borderRadius: const BorderRadius.all(Radius.circular(16))),
+            //     child: const Center(
+            //         child: Text(
+            //       'Delete',
+            //       style:
+            //           TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
+            //     )),
+            //   ),
+            // ),
+            // const SizedBox(
+            //   width: 16,
+            // ),
+            Expanded(
+              child: Container(
+                height: 55,
+                decoration: BoxDecoration(
+                    color: themeColor2,
+                    border: Border.all(
+                        width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16))),
+                child: const Center(
+                    child: Text(
+                  'Save',
+                  style:
+                      TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+                )),
+              ),
+            ),
+          ],
         ),
       ],
     );
   }
 
   singleAcceptanceCriteria(int index) {
-    return Stack(
-      children: [
-        FractionallySizedBox(
-          widthFactor:
-              widget.challenge!.acceptanceCriteria[index].progress / 100,
-          heightFactor: 1,
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-          ),
-        ),
-        Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Colors.white.withAlpha(170),
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Text(
-                    '${widget.challenge!.acceptanceCriteria[index].activity.title} ${widget.challenge!.acceptanceCriteria[index].activity.amount} ${widget.challenge!.acceptanceCriteria[index].activity.unit}',
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Text(
-                    widget.challenge!.acceptanceCriteria[index].frequence,
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
-                  ),
-                ),
-                Expanded(child: Container()),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Icon(getIconData(index), color: themeColor3, size: 14),
-                ),
-              ],
-            ))
-      ],
-    );
+    return Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+            borderRadius: const BorderRadius.all(Radius.circular(16))),
+        child: Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Text(
+                '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                style: const TextStyle(fontSize: 12, color: themeColor3),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Text(
+                widget.challenge.acceptanceCriteria[index].frequence,
+                style: const TextStyle(fontSize: 12, color: themeColor3),
+              ),
+            ),
+            Expanded(child: Container()),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Icon(getIconData(index), color: themeColor3, size: 14),
+            ),
+          ],
+        ));
   }
 
   acceptanceCriteriaButton() {
-    // TODO: Acceptance criteria list with first listitem is add acceptance criteria
     return GestureDetector(
       onTap: onTapAcceptanceCriteriaButton,
       child: standardContainer(
@@ -234,11 +222,10 @@ class _EditChallengeState extends State<EditChallenge> {
 
   Container description() {
     return standardContainer(
-        heightFactor: 3,
+        heightFactor: 2,
         child: TapRegion(
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           child: TextField(
-              onSubmitted: (value) => FocusScope.of(context).unfocus(),
               controller: TextEditingController()
                 ..text = widget.challenge.description,
               decoration:
@@ -330,20 +317,20 @@ class _EditChallengeState extends State<EditChallenge> {
   int selectedAcceptanceCriteria = 0;
 
   acceptanceCriteria() {
-    return SizedBox(
-        height: 71,
-        child: PageView.builder(
+    return Expanded(
+      child: Container(
+        height: 130,
+        child: ListView.separated(
           itemCount: widget.challenge.acceptanceCriteria.length,
-          controller: PageController(viewportFraction: 1),
-          onPageChanged: (int index) =>
-              setState(() => selectedAcceptanceCriteria = index),
+          separatorBuilder: (context, index) => SizedBox(
+            height: 16,
+          ),
           itemBuilder: (_, i) {
-            return Transform.scale(
-              scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
-              child: singleAcceptanceCriteria(i),
-            );
+            return singleAcceptanceCriteria(i);
           },
-        ));
+        ),
+      ),
+    );
   }
 
   IconData getIconData(int index) {
@@ -390,6 +377,6 @@ class _EditChallengeState extends State<EditChallenge> {
           challenge: widget.challenge,
         ),
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 }

@@ -13,7 +13,6 @@ class AddAcceptanceCriteria extends StatefulWidget {
 }
 
 class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
-  bool isDescriptionExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +33,15 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
           padding: const EdgeInsets.all(16),
-          width: 345,
+          width: double.infinity,
           height: 120 + 8 * 64 + 2,
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: Column(
             children: [
               // thumbnailUploadAndTitle(),
@@ -75,39 +74,45 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: Container(
-            height: 55,
-            width: 100,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            child: const Center(
-                child: Text(
-              'Delete',
-              style:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-            )),
+          child: GestureDetector(
+            onTap: onTapDeleteAcceptanceCriteria,
+            child: Container(
+              height: 55,
+              width: 100,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              child: const Center(
+                  child: Text(
+                'Delete',
+                style:
+                    TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
+              )),
+            ),
           ),
         ),
         const SizedBox(
           width: 16,
         ),
         Expanded(
-          child: Container(
-            height: 55,
-            decoration: BoxDecoration(
-                color: themeColor2,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            child: const Center(
-                child: Text(
-              'Save',
-              style:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-            )),
+          child: GestureDetector(
+            onTap: onTapSaveAcceptanceCriteria,
+            child: Container(
+              height: 55,
+              decoration: BoxDecoration(
+                  color: themeColor2,
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              child: const Center(
+                  child: Text(
+                'Save',
+                style:
+                    TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              )),
+            ),
           ),
         ),
       ],
@@ -297,8 +302,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
     );
   }
 
-  standardContainer(
-      {required Widget child, double heightFactor = 1}) {
+  standardContainer({required Widget child, double heightFactor = 1}) {
     return Container(
       // width: double.infinity,
       height: 55 * heightFactor,
@@ -363,5 +367,13 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
                         : themeColor3.withAlpha(100),
                   ),
                 )));
+  }
+
+  void onTapSaveAcceptanceCriteria() {
+        Navigator.pop(context);
+  }
+
+    void onTapDeleteAcceptanceCriteria() {
+        Navigator.pop(context);
   }
 }
