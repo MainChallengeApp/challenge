@@ -6,8 +6,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 class HomeChallenge extends StatefulWidget {
   const HomeChallenge(
-      {super.key, required this.title, required this.challenge});
-  final String title;
+      {super.key, required this.preTitle, required this.challenge});
+  final String preTitle;
   final Challenge challenge;
 
   @override
@@ -29,7 +29,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         title: Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            '${widget.title}/${widget.challenge.title}',
+            '${widget.preTitle}/${widget.challenge.title}',
             style:
                 const TextStyle(color: Colors.black, fontSize: appBarFontSize),
           ),
@@ -186,7 +186,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                       style: TextStyle(fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      _dateFormat(widget.challenge.startDate),
+                                      (widget.challenge.startDate != null ? _dateFormat(widget.challenge.startDate!) : '-'),
                                       style: const TextStyle(color: themeColor3),
                                     )
                                   ],
@@ -202,7 +202,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                       style: TextStyle(fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      _dateFormat(widget.challenge.endDate),
+                                      (widget.challenge.endDate != null ? _dateFormat(widget.challenge.endDate!) : '-'),
                                       style: const TextStyle(color: themeColor3),
                                     )
                                   ],
@@ -435,7 +435,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => EditChallenge(
-            title: widget.challenge.title, challenge: widget.challenge),
+            title: widget.preTitle, challenge: widget.challenge),
       ),
     );
   }

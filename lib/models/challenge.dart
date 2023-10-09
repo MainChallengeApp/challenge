@@ -5,8 +5,8 @@ class Challenge {
   final String title;
   final String description;
   final String thumbnailPath;
-  final DateTime startDate;
-  final DateTime endDate;
+  final DateTime? startDate;
+  final DateTime? endDate;
   final List<AcceptanceCriteria> acceptanceCriteria;
 
   Challenge(

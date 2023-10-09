@@ -57,7 +57,7 @@ void tapOnNewChallenge(BuildContext context) {
                 ppush(context, challenge: c),
           ),
       SettingsTabNavigatorRoutes.detail: (context) => HomeChallenge(
-            title: tabItem.name,
+            preTitle: tabItem.name,
             challenge: challenge!,
           ),
     };

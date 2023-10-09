@@ -36,7 +36,7 @@ class HomeTabNavigator extends TabNavigator {
 
 
 void tapOnNewChallenge(BuildContext context) {
-    final Challenge challenge = Challenge(id: 0, status: ChallengStatus.backlog, title: 'New Challenge', description: '', thumbnailPath: '', startDate: DateTime.now(), endDate: DateTime.now(), acceptanceCriteria: [AcceptanceCriteria(activity: Activity(title: '', amount: 0, unit: ''), frequence: '', tracking: '', progress: 0)]);
+    final Challenge challenge = Challenge(id: 0, status: ChallengStatus.backlog, title: '', description: '', thumbnailPath: '', startDate: null, endDate: null, acceptanceCriteria: []);
     var routeBuilders = prouteBuilders(context, challenge: challenge);
 
     Navigator.push(
@@ -61,7 +61,7 @@ void tapOnNewChallenge(BuildContext context) {
             tapOnNewChallenge: () => tapOnNewChallenge(context)
           ),
       HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
-            title: tabItem.name,
+            preTitle: tabItem.name,
             challenge: challenge!,
           ),
       HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
