@@ -17,12 +17,13 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        width: 345,
+        width: double.infinity,
+        margin: EdgeInsets.only(left: 20, right: 20),
         height: 64,
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            borderRadius: const BorderRadius.all(Radius.circular(16))),
+            borderRadius: const BorderRadius.all(Radius.circular(24))),
         child: Row(
           children: [
             Container(

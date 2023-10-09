@@ -18,7 +18,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(24)),
         color: themeColor1),
       // height: 100,
       // width: 350,

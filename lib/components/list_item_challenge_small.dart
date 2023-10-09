@@ -15,12 +15,13 @@ class ListItemChallengeSmall extends StatelessWidget {
       onTap: onTap,
       child: Center(
         child: Container(
-          width: 345,
+          width: double.infinity,
           height: 64,
+          margin: EdgeInsets.only(left: 20, right: 20),
           decoration: BoxDecoration(
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: Row(
             children: [
               Container(

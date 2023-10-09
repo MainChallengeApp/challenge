@@ -38,6 +38,26 @@
                 "frequence" : "every day",
                 "tracking" : "camera",
                 "progress": 85
+            },
+            {
+                "activity" : {
+                    "title": "Run",
+                    "amount": 1.0,
+                    "unit": "Km"
+                },
+                "frequence" : "every day",
+                "tracking" : "camera",
+                "progress": 85
+            },
+            {
+                "activity" : {
+                    "title": "Run",
+                    "amount": 1.0,
+                    "unit": "Km"
+                },
+                "frequence" : "every day",
+                "tracking" : "camera",
+                "progress": 85
             }
         ]
     },

@@ -1,3 +1,4 @@
+import 'package:challenge/components/add_acceptance_criteria.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/components/edit_challenge.dart';
 import 'package:challenge/home/home_challenge.dart';
@@ -9,6 +10,7 @@ class HomeTabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
   static const String newChallenge = '/newChallenge';
+  static const String addAcceptanceCriteria = '/addAcceptanceCriteria';
 }
 class HomeTabNavigator extends TabNavigator {
   
@@ -63,6 +65,10 @@ void tapOnNewChallenge(BuildContext context) {
             challenge: challenge!,
           ),
       HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
+            title: tabItem.name,
+            challenge: challenge!,
+          ),
+      HomeTabNavigatorRoutes.addAcceptanceCriteria: (context) => AddAcceptanceCriteria(
             title: tabItem.name,
             challenge: challenge!,
           ),

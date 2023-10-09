@@ -34,15 +34,15 @@ class _SearchChallengeState extends State<SearchChallenge> {
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
           padding: const EdgeInsets.all(16),
-          width: 345,
+          width: double.infinity,
           height: 120 + 8 * 64 + 2,
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
           // margin: EdgeInsets.only(bottom:16),
           child: Column(
             children: [

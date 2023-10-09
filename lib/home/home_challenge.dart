@@ -1,6 +1,8 @@
+import 'package:challenge/components/edit_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class HomeChallenge extends StatefulWidget {
   const HomeChallenge(
@@ -14,6 +16,8 @@ class HomeChallenge extends StatefulWidget {
 
 class _HomeChallengeState extends State<HomeChallenge> {
   bool isDescriptionExpanded = false;
+  
+  late BuildContext context2;
 
   @override
   Widget build(BuildContext context) {
@@ -32,150 +36,233 @@ class _HomeChallengeState extends State<HomeChallenge> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          padding: const EdgeInsets.all(16),
-          width: 345,
-          height: 120 + 8 * 64 + 2,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          // margin: EdgeInsets.only(bottom:16),
-          child: Column(
+      body: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        child: Slidable(
+          key: const ValueKey(0),
+          closeOnScroll: true,
+          // The end action pane is the one at the right or the bottom side.
+          endActionPane: ActionPane(
+            motion: const ScrollMotion(),
             children: [
-              Container(
-                // TODO: on tap open media page
-                width: double.infinity,
-                height: 180,
-                decoration: BoxDecoration(
-                    color: const Color.fromRGBO(241, 245, 249, 1),
-                    image: DecorationImage(
-                      image: AssetImage(widget.challenge.thumbnailPath),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              GestureDetector(
-                onTap: () => setState(() {
-                  isDescriptionExpanded = !isDescriptionExpanded;
-                }),
-                child: Container(
-                    width: double.infinity,
-                    height: isDescriptionExpanded ? 399 : 80,
-                    padding: const EdgeInsets.all(10),
+              Expanded(
+                child: GestureDetector(
+                  onTap: editChallenge,
+                  child: Container(
                     decoration: BoxDecoration(
+                        color: Colors.white,
                         border: Border.all(
                             width: 1,
                             color: const Color.fromRGBO(226, 232, 240, 1)),
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(16))),
-                    child: Text(
-                      widget.challenge.description,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: isDescriptionExpanded ? 9999 : 4,
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
-                    )),
-              ),
-              isDescriptionExpanded
-                  ? Container()
-                  : const SizedBox(
-                      height: 16,
-                    ),
-              isDescriptionExpanded
-                  ? Container()
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            child: standardContainer(
-                                child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Start',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              _dateFormat(widget.challenge.startDate),
-                              style: const TextStyle(color: themeColor3),
-                            )
-                          ],
-                        ))),
-                        const SizedBox(width: 16),
-                        Expanded(
-                            child: standardContainer(
-                                child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'End',
-                              style: TextStyle(fontWeight: FontWeight.w500),
-                            ),
-                            Text(
-                              _dateFormat(widget.challenge.endDate),
-                              style: const TextStyle(color: themeColor3),
-                            )
-                          ],
-                        ))),
-                      ],
-                    ),
-              // isDescriptionExpanded
-              //     ? Container()
-              //     : const SizedBox(
-              //         height: 16,
-              //       ),
-              isDescriptionExpanded ? Container() : acceptanceCriteria(),
-              isDescriptionExpanded ? Container() : dots(),
-              // isDescriptionExpanded
-              //     ? Container()
-              //     : const SizedBox(
-              //         height: 12,
-              //       ),
-              isDescriptionExpanded
-                  ? Container()
-                  : Expanded(child: Container()),
-              isDescriptionExpanded
-                  ? Container()
-                  : Row(
+                            const BorderRadius.all(Radius.circular(24))),
+                    child: const Center(
+                        child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        documentationButton(Icons.numbers),
-                        documentationButton(Icons.notes),
-                        documentationButton(Icons.gps_not_fixed),
-                        documentationButton(Icons.camera_alt_outlined),
+                        Icon(Icons.edit),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text("Edit")
                       ],
-                    ),
-              isDescriptionExpanded
-                  ? Container()
-                  : const SizedBox(
-                      height: 16,
-                    ),
-              isDescriptionExpanded
-                  ? Container()
-                  : Container(
-                      height: 55,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromRGBO(226, 232, 240, 1)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16))),
-                      child: const Center(
-                          child: Text(
-                        'End',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      )),
-                    )
+                    )),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: deleteChallenge,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromRGBO(226, 232, 240, 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(24))),
+                    child: Center(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.delete,
+                          color: Colors.red.withAlpha(150),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Delete",
+                          style: TextStyle(color: Colors.red.withAlpha(150)),
+                        )
+                      ],
+                    )),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
             ],
+          ),
+          child: Builder(
+            builder: (context) {
+              context2 = context;
+              return Center(
+                child: Container(
+                  margin: const EdgeInsets.only(left: 20, right: 20),
+                  padding: const EdgeInsets.all(16),
+                  width: double.infinity,
+                  height: 120 + 8 * 64 + 2,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                      borderRadius: const BorderRadius.all(Radius.circular(24))),
+                  // margin: EdgeInsets.only(bottom:16),
+                  child: Column(
+                    children: [
+                      Container(
+                        // TODO: on tap open media page
+                        width: double.infinity,
+                        height: 180,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(241, 245, 249, 1),
+                            image: DecorationImage(
+                              image: AssetImage(widget.challenge.thumbnailPath),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12))),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      GestureDetector(
+                        onTap: () => setState(() {
+                          isDescriptionExpanded = !isDescriptionExpanded;
+                        }),
+                        child: Container(
+                            width: double.infinity,
+                            height: isDescriptionExpanded ? 399 : 80,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color: const Color.fromRGBO(226, 232, 240, 1)),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16))),
+                            child: Text(
+                              widget.challenge.description,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: isDescriptionExpanded ? 9999 : 4,
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.justify,
+                              style:
+                                  const TextStyle(fontSize: 12, color: themeColor3),
+                            )),
+                      ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : const SizedBox(
+                              height: 16,
+                            ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: standardContainer(
+                                        child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Start',
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      _dateFormat(widget.challenge.startDate),
+                                      style: const TextStyle(color: themeColor3),
+                                    )
+                                  ],
+                                ))),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                    child: standardContainer(
+                                        child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'End',
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      _dateFormat(widget.challenge.endDate),
+                                      style: const TextStyle(color: themeColor3),
+                                    )
+                                  ],
+                                ))),
+                              ],
+                            ),
+                      // isDescriptionExpanded
+                      //     ? Container()
+                      //     : const SizedBox(
+                      //         height: 16,
+                      //       ),
+                      isDescriptionExpanded ? Container() : acceptanceCriteria(),
+                      isDescriptionExpanded ? Container() : dots(),
+                      // isDescriptionExpanded
+                      //     ? Container()
+                      //     : const SizedBox(
+                      //         height: 12,
+                      //       ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : Expanded(child: Container()),
+                      isDescriptionExpanded
+                          ? Container()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                documentationButton(Icons.numbers),
+                                documentationButton(Icons.notes),
+                                documentationButton(Icons.gps_not_fixed),
+                                documentationButton(Icons.camera_alt_outlined),
+                              ],
+                            ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : const SizedBox(
+                              height: 16,
+                            ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : Container(
+                              height: 55,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      width: 1,
+                                      color:
+                                          const Color.fromRGBO(226, 232, 240, 1)),
+                                  borderRadius:
+                                      const BorderRadius.all(Radius.circular(16))),
+                              child: const Center(
+                                  child: Text(
+                                'End',
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              )),
+                            )
+                    ],
+                  ),
+                ),
+              );
+            }
           ),
         ),
       ),
@@ -241,7 +328,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
             // width: 40,
             height: 40,
             decoration: BoxDecoration(
-                color: widget.challenge.status == ChallengStatus.failed ? Colors.red  : Colors.green,
+                color: widget.challenge.status == ChallengStatus.failed
+                    ? Colors.red
+                    : Colors.green,
                 borderRadius: const BorderRadius.all(Radius.circular(16))),
           ),
         ),
@@ -336,5 +425,23 @@ class _HomeChallengeState extends State<HomeChallenge> {
           borderRadius: const BorderRadius.all(Radius.circular(16))),
       child: child,
     );
+  }
+
+  void editChallenge() {
+      Slidable.of(context2)?.close();
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => EditChallenge(
+            title: widget.challenge.title, challenge: widget.challenge),
+      ),
+    );
+  }
+
+  void deleteChallenge() {
+    Slidable.of(context2)?.close();
+    // Todo: delete Challenge
   }
 }

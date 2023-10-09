@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/color_detail_page.dart';
-import 'package:challenge/colors_list_page.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/components/tab_item.dart';
 
@@ -35,17 +33,8 @@ class TabNavigator extends StatelessWidget {
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, Challenge? challenge}) {
     return {
-      TabNavigatorRoutes.root: (context) => ColorsListPage(
-            title: tabItem.name,
-            onPush: (challengeId) =>
-                ppush(context, challengeId: challengeId
-                ),
-          ),
-      TabNavigatorRoutes.detail: (context) => ColorDetailPage(
-            title: tabItem.name,
-            challengeId: challengeId,
-            // challenge: challenge,
-          ),
+      TabNavigatorRoutes.root: (context) => Placeholder(),
+      TabNavigatorRoutes.detail: (context) => Placeholder(),
     };
   }
 

@@ -1,3 +1,4 @@
+import 'package:challenge/components/add_acceptance_criteria.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -34,15 +35,15 @@ class _EditChallengeState extends State<EditChallenge> {
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
+          margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
           padding: const EdgeInsets.all(16),
-          width: 345,
+          width: double.infinity,
           height: 120 + 8 * 64 + 2,
           decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: Column(
             children: [
               thumbnailUploadAndTitle(),
@@ -74,26 +75,26 @@ class _EditChallengeState extends State<EditChallenge> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          child: Container(
-            height: 55,
-            width: 100,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            child: const Center(
-                child: Text(
-              'Delete',
-              style:
-                  TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-            )),
-          ),
-        ),
-        const SizedBox(
-          width: 16,
-        ),
+        // Expanded(
+        //   child: Container(
+        //     height: 55,
+        //     width: 100,
+        //     decoration: BoxDecoration(
+        //         color: Colors.white,
+        //         border: Border.all(
+        //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+        //         borderRadius: const BorderRadius.all(Radius.circular(16))),
+        //     child: const Center(
+        //         child: Text(
+        //       'Delete',
+        //       style:
+        //           TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
+        //     )),
+        //   ),
+        // ),
+        // const SizedBox(
+        //   width: 16,
+        // ),
         Expanded(
           child: Container(
             height: 55,
@@ -174,9 +175,11 @@ class _EditChallengeState extends State<EditChallenge> {
     );
   }
 
-  Container acceptanceCriteriaButton() {
+  acceptanceCriteriaButton() {
     // TODO: Acceptance criteria list with first listitem is add acceptance criteria
-    return standardContainer(
+    return GestureDetector(
+      onTap: onTapAcceptanceCriteriaButton,
+      child: standardContainer(
       child: Row(
         children: [
           Container(
@@ -208,7 +211,8 @@ class _EditChallengeState extends State<EditChallenge> {
           )
         ],
       ),
-    );
+    ),
+    ) ;
   }
 
   Row startAndEndDate() {
@@ -363,5 +367,20 @@ class _EditChallengeState extends State<EditChallenge> {
                         : themeColor3.withAlpha(100),
                   ),
                 )));
+  }
+
+  void onTapAcceptanceCriteriaButton() {
+        Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            AddAcceptanceCriteria(
+            title: 'Acceptance Criteria',
+            challenge: widget.challenge,
+          ),
+      ),
+    );
   }
 }
