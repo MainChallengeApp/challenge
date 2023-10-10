@@ -8,10 +8,13 @@ class AddAcceptanceCriteria extends StatefulWidget {
       {super.key,
       required this.title,
       required this.challenge,
-      required this.acceptanceCriteria});
+      required this.acceptanceCriteria,
+      required this.acceptanceCriteriaIndex
+      });
   final String title;
   final Challenge challenge;
   final AcceptanceCriteria acceptanceCriteria;
+  final int? acceptanceCriteriaIndex;
 
   @override
   State<AddAcceptanceCriteria> createState() => _AddAcceptanceCriteriaState();
@@ -291,6 +294,8 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
+              controller: TextEditingController()
+                  ..text = widget.acceptanceCriteria.activity.amount == 0 ? '' :  widget.acceptanceCriteria.activity.amount.toString(),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
@@ -305,6 +310,8 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
                 if (value.endsWith('.')) {
                   widget.acceptanceCriteria.activity.amount =
                       double.parse(value.split('.')[0]);
+                } else if (value == '') {
+                  widget.acceptanceCriteria.activity.amount = 0;
                 } else {
                   widget.acceptanceCriteria.activity.amount =
                       double.parse(value);
@@ -322,6 +329,8 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
+              controller: TextEditingController()
+                  ..text = widget.acceptanceCriteria.activity.unit,
               onChanged: (value) {
                   widget.acceptanceCriteria.activity.unit = value;
                 },
@@ -341,6 +350,8 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
           onChanged: (value) =>
               widget.acceptanceCriteria.activity.title = value,
           decoration: const InputDecoration.collapsed(hintText: 'Activity'),
+          controller: TextEditingController()
+                  ..text = widget.acceptanceCriteria.activity.title,
         ),
       ),
     );
@@ -415,14 +426,12 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
 
   void onTapSaveAcceptanceCriteria() {
     try {
-      widget.challenge.acceptanceCriteria.insert(0, AcceptanceCriteria(
-          activity: Activity(
-              title: widget.acceptanceCriteria.activity.title,
-              amount: widget.acceptanceCriteria.activity.amount,
-              unit: widget.acceptanceCriteria.activity.unit),
-          frequence: widget.acceptanceCriteria.frequence,
-          tracking: widget.acceptanceCriteria.tracking,
-          progress: widget.acceptanceCriteria.progress));
+      if(widget.acceptanceCriteriaIndex == null){
+      widget.challenge.acceptanceCriteria.insert(0, widget.acceptanceCriteria);
+      } else {
+        widget.challenge.acceptanceCriteria[widget.acceptanceCriteriaIndex!] = widget.acceptanceCriteria;
+      }
+
       Navigator.pop(context);
     } catch (e) {
       // Todo: Fehlerbehebung
@@ -431,6 +440,9 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   }
 
   void onTapDeleteAcceptanceCriteria() {
+      if(widget.acceptanceCriteriaIndex != null){
+      widget.challenge.acceptanceCriteria.removeAt(widget.acceptanceCriteriaIndex!);
+      }
     Navigator.pop(context);
   }
 }

@@ -1,12 +1,12 @@
 
 class Challenge {
-  final int id;
-  final ChallengStatus status;
-  final String title;
-  final String description;
-  final String thumbnailPath;
-  final DateTime? startDate;
-  final DateTime? endDate;
+  int? id;
+  ChallengStatus? status;
+  String title;
+  String description;
+  String thumbnailPath;
+  DateTime? startDate;
+  DateTime? endDate;
   final List<AcceptanceCriteria> acceptanceCriteria;
 
   Challenge(

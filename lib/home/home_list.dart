@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:challenge/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_item_challenge_small.dart';
@@ -72,7 +73,7 @@ class _HomeListState extends State<HomeList> {
           if (index == challenges.length + 1 + 1) return Container(); // +1 for new Challenge listitem + 1 for searchbar
           Challenge challenge = challenges[index - 1 -1 ];  // -1 for new Challenge listitem - 1 for searchbar
           return ListItemChallengeSmall(
-            onTap: () => widget.onPush?.call(challenge),
+            onTap: () => ppush(context, challenge: challenge),
             challenge: challenge,
           );
         });
@@ -96,4 +97,19 @@ class _HomeListState extends State<HomeList> {
       searchBarText = value;
     });
   }
+
+
+    void ppush(BuildContext context, {required Challenge challenge}) {
+
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            HomeChallenge(preTitle: widget.title, challenge: challenge),
+      ),
+    ).then((_) => setState(() {}));
+  }
+
 }

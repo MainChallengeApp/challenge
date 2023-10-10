@@ -4,10 +4,22 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 
 class EditChallenge extends StatefulWidget {
-  const EditChallenge(
-      {super.key, required this.title, required this.challenge});
-  final String title;
-  final Challenge challenge;
+  EditChallenge({super.key, required this.title, required this.challenge}) {
+    title = title;
+    challenge = challenge;
+    editChallenge = Challenge(
+        id: challenge.id,
+        status: challenge.status,
+        title: challenge.title,
+        description: challenge.description,
+        thumbnailPath: challenge.thumbnailPath,
+        startDate: challenge.startDate,
+        endDate: challenge.endDate,
+        acceptanceCriteria: challenge.acceptanceCriteria);
+  }
+  String title;
+  Challenge challenge;
+  late Challenge editChallenge;
 
   @override
   State<EditChallenge> createState() => _EditChallengeState();
@@ -75,7 +87,9 @@ class _EditChallengeState extends State<EditChallenge> {
   buttons() {
     return Column(
       children: [
-        SizedBox(height: 16,),
+        SizedBox(
+          height: 16,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -107,13 +121,15 @@ class _EditChallengeState extends State<EditChallenge> {
                   decoration: BoxDecoration(
                       color: themeColor2,
                       border: Border.all(
-                          width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius: const BorderRadius.all(Radius.circular(16))),
+                          width: 1,
+                          color: const Color.fromRGBO(226, 232, 240, 1)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(16))),
                   child: const Center(
                       child: Text(
                     'Save',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500, color: Colors.white),
                   )),
                 ),
               ),
@@ -125,46 +141,49 @@ class _EditChallengeState extends State<EditChallenge> {
   }
 
   singleAcceptanceCriteria(int index) {
-    return Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            border: Border.all(
-                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: Row(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Text(
-                '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
-                style: const TextStyle(fontSize: 12, color: themeColor3),
+    return GestureDetector(
+      onTap: () => onTapSingleAcceptanceCriteria(index),
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text(
+                  '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Text(
-                widget.challenge.acceptanceCriteria[index].frequence,
-                style: const TextStyle(fontSize: 12, color: themeColor3),
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text(
+                  widget.challenge.acceptanceCriteria[index].frequence,
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                ),
               ),
-            ),
-            Expanded(child: Container()),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Icon(getIconData(index), color: themeColor3, size: 14),
-            ),
-          ],
-        ));
+              Expanded(child: Container()),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Icon(getIconData(index), color: themeColor3, size: 14),
+              ),
+            ],
+          )),
+    );
   }
 
   addAcceptanceCriteriaButton() {
@@ -229,6 +248,8 @@ class _EditChallengeState extends State<EditChallenge> {
         child: TapRegion(
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           child: TextField(
+            maxLines: 999,
+            onChanged: (value) => widget.editChallenge.description = value,
               controller: TextEditingController()
                 ..text = widget.challenge.description,
               decoration:
@@ -276,24 +297,29 @@ class _EditChallengeState extends State<EditChallenge> {
             decoration: BoxDecoration(
                 image: widget.challenge.thumbnailPath != ''
                     ? DecorationImage(
-                        image: AssetImage(widget.challenge.thumbnailPath),
+                        image: AssetImage(widget.editChallenge.thumbnailPath),
                         fit: BoxFit.cover,
                       )
                     : null,
                 color: const Color.fromRGBO(241, 245, 249, 1),
                 borderRadius: const BorderRadius.all(Radius.circular(12))),
-            child: widget.challenge.thumbnailPath != ''
-                    ? null : const Icon(Icons.upload, color: themeColor3,) ,
+            child: widget.editChallenge.thumbnailPath != ''
+                ? null
+                : const Icon(
+                    Icons.upload,
+                    color: themeColor3,
+                  ),
           ),
           SizedBox(
-            width: 200,
+            width: 230,
             height: 40,
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextField(
+                onChanged: (value) => widget.editChallenge.title = value,
                 decoration: const InputDecoration.collapsed(hintText: 'Title'),
                 controller: TextEditingController()
-                  ..text = widget.challenge.title,
+                  ..text = widget.editChallenge.title,
               ),
             ),
           )
@@ -367,7 +393,7 @@ class _EditChallengeState extends State<EditChallenge> {
                         : themeColor3.withAlpha(100),
                   ),
                 )));
-  }
+  }  
 
   void onTapAddAcceptanceCriteriaButton() {
     Navigator.push(
@@ -376,15 +402,38 @@ class _EditChallengeState extends State<EditChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
-          title: 'Acceptance Criteria',
-          challenge: widget.challenge,
-          acceptanceCriteria: AcceptanceCriteria(activity: Activity(title: '', amount: 0, unit: ''), frequence: '', tracking: '', progress: 0)
-        ),
+            title: 'Acceptance Criteria',
+            challenge: widget.challenge,
+            acceptanceCriteria: AcceptanceCriteria(
+                activity: Activity(title: '', amount: 0, unit: ''),
+                frequence: '',
+                tracking: '',
+                progress: 0),
+              acceptanceCriteriaIndex: null,
+              ),
       ),
     ).then((_) => setState(() {}));
   }
 
   void onTapSave() {
+    widget.challenge.title = widget.editChallenge.title;
+    widget.challenge.description = widget.editChallenge.description;
     Navigator.pop(context);
+  }
+  
+  void onTapSingleAcceptanceCriteria(int index) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
+            title: 'Acceptance Criteria',
+            challenge: widget.challenge,
+            acceptanceCriteria: widget.challenge.acceptanceCriteria[index],
+            acceptanceCriteriaIndex: index, 
+            ),
+      ),
+    ).then((_) => setState(() {}));
   }
 }
