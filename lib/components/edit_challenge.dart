@@ -50,7 +50,7 @@ class _EditChallengeState extends State<EditChallenge> {
               // storageLocation(),
               description(),
               startAndEndDate(),
-              acceptanceCriteriaButton(),
+              addAcceptanceCriteriaButton(),
               acceptanceCriteria(),
               // SizedBox(
               //   height: 100,
@@ -100,19 +100,22 @@ class _EditChallengeState extends State<EditChallenge> {
             //   width: 16,
             // ),
             Expanded(
-              child: Container(
-                height: 55,
-                decoration: BoxDecoration(
-                    color: themeColor2,
-                    border: Border.all(
-                        width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: const Center(
-                    child: Text(
-                  'Save',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-                )),
+              child: GestureDetector(
+                onTap: onTapSave,
+                child: Container(
+                  height: 55,
+                  decoration: BoxDecoration(
+                      color: themeColor2,
+                      border: Border.all(
+                          width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                      borderRadius: const BorderRadius.all(Radius.circular(16))),
+                  child: const Center(
+                      child: Text(
+                    'Save',
+                    style:
+                        TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+                  )),
+                ),
               ),
             ),
           ],
@@ -164,9 +167,9 @@ class _EditChallengeState extends State<EditChallenge> {
         ));
   }
 
-  acceptanceCriteriaButton() {
+  addAcceptanceCriteriaButton() {
     return GestureDetector(
-      onTap: onTapAcceptanceCriteriaButton,
+      onTap: onTapAddAcceptanceCriteriaButton,
       child: standardContainer(
         child: Row(
           children: [
@@ -233,7 +236,7 @@ class _EditChallengeState extends State<EditChallenge> {
         ));
   }
 
-  Container storageLocation() {
+  storageLocation() {
     return standardContainer(
         child: Row(
       children: [
@@ -366,7 +369,7 @@ class _EditChallengeState extends State<EditChallenge> {
                 )));
   }
 
-  void onTapAcceptanceCriteriaButton() {
+  void onTapAddAcceptanceCriteriaButton() {
     Navigator.push(
       context,
       PageRouteBuilder(
@@ -375,8 +378,13 @@ class _EditChallengeState extends State<EditChallenge> {
         pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
           title: 'Acceptance Criteria',
           challenge: widget.challenge,
+          acceptanceCriteria: AcceptanceCriteria(activity: Activity(title: '', amount: 0, unit: ''), frequence: '', tracking: '', progress: 0)
         ),
       ),
     ).then((_) => setState(() {}));
+  }
+
+  void onTapSave() {
+    Navigator.pop(context);
   }
 }

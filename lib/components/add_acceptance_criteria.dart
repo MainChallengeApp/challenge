@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter/services.dart';
 
 class AddAcceptanceCriteria extends StatefulWidget {
   const AddAcceptanceCriteria(
-      {super.key, required this.title, required this.challenge});
+      {super.key,
+      required this.title,
+      required this.challenge,
+      required this.acceptanceCriteria});
   final String title;
   final Challenge challenge;
+  final AcceptanceCriteria acceptanceCriteria;
 
   @override
   State<AddAcceptanceCriteria> createState() => _AddAcceptanceCriteriaState();
@@ -52,9 +57,13 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
             children: [
               activityText(),
               amountAndUnit(),
-              const SizedBox(height: 32,),
+              const SizedBox(
+                height: 32,
+              ),
               frequence(),
-              const SizedBox(height: 32,),
+              const SizedBox(
+                height: 32,
+              ),
               tracking(),
               // acceptanceCriteriaButton(),
               // SizedBox(
@@ -228,25 +237,24 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   List<String> list2 = <String>['camera', 'gps', 'numbers', 'text'];
   tracking() {
     return standardContainer(
-      child: DropdownButton<String>(
-        isExpanded: true,
-    value: dropdownValue2,
-    icon: const Icon(Icons.expand_more),
-    style: const TextStyle(color: Colors.black),
-    hint: Text('Tracking'),
-
-    onChanged: (String? value) {
-      // This is called when the user selects an item.
-      setState(() {
-        dropdownValue2 = value!;
-      });
-    },
-    items: list2.map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
-      );
-    }).toList(),
+        child: DropdownButton<String>(
+      isExpanded: true,
+      value: widget.acceptanceCriteria.tracking == '' ? null : widget.acceptanceCriteria.tracking,
+      icon: const Icon(Icons.expand_more),
+      style: const TextStyle(color: Colors.black),
+      hint: Text('Tracking'),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          widget.acceptanceCriteria.tracking = value!;
+        });
+      },
+      items: list2.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     ));
   }
 
@@ -254,25 +262,24 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   List<String> list = <String>['once', 'every day'];
   frequence() {
     return standardContainer(
-      child: DropdownButton<String>(
-        isExpanded: true,
-    value: dropdownValue,
-    icon: const Icon(Icons.expand_more),
-    style: const TextStyle(color: Colors.black),
-    hint: Text('Frequence'),
-
-    onChanged: (String? value) {
-      // This is called when the user selects an item.
-      setState(() {
-        dropdownValue = value!;
-      });
-    },
-    items: list.map<DropdownMenuItem<String>>((String value) {
-      return DropdownMenuItem<String>(
-        value: value,
-        child: Text(value),
-      );
-    }).toList(),
+        child: DropdownButton<String>(
+      isExpanded: true,
+      value: widget.acceptanceCriteria.frequence == '' ? null : widget.acceptanceCriteria.frequence,
+      icon: const Icon(Icons.expand_more),
+      style: const TextStyle(color: Colors.black),
+      hint: Text('Frequence'),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          widget.acceptanceCriteria.frequence = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
     ));
   }
 
@@ -281,9 +288,28 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
       children: [
         Expanded(
             child: standardContainer(
-          child: const Align(
+          child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(
+                    RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                TextInputFormatter.withFunction(
+                  (oldValue, newValue) => newValue.copyWith(
+                    text: newValue.text.replaceAll(',', '.'),
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                if (value.endsWith('.')) {
+                  widget.acceptanceCriteria.activity.amount =
+                      double.parse(value.split('.')[0]);
+                } else {
+                  widget.acceptanceCriteria.activity.amount =
+                      double.parse(value);
+                }
+              },
               decoration: InputDecoration.collapsed(hintText: 'Amount'),
             ),
           ),
@@ -293,10 +319,13 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
         ),
         Expanded(
             child: standardContainer(
-          child: const Align(
+          child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
-              decoration: InputDecoration.collapsed(hintText: 'Unit'),
+              onChanged: (value) {
+                  widget.acceptanceCriteria.activity.unit = value;
+                },
+              decoration: const InputDecoration.collapsed(hintText: 'Unit'),
             ),
           ),
         )),
@@ -306,10 +335,12 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
 
   Container activityText() {
     return standardContainer(
-      child: const Align(
+      child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
-          decoration: InputDecoration.collapsed(hintText: 'Activity'),
+          onChanged: (value) =>
+              widget.acceptanceCriteria.activity.title = value,
+          decoration: const InputDecoration.collapsed(hintText: 'Activity'),
         ),
       ),
     );
@@ -383,7 +414,20 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   }
 
   void onTapSaveAcceptanceCriteria() {
-    Navigator.pop(context);
+    try {
+      widget.challenge.acceptanceCriteria.insert(0, AcceptanceCriteria(
+          activity: Activity(
+              title: widget.acceptanceCriteria.activity.title,
+              amount: widget.acceptanceCriteria.activity.amount,
+              unit: widget.acceptanceCriteria.activity.unit),
+          frequence: widget.acceptanceCriteria.frequence,
+          tracking: widget.acceptanceCriteria.tracking,
+          progress: widget.acceptanceCriteria.progress));
+      Navigator.pop(context);
+    } catch (e) {
+      // Todo: Fehlerbehebung
+      print(e);
+    }
   }
 
   void onTapDeleteAcceptanceCriteria() {

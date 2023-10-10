@@ -1,4 +1,3 @@
-import 'package:challenge/components/add_acceptance_criteria.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/components/edit_challenge.dart';
 import 'package:challenge/home/home_challenge.dart';
@@ -65,10 +64,6 @@ void tapOnNewChallenge(BuildContext context) {
             challenge: challenge!,
           ),
       HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
-            title: tabItem.name,
-            challenge: challenge!,
-          ),
-      HomeTabNavigatorRoutes.addAcceptanceCriteria: (context) => AddAcceptanceCriteria(
             title: tabItem.name,
             challenge: challenge!,
           ),

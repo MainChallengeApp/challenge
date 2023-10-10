@@ -437,7 +437,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         pageBuilder: (context, animation1, animation2) => EditChallenge(
             title: widget.preTitle, challenge: widget.challenge),
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   void deleteChallenge() {
