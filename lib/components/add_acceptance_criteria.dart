@@ -13,6 +13,12 @@ class AddAcceptanceCriteria extends StatefulWidget {
 }
 
 class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   widget.challenge.acceptanceCriteria.add(AcceptanceCriteria(activity: Activity(title: 'title', amount: 2.0, unit: 'Km'), frequence: 'frequence', tracking: 'gps', progress: 0))
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +50,12 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
               borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: Column(
             children: [
-              // thumbnailUploadAndTitle(),
-              // // storageLocation(),
-              // description(),
-              // startAndEndDate(),
+              activityText(),
+              amountAndUnit(),
+              const SizedBox(height: 32,),
+              frequence(),
+              const SizedBox(height: 32,),
+              tracking(),
               // acceptanceCriteriaButton(),
               // SizedBox(
               //   height: 100,
@@ -129,9 +137,9 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
           child: Container(
             width: 40,
             height: 40,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 color: Colors.green,
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
+                borderRadius: BorderRadius.all(Radius.circular(16))),
           ),
         ),
         Container(
@@ -216,88 +224,93 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
     );
   }
 
-  Row startAndEndDate() {
+  String? dropdownValue2;
+  List<String> list2 = <String>['camera', 'gps', 'numbers', 'text'];
+  tracking() {
+    return standardContainer(
+      child: DropdownButton<String>(
+        isExpanded: true,
+    value: dropdownValue2,
+    icon: const Icon(Icons.expand_more),
+    style: const TextStyle(color: Colors.black),
+    hint: Text('Tracking'),
+
+    onChanged: (String? value) {
+      // This is called when the user selects an item.
+      setState(() {
+        dropdownValue2 = value!;
+      });
+    },
+    items: list2.map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
+    ));
+  }
+
+  String? dropdownValue;
+  List<String> list = <String>['once', 'every day'];
+  frequence() {
+    return standardContainer(
+      child: DropdownButton<String>(
+        isExpanded: true,
+    value: dropdownValue,
+    icon: const Icon(Icons.expand_more),
+    style: const TextStyle(color: Colors.black),
+    hint: Text('Frequence'),
+
+    onChanged: (String? value) {
+      // This is called when the user selects an item.
+      setState(() {
+        dropdownValue = value!;
+      });
+    },
+    items: list.map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
+    ));
+  }
+
+  amountAndUnit() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
             child: standardContainer(
-                child: const Align(
-                    alignment: Alignment.centerLeft, child: Text("Start")))),
-        const SizedBox(width: 16),
+          child: const Align(
+            alignment: Alignment.centerLeft,
+            child: TextField(
+              decoration: InputDecoration.collapsed(hintText: 'Amount'),
+            ),
+          ),
+        )),
+        const SizedBox(
+          width: 16,
+        ),
         Expanded(
             child: standardContainer(
-                child: const Align(
-                    alignment: Alignment.centerLeft, child: Text("End")))),
+          child: const Align(
+            alignment: Alignment.centerLeft,
+            child: TextField(
+              decoration: InputDecoration.collapsed(hintText: 'Unit'),
+            ),
+          ),
+        )),
       ],
     );
   }
 
-  Container description() {
+  Container activityText() {
     return standardContainer(
-        heightFactor: 3,
-        child: const TextField(
-            maxLines: 100,
-            decoration: InputDecoration.collapsed(hintText: 'Description')));
-  }
-
-  Container storageLocation() {
-    return standardContainer(
-        child: Row(
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          margin: const EdgeInsets.only(right: 12),
-          decoration: const BoxDecoration(
-              color: Color.fromRGBO(241, 245, 249, 1),
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: const Center(
-              child: Icon(
-            Icons.save,
-            color: themeColor3,
-          )),
+      child: const Align(
+        alignment: Alignment.centerLeft,
+        child: TextField(
+          decoration: InputDecoration.collapsed(hintText: 'Activity'),
         ),
-        const SizedBox(
-          width: 200,
-          height: 40,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Storage Location"),
-          ),
-        )
-      ],
-    ));
-  }
-
-  Container thumbnailUploadAndTitle() {
-    return standardContainer(
-      child: Row(
-        children: [
-          Container(
-            width: 30,
-            height: 30,
-            margin: const EdgeInsets.only(right: 10),
-            decoration: const BoxDecoration(
-                color: Color.fromRGBO(241, 245, 249, 1),
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            child: const Center(
-                child: Icon(
-              Icons.upload,
-              color: themeColor3,
-            )),
-          ),
-          const SizedBox(
-            width: 200,
-            height: 40,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                decoration: InputDecoration.collapsed(hintText: 'Title'),
-              ),
-            ),
-          )
-        ],
       ),
     );
   }
@@ -370,10 +383,10 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   }
 
   void onTapSaveAcceptanceCriteria() {
-        Navigator.pop(context);
+    Navigator.pop(context);
   }
 
-    void onTapDeleteAcceptanceCriteria() {
-        Navigator.pop(context);
+  void onTapDeleteAcceptanceCriteria() {
+    Navigator.pop(context);
   }
 }
