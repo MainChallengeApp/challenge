@@ -1,4 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:challenge/components/add_acceptance_criteria.dart';
+import 'package:challenge/components/date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -87,7 +90,7 @@ class _EditChallengeState extends State<EditChallenge> {
   buttons() {
     return Column(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 16,
         ),
         Row(
@@ -125,9 +128,9 @@ class _EditChallengeState extends State<EditChallenge> {
                           color: const Color.fromRGBO(226, 232, 240, 1)),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16))),
-                  child: const Center(
+                  child: Center(
                       child: Text(
-                    'Save',
+                    widget.title.contains('Search') ? 'Accept' : 'Save',
                     style: TextStyle(
                         fontWeight: FontWeight.w500, color: Colors.white),
                   )),
@@ -225,24 +228,34 @@ class _EditChallengeState extends State<EditChallenge> {
     );
   }
 
-  Row startAndEndDate() {
+  startAndEndDate() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
             child: standardContainer(
-                child: const Align(
-                    alignment: Alignment.centerLeft, child: Text("Start")))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Start"),
+                    DatePickerExample(restorationId: 'main', initialDate: widget.editChallenge.startDate ?? DateTime.now(),)
+                  ],
+                ))),
         const SizedBox(width: 16),
         Expanded(
             child: standardContainer(
-                child: const Align(
-                    alignment: Alignment.centerLeft, child: Text("End")))),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("End"),
+                    DatePickerExample(restorationId: 'main', initialDate: widget.editChallenge.endDate ?? DateTime.now(),)
+                  ],
+                ))),
       ],
     );
   }
 
-  Container description() {
+  description() {
     return standardContainer(
         heightFactor: 2,
         child: TapRegion(
@@ -351,7 +364,7 @@ class _EditChallengeState extends State<EditChallenge> {
         height: 130,
         child: ListView.separated(
           itemCount: widget.challenge.acceptanceCriteria.length,
-          separatorBuilder: (context, index) => SizedBox(
+          separatorBuilder: (context, index) => const SizedBox(
             height: 16,
           ),
           itemBuilder: (_, i) {
@@ -418,6 +431,7 @@ class _EditChallengeState extends State<EditChallenge> {
   void onTapSave() {
     widget.challenge.title = widget.editChallenge.title;
     widget.challenge.description = widget.editChallenge.description;
+    widget.challenge.startDate = widget.editChallenge.startDate;
     Navigator.pop(context);
   }
   
