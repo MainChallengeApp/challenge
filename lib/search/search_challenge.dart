@@ -5,9 +5,10 @@ import 'package:challenge/models/challenge.dart';
 
 class SearchChallenge extends StatefulWidget {
   const SearchChallenge(
-      {super.key, required this.title, required this.challenge});
+      {super.key, required this.title, required this.challenge, required this.selectTab});
   final String title;
   final Challenge challenge;
+  final Function selectTab;
 
   @override
   State<SearchChallenge> createState() => _SearchChallengeState();
@@ -234,7 +235,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => EditChallenge(
-            title: widget.title, challenge: widget.challenge),
+            title: widget.title, challenge: widget.challenge, selectTab: widget.selectTab),
       ),
     );
   }

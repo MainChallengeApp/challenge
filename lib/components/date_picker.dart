@@ -1,12 +1,15 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
 class DatePickerExample extends StatefulWidget {
-  DatePickerExample({super.key, this.restorationId, required this.initialDate});
+  DatePickerExample({super.key, this.restorationId, required this.initialDate, required this.editChallenge, required this.isStartDate});
 
   final String? restorationId;
   DateTime initialDate;
+  final Challenge editChallenge;
+  final bool isStartDate;
 
   @override
   State<DatePickerExample> createState() => _DatePickerExampleState();
@@ -73,6 +76,11 @@ class _DatePickerExampleState extends State<DatePickerExample>
       setState(() {
         _selectedDate.value = newSelectedDate;
         widget.initialDate = newSelectedDate;
+        if (widget.isStartDate) {
+          widget.editChallenge.startDate = newSelectedDate;
+        } else {
+          widget.editChallenge.endDate = newSelectedDate;
+        }
       });
     }
   }

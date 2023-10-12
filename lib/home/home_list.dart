@@ -15,16 +15,13 @@ class HomeList extends StatefulWidget {
   final ValueChanged<Challenge>? onPush;
   final Function? tapOnNewChallenge;
 
-
   @override
   State<HomeList> createState() => _HomeListState();
-
-
 }
 
 class _HomeListState extends State<HomeList> {
   late Future<List<Challenge>> challengesFutures;
-  
+
   String searchBarText = "";
 
   @override
@@ -38,13 +35,17 @@ class _HomeListState extends State<HomeList> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          leading: const Icon(Icons.chevron_left, color: Colors.transparent,),
+          leading: const Icon(
+            Icons.chevron_left,
+            color: Colors.transparent,
+          ),
           foregroundColor: Colors.black,
           title: Align(
             alignment: Alignment.topLeft,
             child: Text(
               widget.title,
-              style: const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+              style: const TextStyle(
+                  color: Colors.black, fontSize: appBarFontSize),
             ),
           ),
           backgroundColor: Colors.white,
@@ -62,21 +63,42 @@ class _HomeListState extends State<HomeList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            final challenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
+            challengeList = snapshot.data!
+                .where((element) => element.title.contains(searchBarText))
+                .toList();
 
             return ListView.separated(
-        itemCount: challenges.length + 1 + 1 + 1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-        separatorBuilder: (context, index) => const SizedBox(height: 17,),
-        itemBuilder: (BuildContext content, int index) {
-          if(index == 0) return ListItemSearchbar(changeList: changeList,);
-          if(index == 1) return ListItemIconSmall(onTap:  () => widget.tapOnNewChallenge!.call(), icon: Icons.add, title: "New Challenge",);
-          if (index == challenges.length + 1 + 1) return Container(); // +1 for new Challenge listitem + 1 for searchbar
-          Challenge challenge = challenges[index - 1 -1 ];  // -1 for new Challenge listitem - 1 for searchbar
-          return ListItemChallengeSmall(
-            onTap: () => ppush(context, challenge: challenge),
-            challenge: challenge,
-          );
-        });
+                itemCount: challengeList.length +
+                    1 +
+                    1 +
+                    1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
+                separatorBuilder: (context, index) => const SizedBox(
+                      height: 17,
+                    ),
+                itemBuilder: (BuildContext content, int index) {
+                  if (index == 0) {
+                    return ListItemSearchbar(
+                      changeList: changeList,
+                    );
+                  }
+                  if (index == 1) {
+                    return ListItemIconSmall(
+                      onTap: () => widget.tapOnNewChallenge!.call(),
+                      icon: Icons.add,
+                      title: "New Challenge",
+                    );
+                  }
+                  if (index == challengeList.length + 1 + 1) {
+                    return Container(); // +1 for new Challenge listitem + 1 for searchbar
+                  }
+                  Challenge challenge = challengeList[index -
+                      1 -
+                      1]; // -1 for new Challenge listitem - 1 for searchbar
+                  return ListItemChallengeSmall(
+                    onTap: () => ppush(context, challenge: challenge),
+                    challenge: challenge,
+                  );
+                });
           } else {
             return const Text('Error with loading data...');
           }
@@ -91,16 +113,14 @@ class _HomeListState extends State<HomeList> {
     return body.map<Challenge>(Challenge.fromJson).toList();
   }
 
-    changeList(String value) {
+  changeList(String value) {
     setState(() {
       // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
   }
 
-
-    void ppush(BuildContext context, {required Challenge challenge}) {
-
+  void ppush(BuildContext context, {required Challenge challenge}) {
     Navigator.push(
       context,
       PageRouteBuilder(
@@ -111,5 +131,4 @@ class _HomeListState extends State<HomeList> {
       ),
     ).then((_) => setState(() {}));
   }
-
 }

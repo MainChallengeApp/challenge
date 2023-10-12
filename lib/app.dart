@@ -6,6 +6,8 @@ import 'package:challenge/home/home_tab_navigator.dart';
 import 'package:challenge/search/search_tab_navigator.dart';
 import 'package:challenge/components/tab_navigator.dart';
 
+import 'globals.dart';
+
 class App extends StatefulWidget {
   const App({super.key});
 
@@ -17,16 +19,16 @@ class AppState extends State<App> {
   final _mainTab = TabItem.Home;
   var _currentTab = TabItem.Home;
 
-  final _navigatorKeys = {
-    TabItem.Search: GlobalKey<NavigatorState>(),
-    TabItem.Home: GlobalKey<NavigatorState>(),
-    TabItem.Settings: GlobalKey<NavigatorState>(),
-  };
+  // final navigatorKeys = {
+  //   TabItem.Search: GlobalKey<NavigatorState>(),
+  //   TabItem.Home: GlobalKey<NavigatorState>(),
+  //   TabItem.Settings: GlobalKey<NavigatorState>(),
+  // };
 
   void _selectTab(TabItem tabItem) {
     if (tabItem == _currentTab) {
       // pop to first route
-      _navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
+      navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
     } else {
       setState(() => _currentTab = tabItem);
     }
@@ -37,7 +39,7 @@ class AppState extends State<App> {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-            !await _navigatorKeys[_currentTab]!.currentState!.maybePop();
+            !await navigatorKeys[_currentTab]!.currentState!.maybePop();
         if (isFirstRouteInCurrentTab) {
           // if not on the 'main' tab
           if (_currentTab != _mainTab) {
@@ -88,15 +90,16 @@ class AppState extends State<App> {
         return Offstage(
           offstage: _currentTab != tabItem,
           child: SearchTabNavigator(
-            navigatorKey: _navigatorKeys[tabItem],
+            navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
+            selectTab: _selectTab,
           ),
         );
       case TabItem.Home:
         return Offstage(
           offstage: _currentTab != tabItem,
           child: HomeTabNavigator(
-            navigatorKey: _navigatorKeys[tabItem],
+            navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );
@@ -104,7 +107,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: _currentTab != tabItem,
           child: SettingsTabNavigator(
-            navigatorKey: _navigatorKeys[tabItem],
+            navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );
@@ -113,7 +116,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: _currentTab != tabItem,
           child: TabNavigator(
-            navigatorKey: _navigatorKeys[tabItem],
+            navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );

@@ -2,12 +2,14 @@
 
 import 'package:challenge/components/add_acceptance_criteria.dart';
 import 'package:challenge/components/date_picker.dart';
+import 'package:challenge/components/tab_item.dart';
+import 'package:challenge/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 
 class EditChallenge extends StatefulWidget {
-  EditChallenge({super.key, required this.title, required this.challenge}) {
+  EditChallenge({super.key, required this.title, required this.challenge, this.selectTab}) {
     title = title;
     challenge = challenge;
     editChallenge = Challenge(
@@ -23,6 +25,7 @@ class EditChallenge extends StatefulWidget {
   String title;
   Challenge challenge;
   late Challenge editChallenge;
+  final Function? selectTab;
 
   @override
   State<EditChallenge> createState() => _EditChallengeState();
@@ -67,18 +70,6 @@ class _EditChallengeState extends State<EditChallenge> {
               startAndEndDate(),
               addAcceptanceCriteriaButton(),
               acceptanceCriteria(),
-              // SizedBox(
-              //   height: 100,
-              //   child: ListView.separated(
-              //     separatorBuilder: (context, index) => const SizedBox(
-              //       height: 16,
-              //     ),
-              //     itemCount: widget.challenge.acceptanceCriteria.length,
-              //     itemBuilder: (context, index) =>
-              //         singleAcceptanceCriteria(index),
-              //   ),
-              // ),
-              // const Expanded(child: SizedBox()),
               buttons()
             ],
           ),
@@ -130,7 +121,7 @@ class _EditChallengeState extends State<EditChallenge> {
                           const BorderRadius.all(Radius.circular(16))),
                   child: Center(
                       child: Text(
-                    widget.title.contains('Search') ? 'Accept' : 'Save',
+                    widget.title.startsWith('Search') ? 'Accept' : 'Save',
                     style: TextStyle(
                         fontWeight: FontWeight.w500, color: Colors.white),
                   )),
@@ -235,22 +226,30 @@ class _EditChallengeState extends State<EditChallenge> {
         Expanded(
             child: standardContainer(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("Start"),
-                    DatePickerExample(restorationId: 'main', initialDate: widget.editChallenge.startDate ?? DateTime.now(),)
-                  ],
-                ))),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("Start"),
+            DatePickerExample(
+                restorationId: 'main',
+                initialDate: widget.editChallenge.startDate ?? DateTime.now(),
+                editChallenge: widget.editChallenge,
+                isStartDate: true) // very bad workaround
+          ],
+        ))),
         const SizedBox(width: 16),
         Expanded(
             child: standardContainer(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("End"),
-                    DatePickerExample(restorationId: 'main', initialDate: widget.editChallenge.endDate ?? DateTime.now(),)
-                  ],
-                ))),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("End"),
+            DatePickerExample(
+                restorationId: 'main',
+                initialDate: widget.editChallenge.endDate ?? DateTime.now(),
+                editChallenge: widget.editChallenge,
+                isStartDate: false) // very bad workaround
+          ],
+        ))),
       ],
     );
   }
@@ -261,8 +260,8 @@ class _EditChallengeState extends State<EditChallenge> {
         child: TapRegion(
           onTapOutside: (event) => FocusScope.of(context).unfocus(),
           child: TextField(
-            maxLines: 999,
-            onChanged: (value) => widget.editChallenge.description = value,
+              maxLines: 999,
+              onChanged: (value) => widget.editChallenge.description = value,
               controller: TextEditingController()
                 ..text = widget.challenge.description,
               decoration:
@@ -406,7 +405,7 @@ class _EditChallengeState extends State<EditChallenge> {
                         : themeColor3.withAlpha(100),
                   ),
                 )));
-  }  
+  }
 
   void onTapAddAcceptanceCriteriaButton() {
     Navigator.push(
@@ -415,26 +414,48 @@ class _EditChallengeState extends State<EditChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
-            title: 'Acceptance Criteria',
-            challenge: widget.challenge,
-            acceptanceCriteria: AcceptanceCriteria(
-                activity: Activity(title: '', amount: 0, unit: ''),
-                frequence: '',
-                tracking: '',
-                progress: 0),
-              acceptanceCriteriaIndex: null,
-              ),
+          title: 'Acceptance Criteria',
+          challenge: widget.challenge,
+          acceptanceCriteria: AcceptanceCriteria(
+              activity: Activity(title: '', amount: 0, unit: ''),
+              frequence: '',
+              tracking: '',
+              progress: 0),
+          acceptanceCriteriaIndex: null,
+        ),
       ),
     ).then((_) => setState(() {}));
   }
 
-  void onTapSave() {
-    widget.challenge.title = widget.editChallenge.title;
-    widget.challenge.description = widget.editChallenge.description;
-    widget.challenge.startDate = widget.editChallenge.startDate;
-    Navigator.pop(context);
+  void onTapSave() async {
+    // check inputs e.g. endDate > startDate
+
+    if (widget.title.startsWith('Search')) {
+      widget.selectTab!(TabItem.Home);
+      while(await Navigator.maybePop(context)) {
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+      }
+      challengeList.insert(0, widget.editChallenge);
+
+      // ignore: use_build_context_synchronously
+      navigatorKeys[TabItem.Home]!.currentState!.push(
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => HomeChallenge(preTitle: 'Home', challenge: widget.editChallenge),
+      ),
+    );
+
+    } else if (widget.title.startsWith('Home')) {
+      widget.challenge.title = widget.editChallenge.title;
+      widget.challenge.description = widget.editChallenge.description;
+      widget.challenge.startDate = widget.editChallenge.startDate;
+      widget.challenge.endDate = widget.editChallenge.endDate;
+      Navigator.pop(context);
+    }
   }
-  
+
   void onTapSingleAcceptanceCriteria(int index) {
     Navigator.push(
       context,
@@ -442,11 +463,11 @@ class _EditChallengeState extends State<EditChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
-            title: 'Acceptance Criteria',
-            challenge: widget.challenge,
-            acceptanceCriteria: widget.challenge.acceptanceCriteria[index],
-            acceptanceCriteriaIndex: index, 
-            ),
+          title: 'Acceptance Criteria',
+          challenge: widget.challenge,
+          acceptanceCriteria: widget.challenge.acceptanceCriteria[index],
+          acceptanceCriteriaIndex: index,
+        ),
       ),
     ).then((_) => setState(() {}));
   }
