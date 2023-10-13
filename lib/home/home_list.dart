@@ -43,12 +43,15 @@ class _HomeListState extends State<HomeList> {
           titleSpacing: 0,
           title: Align(
             alignment: Alignment.topLeft,
-            child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-              child: Text(
-                widget.title,
-                style: const TextStyle(
-                    color: Colors.black, fontSize: appBarFontSize),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+                child: Text(
+                  widget.title,
+                  style: const TextStyle(
+                      color: Colors.black, fontSize: appBarFontSize),
+                ),
               ),
             ),
           ),

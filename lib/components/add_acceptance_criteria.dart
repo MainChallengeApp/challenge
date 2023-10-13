@@ -37,12 +37,15 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
         titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              '${widget.preTitle}/${widget.acceptanceCriteriaIndex == null ? 'Add Acceptance Criteria' : widget.acceptanceCriteria.activity.title}',
-              style: const TextStyle(
-                  color: Colors.black, fontSize: appBarFontSize),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                '${widget.preTitle}/${widget.acceptanceCriteriaIndex == null ? 'Add Acceptance Criteria' : widget.acceptanceCriteria.activity.title}',
+                style: const TextStyle(
+                    color: Colors.black, fontSize: appBarFontSize),
+              ),
             ),
           ),
         ),

@@ -30,12 +30,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
         titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              '${widget.preTitle}/${widget.challenge.title}',
-              style:
-                  const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                '${widget.preTitle}/${widget.challenge.title}',
+                style:
+                    const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+              ),
             ),
           ),
         ),
@@ -462,7 +465,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaList(title: widget.preTitle),
+        pageBuilder: (context, animation1, animation2) => MediaList(preTitle: '${widget.preTitle}/${widget.challenge.title}'),
       ),
     ).then((_) => setState(() {}));
   }

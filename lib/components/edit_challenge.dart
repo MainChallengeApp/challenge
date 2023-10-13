@@ -65,12 +65,15 @@ class _EditChallengeState extends State<EditChallenge> {
         titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-              style: const TextStyle(
-                  color: Colors.black, fontSize: appBarFontSize),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+                style: const TextStyle(
+                    color: Colors.black, fontSize: appBarFontSize),
+              ),
             ),
           ),
         ),

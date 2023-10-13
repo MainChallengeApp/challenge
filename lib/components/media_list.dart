@@ -10,8 +10,8 @@ import 'package:challenge/models/challenge.dart';
 
 class MediaList extends StatefulWidget {
   const MediaList(
-      {super.key, required this.title, this.onPush, this.tapOnNewChallenge});
-  final String title;
+      {super.key, required this.preTitle, this.onPush, this.tapOnNewChallenge});
+  final String preTitle;
   final ValueChanged<Challenge>? onPush;
   final Function? tapOnNewChallenge;
 
@@ -36,14 +36,18 @@ class _MediaListState extends State<MediaList> {
         appBar: AppBar(
           elevation: 0,
           foregroundColor: Colors.black,
+          titleSpacing: 0,
           title: Align(
             alignment: Alignment.topLeft,
-            child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-              child: Text(
-                widget.title,
-                style: const TextStyle(
-                    color: Colors.black, fontSize: appBarFontSize),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  '${widget.preTitle}/Media',
+                  style: const TextStyle(
+                      color: Colors.black, fontSize: appBarFontSize),
+                ),
               ),
             ),
           ),
@@ -126,7 +130,7 @@ class _MediaListState extends State<MediaList> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) =>
-            HomeChallenge(preTitle: widget.title, challenge: challenge),
+            HomeChallenge(preTitle: widget.preTitle, challenge: challenge),
       ),
     ).then((_) => setState(() {}));
   }
