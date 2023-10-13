@@ -6,12 +6,12 @@ import 'package:flutter/services.dart';
 class AddAcceptanceCriteria extends StatefulWidget {
   const AddAcceptanceCriteria(
       {super.key,
-      required this.title,
+      required this.preTitle,
       required this.challenge,
       required this.acceptanceCriteria,
       required this.acceptanceCriteriaIndex
       });
-  final String title;
+  final String preTitle;
   final Challenge challenge;
   final AcceptanceCriteria acceptanceCriteria;
   final int? acceptanceCriteriaIndex;
@@ -37,10 +37,13 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
         foregroundColor: Colors.black,
         title: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            '${widget.title}/${widget.challenge.title}',
-            style:
-                const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              '${widget.preTitle}/${widget.acceptanceCriteriaIndex == null ? 'Add Acceptance Criteria' : widget.acceptanceCriteria.activity.title}',
+              style:
+                  const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+            ),
           ),
         ),
       ),

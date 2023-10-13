@@ -36,9 +36,12 @@ class _SettingsListState extends State<SettingsList> {
           foregroundColor: Colors.black,
           title: Align(
             alignment: Alignment.topLeft,
-            child: Text(
-              widget.title,
-              style: const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+            child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+              child: Text(
+                widget.title,
+                style: const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+              ),
             ),
           ),
           backgroundColor: Colors.white,

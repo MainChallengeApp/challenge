@@ -26,10 +26,13 @@ class _SearchChallengeState extends State<SearchChallenge> {
         foregroundColor: Colors.black,
         title: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            '${widget.title}/${widget.challenge.title}',
-            style:
-                const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              '${widget.title}/${widget.challenge.title}',
+              style:
+                  const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+            ),
           ),
         ),
       ),

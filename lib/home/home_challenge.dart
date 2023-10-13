@@ -28,10 +28,13 @@ class _HomeChallengeState extends State<HomeChallenge> {
         foregroundColor: Colors.black,
         title: Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            '${widget.preTitle}/${widget.challenge.title}',
-            style:
-                const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              '${widget.preTitle}/${widget.challenge.title}',
+              style:
+                  const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+            ),
           ),
         ),
       ),
