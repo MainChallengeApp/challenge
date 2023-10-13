@@ -7,7 +7,7 @@ class Challenge {
   String thumbnailPath;
   DateTime? startDate;
   DateTime? endDate;
-  final List<AcceptanceCriteria> acceptanceCriteria;
+  List<AcceptanceCriteria> acceptanceCriteria;
 
   Challenge(
       {required this.id,
