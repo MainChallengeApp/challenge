@@ -46,43 +46,45 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          height: 120 + 8 * 64 + 2,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-          child: Column(
-            children: [
-              activityText(),
-              amountAndUnit(),
-              const SizedBox(
-                height: 32,
-              ),
-              frequence(),
-              const SizedBox(
-                height: 32,
-              ),
-              tracking(),
-              // acceptanceCriteriaButton(),
-              // SizedBox(
-              //   height: 100,
-              //   child: ListView.separated(
-              //     separatorBuilder: (context, index) => const SizedBox(
-              //       height: 16,
-              //     ),
-              //     itemCount: widget.challenge.acceptanceCriteria.length,
-              //     itemBuilder: (context, index) =>
-              //         singleAcceptanceCriteria(index),
-              //   ),
-              // ),
-              const Expanded(child: SizedBox()),
-              buttons()
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            height: 120 + 8 * 64 + 2,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                borderRadius: const BorderRadius.all(Radius.circular(24))),
+            child: Column(
+              children: [
+                activityText(),
+                amountAndUnit(),
+                const SizedBox(
+                  height: 32,
+                ),
+                frequence(),
+                const SizedBox(
+                  height: 32,
+                ),
+                tracking(),
+                // acceptanceCriteriaButton(),
+                // SizedBox(
+                //   height: 100,
+                //   child: ListView.separated(
+                //     separatorBuilder: (context, index) => const SizedBox(
+                //       height: 16,
+                //     ),
+                //     itemCount: widget.challenge.acceptanceCriteria.length,
+                //     itemBuilder: (context, index) =>
+                //         singleAcceptanceCriteria(index),
+                //   ),
+                // ),
+                const Expanded(child: SizedBox()),
+                buttons()
+              ],
+            ),
           ),
         ),
       ),

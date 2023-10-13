@@ -33,6 +33,7 @@ class EditChallenge extends StatefulWidget {
 
 class _EditChallengeState extends State<EditChallenge> {
   bool isDescriptionExpanded = false;
+  int selectedAcceptanceCriteria = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -52,26 +53,28 @@ class _EditChallengeState extends State<EditChallenge> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          height: 120 + 8 * 64 + 2,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-          child: Column(
-            children: [
-              thumbnailUploadAndTitle(),
-              // storageLocation(),
-              description(),
-              startAndEndDate(),
-              addAcceptanceCriteriaButton(),
-              acceptanceCriteria(),
-              buttons()
-            ],
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            height: 120 + 8 * 64 + 2,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                borderRadius: const BorderRadius.all(Radius.circular(24))),
+            child: Column(
+              children: [
+                thumbnailUploadAndTitle(),
+                // storageLocation(),
+                description(),
+                startAndEndDate(),
+                addAcceptanceCriteriaButton(),
+                acceptanceCriteria(),
+                buttons()
+              ],
+            ),
           ),
         ),
       ),
@@ -324,14 +327,15 @@ class _EditChallengeState extends State<EditChallenge> {
           ),
           SizedBox(
             width: 230,
-            height: 40,
+            height: 30,
             child: Align(
               alignment: Alignment.centerLeft,
               child: TextField(
                 onChanged: (value) => widget.editChallenge.title = value,
                 decoration: const InputDecoration.collapsed(hintText: 'Title'),
                 controller: TextEditingController()
-                  ..text = widget.editChallenge.title,
+                  ..text = widget.editChallenge.title
+                  ..selection = TextSelection.collapsed(offset: widget.editChallenge.title.length)
               ),
             ),
           )
@@ -354,8 +358,6 @@ class _EditChallengeState extends State<EditChallenge> {
       child: child,
     );
   }
-
-  int selectedAcceptanceCriteria = 0;
 
   acceptanceCriteria() {
     return Expanded(
@@ -439,7 +441,13 @@ class _EditChallengeState extends State<EditChallenge> {
       challengeList.insert(0, widget.editChallenge);
 
       // ignore: use_build_context_synchronously
-      navigatorKeys[TabItem.Home]!.currentState!.push(
+      var homeNavigator = navigatorKeys[TabItem.Home]!.currentState!;
+      // ignore: use_build_context_synchronously
+      while(await homeNavigator.maybePop(context)) {
+        // ignore: use_build_context_synchronously
+        homeNavigator.pop(context);
+      }
+      homeNavigator.push(
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,

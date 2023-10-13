@@ -35,102 +35,104 @@ class _SearchChallengeState extends State<SearchChallenge> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
-          padding: const EdgeInsets.all(16),
-          width: double.infinity,
-          height: 120 + 8 * 64 + 2,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-          // margin: EdgeInsets.only(bottom:16),
-          child: Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 180,
-                decoration: BoxDecoration(
-                    color: const Color.fromRGBO(241, 245, 249, 1),
-                    image: DecorationImage(
-                      image: AssetImage(widget.challenge.thumbnailPath),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              GestureDetector(
-                onTap: () => setState(() {
-                  isDescriptionExpanded = !isDescriptionExpanded;
-                }),
-                child: Container(
-                    width: double.infinity,
-                    height: isDescriptionExpanded ? 399 : 80,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: const Color.fromRGBO(226, 232, 240, 1)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16))),
-                    child: Text(
-                      widget.challenge.description,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: isDescriptionExpanded ? 999 : 4,
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
-                    )),
-              ),
-              // isDescriptionExpanded
-              //     ? Container()
-              //     : const SizedBox(
-              //         height: 11,
-              //       ),
-              // isDescriptionExpanded
-              //     ? Container()
-              //     : const Align(
-              //         alignment: Alignment.centerLeft,
-              //         child: Text(
-              //           'Acceptance Criteria',
-              //           style: TextStyle(fontWeight: FontWeight.w500),
-              //         ),
-              //       ),
-              isDescriptionExpanded
-                  ? Container()
-                  : const SizedBox(
-                      height: 16,
-                    ),
-              isDescriptionExpanded ? Container() : acceptanceCriteria(),
-              isDescriptionExpanded
-                  ? Container()
-                  : Expanded(child: Container()),
-              isDescriptionExpanded
-                  ? Container()
-                  : GestureDetector(
-                    onTap: onTapAcceptChallenge,
-                    child: Container(
-                        height: 55,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: themeColor2,
-                            border: Border.all(
-                                width: 1,
-                                color: const Color.fromRGBO(226, 232, 240, 1)),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
-                        child: const Center(
-                            child: Text(
-                          'Edit',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, color: Colors.white),
-                        )),
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            height: 120 + 8 * 64 + 2,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                borderRadius: const BorderRadius.all(Radius.circular(24))),
+            // margin: EdgeInsets.only(bottom:16),
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 180,
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(241, 245, 249, 1),
+                      image: DecorationImage(
+                        image: AssetImage(widget.challenge.thumbnailPath),
+                        fit: BoxFit.cover,
                       ),
-                  )
-            ],
+                      borderRadius: const BorderRadius.all(Radius.circular(12))),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                GestureDetector(
+                  onTap: () => setState(() {
+                    isDescriptionExpanded = !isDescriptionExpanded;
+                  }),
+                  child: Container(
+                      width: double.infinity,
+                      height: isDescriptionExpanded ? 399 : 80,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1,
+                              color: const Color.fromRGBO(226, 232, 240, 1)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16))),
+                      child: Text(
+                        widget.challenge.description,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: isDescriptionExpanded ? 999 : 4,
+                        textDirection: TextDirection.ltr,
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(fontSize: 12, color: themeColor3),
+                      )),
+                ),
+                // isDescriptionExpanded
+                //     ? Container()
+                //     : const SizedBox(
+                //         height: 11,
+                //       ),
+                // isDescriptionExpanded
+                //     ? Container()
+                //     : const Align(
+                //         alignment: Alignment.centerLeft,
+                //         child: Text(
+                //           'Acceptance Criteria',
+                //           style: TextStyle(fontWeight: FontWeight.w500),
+                //         ),
+                //       ),
+                isDescriptionExpanded
+                    ? Container()
+                    : const SizedBox(
+                        height: 16,
+                      ),
+                isDescriptionExpanded ? Container() : acceptanceCriteria(),
+                isDescriptionExpanded
+                    ? Container()
+                    : Expanded(child: Container()),
+                isDescriptionExpanded
+                    ? Container()
+                    : GestureDetector(
+                      onTap: onTapAcceptChallenge,
+                      child: Container(
+                          height: 55,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: themeColor2,
+                              border: Border.all(
+                                  width: 1,
+                                  color: const Color.fromRGBO(226, 232, 240, 1)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16))),
+                          child: const Center(
+                              child: Text(
+                            'Edit',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, color: Colors.white),
+                          )),
+                        ),
+                    )
+              ],
+            ),
           ),
         ),
       ),
