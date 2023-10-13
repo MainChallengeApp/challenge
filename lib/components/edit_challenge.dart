@@ -62,14 +62,15 @@ class _EditChallengeState extends State<EditChallenge> {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(
               '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-              style:
-                  const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+              style: const TextStyle(
+                  color: Colors.black, fontSize: appBarFontSize),
             ),
           ),
         ),
@@ -442,7 +443,8 @@ class _EditChallengeState extends State<EditChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
-          preTitle: '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+          preTitle:
+              '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
           acceptanceCriteria: AcceptanceCriteria(
               activity: Activity(title: '', amount: 0, unit: ''),
@@ -499,7 +501,8 @@ class _EditChallengeState extends State<EditChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
-          preTitle: '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+          preTitle:
+              '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
           acceptanceCriteria: widget.editChallenge.acceptanceCriteria[index],
           acceptanceCriteriaIndex: index,

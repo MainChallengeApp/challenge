@@ -9,8 +9,7 @@ class AddAcceptanceCriteria extends StatefulWidget {
       required this.preTitle,
       required this.challenge,
       required this.acceptanceCriteria,
-      required this.acceptanceCriteriaIndex
-      });
+      required this.acceptanceCriteriaIndex});
   final String preTitle;
   final Challenge challenge;
   final AcceptanceCriteria acceptanceCriteria;
@@ -35,14 +34,15 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(
               '${widget.preTitle}/${widget.acceptanceCriteriaIndex == null ? 'Add Acceptance Criteria' : widget.acceptanceCriteria.activity.title}',
-              style:
-                  const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+              style: const TextStyle(
+                  color: Colors.black, fontSize: appBarFontSize),
             ),
           ),
         ),
@@ -247,7 +247,9 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
     return standardContainer(
         child: DropdownButton<String>(
       isExpanded: true,
-      value: widget.acceptanceCriteria.tracking == '' ? null : widget.acceptanceCriteria.tracking,
+      value: widget.acceptanceCriteria.tracking == ''
+          ? null
+          : widget.acceptanceCriteria.tracking,
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
       hint: Text('Tracking'),
@@ -272,7 +274,9 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
     return standardContainer(
         child: DropdownButton<String>(
       isExpanded: true,
-      value: widget.acceptanceCriteria.frequence == '' ? null : widget.acceptanceCriteria.frequence,
+      value: widget.acceptanceCriteria.frequence == ''
+          ? null
+          : widget.acceptanceCriteria.frequence,
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
       hint: Text('Frequence'),
@@ -300,7 +304,9 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
             alignment: Alignment.centerLeft,
             child: TextField(
               controller: TextEditingController()
-                  ..text = widget.acceptanceCriteria.activity.amount == 0 ? '' :  widget.acceptanceCriteria.activity.amount.toString(),
+                ..text = widget.acceptanceCriteria.activity.amount == 0
+                    ? ''
+                    : widget.acceptanceCriteria.activity.amount.toString(),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
@@ -335,10 +341,10 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
             alignment: Alignment.centerLeft,
             child: TextField(
               controller: TextEditingController()
-                  ..text = widget.acceptanceCriteria.activity.unit,
+                ..text = widget.acceptanceCriteria.activity.unit,
               onChanged: (value) {
-                  widget.acceptanceCriteria.activity.unit = value;
-                },
+                widget.acceptanceCriteria.activity.unit = value;
+              },
               decoration: const InputDecoration.collapsed(hintText: 'Unit'),
             ),
           ),
@@ -356,7 +362,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
               widget.acceptanceCriteria.activity.title = value,
           decoration: const InputDecoration.collapsed(hintText: 'Activity'),
           controller: TextEditingController()
-                  ..text = widget.acceptanceCriteria.activity.title,
+            ..text = widget.acceptanceCriteria.activity.title,
         ),
       ),
     );
@@ -431,10 +437,12 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
 
   void onTapSaveAcceptanceCriteria() {
     try {
-      if(widget.acceptanceCriteriaIndex == null){
-      widget.challenge.acceptanceCriteria.insert(0, widget.acceptanceCriteria);
+      if (widget.acceptanceCriteriaIndex == null) {
+        widget.challenge.acceptanceCriteria
+            .insert(0, widget.acceptanceCriteria);
       } else {
-        widget.challenge.acceptanceCriteria[widget.acceptanceCriteriaIndex!] = widget.acceptanceCriteria;
+        widget.challenge.acceptanceCriteria[widget.acceptanceCriteriaIndex!] =
+            widget.acceptanceCriteria;
       }
 
       Navigator.pop(context);
@@ -445,9 +453,10 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   }
 
   void onTapDeleteAcceptanceCriteria() {
-      if(widget.acceptanceCriteriaIndex != null){
-      widget.challenge.acceptanceCriteria.removeAt(widget.acceptanceCriteriaIndex!);
-      }
+    if (widget.acceptanceCriteriaIndex != null) {
+      widget.challenge.acceptanceCriteria
+          .removeAt(widget.acceptanceCriteriaIndex!);
+    }
     Navigator.pop(context);
   }
 }

@@ -36,6 +36,7 @@ class _SearchListState extends State<SearchList> {
             color: Colors.transparent,
           ),
           foregroundColor: Colors.black,
+          titleSpacing: 0,
           title: Align(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(

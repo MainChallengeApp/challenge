@@ -1,4 +1,5 @@
 import 'package:challenge/components/edit_challenge.dart';
+import 'package:challenge/components/media_list.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -26,6 +27,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
           child: SingleChildScrollView(
@@ -130,18 +132,21 @@ class _HomeChallengeState extends State<HomeChallenge> {
                     // margin: EdgeInsets.only(bottom:16),
                     child: Column(
                       children: [
-                        Container(
-                          // TODO: on tap open media page
-                          width: double.infinity,
-                          height: 180,
-                          decoration: BoxDecoration(
-                              color: const Color.fromRGBO(241, 245, 249, 1),
-                              image: DecorationImage(
-                                image: AssetImage(widget.challenge.thumbnailPath),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(12))),
+                        GestureDetector(
+                          onTap: onTapOpenMediaPage,
+                          child: Container(
+                            // TODO: on tap open media page
+                            width: double.infinity,
+                            height: 180,
+                            decoration: BoxDecoration(
+                                color: const Color.fromRGBO(241, 245, 249, 1),
+                                image: DecorationImage(
+                                  image: AssetImage(widget.challenge.thumbnailPath),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(12))),
+                          ),
                         ),
                         const SizedBox(
                           height: 16,
@@ -449,5 +454,16 @@ class _HomeChallengeState extends State<HomeChallenge> {
     Slidable.of(context2)?.close();
     Navigator.pop(context);
     // Todo: delete Challenge
+  }
+
+  void onTapOpenMediaPage() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => MediaList(title: widget.preTitle),
+      ),
+    ).then((_) => setState(() {}));
   }
 }

@@ -24,6 +24,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
+        titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
           child: SingleChildScrollView(

@@ -34,6 +34,7 @@ class _SettingsListState extends State<SettingsList> {
           elevation: 0,
           leading: const Icon(Icons.chevron_left, color: Colors.transparent,),
           foregroundColor: Colors.black,
+          titleSpacing: 0,
           title: Align(
             alignment: Alignment.topLeft,
             child: SingleChildScrollView(
