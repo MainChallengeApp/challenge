@@ -44,7 +44,7 @@ class _HomeListState extends State<HomeList> {
           title: Align(
             alignment: Alignment.topLeft,
             child: Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.only(right: 24),
               child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
                 child: Text(

@@ -28,7 +28,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
         title: Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.only(right: 24),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
