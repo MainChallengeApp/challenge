@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
@@ -9,12 +11,12 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HomeChallenge extends StatefulWidget {
-  const HomeChallenge(
+  HomeChallenge(
       {super.key,
       required this.preTitle,
       required this.challenge});
   final String preTitle;
-  final Challenge challenge;
+  Challenge challenge;
 
   @override
   State<HomeChallenge> createState() => _HomeChallengeState();
@@ -139,7 +141,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                               color: const Color.fromRGBO(241, 245, 249, 1),
                               image: DecorationImage(
                                 image:
-                                    AssetImage(widget.challenge.thumbnailPath),
+                                    AssetImage(e.thumbnailPath),
                                 fit: BoxFit.cover,
                               ),
                               borderRadius:
@@ -165,7 +167,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(16))),
                             child: Text(
-                              widget.challenge.description,
+                              e.description,
                               overflow: TextOverflow.ellipsis,
                               maxLines: isDescriptionExpanded ? 9999 : 4,
                               textDirection: TextDirection.ltr,
@@ -196,9 +198,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      (widget.challenge.startDate != null
+                                      (e.startDate != null
                                           ? _dateFormat(
-                                              widget.challenge.startDate!)
+                                              e.startDate!)
                                           : '-'),
                                       style:
                                           const TextStyle(color: themeColor3),
@@ -218,9 +220,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                           fontWeight: FontWeight.w500),
                                     ),
                                     Text(
-                                      (widget.challenge.endDate != null
+                                      (e.endDate != null
                                           ? _dateFormat(
-                                              widget.challenge.endDate!)
+                                              e.endDate!)
                                           : '-'),
                                       style:
                                           const TextStyle(color: themeColor3),
@@ -391,7 +393,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         //                       color: const Color.fromRGBO(241, 245, 249, 1),
         //                       image: DecorationImage(
         //                         image:
-        //                             AssetImage(widget.challenge.thumbnailPath),
+        //                             AssetImage(e.thumbnailPath),
         //                         fit: BoxFit.cover,
         //                       ),
         //                       borderRadius:
@@ -417,7 +419,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         //                         borderRadius: const BorderRadius.all(
         //                             Radius.circular(16))),
         //                     child: Text(
-        //                       widget.challenge.description,
+        //                       e.description,
         //                       overflow: TextOverflow.ellipsis,
         //                       maxLines: isDescriptionExpanded ? 9999 : 4,
         //                       textDirection: TextDirection.ltr,
@@ -448,9 +450,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
         //                                   fontWeight: FontWeight.w500),
         //                             ),
         //                             Text(
-        //                               (widget.challenge.startDate != null
+        //                               (e.startDate != null
         //                                   ? _dateFormat(
-        //                                       widget.challenge.startDate!)
+        //                                       e.startDate!)
         //                                   : '-'),
         //                               style:
         //                                   const TextStyle(color: themeColor3),
@@ -470,9 +472,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
         //                                   fontWeight: FontWeight.w500),
         //                             ),
         //                             Text(
-        //                               (widget.challenge.endDate != null
+        //                               (e.endDate != null
         //                                   ? _dateFormat(
-        //                                       widget.challenge.endDate!)
+        //                                       e.endDate!)
         //                                   : '-'),
         //                               style:
         //                                   const TextStyle(color: themeColor3),
@@ -739,6 +741,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   void onPageChanged(int value) {
     setState(() {
       currentTitle = challengeList[value].title;
+      widget.challenge = challengeList[value];
     });
   }
 }

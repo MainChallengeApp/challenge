@@ -133,7 +133,7 @@ class _MediaListState extends State<MediaList> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) =>
-            MediaDetail(media: widget.challenge.media, preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
+            MediaDetail(media: widget.challenge.media.where((element) => element.title.contains(searchBarText)).toList(), preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
       ),
     ).then((_) => setState(() {}));
   }

@@ -1,14 +1,21 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 
 class SearchChallenge extends StatefulWidget {
-  const SearchChallenge(
-      {super.key, required this.title, required this.challenge, required this.selectTab});
+  SearchChallenge(
+      {super.key,
+      required this.title,
+      required this.challenge,
+      required this.selectTab,
+      required this.challenges});
   final String title;
-  final Challenge challenge;
+  Challenge challenge;
   final Function selectTab;
+  final List<Challenge> challenges;
 
   @override
   State<SearchChallenge> createState() => _SearchChallengeState();
@@ -33,8 +40,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
               scrollDirection: Axis.horizontal,
               child: Text(
                 '${widget.title}/${widget.challenge.title}',
-                style:
-                    const TextStyle(color: Colors.black, fontSize: appBarFontSize),
+                style: const TextStyle(
+                    color: Colors.black, fontSize: appBarFontSize),
               ),
             ),
           ),
@@ -42,106 +49,121 @@ class _SearchChallengeState extends State<SearchChallenge> {
       ),
       backgroundColor: Colors.white,
       body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
-            padding: const EdgeInsets.all(16),
-            width: double.infinity,
-            height: 120 + 8 * 64 + 2,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
-            // margin: EdgeInsets.only(bottom:16),
-            child: Column(
-              children: [
-                Container(
+        child: PageView(
+            onPageChanged: onPageChanged,
+            scrollDirection: Axis.vertical,
+            children: widget.challenges.map(
+              (e) {
+                return Container(
+                  margin:
+                      const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+                  padding: const EdgeInsets.all(16),
                   width: double.infinity,
-                  height: 180,
+                  height: 120 + 8 * 64 + 2,
                   decoration: BoxDecoration(
-                      color: const Color.fromRGBO(241, 245, 249, 1),
-                      image: DecorationImage(
-                        image: AssetImage(widget.challenge.thumbnailPath),
-                        fit: BoxFit.cover,
+                      color: Colors.white,
+                      border: Border.all(
+                          width: 1,
+                          color: const Color.fromRGBO(226, 232, 240, 1)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(24))),
+                  // margin: EdgeInsets.only(bottom:16),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 180,
+                        decoration: BoxDecoration(
+                            color: const Color.fromRGBO(241, 245, 249, 1),
+                            image: DecorationImage(
+                              image: AssetImage(e.thumbnailPath),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12))),
                       ),
-                      borderRadius: const BorderRadius.all(Radius.circular(12))),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                GestureDetector(
-                  onTap: () => setState(() {
-                    isDescriptionExpanded = !isDescriptionExpanded;
-                  }),
-                  child: Container(
-                      width: double.infinity,
-                      height: isDescriptionExpanded ? 399 : 80,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromRGBO(226, 232, 240, 1)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16))),
-                      child: Text(
-                        widget.challenge.description,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: isDescriptionExpanded ? 999 : 4,
-                        textDirection: TextDirection.ltr,
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(fontSize: 12, color: themeColor3),
-                      )),
-                ),
-                // isDescriptionExpanded
-                //     ? Container()
-                //     : const SizedBox(
-                //         height: 11,
-                //       ),
-                // isDescriptionExpanded
-                //     ? Container()
-                //     : const Align(
-                //         alignment: Alignment.centerLeft,
-                //         child: Text(
-                //           'Acceptance Criteria',
-                //           style: TextStyle(fontWeight: FontWeight.w500),
-                //         ),
-                //       ),
-                isDescriptionExpanded
-                    ? Container()
-                    : const SizedBox(
+                      const SizedBox(
                         height: 16,
                       ),
-                isDescriptionExpanded ? Container() : acceptanceCriteria(),
-                isDescriptionExpanded
-                    ? Container()
-                    : Expanded(child: Container()),
-                isDescriptionExpanded
-                    ? Container()
-                    : GestureDetector(
-                      onTap: onTapAcceptChallenge,
-                      child: Container(
-                          height: 55,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              color: themeColor2,
-                              border: Border.all(
-                                  width: 1,
-                                  color: const Color.fromRGBO(226, 232, 240, 1)),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16))),
-                          child: const Center(
-                              child: Text(
-                            'Edit',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, color: Colors.white),
-                          )),
-                        ),
-                    )
-              ],
-            ),
-          ),
-        ),
+                      GestureDetector(
+                        onTap: () => setState(() {
+                          isDescriptionExpanded = !isDescriptionExpanded;
+                        }),
+                        child: Container(
+                            width: double.infinity,
+                            height: isDescriptionExpanded ? 399 : 80,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 1,
+                                    color:
+                                        const Color.fromRGBO(226, 232, 240, 1)),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(16))),
+                            child: Text(
+                              e.description,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: isDescriptionExpanded ? 999 : 4,
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.justify,
+                              style: const TextStyle(
+                                  fontSize: 12, color: themeColor3),
+                            )),
+                      ),
+                      // isDescriptionExpanded
+                      //     ? Container()
+                      //     : const SizedBox(
+                      //         height: 11,
+                      //       ),
+                      // isDescriptionExpanded
+                      //     ? Container()
+                      //     : const Align(
+                      //         alignment: Alignment.centerLeft,
+                      //         child: Text(
+                      //           'Acceptance Criteria',
+                      //           style: TextStyle(fontWeight: FontWeight.w500),
+                      //         ),
+                      //       ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : const SizedBox(
+                              height: 16,
+                            ),
+                      isDescriptionExpanded
+                          ? Container()
+                          : acceptanceCriteria(),
+                      isDescriptionExpanded
+                          ? Container()
+                          : Expanded(child: Container()),
+                      isDescriptionExpanded
+                          ? Container()
+                          : GestureDetector(
+                              onTap: onTapAcceptChallenge,
+                              child: Container(
+                                height: 55,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                    color: themeColor2,
+                                    border: Border.all(
+                                        width: 1,
+                                        color: const Color.fromRGBO(
+                                            226, 232, 240, 1)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(16))),
+                                child: const Center(
+                                    child: Text(
+                                  'Edit',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                )),
+                              ),
+                            )
+                    ],
+                  ),
+                );
+              },
+            ).toList()),
       ),
     );
   }
@@ -238,14 +260,22 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   void onTapAcceptChallenge() {
-        Navigator.push(
+    Navigator.push(
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => EditChallenge(
-            title: widget.title, challenge: widget.challenge, selectTab: widget.selectTab),
+            title: widget.title,
+            challenge: widget.challenge,
+            selectTab: widget.selectTab),
       ),
     );
+  }
+
+  void onPageChanged(int value) {
+    setState(() {
+      widget.challenge = widget.challenges[value];
+    });
   }
 }

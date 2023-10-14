@@ -6,10 +6,13 @@ import 'package:challenge/components/list_items/list_item_challenge_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
+import 'search_challenge.dart';
+
 class SearchList extends StatefulWidget {
-  const SearchList({super.key, required this.title, this.onPush});
+  const SearchList({super.key, required this.title, this.onPush, required this.selectTab});
   final String title;
   final ValueChanged<Challenge>? onPush;
+  final Function selectTab;
 
   @override
   State<SearchList> createState() => _SearchListState();
@@ -17,6 +20,7 @@ class SearchList extends StatefulWidget {
 
 class _SearchListState extends State<SearchList> {
   late Future<List<Challenge>> challengesFutures;
+  late List<Challenge> filteredChallenges;
   
   String searchBarText = "";
 
@@ -66,24 +70,26 @@ class _SearchListState extends State<SearchList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            final challenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
+            filteredChallenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
 
             return ListView.separated(
-                itemCount: challenges.length +
+                itemCount: filteredChallenges.length +
                     1 +
                     1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 17,
                     ),
                 itemBuilder: (BuildContext content, int index) {
-                  if (index == 0)
+                  if (index == 0) {
                     return ListItemSearchbar(changeList: changeList);
-                  if (index == challenges.length + 1)
+                  }
+                  if (index == filteredChallenges.length + 1) {
                     return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  Challenge challenge = challenges[index -
+                  }
+                  Challenge challenge = filteredChallenges[index -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => widget.onPush?.call(challenge),
+                    onTap: () => onTapChallenge(challenge: challenge), // widget.onPush?.call(challenge),
                     challenge: challenge,
                   );
                 });
@@ -106,5 +112,21 @@ class _SearchListState extends State<SearchList> {
       // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
+  }
+
+  onTapChallenge({required Challenge challenge}) {
+     Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => SearchChallenge(
+            title: widget.title,
+            challenge: challenge,
+            selectTab: widget.selectTab,
+            challenges: filteredChallenges,
+          ),
+      ),
+    );
   }
 }
