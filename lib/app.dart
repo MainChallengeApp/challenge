@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/components/bottom_navigation.dart';
-import 'package:challenge/settings/settings_tab_navigator.dart';
-import 'package:challenge/components/tab_item.dart';
-import 'package:challenge/home/home_tab_navigator.dart';
-import 'package:challenge/search/search_tab_navigator.dart';
-import 'package:challenge/components/tab_navigator.dart';
+import 'package:challenge/components/navigation/bottom_navigation.dart';
+import 'package:challenge/pages/settings/settings_tab_navigator.dart';
+import 'package:challenge/models/tab_item.dart';
+import 'package:challenge/pages/home/home_tab_navigator.dart';
+import 'package:challenge/pages/search/search_tab_navigator.dart';
+import 'package:challenge/components/navigation/tab_navigator.dart';
 
 import 'globals.dart';
 

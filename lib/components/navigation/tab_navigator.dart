@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
-import 'package:challenge/components/tab_item.dart';
+import 'package:challenge/models/tab_item.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';

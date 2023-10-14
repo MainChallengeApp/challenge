@@ -1,17 +1,19 @@
 import 'package:flutter/widgets.dart';
-import 'package:challenge/home/home_challenge.dart';
+import 'package:challenge/components/edit_challenge/edit_challenge.dart';
+import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:challenge/pages/home/home_list.dart';
 import 'package:challenge/models/challenge.dart';
-import 'package:challenge/settings/settings_list.dart';
-import 'package:challenge/components/tab_navigator.dart';
+import 'package:challenge/components/navigation/tab_navigator.dart';
 
-class SettingsTabNavigatorRoutes {
+class HomeTabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
   static const String newChallenge = '/newChallenge';
+  static const String addAcceptanceCriteria = '/addAcceptanceCriteria';
 }
-class SettingsTabNavigator extends TabNavigator {
+class HomeTabNavigator extends TabNavigator {
   
-  const SettingsTabNavigator({super.key, required super.navigatorKey, required super.tabItem});
+  const HomeTabNavigator({super.key, required super.navigatorKey, required super.tabItem});
 
   @override
   void ppush(BuildContext context, {int challengeId = 0
@@ -33,7 +35,7 @@ class SettingsTabNavigator extends TabNavigator {
 
 
 void tapOnNewChallenge(BuildContext context) {
-    final Challenge challenge = Challenge(id: 0, status: ChallengStatus.backlog, title: 'new Challenge', description: '', thumbnailPath: '', startDate: DateTime.now(), endDate: DateTime.now(), acceptanceCriteria: [AcceptanceCriteria(activity: Activity(title: '', amount: 0, unit: ''), frequence: '', tracking: '', progress: 0)]);
+    final Challenge challenge = Challenge(id: 0, status: ChallengStatus.backlog, title: '', description: '', thumbnailPath: '', startDate: null, endDate: null, acceptanceCriteria: [], media: []);
     var routeBuilders = prouteBuilders(context, challenge: challenge);
 
     Navigator.push(
@@ -42,7 +44,7 @@ void tapOnNewChallenge(BuildContext context) {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) =>
-            routeBuilders[SettingsTabNavigatorRoutes.newChallenge]!(context),
+            routeBuilders[HomeTabNavigatorRoutes.newChallenge]!(context),
       ),
     );
   }
@@ -51,13 +53,18 @@ void tapOnNewChallenge(BuildContext context) {
     Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, Challenge? challenge}) {
     return {
-      SettingsTabNavigatorRoutes.root: (context) => SettingsList(
+      HomeTabNavigatorRoutes.root: (context) => HomeList(
             title: tabItem.name,
             onPush: (c) =>
                 ppush(context, challenge: c),
+            tapOnNewChallenge: () => tapOnNewChallenge(context)
           ),
-      SettingsTabNavigatorRoutes.detail: (context) => HomeChallenge(
+      HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
             preTitle: tabItem.name,
+            challenge: challenge!,
+          ),
+      HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
+            title: tabItem.name,
             challenge: challenge!,
           ),
     };

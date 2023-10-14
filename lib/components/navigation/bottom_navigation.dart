@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/components/tab_item.dart';
+import 'package:challenge/models/tab_item.dart';
 
-import '../globals.dart';
+import '../../globals.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation(

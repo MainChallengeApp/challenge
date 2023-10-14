@@ -1,27 +1,23 @@
 import 'dart:convert';
 
-import 'package:challenge/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_item_challenge_small.dart';
-import 'package:challenge/components/list_item_icon_small.dart';
-import 'package:challenge/components/list_item_search_bar.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small.dart';
+import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
-class HomeList extends StatefulWidget {
-  const HomeList(
-      {super.key, required this.title, this.onPush, this.tapOnNewChallenge});
+class SearchList extends StatefulWidget {
+  const SearchList({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<Challenge>? onPush;
-  final Function? tapOnNewChallenge;
 
   @override
-  State<HomeList> createState() => _HomeListState();
+  State<SearchList> createState() => _SearchListState();
 }
 
-class _HomeListState extends State<HomeList> {
+class _SearchListState extends State<SearchList> {
   late Future<List<Challenge>> challengesFutures;
-
+  
   String searchBarText = "";
 
   @override
@@ -36,9 +32,9 @@ class _HomeListState extends State<HomeList> {
         appBar: AppBar(
           elevation: 0,
           leading: const Icon(
-              Icons.chevron_left,
-              color: Colors.transparent,
-            ),
+            Icons.chevron_left,
+            color: Colors.transparent,
+          ),
           foregroundColor: Colors.black,
           titleSpacing: 0,
           title: Align(
@@ -70,39 +66,24 @@ class _HomeListState extends State<HomeList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            challengeList = snapshot.data!
-                .where((element) => element.title.contains(searchBarText))
-                .toList();
+            final challenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
 
             return ListView.separated(
-                itemCount: challengeList.length +
-                    1 +
+                itemCount: challenges.length +
                     1 +
                     1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 17,
                     ),
                 itemBuilder: (BuildContext content, int index) {
-                  if (index == 0) {
-                    return ListItemSearchbar(
-                      changeList: changeList,
-                    );
-                  }
-                  if (index == 1) {
-                    return ListItemIconSmall(
-                      onTap: () => widget.tapOnNewChallenge!.call(),
-                      icon: Icons.add,
-                      title: "New Challenge",
-                    );
-                  }
-                  if (index == challengeList.length + 1 + 1) {
+                  if (index == 0)
+                    return ListItemSearchbar(changeList: changeList);
+                  if (index == challenges.length + 1)
                     return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  }
-                  Challenge challenge = challengeList[index -
-                      1 -
+                  Challenge challenge = challenges[index -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => ppush(context, challenge: challenge),
+                    onTap: () => widget.onPush?.call(challenge),
                     challenge: challenge,
                   );
                 });
@@ -114,7 +95,7 @@ class _HomeListState extends State<HomeList> {
 
   static Future<List<Challenge>> getChallenges(BuildContext context) async {
     final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/home_challenges.json');
+    final data = await assetBundle.loadString('assets/search_challenges.json');
 
     final body = json.decode(data);
     return body.map<Challenge>(Challenge.fromJson).toList();
@@ -125,17 +106,5 @@ class _HomeListState extends State<HomeList> {
       // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
-  }
-
-  void ppush(BuildContext context, {required Challenge challenge}) {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            HomeChallenge(preTitle: widget.title, challenge: challenge),
-      ),
-    ).then((_) => setState(() {}));
   }
 }

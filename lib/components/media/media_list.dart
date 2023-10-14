@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-import 'package:challenge/home/home_challenge.dart';
+import 'package:challenge/components/media/list_item_media_small.dart';
+import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_item_challenge_small.dart';
-import 'package:challenge/components/list_item_icon_small.dart';
-import 'package:challenge/components/list_item_search_bar.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.dart';
+import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
 class MediaList extends StatefulWidget {
   const MediaList(
-      {super.key, required this.preTitle, this.onPush, this.tapOnNewChallenge});
+      {super.key, required this.preTitle, this.tapOnNewChallenge, required this.challenge});
   final String preTitle;
-  final ValueChanged<Challenge>? onPush;
   final Function? tapOnNewChallenge;
+  final Challenge challenge;
 
   @override
   State<MediaList> createState() => _MediaListState();
@@ -71,7 +71,7 @@ class _MediaListState extends State<MediaList> {
                 .toList();
 
             return ListView.separated(
-                itemCount: challengeList.length +
+                itemCount: widget.challenge.media.length +
                     1 +
                     1 +
                     1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
@@ -88,18 +88,15 @@ class _MediaListState extends State<MediaList> {
                     return ListItemIconSmall(
                       onTap: () => widget.tapOnNewChallenge!.call(),
                       icon: Icons.add,
-                      title: "New Challenge",
+                      title: "Upload Media",
                     );
                   }
-                  if (index == challengeList.length + 1 + 1) {
+                  if (index == widget.challenge.media.length + 1 + 1) {
                     return Container(); // +1 for new Challenge listitem + 1 for searchbar
                   }
-                  Challenge challenge = challengeList[index -
-                      1 -
-                      1]; // -1 for new Challenge listitem - 1 for searchbar
-                  return ListItemChallengeSmall(
-                    onTap: () => ppush(context, challenge: challenge),
-                    challenge: challenge,
+                  return ListItemMediaSmall(
+                    onTap: () => ppush(context, challenge: widget.challenge),
+                    media: widget.challenge.media[index - 1 - 1],
                   );
                 });
           } else {

@@ -1,7 +1,7 @@
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
-import 'components/tab_item.dart';
+import 'models/tab_item.dart';
 
 const double appBarFontSize = 22;
 const Color themeColor1 = Color.fromRGBO(15, 23, 42, 1);

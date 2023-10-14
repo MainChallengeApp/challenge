@@ -1,23 +1,27 @@
 import 'dart:convert';
 
+import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_item_challenge_small.dart';
-import 'package:challenge/components/list_item_search_bar.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.dart';
+import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
-class SearchList extends StatefulWidget {
-  const SearchList({super.key, required this.title, this.onPush});
+class HomeList extends StatefulWidget {
+  const HomeList(
+      {super.key, required this.title, this.onPush, this.tapOnNewChallenge});
   final String title;
   final ValueChanged<Challenge>? onPush;
+  final Function? tapOnNewChallenge;
 
   @override
-  State<SearchList> createState() => _SearchListState();
+  State<HomeList> createState() => _HomeListState();
 }
 
-class _SearchListState extends State<SearchList> {
+class _HomeListState extends State<HomeList> {
   late Future<List<Challenge>> challengesFutures;
-  
+
   String searchBarText = "";
 
   @override
@@ -32,9 +36,9 @@ class _SearchListState extends State<SearchList> {
         appBar: AppBar(
           elevation: 0,
           leading: const Icon(
-            Icons.chevron_left,
-            color: Colors.transparent,
-          ),
+              Icons.chevron_left,
+              color: Colors.transparent,
+            ),
           foregroundColor: Colors.black,
           titleSpacing: 0,
           title: Align(
@@ -66,24 +70,39 @@ class _SearchListState extends State<SearchList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            final challenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
+            challengeList = snapshot.data!
+                .where((element) => element.title.contains(searchBarText))
+                .toList();
 
             return ListView.separated(
-                itemCount: challenges.length +
+                itemCount: challengeList.length +
+                    1 +
                     1 +
                     1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 17,
                     ),
                 itemBuilder: (BuildContext content, int index) {
-                  if (index == 0)
-                    return ListItemSearchbar(changeList: changeList);
-                  if (index == challenges.length + 1)
+                  if (index == 0) {
+                    return ListItemSearchbar(
+                      changeList: changeList,
+                    );
+                  }
+                  if (index == 1) {
+                    return ListItemIconSmall(
+                      onTap: () => widget.tapOnNewChallenge!.call(),
+                      icon: Icons.add,
+                      title: "New Challenge",
+                    );
+                  }
+                  if (index == challengeList.length + 1 + 1) {
                     return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  Challenge challenge = challenges[index -
+                  }
+                  Challenge challenge = challengeList[index -
+                      1 -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => widget.onPush?.call(challenge),
+                    onTap: () => ppush(context, challenge: challenge),
                     challenge: challenge,
                   );
                 });
@@ -106,5 +125,17 @@ class _SearchListState extends State<SearchList> {
       // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
+  }
+
+  void ppush(BuildContext context, {required Challenge challenge}) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            HomeChallenge(preTitle: widget.title, challenge: challenge),
+      ),
+    ).then((_) => setState(() {}));
   }
 }

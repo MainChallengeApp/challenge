@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_item_icon_small.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/models/challenge.dart';
 
 class SettingsList extends StatefulWidget {
@@ -80,7 +80,7 @@ class _SettingsListState extends State<SettingsList> {
 
   static Future<List<Challenge>> getChallenges(BuildContext context) async {
     final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/home_challenges.json');
+    final data = await assetBundle.loadString('assets/settings.json');
 
     final body = json.decode(data);
     return body.map<Challenge>(Challenge.fromJson).toList();

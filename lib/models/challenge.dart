@@ -1,4 +1,3 @@
-
 class Challenge {
   int? id;
   ChallengStatus? status;
@@ -8,6 +7,7 @@ class Challenge {
   DateTime? startDate;
   DateTime? endDate;
   List<AcceptanceCriteria> acceptanceCriteria;
+  List<Media> media;
 
   Challenge(
       {required this.id,
@@ -17,7 +17,8 @@ class Challenge {
       required this.thumbnailPath,
       required this.startDate,
       required this.endDate,
-      required this.acceptanceCriteria});
+      required this.acceptanceCriteria,
+      required this.media});
 
   static Challenge fromJson(json) => Challenge(
       id: json['id'],
@@ -28,7 +29,25 @@ class Challenge {
       startDate: DateTime.parse(json['startDate']),
       endDate: DateTime.parse(json['endDate']),
       acceptanceCriteria:
-          AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']));
+          AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']),
+      media: Media.fromJsonList(json['media']));
+}
+
+class Media {
+  String type;
+  String title;
+  String source;
+
+  Media({required this.type, required this.title, required this.source});
+
+  static fromJsonList(json) {
+    List<Media> list = [];
+    json?.forEach((e) => list.add(Media(
+        type: e['type'],
+        title: e['title'],
+        source: e['source'])));
+    return list;
+  }
 }
 
 class AcceptanceCriteria {
@@ -51,7 +70,7 @@ class AcceptanceCriteria {
 
   static List<AcceptanceCriteria> fromJsonList(json) {
     List<AcceptanceCriteria> list = [];
-    json.forEach((e) => list.add(AcceptanceCriteria(
+    json?.forEach((e) => list.add(AcceptanceCriteria(
         activity: Activity.fromJson(e['activity']),
         frequence: e['frequence'],
         tracking: e['tracking'],

@@ -1,4 +1,4 @@
-import 'package:challenge/components/edit_challenge.dart';
+import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';

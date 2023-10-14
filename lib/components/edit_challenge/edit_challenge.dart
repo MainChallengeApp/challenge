@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/add_acceptance_criteria.dart';
-import 'package:challenge/components/date_picker.dart';
-import 'package:challenge/components/tab_item.dart';
-import 'package:challenge/home/home_challenge.dart';
+import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/components/edit_challenge/date_picker.dart';
+import 'package:challenge/models/tab_item.dart';
+import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -25,7 +25,9 @@ class EditChallenge extends StatefulWidget {
         startDate: challenge.startDate,
         endDate: challenge.endDate,
         acceptanceCriteria:
-            copyAcceptanceCriteria(challenge.acceptanceCriteria));
+            copyAcceptanceCriteria(challenge.acceptanceCriteria),
+        media: []    
+        );
   }
   String title;
   Challenge challenge;

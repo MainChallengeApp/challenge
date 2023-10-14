@@ -1,5 +1,5 @@
-import 'package:challenge/components/edit_challenge.dart';
-import 'package:challenge/components/media_list.dart';
+import 'package:challenge/components/edit_challenge/edit_challenge.dart';
+import 'package:challenge/components/media/media_list.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -123,7 +123,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                 context2 = context;
                 return Center(
                   child: Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20),
+                    margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     padding: const EdgeInsets.all(16),
                     width: double.infinity,
                     height: 120 + 8 * 64 + 2,
@@ -465,7 +465,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaList(preTitle: '${widget.preTitle}/${widget.challenge.title}'),
+        pageBuilder: (context, animation1, animation2) => MediaList(preTitle: '${widget.preTitle}/${widget.challenge.title}', challenge: widget.challenge,),
       ),
     ).then((_) => setState(() {}));
   }
