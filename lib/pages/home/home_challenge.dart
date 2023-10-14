@@ -1,9 +1,11 @@
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/media/media_list.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
 class HomeChallenge extends StatefulWidget {
   const HomeChallenge(
@@ -467,6 +469,6 @@ class _HomeChallengeState extends State<HomeChallenge> {
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => MediaList(preTitle: '${widget.preTitle}/${widget.challenge.title}', challenge: widget.challenge,),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) => setState(() {context.read<DesignProvider>().setIsBottomNavBarVisible(true);}));
   }
 }
