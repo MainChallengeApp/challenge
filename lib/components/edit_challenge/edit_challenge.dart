@@ -485,7 +485,7 @@ class _EditChallengeState extends State<EditChallenge> {
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
           pageBuilder: (context, animation1, animation2) =>
-              HomeChallenge(preTitle: 'Home', challenge: widget.editChallenge),
+              HomeChallenge(preTitle: 'Home', challenge: widget.editChallenge, initialChalleneIndex: 0,), // Todo: change initalChallengeIndex when id is known from backend
         ),
       );
     } else if (widget.title.startsWith('Home')) {

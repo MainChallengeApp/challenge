@@ -38,12 +38,12 @@ class SearchTabNavigator extends TabNavigator {
       SearchTabNavigatorRoutes.root: (context) => SearchList(
           title: tabItem.name,
           onPush: (c) => ppush(context, challenge: c), selectTab: selectTab,),
-      SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
-            title: tabItem.name,
-            challenge: challenge!,
-            selectTab: selectTab,
-            challenges: const [],
-          )
+      // SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
+      //       title: tabItem.name,
+      //       challenge: challenge!,
+      //       selectTab: selectTab,
+      //       challenges: const [],
+      //     )
     };
   }
 }

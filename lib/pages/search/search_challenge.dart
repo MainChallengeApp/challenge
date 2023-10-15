@@ -11,11 +11,12 @@ class SearchChallenge extends StatefulWidget {
       required this.title,
       required this.challenge,
       required this.selectTab,
-      required this.challenges});
+      required this.challenges, required this.initialChalleneIndex});
   final String title;
   Challenge challenge;
   final Function selectTab;
   final List<Challenge> challenges;
+  final int initialChalleneIndex;
 
   @override
   State<SearchChallenge> createState() => _SearchChallengeState();
@@ -23,6 +24,7 @@ class SearchChallenge extends StatefulWidget {
 
 class _SearchChallengeState extends State<SearchChallenge> {
   bool isDescriptionExpanded = false;
+  late PageController pageController = PageController(initialPage: widget.initialChalleneIndex);
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
       backgroundColor: Colors.white,
       body: Center(
         child: PageView(
+            controller: pageController,
             onPageChanged: onPageChanged,
             scrollDirection: Axis.vertical,
             children: widget.challenges.map(

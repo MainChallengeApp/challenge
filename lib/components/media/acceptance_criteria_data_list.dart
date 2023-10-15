@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:challenge/components/media/acceptance_criteria_record_list.dart';
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
@@ -13,7 +14,12 @@ import '../../providers/design_provider.dart';
 
 class AcceptanceCriteriaDataList extends StatefulWidget {
   const AcceptanceCriteriaDataList(
-      {super.key, required this.preTitle, this.tapOnNewChallenge, this.challenge, required this.mediaList, required this.acceptanceCriteria});
+      {super.key,
+      required this.preTitle,
+      this.tapOnNewChallenge,
+      this.challenge,
+      required this.mediaList,
+      required this.acceptanceCriteria});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge? challenge;
@@ -21,10 +27,12 @@ class AcceptanceCriteriaDataList extends StatefulWidget {
   final AcceptanceCriteria acceptanceCriteria;
 
   @override
-  State<AcceptanceCriteriaDataList> createState() => _AcceptanceCriteriaDataListState();
+  State<AcceptanceCriteriaDataList> createState() =>
+      _AcceptanceCriteriaDataListState();
 }
 
-class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList> {
+class _AcceptanceCriteriaDataListState
+    extends State<AcceptanceCriteriaDataList> {
   late Future<List<Challenge>> challengesFutures;
 
   String searchBarText = "";
@@ -39,11 +47,9 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
+        backgroundColor: Colors.white,
         body: Stack(
-          children: [
-            _buildList(),
-            button()
-          ],
+          children: [_buildList(), button()],
         ));
   }
 
@@ -68,7 +74,8 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
                     ),
                 itemBuilder: (BuildContext content, int index) {
                   if (index == 0) {
-                    return ListItemAcceptanceCriteriaBar(acceptanceCriteria: widget.acceptanceCriteria);
+                    return ListItemAcceptanceCriteriaBar(
+                        acceptanceCriteria: widget.acceptanceCriteria);
                   }
                   if (index == 1) {
                     return ListItemIconSmall(
@@ -81,7 +88,7 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
                     return Container(); // +1 for new Challenge listitem + 1 for searchbar
                   }
                   return ListItemMediaSmall(
-                    onTap: () => ppush(context, index: index-1-1),
+                    onTap: () => ppush(context, index: index - 1 - 1),
                     media: widget.mediaList[index - 1 - 1],
                   );
                 });
@@ -118,31 +125,45 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
     //   ),
     // ).then((_) => setState(() {}));
   }
-  
+
   button() {
     return GestureDetector(
-                onTap: () {
-                  
-                },
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 55,
-                    margin: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: themeColor2,
-                        border: Border.all(
-                            width: 1,
-                            color: const Color.fromRGBO(226, 232, 240, 1)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16))),
-                    child: const Center(
-                        child: Text('Save',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    )),
-                  ),
-                ),
-              );
+      onTap: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+        Navigator.push(
+          context,
+          PageRouteBuilder(
+            transitionDuration: Duration.zero,
+            reverseTransitionDuration: Duration.zero,
+            pageBuilder: (context, animation1, animation2) =>
+                AcceptanceCriteriaRecordList(
+              preTitle: widget.preTitle,
+              mediaList: widget.mediaList,
+              acceptanceCriteria: widget.acceptanceCriteria,
+            ),
+          ),
+        ).then((_) => setState(() {}));
+      },
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: 55,
+          margin: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: themeColor2,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: const Center(
+              child: Text(
+            'Save',
+            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          )),
+        ),
+      ),
+    );
   }
 }

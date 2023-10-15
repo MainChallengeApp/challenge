@@ -102,7 +102,7 @@ class _HomeListState extends State<HomeList> {
                       1 -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => ppush(context, challenge: challenge),
+                    onTap: () => ppush(context, challenge: challenge, index: index - 1 - 1),
                     challenge: challenge,
                   );
                 });
@@ -127,14 +127,14 @@ class _HomeListState extends State<HomeList> {
     });
   }
 
-  void ppush(BuildContext context, {required Challenge challenge}) {
+  void ppush(BuildContext context, {required Challenge challenge, required int index}) {
     Navigator.push(
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) =>
-            HomeChallenge(preTitle: widget.title, challenge: challenge),
+            HomeChallenge(preTitle: widget.title, challenge: challenge, initialChalleneIndex: index),
       ),
     ).then((_) => setState(() {}));
   }

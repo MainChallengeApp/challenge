@@ -56,10 +56,10 @@ void tapOnNewChallenge(BuildContext context) {
             onPush: (c) =>
                 ppush(context, challenge: c),
           ),
-      SettingsTabNavigatorRoutes.detail: (context) => HomeChallenge(
-            preTitle: tabItem.name,
-            challenge: challenge!,
-          ),
+      // SettingsTabNavigatorRoutes.detail: (context) => HomeChallenge(
+      //       preTitle: tabItem.name,
+      //       challenge: challenge!,
+      //     ),
     };
   }
 

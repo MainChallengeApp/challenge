@@ -13,9 +13,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HomeChallenge extends StatefulWidget {
-  HomeChallenge({super.key, required this.preTitle, required this.challenge});
+  HomeChallenge(
+      {super.key,
+      required this.preTitle,
+      required this.challenge,
+      required this.initialChalleneIndex});
   final String preTitle;
   Challenge challenge;
+  final int initialChalleneIndex;
 
   @override
   State<HomeChallenge> createState() => _HomeChallengeState();
@@ -28,6 +33,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   late String currentTitle = widget.challenge.title;
 
+  late PageController pageController =
+      PageController(initialPage: widget.initialChalleneIndex);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +43,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
           CustomeAppBar.build(preTitle: widget.preTitle, title: currentTitle),
       backgroundColor: Colors.white,
       body: PageView(
+          controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
           children: challengeList.map((e) {
@@ -759,11 +768,10 @@ class _HomeChallengeState extends State<HomeChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => MediaCamera(
-          camera: firstCamera,
-          preTitle: '${widget.preTitle}/${widget.challenge.title}',
-          mediaList: widget.challenge.media,
-          acceptanceCriteria: acceptanceCriteria
-        ),
+            camera: firstCamera,
+            preTitle: '${widget.preTitle}/${widget.challenge.title}',
+            mediaList: widget.challenge.media,
+            acceptanceCriteria: acceptanceCriteria),
       ),
     ).then((_) => setState(() {
           context.read<DesignProvider>().setIsBottomNavBarVisible(true);

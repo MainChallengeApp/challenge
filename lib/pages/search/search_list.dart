@@ -89,7 +89,7 @@ class _SearchListState extends State<SearchList> {
                   Challenge challenge = filteredChallenges[index -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => onTapChallenge(challenge: challenge), // widget.onPush?.call(challenge),
+                    onTap: () => onTapChallenge(challenge: challenge, index: index - 1), // widget.onPush?.call(challenge),
                     challenge: challenge,
                   );
                 });
@@ -114,7 +114,7 @@ class _SearchListState extends State<SearchList> {
     });
   }
 
-  onTapChallenge({required Challenge challenge}) {
+  onTapChallenge({required Challenge challenge, required int index}) {
      Navigator.push(
       context,
       PageRouteBuilder(
@@ -125,6 +125,7 @@ class _SearchListState extends State<SearchList> {
             challenge: challenge,
             selectTab: widget.selectTab,
             challenges: filteredChallenges,
+            initialChalleneIndex: index,
           ),
       ),
     );

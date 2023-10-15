@@ -36,19 +36,16 @@ class _ListItemAcceptanceCriteriaBarState
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      // onTap: onTap,
-      child: Center(
-        child: Container(
-          width: double.infinity,
-          height: 64,
-          margin: EdgeInsets.only(left: 20, right: 20),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-          child: singleAcceptanceCriteria(),
-        ),
+    return Center(
+      child: Container(
+        width: double.infinity,
+        height: 64,
+        margin: EdgeInsets.only(left: 20, right: 20),
+        decoration: BoxDecoration(
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+            borderRadius: const BorderRadius.all(Radius.circular(24))),
+        child: singleAcceptanceCriteria(),
       ),
     );
   }
@@ -64,7 +61,7 @@ class _ListItemAcceptanceCriteriaBarState
             height: 40,
             decoration: const BoxDecoration(
                 color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(16))),
+                borderRadius: BorderRadius.all(Radius.circular(24))),
           ),
         ),
         GestureDetector(
@@ -85,9 +82,9 @@ class _ListItemAcceptanceCriteriaBarState
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white.withAlpha(170),
-                  border: Border.all(
-                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+                  // border: Border.all(
+                  //     width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: Row(
                 children: [
                   Container(
