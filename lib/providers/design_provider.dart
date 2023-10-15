@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tiktoklikescroller/controller.dart';
 
 class DesignProvider with ChangeNotifier{
 
@@ -9,15 +8,6 @@ class DesignProvider with ChangeNotifier{
   setIsBottomNavBarVisible(bool value){
     _isBottomNavBarVisible = value;
     notifyListeners();
-  }
-
-
-  final Controller _tikTokLikeScrollerMediacontroller = Controller();
-  Controller tikTokLikeScrollerMediacontroller() => _tikTokLikeScrollerMediacontroller;
-
-  animateScrolling(int position) {
-    _tikTokLikeScrollerMediacontroller.animateToPosition(position);
-    // notifyListeners();
   }
 
 

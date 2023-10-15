@@ -13,12 +13,13 @@ class MediaCamera extends StatefulWidget {
     super.key,
     required this.camera,
     required this.preTitle,
-    required this.mediaList,
+    required this.mediaList, required this.acceptanceCriteria,
   });
 
   final CameraDescription camera;
   final String preTitle;
   final List<Media> mediaList;
+  final AcceptanceCriteria acceptanceCriteria;
 
   @override
   State<MediaCamera> createState() => _CameraStateMedia();
@@ -200,7 +201,7 @@ class _CameraStateMedia extends State<MediaCamera> {
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => AcceptanceCriteriaDataList(preTitle: widget.preTitle, mediaList: currentMedia),
+        pageBuilder: (context, animation1, animation2) => AcceptanceCriteriaDataList(preTitle: widget.preTitle, mediaList: currentMedia, acceptanceCriteria: widget.acceptanceCriteria,),
       ),
     ).then((_) => setState(() {}));
       },

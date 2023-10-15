@@ -762,6 +762,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
           camera: firstCamera,
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           mediaList: widget.challenge.media,
+          acceptanceCriteria: acceptanceCriteria
         ),
       ),
     ).then((_) => setState(() {

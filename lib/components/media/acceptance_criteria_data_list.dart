@@ -1,12 +1,11 @@
 import 'dart:convert';
 
+import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
-import 'package:challenge/components/media/media_detail.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
@@ -14,11 +13,12 @@ import '../../providers/design_provider.dart';
 
 class AcceptanceCriteriaDataList extends StatefulWidget {
   const AcceptanceCriteriaDataList(
-      {super.key, required this.preTitle, this.tapOnNewChallenge, this.challenge, required this.mediaList});
+      {super.key, required this.preTitle, this.tapOnNewChallenge, this.challenge, required this.mediaList, required this.acceptanceCriteria});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge? challenge;
   final List<Media> mediaList;
+  final AcceptanceCriteria acceptanceCriteria;
 
   @override
   State<AcceptanceCriteriaDataList> createState() => _AcceptanceCriteriaDataListState();
@@ -39,9 +39,11 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
-        body: Container(
-          color: Colors.white,
-          child: _buildList(),
+        body: Stack(
+          children: [
+            _buildList(),
+            button()
+          ],
         ));
   }
 
@@ -66,9 +68,7 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
                     ),
                 itemBuilder: (BuildContext content, int index) {
                   if (index == 0) {
-                    return ListItemSearchbar(
-                      changeList: changeList,
-                    );
+                    return ListItemAcceptanceCriteriaBar(acceptanceCriteria: widget.acceptanceCriteria);
                   }
                   if (index == 1) {
                     return ListItemIconSmall(
@@ -117,5 +117,32 @@ class _AcceptanceCriteriaDataListState extends State<AcceptanceCriteriaDataList>
     //         MediaDetail(media: widget.challenge.media.where((element) => element.title.contains(searchBarText)).toList(), preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
     //   ),
     // ).then((_) => setState(() {}));
+  }
+  
+  button() {
+    return GestureDetector(
+                onTap: () {
+                  
+                },
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 55,
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        color: themeColor2,
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromRGBO(226, 232, 240, 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16))),
+                    child: const Center(
+                        child: Text('Save',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )),
+                  ),
+                ),
+              );
   }
 }
