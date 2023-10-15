@@ -8,11 +8,11 @@ class CustomeAppBar extends AppBar{
   // final String preTitle;
   // final String title;
 
-  static AppBar build({required preTitle, required title}) {
+  static AppBar build({required preTitle, required title, backgroundColor = Colors.white, textColor = Colors.black}) {
     return AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: backgroundColor,
+        foregroundColor: textColor,
         titleSpacing: 0,
         title: Align(
           alignment: Alignment.centerLeft,
@@ -22,8 +22,8 @@ class CustomeAppBar extends AppBar{
               scrollDirection: Axis.horizontal,
               child: Text(
                 '$preTitle/$title',
-                style: const TextStyle(
-                    color: Colors.black, fontSize: appBarFontSize),
+                style: TextStyle(
+                    color: textColor, fontSize: appBarFontSize),
               ),
             ),
           ),

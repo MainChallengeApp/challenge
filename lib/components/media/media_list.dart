@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/media/media_detail.dart';
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
@@ -36,26 +37,7 @@ class _MediaListState extends State<MediaList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          foregroundColor: Colors.black,
-          titleSpacing: 0,
-          title: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Text(
-                  '${widget.preTitle}/Media',
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: appBarFontSize),
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: Colors.white,
-        ),
+        appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
         body: Container(
           color: Colors.white,
           child: _buildList(),

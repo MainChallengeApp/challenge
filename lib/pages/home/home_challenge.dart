@@ -1,6 +1,8 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
+import 'package:camera/camera.dart';
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
+import 'package:challenge/components/media/media_camera.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/providers/design_provider.dart';
@@ -11,10 +13,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HomeChallenge extends StatefulWidget {
-  HomeChallenge(
-      {super.key,
-      required this.preTitle,
-      required this.challenge});
+  HomeChallenge({super.key, required this.preTitle, required this.challenge});
   final String preTitle;
   Challenge challenge;
 
@@ -32,516 +31,518 @@ class _HomeChallengeState extends State<HomeChallenge> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomeAppBar.build(
-          preTitle: widget.preTitle, title: currentTitle),
+      appBar:
+          CustomeAppBar.build(preTitle: widget.preTitle, title: currentTitle),
       backgroundColor: Colors.white,
       body: PageView(
-        onPageChanged: onPageChanged,
-        scrollDirection: Axis.vertical,
-        children: challengeList.map((e) {
-          return Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          child: Slidable(
-            key: const ValueKey(0),
-            closeOnScroll: true,
-            // The end action pane is the one at the right or the bottom side.
-            endActionPane: ActionPane(
-              motion: const ScrollMotion(),
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: editChallenge,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromRGBO(226, 232, 240, 1)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(24))),
-                      child: const Center(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.edit),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text("Edit")
-                        ],
-                      )),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: deleteChallenge,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              width: 1,
-                              color: const Color.fromRGBO(226, 232, 240, 1)),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(24))),
-                      child: Center(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.delete,
-                            color: Colors.red.withAlpha(150),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "Delete",
-                            style: TextStyle(color: Colors.red.withAlpha(150)),
-                          )
-                        ],
-                      )),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-              ],
-            ),
-            child: Builder(builder: (context) {
-              context2 = context;
-              return Center(
-                child: Container(
-                  margin:
-                      const EdgeInsets.only(left: 20, right: 20),
-                  padding: const EdgeInsets.all(16),
-                  width: double.infinity,
-                  height: 120 + 8 * 64 + 2,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(24))),
-                  // margin: EdgeInsets.only(bottom:16),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: onTapOpenMediaPage,
+          onPageChanged: onPageChanged,
+          scrollDirection: Axis.vertical,
+          children: challengeList.map((e) {
+            return Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              child: Slidable(
+                key: const ValueKey(0),
+                closeOnScroll: true,
+                // The end action pane is the one at the right or the bottom side.
+                endActionPane: ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: editChallenge,
                         child: Container(
-                          // TODO: on tap open media page
-                          width: double.infinity,
-                          height: 180,
                           decoration: BoxDecoration(
-                              color: const Color.fromRGBO(241, 245, 249, 1),
-                              image: DecorationImage(
-                                image:
-                                    AssetImage(e.thumbnailPath),
-                                fit: BoxFit.cover,
-                              ),
+                              color: Colors.white,
+                              border: Border.all(
+                                  width: 1,
+                                  color:
+                                      const Color.fromRGBO(226, 232, 240, 1)),
                               borderRadius:
-                                  const BorderRadius.all(Radius.circular(12))),
+                                  const BorderRadius.all(Radius.circular(24))),
+                          child: const Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.edit),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text("Edit")
+                            ],
+                          )),
                         ),
                       ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      GestureDetector(
-                        onTap: () => setState(() {
-                          isDescriptionExpanded = !isDescriptionExpanded;
-                        }),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: deleteChallenge,
                         child: Container(
-                            width: double.infinity,
-                            height: isDescriptionExpanded ? 399 : 80,
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 1,
-                                    color:
-                                        const Color.fromRGBO(226, 232, 240, 1)),
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(16))),
-                            child: Text(
-                              e.description,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: isDescriptionExpanded ? 9999 : 4,
-                              textDirection: TextDirection.ltr,
-                              textAlign: TextAlign.justify,
-                              style: const TextStyle(
-                                  fontSize: 12, color: themeColor3),
-                            )),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  width: 1,
+                                  color:
+                                      const Color.fromRGBO(226, 232, 240, 1)),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(24))),
+                          child: Center(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                                color: Colors.red.withAlpha(150),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Delete",
+                                style:
+                                    TextStyle(color: Colors.red.withAlpha(150)),
+                              )
+                            ],
+                          )),
+                        ),
                       ),
-                      isDescriptionExpanded
-                          ? Container()
-                          : const SizedBox(
-                              height: 16,
-                            ),
-                      isDescriptionExpanded
-                          ? Container()
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                    child: standardContainer(
-                                        child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'Start',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      (e.startDate != null
-                                          ? _dateFormat(
-                                              e.startDate!)
-                                          : '-'),
-                                      style:
-                                          const TextStyle(color: themeColor3),
-                                    )
-                                  ],
-                                ))),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                    child: standardContainer(
-                                        child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      'End',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                      (e.endDate != null
-                                          ? _dateFormat(
-                                              e.endDate!)
-                                          : '-'),
-                                      style:
-                                          const TextStyle(color: themeColor3),
-                                    )
-                                  ],
-                                ))),
-                              ],
-                            ),
-                      // isDescriptionExpanded
-                      //     ? Container()
-                      //     : const SizedBox(
-                      //         height: 16,
-                      //       ),
-                      isDescriptionExpanded
-                          ? Container()
-                          : acceptanceCriteria(),
-                      isDescriptionExpanded ? Container() : dots(),
-                      // isDescriptionExpanded
-                      //     ? Container()
-                      //     : const SizedBox(
-                      //         height: 12,
-                      //       ),
-                      isDescriptionExpanded
-                          ? Container()
-                          : Expanded(child: Container()),
-                      isDescriptionExpanded
-                          ? Container()
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                documentationButton(Icons.numbers),
-                                documentationButton(Icons.notes),
-                                documentationButton(Icons.gps_not_fixed),
-                                documentationButton(Icons.camera_alt_outlined),
-                              ],
-                            ),
-                      isDescriptionExpanded
-                          ? Container()
-                          : const SizedBox(
-                              height: 16,
-                            ),
-                      isDescriptionExpanded
-                          ? Container()
-                          : Container(
-                              height: 55,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 1,
-                                      color: const Color.fromRGBO(
-                                          226, 232, 240, 1)),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(16))),
-                              child: const Center(
-                                  child: Text(
-                                'End',
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )),
-                            )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                  ],
                 ),
-              );
-            }),
+                child: Builder(builder: (context) {
+                  context2 = context;
+                  return Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 20, right: 20),
+                      padding: const EdgeInsets.all(16),
+                      width: double.infinity,
+                      height: 120 + 8 * 64 + 2,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              width: 1,
+                              color: const Color.fromRGBO(226, 232, 240, 1)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(24))),
+                      // margin: EdgeInsets.only(bottom:16),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: onTapOpenMediaPage,
+                            child: Container(
+                              // TODO: on tap open media page
+                              width: double.infinity,
+                              height: 180,
+                              decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(241, 245, 249, 1),
+                                  image: DecorationImage(
+                                    image: AssetImage(e.thumbnailPath),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12))),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          GestureDetector(
+                            onTap: () => setState(() {
+                              isDescriptionExpanded = !isDescriptionExpanded;
+                            }),
+                            child: Container(
+                                width: double.infinity,
+                                height: isDescriptionExpanded ? 399 : 80,
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1,
+                                        color: const Color.fromRGBO(
+                                            226, 232, 240, 1)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(16))),
+                                child: Text(
+                                  e.description,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: isDescriptionExpanded ? 9999 : 4,
+                                  textDirection: TextDirection.ltr,
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                      fontSize: 12, color: themeColor3),
+                                )),
+                          ),
+                          isDescriptionExpanded
+                              ? Container()
+                              : const SizedBox(
+                                  height: 16,
+                                ),
+                          isDescriptionExpanded
+                              ? Container()
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                        child: standardContainer(
+                                            child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'Start',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          (e.startDate != null
+                                              ? _dateFormat(e.startDate!)
+                                              : '-'),
+                                          style: const TextStyle(
+                                              color: themeColor3),
+                                        )
+                                      ],
+                                    ))),
+                                    const SizedBox(width: 16),
+                                    Expanded(
+                                        child: standardContainer(
+                                            child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text(
+                                          'End',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                          (e.endDate != null
+                                              ? _dateFormat(e.endDate!)
+                                              : '-'),
+                                          style: const TextStyle(
+                                              color: themeColor3),
+                                        )
+                                      ],
+                                    ))),
+                                  ],
+                                ),
+                          // isDescriptionExpanded
+                          //     ? Container()
+                          //     : const SizedBox(
+                          //         height: 16,
+                          //       ),
+                          isDescriptionExpanded
+                              ? Container()
+                              : acceptanceCriteria(),
+                          isDescriptionExpanded ? Container() : dots(),
+                          // isDescriptionExpanded
+                          //     ? Container()
+                          //     : const SizedBox(
+                          //         height: 12,
+                          //       ),
+                          isDescriptionExpanded
+                              ? Container()
+                              : Expanded(child: Container()),
+                          isDescriptionExpanded
+                              ? Container()
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    documentationButton(Icons.numbers),
+                                    documentationButton(Icons.notes),
+                                    documentationButton(Icons.gps_not_fixed),
+                                    documentationButton(
+                                        Icons.camera_alt_outlined),
+                                  ],
+                                ),
+                          isDescriptionExpanded
+                              ? Container()
+                              : const SizedBox(
+                                  height: 16,
+                                ),
+                          isDescriptionExpanded
+                              ? Container()
+                              : Container(
+                                  height: 55,
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1,
+                                          color: const Color.fromRGBO(
+                                              226, 232, 240, 1)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(16))),
+                                  child: const Center(
+                                      child: Text(
+                                    'End',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w500),
+                                  )),
+                                )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ),
+            );
+          }).toList()
+
+          //  Container(
+          //   margin: const EdgeInsets.only(bottom: 16),
+          //   child: Slidable(
+          //     key: const ValueKey(0),
+          //     closeOnScroll: true,
+          //     // The end action pane is the one at the right or the bottom side.
+          //     endActionPane: ActionPane(
+          //       motion: const ScrollMotion(),
+          //       children: [
+          //         Expanded(
+          //           child: GestureDetector(
+          //             onTap: editChallenge,
+          //             child: Container(
+          //               decoration: BoxDecoration(
+          //                   color: Colors.white,
+          //                   border: Border.all(
+          //                       width: 1,
+          //                       color: const Color.fromRGBO(226, 232, 240, 1)),
+          //                   borderRadius:
+          //                       const BorderRadius.all(Radius.circular(24))),
+          //               child: const Center(
+          //                   child: Column(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: [
+          //                   Icon(Icons.edit),
+          //                   SizedBox(
+          //                     height: 5,
+          //                   ),
+          //                   Text("Edit")
+          //                 ],
+          //               )),
+          //             ),
+          //           ),
+          //         ),
+          //         const SizedBox(
+          //           width: 20,
+          //         ),
+          //         Expanded(
+          //           child: GestureDetector(
+          //             onTap: deleteChallenge,
+          //             child: Container(
+          //               decoration: BoxDecoration(
+          //                   color: Colors.white,
+          //                   border: Border.all(
+          //                       width: 1,
+          //                       color: const Color.fromRGBO(226, 232, 240, 1)),
+          //                   borderRadius:
+          //                       const BorderRadius.all(Radius.circular(24))),
+          //               child: Center(
+          //                   child: Column(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: [
+          //                   Icon(
+          //                     Icons.delete,
+          //                     color: Colors.red.withAlpha(150),
+          //                   ),
+          //                   const SizedBox(
+          //                     height: 5,
+          //                   ),
+          //                   Text(
+          //                     "Delete",
+          //                     style: TextStyle(color: Colors.red.withAlpha(150)),
+          //                   )
+          //                 ],
+          //               )),
+          //             ),
+          //           ),
+          //         ),
+          //         const SizedBox(
+          //           width: 20,
+          //         ),
+          //       ],
+          //     ),
+          //     child: Builder(builder: (context) {
+          //       context2 = context;
+          //       return Center(
+          //         child: Container(
+          //           margin:
+          //               const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+          //           padding: const EdgeInsets.all(16),
+          //           width: double.infinity,
+          //           height: 120 + 8 * 64 + 2,
+          //           decoration: BoxDecoration(
+          //               color: Colors.white,
+          //               border: Border.all(
+          //                   width: 1,
+          //                   color: const Color.fromRGBO(226, 232, 240, 1)),
+          //               borderRadius:
+          //                   const BorderRadius.all(Radius.circular(24))),
+          //           // margin: EdgeInsets.only(bottom:16),
+          //           child: Column(
+          //             children: [
+          //               GestureDetector(
+          //                 onTap: onTapOpenMediaPage,
+          //                 child: Container(
+          //                   // TODO: on tap open media page
+          //                   width: double.infinity,
+          //                   height: 180,
+          //                   decoration: BoxDecoration(
+          //                       color: const Color.fromRGBO(241, 245, 249, 1),
+          //                       image: DecorationImage(
+          //                         image:
+          //                             AssetImage(e.thumbnailPath),
+          //                         fit: BoxFit.cover,
+          //                       ),
+          //                       borderRadius:
+          //                           const BorderRadius.all(Radius.circular(12))),
+          //                 ),
+          //               ),
+          //               const SizedBox(
+          //                 height: 16,
+          //               ),
+          //               GestureDetector(
+          //                 onTap: () => setState(() {
+          //                   isDescriptionExpanded = !isDescriptionExpanded;
+          //                 }),
+          //                 child: Container(
+          //                     width: double.infinity,
+          //                     height: isDescriptionExpanded ? 399 : 80,
+          //                     padding: const EdgeInsets.all(10),
+          //                     decoration: BoxDecoration(
+          //                         border: Border.all(
+          //                             width: 1,
+          //                             color:
+          //                                 const Color.fromRGBO(226, 232, 240, 1)),
+          //                         borderRadius: const BorderRadius.all(
+          //                             Radius.circular(16))),
+          //                     child: Text(
+          //                       e.description,
+          //                       overflow: TextOverflow.ellipsis,
+          //                       maxLines: isDescriptionExpanded ? 9999 : 4,
+          //                       textDirection: TextDirection.ltr,
+          //                       textAlign: TextAlign.justify,
+          //                       style: const TextStyle(
+          //                           fontSize: 12, color: themeColor3),
+          //                     )),
+          //               ),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : const SizedBox(
+          //                       height: 16,
+          //                     ),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : Row(
+          //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //                       children: [
+          //                         Expanded(
+          //                             child: standardContainer(
+          //                                 child: Row(
+          //                           mainAxisAlignment:
+          //                               MainAxisAlignment.spaceBetween,
+          //                           children: [
+          //                             const Text(
+          //                               'Start',
+          //                               style: TextStyle(
+          //                                   fontWeight: FontWeight.w500),
+          //                             ),
+          //                             Text(
+          //                               (e.startDate != null
+          //                                   ? _dateFormat(
+          //                                       e.startDate!)
+          //                                   : '-'),
+          //                               style:
+          //                                   const TextStyle(color: themeColor3),
+          //                             )
+          //                           ],
+          //                         ))),
+          //                         const SizedBox(width: 16),
+          //                         Expanded(
+          //                             child: standardContainer(
+          //                                 child: Row(
+          //                           mainAxisAlignment:
+          //                               MainAxisAlignment.spaceBetween,
+          //                           children: [
+          //                             const Text(
+          //                               'End',
+          //                               style: TextStyle(
+          //                                   fontWeight: FontWeight.w500),
+          //                             ),
+          //                             Text(
+          //                               (e.endDate != null
+          //                                   ? _dateFormat(
+          //                                       e.endDate!)
+          //                                   : '-'),
+          //                               style:
+          //                                   const TextStyle(color: themeColor3),
+          //                             )
+          //                           ],
+          //                         ))),
+          //                       ],
+          //                     ),
+          //               // isDescriptionExpanded
+          //               //     ? Container()
+          //               //     : const SizedBox(
+          //               //         height: 16,
+          //               //       ),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : acceptanceCriteria(),
+          //               isDescriptionExpanded ? Container() : dots(),
+          //               // isDescriptionExpanded
+          //               //     ? Container()
+          //               //     : const SizedBox(
+          //               //         height: 12,
+          //               //       ),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : Expanded(child: Container()),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : Row(
+          //                       mainAxisAlignment: MainAxisAlignment.center,
+          //                       children: [
+          //                         documentationButton(Icons.numbers),
+          //                         documentationButton(Icons.notes),
+          //                         documentationButton(Icons.gps_not_fixed),
+          //                         documentationButton(Icons.camera_alt_outlined),
+          //                       ],
+          //                     ),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : const SizedBox(
+          //                       height: 16,
+          //                     ),
+          //               isDescriptionExpanded
+          //                   ? Container()
+          //                   : Container(
+          //                       height: 55,
+          //                       width: double.infinity,
+          //                       decoration: BoxDecoration(
+          //                           border: Border.all(
+          //                               width: 1,
+          //                               color: const Color.fromRGBO(
+          //                                   226, 232, 240, 1)),
+          //                           borderRadius: const BorderRadius.all(
+          //                               Radius.circular(16))),
+          //                       child: const Center(
+          //                           child: Text(
+          //                         'End',
+          //                         style: TextStyle(fontWeight: FontWeight.w500),
+          //                       )),
+          //                     )
+          //             ],
+          //           ),
+          //         ),
+          //       );
+          //     }),
+          //   ),
+          // ),
           ),
-        );
-        }).toList()
-        
-        //  Container(
-        //   margin: const EdgeInsets.only(bottom: 16),
-        //   child: Slidable(
-        //     key: const ValueKey(0),
-        //     closeOnScroll: true,
-        //     // The end action pane is the one at the right or the bottom side.
-        //     endActionPane: ActionPane(
-        //       motion: const ScrollMotion(),
-        //       children: [
-        //         Expanded(
-        //           child: GestureDetector(
-        //             onTap: editChallenge,
-        //             child: Container(
-        //               decoration: BoxDecoration(
-        //                   color: Colors.white,
-        //                   border: Border.all(
-        //                       width: 1,
-        //                       color: const Color.fromRGBO(226, 232, 240, 1)),
-        //                   borderRadius:
-        //                       const BorderRadius.all(Radius.circular(24))),
-        //               child: const Center(
-        //                   child: Column(
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 children: [
-        //                   Icon(Icons.edit),
-        //                   SizedBox(
-        //                     height: 5,
-        //                   ),
-        //                   Text("Edit")
-        //                 ],
-        //               )),
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(
-        //           width: 20,
-        //         ),
-        //         Expanded(
-        //           child: GestureDetector(
-        //             onTap: deleteChallenge,
-        //             child: Container(
-        //               decoration: BoxDecoration(
-        //                   color: Colors.white,
-        //                   border: Border.all(
-        //                       width: 1,
-        //                       color: const Color.fromRGBO(226, 232, 240, 1)),
-        //                   borderRadius:
-        //                       const BorderRadius.all(Radius.circular(24))),
-        //               child: Center(
-        //                   child: Column(
-        //                 mainAxisAlignment: MainAxisAlignment.center,
-        //                 children: [
-        //                   Icon(
-        //                     Icons.delete,
-        //                     color: Colors.red.withAlpha(150),
-        //                   ),
-        //                   const SizedBox(
-        //                     height: 5,
-        //                   ),
-        //                   Text(
-        //                     "Delete",
-        //                     style: TextStyle(color: Colors.red.withAlpha(150)),
-        //                   )
-        //                 ],
-        //               )),
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(
-        //           width: 20,
-        //         ),
-        //       ],
-        //     ),
-        //     child: Builder(builder: (context) {
-        //       context2 = context;
-        //       return Center(
-        //         child: Container(
-        //           margin:
-        //               const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        //           padding: const EdgeInsets.all(16),
-        //           width: double.infinity,
-        //           height: 120 + 8 * 64 + 2,
-        //           decoration: BoxDecoration(
-        //               color: Colors.white,
-        //               border: Border.all(
-        //                   width: 1,
-        //                   color: const Color.fromRGBO(226, 232, 240, 1)),
-        //               borderRadius:
-        //                   const BorderRadius.all(Radius.circular(24))),
-        //           // margin: EdgeInsets.only(bottom:16),
-        //           child: Column(
-        //             children: [
-        //               GestureDetector(
-        //                 onTap: onTapOpenMediaPage,
-        //                 child: Container(
-        //                   // TODO: on tap open media page
-        //                   width: double.infinity,
-        //                   height: 180,
-        //                   decoration: BoxDecoration(
-        //                       color: const Color.fromRGBO(241, 245, 249, 1),
-        //                       image: DecorationImage(
-        //                         image:
-        //                             AssetImage(e.thumbnailPath),
-        //                         fit: BoxFit.cover,
-        //                       ),
-        //                       borderRadius:
-        //                           const BorderRadius.all(Radius.circular(12))),
-        //                 ),
-        //               ),
-        //               const SizedBox(
-        //                 height: 16,
-        //               ),
-        //               GestureDetector(
-        //                 onTap: () => setState(() {
-        //                   isDescriptionExpanded = !isDescriptionExpanded;
-        //                 }),
-        //                 child: Container(
-        //                     width: double.infinity,
-        //                     height: isDescriptionExpanded ? 399 : 80,
-        //                     padding: const EdgeInsets.all(10),
-        //                     decoration: BoxDecoration(
-        //                         border: Border.all(
-        //                             width: 1,
-        //                             color:
-        //                                 const Color.fromRGBO(226, 232, 240, 1)),
-        //                         borderRadius: const BorderRadius.all(
-        //                             Radius.circular(16))),
-        //                     child: Text(
-        //                       e.description,
-        //                       overflow: TextOverflow.ellipsis,
-        //                       maxLines: isDescriptionExpanded ? 9999 : 4,
-        //                       textDirection: TextDirection.ltr,
-        //                       textAlign: TextAlign.justify,
-        //                       style: const TextStyle(
-        //                           fontSize: 12, color: themeColor3),
-        //                     )),
-        //               ),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : const SizedBox(
-        //                       height: 16,
-        //                     ),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : Row(
-        //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //                       children: [
-        //                         Expanded(
-        //                             child: standardContainer(
-        //                                 child: Row(
-        //                           mainAxisAlignment:
-        //                               MainAxisAlignment.spaceBetween,
-        //                           children: [
-        //                             const Text(
-        //                               'Start',
-        //                               style: TextStyle(
-        //                                   fontWeight: FontWeight.w500),
-        //                             ),
-        //                             Text(
-        //                               (e.startDate != null
-        //                                   ? _dateFormat(
-        //                                       e.startDate!)
-        //                                   : '-'),
-        //                               style:
-        //                                   const TextStyle(color: themeColor3),
-        //                             )
-        //                           ],
-        //                         ))),
-        //                         const SizedBox(width: 16),
-        //                         Expanded(
-        //                             child: standardContainer(
-        //                                 child: Row(
-        //                           mainAxisAlignment:
-        //                               MainAxisAlignment.spaceBetween,
-        //                           children: [
-        //                             const Text(
-        //                               'End',
-        //                               style: TextStyle(
-        //                                   fontWeight: FontWeight.w500),
-        //                             ),
-        //                             Text(
-        //                               (e.endDate != null
-        //                                   ? _dateFormat(
-        //                                       e.endDate!)
-        //                                   : '-'),
-        //                               style:
-        //                                   const TextStyle(color: themeColor3),
-        //                             )
-        //                           ],
-        //                         ))),
-        //                       ],
-        //                     ),
-        //               // isDescriptionExpanded
-        //               //     ? Container()
-        //               //     : const SizedBox(
-        //               //         height: 16,
-        //               //       ),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : acceptanceCriteria(),
-        //               isDescriptionExpanded ? Container() : dots(),
-        //               // isDescriptionExpanded
-        //               //     ? Container()
-        //               //     : const SizedBox(
-        //               //         height: 12,
-        //               //       ),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : Expanded(child: Container()),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : Row(
-        //                       mainAxisAlignment: MainAxisAlignment.center,
-        //                       children: [
-        //                         documentationButton(Icons.numbers),
-        //                         documentationButton(Icons.notes),
-        //                         documentationButton(Icons.gps_not_fixed),
-        //                         documentationButton(Icons.camera_alt_outlined),
-        //                       ],
-        //                     ),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : const SizedBox(
-        //                       height: 16,
-        //                     ),
-        //               isDescriptionExpanded
-        //                   ? Container()
-        //                   : Container(
-        //                       height: 55,
-        //                       width: double.infinity,
-        //                       decoration: BoxDecoration(
-        //                           border: Border.all(
-        //                               width: 1,
-        //                               color: const Color.fromRGBO(
-        //                                   226, 232, 240, 1)),
-        //                           borderRadius: const BorderRadius.all(
-        //                               Radius.circular(16))),
-        //                       child: const Center(
-        //                           child: Text(
-        //                         'End',
-        //                         style: TextStyle(fontWeight: FontWeight.w500),
-        //                       )),
-        //                     )
-        //             ],
-        //           ),
-        //         ),
-        //       );
-        //     }),
-        //   ),
-        // ),
-      ),
     );
   }
 
@@ -564,18 +565,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   int selectedAcceptanceCriteria = 0;
   acceptanceCriteria() {
-    // return Container(
-    //   height: 100,
-    //   child: ListView.separated(
-    //     separatorBuilder: (context, index) => const SizedBox(
-    //       height: 16,
-    //     ),
-    //     itemCount: widget.challenge.acceptanceCriteria.length,
-    //     itemBuilder: (context, index) => singleAcceptanceCriteria(index),
-    //   ),
-    // );
-
-    return Container(
+    return SizedBox(
         // margin: EdgeInsets.only(top: 10),
         height: 55,
         // padding: const EdgeInsets.all(10),
@@ -594,64 +584,69 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   singleAcceptanceCriteria(int index) {
-    return Stack(
-      children: [
-        FractionallySizedBox(
-          widthFactor:
-              widget.challenge.acceptanceCriteria[index].progress / 100,
-          heightFactor: 1,
-          child: Container(
-            // width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                color: widget.challenge.status == ChallengStatus.failed
-                    ? Colors.red
-                    : Colors.green,
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
+    return GestureDetector(
+      onTap: () => onTapSingleAcceptanceCriteria(
+          widget.challenge.acceptanceCriteria[index]),
+      child: Stack(
+        children: [
+          FractionallySizedBox(
+            widthFactor:
+                widget.challenge.acceptanceCriteria[index].progress / 100,
+            heightFactor: 1,
+            child: Container(
+              // width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: widget.challenge.status == ChallengStatus.failed
+                      ? Colors.red
+                      : Colors.green,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+            ),
           ),
-        ),
-        Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Colors.white.withAlpha(170),
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Text(
-                    '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
+          Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.white.withAlpha(170),
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              child: Row(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Text(
+                      '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                      style: const TextStyle(fontSize: 12, color: themeColor3),
+                    ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Text(
-                    widget.challenge.acceptanceCriteria[index].frequence,
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Text(
+                      widget.challenge.acceptanceCriteria[index].frequence,
+                      style: const TextStyle(fontSize: 12, color: themeColor3),
+                    ),
                   ),
-                ),
-                Expanded(child: Container()),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
-                      borderRadius: BorderRadius.all(Radius.circular(12))),
-                  child: Icon(getIconData(index), color: themeColor3, size: 14),
-                ),
-              ],
-            ))
-      ],
+                  Expanded(child: Container()),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child:
+                        Icon(getIconData(index), color: themeColor3, size: 14),
+                  ),
+                ],
+              ))
+        ],
+      ),
     );
   }
 
@@ -723,6 +718,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void onTapOpenMediaPage() {
+    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
       PageRouteBuilder(
@@ -743,5 +739,33 @@ class _HomeChallengeState extends State<HomeChallenge> {
       currentTitle = challengeList[value].title;
       widget.challenge = challengeList[value];
     });
+  }
+
+  onTapSingleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) async {
+    // Ensure that plugin services are initialized so that `availableCameras()`
+// can be called before `runApp()`
+    WidgetsFlutterBinding.ensureInitialized();
+
+// Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+
+// Get a specific camera from the list of available cameras.
+    final firstCamera = cameras[0];
+
+    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => MediaCamera(
+          camera: firstCamera,
+          preTitle: '${widget.preTitle}/${widget.challenge.title}',
+          mediaList: widget.challenge.media,
+        ),
+      ),
+    ).then((_) => setState(() {
+          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        }));
   }
 }
