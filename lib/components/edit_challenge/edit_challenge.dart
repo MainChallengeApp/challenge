@@ -2,6 +2,7 @@
 
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/edit_challenge/date_picker.dart';
+import 'package:challenge/jsonFileController/challenge_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -54,6 +55,8 @@ class EditChallenge extends StatefulWidget {
 class _EditChallengeState extends State<EditChallenge> {
   bool isDescriptionExpanded = false;
   int selectedAcceptanceCriteria = 0;
+
+  ChallengeController challengeController = ChallengeController();
 
   @override
   Widget build(BuildContext context) {
@@ -470,6 +473,10 @@ class _EditChallengeState extends State<EditChallenge> {
     widget.challenge.endDate = widget.editChallenge.endDate;
     widget.challenge.acceptanceCriteria =
         widget.editChallenge.acceptanceCriteria;
+
+    challengeList.insert(0, widget.challenge);
+    challengeController.writeFile(context, challengeList);
+
     Navigator.pop(context);
   }
 

@@ -5,6 +5,7 @@ import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/media/media_camera.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/jsonFileController/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -35,6 +36,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   late PageController pageController =
       PageController(initialPage: widget.initialChalleneIndex);
+
+  ChallengeController challengeController = ChallengeController();
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +152,10 @@ class _HomeChallengeState extends State<HomeChallenge> {
                               height: 180,
                               decoration: BoxDecoration(
                                   color: const Color.fromRGBO(241, 245, 249, 1),
-                                  image: DecorationImage(
+                                  image: e.thumbnailPath != '' ? DecorationImage(
                                     image: AssetImage(e.thumbnailPath),
                                     fit: BoxFit.cover,
-                                  ),
+                                  ) : null,
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(12))),
                             ),
@@ -477,6 +480,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void deleteChallenge() {
+    challengeList.remove(widget.challenge);
+    challengeController.writeFile(context, challengeList);
+
     Slidable.of(context2)?.close();
     Navigator.pop(context);
     // Todo: delete Challenge

@@ -20,12 +20,13 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
       this.tapOnNewChallenge,
       required this.challenge,
       required this.mediaList,
-      required this.acceptanceCriteria});
+      required this.acceptanceCriteria, this.evidence});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge challenge;
   final List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
+  final Evidence? evidence;
 
   @override
   State<AcceptanceCriteriaMediaList> createState() =>
@@ -76,7 +77,7 @@ class _AcceptanceCriteriaMediaListState
                 itemBuilder: (BuildContext content, int index) {
                   if (index == 0) {
                     return ListItemAcceptanceCriteriaBar(
-                        acceptanceCriteria: widget.acceptanceCriteria, initialProgress: widget.acceptanceCriteria.progress,);
+                        acceptanceCriteria: widget.acceptanceCriteria, initialProgress: widget.evidence?.progress ?? widget.acceptanceCriteria.progress,isProgressBarLocked: widget.acceptanceCriteria.evidences.contains(widget.evidence),);
                   }
                   if (index == 1) {
                     return ListItemIconSmall(
@@ -140,6 +141,11 @@ class _AcceptanceCriteriaMediaListState
           Evidence(progress: widget.acceptanceCriteria.progress, mediaIds: widget.mediaList.map((e) => e.id).toList())
         );
 
+        Navigator.pop(context);
+        Navigator.pop(context);
+
+        context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+
         Navigator.push(
           context,
           PageRouteBuilder(
@@ -153,7 +159,7 @@ class _AcceptanceCriteriaMediaListState
               challenge: widget.challenge,
             ),
           ),
-        ).then((_) => setState(() {}));
+        );
       },
       child: Align(
         alignment: Alignment.bottomCenter,

@@ -8,6 +8,7 @@ import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/design_provider.dart';
+import 'acceptance_criteria_media_list.dart';
 
 class AcceptanceCriteriaEvidenceList extends StatefulWidget {
   const AcceptanceCriteriaEvidenceList(
@@ -74,11 +75,14 @@ class _AcceptanceCriteriaEvidenceListState
                     return Container();
                   }
 
-                  return ListItemAcceptanceCriteriaBar(
-                    acceptanceCriteria: widget.acceptanceCriteria,
-                    isProgressBarLocked: true,
-                    initialProgress:
-                        widget.acceptanceCriteria.evidences[index].progress,
+                  return GestureDetector(
+                    onTap: () => onTapEvidence(widget.acceptanceCriteria.evidences[index]),
+                    child: ListItemAcceptanceCriteriaBar(
+                      acceptanceCriteria: widget.acceptanceCriteria,
+                      isProgressBarLocked: true,
+                      initialProgress:
+                          widget.acceptanceCriteria.evidences[index].progress,
+                    ),
                   );
                 });
           } else {
@@ -136,5 +140,23 @@ class _AcceptanceCriteriaEvidenceListState
         ),
       ),
     );
+  }
+  
+  onTapEvidence(Evidence evidence) {
+    Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+              pageBuilder: (context, animation1, animation2) =>
+                  AcceptanceCriteriaMediaList(
+                preTitle: widget.preTitle,
+                mediaList: widget.challenge.media.where((element) => evidence.mediaIds.contains(element.id)).toList(),
+                acceptanceCriteria: widget.acceptanceCriteria,
+                challenge: widget.challenge,
+                evidence: evidence,
+              ),
+            ),
+          ).then((_) => setState(() {}));
   }
 }

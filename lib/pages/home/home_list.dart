@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:challenge/components/edit_challenge/edit_challenge.dart';
+import 'package:challenge/jsonFileController/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -21,17 +23,19 @@ class HomeList extends StatefulWidget {
 
 class _HomeListState extends State<HomeList> {
   late Future<List<Challenge>> challengesFutures;
+  ChallengeController challengeController = ChallengeController();
 
   String searchBarText = "";
 
   @override
   void initState() {
     super.initState();
-    challengesFutures = getChallenges(context);
+    challengesFutures = challengeController.readFile(context); //getChallenges(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    challengesFutures = challengeController.readFile(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -90,7 +94,7 @@ class _HomeListState extends State<HomeList> {
                   }
                   if (index == 1) {
                     return ListItemIconSmall(
-                      onTap: () => widget.tapOnNewChallenge!.call(),
+                      onTap: () => tapOnNewChallenge(),
                       icon: Icons.add,
                       title: "New Challenge",
                     );
@@ -136,6 +140,22 @@ class _HomeListState extends State<HomeList> {
         pageBuilder: (context, animation1, animation2) =>
             HomeChallenge(preTitle: widget.title, challenge: challenge, initialChalleneIndex: index),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) => setState(() {
+    }));
+  }
+  
+  tapOnNewChallenge() {
+    final Challenge challenge = Challenge(id: challengeList.length, status: ChallengStatus.backlog, title: '', description: '', thumbnailPath: '', startDate: DateTime.now(), endDate: DateTime.now(), acceptanceCriteria: [], media: []);
+
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            EditChallenge(title: widget.title, challenge: challenge),
+      ),
+    ).then((_) => setState(() {
+    }));
   }
 }

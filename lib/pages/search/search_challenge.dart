@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/jsonFileController/challenge_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -229,7 +230,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                               isDescriptionExpanded
                                   ? Container()
                                   : GestureDetector(
-                                      onTap: onTapSave,
+                                      onTap: onTapAccept,
                                       child: Container(
                                         height: 55,
                                         width: double.infinity,
@@ -353,12 +354,14 @@ class _SearchChallengeState extends State<SearchChallenge> {
     }
   }
 
-  void onTapSave() async {
+  void onTapAccept() async {
 
+    ChallengeController challengeController = ChallengeController();
+    challengeList.insert(0, widget.challenge);
+    await challengeController.writeFile(context, challengeList);
 
     widget.selectTab(TabItem.Home);
     Navigator.pop(context);
-    challengeList.insert(0, widget.challenge);
 
     // ignore: use_build_context_synchronously
     var homeNavigator = navigatorKeys[TabItem.Home]!.currentState!;

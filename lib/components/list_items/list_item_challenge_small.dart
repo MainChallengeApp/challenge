@@ -29,10 +29,12 @@ class ListItemChallengeSmall extends StatelessWidget {
                 height: 40,
                 decoration: BoxDecoration(
                     color: const Color.fromRGBO(241, 245, 249, 1),
-                    image: DecorationImage(
-                      image: AssetImage(challenge.thumbnailPath),
-                      fit: BoxFit.cover,
-                    ),
+                    image: challenge.thumbnailPath != ''
+                        ? DecorationImage(
+                            image: AssetImage(challenge.thumbnailPath),
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                     borderRadius: const BorderRadius.all(Radius.circular(12))),
                 margin: const EdgeInsets.all(12),
               ),

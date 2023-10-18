@@ -15,8 +15,8 @@ class Challenge {
       required this.title,
       required this.description,
       required this.thumbnailPath,
-      required this.startDate,
-      required this.endDate,
+      this.startDate,
+      this.endDate,
       required this.acceptanceCriteria,
       required this.media});
 
@@ -26,11 +26,25 @@ class Challenge {
       title: json['title'],
       description: json['description'],
       thumbnailPath: json['thumbnailPath'],
-      startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
+      startDate: json['startDate'] != null ? DateTime.parse(json['startDate']) : null,
+      endDate: json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
       acceptanceCriteria:
           AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']),
       media: Media.fromJsonList(json['media']));
+
+  Map<String, dynamic> toJson() {
+  return {
+    'id': id,
+    'status': status.toString(),
+    'title': title,
+    'description': description,
+    'thumbnailPath': thumbnailPath,
+    'startDate': startDate.toString(),
+    'endDate': endDate.toString(),
+    'acceptanceCriteria': AcceptanceCriteria.toJsonList(acceptanceCriteria),
+    'media': Media.toJsonList(media)
+  };
+}
 }
 
 class Media {
@@ -46,6 +60,15 @@ class Media {
     json?.forEach((e) => list
         .add(Media(type: e['type'], title: e['title'], source: e['source'], id: e['id']) ));
     return list;
+  }
+  
+  static toJsonList(List<Media> media) {
+    return media.map((e) => {
+      'id': e.id,
+      'type': e.type,
+      'title': e.title,
+      'source': e.source
+    }).toList();
   }
 }
 
@@ -73,6 +96,16 @@ class AcceptanceCriteria {
         evidences: Evidence.fromJsonList(e['evidences']))));
     return list;
   }
+  
+  static toJsonList(List<AcceptanceCriteria> acceptanceCriteria) {
+    return acceptanceCriteria.map((e) => {
+      'activity': Activity.toJson(e.activity),
+      'frequence': e.frequence,
+      'tracking': e.tracking,
+      'progress': e.progress,
+      'evidences': Evidence.toJsonList(e.evidences)
+    }).toList();
+  }
 }
 
 class Evidence {
@@ -87,6 +120,13 @@ class Evidence {
         list.add(Evidence(progress: e['progress'], mediaIds: List.from(e['mediaIds']) )));
     return list;
   }
+  
+  static toJsonList(List<Evidence> evidences) {
+    return evidences.map((e) => {
+      'progress': e.progress,
+      'mediaIds': e.mediaIds
+    }).toList();
+  }
 }
 
 class Activity {
@@ -98,6 +138,14 @@ class Activity {
 
   static fromJson(json) => Activity(
       title: json['title'], amount: json['amount'], unit: json['unit']);
+      
+  static toJson(Activity activity) {
+    return {
+      'title': activity.title,
+      'amount': activity.amount,
+      'unit': activity.unit
+    };
+  }
 }
 
 enum ChallengStatus {
