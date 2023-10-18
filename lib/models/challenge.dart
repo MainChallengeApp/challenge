@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Challenge {
   int? id;
   ChallengStatus? status;
@@ -34,18 +36,17 @@ class Challenge {
 }
 
 class Media {
+  int id;
   String type;
   String title;
   String source;
 
-  Media({required this.type, required this.title, required this.source});
+  Media({required this.id, required this.type, required this.title, required this.source});
 
   static fromJsonList(json) {
     List<Media> list = [];
-    json?.forEach((e) => list.add(Media(
-        type: e['type'],
-        title: e['title'],
-        source: e['source'])));
+    json?.forEach((e) => list
+        .add(Media(type: e['type'], title: e['title'], source: e['source'], id: e['id']) ));
     return list;
   }
 }
@@ -55,18 +56,14 @@ class AcceptanceCriteria {
   String frequence;
   String tracking;
   int progress;
+  List<Evidence> evidences;
 
   AcceptanceCriteria(
       {required this.activity,
       required this.frequence,
       required this.tracking,
-      required this.progress});
-
-  static AcceptanceCriteria fromJson(json) => AcceptanceCriteria(
-      activity: json['activity'],
-      frequence: json['frequence'],
-      tracking: json['tracking'],
-      progress: json['progress']);
+      required this.progress,
+      required this.evidences});
 
   static List<AcceptanceCriteria> fromJsonList(json) {
     List<AcceptanceCriteria> list = [];
@@ -74,7 +71,22 @@ class AcceptanceCriteria {
         activity: Activity.fromJson(e['activity']),
         frequence: e['frequence'],
         tracking: e['tracking'],
-        progress: e['progress'])));
+        progress: e['progress'],
+        evidences: Evidence.fromJsonList(e['evidences']))));
+    return list;
+  }
+}
+
+class Evidence {
+  int progress;
+  List<int> mediaIds;
+
+  Evidence({required this.progress, required this.mediaIds});
+
+  static fromJsonList(json) {
+    List<Evidence> list = [];
+    json?.forEach((e) =>
+        list.add(Evidence(progress: e['progress'], mediaIds: List.from(e['mediaIds']) )));
     return list;
   }
 }

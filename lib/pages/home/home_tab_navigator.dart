@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
-import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:challenge/pages/home/home_list.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';

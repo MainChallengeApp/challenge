@@ -47,7 +47,7 @@ class EditChallenge extends StatefulWidget {
               unit: e.activity.unit),
           frequence: e.frequence,
           tracking: e.tracking,
-          progress: e.progress));
+          progress: e.progress, evidences: e.evidences));
     });
     return acceptanceCriteriaList;
   }
@@ -455,7 +455,7 @@ class _EditChallengeState extends State<EditChallenge> {
               activity: Activity(title: '', amount: 0, unit: ''),
               frequence: '',
               tracking: '',
-              progress: 0),
+              progress: 0, evidences: []),
           acceptanceCriteriaIndex: null,
         ),
       ),

@@ -12,27 +12,27 @@ import 'package:provider/provider.dart';
 
 import '../../providers/design_provider.dart';
 
-class AcceptanceCriteriaDataList extends StatefulWidget {
-  const AcceptanceCriteriaDataList(
+class AcceptanceCriteriaMediaList extends StatefulWidget {
+  const AcceptanceCriteriaMediaList(
       {super.key,
       required this.preTitle,
       this.tapOnNewChallenge,
-      this.challenge,
+      required this.challenge,
       required this.mediaList,
       required this.acceptanceCriteria});
   final String preTitle;
   final Function? tapOnNewChallenge;
-  final Challenge? challenge;
+  final Challenge challenge;
   final List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
 
   @override
-  State<AcceptanceCriteriaDataList> createState() =>
-      _AcceptanceCriteriaDataListState();
+  State<AcceptanceCriteriaMediaList> createState() =>
+      _AcceptanceCriteriaMediaListState();
 }
 
-class _AcceptanceCriteriaDataListState
-    extends State<AcceptanceCriteriaDataList> {
+class _AcceptanceCriteriaMediaListState
+    extends State<AcceptanceCriteriaMediaList> {
   late Future<List<Challenge>> challengesFutures;
 
   String searchBarText = "";
@@ -129,10 +129,15 @@ class _AcceptanceCriteriaDataListState
   button() {
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context);
-        Navigator.pop(context);
+        // Navigator.pop(context);
+        // Navigator.pop(context);
 
-        context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+        // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+
+        widget.acceptanceCriteria.evidences.add(
+          Evidence(progress: widget.acceptanceCriteria.progress, mediaIds: widget.mediaList.map((e) => e.id).toList())
+        );
+
         Navigator.push(
           context,
           PageRouteBuilder(
@@ -143,6 +148,7 @@ class _AcceptanceCriteriaDataListState
               preTitle: widget.preTitle,
               mediaList: widget.mediaList,
               acceptanceCriteria: widget.acceptanceCriteria,
+              challenge: widget.challenge,
             ),
           ),
         ).then((_) => setState(() {}));

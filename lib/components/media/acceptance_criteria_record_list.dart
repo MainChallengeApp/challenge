@@ -13,10 +13,10 @@ import '../../providers/design_provider.dart';
 
 class AcceptanceCriteriaRecordList extends StatefulWidget {
   const AcceptanceCriteriaRecordList(
-      {super.key, required this.preTitle, this.tapOnNewChallenge, this.challenge, required this.mediaList, required this.acceptanceCriteria});
+      {super.key, required this.preTitle, this.tapOnNewChallenge,required this.challenge, required this.mediaList, required this.acceptanceCriteria});
   final String preTitle;
   final Function? tapOnNewChallenge;
-  final Challenge? challenge;
+  final Challenge challenge;
   final List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
 
@@ -58,31 +58,15 @@ class _AcceptanceCriteriaRecordListState extends State<AcceptanceCriteriaRecordL
                 .toList();
 
             return ListView.separated(
-                itemCount: widget.mediaList.length +
-                    1 +
-                    1 +
+                itemCount: widget.challenge.acceptanceCriteria.length +
                     1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 17,
                     ),
                 itemBuilder: (BuildContext content, int index) {
-                  if (index == 0) {
-                    return ListItemAcceptanceCriteriaBar(acceptanceCriteria: widget.acceptanceCriteria);
-                  }
-                  if (index == 1) {
-                    return ListItemIconSmall(
-                      onTap: () => widget.tapOnNewChallenge!.call(),
-                      icon: Icons.add,
-                      title: "Upload Media",
-                    );
-                  }
-                  if (index == widget.mediaList.length + 1 + 1) {
-                    return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  }
-                  return ListItemMediaSmall(
-                    onTap: () => ppush(context, index: index-1-1),
-                    media: widget.mediaList[index - 1 - 1],
-                  );
+                  if(index == widget.mediaList.length) return Container();
+
+                  return ListItemAcceptanceCriteriaBar(acceptanceCriteria: widget.acceptanceCriteria);
                 });
           } else {
             return const Text('Error with loading data...');

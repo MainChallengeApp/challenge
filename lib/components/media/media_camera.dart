@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:challenge/components/media/acceptance_criteria_data_list.dart';
+import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +13,14 @@ class MediaCamera extends StatefulWidget {
     super.key,
     required this.camera,
     required this.preTitle,
-    required this.mediaList, required this.acceptanceCriteria,
+    required this.mediaList, required this.acceptanceCriteria, required this.challenge,
   });
 
-  final CameraDescription camera;
+  final CameraDescription? camera;
   final String preTitle;
   final List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
+  final Challenge challenge;
 
   @override
   State<MediaCamera> createState() => _CameraStateMedia();
@@ -38,7 +39,7 @@ class _CameraStateMedia extends State<MediaCamera> {
     // create a CameraController.
     _controller = CameraController(
       // Get a specific camera from the list of available cameras.
-      widget.camera,
+      widget.camera!,
       // Define the resolution to use.
       ResolutionPreset.medium,
     );
@@ -65,12 +66,12 @@ class _CameraStateMedia extends State<MediaCamera> {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
           return Stack(children: [
-            Transform.scale(
+            widget.camera != null ? Transform.scale(
               scale: deviceRatio,
               child: Center(
                 child: CameraPreview(_controller),
               ),
-            ),
+            ) : const Center(child: Text('No camera found'),),
             CustomeAppBar.build(
                 preTitle: widget.preTitle,
                 title: 'Camera',
@@ -124,12 +125,12 @@ class _CameraStateMedia extends State<MediaCamera> {
             widget.mediaList.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
-                source: image.path));
+                source: image.path, id: widget.mediaList.length));
 
             currentMedia.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
-                source: image.path));
+                source: image.path, id: widget.mediaList.length));
           });
 
           // // If the picture was taken, display it on a new screen.
@@ -201,7 +202,7 @@ class _CameraStateMedia extends State<MediaCamera> {
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => AcceptanceCriteriaDataList(preTitle: widget.preTitle, mediaList: currentMedia, acceptanceCriteria: widget.acceptanceCriteria,),
+        pageBuilder: (context, animation1, animation2) => AcceptanceCriteriaMediaList(preTitle: widget.preTitle, mediaList: currentMedia, acceptanceCriteria: widget.acceptanceCriteria, challenge: widget.challenge,),
       ),
     ).then((_) => setState(() {}));
       },

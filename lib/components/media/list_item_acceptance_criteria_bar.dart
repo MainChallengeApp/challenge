@@ -14,7 +14,10 @@ class ListItemAcceptanceCriteriaBar extends StatefulWidget {
             unit: acceptanceCriteria.activity.unit),
         frequence: acceptanceCriteria.frequence,
         tracking: acceptanceCriteria.tracking,
-        progress: acceptanceCriteria.progress);
+        progress: acceptanceCriteria.progress,
+        evidences: acceptanceCriteria.evidences
+            .map((e) => Evidence(progress: e.progress, mediaIds: e.mediaIds))
+            .toList());
   }
 
   final AcceptanceCriteria acceptanceCriteria;
@@ -54,7 +57,7 @@ class _ListItemAcceptanceCriteriaBarState
     return Stack(
       children: [
         FractionallySizedBox(
-          widthFactor: widget.editAcceptanceCriteria.progress / 100,
+          widthFactor: widget.acceptanceCriteria.progress / 100,
           heightFactor: 1,
           child: Container(
             width: 40,
@@ -67,14 +70,16 @@ class _ListItemAcceptanceCriteriaBarState
         GestureDetector(
           onHorizontalDragUpdate: (details) {
             setState(() {
-              widget.editAcceptanceCriteria.progress = 
+              widget.acceptanceCriteria.progress =
                   (details.localPosition.dx / 350 * 100).round();
-              if(widget.editAcceptanceCriteria.progress > 100){
-                widget.editAcceptanceCriteria.progress = 100;
-              } else if(widget.editAcceptanceCriteria.progress <= widget.acceptanceCriteria.progress ){
-                widget.editAcceptanceCriteria.progress = widget.acceptanceCriteria.progress;
-              } else if(widget.editAcceptanceCriteria.progress <= 0 ){
-                widget.editAcceptanceCriteria.progress = 0;
+              if (widget.acceptanceCriteria.progress > 100) {
+                widget.acceptanceCriteria.progress = 100;
+              } else if (widget.acceptanceCriteria.progress <=
+                  widget.acceptanceCriteria.progress) {
+                widget.acceptanceCriteria.progress =
+                    widget.acceptanceCriteria.progress;
+              } else if (widget.acceptanceCriteria.progress <= 0) {
+                widget.acceptanceCriteria.progress = 0;
               }
             });
           },
@@ -95,7 +100,7 @@ class _ListItemAcceptanceCriteriaBarState
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      '${widget.editAcceptanceCriteria.progress}%',
+                      '${widget.acceptanceCriteria.progress}%',
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     ),
                   ),

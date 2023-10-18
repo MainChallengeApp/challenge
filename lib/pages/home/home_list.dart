@@ -102,7 +102,7 @@ class _HomeListState extends State<HomeList> {
                       1 -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => ppush(context, challenge: challenge, index: index - 1 - 1),
+                    onTap: () => ppush(context, challenge: challenge, index: index - 1 -1),
                     challenge: challenge,
                   );
                 });

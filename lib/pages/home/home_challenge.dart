@@ -759,7 +759,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     final cameras = await availableCameras();
 
 // Get a specific camera from the list of available cameras.
-    final firstCamera = cameras[0];
+    final firstCamera = cameras.isNotEmpty ? cameras[0] : null;
 
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
@@ -771,7 +771,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
             camera: firstCamera,
             preTitle: '${widget.preTitle}/${widget.challenge.title}',
             mediaList: widget.challenge.media,
-            acceptanceCriteria: acceptanceCriteria),
+            acceptanceCriteria: acceptanceCriteria, challenge: widget.challenge,),
       ),
     ).then((_) => setState(() {
           context.read<DesignProvider>().setIsBottomNavBarVisible(true);

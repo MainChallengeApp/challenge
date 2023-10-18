@@ -1,4 +1,4 @@
-[   
+[
     {
         "id": 0,
         "status": "Failed",
@@ -7,25 +7,36 @@
         "thumbnailPath": "assets/images/thumbnail2.png",
         "startDate": "2023-04-28",
         "endDate": "2023-04-29",
-        "acceptanceCriteria" : [
+        "acceptanceCriteria": [
             {
-                "activity" : {
+                "activity": {
                     "title": "march",
                     "amount": 100.0,
                     "unit": "Km"
                 },
-                "frequence" : "once",
-                "tracking" : "gps",
-                "progress": 99
+                "frequence": "once",
+                "tracking": "gps",
+                "progress": 99,
+                "evidences": [
+                    {
+                        "progress": 50,
+                        "mediaIds": [
+                            0,
+                            1
+                        ]
+                    }
+                ]
             }
         ],
-        "media" : [
+        "media": [
             {
+                "id": 0,
                 "type": "image",
                 "title": "thumbnail",
                 "source": "assets/images/thumbnail2.png"
             },
             {
+                "id": 1,
                 "type": "image",
                 "title": "sprint",
                 "source": "assets/images/thumbnail.png"
@@ -40,40 +51,65 @@
         "thumbnailPath": "assets/images/thumbnail.png",
         "startDate": "2023-10-31",
         "endDate": "2023-11-30",
-        "acceptanceCriteria" : [
+        "acceptanceCriteria": [
             {
-                "activity" : {
+                "activity": {
                     "title": "Run",
                     "amount": 1.0,
                     "unit": "Km"
                 },
-                "frequence" : "every day",
-                "tracking" : "camera",
-                "progress": 85
+                "frequence": "every day",
+                "tracking": "camera",
+                "progress": 85,
+                "evidences": [
+                    {
+                        "progress": 25,
+                        "mediaIds": [
+                            0
+                        ]
+                    }
+                ]
             },
             {
-                "activity" : {
+                "activity": {
                     "title": "Run",
                     "amount": 1.0,
                     "unit": "Km"
                 },
-                "frequence" : "every day",
-                "tracking" : "camera",
-                "progress": 85
+                "frequence": "every day",
+                "tracking": "camera",
+                "progress": 85,
+                "evidences": [
+                    {
+                        "progress": 25,
+                        "mediaIds": [
+                            0
+                        ]
+                    }
+                ]
             },
             {
-                "activity" : {
+                "activity": {
                     "title": "Run",
                     "amount": 1.0,
                     "unit": "Km"
                 },
-                "frequence" : "every day",
-                "tracking" : "camera",
-                "progress": 85
+                "frequence": "every day",
+                "tracking": "camera",
+                "progress": 85,
+                "evidences": [
+                    {
+                        "progress": 25,
+                        "mediaIds": [
+                            0
+                        ]
+                    }
+                ]
             }
         ],
-        "media" : [
+        "media": [
             {
+                "id": 0,
                 "type": "image",
                 "title": "thumbnail",
                 "source": "assets/images/thumbnail.png"
@@ -88,20 +124,29 @@
         "thumbnailPath": "assets/images/thumbnail.png",
         "startDate": "2023-10-31",
         "endDate": "2023-11-30",
-        "acceptanceCriteria" : [
+        "acceptanceCriteria": [
             {
-                "activity" : {
+                "activity": {
                     "title": "Run",
                     "amount": 1.0,
                     "unit": "Km"
                 },
-                "frequence" : "every day",
-                "tracking" : "camera",
-                "progress": 85
+                "frequence": "every day",
+                "tracking": "camera",
+                "progress": 85,
+                "evidences": [
+                    {
+                        "progress": 25,
+                        "mediaIds": [
+                            0
+                        ]
+                    }
+                ]
             }
         ],
-        "media" : [
+        "media": [
             {
+                "id": 0,
                 "type": "image",
                 "title": "thumbnail",
                 "source": "assets/images/thumbnail.png"
@@ -116,20 +161,29 @@
         "thumbnailPath": "assets/images/thumbnail.png",
         "startDate": "2023-10-31",
         "endDate": "2023-11-30",
-        "acceptanceCriteria" : [
+        "acceptanceCriteria": [
             {
-                "activity" : {
+                "activity": {
                     "title": "Run",
                     "amount": 1.0,
                     "unit": "Km"
                 },
-                "frequence" : "every day",
-                "tracking" : "camera",
-                "progress": 85
+                "frequence": "every day",
+                "tracking": "camera",
+                "progress": 85,
+                "evidences": [
+                    {
+                        "progress": 25,
+                        "mediaIds": [
+                            0
+                        ]
+                    }
+                ]
             }
         ],
-        "media" : [
+        "media": [
             {
+                "id": 0,
                 "type": "image",
                 "title": "thumbnail",
                 "source": "assets/images/thumbnail.png"
