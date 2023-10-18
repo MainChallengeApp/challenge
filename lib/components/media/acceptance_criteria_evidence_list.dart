@@ -1,19 +1,22 @@
 import 'dart:convert';
 
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
-import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/design_provider.dart';
 
-class AcceptanceCriteriaRecordList extends StatefulWidget {
-  const AcceptanceCriteriaRecordList(
-      {super.key, required this.preTitle, this.tapOnNewChallenge,required this.challenge, required this.mediaList, required this.acceptanceCriteria});
+class AcceptanceCriteriaEvidenceList extends StatefulWidget {
+  const AcceptanceCriteriaEvidenceList(
+      {super.key,
+      required this.preTitle,
+      this.tapOnNewChallenge,
+      required this.challenge,
+      required this.mediaList,
+      required this.acceptanceCriteria});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge challenge;
@@ -21,10 +24,12 @@ class AcceptanceCriteriaRecordList extends StatefulWidget {
   final AcceptanceCriteria acceptanceCriteria;
 
   @override
-  State<AcceptanceCriteriaRecordList> createState() => _AcceptanceCriteriaRecordListState();
+  State<AcceptanceCriteriaEvidenceList> createState() =>
+      _AcceptanceCriteriaEvidenceListState();
 }
 
-class _AcceptanceCriteriaRecordListState extends State<AcceptanceCriteriaRecordList> {
+class _AcceptanceCriteriaEvidenceListState
+    extends State<AcceptanceCriteriaEvidenceList> {
   late Future<List<Challenge>> challengesFutures;
 
   String searchBarText = "";
@@ -39,6 +44,7 @@ class _AcceptanceCriteriaRecordListState extends State<AcceptanceCriteriaRecordL
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
             _buildList(),
@@ -58,15 +64,22 @@ class _AcceptanceCriteriaRecordListState extends State<AcceptanceCriteriaRecordL
                 .toList();
 
             return ListView.separated(
-                itemCount: widget.challenge.acceptanceCriteria.length +
+                itemCount: widget.acceptanceCriteria.evidences.length +
                     1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
                 separatorBuilder: (context, index) => const SizedBox(
                       height: 17,
                     ),
                 itemBuilder: (BuildContext content, int index) {
-                  if(index == widget.mediaList.length) return Container();
+                  if (index == widget.acceptanceCriteria.evidences.length) {
+                    return Container();
+                  }
 
-                  return ListItemAcceptanceCriteriaBar(acceptanceCriteria: widget.acceptanceCriteria);
+                  return ListItemAcceptanceCriteriaBar(
+                    acceptanceCriteria: widget.acceptanceCriteria,
+                    isProgressBarLocked: true,
+                    initialProgress:
+                        widget.acceptanceCriteria.evidences[index].progress,
+                  );
                 });
           } else {
             return const Text('Error with loading data...');
@@ -101,31 +114,27 @@ class _AcceptanceCriteriaRecordListState extends State<AcceptanceCriteriaRecordL
     //   ),
     // ).then((_) => setState(() {}));
   }
-  
+
   button() {
     return GestureDetector(
-                onTap: () {
-                  
-                },
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    height: 55,
-                    margin: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: themeColor2,
-                        border: Border.all(
-                            width: 1,
-                            color: const Color.fromRGBO(226, 232, 240, 1)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16))),
-                    child: const Center(
-                        child: Text('Save',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    )),
-                  ),
-                ),
-              );
+      onTap: () {},
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: 55,
+          margin: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: themeColor2,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: const Center(
+              child: Text(
+            'Save',
+            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+          )),
+        ),
+      ),
+    );
   }
 }

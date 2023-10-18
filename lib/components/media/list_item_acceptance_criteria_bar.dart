@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import '../../globals.dart';
 
 class ListItemAcceptanceCriteriaBar extends StatefulWidget {
-  ListItemAcceptanceCriteriaBar({super.key, required this.acceptanceCriteria}) {
+  ListItemAcceptanceCriteriaBar(
+      {super.key,
+      required this.acceptanceCriteria,
+      this.isProgressBarLocked = false,
+      this.initialProgress = 0}) {
     editAcceptanceCriteria = AcceptanceCriteria(
         activity: Activity(
             title: acceptanceCriteria.activity.title,
@@ -14,7 +18,7 @@ class ListItemAcceptanceCriteriaBar extends StatefulWidget {
             unit: acceptanceCriteria.activity.unit),
         frequence: acceptanceCriteria.frequence,
         tracking: acceptanceCriteria.tracking,
-        progress: acceptanceCriteria.progress,
+        progress: initialProgress,
         evidences: acceptanceCriteria.evidences
             .map((e) => Evidence(progress: e.progress, mediaIds: e.mediaIds))
             .toList());
@@ -22,6 +26,8 @@ class ListItemAcceptanceCriteriaBar extends StatefulWidget {
 
   final AcceptanceCriteria acceptanceCriteria;
   late AcceptanceCriteria editAcceptanceCriteria;
+  final bool isProgressBarLocked;
+  final int initialProgress;
 
   @override
   State<ListItemAcceptanceCriteriaBar> createState() =>
@@ -34,7 +40,12 @@ class _ListItemAcceptanceCriteriaBarState
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.editAcceptanceCriteria.progress = widget.acceptanceCriteria.progress;
+    if (widget.initialProgress != 0) {
+      widget.editAcceptanceCriteria.progress = widget.initialProgress;
+    } else {
+      widget.editAcceptanceCriteria.progress =
+          widget.acceptanceCriteria.progress;
+    }
   }
 
   @override
@@ -57,7 +68,7 @@ class _ListItemAcceptanceCriteriaBarState
     return Stack(
       children: [
         FractionallySizedBox(
-          widthFactor: widget.acceptanceCriteria.progress / 100,
+          widthFactor: widget.editAcceptanceCriteria.progress / 100,
           heightFactor: 1,
           child: Container(
             width: 40,
@@ -69,19 +80,20 @@ class _ListItemAcceptanceCriteriaBarState
         ),
         GestureDetector(
           onHorizontalDragUpdate: (details) {
-            setState(() {
-              widget.acceptanceCriteria.progress =
-                  (details.localPosition.dx / 350 * 100).round();
-              if (widget.acceptanceCriteria.progress > 100) {
-                widget.acceptanceCriteria.progress = 100;
-              } else if (widget.acceptanceCriteria.progress <=
-                  widget.acceptanceCriteria.progress) {
-                widget.acceptanceCriteria.progress =
-                    widget.acceptanceCriteria.progress;
-              } else if (widget.acceptanceCriteria.progress <= 0) {
-                widget.acceptanceCriteria.progress = 0;
-              }
-            });
+            if (!widget.isProgressBarLocked) {
+              setState(() {
+                int newProgress = 0;
+                newProgress =
+                    (details.localPosition.dx / 350 * 100).round();
+                if (newProgress > 100) {
+                  newProgress = 100;
+                } else if (newProgress <= 0) {
+                  newProgress = 0;
+                }
+                widget.editAcceptanceCriteria.progress = newProgress;
+                widget.acceptanceCriteria.progress = newProgress;
+              });
+            }
           },
           child: Container(
               padding: const EdgeInsets.all(10),
@@ -100,7 +112,7 @@ class _ListItemAcceptanceCriteriaBarState
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      '${widget.acceptanceCriteria.progress}%',
+                      '${widget.editAcceptanceCriteria.progress}%',
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     ),
                   ),

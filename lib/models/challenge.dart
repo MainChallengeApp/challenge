@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class Challenge {
   int? id;
   ChallengStatus? status;

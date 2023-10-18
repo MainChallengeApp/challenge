@@ -2,8 +2,6 @@
 
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/edit_challenge/date_picker.dart';
-import 'package:challenge/models/tab_item.dart';
-import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -26,8 +24,7 @@ class EditChallenge extends StatefulWidget {
         endDate: challenge.endDate,
         acceptanceCriteria:
             copyAcceptanceCriteria(challenge.acceptanceCriteria),
-        media: []    
-        );
+        media: []);
   }
   String title;
   Challenge challenge;
@@ -47,7 +44,8 @@ class EditChallenge extends StatefulWidget {
               unit: e.activity.unit),
           frequence: e.frequence,
           tracking: e.tracking,
-          progress: e.progress, evidences: e.evidences));
+          progress: e.progress,
+          evidences: e.evidences));
     });
     return acceptanceCriteriaList;
   }
@@ -151,9 +149,9 @@ class _EditChallengeState extends State<EditChallenge> {
                           color: const Color.fromRGBO(226, 232, 240, 1)),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16))),
-                  child: Center(
+                  child: const Center(
                       child: Text(
-                    widget.title.startsWith('Search') ? 'Accept' : 'Save',
+                    'Save',
                     style: TextStyle(
                         fontWeight: FontWeight.w500, color: Colors.white),
                   )),
@@ -455,7 +453,8 @@ class _EditChallengeState extends State<EditChallenge> {
               activity: Activity(title: '', amount: 0, unit: ''),
               frequence: '',
               tracking: '',
-              progress: 0, evidences: []),
+              progress: 0,
+              evidences: []),
           acceptanceCriteriaIndex: null,
         ),
       ),
@@ -465,38 +464,13 @@ class _EditChallengeState extends State<EditChallenge> {
   void onTapSave() async {
     // check inputs e.g. endDate > startDate
 
-    if (widget.title.startsWith('Search')) {
-      widget.selectTab!(TabItem.Home);
-      while (await Navigator.maybePop(context)) {
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-      }
-      challengeList.insert(0, widget.editChallenge);
-
-      // ignore: use_build_context_synchronously
-      var homeNavigator = navigatorKeys[TabItem.Home]!.currentState!;
-      // ignore: use_build_context_synchronously
-      while (await homeNavigator.maybePop(context)) {
-        // ignore: use_build_context_synchronously
-        homeNavigator.pop(context);
-      }
-      homeNavigator.push(
-        PageRouteBuilder(
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-          pageBuilder: (context, animation1, animation2) =>
-              HomeChallenge(preTitle: 'Home', challenge: widget.editChallenge, initialChalleneIndex: 0,), // Todo: change initalChallengeIndex when id is known from backend
-        ),
-      );
-    } else if (widget.title.startsWith('Home')) {
-      widget.challenge.title = widget.editChallenge.title;
-      widget.challenge.description = widget.editChallenge.description;
-      widget.challenge.startDate = widget.editChallenge.startDate;
-      widget.challenge.endDate = widget.editChallenge.endDate;
-      widget.challenge.acceptanceCriteria =
-          widget.editChallenge.acceptanceCriteria;
-      Navigator.pop(context);
-    }
+    widget.challenge.title = widget.editChallenge.title;
+    widget.challenge.description = widget.editChallenge.description;
+    widget.challenge.startDate = widget.editChallenge.startDate;
+    widget.challenge.endDate = widget.editChallenge.endDate;
+    widget.challenge.acceptanceCriteria =
+        widget.editChallenge.acceptanceCriteria;
+    Navigator.pop(context);
   }
 
   void onTapSingleAcceptanceCriteria(int index) {

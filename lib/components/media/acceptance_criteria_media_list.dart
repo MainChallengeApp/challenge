@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:challenge/components/media/acceptance_criteria_record_list.dart';
+import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
@@ -11,6 +11,7 @@ import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/design_provider.dart';
+import 'media_detail.dart';
 
 class AcceptanceCriteriaMediaList extends StatefulWidget {
   const AcceptanceCriteriaMediaList(
@@ -75,7 +76,7 @@ class _AcceptanceCriteriaMediaListState
                 itemBuilder: (BuildContext content, int index) {
                   if (index == 0) {
                     return ListItemAcceptanceCriteriaBar(
-                        acceptanceCriteria: widget.acceptanceCriteria);
+                        acceptanceCriteria: widget.acceptanceCriteria, initialProgress: widget.acceptanceCriteria.progress,);
                   }
                   if (index == 1) {
                     return ListItemIconSmall(
@@ -115,15 +116,15 @@ class _AcceptanceCriteriaMediaListState
 
   void ppush(BuildContext context, {required int index}) {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-    // Navigator.push(
-    //   context,
-    //   PageRouteBuilder(
-    //     transitionDuration: Duration.zero,
-    //     reverseTransitionDuration: Duration.zero,
-    //     pageBuilder: (context, animation1, animation2) =>
-    //         MediaDetail(media: widget.challenge.media.where((element) => element.title.contains(searchBarText)).toList(), preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
-    //   ),
-    // ).then((_) => setState(() {}));
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            MediaDetail(media: widget.mediaList, preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
+      ),
+    ).then((_) => setState(() {}));
   }
 
   button() {
@@ -133,6 +134,7 @@ class _AcceptanceCriteriaMediaListState
         // Navigator.pop(context);
 
         // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+        
 
         widget.acceptanceCriteria.evidences.add(
           Evidence(progress: widget.acceptanceCriteria.progress, mediaIds: widget.mediaList.map((e) => e.id).toList())
@@ -144,7 +146,7 @@ class _AcceptanceCriteriaMediaListState
             transitionDuration: Duration.zero,
             reverseTransitionDuration: Duration.zero,
             pageBuilder: (context, animation1, animation2) =>
-                AcceptanceCriteriaRecordList(
+                AcceptanceCriteriaEvidenceList(
               preTitle: widget.preTitle,
               mediaList: widget.mediaList,
               acceptanceCriteria: widget.acceptanceCriteria,
