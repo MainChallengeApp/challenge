@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
+import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
@@ -13,13 +14,15 @@ class MediaCamera extends StatefulWidget {
     super.key,
     required this.camera,
     required this.preTitle,
-    required this.mediaList, required this.acceptanceCriteria, required this.challenge,
+    required this.mediaList,
+    required this.acceptanceCriteria,
+    required this.challenge,
   });
 
   final CameraDescription? camera;
   final String preTitle;
   final List<Media> mediaList;
-  final AcceptanceCriteria acceptanceCriteria;
+  final AcceptanceCriteria? acceptanceCriteria;
   final Challenge challenge;
 
   @override
@@ -66,12 +69,16 @@ class _CameraStateMedia extends State<MediaCamera> {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
           return Stack(children: [
-            widget.camera != null ? Transform.scale(
-              scale: deviceRatio,
-              child: Center(
-                child: CameraPreview(_controller),
-              ),
-            ) : const Center(child: Text('No camera found'),),
+            widget.camera != null
+                ? Transform.scale(
+                    scale: deviceRatio,
+                    child: Center(
+                      child: CameraPreview(_controller),
+                    ),
+                  )
+                : const Center(
+                    child: Text('No camera found'),
+                  ),
             CustomeAppBar.build(
                 preTitle: widget.preTitle,
                 title: 'Camera',
@@ -125,12 +132,14 @@ class _CameraStateMedia extends State<MediaCamera> {
             widget.mediaList.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
-                source: image.path, id: widget.mediaList.length));
+                source: image.path,
+                id: widget.mediaList.length));
 
             currentMedia.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
-                source: image.path, id: widget.mediaList.length));
+                source: image.path,
+                id: widget.mediaList.length));
           });
 
           // // If the picture was taken, display it on a new screen.
@@ -197,24 +206,44 @@ class _CameraStateMedia extends State<MediaCamera> {
   acceptButton() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => AcceptanceCriteriaMediaList(preTitle: widget.preTitle, mediaList: currentMedia, acceptanceCriteria: widget.acceptanceCriteria, challenge: widget.challenge,),
-      ),
-    ).then((_) => setState(() {}));
+        if (widget.acceptanceCriteria != null) {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+              pageBuilder: (context, animation1, animation2) =>
+                  AcceptanceCriteriaMediaList(
+                preTitle: widget.preTitle,
+                mediaList: currentMedia,
+                acceptanceCriteria: widget.acceptanceCriteria!,
+                challenge: widget.challenge,
+              ),
+            ),
+          ).then((_) => setState(() {}));
+        } else {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+              pageBuilder: (context, animation1, animation2) =>
+                  MediaList(preTitle: widget.preTitle, challenge: widget.challenge),
+            ),
+          ).then((_) => setState(() {}));
+        }
       },
       child: Container(
         width: 40,
         height: 40,
         margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
-            image: currentMedia.isNotEmpty ? DecorationImage(
-              image: AssetImage(currentMedia.last.source),
-              fit: BoxFit.cover,
-            ) : null,
+            image: currentMedia.isNotEmpty
+                ? DecorationImage(
+                    image: AssetImage(currentMedia.last.source),
+                    fit: BoxFit.cover,
+                  )
+                : null,
             color: flashMode == FlashMode.off
                 ? Colors.white.withAlpha(100)
                 : themeColor1,

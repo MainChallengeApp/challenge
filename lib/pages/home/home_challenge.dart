@@ -261,11 +261,16 @@ class _HomeChallengeState extends State<HomeChallenge> {
                               : Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    documentationButton(Icons.numbers),
-                                    documentationButton(Icons.notes),
-                                    documentationButton(Icons.gps_not_fixed),
                                     documentationButton(
-                                        Icons.camera_alt_outlined),
+                                        iconData: Icons.numbers, onTap: null),
+                                    documentationButton(
+                                        iconData: Icons.notes, onTap: null),
+                                    documentationButton(
+                                        iconData: Icons.gps_not_fixed,
+                                        onTap: null),
+                                    documentationButton(
+                                        iconData: Icons.camera_alt_outlined,
+                                        onTap: onTapCamera),
                                   ],
                                 ),
                           isDescriptionExpanded
@@ -299,9 +304,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                 }),
               ),
             );
-          }).toList()
-
-          ),
+          }).toList()),
     );
   }
 
@@ -309,16 +312,19 @@ class _HomeChallengeState extends State<HomeChallenge> {
     return '${date.day}.${date.month}.${date.year}';
   }
 
-  documentationButton(IconData iconData) {
-    return Container(
-      width: 55,
-      height: 55,
-      margin: const EdgeInsets.only(left: 8, right: 8),
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: Center(child: Icon(iconData)),
+  documentationButton({required IconData iconData, required onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 55,
+        height: 55,
+        margin: const EdgeInsets.only(left: 8, right: 8),
+        decoration: BoxDecoration(
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+            borderRadius: const BorderRadius.all(Radius.circular(16))),
+        child: Center(child: Icon(iconData)),
+      ),
     );
   }
 
@@ -518,10 +524,42 @@ class _HomeChallengeState extends State<HomeChallenge> {
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => MediaCamera(
-            camera: firstCamera,
-            preTitle: '${widget.preTitle}/${widget.challenge.title}',
-            mediaList: widget.challenge.media,
-            acceptanceCriteria: acceptanceCriteria, challenge: widget.challenge,),
+          camera: firstCamera,
+          preTitle: '${widget.preTitle}/${widget.challenge.title}',
+          mediaList: widget.challenge.media,
+          acceptanceCriteria: acceptanceCriteria,
+          challenge: widget.challenge,
+        ),
+      ),
+    ).then((_) => setState(() {
+          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        }));
+  }
+
+  onTapCamera() async {
+    // Ensure that plugin services are initialized so that `availableCameras()`
+// can be called before `runApp()`
+    WidgetsFlutterBinding.ensureInitialized();
+
+// Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+
+// Get a specific camera from the list of available cameras.
+    final firstCamera = cameras.isNotEmpty ? cameras[0] : null;
+
+    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => MediaCamera(
+          camera: firstCamera,
+          preTitle: '${widget.preTitle}/${widget.challenge.title}',
+          mediaList: widget.challenge.media,
+          acceptanceCriteria: null,
+          challenge: widget.challenge,
+        ),
       ),
     ).then((_) => setState(() {
           context.read<DesignProvider>().setIsBottomNavBarVisible(true);
