@@ -25,18 +25,25 @@ class ListItemChallengeSmall extends StatelessWidget {
           child: Row(
             children: [
               Container(
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(
-                    color: const Color.fromRGBO(241, 245, 249, 1),
-                    image: challenge.thumbnailPath != ''
-                        ? DecorationImage(
-                            image: AssetImage(challenge.thumbnailPath),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
                 margin: const EdgeInsets.all(12),
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: Image.asset(challenge.thumbnailPath,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset("assets/images/unknown.png",
+                                    fit: BoxFit.cover),
+                              ),
+                            ))),
               ),
               Text(challenge.title)
             ],

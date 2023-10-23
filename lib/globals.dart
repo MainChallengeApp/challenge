@@ -10,6 +10,7 @@ const Color themeColor3 = Color.fromRGBO(100, 116, 139, 1);
 const Color themeColor4 = Color.fromRGBO(241, 245, 249, 1);
 
 List<Challenge> challengeList = [];
+List<Challenge> allChallengesList = [];
 
 final navigatorKeys = {
     TabItem.Search: GlobalKey<NavigatorState>(),

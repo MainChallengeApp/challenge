@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/jsonFileController/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
@@ -35,7 +33,6 @@ class _HomeListState extends State<HomeList> {
 
   @override
   Widget build(BuildContext context) {
-    challengesFutures = challengeController.readFile(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -74,6 +71,7 @@ class _HomeListState extends State<HomeList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
+            allChallengesList = snapshot.data!;
             challengeList = snapshot.data!
                 .where((element) => element.title.contains(searchBarText))
                 .toList();
@@ -114,14 +112,6 @@ class _HomeListState extends State<HomeList> {
             return const Text('Error with loading data...');
           }
         });
-  }
-
-  static Future<List<Challenge>> getChallenges(BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/home_challenges.json');
-
-    final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
   }
 
   changeList(String value) {

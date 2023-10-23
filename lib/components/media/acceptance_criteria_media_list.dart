@@ -4,6 +4,7 @@ import 'package:challenge/components/media/acceptance_criteria_evidence_list.dar
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/jsonFileController/challenge_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
@@ -20,7 +21,8 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
       this.tapOnNewChallenge,
       required this.challenge,
       required this.mediaList,
-      required this.acceptanceCriteria, this.evidence});
+      required this.acceptanceCriteria,
+      this.evidence});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge challenge;
@@ -36,6 +38,7 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
 class _AcceptanceCriteriaMediaListState
     extends State<AcceptanceCriteriaMediaList> {
   late Future<List<Challenge>> challengesFutures;
+  ChallengeController challengeController = ChallengeController();
 
   String searchBarText = "";
 
@@ -77,7 +80,12 @@ class _AcceptanceCriteriaMediaListState
                 itemBuilder: (BuildContext content, int index) {
                   if (index == 0) {
                     return ListItemAcceptanceCriteriaBar(
-                        acceptanceCriteria: widget.acceptanceCriteria, initialProgress: widget.evidence?.progress ?? widget.acceptanceCriteria.progress,isProgressBarLocked: widget.acceptanceCriteria.evidences.contains(widget.evidence),);
+                      acceptanceCriteria: widget.acceptanceCriteria,
+                      initialProgress: widget.evidence?.progress ??
+                          widget.acceptanceCriteria.progress,
+                      isProgressBarLocked: widget.acceptanceCriteria.evidences
+                          .contains(widget.evidence),
+                    );
                   }
                   if (index == 1) {
                     return ListItemIconSmall(
@@ -122,8 +130,11 @@ class _AcceptanceCriteriaMediaListState
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            MediaDetail(media: widget.mediaList, preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
+        pageBuilder: (context, animation1, animation2) => MediaDetail(
+          media: widget.mediaList,
+          preTitle: '${widget.preTitle}/Media',
+          initialMediaIdex: index,
+        ),
       ),
     ).then((_) => setState(() {}));
   }
@@ -135,16 +146,25 @@ class _AcceptanceCriteriaMediaListState
         // Navigator.pop(context);
 
         // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-        
 
-        widget.acceptanceCriteria.evidences.add(
-          Evidence(progress: widget.acceptanceCriteria.progress, mediaIds: widget.mediaList.map((e) => e.id).toList())
-        );
+        // widget.acceptanceCriteria.evidences.add(Evidence(
+        //     progress: widget.acceptanceCriteria.progress,
+        //     mediaIds: widget.mediaList.map((e) => e.id).toList()));
+        allChallengesList
+            .where((element) => element.id == widget.challenge.id)
+            .first
+            .acceptanceCriteria
+            .where((element) => element.id == widget.acceptanceCriteria.id)
+            .first
+            .evidences
+            .add(Evidence(
+                progress: widget.acceptanceCriteria.progress,
+                mediaIds: widget.mediaList.map((e) => e.id).toList()));
 
-        Navigator.pop(context);
-        Navigator.pop(context);
+        challengeController.writeFile(context, allChallengesList);
 
-        context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+        // Navigator.pop(context);
+        // Navigator.pop(context);
 
         Navigator.push(
           context,
@@ -154,12 +174,13 @@ class _AcceptanceCriteriaMediaListState
             pageBuilder: (context, animation1, animation2) =>
                 AcceptanceCriteriaEvidenceList(
               preTitle: widget.preTitle,
-              mediaList: widget.mediaList,
               acceptanceCriteria: widget.acceptanceCriteria,
               challenge: widget.challenge,
             ),
           ),
         );
+
+        // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       },
       child: Align(
         alignment: Alignment.bottomCenter,

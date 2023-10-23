@@ -146,19 +146,29 @@ class _HomeChallengeState extends State<HomeChallenge> {
                         children: [
                           GestureDetector(
                             onTap: onTapOpenMediaPage,
-                            child: Container(
-                              // TODO: on tap open media page
-                              width: double.infinity,
-                              height: 180,
-                              decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(241, 245, 249, 1),
-                                  image: e.thumbnailPath != '' ? DecorationImage(
-                                    image: AssetImage(e.thumbnailPath),
-                                    fit: BoxFit.cover,
-                                  ) : null,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(12))),
-                            ),
+                            child: 
+                            Container(
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    height: 180,
+                    width: double.infinity,
+                    child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        child: Image.asset(widget.challenge.thumbnailPath,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Center(
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Image.asset(
+                                        "assets/images/unknown.png",
+                                        fit: BoxFit.cover),
+                                  ),
+                                ))),
+                  ),
                           ),
                           const SizedBox(
                             height: 16,
@@ -480,8 +490,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void deleteChallenge() {
-    challengeList.remove(widget.challenge);
-    challengeController.writeFile(context, challengeList);
+    allChallengesList.remove(widget.challenge);
+    challengeController.writeFile(context, allChallengesList);
 
     Slidable.of(context2)?.close();
     Navigator.pop(context);

@@ -357,8 +357,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
   void onTapAccept() async {
 
     ChallengeController challengeController = ChallengeController();
-    challengeList.insert(0, widget.challenge);
-    await challengeController.writeFile(context, challengeList);
+    allChallengesList.insert(0, widget.challenge);
+    await challengeController.writeFile(context, allChallengesList);
 
     widget.selectTab(TabItem.Home);
     Navigator.pop(context);

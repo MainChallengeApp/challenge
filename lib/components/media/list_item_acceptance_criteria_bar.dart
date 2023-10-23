@@ -12,6 +12,7 @@ class ListItemAcceptanceCriteriaBar extends StatefulWidget {
       this.isProgressBarLocked = false,
       this.initialProgress = 0}) {
     editAcceptanceCriteria = AcceptanceCriteria(
+      id: acceptanceCriteria.id,
         activity: Activity(
             title: acceptanceCriteria.activity.title,
             amount: acceptanceCriteria.activity.amount,
@@ -54,7 +55,7 @@ class _ListItemAcceptanceCriteriaBarState
       child: Container(
         width: double.infinity,
         height: 64,
-        margin: EdgeInsets.only(left: 20, right: 20),
+        margin: const EdgeInsets.only(left: 20, right: 20),
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),

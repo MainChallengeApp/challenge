@@ -26,8 +26,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Challenge',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+    pageTransitionsTheme: const PageTransitionsTheme( // try to swipe to go back with navigator (doesn't work)
+      builders: {
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      }
+    )
+  ),
       home: const App(),
     );
   }

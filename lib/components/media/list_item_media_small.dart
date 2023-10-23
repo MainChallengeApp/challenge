@@ -17,7 +17,7 @@ class ListItemMediaSmall extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: 64,
-          margin: EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 20, right: 20),
           decoration: BoxDecoration(
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
@@ -25,16 +25,27 @@ class ListItemMediaSmall extends StatelessWidget {
           child: Row(
             children: [
               Container(
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
                 width: 40,
                 height: 40,
-                decoration: BoxDecoration(
-                    color: const Color.fromRGBO(241, 245, 249, 1),
-                    image: DecorationImage(
-                      image: AssetImage(media.source),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12))),
                 margin: const EdgeInsets.all(12),
+                child: ClipRRect(
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(12)),
+                    child: Image.asset(media.source,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: Image.asset(
+                                    "assets/images/unknown.png",
+                                    fit: BoxFit.cover),
+                              ),
+                            ))),
               ),
               Text(media.title)
             ],

@@ -73,6 +73,7 @@ class Media {
 }
 
 class AcceptanceCriteria {
+  int? id;
   Activity activity;
   String frequence;
   String tracking;
@@ -80,7 +81,9 @@ class AcceptanceCriteria {
   List<Evidence> evidences;
 
   AcceptanceCriteria(
-      {required this.activity,
+      {
+      required this.id,
+      required this.activity,
       required this.frequence,
       required this.tracking,
       required this.progress,
@@ -89,6 +92,7 @@ class AcceptanceCriteria {
   static List<AcceptanceCriteria> fromJsonList(json) {
     List<AcceptanceCriteria> list = [];
     json?.forEach((e) => list.add(AcceptanceCriteria(
+        id: e['id'],
         activity: Activity.fromJson(e['activity']),
         frequence: e['frequence'],
         tracking: e['tracking'],
@@ -99,6 +103,7 @@ class AcceptanceCriteria {
   
   static toJsonList(List<AcceptanceCriteria> acceptanceCriteria) {
     return acceptanceCriteria.map((e) => {
+      'id': e.id,
       'activity': Activity.toJson(e.activity),
       'frequence': e.frequence,
       'tracking': e.tracking,

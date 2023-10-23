@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
 import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/globals.dart';
@@ -129,17 +130,19 @@ class _CameraStateMedia extends State<MediaCamera> {
 
           if (!mounted) return;
           setState(() {
+            int mediaId = widget.mediaList.length;
+
             widget.mediaList.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
                 source: image.path,
-                id: widget.mediaList.length));
+                id: mediaId));
 
             currentMedia.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
                 source: image.path,
-                id: widget.mediaList.length));
+                id: mediaId));
           });
 
           // // If the picture was taken, display it on a new screen.
@@ -207,6 +210,17 @@ class _CameraStateMedia extends State<MediaCamera> {
     return GestureDetector(
       onTap: () {
         if (widget.acceptanceCriteria != null) {
+          if(currentMedia.isEmpty){
+            Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: Duration.zero,
+              reverseTransitionDuration: Duration.zero,
+              pageBuilder: (context, animation1, animation2) =>
+                  AcceptanceCriteriaEvidenceList(preTitle: widget.preTitle, challenge: widget.challenge, acceptanceCriteria: widget.acceptanceCriteria!),
+            ),
+          ).then((_) => setState(() {}));
+          } else {
           Navigator.push(
             context,
             PageRouteBuilder(
@@ -221,6 +235,7 @@ class _CameraStateMedia extends State<MediaCamera> {
               ),
             ),
           ).then((_) => setState(() {}));
+          }
         } else {
           Navigator.push(
             context,

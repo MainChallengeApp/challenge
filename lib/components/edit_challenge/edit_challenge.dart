@@ -39,6 +39,7 @@ class EditChallenge extends StatefulWidget {
     List<AcceptanceCriteria> acceptanceCriteriaList = [];
     acceptanceCriteria.forEach((e) {
       acceptanceCriteriaList.add(AcceptanceCriteria(
+          id: e.id,
           activity: Activity(
               title: e.activity.title,
               amount: e.activity.amount,
@@ -453,6 +454,7 @@ class _EditChallengeState extends State<EditChallenge> {
               '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
           acceptanceCriteria: AcceptanceCriteria(
+              id: widget.challenge.acceptanceCriteria.length,
               activity: Activity(title: '', amount: 0, unit: ''),
               frequence: '',
               tracking: '',
@@ -467,6 +469,7 @@ class _EditChallengeState extends State<EditChallenge> {
   void onTapSave() async {
     // check inputs e.g. endDate > startDate
 
+    widget.challenge.id = challengeList.length;
     widget.challenge.title = widget.editChallenge.title;
     widget.challenge.description = widget.editChallenge.description;
     widget.challenge.startDate = widget.editChallenge.startDate;
@@ -474,8 +477,12 @@ class _EditChallengeState extends State<EditChallenge> {
     widget.challenge.acceptanceCriteria =
         widget.editChallenge.acceptanceCriteria;
 
-    challengeList.insert(0, widget.challenge);
-    challengeController.writeFile(context, challengeList);
+    if(allChallengesList.contains(widget.challenge)){
+      allChallengesList[widget.challenge.id!] = widget.challenge;
+    } else {
+      allChallengesList.insert(0, widget.challenge);
+    }
+    challengeController.writeFile(context, allChallengesList);
 
     Navigator.pop(context);
   }

@@ -16,12 +16,10 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
       required this.preTitle,
       this.tapOnNewChallenge,
       required this.challenge,
-      required this.mediaList,
       required this.acceptanceCriteria});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge challenge;
-  final List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
 
   @override
