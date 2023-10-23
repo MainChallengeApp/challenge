@@ -156,20 +156,16 @@ class _HomeChallengeState extends State<HomeChallenge> {
                               child: ClipRRect(
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(12)),
-                                  child: Image.asset(
-                                      e.thumbnailPath,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Center(
-                                                child: SizedBox(
-                                                  width: 20,
-                                                  height: 20,
-                                                  child: Image.asset(
-                                                      "assets/images/unknown.png",
-                                                      fit: BoxFit.cover),
-                                                ),
-                                              ))),
+                                  child: e.thumbnailPath != ''
+                                      ? Image.asset(e.thumbnailPath,
+                                          fit: BoxFit.cover)
+                                      : e.media.isNotEmpty
+                                          ? Image.asset(e.media.first.source,
+                                              fit: BoxFit.cover)
+                                          : const Center(
+                                              child: Icon(Icons.question_mark,
+                                                  color: themeColor3),
+                                            )),
                             ),
                           ),
                           const SizedBox(
@@ -181,7 +177,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                             }),
                             child: Container(
                                 width: double.infinity,
-                                height: isDescriptionExpanded ? 399 : 80,
+                                height: isDescriptionExpanded ? 403 : 80,
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                     border: Border.all(
@@ -365,13 +361,11 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   singleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
     return GestureDetector(
-      onTap: () => onTapSingleAcceptanceCriteria(
-          acceptanceCriteria),
+      onTap: () => onTapSingleAcceptanceCriteria(acceptanceCriteria),
       child: Stack(
         children: [
           FractionallySizedBox(
-            widthFactor:
-                acceptanceCriteria.progress / 100,
+            widthFactor: acceptanceCriteria.progress / 100,
             heightFactor: 1,
             child: Container(
               // width: 40,
@@ -420,8 +414,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
                     decoration: const BoxDecoration(
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child:
-                        Icon(getIconData(acceptanceCriteria), color: themeColor3, size: 14),
+                    child: Icon(getIconData(acceptanceCriteria),
+                        color: themeColor3, size: 14),
                   ),
                 ],
               ))
@@ -437,8 +431,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
       return Icons.gps_not_fixed;
     } else if (acceptanceCriteria.tracking == 'notes') {
       return Icons.notes;
-    } else if (acceptanceCriteria.tracking ==
-        'numbers') {
+    } else if (acceptanceCriteria.tracking == 'numbers') {
       return Icons.numbers;
     } else {
       return Icons.not_accessible;

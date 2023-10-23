@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
 
+import '../../globals.dart';
+
 class ListItemChallengeSmall extends StatelessWidget {
   const ListItemChallengeSmall(
       {super.key, required this.onTap, required this.challenge});
@@ -17,7 +19,7 @@ class ListItemChallengeSmall extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: 64,
-          margin: EdgeInsets.only(left: 20, right: 20),
+          margin: const EdgeInsets.only(left: 20, right: 20),
           decoration: BoxDecoration(
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
@@ -33,17 +35,16 @@ class ListItemChallengeSmall extends StatelessWidget {
                 margin: const EdgeInsets.all(12),
                 child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    child: Image.asset(challenge.thumbnailPath,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) =>
-                            Center(
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset("assets/images/unknown.png",
-                                    fit: BoxFit.cover),
-                              ),
-                            ))),
+                    child: challenge.thumbnailPath != ''
+                        ? Image.asset(challenge.thumbnailPath,
+                            fit: BoxFit.cover)
+                        : challenge.media.isNotEmpty
+                            ? Image.asset(challenge.media.first.source,
+                                fit: BoxFit.cover)
+                            : const Center(
+                                child: Icon(Icons.question_mark,
+                                    color: themeColor3),
+                              )),
               ),
               Text(challenge.title)
             ],

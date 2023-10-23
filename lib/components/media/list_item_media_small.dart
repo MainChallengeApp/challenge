@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
 
+import '../../globals.dart';
+
 class ListItemMediaSmall extends StatelessWidget {
   const ListItemMediaSmall(
       {super.key, required this.onTap, required this.media});
@@ -32,19 +34,13 @@ class ListItemMediaSmall extends StatelessWidget {
                 height: 40,
                 margin: const EdgeInsets.all(12),
                 child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.all(Radius.circular(12)),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: Image.asset(media.source,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
-                            Center(
-                              child: SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: Image.asset(
-                                    "assets/images/unknown.png",
-                                    fit: BoxFit.cover),
-                              ),
+                            const Center(
+                              child:
+                                  Icon(Icons.question_mark, color: themeColor3),
                             ))),
               ),
               Text(media.title)
