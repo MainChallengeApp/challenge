@@ -146,29 +146,31 @@ class _HomeChallengeState extends State<HomeChallenge> {
                         children: [
                           GestureDetector(
                             onTap: onTapOpenMediaPage,
-                            child: 
-                            Container(
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    height: 180,
-                    width: double.infinity,
-                    child: ClipRRect(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        child: Image.asset(widget.challenge.thumbnailPath,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Center(
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Image.asset(
-                                        "assets/images/unknown.png",
-                                        fit: BoxFit.cover),
-                                  ),
-                                ))),
-                  ),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(241, 245, 249, 1),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(12))),
+                              height: 180,
+                              width: double.infinity,
+                              child: ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12)),
+                                  child: Image.asset(
+                                      e.thumbnailPath,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Center(
+                                                child: SizedBox(
+                                                  width: 20,
+                                                  height: 20,
+                                                  child: Image.asset(
+                                                      "assets/images/unknown.png",
+                                                      fit: BoxFit.cover),
+                                                ),
+                                              ))),
+                            ),
                           ),
                           const SizedBox(
                             height: 16,
@@ -259,7 +261,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                           //       ),
                           isDescriptionExpanded
                               ? Container()
-                              : acceptanceCriteria(),
+                              : acceptanceCriteria(e.acceptanceCriteria),
                           isDescriptionExpanded ? Container() : dots(),
                           // isDescriptionExpanded
                           //     ? Container()
@@ -342,34 +344,34 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria() {
+  acceptanceCriteria(List<AcceptanceCriteria> acceptanceCriterias) {
     return SizedBox(
         // margin: EdgeInsets.only(top: 10),
         height: 55,
         // padding: const EdgeInsets.all(10),
         child: PageView.builder(
-          itemCount: widget.challenge.acceptanceCriteria.length,
+          itemCount: acceptanceCriterias.length,
           controller: PageController(viewportFraction: 1),
           onPageChanged: (int index) =>
               setState(() => selectedAcceptanceCriteria = index),
           itemBuilder: (_, i) {
             return Transform.scale(
               scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
-              child: singleAcceptanceCriteria(i),
+              child: singleAcceptanceCriteria(acceptanceCriterias[i]),
             );
           },
         ));
   }
 
-  singleAcceptanceCriteria(int index) {
+  singleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
     return GestureDetector(
       onTap: () => onTapSingleAcceptanceCriteria(
-          widget.challenge.acceptanceCriteria[index]),
+          acceptanceCriteria),
       child: Stack(
         children: [
           FractionallySizedBox(
             widthFactor:
-                widget.challenge.acceptanceCriteria[index].progress / 100,
+                acceptanceCriteria.progress / 100,
             heightFactor: 1,
             child: Container(
               // width: 40,
@@ -397,7 +399,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                      '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     ),
                   ),
@@ -408,7 +410,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      widget.challenge.acceptanceCriteria[index].frequence,
+                      acceptanceCriteria.frequence,
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     ),
                   ),
@@ -419,7 +421,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child:
-                        Icon(getIconData(index), color: themeColor3, size: 14),
+                        Icon(getIconData(acceptanceCriteria), color: themeColor3, size: 14),
                   ),
                 ],
               ))
@@ -428,14 +430,14 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  IconData getIconData(int index) {
-    if (widget.challenge.acceptanceCriteria[index].tracking == 'camera') {
+  IconData getIconData(AcceptanceCriteria acceptanceCriteria) {
+    if (acceptanceCriteria.tracking == 'camera') {
       return Icons.camera_alt_outlined;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'gps') {
+    } else if (acceptanceCriteria.tracking == 'gps') {
       return Icons.gps_not_fixed;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
+    } else if (acceptanceCriteria.tracking == 'notes') {
       return Icons.notes;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking ==
+    } else if (acceptanceCriteria.tracking ==
         'numbers') {
       return Icons.numbers;
     } else {
