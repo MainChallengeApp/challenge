@@ -61,50 +61,53 @@ class _EditChallengeState extends State<EditChallenge> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        titleSpacing: 0,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-                style: const TextStyle(
-                    color: Colors.black, fontSize: appBarFontSize),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          titleSpacing: 0,
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+                  style: const TextStyle(
+                      color: Colors.black, fontSize: appBarFontSize),
+                ),
               ),
             ),
           ),
         ),
-      ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
-            padding: const EdgeInsets.all(16),
-            width: double.infinity,
-            height: 120 + 8 * 64 + 2,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
-            child: Column(
-              children: [
-                thumbnailUploadAndTitle(),
-                // storageLocation(),
-                description(),
-                startAndEndDate(),
-                addAcceptanceCriteriaButton(),
-                acceptanceCriteria(),
-                buttons()
-              ],
+        backgroundColor: Colors.white,
+        body: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+              padding: const EdgeInsets.all(16),
+              width: double.infinity,
+              height: 120 + 8 * 64 + 2,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(24))),
+              child: Column(
+                children: [
+                  thumbnailUploadAndTitle(),
+                  // storageLocation(),
+                  description(),
+                  startAndEndDate(),
+                  addAcceptanceCriteriaButton(),
+                  acceptanceCriteria(),
+                  buttons()
+                ],
+              ),
             ),
           ),
         ),
@@ -292,12 +295,10 @@ class _EditChallengeState extends State<EditChallenge> {
     return standardContainer(
         heightFactor: 1.8,
         child: TapRegion(
-          onTapOutside: (event) => FocusScope.of(context).unfocus(),
           child: TextField(
               maxLines: 999,
-              onChanged: (value) => widget.editChallenge.description = value,
               controller: TextEditingController()
-                ..text = widget.challenge.description,
+                ..text = widget.editChallenge.description,
               decoration:
                   const InputDecoration.collapsed(hintText: 'Description')),
         ));
@@ -477,7 +478,7 @@ class _EditChallengeState extends State<EditChallenge> {
     widget.challenge.acceptanceCriteria =
         widget.editChallenge.acceptanceCriteria;
 
-    if(allChallengesList.contains(widget.challenge)){
+    if (allChallengesList.contains(widget.challenge)) {
       allChallengesList[widget.challenge.id!] = widget.challenge;
     } else {
       allChallengesList.insert(0, widget.challenge);
