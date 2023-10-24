@@ -297,6 +297,7 @@ class _EditChallengeState extends State<EditChallenge> {
         child: TapRegion(
           child: TextField(
               maxLines: 999,
+              onChanged: (value) => widget.editChallenge.description = value,
               controller: TextEditingController()
                 ..text = widget.editChallenge.description,
               decoration:
