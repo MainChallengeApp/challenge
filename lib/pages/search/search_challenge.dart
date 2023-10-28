@@ -128,8 +128,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                     ),
                                     Text(
                                       "Favorite",
-                                      style: TextStyle(
-                                          color: Colors.yellow),
+                                      style: TextStyle(color: Colors.yellow),
                                     )
                                   ],
                                 )),
@@ -144,8 +143,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                       child: Builder(builder: (context) {
                         context2 = context;
                         return Container(
-                          margin: const EdgeInsets.only(
-                              left: 20, right: 20),
+                          margin: const EdgeInsets.only(left: 20, right: 20),
                           padding: const EdgeInsets.all(16),
                           width: double.infinity,
                           height: 120 + 8 * 64 + 2,
@@ -355,9 +353,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   void onTapAccept() async {
-
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, widget.challenge);
+    challengeList.insert(0, widget.challenge);
     await challengeController.writeFile(context, allChallengesList);
 
     widget.selectTab(TabItem.Home);

@@ -3,6 +3,7 @@
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/edit_challenge/date_picker.dart';
 import 'package:challenge/jsonFileController/challenge_controller.dart';
+import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -480,13 +481,43 @@ class _EditChallengeState extends State<EditChallenge> {
         widget.editChallenge.acceptanceCriteria;
 
     if (allChallengesList.contains(widget.challenge)) {
-      allChallengesList[widget.challenge.id!] = widget.challenge;
+      allChallengesList.map((e) {
+        if (e.id == widget.challenge.id) {
+          return widget.challenge;
+        }
+        return e;
+      }).toList(); //[widget.challenge.id!] = widget.challenge;
     } else {
       allChallengesList.insert(0, widget.challenge);
     }
+    var l = challengeList;
+    if (challengeList.contains(widget.challenge)) {
+      challengeList.map((e) {
+        if (e.id == widget.challenge.id) {
+          return widget.challenge;
+        }
+        return e;
+      }).toList(); //[widget.challenge.id!] = widget.challenge;
+    } else {
+      challengeList.insert(0, widget.challenge);
+    }
+    // var r = challengeList;
+    // challengeList.insert(0, widget.challenge);
     challengeController.writeFile(context, allChallengesList);
 
     Navigator.pop(context);
+
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) => HomeChallenge(
+            preTitle: widget.title,
+            challenge: widget.challenge,
+            initialChalleneIndex: challengeList.indexOf(widget.challenge)),
+      ),
+    );
   }
 
   void onTapSingleAcceptanceCriteria(int index) {

@@ -40,7 +40,22 @@ class _HomeChallengeState extends State<HomeChallenge> {
   ChallengeController challengeController = ChallengeController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // setIsBottomBarVisibleToTrue(context);
+
+    checkChallengeStatus();
+
     return Scaffold(
       appBar:
           CustomeAppBar.build(preTitle: widget.preTitle, title: currentTitle),
@@ -291,22 +306,31 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                 ),
                           isDescriptionExpanded
                               ? Container()
-                              : Container(
-                                  height: 55,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1,
-                                          color: const Color.fromRGBO(
-                                              226, 232, 240, 1)),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(16))),
-                                  child: const Center(
-                                      child: Text(
-                                    'End',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w500),
-                                  )),
+                              : GestureDetector(
+                                  onTap: () => onTapEndTryAgainButton(e),
+                                  child: Container(
+                                    height: 55,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            width: 1,
+                                            color: const Color.fromRGBO(
+                                                226, 232, 240, 1)),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(16))),
+                                    child: Center(
+                                        child: Text(
+                                      widget.challenge.status ==
+                                              ChallengStatus.inProgress
+                                          ? 'End'
+                                          : widget.challenge.status ==
+                                                  ChallengStatus.success
+                                              ? 'Accept Again'
+                                              : 'Try Again',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                  ),
                                 )
                         ],
                       ),
@@ -317,6 +341,42 @@ class _HomeChallengeState extends State<HomeChallenge> {
             );
           }).toList()),
     );
+  }
+
+  void setIsBottomBarVisibleToTrue(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      //   setState(() {
+      context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+      //   });
+    });
+  }
+
+  void checkChallengeStatus() {
+    if (widget.challenge.endDate != null &&
+        widget.challenge.status != ChallengStatus.failed) {
+      if (DateTime.now().isAfter(widget.challenge.endDate!)) {
+        if (!checkAcceptanceCriteria()) {
+          widget.challenge.status = ChallengStatus.factory('Failed');
+        } else {
+          widget.challenge.status = ChallengStatus.factory('Success');
+        }
+      } else {
+        if (checkAcceptanceCriteria()) {
+          widget.challenge.status = ChallengStatus.factory('Success');
+        } else {
+          widget.challenge.status = ChallengStatus.factory('InProgress');
+        }
+      }
+    }
+  }
+
+  bool checkAcceptanceCriteria() {
+    for (var element in widget.challenge.acceptanceCriteria) {
+      if (element.progress != 100) {
+        return false; // Return false if any element doesn't meet the condition.
+      }
+    }
+    return true; // Return true only if all elements meet the condition.
   }
 
   String _dateFormat(DateTime date) {
@@ -384,40 +444,59 @@ class _HomeChallengeState extends State<HomeChallenge> {
                   border: Border.all(
                       width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Text(
-                      '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
+              child: SingleChildScrollView(
+                // scrollDirection: Axis.horizontal,
+                physics: const NeverScrollableScrollPhysics(),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.all(10),
+                      width: 59,
+                      decoration: const BoxDecoration(
+                          color: Color.fromRGBO(241, 245, 249, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: Text(
+                        '${acceptanceCriteria.progress}%',
+                        style:
+                            const TextStyle(fontSize: 12, color: themeColor3),
+                      ),
                     ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Text(
-                      acceptanceCriteria.frequence,
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
+                    Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          color: Color.fromRGBO(241, 245, 249, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: Text(
+                        '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
+                        style:
+                            const TextStyle(fontSize: 12, color: themeColor3),
+                      ),
                     ),
-                  ),
-                  Expanded(child: Container()),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Icon(getIconData(acceptanceCriteria),
-                        color: themeColor3, size: 14),
-                  ),
-                ],
+                    Container(
+                      margin: const EdgeInsets.only(right: 10),
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          color: Color.fromRGBO(241, 245, 249, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: Text(
+                        acceptanceCriteria.frequence,
+                        style:
+                            const TextStyle(fontSize: 12, color: themeColor3),
+                      ),
+                    ),
+                    Expanded(child: Container()),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          color: Color.fromRGBO(241, 245, 249, 1),
+                          borderRadius: BorderRadius.all(Radius.circular(12))),
+                      child: Icon(getIconData(acceptanceCriteria),
+                          color: themeColor3, size: 14),
+                    ),
+                  ],
+                ),
               ))
         ],
       ),
@@ -481,7 +560,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
         pageBuilder: (context, animation1, animation2) =>
             EditChallenge(title: widget.preTitle, challenge: widget.challenge),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) => setState(() {
+          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        }));
   }
 
   void deleteChallenge() {
@@ -572,8 +653,28 @@ class _HomeChallengeState extends State<HomeChallenge> {
           challenge: widget.challenge,
         ),
       ),
-    ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-        }));
+    );
+  }
+
+  void onTapEndTryAgainButton(Challenge challenge) {
+    if (widget.challenge.status == ChallengStatus.inProgress) {
+      // End button
+      if (!checkAcceptanceCriteria()) {
+        setState(() {
+          widget.challenge.status = ChallengStatus.factory('Failed');
+          challengeList.firstWhere((element) => element == challenge).status =
+              ChallengStatus.factory('Failed');
+          allChallengesList
+              .where((element) => element == challenge)
+              .first
+              .status = ChallengStatus.factory('Failed');
+          challengeController.writeFile(context, allChallengesList);
+        });
+      } else {
+        widget.challenge.status = ChallengStatus.factory('Success');
+      }
+    } else {
+      // Try Again Button
+    }
   }
 }

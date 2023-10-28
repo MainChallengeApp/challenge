@@ -37,6 +37,7 @@ class _AcceptanceCriteriaEvidenceListState
   void initState() {
     super.initState();
     challengesFutures = getChallenges(context);
+    setIsBottomNavBarVisibleToFalse();
   }
 
   @override
@@ -74,7 +75,8 @@ class _AcceptanceCriteriaEvidenceListState
                   }
 
                   return GestureDetector(
-                    onTap: () => onTapEvidence(widget.acceptanceCriteria.evidences[index]),
+                    onTap: () => onTapEvidence(
+                        widget.acceptanceCriteria.evidences[index]),
                     child: ListItemAcceptanceCriteriaBar(
                       acceptanceCriteria: widget.acceptanceCriteria,
                       isProgressBarLocked: true,
@@ -139,22 +141,33 @@ class _AcceptanceCriteriaEvidenceListState
       ),
     );
   }
-  
+
   onTapEvidence(Evidence evidence) {
     Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-              pageBuilder: (context, animation1, animation2) =>
-                  AcceptanceCriteriaMediaList(
-                preTitle: widget.preTitle,
-                mediaList: widget.challenge.media.where((element) => evidence.mediaIds.contains(element.id)).toList(),
-                acceptanceCriteria: widget.acceptanceCriteria,
-                challenge: widget.challenge,
-                evidence: evidence,
-              ),
-            ),
-          ).then((_) => setState(() {}));
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        pageBuilder: (context, animation1, animation2) =>
+            AcceptanceCriteriaMediaList(
+          preTitle: widget.preTitle,
+          mediaList: widget.challenge.media
+              .where((element) => evidence.mediaIds.contains(element.id))
+              .toList(),
+          acceptanceCriteria: widget.acceptanceCriteria,
+          challenge: widget.challenge,
+          evidence: evidence,
+          isSaveInsteadOfEditButtonVisible: false,
+        ),
+      ),
+    ).then((_) => setState(() {}));
+  }
+
+  void setIsBottomNavBarVisibleToFalse() {
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+      });
+    });
   }
 }

@@ -40,7 +40,7 @@ class _MediaDetailState extends State<MediaDetail> {
             width: double.infinity,
             height: double.infinity,
             child: Image.asset(e.source,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
                 errorBuilder: (context, error, stackTrace) => const Center(
                       child: SizedBox(
                         width: 20,

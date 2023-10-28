@@ -17,42 +17,51 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: themeColor1),
+      decoration: const BoxDecoration(color: themeColor1),
       // height: 100,
       // width: 350,
       padding: const EdgeInsets.only(top: 5),
       child: SingleChildScrollView(
         physics: const ScrollPhysics(parent: NeverScrollableScrollPhysics()),
         child: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            widget.onSelectTab(
-            TabItem.values[index]);
-          });
-        },
-        indicatorColor: themeColor2,
-        indicatorShape: const RoundedRectangleBorder(side: BorderSide(width: 0, ), borderRadius: BorderRadius.all(Radius.circular(16))),
-        backgroundColor: themeColor1,
-        selectedIndex: widget.currentTab.index,
-        destinations: <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(TabItem.Search.icon, color: Colors.white),
-            icon: Icon(TabItem.Search.icon, color: Colors.white,),
-            label: '',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(TabItem.Home.icon, color: Colors.white),
-            icon: Icon(TabItem.Home.icon, color: Colors.white),
-            label: '',
-          ),
-          NavigationDestination(
-            selectedIcon: Icon(TabItem.Settings.icon, color: Colors.white),
-            icon: Icon(TabItem.Settings.icon, color: Colors.white),
-            label: '',
-          ),
-        ],
-      ),
+          onDestinationSelected: (int index) {
+            setState(() {
+              widget.onSelectTab(TabItem.values[index]);
+            });
+          },
+          indicatorColor: themeColor2,
+          indicatorShape: const RoundedRectangleBorder(
+              side: BorderSide(
+                width: 0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(16))),
+          backgroundColor: themeColor1,
+          selectedIndex: widget.currentTab.index,
+          destinations: <Widget>[
+            NavigationDestination(
+              selectedIcon: Icon(TabItem.Search.icon, color: Colors.white),
+              icon: Icon(
+                TabItem.Search.icon,
+                color: Colors.white,
+              ),
+              label: '',
+            ),
+            const NavigationDestination(
+              selectedIcon: ImageIcon(
+                AssetImage('assets/icons/challenge_icon.png'),
+              ),
+              icon: ImageIcon(
+                AssetImage('assets/icons/challenge_icon.png'),
+              ), //Icon(TabItem.Home.icon, color: Colors.white),
+              label: '',
+            ),
+            NavigationDestination(
+              selectedIcon: Icon(TabItem.Settings.icon, color: Colors.white),
+              icon: Icon(TabItem.Settings.icon, color: Colors.white),
+              label: '',
+            ),
+          ],
+        ),
       ),
     );
   }

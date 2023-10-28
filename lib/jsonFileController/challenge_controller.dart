@@ -15,14 +15,17 @@ class ChallengeController {
   Future<List<Challenge>> readFile(BuildContext context) async {
     // final assetBundle = DefaultAssetBundle.of(context);
     // final data = await assetBundle.loadString('assets/home_challenges.json');
+    try {
+      final documentsDirectory = await getApplicationDocumentsDirectory();
+      final file = File('${documentsDirectory.path}/$filePath');
+      final data = await file.readAsString();
 
-    final documentsDirectory = await getApplicationDocumentsDirectory();
-    final file = File('${documentsDirectory.path}/$filePath');
-    final data = await file.readAsString();
-
-    final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
-
+      final body = json.decode(data);
+      return body.map<Challenge>(Challenge.fromJson).toList();
+    } catch (e) {
+      final body = [];
+      return body.map<Challenge>(Challenge.fromJson).toList();
+    }
   }
 
   Future<void> writeFile(
