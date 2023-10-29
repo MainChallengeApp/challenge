@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/models/tab_item.dart';
+import 'package:challenge/enums/tab_item.dart';
 
 import '../../globals.dart';
 
@@ -49,9 +49,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
             const NavigationDestination(
               selectedIcon: ImageIcon(
                 AssetImage('assets/icons/challenge_icon.png'),
+                color: Colors.white,
               ),
               icon: ImageIcon(
                 AssetImage('assets/icons/challenge_icon.png'),
+                color: Colors.white,
               ), //Icon(TabItem.Home.icon, color: Colors.white),
               label: '',
             ),

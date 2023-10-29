@@ -2,22 +2,27 @@
 
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/edit_challenge/date_picker.dart';
-import 'package:challenge/jsonFileController/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 
+import '../../models/acceptance_criteria.dart';
+import '../../models/activity.dart';
+
 class EditChallenge extends StatefulWidget {
+  final Function? homeListSetState;
+
   EditChallenge(
       {super.key,
       required this.title,
       required this.challenge,
-      this.selectTab}) {
+      this.selectTab,
+      this.homeListSetState}) {
     title = title;
     challenge = challenge;
     editChallenge = Challenge(
-        id: challenge.id,
         status: challenge.status,
         title: challenge.title,
         description: challenge.description,
@@ -472,7 +477,6 @@ class _EditChallengeState extends State<EditChallenge> {
   void onTapSave() async {
     // check inputs e.g. endDate > startDate
 
-    widget.challenge.id = challengeList.length;
     widget.challenge.title = widget.editChallenge.title;
     widget.challenge.description = widget.editChallenge.description;
     widget.challenge.startDate = widget.editChallenge.startDate;
@@ -481,6 +485,15 @@ class _EditChallengeState extends State<EditChallenge> {
         widget.editChallenge.acceptanceCriteria;
 
     if (allChallengesList.contains(widget.challenge)) {
+// wip
+      // challengeList.firstWhere((element) => element == widget.challenge).status =
+      //         ChallengStatus.factory('Success');
+      //     allChallengesList
+      //         .where((element) => element == widget.challenge)
+      //         .first
+      //         .status = ChallengStatus.factory('Success');
+      //     challengeController.writeFile(context, allChallengesList);
+
       allChallengesList.map((e) {
         if (e.id == widget.challenge.id) {
           return widget.challenge;
@@ -490,7 +503,6 @@ class _EditChallengeState extends State<EditChallenge> {
     } else {
       allChallengesList.insert(0, widget.challenge);
     }
-    var l = challengeList;
     if (challengeList.contains(widget.challenge)) {
       challengeList.map((e) {
         if (e.id == widget.challenge.id) {
@@ -517,7 +529,9 @@ class _EditChallengeState extends State<EditChallenge> {
             challenge: widget.challenge,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
-    );
+    ).then((_) {
+      widget.homeListSetState!.call();
+    });
   }
 
   void onTapSingleAcceptanceCriteria(int index) {

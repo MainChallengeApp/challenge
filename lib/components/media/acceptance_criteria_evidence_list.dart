@@ -7,6 +7,8 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/acceptance_criteria.dart';
+import '../../models/evidence.dart';
 import '../../providers/design_provider.dart';
 import 'acceptance_criteria_media_list.dart';
 

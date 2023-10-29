@@ -1,9 +1,10 @@
 // ignore_for_file: must_be_immutable
-
-import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
 import '../../globals.dart';
+import '../../models/acceptance_criteria.dart';
+import '../../models/activity.dart';
+import '../../models/evidence.dart';
 
 class ListItemAcceptanceCriteriaBar extends StatefulWidget {
   ListItemAcceptanceCriteriaBar(
@@ -12,7 +13,7 @@ class ListItemAcceptanceCriteriaBar extends StatefulWidget {
       this.isProgressBarLocked = false,
       this.initialProgress = 0}) {
     editAcceptanceCriteria = AcceptanceCriteria(
-      id: acceptanceCriteria.id,
+        id: acceptanceCriteria.id,
         activity: Activity(
             title: acceptanceCriteria.activity.title,
             amount: acceptanceCriteria.activity.amount,
@@ -84,8 +85,7 @@ class _ListItemAcceptanceCriteriaBarState
             if (!widget.isProgressBarLocked) {
               setState(() {
                 int newProgress = 0;
-                newProgress =
-                    (details.localPosition.dx / 350 * 100).round();
+                newProgress = (details.localPosition.dx / 350 * 100).round();
                 if (newProgress > 100) {
                   newProgress = 100;
                 } else if (newProgress <= 0) {

@@ -1,13 +1,13 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/jsonFileController/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../components/edit_challenge/edit_challenge.dart';
-import '../../models/tab_item.dart';
+import '../../enums/tab_item.dart';
 import '../home/home_challenge.dart';
 
 class SearchChallenge extends StatefulWidget {

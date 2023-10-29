@@ -5,13 +5,16 @@ import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/media/media_camera.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/jsonFileController/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+
+import '../../enums/challenge_status.dart';
+import '../../models/acceptance_criteria.dart';
 
 class HomeChallenge extends StatefulWidget {
   HomeChallenge(
@@ -307,7 +310,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
                           isDescriptionExpanded
                               ? Container()
                               : GestureDetector(
-                                  onTap: () => onTapEndTryAgainButton(e),
+                                  onTap: () =>
+                                      onTapEndTryAgainAcceptAgainButton(e),
                                   child: Container(
                                     height: 55,
                                     width: double.infinity,
@@ -321,10 +325,10 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                     child: Center(
                                         child: Text(
                                       widget.challenge.status ==
-                                              ChallengStatus.inProgress
+                                              ChallengeStatus.inProgress
                                           ? 'End'
                                           : widget.challenge.status ==
-                                                  ChallengStatus.success
+                                                  ChallengeStatus.success
                                               ? 'Accept Again'
                                               : 'Try Again',
                                       style: const TextStyle(
@@ -352,20 +356,25 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void checkChallengeStatus() {
-    if (widget.challenge.endDate != null &&
-        widget.challenge.status != ChallengStatus.failed) {
-      if (DateTime.now().isAfter(widget.challenge.endDate!)) {
-        if (!checkAcceptanceCriteria()) {
-          widget.challenge.status = ChallengStatus.factory('Failed');
+    if (widget.challenge.acceptanceCriteria.isNotEmpty) {
+      if (widget.challenge.endDate != null) {
+        // if (widget.challenge.status != ChallengStatus.failed) {
+        if (DateTime.now().isAfter(widget.challenge.endDate!)) {
+          if (!checkAcceptanceCriteria()) {
+            widget.challenge.status = ChallengeStatus.failed;
+          } else {
+            widget.challenge.status = ChallengeStatus.success;
+          }
         } else {
-          widget.challenge.status = ChallengStatus.factory('Success');
+          if (checkAcceptanceCriteria()) {
+            widget.challenge.status = ChallengeStatus.success;
+          } else {
+            widget.challenge.status = ChallengeStatus.inProgress;
+          }
         }
-      } else {
-        if (checkAcceptanceCriteria()) {
-          widget.challenge.status = ChallengStatus.factory('Success');
-        } else {
-          widget.challenge.status = ChallengStatus.factory('InProgress');
-        }
+        // } else {
+
+        // }
       }
     }
   }
@@ -431,7 +440,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
               // width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: widget.challenge.status == ChallengStatus.failed
+                  color: widget.challenge.status == ChallengeStatus.failed
                       ? Colors.red
                       : Colors.green,
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
@@ -566,12 +575,13 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void deleteChallenge() {
-    allChallengesList.remove(widget.challenge);
+    allChallengesList
+        .removeWhere((element) => element.id == widget.challenge.id);
+    challengeList.removeWhere((element) => element.id == widget.challenge.id);
     challengeController.writeFile(context, allChallengesList);
 
-    Slidable.of(context2)?.close();
+    // Slidable.of(context2)?.close();
     Navigator.pop(context);
-    // Todo: delete Challenge
   }
 
   void onTapOpenMediaPage() {
@@ -653,28 +663,53 @@ class _HomeChallengeState extends State<HomeChallenge> {
           challenge: widget.challenge,
         ),
       ),
-    );
+    ).then((_) => setState(() {
+          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        }));
   }
 
-  void onTapEndTryAgainButton(Challenge challenge) {
-    if (widget.challenge.status == ChallengStatus.inProgress) {
+  void onTapEndTryAgainAcceptAgainButton(Challenge challenge) {
+    if (widget.challenge.status == ChallengeStatus.inProgress) {
       // End button
       if (!checkAcceptanceCriteria()) {
         setState(() {
-          widget.challenge.status = ChallengStatus.factory('Failed');
-          challengeList.firstWhere((element) => element == challenge).status =
-              ChallengStatus.factory('Failed');
+          widget.challenge.status = ChallengeStatus.failed;
+          challengeList
+              .firstWhere((element) => element.id == challenge.id)
+              .status = ChallengeStatus.failed;
           allChallengesList
-              .where((element) => element == challenge)
-              .first
-              .status = ChallengStatus.factory('Failed');
+              .firstWhere((element) => element.id == challenge.id)
+              .status = ChallengeStatus.failed;
           challengeController.writeFile(context, allChallengesList);
         });
       } else {
-        widget.challenge.status = ChallengStatus.factory('Success');
+        setState(() {
+          // widget.challenge.status = ChallengeStatus.success;
+          // challengeList
+          //     .firstWhere((element) => element.id == challenge.id)
+          //     .status = ChallengeStatus.success;
+          allChallengesList
+              .firstWhere((element) => element.id == challenge.id)
+              .status = ChallengeStatus.success;
+          challengeController.writeFile(context, allChallengesList);
+        });
       }
-    } else {
+    } else if (widget.challenge.status == ChallengeStatus.failed) {
       // Try Again Button
+      Navigator.pop(context);
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+          pageBuilder: (context, animation1, animation2) {
+            Challenge challenge = Challenge.copyChallenge(widget.challenge);
+            return EditChallenge(title: widget.preTitle, challenge: challenge);
+          },
+        ),
+      ).then((_) => setState(() {
+            context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+          }));
     }
   }
 }

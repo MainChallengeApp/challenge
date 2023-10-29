@@ -10,11 +10,15 @@ import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/media.dart';
 import '../../providers/design_provider.dart';
 
 class MediaList extends StatefulWidget {
   const MediaList(
-      {super.key, required this.preTitle, this.tapOnNewChallenge, required this.challenge});
+      {super.key,
+      required this.preTitle,
+      this.tapOnNewChallenge,
+      required this.challenge});
   final String preTitle;
   final Function? tapOnNewChallenge;
   final Challenge challenge;
@@ -56,7 +60,9 @@ class _MediaListState extends State<MediaList> {
                 .where((element) => element.title.contains(searchBarText))
                 .toList();
 
-            List<Media> mediaList = widget.challenge.media.where((element) => element.title.contains(searchBarText)).toList(); //.where((e) => e.title.contains(searchBarText))
+            List<Media> mediaList = widget.challenge.media
+                .where((element) => element.title.contains(searchBarText))
+                .toList(); //.where((e) => e.title.contains(searchBarText))
 
             return ListView.separated(
                 itemCount: mediaList.length +
@@ -83,7 +89,7 @@ class _MediaListState extends State<MediaList> {
                     return Container(); // +1 for new Challenge listitem + 1 for searchbar
                   }
                   return ListItemMediaSmall(
-                    onTap: () => ppush(context, index: index-1-1),
+                    onTap: () => ppush(context, index: index - 1 - 1),
                     media: mediaList[index - 1 - 1],
                   );
                 });
@@ -115,8 +121,13 @@ class _MediaListState extends State<MediaList> {
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            MediaDetail(media: widget.challenge.media.where((element) => element.title.contains(searchBarText)).toList(), preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
+        pageBuilder: (context, animation1, animation2) => MediaDetail(
+          media: widget.challenge.media
+              .where((element) => element.title.contains(searchBarText))
+              .toList(),
+          preTitle: '${widget.preTitle}/Media',
+          initialMediaIdex: index,
+        ),
       ),
     ).then((_) => setState(() {}));
   }

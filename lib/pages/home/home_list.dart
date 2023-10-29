@@ -1,5 +1,5 @@
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
-import 'package:challenge/jsonFileController/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -7,6 +7,8 @@ import 'package:challenge/components/list_items/list_item_challenge_small.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
+
+import '../../enums/challenge_status.dart';
 
 class HomeList extends StatefulWidget {
   const HomeList(
@@ -28,7 +30,8 @@ class _HomeListState extends State<HomeList> {
   @override
   void initState() {
     super.initState();
-    challengesFutures = challengeController.readFile(context); //getChallenges(context);
+    challengesFutures =
+        challengeController.readFile(context); //getChallenges(context);
   }
 
   @override
@@ -37,9 +40,9 @@ class _HomeListState extends State<HomeList> {
         appBar: AppBar(
           elevation: 0,
           leading: const Icon(
-              Icons.chevron_left,
-              color: Colors.transparent,
-            ),
+            Icons.chevron_left,
+            color: Colors.transparent,
+          ),
           foregroundColor: Colors.black,
           titleSpacing: 0,
           title: Align(
@@ -47,7 +50,7 @@ class _HomeListState extends State<HomeList> {
             child: Padding(
               padding: const EdgeInsets.only(right: 24),
               child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal,
                 child: Text(
                   widget.title,
                   style: const TextStyle(
@@ -104,7 +107,8 @@ class _HomeListState extends State<HomeList> {
                       1 -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => ppush(context, challenge: challenge, index: index - 1 -1),
+                    onTap: () => ppush(context,
+                        challenge: challenge, index: index - 1 - 1),
                     challenge: challenge,
                   );
                 });
@@ -121,31 +125,47 @@ class _HomeListState extends State<HomeList> {
     });
   }
 
-  void ppush(BuildContext context, {required Challenge challenge, required int index}) {
+  void ppush(BuildContext context,
+      {required Challenge challenge, required int index}) {
     Navigator.push(
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            HomeChallenge(preTitle: widget.title, challenge: challenge, initialChalleneIndex: index),
+        pageBuilder: (context, animation1, animation2) => HomeChallenge(
+            preTitle: widget.title,
+            challenge: challenge,
+            initialChalleneIndex: index),
       ),
-    ).then((_) => setState(() {
-    }));
+    ).then((_) => setState(() {}));
   }
-  
+
   tapOnNewChallenge() {
-    final Challenge challenge = Challenge(id: challengeList.length, status: ChallengStatus.backlog, title: '', description: '', thumbnailPath: '', startDate: DateTime.now(), endDate: DateTime.now(), acceptanceCriteria: [], media: []);
+    final Challenge challenge = Challenge(
+        status: ChallengeStatus.inProgress,
+        title: '',
+        description: '',
+        thumbnailPath: '',
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
+        acceptanceCriteria: [],
+        media: []);
 
     Navigator.push(
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            EditChallenge(title: widget.title, challenge: challenge),
+        pageBuilder: (context, animation1, animation2) => EditChallenge(
+          title: widget.title,
+          challenge: challenge,
+          homeListSetState: homeListSetState,
+        ),
       ),
-    ).then((_) => setState(() {
-    }));
+    ).then((_) => setState(() {}));
+  }
+
+  homeListSetState() {
+    setState(() {});
   }
 }

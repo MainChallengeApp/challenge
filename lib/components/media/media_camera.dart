@@ -8,6 +8,8 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/acceptance_criteria.dart';
+import '../../models/media.dart';
 import '../navigation/custom_app_bar.dart';
 
 class MediaCamera extends StatefulWidget {
@@ -210,31 +212,34 @@ class _CameraStateMedia extends State<MediaCamera> {
     return GestureDetector(
       onTap: () {
         if (widget.acceptanceCriteria != null) {
-          if(currentMedia.isEmpty){
+          if (currentMedia.isEmpty) {
             Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-              pageBuilder: (context, animation1, animation2) =>
-                  AcceptanceCriteriaEvidenceList(preTitle: widget.preTitle, challenge: widget.challenge, acceptanceCriteria: widget.acceptanceCriteria!),
-            ),
-          ).then((_) => setState(() {}));
-          } else {
-          Navigator.push(
-            context,
-            PageRouteBuilder(
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-              pageBuilder: (context, animation1, animation2) =>
-                  AcceptanceCriteriaMediaList(
-                preTitle: widget.preTitle,
-                mediaList: currentMedia,
-                acceptanceCriteria: widget.acceptanceCriteria!,
-                challenge: widget.challenge,
+              context,
+              PageRouteBuilder(
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+                pageBuilder: (context, animation1, animation2) =>
+                    AcceptanceCriteriaEvidenceList(
+                        preTitle: widget.preTitle,
+                        challenge: widget.challenge,
+                        acceptanceCriteria: widget.acceptanceCriteria!),
               ),
-            ),
-          ).then((_) => setState(() {}));
+            ).then((_) => setState(() {}));
+          } else {
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero,
+                pageBuilder: (context, animation1, animation2) =>
+                    AcceptanceCriteriaMediaList(
+                  preTitle: widget.preTitle,
+                  mediaList: currentMedia,
+                  acceptanceCriteria: widget.acceptanceCriteria!,
+                  challenge: widget.challenge,
+                ),
+              ),
+            ).then((_) => setState(() {}));
           }
         } else {
           Navigator.push(
@@ -242,8 +247,8 @@ class _CameraStateMedia extends State<MediaCamera> {
             PageRouteBuilder(
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
-              pageBuilder: (context, animation1, animation2) =>
-                  MediaList(preTitle: widget.preTitle, challenge: widget.challenge),
+              pageBuilder: (context, animation1, animation2) => MediaList(
+                  preTitle: widget.preTitle, challenge: widget.challenge),
             ),
           ).then((_) => setState(() {}));
         }

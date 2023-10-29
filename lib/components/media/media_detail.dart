@@ -1,8 +1,8 @@
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
 import '../../globals.dart';
+import '../../models/media.dart';
 
 class MediaDetail extends StatefulWidget {
   final String preTitle;

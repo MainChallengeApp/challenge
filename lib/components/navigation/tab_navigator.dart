@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
-import 'package:challenge/models/tab_item.dart';
+import 'package:challenge/enums/tab_item.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
@@ -13,11 +13,9 @@ class TabNavigator extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
   final TabItem tabItem;
 
-  void ppush(BuildContext context, {int challengeId = 0
-  , Challenge? challenge
-  }) {
-    var routeBuilders = prouteBuilders(context, challengeId: challengeId
-    );
+  void ppush(BuildContext context,
+      {int challengeId = 0, Challenge? challenge}) {
+    var routeBuilders = prouteBuilders(context, challengeId: challengeId);
 
     Navigator.push(
       context,

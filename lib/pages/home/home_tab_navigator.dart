@@ -4,22 +4,23 @@ import 'package:challenge/pages/home/home_list.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
+import '../../enums/challenge_status.dart';
+
 class HomeTabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
   static const String newChallenge = '/newChallenge';
   static const String addAcceptanceCriteria = '/addAcceptanceCriteria';
 }
+
 class HomeTabNavigator extends TabNavigator {
-  
-  const HomeTabNavigator({super.key, required super.navigatorKey, required super.tabItem});
+  const HomeTabNavigator(
+      {super.key, required super.navigatorKey, required super.tabItem});
 
   @override
-  void ppush(BuildContext context, {int challengeId = 0
-  , Challenge? challenge
-  }) {
-    var routeBuilders = prouteBuilders(context, challenge: challenge!
-    );
+  void ppush(BuildContext context,
+      {int challengeId = 0, Challenge? challenge}) {
+    var routeBuilders = prouteBuilders(context, challenge: challenge!);
 
     Navigator.push(
       context,
@@ -32,9 +33,16 @@ class HomeTabNavigator extends TabNavigator {
     );
   }
 
-
-void tapOnNewChallenge(BuildContext context) {
-    final Challenge challenge = Challenge(id: 0, status: ChallengStatus.backlog, title: '', description: '', thumbnailPath: '', startDate: null, endDate: null, acceptanceCriteria: [], media: []);
+  void tapOnNewChallenge(BuildContext context) {
+    final Challenge challenge = Challenge(
+        status: ChallengeStatus.backlog,
+        title: '',
+        description: '',
+        thumbnailPath: '',
+        startDate: null,
+        endDate: null,
+        acceptanceCriteria: [],
+        media: []);
     var routeBuilders = prouteBuilders(context, challenge: challenge);
 
     Navigator.push(
@@ -48,16 +56,14 @@ void tapOnNewChallenge(BuildContext context) {
     );
   }
 
-    @override
-    Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
+  @override
+  Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, Challenge? challenge}) {
     return {
       HomeTabNavigatorRoutes.root: (context) => HomeList(
-            title: tabItem.name,
-            onPush: (c) =>
-                ppush(context, challenge: c),
-            tapOnNewChallenge: () => tapOnNewChallenge(context)
-          ),
+          title: tabItem.name,
+          onPush: (c) => ppush(context, challenge: c),
+          tapOnNewChallenge: () => tapOnNewChallenge(context)),
       // HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
       //       preTitle: tabItem.name,
       //       challenge: challenge!,
@@ -68,5 +74,4 @@ void tapOnNewChallenge(BuildContext context) {
           ),
     };
   }
-
 }
