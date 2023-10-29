@@ -16,7 +16,8 @@ class Challenge {
   List<Media> media;
 
   Challenge(
-      {required this.status,
+      {this.id,
+      required this.status,
       required this.title,
       required this.description,
       required this.thumbnailPath,
@@ -24,10 +25,13 @@ class Challenge {
       this.endDate,
       required this.acceptanceCriteria,
       required this.media}) {
-    id = const Uuid().v4();
+    if (id == null || id!.isEmpty) {
+      id = const Uuid().v4();
+    }
   }
 
   static Challenge fromJson(json) => Challenge(
+      id: json['id'],
       status: ChallengeStatus.factory(json['status']),
       title: json['title'],
       description: json['description'],

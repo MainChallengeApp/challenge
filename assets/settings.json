@@ -1,6 +1,5 @@
 [
     {
-        "id": 0,
         "status": "Failed",
         "title": "100 Km March",
         "description": "March 100 Km in 24h.",
@@ -29,7 +28,6 @@
         ]
     },
     {
-        "id": 1,
         "status": "InProgress",
         "title": "20 days running",
         "description": "Run 1Km for 30 days every day.",
@@ -78,7 +76,6 @@
         ]
     },
     {
-        "id": 2,
         "status": "InProgress",
         "title": "30 days running",
         "description": "Run 1Km for 30 days every day.",
@@ -107,7 +104,6 @@
         ]
     },
     {
-        "id": 3,
         "status": "InProgress",
         "title": "40 days running",
         "description": "Run 1Km for 30 days every day.",
@@ -136,7 +132,6 @@
         ]
     },
     {
-        "id": 4,
         "status": "InProgress",
         "title": "50 days running",
         "description": "Run 1Km for 30 days every day.",
@@ -165,7 +160,6 @@
         ]
     },
     {
-        "id": 5,
         "status": "InProgress",
         "title": "60 days running",
         "description": "Run 1Km for 30 days every day.",
@@ -194,7 +188,6 @@
         ]
     },
     {
-        "id": 6,
         "status": "InProgress",
         "title": "70 days running",
         "description": "Run 1Km for 30 days every day.",
@@ -223,7 +216,6 @@
         ]
     },
     {
-        "id": 7,
         "status": "InProgress",
         "title": "80 days running",
         "description": "Run 1Km for 30 days every day.",

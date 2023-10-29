@@ -1,7 +1,4 @@
 // ignore_for_file: must_be_immutable
-
-import 'dart:convert';
-
 import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
@@ -45,19 +42,9 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
 
 class _AcceptanceCriteriaMediaListState
     extends State<AcceptanceCriteriaMediaList> {
-  late Future<List<Challenge>> challengesFutures;
   ChallengeController challengeController = ChallengeController();
 
   String searchBarText = "";
-
-  late BuildContext context2;
-
-  @override
-  void initState() {
-    super.initState();
-    challengesFutures = getChallenges(context);
-    // context2 = context;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,76 +57,53 @@ class _AcceptanceCriteriaMediaListState
   }
 
   Widget _buildList() {
-    return FutureBuilder(
-        future: challengesFutures,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            challengeList = snapshot.data!
-                .where((element) => element.title.contains(searchBarText))
-                .toList();
-
-            return ListView.separated(
-                itemCount: widget.isSaveInsteadOfEditButtonVisible
-                    ? widget.mediaList.length + 1 + 1 + 1
-                    : widget.mediaList.length +
-                        1 +
-                        1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 17,
-                    ),
-                itemBuilder: (BuildContext content, int index) {
-                  if (index == 0) {
-                    return ListItemAcceptanceCriteriaBar(
-                      acceptanceCriteria: widget.acceptanceCriteria,
-                      initialProgress: widget.evidence?.progress ??
-                          widget.acceptanceCriteria.progress,
-                      isProgressBarLocked:
-                          !widget.isSaveInsteadOfEditButtonVisible,
-                    );
-                  }
-                  if (widget.isSaveInsteadOfEditButtonVisible) {
-                    if (index == 1) {
-                      return ListItemIconSmall(
-                        onTap: () => widget.tapOnNewChallenge!.call(),
-                        icon: Icons.add,
-                        title: "Upload Media",
-                      );
-                    }
-                    if (index == widget.mediaList.length + 1 + 1) {
-                      return Container(
-                        height: 40,
-                      ); // +1 for new Challenge listitem + 1 for searchbar
-                    }
-                    return ListItemMediaSmall(
-                      onTap: () => ppush(context, index: index - 1 - 1),
-                      media: widget.mediaList[index - 1 - 1],
-                    );
-                  } else {
-                    if ((index + 1) == widget.mediaList.length + 1 + 1) {
-                      return Container(
-                        height: 40,
-                      ); // +1 for new Challenge listitem + 1 for searchbar
-                    }
-                    return ListItemMediaSmall(
-                      onTap: () => ppush(context, index: (index + 1) - 1 - 1),
-                      media: widget.mediaList[(index + 1) - 1 - 1],
-                    );
-                  }
-                });
+    return ListView.separated(
+        itemCount: widget.isSaveInsteadOfEditButtonVisible
+            ? widget.mediaList.length + 1 + 1 + 1
+            : widget.mediaList.length +
+                1 +
+                1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
+        separatorBuilder: (context, index) => const SizedBox(
+              height: 17,
+            ),
+        itemBuilder: (BuildContext content, int index) {
+          if (index == 0) {
+            return ListItemAcceptanceCriteriaBar(
+              acceptanceCriteria: widget.acceptanceCriteria,
+              initialProgress: widget.evidence?.progress ??
+                  widget.acceptanceCriteria.progress,
+              isProgressBarLocked: !widget.isSaveInsteadOfEditButtonVisible,
+            );
+          }
+          if (widget.isSaveInsteadOfEditButtonVisible) {
+            if (index == 1) {
+              return ListItemIconSmall(
+                onTap: () => widget.tapOnNewChallenge!.call(),
+                icon: Icons.add,
+                title: "Upload Media",
+              );
+            }
+            if (index == widget.mediaList.length + 1 + 1) {
+              return Container(
+                height: 40,
+              ); // +1 for new Challenge listitem + 1 for searchbar
+            }
+            return ListItemMediaSmall(
+              onTap: () => ppush(context, index: index - 1 - 1),
+              media: widget.mediaList[index - 1 - 1],
+            );
           } else {
-            return const Text('Error with loading data...');
+            if ((index + 1) == widget.mediaList.length + 1 + 1) {
+              return Container(
+                height: 40,
+              ); // +1 for new Challenge listitem + 1 for searchbar
+            }
+            return ListItemMediaSmall(
+              onTap: () => ppush(context, index: (index + 1) - 1 - 1),
+              media: widget.mediaList[(index + 1) - 1 - 1],
+            );
           }
         });
-  }
-
-  static Future<List<Challenge>> getChallenges(BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/home_challenges.json');
-
-    final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
   }
 
   changeList(String value) {

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +29,11 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
 
 class _AcceptanceCriteriaEvidenceListState
     extends State<AcceptanceCriteriaEvidenceList> {
-  late Future<List<Challenge>> challengesFutures;
-
   String searchBarText = "";
 
   @override
   void initState() {
     super.initState();
-    challengesFutures = getChallenges(context);
     setIsBottomNavBarVisibleToFalse();
   }
 
@@ -55,50 +50,28 @@ class _AcceptanceCriteriaEvidenceListState
   }
 
   Widget _buildList() {
-    return FutureBuilder(
-        future: challengesFutures,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            challengeList = snapshot.data!
-                .where((element) => element.title.contains(searchBarText))
-                .toList();
-
-            return ListView.separated(
-                itemCount: widget.acceptanceCriteria.evidences.length +
-                    1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 17,
-                    ),
-                itemBuilder: (BuildContext content, int index) {
-                  if (index == widget.acceptanceCriteria.evidences.length) {
-                    return Container();
-                  }
-
-                  return GestureDetector(
-                    onTap: () => onTapEvidence(
-                        widget.acceptanceCriteria.evidences[index]),
-                    child: ListItemAcceptanceCriteriaBar(
-                      acceptanceCriteria: widget.acceptanceCriteria,
-                      isProgressBarLocked: true,
-                      initialProgress:
-                          widget.acceptanceCriteria.evidences[index].progress,
-                    ),
-                  );
-                });
-          } else {
-            return const Text('Error with loading data...');
+    return ListView.separated(
+        itemCount: widget.acceptanceCriteria.evidences.length +
+            1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
+        separatorBuilder: (context, index) => const SizedBox(
+              height: 17,
+            ),
+        itemBuilder: (BuildContext content, int index) {
+          if (index == widget.acceptanceCriteria.evidences.length) {
+            return Container();
           }
+
+          return GestureDetector(
+            onTap: () =>
+                onTapEvidence(widget.acceptanceCriteria.evidences[index]),
+            child: ListItemAcceptanceCriteriaBar(
+              acceptanceCriteria: widget.acceptanceCriteria,
+              isProgressBarLocked: true,
+              initialProgress:
+                  widget.acceptanceCriteria.evidences[index].progress,
+            ),
+          );
         });
-  }
-
-  static Future<List<Challenge>> getChallenges(BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/home_challenges.json');
-
-    final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
   }
 
   changeList(String value) {

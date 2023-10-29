@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/media/media_detail.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
@@ -28,15 +25,7 @@ class MediaList extends StatefulWidget {
 }
 
 class _MediaListState extends State<MediaList> {
-  late Future<List<Challenge>> challengesFutures;
-
   String searchBarText = "";
-
-  @override
-  void initState() {
-    super.initState();
-    challengesFutures = getChallenges(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,61 +39,39 @@ class _MediaListState extends State<MediaList> {
   }
 
   Widget _buildList() {
-    return FutureBuilder(
-        future: challengesFutures,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            challengeList = snapshot.data!
-                .where((element) => element.title.contains(searchBarText))
-                .toList();
+    List<Media> mediaList = widget.challenge.media
+        .where((element) => element.title.contains(searchBarText))
+        .toList(); //.where((e) => e.title.contains(searchBarText))
 
-            List<Media> mediaList = widget.challenge.media
-                .where((element) => element.title.contains(searchBarText))
-                .toList(); //.where((e) => e.title.contains(searchBarText))
-
-            return ListView.separated(
-                itemCount: mediaList.length +
-                    1 +
-                    1 +
-                    1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 17,
-                    ),
-                itemBuilder: (BuildContext content, int index) {
-                  if (index == 0) {
-                    return ListItemSearchbar(
-                      changeList: changeList,
-                    );
-                  }
-                  if (index == 1) {
-                    return ListItemIconSmall(
-                      onTap: () => widget.tapOnNewChallenge!.call(),
-                      icon: Icons.add,
-                      title: "Upload Media",
-                    );
-                  }
-                  if (index == mediaList.length + 1 + 1) {
-                    return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  }
-                  return ListItemMediaSmall(
-                    onTap: () => ppush(context, index: index - 1 - 1),
-                    media: mediaList[index - 1 - 1],
-                  );
-                });
-          } else {
-            return const Text('Error with loading data...');
+    return ListView.separated(
+        itemCount: mediaList.length +
+            1 +
+            1 +
+            1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
+        separatorBuilder: (context, index) => const SizedBox(
+              height: 17,
+            ),
+        itemBuilder: (BuildContext content, int index) {
+          if (index == 0) {
+            return ListItemSearchbar(
+              changeList: changeList,
+            );
           }
+          if (index == 1) {
+            return ListItemIconSmall(
+              onTap: () => widget.tapOnNewChallenge!.call(),
+              icon: Icons.add,
+              title: "Upload Media",
+            );
+          }
+          if (index == mediaList.length + 1 + 1) {
+            return Container(); // +1 for new Challenge listitem + 1 for searchbar
+          }
+          return ListItemMediaSmall(
+            onTap: () => ppush(context, index: index - 1 - 1),
+            media: mediaList[index - 1 - 1],
+          );
         });
-  }
-
-  static Future<List<Challenge>> getChallenges(BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/home_challenges.json');
-
-    final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
   }
 
   changeList(String value) {

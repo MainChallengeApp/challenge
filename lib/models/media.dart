@@ -41,5 +41,6 @@ class Media {
           title: media.title,
           source: media.source));
     }
+    return mediaListCopy;
   }
 }

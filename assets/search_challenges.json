@@ -1,6 +1,5 @@
 [
   {
-    "id": 0,
     "status": "Failed",
     "title": "100 Km March",
     "description": "March 100 Km in 24h.",
@@ -29,7 +28,6 @@
     ]
   },
   {
-    "id": 1,
     "status": "InProgress",
     "title": "20 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -78,7 +76,6 @@
     ]
   },
   {
-    "id": 2,
     "status": "InProgress",
     "title": "30 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -107,7 +104,6 @@
     ]
   },
   {
-    "id": 3,
     "status": "InProgress",
     "title": "40 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -136,7 +132,6 @@
     ]
   },
   {
-    "id": 4,
     "status": "InProgress",
     "title": "50 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -165,7 +160,6 @@
     ]
   },
   {
-    "id": 5,
     "status": "InProgress",
     "title": "60 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -194,7 +188,6 @@
     ]
   },
   {
-    "id": 6,
     "status": "InProgress",
     "title": "70 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -223,7 +216,6 @@
     ]
   },
   {
-    "id": 7,
     "status": "InProgress",
     "title": "80 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -252,7 +244,6 @@
     ]
   },
   {
-    "id": 8,
     "status": "InProgress",
     "title": "90 days running",
     "description": "Run 1Km for 30 days every day.",
@@ -281,299 +272,8 @@
     ]
   },
   {
-    "id": 9,
     "status": "InProgress",
     "title": "100 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 10,
-    "status": "InProgress",
-    "title": "110 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 11,
-    "status": "InProgress",
-    "title": "120 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 12,
-    "status": "InProgress",
-    "title": "130 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 13,
-    "status": "InProgress",
-    "title": "140 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 14,
-    "status": "InProgress",
-    "title": "150 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 15,
-    "status": "InProgress",
-    "title": "160 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 16,
-    "status": "InProgress",
-    "title": "170 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 17,
-    "status": "InProgress",
-    "title": "180 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 18,
-    "status": "InProgress",
-    "title": "190 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      }
-    ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
-  },
-  {
-    "id": 19,
-    "status": "InProgress",
-    "title": "200 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
     "startDate": "2023-10-31",

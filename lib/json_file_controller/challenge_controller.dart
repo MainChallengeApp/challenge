@@ -13,8 +13,6 @@ class ChallengeController {
   ChallengeController();
 
   Future<List<Challenge>> readFile(BuildContext context) async {
-    // final assetBundle = DefaultAssetBundle.of(context);
-    // final data = await assetBundle.loadString('assets/home_challenges.json');
     try {
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final file = File('${documentsDirectory.path}/$filePath');

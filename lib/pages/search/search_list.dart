@@ -9,7 +9,8 @@ import 'package:challenge/models/challenge.dart';
 import 'search_challenge.dart';
 
 class SearchList extends StatefulWidget {
-  const SearchList({super.key, required this.title, this.onPush, required this.selectTab});
+  const SearchList(
+      {super.key, required this.title, this.onPush, required this.selectTab});
   final String title;
   final ValueChanged<Challenge>? onPush;
   final Function selectTab;
@@ -21,7 +22,7 @@ class SearchList extends StatefulWidget {
 class _SearchListState extends State<SearchList> {
   late Future<List<Challenge>> challengesFutures;
   late List<Challenge> filteredChallenges;
-  
+
   String searchBarText = "";
 
   @override
@@ -46,7 +47,7 @@ class _SearchListState extends State<SearchList> {
             child: Padding(
               padding: const EdgeInsets.only(right: 24),
               child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.horizontal,
                 child: Text(
                   widget.title,
                   style: const TextStyle(
@@ -70,7 +71,9 @@ class _SearchListState extends State<SearchList> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
-            filteredChallenges = snapshot.data!.where((element) => element.title.contains(searchBarText)).toList();
+            filteredChallenges = snapshot.data!
+                .where((element) => element.title.contains(searchBarText))
+                .toList();
 
             return ListView.separated(
                 itemCount: filteredChallenges.length +
@@ -89,7 +92,9 @@ class _SearchListState extends State<SearchList> {
                   Challenge challenge = filteredChallenges[index -
                       1]; // -1 for new Challenge listitem - 1 for searchbar
                   return ListItemChallengeSmall(
-                    onTap: () => onTapChallenge(challenge: challenge, index: index - 1), // widget.onPush?.call(challenge),
+                    onTap: () => onTapChallenge(
+                        challenge: challenge,
+                        index: index - 1), // widget.onPush?.call(challenge),
                     challenge: challenge,
                   );
                 });
@@ -115,18 +120,18 @@ class _SearchListState extends State<SearchList> {
   }
 
   onTapChallenge({required Challenge challenge, required int index}) {
-     Navigator.push(
+    Navigator.push(
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => SearchChallenge(
-            title: widget.title,
-            challenge: challenge,
-            selectTab: widget.selectTab,
-            challenges: filteredChallenges,
-            initialChalleneIndex: index,
-          ),
+          title: widget.title,
+          challenge: challenge,
+          selectTab: widget.selectTab,
+          challenges: filteredChallenges,
+          initialChalleneIndex: index,
+        ),
       ),
     );
   }

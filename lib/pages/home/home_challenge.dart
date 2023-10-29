@@ -77,35 +77,41 @@ class _HomeChallengeState extends State<HomeChallenge> {
                 endActionPane: ActionPane(
                   motion: const ScrollMotion(),
                   children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: editChallenge,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  width: 1,
-                                  color:
-                                      const Color.fromRGBO(226, 232, 240, 1)),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(24))),
-                          child: const Center(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.edit),
-                              SizedBox(
-                                height: 5,
+                    (widget.challenge.status == ChallengeStatus.inProgress ||
+                            widget.challenge.status == ChallengeStatus.backlog)
+                        ? Expanded(
+                            child: GestureDetector(
+                              onTap: editChallenge,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                        width: 1,
+                                        color: const Color.fromRGBO(
+                                            226, 232, 240, 1)),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(24))),
+                                child: const Center(
+                                    child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.edit),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text("Edit")
+                                  ],
+                                )),
                               ),
-                              Text("Edit")
-                            ],
-                          )),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                            ),
+                          )
+                        : Container(),
+                    (widget.challenge.status == ChallengeStatus.inProgress ||
+                            widget.challenge.status == ChallengeStatus.backlog)
+                        ? const SizedBox(
+                            width: 20,
+                          )
+                        : Container(),
                     Expanded(
                       child: GestureDetector(
                         onTap: deleteChallenge,
@@ -359,7 +365,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     if (widget.challenge.acceptanceCriteria.isNotEmpty) {
       if (widget.challenge.endDate != null) {
         // if (widget.challenge.status != ChallengStatus.failed) {
-        if (DateTime.now().isAfter(widget.challenge.endDate!)) {
+        if (DateTime.now()
+            .isAfter(widget.challenge.endDate!.add(const Duration(days: 1)))) {
           if (!checkAcceptanceCriteria()) {
             widget.challenge.status = ChallengeStatus.failed;
           } else {
@@ -368,7 +375,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         } else {
           if (checkAcceptanceCriteria()) {
             widget.challenge.status = ChallengeStatus.success;
-          } else {
+          } else if (widget.challenge.status != ChallengeStatus.failed) {
             widget.challenge.status = ChallengeStatus.inProgress;
           }
         }
@@ -561,17 +568,20 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   void editChallenge() {
     Slidable.of(context2)?.close();
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            EditChallenge(title: widget.preTitle, challenge: widget.challenge),
-      ),
-    ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-        }));
+    if (widget.challenge.status == ChallengeStatus.inProgress ||
+        widget.challenge.status == ChallengeStatus.backlog) {
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+          pageBuilder: (context, animation1, animation2) => EditChallenge(
+              title: widget.preTitle, challenge: widget.challenge),
+        ),
+      ).then((_) => setState(() {
+            context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+          }));
+    }
   }
 
   void deleteChallenge() {
