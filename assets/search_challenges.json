@@ -4,8 +4,6 @@
     "title": "100 Km March",
     "description": "March 100 Km in 24h.",
     "thumbnailPath": "assets/images/thumbnail2.png",
-    "startDate": "2023-04-28",
-    "endDate": "2023-04-29",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -18,22 +16,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail2.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "20 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -66,22 +55,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "30 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -94,22 +74,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "40 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -122,22 +93,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "50 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -150,22 +112,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "60 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -178,22 +131,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "70 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -206,22 +150,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "80 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -234,22 +169,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "90 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -262,22 +188,13 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   },
   {
     "status": "InProgress",
     "title": "100 days running",
     "description": "Run 1Km for 30 days every day.",
     "thumbnailPath": "assets/images/thumbnail.png",
-    "startDate": "2023-10-31",
-    "endDate": "2023-11-30",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -290,13 +207,6 @@
         "progress": 0
       }
     ],
-    "media": [
-      {
-        "id": 0,
-        "type": "image",
-        "title": "thumbnail",
-        "source": "assets/images/thumbnail.png"
-      }
-    ]
+    "media": []
   }
 ]

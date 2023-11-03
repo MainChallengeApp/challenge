@@ -8,6 +8,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../components/edit_challenge/edit_challenge.dart';
 import '../../enums/tab_item.dart';
+import '../../models/acceptance_criteria.dart';
 import '../home/home_challenge.dart';
 
 class SearchChallenge extends StatefulWidget {
@@ -65,6 +66,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
             scrollDirection: Axis.vertical,
             children: widget.challenges.map(
               (e) {
+                e.startDate = DateTime.now();
                 return Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     child: Slidable(
@@ -76,7 +78,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                         children: [
                           Expanded(
                             child: GestureDetector(
-                              onTap: editChallenge,
+                              onTap: () => editChallenge(),
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
@@ -103,41 +105,41 @@ class _SearchChallengeState extends State<SearchChallenge> {
                           const SizedBox(
                             width: 20,
                           ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: tapOnFavorite,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color: const Color.fromRGBO(
-                                            226, 232, 240, 1)),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(24))),
-                                child: const Center(
-                                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.star_border_outlined,
-                                      color: Colors.yellow,
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "Favorite",
-                                      style: TextStyle(color: Colors.yellow),
-                                    )
-                                  ],
-                                )),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
+                          // Expanded(
+                          //   child: GestureDetector(
+                          //     onTap: tapOnFavorite,
+                          //     child: Container(
+                          //       decoration: BoxDecoration(
+                          //           color: Colors.white,
+                          //           border: Border.all(
+                          //               width: 1,
+                          //               color: const Color.fromRGBO(
+                          //                   226, 232, 240, 1)),
+                          //           borderRadius: const BorderRadius.all(
+                          //               Radius.circular(24))),
+                          //       child: const Center(
+                          //           child: Column(
+                          //         mainAxisAlignment: MainAxisAlignment.center,
+                          //         children: [
+                          //           Icon(
+                          //             Icons.star_border_outlined,
+                          //             color: Colors.yellow,
+                          //           ),
+                          //           SizedBox(
+                          //             height: 5,
+                          //           ),
+                          //           Text(
+                          //             "Favorite",
+                          //             style: TextStyle(color: Colors.yellow),
+                          //           )
+                          //         ],
+                          //       )),
+                          //     ),
+                          //   ),
+                          // ),
+                          // const SizedBox(
+                          //   width: 20,
+                          // ),
                         ],
                       ),
                       child: Builder(builder: (context) {
@@ -181,7 +183,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                 }),
                                 child: Container(
                                     width: double.infinity,
-                                    height: isDescriptionExpanded ? 399 : 80,
+                                    height: isDescriptionExpanded ? 403 : 80,
                                     padding: const EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         border: Border.all(
@@ -200,20 +202,6 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                           fontSize: 12, color: themeColor3),
                                     )),
                               ),
-                              // isDescriptionExpanded
-                              //     ? Container()
-                              //     : const SizedBox(
-                              //         height: 11,
-                              //       ),
-                              // isDescriptionExpanded
-                              //     ? Container()
-                              //     : const Align(
-                              //         alignment: Alignment.centerLeft,
-                              //         child: Text(
-                              //           'Acceptance Criteria',
-                              //           style: TextStyle(fontWeight: FontWeight.w500),
-                              //         ),
-                              //       ),
                               isDescriptionExpanded
                                   ? Container()
                                   : const SizedBox(
@@ -221,7 +209,57 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                     ),
                               isDescriptionExpanded
                                   ? Container()
-                                  : acceptanceCriteria(),
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            child: standardContainer(
+                                                child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'Start',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            Text(
+                                              (e.startDate != null
+                                                  ? _dateFormat(e.startDate!)
+                                                  : '-'),
+                                              style: const TextStyle(
+                                                  color: themeColor3),
+                                            )
+                                          ],
+                                        ))),
+                                        const SizedBox(width: 16),
+                                        Expanded(
+                                            child: standardContainer(
+                                                child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'End',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            Text(
+                                              (e.endDate != null
+                                                  ? _dateFormat(e.endDate!)
+                                                  : '-'),
+                                              style: const TextStyle(
+                                                  color: themeColor3),
+                                            )
+                                          ],
+                                        ))),
+                                      ],
+                                    ),
+                              isDescriptionExpanded
+                                  ? Container()
+                                  : acceptanceCriteria(e.acceptanceCriteria),
+                              isDescriptionExpanded ? Container() : dots(),
                               isDescriptionExpanded
                                   ? Container()
                                   : Expanded(child: Container()),
@@ -279,40 +317,60 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria() {
-    return Container(
-      height: 200,
-      child: ListView.separated(
-        itemCount: widget.challenge.acceptanceCriteria.length,
-        separatorBuilder: (context, index) => const SizedBox(
-          height: 16,
-        ),
-        itemBuilder: (_, i) {
-          return singleAcceptanceCriteria(i);
-        },
-      ),
-    );
+  acceptanceCriteria(List<AcceptanceCriteria> acceptanceCriterias) {
+    return SizedBox(
+        // margin: EdgeInsets.only(top: 10),
+        height: 55,
+        // padding: const EdgeInsets.all(10),
+        child: PageView.builder(
+          itemCount: acceptanceCriterias.length,
+          controller: PageController(viewportFraction: 1),
+          onPageChanged: (int index) =>
+              setState(() => selectedAcceptanceCriteria = index),
+          itemBuilder: (_, i) {
+            return Transform.scale(
+              scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
+              child: singleAcceptanceCriteria(acceptanceCriterias[i]),
+            );
+          },
+        ));
   }
 
-  singleAcceptanceCriteria(int index) {
+  singleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
     return Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
+            color: Colors.white.withAlpha(170),
             border: Border.all(
                 width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Container(
+              margin: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.all(10),
+              // width: 59,
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: Text('${acceptanceCriteria.progress}%',
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                  overflow: TextOverflow.ellipsis),
+            ),
+            Container(
+              constraints: const BoxConstraints(
+                maxWidth: 88, // Set your desired maximum width
+              ),
               margin: const EdgeInsets.only(right: 10),
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(241, 245, 249, 1),
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: Text(
-                '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
-                style: const TextStyle(fontSize: 12, color: themeColor3),
-              ),
+                  '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                  overflow: TextOverflow.ellipsis),
             ),
             Container(
               margin: const EdgeInsets.only(right: 10),
@@ -320,10 +378,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(241, 245, 249, 1),
                   borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Text(
-                widget.challenge.acceptanceCriteria[index].frequence,
-                style: const TextStyle(fontSize: 12, color: themeColor3),
-              ),
+              child: Text(acceptanceCriteria.frequence,
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                  overflow: TextOverflow.ellipsis),
             ),
             Expanded(child: Container()),
             Container(
@@ -331,25 +388,43 @@ class _SearchChallengeState extends State<SearchChallenge> {
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(241, 245, 249, 1),
                   borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Icon(getIconData(index), color: themeColor3, size: 14),
+              child: Icon(getIconData(acceptanceCriteria),
+                  color: themeColor3, size: 14),
             ),
           ],
         ));
   }
 
-  IconData getIconData(int index) {
-    if (widget.challenge.acceptanceCriteria[index].tracking == 'camera') {
+  IconData getIconData(AcceptanceCriteria acceptanceCriteria) {
+    if (acceptanceCriteria.tracking == 'camera') {
       return Icons.camera_alt_outlined;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'gps') {
+    } else if (acceptanceCriteria.tracking == 'gps') {
       return Icons.gps_not_fixed;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
+    } else if (acceptanceCriteria.tracking == 'notes') {
       return Icons.notes;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking ==
-        'numbers') {
+    } else if (acceptanceCriteria.tracking == 'numbers') {
       return Icons.numbers;
     } else {
       return Icons.not_accessible;
     }
+  }
+
+  dots() {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(
+            widget.challenge.acceptanceCriteria.length,
+            (index) => Padding(
+                  padding: const EdgeInsets.only(
+                      left: 5, right: 5, top: 10, bottom: 23),
+                  child: Icon(
+                    Icons.fiber_manual_record,
+                    size: 6,
+                    color: index == selectedAcceptanceCriteria
+                        ? themeColor3
+                        : themeColor3.withAlpha(100),
+                  ),
+                )));
   }
 
   void onTapAccept() async {
@@ -388,19 +463,36 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   void editChallenge() {
-    Slidable.of(context2)?.close();
+    // Slidable.of(context2)?.close(); // doesnt work flawless...
     Navigator.push(
       context,
       PageRouteBuilder(
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => EditChallenge(
-            title: widget.title,
-            challenge: widget.challenge,
-            selectTab: widget.selectTab),
+          title: widget.title,
+          challenge: widget.challenge,
+          selectTab: widget.selectTab,
+          isSearchEdit: true,
+        ),
       ),
     ).then((_) => setState(() {}));
   }
 
   void tapOnFavorite() {}
+
+  standardContainer({required Widget child, double heightFactor = 1}) {
+    return Container(
+      // width: double.infinity,
+      height: 55 * heightFactor,
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
+      child: child,
+    );
+  }
 }

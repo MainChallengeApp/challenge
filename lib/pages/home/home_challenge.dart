@@ -460,59 +460,57 @@ class _HomeChallengeState extends State<HomeChallenge> {
                   border: Border.all(
                       width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
-              child: SingleChildScrollView(
-                // scrollDirection: Axis.horizontal,
-                physics: const NeverScrollableScrollPhysics(),
-                child: Row(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.all(10),
-                      width: 59,
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(241, 245, 249, 1),
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Text(
-                        '${acceptanceCriteria.progress}%',
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.all(10),
+                    // width: 59,
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Text('${acceptanceCriteria.progress}%',
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
-                      ),
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 88, // Set your desired maximum width
                     ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(241, 245, 249, 1),
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Text(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Text(
                         '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(241, 245, 249, 1),
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Text(
-                        acceptanceCriteria.frequence,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Text(acceptanceCriteria.frequence,
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
-                      ),
-                    ),
-                    Expanded(child: Container()),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          color: Color.fromRGBO(241, 245, 249, 1),
-                          borderRadius: BorderRadius.all(Radius.circular(12))),
-                      child: Icon(getIconData(acceptanceCriteria),
-                          color: themeColor3, size: 14),
-                    ),
-                  ],
-                ),
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                  Expanded(child: Container()),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Color.fromRGBO(241, 245, 249, 1),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    child: Icon(getIconData(acceptanceCriteria),
+                        color: themeColor3, size: 14),
+                  ),
+                ],
               ))
         ],
       ),
@@ -567,7 +565,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void editChallenge() {
-    Slidable.of(context2)?.close();
+    // Slidable.of(context2)?.close();    // doesnt work flawless...
     if (widget.challenge.status == ChallengeStatus.inProgress ||
         widget.challenge.status == ChallengeStatus.backlog) {
       Navigator.push(

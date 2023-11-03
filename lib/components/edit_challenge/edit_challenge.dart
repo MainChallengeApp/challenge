@@ -19,7 +19,8 @@ class EditChallenge extends StatefulWidget {
       required this.title,
       required this.challenge,
       this.selectTab,
-      this.homeListSetState}) {
+      this.homeListSetState,
+      this.isSearchEdit = false}) {
     title = title;
     challenge = challenge;
     editChallenge = Challenge(
@@ -37,6 +38,7 @@ class EditChallenge extends StatefulWidget {
   Challenge challenge;
   late Challenge editChallenge;
   final Function? selectTab;
+  final bool isSearchEdit;
 
   @override
   State<EditChallenge> createState() => _EditChallengeState();
@@ -189,6 +191,9 @@ class _EditChallengeState extends State<EditChallenge> {
           child: Row(
             children: [
               Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 150, // Set your desired maximum width
+                ),
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
@@ -197,6 +202,7 @@ class _EditChallengeState extends State<EditChallenge> {
                 child: Text(
                   '${widget.editChallenge.acceptanceCriteria[index].activity.title} ${widget.editChallenge.acceptanceCriteria[index].activity.amount} ${widget.editChallenge.acceptanceCriteria[index].activity.unit}',
                   style: const TextStyle(fontSize: 12, color: themeColor3),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               Container(
@@ -287,10 +293,12 @@ class _EditChallengeState extends State<EditChallenge> {
           children: [
             const Text("End"),
             DatePickerExample(
-                restorationId: 'main',
-                initialDate: widget.editChallenge.endDate ?? DateTime.now(),
-                editChallenge: widget.editChallenge,
-                isStartDate: false) // very bad workaround
+              restorationId: 'main',
+              initialDate: widget.editChallenge.endDate ?? DateTime.now(),
+              editChallenge: widget.editChallenge,
+              isStartDate: false,
+              isActualEmpty: widget.editChallenge.endDate == null,
+            ) // very bad workaround
           ],
         ))),
       ],
@@ -483,6 +491,11 @@ class _EditChallengeState extends State<EditChallenge> {
     widget.challenge.endDate = widget.editChallenge.endDate;
     widget.challenge.acceptanceCriteria =
         widget.editChallenge.acceptanceCriteria;
+
+    if (widget.isSearchEdit) {
+      Navigator.pop(context);
+      return;
+    }
 
     if (allChallengesList.contains(widget.challenge)) {
 // wip

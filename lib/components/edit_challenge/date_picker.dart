@@ -4,12 +4,19 @@ import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
 class DatePickerExample extends StatefulWidget {
-  DatePickerExample({super.key, this.restorationId, required this.initialDate, required this.editChallenge, required this.isStartDate});
+  DatePickerExample(
+      {super.key,
+      this.restorationId,
+      required this.initialDate,
+      required this.editChallenge,
+      required this.isStartDate,
+      this.isActualEmpty = false});
 
   final String? restorationId;
   DateTime initialDate;
   final Challenge editChallenge;
   final bool isStartDate;
+  bool isActualEmpty;
 
   @override
   State<DatePickerExample> createState() => _DatePickerExampleState();
@@ -28,8 +35,7 @@ class _DatePickerExampleState extends State<DatePickerExample>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _selectedDate= RestorableDateTime(widget.initialDate);
-    
+    _selectedDate = RestorableDateTime(widget.initialDate);
   }
 
   late final RestorableDateTime _selectedDate;
@@ -76,6 +82,7 @@ class _DatePickerExampleState extends State<DatePickerExample>
       setState(() {
         _selectedDate.value = newSelectedDate;
         widget.initialDate = newSelectedDate;
+        widget.isActualEmpty = false;
         if (widget.isStartDate) {
           widget.editChallenge.startDate = newSelectedDate;
         } else {
@@ -90,8 +97,11 @@ class _DatePickerExampleState extends State<DatePickerExample>
     return Center(
       child: GestureDetector(
           onTap: () => _restorableDatePickerRouteFuture.present(),
-          child: Text(
-              '${_selectedDate.value.day}.${_selectedDate.value.month}.${_selectedDate.value.year}')),
+          child: widget.isActualEmpty
+              ? const Text(
+                  '                          -') // extra space so the user can click next to the -
+              : Text(
+                  '${_selectedDate.value.day}.${_selectedDate.value.month}.${_selectedDate.value.year}')),
     );
   }
 }

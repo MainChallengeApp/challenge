@@ -100,8 +100,6 @@ class _ListItemAcceptanceCriteriaBarState
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white.withAlpha(170),
-                  // border: Border.all(
-                  //     width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
                   borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: Row(
                 children: [
@@ -118,15 +116,19 @@ class _ListItemAcceptanceCriteriaBarState
                     ),
                   ),
                   Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 100, // Set your desired maximum width
+                    ),
                     margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.all(10),
                     decoration: const BoxDecoration(
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      '${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
-                    ),
+                        '${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
+                        style:
+                            const TextStyle(fontSize: 12, color: themeColor3),
+                        overflow: TextOverflow.ellipsis),
                   ),
                   Container(
                     margin: const EdgeInsets.only(right: 10),
