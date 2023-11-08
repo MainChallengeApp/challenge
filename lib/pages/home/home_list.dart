@@ -147,7 +147,7 @@ class _HomeListState extends State<HomeList> {
         description: '',
         thumbnailPath: '',
         startDate: DateTime.now(),
-        endDate: DateTime.now(),
+        endDate: null,
         acceptanceCriteria: [],
         media: []);
 
@@ -160,6 +160,7 @@ class _HomeListState extends State<HomeList> {
           title: widget.title,
           challenge: challenge,
           homeListSetState: homeListSetState,
+          isNewChallenge: true,
         ),
       ),
     ).then((_) => setState(() {}));

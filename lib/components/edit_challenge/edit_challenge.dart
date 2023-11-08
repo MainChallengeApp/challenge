@@ -14,13 +14,19 @@ import '../../models/activity.dart';
 class EditChallenge extends StatefulWidget {
   final Function? homeListSetState;
 
+  bool isNewChallenge;
+
+  bool isTryAgain;
+
   EditChallenge(
       {super.key,
       required this.title,
       required this.challenge,
       this.selectTab,
       this.homeListSetState,
-      this.isSearchEdit = false}) {
+      this.isSearchEdit = false,
+      this.isNewChallenge = false,
+      this.isTryAgain = false}) {
     title = title;
     challenge = challenge;
     editChallenge = Challenge(
@@ -269,6 +275,7 @@ class _EditChallengeState extends State<EditChallenge> {
   }
 
   startAndEndDate() {
+    widget.editChallenge.startDate ??= DateTime.now();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -280,7 +287,7 @@ class _EditChallengeState extends State<EditChallenge> {
             const Text("Start"),
             DatePickerExample(
                 restorationId: 'main',
-                initialDate: widget.editChallenge.startDate ?? DateTime.now(),
+                initialDate: widget.editChallenge.startDate!,
                 editChallenge: widget.editChallenge,
                 isStartDate: true) // very bad workaround
           ],
@@ -531,7 +538,7 @@ class _EditChallengeState extends State<EditChallenge> {
     challengeController.writeFile(context, allChallengesList);
 
     Navigator.pop(context);
-    if (!widget.isSearchEdit) {
+    if (!widget.isSearchEdit && !widget.isNewChallenge && !widget.isTryAgain) {
       Navigator.pop(context);
     }
 

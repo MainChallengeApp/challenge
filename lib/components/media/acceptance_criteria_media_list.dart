@@ -82,7 +82,7 @@ class _AcceptanceCriteriaMediaListState
           if (widget.isSaveInsteadOfEditButtonVisible) {
             if (index == 1) {
               return ListItemIconSmall(
-                onTap: () => widget.tapOnNewChallenge!.call(),
+                onTap: () => 0, // not yet implemented
                 icon: Icons.add,
                 title: "Upload Media",
               );
@@ -143,9 +143,10 @@ class _AcceptanceCriteriaMediaListState
               mediaIds: widget.mediaList.map((e) => e.id).toList());
 
           widget.acceptanceCriteria.evidences.insert(0, evidence);
+          var a = allChallengesList;
+          var b = widget.challenge;
           allChallengesList
-              .where((element) => element.id == widget.challenge.id)
-              .first
+              .firstWhere((element) => element.id == widget.challenge.id)
               .acceptanceCriteria
               .where((element) => element.id == widget.acceptanceCriteria.id)
               .toList()[0] = widget.acceptanceCriteria;

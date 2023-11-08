@@ -59,7 +59,7 @@ class _MediaListState extends State<MediaList> {
           }
           if (index == 1) {
             return ListItemIconSmall(
-              onTap: () => widget.tapOnNewChallenge!.call(),
+              onTap: () => 0, // not yet implemented
               icon: Icons.add,
               title: "Upload Media",
             );

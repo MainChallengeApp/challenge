@@ -23,7 +23,7 @@ class SearchChallenge extends StatefulWidget {
   Challenge challenge;
   final Function selectTab;
   final List<Challenge> challenges;
-  final int initialChalleneIndex;
+  int initialChalleneIndex;
 
   @override
   State<SearchChallenge> createState() => _SearchChallengeState();
@@ -35,8 +35,14 @@ class _SearchChallengeState extends State<SearchChallenge> {
       PageController(initialPage: widget.initialChalleneIndex);
   late BuildContext context2;
 
+  late String currentTitle = widget.challenge.title;
+
   @override
   Widget build(BuildContext context) {
+    // if (pageController.hasClients) {
+    //   pageController.jumpToPage(widget.initialChalleneIndex);
+    // }
+    widget.challenge = widget.challenges[widget.initialChalleneIndex];
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -50,7 +56,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                '${widget.title}/${widget.challenge.title}',
+                '${widget.title}/$currentTitle',
                 style: const TextStyle(
                     color: Colors.black, fontSize: appBarFontSize),
               ),
@@ -78,31 +84,30 @@ class _SearchChallengeState extends State<SearchChallenge> {
                         motion: const ScrollMotion(),
                         children: [
                           Expanded(
-                            child: GestureDetector(
-                              onTap: () => editChallenge(),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color: const Color.fromRGBO(
-                                            226, 232, 240, 1)),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(24))),
-                                child: const Center(
-                                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.edit),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text("Edit")
-                                  ],
-                                )),
-                              ),
+                              child: GestureDetector(
+                            onTap: () => editChallenge(),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      width: 1,
+                                      color: const Color.fromRGBO(
+                                          226, 232, 240, 1)),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(24))),
+                              child: const Center(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.edit),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text("Edit")
+                                ],
+                              )),
                             ),
-                          ),
+                          )),
                           const SizedBox(
                             width: 20,
                           ),
@@ -472,9 +477,11 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   void onTapAccept() async {
+    Challenge challengeCopy = Challenge.copyChallenge(widget.challenge);
+
     ChallengeController challengeController = ChallengeController();
-    allChallengesList.insert(0, widget.challenge);
-    challengeList.insert(0, widget.challenge);
+    allChallengesList.insert(0, challengeCopy);
+    challengeList.insert(0, challengeCopy);
     await challengeController.writeFile(context, allChallengesList);
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
@@ -496,7 +503,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) => HomeChallenge(
           preTitle: 'Home',
-          challenge: widget.challenge,
+          challenge: challengeCopy,
           initialChalleneIndex: 0,
         ), // Todo: change initalChallengeIndex when id is known from backend
       ),
@@ -506,6 +513,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
   void onPageChanged(int value) {
     setState(() {
       widget.challenge = widget.challenges[value];
+      currentTitle = widget.challenge.title;
+      widget.initialChalleneIndex = value;
+      pageController = PageController(initialPage: value);
     });
   }
 

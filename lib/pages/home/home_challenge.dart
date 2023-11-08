@@ -77,6 +77,11 @@ class _HomeChallengeState extends State<HomeChallenge> {
                 closeOnScroll: true,
                 // The end action pane is the one at the right or the bottom side.
                 endActionPane: ActionPane(
+                  extentRatio: (widget.challenge.status ==
+                              ChallengeStatus.inProgress ||
+                          widget.challenge.status == ChallengeStatus.backlog)
+                      ? 0.5
+                      : 0.25,
                   motion: const ScrollMotion(),
                   children: [
                     (widget.challenge.status == ChallengeStatus.inProgress ||
@@ -719,13 +724,16 @@ class _HomeChallengeState extends State<HomeChallenge> {
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
           pageBuilder: (context, animation1, animation2) {
-            Challenge challenge = Challenge.copyChallenge(widget.challenge);
-            return EditChallenge(title: widget.preTitle, challenge: challenge);
+            Challenge challenge =
+                Challenge.copyChallenge(widget.challenge, isTryAgain: true);
+            return EditChallenge(
+              title: widget.preTitle,
+              challenge: challenge,
+              isTryAgain: true,
+            );
           },
         ),
-      ).then((_) => setState(() {
-            context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-          }));
+      );
     }
   }
 }

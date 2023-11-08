@@ -57,15 +57,19 @@ class Challenge {
     };
   }
 
-  static Challenge copyChallenge(Challenge challenge) {
+  static Challenge copyChallenge(Challenge challenge,
+      {bool isTryAgain = false}) {
     Challenge challengeCopy = Challenge(
-        status: challenge.status,
+        status: isTryAgain ? ChallengeStatus.inProgress : challenge.status,
         title: challenge.title,
+        startDate: isTryAgain ? null : challenge.startDate,
+        endDate: isTryAgain ? null : challenge.endDate,
         description: challenge.description,
         thumbnailPath: challenge.thumbnailPath,
         acceptanceCriteria: AcceptanceCriteria.copyAcceptanceCriteriaList(
-            challenge.acceptanceCriteria),
-        media: Media.copyMediaList(challenge.media));
+            challenge.acceptanceCriteria,
+            isTryAgain: isTryAgain),
+        media: isTryAgain ? [] : Media.copyMediaList(challenge.media));
     return challengeCopy;
   }
 

@@ -43,8 +43,9 @@ class AcceptanceCriteria {
         .toList();
   }
 
-  static copyAcceptanceCriteriaList(
-      List<AcceptanceCriteria> acceptanceCriteriaList) {
+  static List<AcceptanceCriteria> copyAcceptanceCriteriaList(
+      List<AcceptanceCriteria> acceptanceCriteriaList,
+      {bool isTryAgain = false}) {
     List<AcceptanceCriteria> acceptanceCriteriaListCopy = [];
     for (var a in acceptanceCriteriaList) {
       acceptanceCriteriaListCopy.add(AcceptanceCriteria(
@@ -52,8 +53,8 @@ class AcceptanceCriteria {
           activity: Activity.copyActivity(a.activity),
           frequence: a.frequence,
           tracking: a.tracking,
-          progress: a.progress,
-          evidences: Evidence.copyEvidenceList(a.evidences)));
+          progress: isTryAgain ? 0 : a.progress,
+          evidences: isTryAgain ? [] : Evidence.copyEvidenceList(a.evidences)));
     }
     return acceptanceCriteriaListCopy;
   }
