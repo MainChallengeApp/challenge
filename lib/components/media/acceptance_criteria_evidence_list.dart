@@ -14,11 +14,9 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
   const AcceptanceCriteriaEvidenceList(
       {super.key,
       required this.preTitle,
-      this.tapOnNewChallenge,
       required this.challenge,
       required this.acceptanceCriteria});
   final String preTitle;
-  final Function? tapOnNewChallenge;
   final Challenge challenge;
   final AcceptanceCriteria acceptanceCriteria;
 
@@ -40,7 +38,11 @@ class _AcceptanceCriteriaEvidenceListState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
+        appBar: CustomeAppBar.build(
+          preTitle: widget.preTitle,
+          title:
+              '${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
+        ),
         backgroundColor: Colors.white,
         body: Stack(
           children: [
@@ -125,7 +127,8 @@ class _AcceptanceCriteriaEvidenceListState
         reverseTransitionDuration: Duration.zero,
         pageBuilder: (context, animation1, animation2) =>
             AcceptanceCriteriaMediaList(
-          preTitle: widget.preTitle,
+          preTitle:
+              '${widget.preTitle}/${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
           mediaList: widget.challenge.media
               .where((element) => evidence.mediaIds.contains(element.id))
               .toList(),
@@ -144,5 +147,18 @@ class _AcceptanceCriteriaEvidenceListState
         context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       });
     });
+  }
+
+  String splitTitle(String title) {
+    // Find the index of the last '/' in the string
+    int lastIndex = title.lastIndexOf('/');
+
+    if (lastIndex != -1 && lastIndex > 0) {
+      // Extract the portion of the string up to the last '/'
+      String result = title.substring(0, lastIndex);
+      return result;
+    } else {
+      return title;
+    }
   }
 }

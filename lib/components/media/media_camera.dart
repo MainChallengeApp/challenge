@@ -84,7 +84,8 @@ class _CameraStateMedia extends State<MediaCamera> {
                   ),
             CustomeAppBar.build(
                 preTitle: widget.preTitle,
-                title: 'Camera',
+                title:
+                    '${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
                 backgroundColor: Colors.transparent,
                 textColor: Colors.white),
             Align(
@@ -220,7 +221,8 @@ class _CameraStateMedia extends State<MediaCamera> {
                 reverseTransitionDuration: Duration.zero,
                 pageBuilder: (context, animation1, animation2) =>
                     AcceptanceCriteriaEvidenceList(
-                        preTitle: widget.preTitle,
+                        preTitle:
+                            '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
                         challenge: widget.challenge,
                         acceptanceCriteria: widget.acceptanceCriteria!),
               ),
@@ -233,7 +235,8 @@ class _CameraStateMedia extends State<MediaCamera> {
                 reverseTransitionDuration: Duration.zero,
                 pageBuilder: (context, animation1, animation2) =>
                     AcceptanceCriteriaMediaList(
-                  preTitle: widget.preTitle,
+                  preTitle:
+                      '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
                   mediaList: currentMedia,
                   acceptanceCriteria: widget.acceptanceCriteria!,
                   challenge: widget.challenge,
@@ -248,7 +251,8 @@ class _CameraStateMedia extends State<MediaCamera> {
               transitionDuration: Duration.zero,
               reverseTransitionDuration: Duration.zero,
               pageBuilder: (context, animation1, animation2) => MediaList(
-                  preTitle: widget.preTitle, challenge: widget.challenge),
+                  preTitle: '${widget.preTitle}/Camera',
+                  challenge: widget.challenge),
             ),
           ).then((_) => setState(() {}));
         }

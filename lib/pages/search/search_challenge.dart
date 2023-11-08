@@ -74,6 +74,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                       closeOnScroll: true,
                       // The end action pane is the one at the right or the bottom side.
                       endActionPane: ActionPane(
+                        extentRatio: 0.25,
                         motion: const ScrollMotion(),
                         children: [
                           Expanded(
@@ -265,28 +266,71 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                   : Expanded(child: Container()),
                               isDescriptionExpanded
                                   ? Container()
-                                  : GestureDetector(
-                                      onTap: onTapAccept,
-                                      child: Container(
-                                        height: 55,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            color: themeColor2,
-                                            border: Border.all(
-                                                width: 1,
-                                                color: const Color.fromRGBO(
-                                                    226, 232, 240, 1)),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(16))),
-                                        child: const Center(
-                                            child: Text(
-                                          'Accept',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.white),
-                                        )),
-                                      ),
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: editChallenge,
+                                            child: Container(
+                                              height: 55,
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              226,
+                                                              232,
+                                                              240,
+                                                              1)),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(16))),
+                                              child: const Center(
+                                                  child: Text(
+                                                'Edit',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black),
+                                              )),
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 16,
+                                        ),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: onTapAccept,
+                                            child: Container(
+                                              height: 55,
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                  color: themeColor2,
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                              226,
+                                                              232,
+                                                              240,
+                                                              1)),
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(16))),
+                                              child: const Center(
+                                                  child: Text(
+                                                'Accept',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white),
+                                              )),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     )
                             ],
                           ),
@@ -432,17 +476,20 @@ class _SearchChallengeState extends State<SearchChallenge> {
     allChallengesList.insert(0, widget.challenge);
     challengeList.insert(0, widget.challenge);
     await challengeController.writeFile(context, allChallengesList);
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
 
     widget.selectTab(TabItem.Home);
-    Navigator.pop(context);
 
     // ignore: use_build_context_synchronously
     var homeNavigator = navigatorKeys[TabItem.Home]!.currentState!;
-    // ignore: use_build_context_synchronously
-    while (await homeNavigator.maybePop(context)) {
-      // ignore: use_build_context_synchronously
-      homeNavigator.pop(context);
-    }
+
+    homeNavigator.popUntil((route) => route.isFirst);
+    // // ignore: use_build_context_synchronously
+    // while (await homeNavigator.maybePop(context)) {
+    //   // ignore: use_build_context_synchronously
+    //   homeNavigator.pop(context);
+    // }
     homeNavigator.push(
       PageRouteBuilder(
         transitionDuration: Duration.zero,

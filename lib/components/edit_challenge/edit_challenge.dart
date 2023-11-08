@@ -531,6 +531,9 @@ class _EditChallengeState extends State<EditChallenge> {
     challengeController.writeFile(context, allChallengesList);
 
     Navigator.pop(context);
+    if (!widget.isSearchEdit) {
+      Navigator.pop(context);
+    }
 
     Navigator.push(
       context,
@@ -543,7 +546,7 @@ class _EditChallengeState extends State<EditChallenge> {
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
     ).then((_) {
-      widget.homeListSetState!.call();
+      // widget.homeListSetState!.call();
     });
   }
 

@@ -49,7 +49,11 @@ class _AcceptanceCriteriaMediaListState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
+        appBar: CustomeAppBar.build(
+            preTitle: widget.preTitle,
+            title: widget.evidence == null
+                ? '${widget.acceptanceCriteria.evidences.length + 1}'
+                : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
         backgroundColor: Colors.white,
         body: Stack(
           children: [_buildList(), button()],
@@ -164,7 +168,7 @@ class _AcceptanceCriteriaMediaListState
               reverseTransitionDuration: Duration.zero,
               pageBuilder: (context, animation1, animation2) =>
                   AcceptanceCriteriaEvidenceList(
-                preTitle: widget.preTitle,
+                preTitle: splitTitle(widget.preTitle),
                 acceptanceCriteria: widget.acceptanceCriteria,
                 challenge: widget.challenge,
               ),
@@ -204,5 +208,18 @@ class _AcceptanceCriteriaMediaListState
             )
           : Container(),
     );
+  }
+
+  String splitTitle(String title) {
+    // Find the index of the last '/' in the string
+    int lastIndex = title.lastIndexOf('/');
+
+    if (lastIndex != -1 && lastIndex > 0) {
+      // Extract the portion of the string up to the last '/'
+      String result = title.substring(0, lastIndex);
+      return result;
+    } else {
+      return title;
+    }
   }
 }

@@ -17,6 +17,8 @@ import '../../enums/challenge_status.dart';
 import '../../models/acceptance_criteria.dart';
 
 class HomeChallenge extends StatefulWidget {
+  // Function homeListSetState;
+
   HomeChallenge(
       {super.key,
       required this.preTitle,
@@ -565,7 +567,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void editChallenge() {
-    // Slidable.of(context2)?.close();    // doesnt work flawless...
+    setState(() {
+      // Slidable.of(context2)?.close(); // doesnt work flawless...
+    });
     if (widget.challenge.status == ChallengeStatus.inProgress ||
         widget.challenge.status == ChallengeStatus.backlog) {
       Navigator.push(
@@ -574,7 +578,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
           transitionDuration: Duration.zero,
           reverseTransitionDuration: Duration.zero,
           pageBuilder: (context, animation1, animation2) => EditChallenge(
-              title: widget.preTitle, challenge: widget.challenge),
+            title: widget.preTitle,
+            challenge: widget.challenge,
+          ),
         ),
       ).then((_) => setState(() {
             context.read<DesignProvider>().setIsBottomNavBarVisible(true);
@@ -619,31 +625,33 @@ class _HomeChallengeState extends State<HomeChallenge> {
   onTapSingleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) async {
     // Ensure that plugin services are initialized so that `availableCameras()`
 // can be called before `runApp()`
-    WidgetsFlutterBinding.ensureInitialized();
+    if (acceptanceCriteria.tracking == 'camera') {
+      WidgetsFlutterBinding.ensureInitialized();
 
 // Obtain a list of the available cameras on the device.
-    final cameras = await availableCameras();
+      final cameras = await availableCameras();
 
 // Get a specific camera from the list of available cameras.
-    final firstCamera = cameras.isNotEmpty ? cameras[0] : null;
+      final firstCamera = cameras.isNotEmpty ? cameras[0] : null;
 
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaCamera(
-          camera: firstCamera,
-          preTitle: '${widget.preTitle}/${widget.challenge.title}',
-          mediaList: widget.challenge.media,
-          acceptanceCriteria: acceptanceCriteria,
-          challenge: widget.challenge,
+      context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
+          pageBuilder: (context, animation1, animation2) => MediaCamera(
+            camera: firstCamera,
+            preTitle: '${widget.preTitle}/${widget.challenge.title}',
+            mediaList: widget.challenge.media,
+            acceptanceCriteria: acceptanceCriteria,
+            challenge: widget.challenge,
+          ),
         ),
-      ),
-    ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-        }));
+      ).then((_) => setState(() {
+            context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+          }));
+    }
   }
 
   onTapCamera() async {
