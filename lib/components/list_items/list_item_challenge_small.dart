@@ -46,7 +46,14 @@ class ListItemChallengeSmall extends StatelessWidget {
                                     color: themeColor3),
                               )),
               ),
-              Text(challenge.title)
+              Container(
+                width: 280,
+                child: Text(
+                  challenge.title,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              )
             ],
           ),
         ),

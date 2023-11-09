@@ -10,10 +10,10 @@ class CustomeAppBar extends AppBar {
 
   static AppBar build(
       {required preTitle,
-      required title,
+      title,
       backgroundColor = Colors.white,
       textColor = Colors.black}) {
-    String titletext = '$preTitle/$title';
+    String titletext = title == null ? preTitle : '$preTitle/$title';
 
     final textPainter = TextPainter(
       text: TextSpan(

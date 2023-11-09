@@ -143,8 +143,6 @@ class _AcceptanceCriteriaMediaListState
               mediaIds: widget.mediaList.map((e) => e.id).toList());
 
           widget.acceptanceCriteria.evidences.insert(0, evidence);
-          var a = allChallengesList;
-          var b = widget.challenge;
           allChallengesList
               .firstWhere((element) => element.id == widget.challenge.id)
               .acceptanceCriteria

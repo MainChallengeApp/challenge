@@ -19,7 +19,7 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   final _mainTab = TabItem.Home;
-  var _currentTab = TabItem.Home;
+  var _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;
 
   // final navigatorKeys = {
   //   TabItem.Search: GlobalKey<NavigatorState>(),
