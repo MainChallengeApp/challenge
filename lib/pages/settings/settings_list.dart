@@ -1,9 +1,12 @@
-import 'dart:convert';
-
+import 'package:challenge/json_file_controller/account_controller.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/account.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList({super.key, required this.title, this.onPush});
@@ -16,11 +19,13 @@ class SettingsList extends StatefulWidget {
 
 class _SettingsListState extends State<SettingsList> {
   late Future<List<Challenge>> challengesFutures;
+  Account account = Account(email: '');
+  AccountController accountController = AccountController();
 
   @override
   void initState() {
     super.initState();
-    challengesFutures = getChallenges(context);
+    loadAccount();
   }
 
   @override
@@ -57,37 +62,39 @@ class _SettingsListState extends State<SettingsList> {
   }
 
   Widget _buildList() {
-    return FutureBuilder(
-        future: challengesFutures,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
-          } else if (snapshot.hasData) {
-            final challenges = snapshot.data!;
-
-            return ListView.separated(
-                itemCount:
-                    challenges.length + 1, // +1 for extra separator at the end
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 17,
-                    ),
-                itemBuilder: (BuildContext content, int index) {
-                  if (index == challenges.length)
-                    return Container(); // for separator at the end
-                  return ListItemIconSmall(
-                      onTap: () {}, icon: Icons.settings, title: 'settings');
-                });
-          } else {
-            return const Text('Error with loading data...');
+    int itemCount = 2;
+    return ListView.separated(
+        itemCount: itemCount + 1, // +1 for extra separator at the end
+        separatorBuilder: (context, index) => const SizedBox(
+              height: 17,
+            ),
+        itemBuilder: (BuildContext content, int index) {
+          if (index == 0) {
+            return ListItemIconSmall(
+                onTap: () {}, icon: Icons.person, title: account.email!);
           }
+
+          if (index == itemCount - 1) {
+            return ListItemIconSmall(
+                onTap: onTapLogout, icon: Icons.logout, title: 'log out');
+          }
+
+          if (index == itemCount) {
+            return Container(); // for separator at the end
+          }
+
+          return ListItemIconSmall(
+              onTap: () {}, icon: Icons.settings, title: 'settings');
         });
   }
 
-  static Future<List<Challenge>> getChallenges(BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/settings.json');
+  onTapLogout() {
+    accountController.writeFile(context, Account());
+    context.read<DesignProvider>().setIsRegistered(false);
+  }
 
-    final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
+  void loadAccount() async {
+    account = await accountController.readFile(context);
+    setState(() {});
   }
 }

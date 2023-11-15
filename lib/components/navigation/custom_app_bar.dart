@@ -15,20 +15,6 @@ class CustomeAppBar extends AppBar {
       textColor = Colors.black}) {
     String titletext = title == null ? preTitle : '$preTitle/$title';
 
-    final textPainter = TextPainter(
-      text: TextSpan(
-        text: titletext,
-        style: TextStyle(fontSize: appBarFontSize), // Set the desired style
-      ),
-      textDirection: TextDirection.ltr,
-    );
-
-    // Layout constraints (you may need to adjust these)
-    textPainter.layout(maxWidth: double.maxFinite);
-
-    double textWidth = textPainter.width;
-    print('textwidth: $textWidth');
-
     return AppBar(
       elevation: 0,
       backgroundColor: backgroundColor,
@@ -40,7 +26,7 @@ class CustomeAppBar extends AppBar {
           padding: const EdgeInsets.only(right: 24),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            controller: ScrollController(initialScrollOffset: textWidth),
+            controller: ScrollController(),
             child: Text(
               titletext,
               textAlign: TextAlign.right,
@@ -51,4 +37,31 @@ class CustomeAppBar extends AppBar {
       ),
     );
   }
+
+// TODO: Feature for higher version
+  // show always the most right part of the appbar title
+  // static calculateInitialScrollOffset(String title, BuildContext context) {
+  //   final textPainter = TextPainter(
+  //     text: TextSpan(
+  //       text: title,
+  //       style:
+  //           const TextStyle(fontSize: appBarFontSize), // Set the desired style
+  //     ),
+  //     textDirection: TextDirection.ltr,
+  //   );
+
+  //   // Layout constraints (you may need to adjust these)
+  //   textPainter.layout(maxWidth: double.maxFinite);
+
+  //   double textWidth = textPainter.width;
+  //   print('textwidthdammn: $textWidth');
+
+  //   // Calculate the necessary initialScrollOffset
+  //   double screenWidth = MediaQuery.of(context).size.width;
+  //   double padding = 16.0; // Adjust this value based on your layout
+  //   double initialOffset = textWidth - screenWidth + padding;
+
+  //   // Set the initialScrollOffset
+  //   return ScrollController(initialScrollOffset: initialOffset);
+  // }
 }

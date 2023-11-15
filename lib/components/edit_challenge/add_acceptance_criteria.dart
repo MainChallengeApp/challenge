@@ -247,7 +247,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   }
 
   String? dropdownValue2;
-  List<String> list2 = <String>['camera', 'gps', 'numbers', 'text'];
+  List<String> list2 = <String>['camera'];
   tracking() {
     return standardContainer(
         child: DropdownButton<String>(

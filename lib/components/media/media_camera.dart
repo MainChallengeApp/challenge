@@ -84,8 +84,9 @@ class _CameraStateMedia extends State<MediaCamera> {
                   ),
             CustomeAppBar.build(
                 preTitle: widget.preTitle,
-                title:
-                    '${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
+                title: widget.acceptanceCriteria == null
+                    ? 'Camera'
+                    : '${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
                 backgroundColor: Colors.transparent,
                 textColor: Colors.white),
             Align(
