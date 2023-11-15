@@ -63,10 +63,10 @@ class _AcceptanceCriteriaMediaListState
   Widget _buildList() {
     return ListView.separated(
         itemCount: widget.isSaveInsteadOfEditButtonVisible
-            ? widget.mediaList.length + 1 + 1 + 1
+            ? widget.mediaList.length + 1 + 1
             : widget.mediaList.length +
                 1 +
-                1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
+                1, // +1 for extra separator at the end + 1 for searchbar
         separatorBuilder: (context, index) => const SizedBox(
               height: 17,
             ),
@@ -80,21 +80,21 @@ class _AcceptanceCriteriaMediaListState
             );
           }
           if (widget.isSaveInsteadOfEditButtonVisible) {
-            if (index == 1) {
-              return ListItemIconSmall(
-                onTap: () => 0, // not yet implemented
-                icon: Icons.add,
-                title: "Upload Media",
-              );
-            }
-            if (index == widget.mediaList.length + 1 + 1) {
+            // if (index == 1) {
+            //   return ListItemIconSmall(
+            //     onTap: () => 0, // not yet implemented
+            //     icon: Icons.add,
+            //     title: "Upload Media",
+            //   );
+            // }
+            if (index == widget.mediaList.length + 1) {
               return Container(
                 height: 40,
               ); // +1 for new Challenge listitem + 1 for searchbar
             }
             return ListItemMediaSmall(
-              onTap: () => ppush(context, index: index - 1 - 1),
-              media: widget.mediaList[index - 1 - 1],
+              onTap: () => ppush(context, index: index - 1),
+              media: widget.mediaList[index - 1],
             );
           } else {
             if ((index + 1) == widget.mediaList.length + 1 + 1) {
@@ -128,6 +128,7 @@ class _AcceptanceCriteriaMediaListState
           media: widget.mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIdex: index,
+          challenge: widget.challenge,
         ),
       ),
     ).then((_) => setState(() {}));

@@ -46,8 +46,7 @@ class _MediaListState extends State<MediaList> {
     return ListView.separated(
         itemCount: mediaList.length +
             1 +
-            1 +
-            1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
+            1, // +1 for extra separator at the end + 1 for searchbar
         separatorBuilder: (context, index) => const SizedBox(
               height: 17,
             ),
@@ -57,19 +56,19 @@ class _MediaListState extends State<MediaList> {
               changeList: changeList,
             );
           }
-          if (index == 1) {
-            return ListItemIconSmall(
-              onTap: () => 0, // not yet implemented
-              icon: Icons.add,
-              title: "Upload Media",
-            );
-          }
-          if (index == mediaList.length + 1 + 1) {
+          // if (index == 1) {
+          //   return ListItemIconSmall(
+          //     onTap: () => 0, // not yet implemented
+          //     icon: Icons.add,
+          //     title: "Upload Media",
+          //   );
+          // }
+          if (index == mediaList.length + 1) {
             return Container(); // +1 for new Challenge listitem + 1 for searchbar
           }
           return ListItemMediaSmall(
-            onTap: () => ppush(context, index: index - 1 - 1),
-            media: mediaList[index - 1 - 1],
+            onTap: () => ppush(context, index: index - 1),
+            media: mediaList[index - 1],
           );
         });
   }
@@ -94,6 +93,7 @@ class _MediaListState extends State<MediaList> {
               .toList(),
           preTitle: '${widget.preTitle}/Media',
           initialMediaIdex: index,
+          challenge: widget.challenge,
         ),
       ),
     ).then((_) => setState(() {}));

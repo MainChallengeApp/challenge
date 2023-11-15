@@ -12,7 +12,7 @@
           "unit": "Km"
         },
         "frequence": "once",
-        "tracking": "gps",
+        "tracking": "camera",
         "progress": 0
       }
     ],

@@ -5,6 +5,7 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/account.dart';
 
@@ -62,7 +63,7 @@ class _SettingsListState extends State<SettingsList> {
   }
 
   Widget _buildList() {
-    int itemCount = 2;
+    int itemCount = 3;
     return ListView.separated(
         itemCount: itemCount + 1, // +1 for extra separator at the end
         separatorBuilder: (context, index) => const SizedBox(
@@ -71,12 +72,21 @@ class _SettingsListState extends State<SettingsList> {
         itemBuilder: (BuildContext content, int index) {
           if (index == 0) {
             return ListItemIconSmall(
-                onTap: () {}, icon: Icons.person, title: account.email!);
+                onTap: () {},
+                icon: Icons.person_outlined,
+                title: account.email!);
+          }
+
+          if (index == 1) {
+            return ListItemIconSmall(
+                onTap: onTapFeedback,
+                icon: Icons.feedback_outlined,
+                title: 'Feedback');
           }
 
           if (index == itemCount - 1) {
             return ListItemIconSmall(
-                onTap: onTapLogout, icon: Icons.logout, title: 'log out');
+                onTap: onTapLogout, icon: Icons.logout, title: 'Log out');
           }
 
           if (index == itemCount) {
@@ -96,5 +106,24 @@ class _SettingsListState extends State<SettingsList> {
   void loadAccount() async {
     account = await accountController.readFile(context);
     setState(() {});
+  }
+
+  onTapFeedback() async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: 'main.challenge.app@gmail.com',
+      queryParameters: {
+        'subject': 'Feedback',
+        // You can add other parameters like 'body', 'cc', 'bcc', etc.
+      },
+    );
+
+    // ignore: deprecated_member_use
+    if (await canLaunch(emailLaunchUri.toString())) {
+      // ignore: deprecated_member_use
+      await launch(emailLaunchUri.toString());
+    } else {
+      throw 'Could not launch $emailLaunchUri';
+    }
   }
 }

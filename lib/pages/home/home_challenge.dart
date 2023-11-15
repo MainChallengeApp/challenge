@@ -715,8 +715,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
           challengeController.writeFile(context, allChallengesList);
         });
       }
-    } else if (widget.challenge.status == ChallengeStatus.failed) {
-      // Try Again Button
+    } else if (widget.challenge.status == ChallengeStatus.failed ||
+        widget.challenge.status == ChallengeStatus.success) {
+      // Try Again Button and Accept Again
       Navigator.pop(context);
       Navigator.push(
         context,
