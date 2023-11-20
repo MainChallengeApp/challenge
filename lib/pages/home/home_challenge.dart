@@ -324,11 +324,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
                               ? Container()
                               : GestureDetector(
                                   onTap: () =>
-                                      onTapEndTryAgainAcceptAgainButton(e),
+                                      onTapEndTryAgainAcceptAgainStartButton(e),
                                   child: Container(
                                     height: 55,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
+                                        color: widget.challenge.status ==
+                                                ChallengeStatus.backlog
+                                            ? themeColor2
+                                            : Colors.white,
                                         border: Border.all(
                                             width: 1,
                                             color: const Color.fromRGBO(
@@ -343,8 +347,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                           : widget.challenge.status ==
                                                   ChallengeStatus.success
                                               ? 'Accept Again'
-                                              : 'Try Again',
-                                      style: const TextStyle(
+                                              : widget.challenge.status ==
+                                                      ChallengeStatus.backlog
+                                                  ? 'Start'
+                                                  : 'Try Again', // ChallengeStatus.failed
+                                      style: TextStyle(
+                                          color: widget.challenge.status ==
+                                                  ChallengeStatus.backlog
+                                              ? Colors.white
+                                              : Colors.black,
                                           fontWeight: FontWeight.w500),
                                     )),
                                   ),
@@ -390,6 +401,12 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
         // }
       }
+    }
+
+    if (widget.challenge.startDate == null ||
+        DateTime.now().microsecondsSinceEpoch <
+            widget.challenge.startDate!.microsecondsSinceEpoch) {
+      widget.challenge.status = ChallengeStatus.backlog;
     }
   }
 
@@ -689,7 +706,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         }));
   }
 
-  void onTapEndTryAgainAcceptAgainButton(Challenge challenge) {
+  void onTapEndTryAgainAcceptAgainStartButton(Challenge challenge) {
     if (widget.challenge.status == ChallengeStatus.inProgress) {
       // End button
       if (!checkAcceptanceCriteria()) {
@@ -735,6 +752,18 @@ class _HomeChallengeState extends State<HomeChallenge> {
           },
         ),
       );
+    } else if (widget.challenge.status == ChallengeStatus.backlog) {
+      setState(() {
+        widget.challenge.startDate = DateTime.now();
+        widget.challenge.status = ChallengeStatus.inProgress;
+      });
+      allChallengesList
+          .firstWhere((element) => element.id == widget.challenge.id)
+          .startDate = widget.challenge.startDate;
+      allChallengesList
+          .firstWhere((element) => element.id == widget.challenge.id)
+          .status = widget.challenge.status;
+      challengeController.writeFile(context, allChallengesList);
     }
   }
 }

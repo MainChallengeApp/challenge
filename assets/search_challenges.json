@@ -1,6 +1,6 @@
 [
   {
-    "status": "Failed",
+    "status": "InProgress",
     "title": "100 Km March",
     "description": "March 100 Km in 24h.",
     "thumbnailPath": "assets/images/thumbnail2.png",
@@ -20,189 +20,197 @@
   },
   {
     "status": "InProgress",
-    "title": "20 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Mountain Summit",
+    "description": "Climb to the summit of a challenging mountain peak.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
+          "title": "climb",
           "amount": 1.0,
-          "unit": "Km"
+          "unit": "summit"
         },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      },
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
-        "tracking": "camera",
-        "progress": 0
-      },
-      {
-        "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
-        },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "30 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Kayak Marathon",
+    "description": "Complete a 50 Km kayak marathon in open waters.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
-          "amount": 1.0,
+          "title": "kayak",
+          "amount": 50.0,
           "unit": "Km"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "40 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Skydiving Challenge",
+    "description": "Experience the thrill of skydiving from 15,000 feet.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
+          "title": "skydive",
           "amount": 1.0,
-          "unit": "Km"
+          "unit": "jump"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "50 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "BMX Tricks Extravaganza",
+    "description": "Showcase your BMX skills with a series of thrilling tricks.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
-          "amount": 1.0,
-          "unit": "Km"
+          "title": "perform",
+          "amount": 10.0,
+          "unit": "tricks"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "60 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Nighttime Zip-lining",
+    "description": "Experience the adrenaline of zip-lining through a forest at night.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
+          "title": "zip-line",
           "amount": 1.0,
-          "unit": "Km"
+          "unit": "experience"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "70 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Extreme Snowboarding",
+    "description": "Conquer challenging slopes with a day of extreme snowboarding.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
+          "title": "snowboard",
           "amount": 1.0,
-          "unit": "Km"
+          "unit": "day"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "80 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Underwater Adventure",
+    "description": "Explore the depths with a scuba diving adventure.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
+          "title": "dive",
           "amount": 1.0,
-          "unit": "Km"
+          "unit": "adventure"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "90 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Rapid Rafting Challenge",
+    "description": "Navigate through challenging rapids on a white-water rafting adventure.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
+          "title": "raft",
           "amount": 1.0,
-          "unit": "Km"
+          "unit": "challenge"
         },
-        "frequence": "every day",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }
     ],
     "media": []
   },
+
   {
     "status": "InProgress",
-    "title": "100 days running",
-    "description": "Run 1Km for 30 days every day.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "title": "Motorcycle Road Trip",
+    "description": "Embark on a thrilling motorcycle road trip covering 500 Km in a day.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
     "acceptanceCriteria": [
       {
         "activity": {
-          "title": "Run",
-          "amount": 1.0,
+          "title": "ride",
+          "amount": 500.0,
           "unit": "Km"
         },
-        "frequence": "every day",
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Canyoning Adventure",
+    "description": "Descend through canyons, rappel down waterfalls, and conquer nature's obstacles.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "descend",
+          "amount": 1.0,
+          "unit": "adventure"
+        },
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0
       }

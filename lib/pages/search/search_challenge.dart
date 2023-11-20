@@ -72,7 +72,6 @@ class _SearchChallengeState extends State<SearchChallenge> {
             scrollDirection: Axis.vertical,
             children: widget.challenges.map(
               (e) {
-                e.startDate = DateTime.now();
                 return Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     child: Slidable(
@@ -213,55 +212,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                   : const SizedBox(
                                       height: 16,
                                     ),
-                              isDescriptionExpanded
-                                  ? Container()
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: standardContainer(
-                                                child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Start',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              (e.startDate != null
-                                                  ? _dateFormat(e.startDate!)
-                                                  : '-'),
-                                              style: const TextStyle(
-                                                  color: themeColor3),
-                                            )
-                                          ],
-                                        ))),
-                                        const SizedBox(width: 16),
-                                        Expanded(
-                                            child: standardContainer(
-                                                child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'End',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            Text(
-                                              (e.endDate != null
-                                                  ? _dateFormat(e.endDate!)
-                                                  : '-'),
-                                              style: const TextStyle(
-                                                  color: themeColor3),
-                                            )
-                                          ],
-                                        ))),
-                                      ],
-                                    ),
+                              startAndEndDate(e),
                               isDescriptionExpanded
                                   ? Container()
                                   : acceptanceCriteria(e.acceptanceCriteria),
@@ -346,6 +297,47 @@ class _SearchChallengeState extends State<SearchChallenge> {
             ).toList()),
       ),
     );
+  }
+
+  Widget startAndEndDate(Challenge e) {
+    return isDescriptionExpanded
+        ? Container()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                  child: standardContainer(
+                      child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Start',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    (e.startDate != null ? _dateFormat(e.startDate!) : '-'),
+                    style: const TextStyle(color: themeColor3),
+                  )
+                ],
+              ))),
+              const SizedBox(width: 16),
+              Expanded(
+                  child: standardContainer(
+                      child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'End',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    (e.endDate != null ? _dateFormat(e.endDate!) : '-'),
+                    style: const TextStyle(color: themeColor3),
+                  )
+                ],
+              ))),
+            ],
+          );
   }
 
   String _dateFormat(DateTime date) {
