@@ -1,0 +1,220 @@
+[
+  {
+    "status": "InProgress",
+    "title": "100 Km March",
+    "description": "March 100 Km in 24h.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "march",
+          "amount": 100.0,
+          "unit": "Km"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Mountain Summit",
+    "description": "Climb to the summit of a challenging mountain peak.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "climb",
+          "amount": 1.0,
+          "unit": "summit"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Kayak Marathon",
+    "description": "Complete a 50 Km kayak marathon in open waters.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "kayak",
+          "amount": 50.0,
+          "unit": "Km"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Skydiving Challenge",
+    "description": "Experience the thrill of skydiving from 15,000 feet.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "skydive",
+          "amount": 1.0,
+          "unit": "jump"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "BMX Tricks Extravaganza",
+    "description": "Showcase your BMX skills with a series of thrilling tricks.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "perform",
+          "amount": 10.0,
+          "unit": "tricks"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Nighttime Zip-lining",
+    "description": "Experience the adrenaline of zip-lining through a forest at night.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "zip-line",
+          "amount": 1.0,
+          "unit": "experience"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Extreme Snowboarding",
+    "description": "Conquer challenging slopes with a day of extreme snowboarding.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "snowboard",
+          "amount": 1.0,
+          "unit": "day"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Underwater Adventure",
+    "description": "Explore the depths with a scuba diving adventure.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "dive",
+          "amount": 1.0,
+          "unit": "adventure"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Rapid Rafting Challenge",
+    "description": "Navigate through challenging rapids on a white-water rafting adventure.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "raft",
+          "amount": 1.0,
+          "unit": "challenge"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Motorcycle Road Trip",
+    "description": "Embark on a thrilling motorcycle road trip covering 500 Km in a day.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "ride",
+          "amount": 500.0,
+          "unit": "Km"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+
+  {
+    "status": "InProgress",
+    "title": "Canyoning Adventure",
+    "description": "Descend through canyons, rappel down waterfalls, and conquer nature's obstacles.",
+    "thumbnailPath": "assets/images/thumbnail2.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "descend",
+          "amount": 1.0,
+          "unit": "adventure"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  }
+]

@@ -1,0 +1,1883 @@
+[
+  {
+    "status": "InProgress",
+    "title": "Wandern",
+    "description": "Entdecke die Schönheit der Natur und verbessere deine Ausdauer durch regelmäßiges Wandern.",
+    "thumbnailPath": "assets/images/wandern_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Wandern",
+          "amount": 10.0,
+          "unit": "Km"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Liegestütze",
+    "description": "Stärke deine Arme, Schultern und Brustmuskulatur durch regelmäßiges Liegestütztraining.",
+    "thumbnailPath": "assets/images/liegestuetze_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Liegestütze",
+          "amount": 100.0,
+          "unit": "Wiederholungen"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Meditieren",
+    "description": "Finde innere Ruhe und verbessere deine mentale Gesundheit durch tägliches Meditieren.",
+    "thumbnailPath": "assets/images/meditieren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Meditation",
+          "amount": 1.0,
+          "unit": "Sitzung"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Lesen",
+    "description": "Tauche in neue Welten ein und erweitere deinen Horizont durch regelmäßiges Lesen.",
+    "thumbnailPath": "assets/images/lesen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Lesen",
+          "amount": 1.0,
+          "unit": "Buch"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Bouldern",
+    "description": "Fordere deine Geschicklichkeit und Stärke heraus, indem du anspruchsvolle Boulderprobleme löst.",
+    "thumbnailPath": "assets/images/bouldern_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Bouldern",
+          "amount": 5.0,
+          "unit": "Probleme"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Schwimmen",
+    "description": "Verbessere deine Ausdauer und stärke deinen gesamten Körper durch regelmäßiges Schwimmen.",
+    "thumbnailPath": "assets/images/schwimmen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Schwimmen",
+          "amount": 1.0,
+          "unit": "Stunde"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fahrrad Tour",
+    "description": "Erkunde neue Strecken und verbessere deine Fitness durch regelmäßige Fahrradtouren.",
+    "thumbnailPath": "assets/images/fahrrad_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Fahrrad Tour",
+          "amount": 20.0,
+          "unit": "Km"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Springen",
+    "description": "Steigere deine Fitness und Ausdauer durch tägliches Springtraining.",
+    "thumbnailPath": "assets/images/springen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Springen",
+          "amount": 500.0,
+          "unit": "Sprünge"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Kampfsport",
+    "description": "Lerne Selbstverteidigungstechniken und stärke deinen Körper durch Kampfsporttraining.",
+    "thumbnailPath": "assets/images/kampfsport_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kampfsport",
+          "amount": 3.0,
+          "unit": "Trainingseinheiten"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Dehnen",
+    "description": "Verbessere deine Flexibilität und vermeide Verletzungen durch regelmäßiges Dehnen.",
+    "thumbnailPath": "assets/images/dehnen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Dehnen",
+          "amount": 15.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Bungee Jumping",
+    "description": "Überwinde deine Ängste und erlebe den Adrenalinkick beim Bungee Jumping.",
+    "thumbnailPath": "assets/images/bungee_jumping_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Bungee Jumping",
+          "amount": 1.0,
+          "unit": "Sprung"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fallschirmspringen",
+    "description": "Schwebe über den Wolken und erlebe den Nervenkitzel des Fallschirmspringens.",
+    "thumbnailPath": "assets/images/fallschirmspringen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Fallschirmspringen",
+          "amount": 1.0,
+          "unit": "Sprung"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Tauchen",
+    "description": "Entdecke die faszinierende Unterwasserwelt durch regelmäßiges Tauchtraining.",
+    "thumbnailPath": "assets/images/tauchen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Tauchen",
+          "amount": 5.0,
+          "unit": "Tauchgänge"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Marathon",
+    "description": "Stelle deine Ausdauer auf die Probe und laufe einen Marathon.",
+    "thumbnailPath": "assets/images/marathon_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Laufen",
+          "amount": 42.195,
+          "unit": "Km"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Xletics",
+    "description": "Meistere verschiedene Hindernisse und zeige deine Fitness im Xletics-Wettkampf.",
+    "thumbnailPath": "assets/images/xletics_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Xletics",
+          "amount": 1.0,
+          "unit": "Wettkampf"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Kajakfahren",
+    "description": "Erkunde Gewässer und verbessere deine Paddeltechnik durch regelmäßiges Kajakfahren.",
+    "thumbnailPath": "assets/images/kajakfahren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kajakfahren",
+          "amount": 10.0,
+          "unit": "Km"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Jonglieren",
+    "description": "Lerne die Kunst des Jonglierens und beeindrucke mit deinen Fähigkeiten.",
+    "thumbnailPath": "assets/images/jonglieren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Jonglieren",
+          "amount": 30.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Handstand",
+    "description": "Trainiere deine Balance und Stärke durch das Erlernen des Handstands.",
+    "thumbnailPath": "assets/images/handstand_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Handstand",
+          "amount": 1.0,
+          "unit": "Minute"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Flick Flack",
+    "description": "Zeige akrobatische Fähigkeiten und erlerne den Flick Flack.",
+    "thumbnailPath": "assets/images/flick_flack_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Flick Flack",
+          "amount": 1,
+          "unit": "Versuch"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Parkour",
+    "description": "Überwinde Hindernisse und meistere die Kunst des Parkours.",
+    "thumbnailPath": "assets/images/parkour_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Parkour",
+          "amount": 1.0,
+          "unit": "Parcours"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Tanzen",
+    "description": "Entfalte deine künstlerische Seite und verbessere deine Fitness durch regelmäßiges Tanzen.",
+    "thumbnailPath": "assets/images/tanzen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Tanzen",
+          "amount": 30.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Tagebuch",
+    "description": "Reflektiere deine Gedanken und Erlebnisse durch das Führen eines Tagebuchs.",
+    "thumbnailPath": "assets/images/tagebuch_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Tagebuch",
+          "amount": 1.0,
+          "unit": "Eintrag"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Instrument lernen",
+    "description": "Entwickle musikalische Fähigkeiten und lerne ein neues Instrument.",
+    "thumbnailPath": "assets/images/instrument_lernen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Instrument",
+          "amount": 30.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Sprache lernen",
+    "description": "Erobere neue Horizonte und lerne eine neue Sprache in einem Sprachkurs.",
+    "thumbnailPath": "assets/images/sprache_lernen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Sprachkurs",
+          "amount": 1.0,
+          "unit": "Kurs"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wasserski",
+    "description": "Genieße die Geschwindigkeit und den Nervenkitzel des Wasserskifahrens.",
+    "thumbnailPath": "assets/images/wasserski_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Wasserski",
+          "amount": 3.0,
+          "unit": "Runden"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Survival-Training",
+    "description": "Erlange Überlebenskompetenzen und erlebe ein intensives Survival-Training.",
+    "thumbnailPath": "assets/images/survival_training_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Survival-Training",
+          "amount": 1.0,
+          "unit": "Tag"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Bogenschießen",
+    "description": "Schärfe deine Konzentration und Treffsicherheit durch das Erlernen des Bogenschießens.",
+    "thumbnailPath": "assets/images/bogenschiessen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Bogenschießen",
+          "amount": 50.0,
+          "unit": "Pfeile"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Präsentieren",
+    "description": "Entwickle deine Präsentationsfähigkeiten und trete vor Publikum auf.",
+    "thumbnailPath": "assets/images/praesentieren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Präsentieren",
+          "amount": 1.0,
+          "unit": "Präsentation"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Dankbarkeit",
+    "description": "Fokussiere dich auf positive Aspekte und führe ein Dankbarkeitstagebuch.",
+    "thumbnailPath": "assets/images/dankbarkeit_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Dankbarkeit",
+          "amount": 1.0,
+          "unit": "Eintrag"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Töpfern",
+    "description": "Entfalte deine kreative Seite und erschaffe Kunstwerke durch das Töpfern.",
+    "thumbnailPath": "assets/images/toepfern_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Töpfern",
+          "amount": 3.0,
+          "unit": "Stück"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Andere Stadt besuchen",
+    "description": "Erweitere deinen Horizont und erkunde eine andere Stadt.",
+    "thumbnailPath": "assets/images/andere_stadt_besuchen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Stadtbesuch",
+          "amount": 1.0,
+          "unit": "Tag"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Eigene Stadt erkunden",
+    "description": "Entdecke versteckte Schätze und Sehenswürdigkeiten in deiner eigenen Stadt.",
+    "thumbnailPath": "assets/images/eigene_stadt_erkunden_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Stadtentdeckung",
+          "amount": 5.0,
+          "unit": "Orte"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Angeln",
+    "description": "Genieße die Ruhe der Natur und verbessere deine Geduld beim Angeln.",
+    "thumbnailPath": "assets/images/angeln_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Angeln",
+          "amount": 5.0,
+          "unit": "Stunden"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Soziale Arbeit",
+    "description": "Unterstütze deine Gemeinschaft durch ehrenamtliche soziale Arbeit.",
+    "thumbnailPath": "assets/images/soziale_arbeit_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Soziale Arbeit",
+          "amount": 10.0,
+          "unit": "Stunden"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Heißluftballon",
+    "description": "Erlebe die Welt aus der Vogelperspektive und mache eine Fahrt mit dem Heißluftballon.",
+    "thumbnailPath": "assets/images/heissluftballon_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Heißluftballonfahrt",
+          "amount": 1.0,
+          "unit": "Fahrt"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Zeichen-Challenge",
+    "description": "Verbessere deine zeichnerischen Fähigkeiten durch regelmäßige Zeichen-Challenges.",
+    "thumbnailPath": "assets/images/zeichnen_challenge_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Zeichnen",
+          "amount": 30.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Slam-Poetry",
+    "description": "Entwickle deine poetischen Fähigkeiten und beteilige dich an einem Slam-Poetry-Event.",
+    "thumbnailPath": "assets/images/slam_poetry_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Slam-Poetry",
+          "amount": 1.0,
+          "unit": "Event"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "DIY-Workshop",
+    "description": "Erfahre Neues und erschaffe etwas Einzigartiges in einem DIY-Workshop.",
+    "thumbnailPath": "assets/images/diy_workshop_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "DIY-Workshop",
+          "amount": 1.0,
+          "unit": "Workshop"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Biwakieren",
+    "description": "Verbringe eine Nacht in der Natur und erlebe das Abenteuer des Biwakierens.",
+    "thumbnailPath": "assets/images/biwakieren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Biwakieren",
+          "amount": 1.0,
+          "unit": "Nacht"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Verreisen",
+    "description": "Entfliehe dem Alltag und erlebe neue Orte durch eine Reise.",
+    "thumbnailPath": "assets/images/verreisen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Reisen",
+          "amount": 1.0,
+          "unit": "Reise"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Social Media Detox",
+    "description": "Gönn dir eine Auszeit von sozialen Medien und entgift deine digitale Präsenz.",
+    "thumbnailPath": "assets/images/social_media_detox_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Social Media Detox",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Kalt Duschen",
+    "description": "Stärke deinen Geist und Körper durch tägliches kaltes Duschen.",
+    "thumbnailPath": "assets/images/kalt_duschen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kalt Duschen",
+          "amount": 14.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wim Hof Atemtechnik",
+    "description": "Erlange Kontrolle über deinen Atem und praktiziere die Wim Hof Atemtechnik.",
+    "thumbnailPath": "assets/images/wim_hof_atemtechnik_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Atemtechnik",
+          "amount": 20.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Diät",
+    "description": "Verfolge eine bestimmte Diät und dokumentiere deine Fortschritte.",
+    "thumbnailPath": "assets/images/diaet_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Diät",
+          "amount": 30.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wasser trinken",
+    "description": "Verbessere deine Gesundheit und trinke ausreichend Wasser täglich.",
+    "thumbnailPath": "assets/images/wasser_trinken_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Wasser trinken",
+          "amount": 2.0,
+          "unit": "Liter"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Sucht besiegen",
+    "description": "Überwinde eine Sucht und dokumentiere deine Reise zur Genesung.",
+    "thumbnailPath": "assets/images/sucht_besiegen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Suchtbekämpfung",
+          "amount": 60.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Geld verdienen",
+    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.",
+    "thumbnailPath": "assets/images/geld_verdienen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Geld verdienen",
+          "amount": 1000.0,
+          "unit": "Euro"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Schlafrhythmus",
+    "description": "Optimiere deinen Schlafrhythmus für bessere Gesundheit und Produktivität.",
+    "thumbnailPath": "assets/images/schlafrhythmus_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Schlafrhythmus",
+          "amount": 30.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Laufen",
+    "description": "Steigere deine Ausdauer und Laufleistung durch regelmäßiges Laufen.",
+    "thumbnailPath": "assets/images/laufen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Laufen",
+          "amount": 50.0,
+          "unit": "Kilometer"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Spazieren gehen",
+    "description": "Genieße die Natur und verbessere deine Gesundheit durch regelmäßiges Spazierengehen.",
+    "thumbnailPath": "assets/images/spazieren_gehen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Spazieren gehen",
+          "amount": 10.0,
+          "unit": "Kilometer"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Geld verdienen",
+    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.",
+    "thumbnailPath": "assets/images/geld_verdienen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Geld verdienen",
+          "amount": 1000.0,
+          "unit": "Euro"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Phobie bekämpfen",
+    "description": "Stell dich deinen Ängsten und besiege eine Phobie.",
+    "thumbnailPath": "assets/images/phobie_bekaempfen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Phobie bekämpfen",
+          "amount": 5.0,
+          "unit": "Situationen"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Treppen steigen",
+    "description": "Verbessere deine Fitness und steige täglich Treppen.",
+    "thumbnailPath": "assets/images/treppen_steigen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Treppen steigen",
+          "amount": 100.0,
+          "unit": "Stockwerke"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wingsuit",
+    "description": "Erfahre den Nervenkitzel des Wingsuit-Fliegens.",
+    "thumbnailPath": "assets/images/wingsuit_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Wingsuit",
+          "amount": 1.0,
+          "unit": "Flug"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Gym",
+    "description": "Besuche das Fitnessstudio und verbessere deine körperliche Fitness.",
+    "thumbnailPath": "assets/images/gym_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Fitnessstudio",
+          "amount": 20.0,
+          "unit": "Tage"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Streit schlichten",
+    "description": "Übe dich in der Kunst der Konfliktlösung und schlichte einen Streit.",
+    "thumbnailPath": "assets/images/streit_schlichten_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Streit schlichten",
+          "amount": 1.0,
+          "unit": "Konflikt"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fasten",
+    "description": "Praktiziere intermittierendes Fasten für mentale Klarheit und Gesundheit.",
+    "thumbnailPath": "assets/images/fasten_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Fasten",
+          "amount": 16.0,
+          "unit": "Stunden"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Kalorien essen",
+    "description": "Überwache deine Kalorienaufnahme für besseres Ernährungsverständnis.",
+    "thumbnailPath": "assets/images/kalorien_essen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kalorien essen",
+          "amount": 2000.0,
+          "unit": "Kalorien"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "keine Musik hören",
+    "description": "Verzichte für einen Tag auf das Hören von Musik und erlebe die Stille.",
+    "thumbnailPath": "assets/images/keine_musik_hoeren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "keine Musik hören",
+          "amount": 1.0,
+          "unit": "Tag"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wohnung aufräumen",
+    "description": "Schaffe Ordnung und Ruhe in deinem Lebensraum durch das Aufräumen deiner Wohnung.",
+    "thumbnailPath": "assets/images/wohnung_aufraeumen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Wohnung aufräumen",
+          "amount": 1.0,
+          "unit": "Tag"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Alten Freund kontaktieren",
+    "description": "Nimm Kontakt zu einem alten Freund auf und tausche Erinnerungen aus.",
+    "thumbnailPath": "assets/images/alten_freund_kontaktieren_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kontaktieren",
+          "amount": 1.0,
+          "unit": "Freund"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Über Ziele nachdenken",
+    "description": "Reflektiere über deine langfristigen Ziele und setze klare Absichten.",
+    "thumbnailPath": "assets/images/ziele_nachdenken_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Ziele nachdenken",
+          "amount": 1.0,
+          "unit": "Stunde"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Affirmationen",
+    "description": "Praktiziere positive Affirmationen, um deine mentale Einstellung zu stärken.",
+    "thumbnailPath": "assets/images/affirmationen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Affirmationen",
+          "amount": 10.0,
+          "unit": "Affirmation"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Neue Person kennenlernen",
+    "description": "Erweitere dein soziales Netzwerk, indem du eine neue Person kennenlernen.",
+    "thumbnailPath": "assets/images/neue_person_kennenlernen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kennenlernen",
+          "amount": 1.0,
+          "unit": "Person"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Über Finanzen lernen",
+    "description": "Bilde dich im Bereich Finanzen weiter und erweitere dein Wissen.",
+    "thumbnailPath": "assets/images/finanzen_lernen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Finanzen lernen",
+          "amount": 3.0,
+          "unit": "Stunden"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Plank für Bauch",
+    "description": "Stärke deine Bauchmuskulatur durch tägliche Plank-Übungen.",
+    "thumbnailPath": "assets/images/plank_fuer_bauch_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Plank",
+          "amount": 5.0,
+          "unit": "Minuten"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Verzichte eine Woche lang auf zuckerhaltige Lebensmittel",
+    "description": "Herausforderung: Verzichte eine Woche lang auf zuckerhaltige Lebensmittel.",
+    "thumbnailPath": "assets/images/verzicht_auf_zucker_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Verzicht auf Zucker",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Drill Bootcamp",
+    "description": "Fordere dich heraus und absolviere ein intensives Drill Bootcamp.",
+    "thumbnailPath": "assets/images/drill_bootcamp_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Drill Bootcamp",
+          "amount": 1.0,
+          "unit": "Session"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fotografie",
+    "description": "Entdecke die Welt der Fotografie und dokumentiere deine Perspektive.",
+    "thumbnailPath": "assets/images/fotografie_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Fotografie",
+          "amount": 20.0,
+          "unit": "Fotos"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Etwas bauen",
+    "description": "Kanalisiere deine Kreativität und baue etwas Eigenes.",
+    "thumbnailPath": "assets/images/etwas_bauen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Etwas bauen",
+          "amount": 1.0,
+          "unit": "Projekt"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Spenden (so viel, dass es weh tut)",
+    "description": "Setze dich für eine gute Sache ein und spende großzügig.",
+    "thumbnailPath": "assets/images/spenden_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Spenden",
+          "amount": 1.0,
+          "unit": "Betrag"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Vitamine einnehmen",
+    "description": "Nimm täglich deine Vitamine ein und fördere deine Gesundheit.",
+    "thumbnailPath": "assets/images/vitamine_einnehmen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Vitamine einnehmen",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Jemandem vergeben",
+    "description": "Praktiziere Vergebung und lasse alte Konflikte hinter dir.",
+    "thumbnailPath": "assets/images/vergeben_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Vergeben",
+          "amount": 1.0,
+          "unit": "Person"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "In Fremdsprache lesen",
+    "description": "Fordere dich intellektuell heraus und lese ein Buch in einer Fremdsprache.",
+    "thumbnailPath": "assets/images/fremdsprache_lesen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Fremdsprache lesen",
+          "amount": 1.0,
+          "unit": "Buch"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Podcast machen (online oder offline)",
+    "description": "Teile deine Gedanken und Ideen, indem du einen eigenen Podcast erstellst.",
+    "thumbnailPath": "assets/images/podcast_machen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Podcast machen",
+          "amount": 1.0,
+          "unit": "Episode"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Gartenarbeit",
+    "description": "Verbringe Zeit im Grünen und gestalte deinen Garten nach deinen Vorstellungen.",
+    "thumbnailPath": "assets/images/gartenarbeit_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Gartenarbeit",
+          "amount": 2.0,
+          "unit": "Stunden"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Neues Rezept",
+    "description": "Probiere ein neues Rezept aus und erweitere deinen kulinarischen Horizont.",
+    "thumbnailPath": "assets/images/neues_rezept_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Neues Rezept",
+          "amount": 1.0,
+          "unit": "Gericht"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Verzichten",
+    "description": "Übe Verzicht und stärke deine Willenskraft.",
+    "thumbnailPath": "assets/images/verzichten_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Verzichten",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Essen ohne Ablenkung",
+    "description": "Genieße deine Mahlzeiten bewusst und ohne Ablenkung von Technologie oder anderen Aktivitäten.",
+    "thumbnailPath": "assets/images/essen_ohne_ablenkung_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Essen ohne Ablenkung",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Theater/Musikal",
+    "description": "Erweitere deinen kulturellen Horizont und besuche ein Theaterstück oder ein Musical.",
+    "thumbnailPath": "assets/images/theater_musikal_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Theater/Musikal",
+          "amount": 1.0,
+          "unit": "Aufführung"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Bucket List erstellen",
+    "description": "Setze dich hin und erstelle deine persönliche Bucket List mit Dingen, die du im Leben erreichen möchtest.",
+    "thumbnailPath": "assets/images/bucket_list_erstellen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Bucket List",
+          "amount": 1.0,
+          "unit": "Liste"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Feedback für die App geben :)",
+    "description": "Teile dein konstruktives Feedback zur App und trage dazu bei, sie noch besser zu machen.",
+    "thumbnailPath": "assets/images/feedback_geben_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Feedback geben",
+          "amount": 1.0,
+          "unit": "Rückmeldung"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fremde Kultur kennenlernen",
+    "description": "Tauche in eine fremde Kultur ein, sei es durch Essen, Musik, oder andere kulturelle Aktivitäten.",
+    "thumbnailPath": "assets/images/fremde_kultur_kennenlernen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Kulturerlebnis",
+          "amount": 1.0,
+          "unit": "Event"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Self Care (Spa, etc.)",
+    "description": "Nimm dir Zeit für Selbstfürsorge und entspanne in einem Spa oder bei anderen selbstpflegenden Aktivitäten.",
+    "thumbnailPath": "assets/images/self_care_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Self Care",
+          "amount": 1.0,
+          "unit": "Session"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fremde Arbeit kennenlernen (Bauernhof, etc.)",
+    "description": "Gewinne Einblicke in eine für dich fremde Arbeitswelt, zum Beispiel durch einen Besuch auf einem Bauernhof.",
+    "thumbnailPath": "assets/images/fremde_arbeit_kennenlernen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Arbeitswelt kennenlernen",
+          "amount": 1.0,
+          "unit": "Tag"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Elevator Pitch",
+    "description": "Entwickle und präsentiere einen überzeugenden Elevator Pitch für dein Projekt oder eine Idee.",
+    "thumbnailPath": "assets/images/elevator_pitch_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Elevator Pitch",
+          "amount": 1.0,
+          "unit": "Präsentation"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Origami (auf den meditation)",
+    "description": "Falte Origami-Kunstwerke als kreative Form der Meditation und Entspannung.",
+    "thumbnailPath": "assets/images/origami_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Origami",
+          "amount": 10.0,
+          "unit": "Faltungen"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Random Act of Kindness (bei Fremden)",
+    "description": "Führe eine zufällige freundliche Geste gegenüber Fremden durch und erlebe die positive Wirkung.",
+    "thumbnailPath": "assets/images/random_act_of_kindness_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Random Act of Kindness",
+          "amount": 5.0,
+          "unit": "Aktionen"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Digitale Organisation",
+    "description": "Optimiere deine digitale Organisation, sei es in Bezug auf Dateien, E-Mails oder Aufgaben.",
+    "thumbnailPath": "assets/images/digitale_organisation_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Digitale Organisation",
+          "amount": 1.0,
+          "unit": "Optimierung"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Traumtagebuch",
+    "description": "Halte deine Träume in einem Tagebuch fest und reflektiere über ihre Bedeutung.",
+    "thumbnailPath": "assets/images/traumtagebuch_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Traumtagebuch",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Morgen Routine Upgrade",
+    "description": "Optimiere deine Morgenroutine für einen produktiveren und positiven Start in den Tag.",
+    "thumbnailPath": "assets/images/morgen_routine_upgrade_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Morgen Routine Upgrade",
+          "amount": 1.0,
+          "unit": "Optimierung"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Abend Routine Upgrade",
+    "description": "Optimiere deine Abendroutine für einen entspannten Ausklang des Tages.",
+    "thumbnailPath": "assets/images/abend_routine_upgrade_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Abend Routine Upgrade",
+          "amount": 1.0,
+          "unit": "Optimierung"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Stille",
+    "description": "Suche bewusst die Stille, sei es durch Meditation oder einen ruhigen Ort in der Natur.",
+    "thumbnailPath": "assets/images/stille_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Stille",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "In Geduld üben",
+    "description": "Praktiziere Geduld in verschiedenen Situationen des täglichen Lebens.",
+    "thumbnailPath": "assets/images/in_geduld_ueben_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Geduldspraxis",
+          "amount": 14.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Vegetarisch essen",
+    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegetarisch.",
+    "thumbnailPath": "assets/images/vegetarisch_essen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Vegetarisch essen",
+          "amount": 14.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Vegan essen",
+    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegan.",
+    "thumbnailPath": "assets/images/vegan_essen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Vegan essen",
+          "amount": 7.0,
+          "unit": "Tage"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "App weiterempfehlen ;)",
+    "description": "Teile die Challenge App mit Freunden und fordere sie heraus, ebenfalls an Challenges teilzunehmen.",
+    "thumbnailPath": "assets/images/app_weiterempfehlen_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "App weiterempfehlen",
+          "amount": 1.0,
+          "unit": "Empfehlung"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Schritte",
+    "description": "Setze dir ein tägliches Schritte-Ziel und dokumentiere deinen Fortschritt.",
+    "thumbnailPath": "assets/images/schritte_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Schritte",
+          "amount": 10_000.0,
+          "unit": "Schritte"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Ganzkörper workout",
+    "description": "Führe ein Ganzkörpertraining durch, um deine Fitness zu verbessern.",
+    "thumbnailPath": "assets/images/ganzkoerper_workout_thumbnail.png",
+    "acceptanceCriteria": [
+      {
+        "activity": {
+          "title": "Ganzkörper workout",
+          "amount": 3.0,
+          "unit": "Trainingseinheiten"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0
+      }
+    ],
+    "media": []
+  }
+]
