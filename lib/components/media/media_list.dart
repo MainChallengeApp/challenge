@@ -2,7 +2,6 @@ import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/media/media_detail.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';

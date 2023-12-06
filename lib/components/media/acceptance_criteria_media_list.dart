@@ -7,7 +7,6 @@ import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/enums/tab_item.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
