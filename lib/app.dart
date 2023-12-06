@@ -80,7 +80,7 @@ class AppState extends State<App> {
                 height: 72,
                 // width: 450,
                 decoration: const BoxDecoration(
-                  color: Color.fromRGBO(15, 23, 42, 1),
+                  color: themeColor1,
                 ),
                 child: BottomNavigation(
                   currentTab: _currentTab,
