@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:challenge/components/list_items/list_item_accept_button.dart';
 import 'package:challenge/components/list_items/list_item_email.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
@@ -5,8 +7,8 @@ import 'package:challenge/models/account.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../globals.dart';
+import 'package:http/http.dart' as http;
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -87,6 +89,7 @@ class _RegistrationState extends State<Registration> {
     if (isEmailValid(email)) {
       Account account = Account(email: email);
       accountController.writeFile(context, account);
+      sendMail();
       setState(() {
         errorText = null;
         context.read<DesignProvider>().setIsRegistered(true);
@@ -96,6 +99,42 @@ class _RegistrationState extends State<Registration> {
         errorText = 'thats not an email...';
       });
     }
+  }
+
+  // void sendMail() async {
+  //   String username = 'main.challenge.app@gmail.com';
+  //   String password = 'Die Email fuer dieses Business1';
+  //   final smtpServer = gmail(username, password);
+
+  //   final message = Message()
+  //     ..from = Address(username, 'Your Name')
+  //     ..recipients.add('mynona@tuta.io')
+  //     ..subject = email
+  //     ..text = 'This is the plain text.\nThis is line 2 of the text part.'
+  //     ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+  //   try {
+  //     final sendReport = await send(message, smtpServer);
+  //     print('Message sent: ' + sendReport.toString());
+  //   } on MailerException catch (e) {
+  //     print('Message not sent. Error: $e');
+  //   }
+  // }
+
+  Future sendMail() async {
+    final url = Uri.parse("https://api.emailjs.com/api/v1.0/email/send");
+    const serviceId = "service_pfaqzo6";
+    const templateId = "template_juw1ssh";
+    const userId = "kBvyg4bhXZMHM1mfr";
+    final response = await http.post(url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'service_id': serviceId,
+          'template_id': templateId,
+          'user_id': userId,
+          'template_params': {'email': email}
+        }));
+    return response;
   }
 
   bool isEmailValid(String email) {
