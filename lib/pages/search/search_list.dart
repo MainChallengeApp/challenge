@@ -72,7 +72,7 @@ class _SearchListState extends State<SearchList> {
             return const CircularProgressIndicator();
           } else if (snapshot.hasData) {
             filteredChallenges = snapshot.data!
-                .where((element) => element.title.contains(searchBarText))
+                .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
 
             return ListView.separated(
@@ -109,7 +109,7 @@ class _SearchListState extends State<SearchList> {
     final data = await assetBundle.loadString('assets/search_challenges.json');
 
     final body = json.decode(data);
-    return body.map<Challenge>(Challenge.fromJson).toList();
+    return body.map<Challenge>((e) => Challenge.fromJson(e)).toList();
   }
 
   changeList(String value) {

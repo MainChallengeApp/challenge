@@ -30,18 +30,22 @@ class Challenge {
     }
   }
 
-  static Challenge fromJson(json) => Challenge(
-      id: json['id'],
-      status: ChallengeStatus.factory(json['status']),
-      title: json['title'],
-      description: json['description'],
-      thumbnailPath: json['thumbnailPath'],
-      startDate:
-          json['startDate'] != null ? DateTime.parse(json['startDate']) : null,
-      endDate: json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
-      acceptanceCriteria:
-          AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']),
-      media: Media.fromJsonList(json['media']));
+  static Challenge fromJson(Map json) {
+    return Challenge(
+        id: json.containsKey('id') ? json['id'] : null,
+        status: ChallengeStatus.factory(json['status']),
+        title: json['title'],
+        description: json['description'],
+        thumbnailPath: json['thumbnailPath'],
+        startDate: json['startDate'] != null
+            ? DateTime.parse(json['startDate'])
+            : null,
+        endDate:
+            json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
+        acceptanceCriteria:
+            AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']),
+        media: Media.fromJsonList(json['media']));
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -71,6 +75,19 @@ class Challenge {
             isTryAgain: isTryAgain),
         media: isTryAgain ? [] : Media.copyMediaList(challenge.media));
     return challengeCopy;
+  }
+
+  bool searchInChallenge(String searchText) {
+    if (title.toLowerCase().contains(searchText.toLowerCase())) return true;
+    if (description.toLowerCase().contains(searchText.toLowerCase())) {
+      return true;
+    }
+    for (var a in acceptanceCriteria) {
+      if (a.activity.title.toLowerCase().contains(searchText.toLowerCase())) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override

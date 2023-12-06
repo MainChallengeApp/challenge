@@ -21,8 +21,7 @@ class ChallengeController {
       final body = json.decode(data);
       return body.map<Challenge>(Challenge.fromJson).toList();
     } catch (e) {
-      final body = [];
-      return body.map<Challenge>(Challenge.fromJson).toList();
+      return [];
     }
   }
 

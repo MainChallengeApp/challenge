@@ -76,7 +76,7 @@ class _HomeListState extends State<HomeList> {
           } else if (snapshot.hasData) {
             allChallengesList = snapshot.data!;
             challengeList = snapshot.data!
-                .where((element) => element.title.contains(searchBarText))
+                .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
 
             return ListView.separated(
