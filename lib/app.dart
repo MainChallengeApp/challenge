@@ -1,3 +1,4 @@
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/navigation/bottom_navigation.dart';
@@ -19,13 +20,36 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   final _mainTab = TabItem.Home;
-  var _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;
+  TabItem _currentTab = TabItem.Search;
+  ChallengeController challengeController = ChallengeController();
 
   // final navigatorKeys = {
   //   TabItem.Search: GlobalKey<NavigatorState>(),
   //   TabItem.Home: GlobalKey<NavigatorState>(),
   //   TabItem.Settings: GlobalKey<NavigatorState>(),
   // };
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    challengeController.readFile(context).then((value) {
+      allChallengesList = value;
+      setState(() {
+        _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;
+      });
+      return allChallengesList = value;
+    });
+  }
+
+  void setStartPage() {
+    Future.delayed(const Duration(seconds: 3), () async {
+      allChallengesList = await challengeController.readFile(context);
+      setState(() {
+        _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;
+      });
+    });
+  }
 
   void _selectTab(TabItem tabItem) {
     if (tabItem == _currentTab) {

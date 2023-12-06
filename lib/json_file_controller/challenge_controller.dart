@@ -19,7 +19,10 @@ class ChallengeController {
       final data = await file.readAsString();
 
       final body = json.decode(data);
-      return body.map<Challenge>(Challenge.fromJson).toList();
+      List<Challenge> c = body.map<Challenge>((e) {
+        return Challenge.fromJson(e);
+      }).toList();
+      return c;
     } catch (e) {
       return [];
     }

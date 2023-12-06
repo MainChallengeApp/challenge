@@ -37,11 +37,12 @@ class Challenge {
         title: json['title'],
         description: json['description'],
         thumbnailPath: json['thumbnailPath'],
-        startDate: json['startDate'] != null
-            ? DateTime.parse(json['startDate'])
-            : null,
-        endDate:
-            json['endDate'] != null ? DateTime.parse(json['endDate']) : null,
+        startDate: json['startDate'] == null || json['startDate'] == 'null'
+            ? null
+            : DateTime.parse(json['startDate']),
+        endDate: json['endDate'] == null || json['endDate'] == 'null'
+            ? null
+            : DateTime.parse(json['endDate']),
         acceptanceCriteria:
             AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']),
         media: Media.fromJsonList(json['media']));
