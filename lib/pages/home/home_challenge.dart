@@ -387,16 +387,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
             .isAfter(widget.challenge.endDate!.add(const Duration(days: 1)))) {
           if (!checkAcceptanceCriteria()) {
             widget.challenge.status = ChallengeStatus.failed;
-          } else {
-            widget.challenge.status = ChallengeStatus.success;
-          }
-        } else {
-          if (checkAcceptanceCriteria()) {
-            widget.challenge.status = ChallengeStatus.success;
-          } else if (widget.challenge.status != ChallengeStatus.failed) {
-            widget.challenge.status = ChallengeStatus.inProgress;
           }
         }
+        // else {
+        //   if (checkAcceptanceCriteria()) {
+        //     widget.challenge.status = ChallengeStatus.success;
+        //   } else if (widget.challenge.status != ChallengeStatus.failed) {
+        //     widget.challenge.status = ChallengeStatus.inProgress;
+        //   }
+        // }
         // } else {
 
         // }
@@ -709,29 +708,19 @@ class _HomeChallengeState extends State<HomeChallenge> {
   void onTapEndTryAgainAcceptAgainStartButton(Challenge challenge) {
     if (widget.challenge.status == ChallengeStatus.inProgress) {
       // End button
-      if (!checkAcceptanceCriteria()) {
-        setState(() {
-          widget.challenge.status = ChallengeStatus.failed;
-          challengeList
-              .firstWhere((element) => element.id == challenge.id)
-              .status = ChallengeStatus.failed;
-          allChallengesList
-              .firstWhere((element) => element.id == challenge.id)
-              .status = ChallengeStatus.failed;
-          challengeController.writeFile(context, allChallengesList);
-        });
+      if (checkAcceptanceCriteria()) {
+        widget.challenge.status = ChallengeStatus.success;
       } else {
-        setState(() {
-          // widget.challenge.status = ChallengeStatus.success;
-          // challengeList
-          //     .firstWhere((element) => element.id == challenge.id)
-          //     .status = ChallengeStatus.success;
-          allChallengesList
-              .firstWhere((element) => element.id == challenge.id)
-              .status = ChallengeStatus.success;
-          challengeController.writeFile(context, allChallengesList);
-        });
+        widget.challenge.status = ChallengeStatus.failed;
       }
+      setState(() {
+        widget.challenge.endDate = DateTime.now();
+        challengeList
+            .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+        allChallengesList
+            .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+        challengeController.writeFile(context, allChallengesList);
+      });
     } else if (widget.challenge.status == ChallengeStatus.failed ||
         widget.challenge.status == ChallengeStatus.success) {
       // Try Again Button and Accept Again
