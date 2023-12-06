@@ -42,8 +42,14 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> loadAccount() async {
     // ignore: use_build_context_synchronously
-    accountController.writeFile(context, Account());
     account = await accountController.readFile(context);
+    if (account.email == null || account.email!.isEmpty) {
+      // ignore: use_build_context_synchronously
+      await accountController.writeFile(context, account);
+    } else {
+      // ignore: use_build_context_synchronously
+      context.read<DesignProvider>().setIsRegistered(true);
+    }
     setState(() {});
   }
 

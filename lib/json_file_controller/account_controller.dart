@@ -17,8 +17,8 @@ class AccountController {
       final file = File('${documentsDirectory.path}/$filePath');
       final data = await file.readAsString();
 
-      final json = json.decode(data);
-      return Account.fromJson(json); // body.map<Account>(Account.fromJson);
+      final jsonData = json.decode(data);
+      return Account.fromJson(jsonData); // body.map<Account>(Account.fromJson);
     } catch (e) {
       return Account();
     }
