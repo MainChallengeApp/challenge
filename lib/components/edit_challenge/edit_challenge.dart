@@ -275,7 +275,7 @@ class _EditChallengeState extends State<EditChallenge> {
   }
 
   startAndEndDate() {
-    widget.editChallenge.startDate ??= DateTime.now();
+    // widget.editChallenge.startDate ??= DateTime.now();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -287,8 +287,9 @@ class _EditChallengeState extends State<EditChallenge> {
             const Text("Start"),
             DatePickerExample(
                 restorationId: 'main',
-                initialDate: widget.editChallenge.startDate!,
+                initialDate: widget.editChallenge.startDate ?? DateTime.now(),
                 editChallenge: widget.editChallenge,
+                isActualEmpty: widget.editChallenge.startDate == null,
                 isStartDate: true) // very bad workaround
           ],
         ))),

@@ -99,7 +99,7 @@ class _DatePickerExampleState extends State<DatePickerExample>
           onTap: () => _restorableDatePickerRouteFuture.present(),
           child: widget.isActualEmpty
               ? const Text(
-                  '                          -') // extra space so the user can click next to the -
+                  '                         -') // extra space so the user can click next to the -
               : Text(
                   '${_selectedDate.value.day}.${_selectedDate.value.month}.${_selectedDate.value.year}')),
     );
