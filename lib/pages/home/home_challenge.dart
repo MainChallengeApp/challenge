@@ -42,6 +42,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
   late PageController pageController =
       PageController(initialPage: widget.initialChalleneIndex);
 
+  late int currentChallengeIndex = widget.initialChalleneIndex;
+
   ChallengeController challengeController = ChallengeController();
 
   @override
@@ -57,8 +59,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   @override
   Widget build(BuildContext context) {
-    // setIsBottomBarVisibleToTrue(context);
-
+    widget.challenge = challengeList[
+        currentChallengeIndex]; // dirty workaround - the problem is related to the feature to unvisible the BottomNavBar
     checkChallengeStatus();
 
     return Scaffold(
@@ -371,14 +373,6 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  void setIsBottomBarVisibleToTrue(BuildContext context) {
-    Future.delayed(Duration.zero, () {
-      //   setState(() {
-      context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-      //   });
-    });
-  }
-
   void checkChallengeStatus() {
     if (widget.challenge.acceptanceCriteria.isNotEmpty) {
       if (widget.challenge.endDate != null) {
@@ -640,6 +634,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     setState(() {
       currentTitle = challengeList[value].title;
       widget.challenge = challengeList[value];
+      currentChallengeIndex = value;
+      pageController = PageController(initialPage: value);
     });
   }
 
