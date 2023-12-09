@@ -43,7 +43,7 @@ class AppState extends State<App> {
   }
 
   void setStartPage() {
-    Future.delayed(const Duration(seconds: 3), () async {
+    Future.delayed(Duration.zero, () async {
       allChallengesList = await challengeController.readFile(context);
       setState(() {
         _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;

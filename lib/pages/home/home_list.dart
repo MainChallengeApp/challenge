@@ -30,8 +30,7 @@ class _HomeListState extends State<HomeList> {
   @override
   void initState() {
     super.initState();
-    challengesFutures =
-        challengeController.readFile(context); //getChallenges(context);
+    challengesFutures = challengeController.readFile(context);
   }
 
   @override

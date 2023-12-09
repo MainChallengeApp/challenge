@@ -39,9 +39,6 @@ class _SearchChallengeState extends State<SearchChallenge> {
 
   @override
   Widget build(BuildContext context) {
-    // if (pageController.hasClients) {
-    //   pageController.jumpToPage(widget.initialChalleneIndex);
-    // }
     widget.challenge = widget.challenges[widget.initialChalleneIndex];
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +81,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                         children: [
                           Expanded(
                               child: GestureDetector(
-                            onTap: () => editChallenge(),
+                            onTap: () => onTapEditChallenge(),
                             child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
@@ -228,7 +225,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                       children: [
                                         Expanded(
                                           child: GestureDetector(
-                                            onTap: editChallenge,
+                                            onTap: onTapEditChallenge,
                                             child: Container(
                                               height: 55,
                                               width: double.infinity,
@@ -511,7 +508,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     });
   }
 
-  void editChallenge() {
+  void onTapEditChallenge() {
     // Slidable.of(context2)?.close(); // doesnt work flawless...
     Navigator.push(
       context,
@@ -527,8 +524,6 @@ class _SearchChallengeState extends State<SearchChallenge> {
       ),
     ).then((_) => setState(() {}));
   }
-
-  void tapOnFavorite() {}
 
   standardContainer({required Widget child, double heightFactor = 1}) {
     return Container(
