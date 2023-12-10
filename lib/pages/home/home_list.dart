@@ -143,7 +143,7 @@ class _HomeListState extends State<HomeList> {
         title: '',
         description: '',
         thumbnailPath: '',
-        startDate: DateTime.now(),
+        startDate: null,
         endDate: null,
         acceptanceCriteria: [],
         media: []);
