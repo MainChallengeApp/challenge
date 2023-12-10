@@ -77,18 +77,6 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
                   height: 32,
                 ),
                 tracking(),
-                // acceptanceCriteriaButton(),
-                // SizedBox(
-                //   height: 100,
-                //   child: ListView.separated(
-                //     separatorBuilder: (context, index) => const SizedBox(
-                //       height: 16,
-                //     ),
-                //     itemCount: widget.challenge.acceptanceCriteria.length,
-                //     itemBuilder: (context, index) =>
-                //         singleAcceptanceCriteria(index),
-                //   ),
-                // ),
                 const Expanded(child: SizedBox()),
                 buttons()
               ],
