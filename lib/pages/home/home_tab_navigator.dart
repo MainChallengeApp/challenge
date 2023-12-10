@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/pages/home/home_list.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
+
+import '../../components/navigation/no_animation_page_route.dart';
 
 class HomeTabNavigatorRoutes {
   static const String root = '/';
@@ -22,10 +25,8 @@ class HomeTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
+      NoAnimationPageRoute(
+        builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),
     );

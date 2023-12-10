@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/enums/tab_item.dart';
 
+import 'no_animation_page_route.dart';
+
 class TabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
@@ -19,10 +21,8 @@ class TabNavigator extends StatelessWidget {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
+      NoAnimationPageRoute(
+        builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),
     );

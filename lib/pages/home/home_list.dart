@@ -1,6 +1,7 @@
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small.dart';
@@ -8,6 +9,7 @@ import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
+import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/challenge_status.dart';
 
 class HomeList extends StatefulWidget {
@@ -126,10 +128,8 @@ class _HomeListState extends State<HomeList> {
       {required Challenge challenge, required int index}) {
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => HomeChallenge(
+      NoAnimationPageRoute(
+        builder: (context) => HomeChallenge(
             preTitle: widget.title,
             challenge: challenge,
             initialChalleneIndex: index),
@@ -150,10 +150,8 @@ class _HomeListState extends State<HomeList> {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => EditChallenge(
+      NoAnimationPageRoute(
+        builder: (context) => EditChallenge(
           title: widget.title,
           challenge: challenge,
           homeListSetState: homeListSetState,

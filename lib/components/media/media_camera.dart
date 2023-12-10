@@ -6,11 +6,13 @@ import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/acceptance_criteria.dart';
 import '../../models/media.dart';
 import '../navigation/custom_app_bar.dart';
+import '../navigation/no_animation_page_route.dart';
 
 class MediaCamera extends StatefulWidget {
   const MediaCamera({
@@ -217,25 +219,19 @@ class _CameraStateMedia extends State<MediaCamera> {
           if (currentMedia.isEmpty) {
             Navigator.push(
               context,
-              PageRouteBuilder(
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-                pageBuilder: (context, animation1, animation2) =>
-                    AcceptanceCriteriaEvidenceList(
-                        preTitle:
-                            '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
-                        challenge: widget.challenge,
-                        acceptanceCriteria: widget.acceptanceCriteria!),
+              NoAnimationPageRoute(
+                builder: (context) => AcceptanceCriteriaEvidenceList(
+                    preTitle:
+                        '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
+                    challenge: widget.challenge,
+                    acceptanceCriteria: widget.acceptanceCriteria!),
               ),
             ).then((_) => setState(() {}));
           } else {
             Navigator.push(
               context,
-              PageRouteBuilder(
-                transitionDuration: Duration.zero,
-                reverseTransitionDuration: Duration.zero,
-                pageBuilder: (context, animation1, animation2) =>
-                    AcceptanceCriteriaMediaList(
+              NoAnimationPageRoute(
+                builder: (context) => AcceptanceCriteriaMediaList(
                   preTitle:
                       '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
                   mediaList: currentMedia,
@@ -248,10 +244,8 @@ class _CameraStateMedia extends State<MediaCamera> {
         } else {
           Navigator.push(
             context,
-            PageRouteBuilder(
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-              pageBuilder: (context, animation1, animation2) => MediaList(
+            NoAnimationPageRoute(
+              builder: (context) => MediaList(
                   preTitle: '${widget.preTitle}/Camera',
                   challenge: widget.challenge),
             ),

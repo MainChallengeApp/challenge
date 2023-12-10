@@ -1,6 +1,7 @@
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/media/media_detail.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../models/media.dart';
 import '../../providers/design_provider.dart';
+import '../navigation/no_animation_page_route.dart';
 
 class MediaList extends StatefulWidget {
   const MediaList(
@@ -83,10 +85,8 @@ class _MediaListState extends State<MediaList> {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaDetail(
+      NoAnimationPageRoute(
+        builder: (context) => MediaDetail(
           media: widget.challenge.media
               .where((element) => element.title.contains(searchBarText))
               .toList(),

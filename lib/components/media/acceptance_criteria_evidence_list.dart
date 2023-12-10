@@ -1,5 +1,6 @@
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../models/acceptance_criteria.dart';
 import '../../models/evidence.dart';
 import '../../providers/design_provider.dart';
+import '../navigation/no_animation_page_route.dart';
 import 'acceptance_criteria_media_list.dart';
 
 class AcceptanceCriteriaEvidenceList extends StatefulWidget {
@@ -122,11 +124,8 @@ class _AcceptanceCriteriaEvidenceListState
   onTapEvidence(Evidence evidence) {
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            AcceptanceCriteriaMediaList(
+      NoAnimationPageRoute(
+        builder: (context) => AcceptanceCriteriaMediaList(
           preTitle:
               '${widget.preTitle}/${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
           mediaList: widget.challenge.media

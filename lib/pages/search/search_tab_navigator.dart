@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/pages/search/search_list.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
+
+import '../../components/navigation/no_animation_page_route.dart';
 
 class SearchTabNavigatorRoutes {
   static const String root = '/';
@@ -10,7 +13,10 @@ class SearchTabNavigatorRoutes {
 
 class SearchTabNavigator extends TabNavigator {
   const SearchTabNavigator(
-      {super.key, required super.navigatorKey, required super.tabItem, required this.selectTab});
+      {super.key,
+      required super.navigatorKey,
+      required super.tabItem,
+      required this.selectTab});
 
   final Function selectTab;
 
@@ -21,10 +27,8 @@ class SearchTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
+      NoAnimationPageRoute(
+        builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),
     );
@@ -35,8 +39,10 @@ class SearchTabNavigator extends TabNavigator {
       {int challengeId = 0, Challenge? challenge}) {
     return {
       SearchTabNavigatorRoutes.root: (context) => SearchList(
-          title: tabItem.name,
-          onPush: (c) => ppush(context, challenge: c), selectTab: selectTab,),
+            title: tabItem.name,
+            onPush: (c) => ppush(context, challenge: c),
+            selectTab: selectTab,
+          ),
       // SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
       //       title: tabItem.name,
       //       challenge: challenge!,

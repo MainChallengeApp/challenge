@@ -7,12 +7,14 @@ import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/challenge_status.dart';
 import '../../models/acceptance_criteria.dart';
 
@@ -589,10 +591,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
         widget.challenge.status == ChallengeStatus.backlog) {
       Navigator.push(
         context,
-        PageRouteBuilder(
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-          pageBuilder: (context, animation1, animation2) => EditChallenge(
+        NoAnimationPageRoute(
+          builder: (context) => EditChallenge(
             title: widget.preTitle,
             challenge: widget.challenge,
           ),
@@ -617,10 +617,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaList(
+      NoAnimationPageRoute(
+        builder: (context) => MediaList(
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           challenge: widget.challenge,
         ),
@@ -654,10 +652,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
       context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       Navigator.push(
         context,
-        PageRouteBuilder(
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-          pageBuilder: (context, animation1, animation2) => MediaCamera(
+        NoAnimationPageRoute(
+          builder: (context) => MediaCamera(
             camera: firstCamera,
             preTitle: '${widget.preTitle}/${widget.challenge.title}',
             mediaList: widget.challenge.media,
@@ -685,10 +681,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaCamera(
+      NoAnimationPageRoute(
+        builder: (context) => MediaCamera(
           camera: firstCamera,
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           mediaList: widget.challenge.media,
@@ -723,10 +717,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        PageRouteBuilder(
-          transitionDuration: Duration.zero,
-          reverseTransitionDuration: Duration.zero,
-          pageBuilder: (context, animation1, animation2) {
+        NoAnimationPageRoute(
+          builder: (context) {
             Challenge challenge =
                 Challenge.copyChallenge(widget.challenge, isTryAgain: true);
             return EditChallenge(

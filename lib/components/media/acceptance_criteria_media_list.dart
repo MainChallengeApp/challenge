@@ -5,6 +5,7 @@ import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/enums/tab_item.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -14,6 +15,7 @@ import '../../models/acceptance_criteria.dart';
 import '../../models/evidence.dart';
 import '../../models/media.dart';
 import '../../providers/design_provider.dart';
+import '../navigation/no_animation_page_route.dart';
 import 'media_detail.dart';
 
 class AcceptanceCriteriaMediaList extends StatefulWidget {
@@ -120,10 +122,8 @@ class _AcceptanceCriteriaMediaListState
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => MediaDetail(
+      NoAnimationPageRoute(
+        builder: (context) => MediaDetail(
           media: widget.mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIdex: index,
@@ -162,11 +162,8 @@ class _AcceptanceCriteriaMediaListState
           // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
           Navigator.push(
             context,
-            PageRouteBuilder(
-              transitionDuration: Duration.zero,
-              reverseTransitionDuration: Duration.zero,
-              pageBuilder: (context, animation1, animation2) =>
-                  AcceptanceCriteriaEvidenceList(
+            NoAnimationPageRoute(
+              builder: (context) => AcceptanceCriteriaEvidenceList(
                 preTitle: splitTitle(widget.preTitle),
                 acceptanceCriteria: widget.acceptanceCriteria,
                 challenge: widget.challenge,

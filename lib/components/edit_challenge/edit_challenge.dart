@@ -4,12 +4,14 @@ import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart
 import 'package:challenge/components/edit_challenge/date_picker.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 
 import '../../models/acceptance_criteria.dart';
 import '../../models/activity.dart';
+import '../navigation/no_animation_page_route.dart';
 
 class EditChallenge extends StatefulWidget {
   final Function? homeListSetState;
@@ -470,10 +472,8 @@ class _EditChallengeState extends State<EditChallenge> {
   void onTapAddAcceptanceCriteriaButton() {
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
+      NoAnimationPageRoute(
+        builder: (context) => AddAcceptanceCriteria(
           preTitle:
               '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
@@ -545,10 +545,8 @@ class _EditChallengeState extends State<EditChallenge> {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => HomeChallenge(
+      NoAnimationPageRoute(
+        builder: (context) => HomeChallenge(
             preTitle: widget.title,
             challenge: widget.challenge,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
@@ -561,10 +559,8 @@ class _EditChallengeState extends State<EditChallenge> {
   void onTapSingleAcceptanceCriteria(int index) {
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => AddAcceptanceCriteria(
+      NoAnimationPageRoute(
+        builder: (context) => AddAcceptanceCriteria(
           preTitle:
               '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,

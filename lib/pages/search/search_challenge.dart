@@ -1,12 +1,14 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../components/edit_challenge/edit_challenge.dart';
+import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/tab_item.dart';
 import '../../models/acceptance_criteria.dart';
 import '../home/home_challenge.dart';
@@ -487,10 +489,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
     //   homeNavigator.pop(context);
     // }
     homeNavigator.push(
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => HomeChallenge(
+      NoAnimationPageRoute(
+        builder: (context) => HomeChallenge(
           preTitle: 'Home',
           challenge: challengeCopy,
           initialChalleneIndex: 0,
@@ -512,10 +512,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
     // Slidable.of(context2)?.close(); // doesnt work flawless...
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => EditChallenge(
+      NoAnimationPageRoute(
+        builder: (context) => EditChallenge(
           title: widget.title,
           challenge: widget.challenge,
           selectTab: widget.selectTab,

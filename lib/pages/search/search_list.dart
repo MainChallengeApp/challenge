@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
+import '../../components/navigation/no_animation_page_route.dart';
 import 'search_challenge.dart';
 
 class SearchList extends StatefulWidget {
@@ -122,10 +124,8 @@ class _SearchListState extends State<SearchList> {
   onTapChallenge({required Challenge challenge, required int index}) {
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) => SearchChallenge(
+      NoAnimationPageRoute(
+        builder: (context) => SearchChallenge(
           title: widget.title,
           challenge: challenge,
           selectTab: widget.selectTab,

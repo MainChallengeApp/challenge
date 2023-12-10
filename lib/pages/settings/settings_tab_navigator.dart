@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/pages/settings/settings_list.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
+import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/challenge_status.dart';
 
 class SettingsTabNavigatorRoutes {
@@ -22,10 +24,8 @@ class SettingsTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
+      NoAnimationPageRoute(
+        builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),
     );
@@ -45,10 +45,8 @@ class SettingsTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
+      NoAnimationPageRoute(
+        builder: (context) =>
             routeBuilders[SettingsTabNavigatorRoutes.newChallenge]!(context),
       ),
     );

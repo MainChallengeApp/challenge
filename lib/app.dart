@@ -19,7 +19,6 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  final _mainTab = TabItem.Home;
   TabItem _currentTab = TabItem.Search;
   ChallengeController challengeController = ChallengeController();
 
@@ -62,33 +61,16 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        final isFirstRouteInCurrentTab =
-            !await navigatorKeys[_currentTab]!.currentState!.maybePop();
-        if (isFirstRouteInCurrentTab) {
-          // if not on the 'main' tab
-          if (_currentTab != _mainTab) {
-            // select 'main' tab
-            _selectTab(_mainTab);
-            // back button handled by app
-            return false;
-          }
-        }
-        // let system handle back button if we're on the first route
-        return isFirstRouteInCurrentTab;
-      },
-      child: Scaffold(
-        body: Stack(
-          children: <Widget>[
-            _buildOffstageNavigator(TabItem.Search),
-            _buildOffstageNavigator(TabItem.Home),
-            _buildOffstageNavigator(TabItem.Settings),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        bottomNavigationBar: bottomNavigationBar(),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          _buildOffstageNavigator(TabItem.Search),
+          _buildOffstageNavigator(TabItem.Home),
+          _buildOffstageNavigator(TabItem.Settings),
+        ],
       ),
+      backgroundColor: Colors.white,
+      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 
