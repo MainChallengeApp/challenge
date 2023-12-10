@@ -262,7 +262,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
   }
 
   String? dropdownValue;
-  List<String> list = <String>['once', 'every day'];
+  List<String> list = <String>['once', 'daily', 'weekly', 'monthly'];
   frequence() {
     return standardContainer(
         child: DropdownButton<String>(
