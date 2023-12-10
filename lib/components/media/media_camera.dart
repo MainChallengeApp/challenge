@@ -17,14 +17,14 @@ import '../navigation/no_animation_page_route.dart';
 class MediaCamera extends StatefulWidget {
   const MediaCamera({
     super.key,
-    required this.camera,
+    required this.cameras,
     required this.preTitle,
     required this.mediaList,
     required this.acceptanceCriteria,
     required this.challenge,
   });
 
-  final CameraDescription? camera;
+  final List<CameraDescription> cameras;
   final String preTitle;
   final List<Media> mediaList;
   final AcceptanceCriteria? acceptanceCriteria;
@@ -39,21 +39,25 @@ class _CameraStateMedia extends State<MediaCamera> {
   late Future<void> _initializeControllerFuture;
   FlashMode flashMode = FlashMode.off;
   List<Media> currentMedia = [];
+  CameraDescription? currentCamera;
 
   @override
   void initState() {
     super.initState();
     // To display the current output from the Camera,
     // create a CameraController.
-    _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
-      widget.camera!,
-      // Define the resolution to use.
-      ResolutionPreset.medium,
-    );
+    if (widget.cameras.isNotEmpty) {
+      currentCamera = widget.cameras[0];
+      _controller = CameraController(
+        // Get a specific camera from the list of available cameras.
+        currentCamera!,
+        // Define the resolution to use.
+        ResolutionPreset.max,
+      );
 
-    // Next, initialize the controller. This returns a Future.
-    _initializeControllerFuture = _controller.initialize();
+      // Next, initialize the controller. This returns a Future.
+      _initializeControllerFuture = _controller.initialize();
+    }
   }
 
   @override
@@ -73,46 +77,79 @@ class _CameraStateMedia extends State<MediaCamera> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           // If the Future is complete, display the preview.
-          return Stack(children: [
-            widget.camera != null
-                ? Transform.scale(
-                    scale: deviceRatio,
-                    child: Center(
-                      child: CameraPreview(_controller),
+          return currentCamera != null
+              ? GestureDetector(
+                  onDoubleTap: () {
+                    setState(() {
+                      if (widget.cameras.length >= 2 &&
+                          currentCamera == widget.cameras[0]) {
+                        currentCamera = widget.cameras[1];
+                        _controller = CameraController(
+                          // Get a specific camera from the list of available cameras.
+                          currentCamera!,
+                          // Define the resolution to use.
+                          ResolutionPreset.max,
+                        );
+
+                        // Next, initialize the controller. This returns a Future.
+                        _initializeControllerFuture = _controller.initialize();
+                      } else if (widget.cameras.length >= 2 &&
+                          currentCamera == widget.cameras[1]) {
+                        currentCamera = widget.cameras[0];
+                        _controller = CameraController(
+                          // Get a specific camera from the list of available cameras.
+                          currentCamera!,
+                          // Define the resolution to use.
+                          ResolutionPreset.max,
+                        );
+
+                        // Next, initialize the controller. This returns a Future.
+                        _initializeControllerFuture = _controller.initialize();
+                      }
+                    });
+                  },
+                  child: Stack(children: [
+                    Transform.scale(
+                      scale: deviceRatio,
+                      child: Center(
+                        child: CameraPreview(_controller),
+                      ),
                     ),
-                  )
-                : const Center(
-                    child: Text('No camera found'),
-                  ),
-            CustomeAppBar.build(
-                preTitle: widget.preTitle,
-                title: widget.acceptanceCriteria == null
-                    ? 'Camera'
-                    : '${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
-                backgroundColor: Colors.transparent,
-                textColor: Colors.white),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child:
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(
-                  child: flashButton(),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                Container(
-                  child: documentationButton(Icons.camera_alt_outlined),
-                ),
-                const SizedBox(
-                  width: 50,
-                ),
-                Container(
-                  child: acceptButton(),
+                    CustomeAppBar.build(
+                        preTitle: widget.preTitle,
+                        title: widget.acceptanceCriteria == null
+                            ? 'Camera'
+                            : '${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
+                        backgroundColor: Colors.transparent,
+                        textColor: Colors.white),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              child: flashButton(),
+                            ),
+                            const SizedBox(
+                              width: 50,
+                            ),
+                            Container(
+                              child: documentationButton(
+                                  Icons.camera_alt_outlined),
+                            ),
+                            const SizedBox(
+                              width: 50,
+                            ),
+                            Container(
+                              child: acceptButton(),
+                            )
+                          ]),
+                    )
+                  ]),
                 )
-              ]),
-            )
-          ]);
+              : const Center(
+                  child: Text('No camera found'),
+                );
         } else {
           // Otherwise, display a loading indicator.
           return const Center(child: CircularProgressIndicator());
