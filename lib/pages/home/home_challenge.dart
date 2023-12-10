@@ -7,7 +7,6 @@ import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
