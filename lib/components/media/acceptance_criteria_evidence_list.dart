@@ -30,6 +30,7 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
 class _AcceptanceCriteriaEvidenceListState
     extends State<AcceptanceCriteriaEvidenceList> {
   String searchBarText = "";
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -54,28 +55,35 @@ class _AcceptanceCriteriaEvidenceListState
   }
 
   Widget _buildList() {
-    return ListView.separated(
-        itemCount: widget.acceptanceCriteria.evidences.length +
-            1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-        separatorBuilder: (context, index) => const SizedBox(
-              height: 17,
-            ),
-        itemBuilder: (BuildContext content, int index) {
-          if (index == widget.acceptanceCriteria.evidences.length) {
-            return Container();
-          }
-
-          return GestureDetector(
-            onTap: () =>
-                onTapEvidence(widget.acceptanceCriteria.evidences[index]),
-            child: ListItemAcceptanceCriteriaBar(
-              acceptanceCriteria: widget.acceptanceCriteria,
-              isProgressBarLocked: true,
-              initialProgress:
-                  widget.acceptanceCriteria.evidences[index].progress,
-            ),
-          );
-        });
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          controller: scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: widget.acceptanceCriteria.evidences.length,
+          itemBuilder: (BuildContext content, int index) {
+            return Column(
+              children: [
+                GestureDetector(
+                  onTap: () =>
+                      onTapEvidence(widget.acceptanceCriteria.evidences[index]),
+                  child: ListItemAcceptanceCriteriaBar(
+                    acceptanceCriteria: widget.acceptanceCriteria,
+                    isProgressBarLocked: true,
+                    initialProgress:
+                        widget.acceptanceCriteria.evidences[index].progress,
+                  ),
+                ),
+                const SizedBox(
+                  height: 17,
+                )
+              ],
+            );
+          }),
+    );
   }
 
   changeList(String value) {

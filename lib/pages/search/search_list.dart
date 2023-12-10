@@ -24,6 +24,7 @@ class SearchList extends StatefulWidget {
 class _SearchListState extends State<SearchList> {
   late Future<List<Challenge>> challengesFutures;
   late List<Challenge> filteredChallenges;
+  final ScrollController scrollController = ScrollController();
 
   String searchBarText = "";
 
@@ -77,29 +78,52 @@ class _SearchListState extends State<SearchList> {
                 .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
 
-            return ListView.separated(
-                itemCount: filteredChallenges.length +
-                    1 +
-                    1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 17,
-                    ),
-                itemBuilder: (BuildContext content, int index) {
-                  if (index == 0) {
-                    return ListItemSearchbar(changeList: changeList);
-                  }
-                  if (index == filteredChallenges.length + 1) {
-                    return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  }
-                  Challenge challenge = filteredChallenges[index -
-                      1]; // -1 for new Challenge listitem - 1 for searchbar
-                  return ListItemChallengeSmall(
-                    onTap: () => onTapChallenge(
-                        challenge: challenge,
-                        index: index - 1), // widget.onPush?.call(challenge),
-                    challenge: challenge,
-                  );
-                });
+            return RawScrollbar(
+              controller: scrollController,
+              radius: const Radius.circular(4),
+              thumbColor: themeColor3,
+              padding: const EdgeInsets.only(right: 4),
+              child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: scrollController,
+                  itemCount:
+                      filteredChallenges.length + 1, //  + 1 for searchbar
+                  // separatorBuilder: (context, index) => const SizedBox( // doesnt work properly with scrollbar (scrollbar jumps around)
+                  //       height: 17,
+                  //     ),
+                  itemBuilder: (BuildContext content, int index) {
+                    if (index == 0) {
+                      return Column(
+                        // cloumn instead of seperator
+                        children: [
+                          ListItemSearchbar(changeList: changeList),
+                          const SizedBox(
+                            height: 17,
+                          )
+                        ],
+                      );
+                    }
+                    // if (index == filteredChallenges.length + 1) {  // only for seperator...
+                    //   return Container(); // + 1 for searchbar
+                    // }
+                    Challenge challenge =
+                        filteredChallenges[index - 1]; // - 1 for searchbar
+                    return Column(
+                      children: [
+                        ListItemChallengeSmall(
+                          onTap: () => onTapChallenge(
+                              challenge: challenge,
+                              index:
+                                  index - 1), // widget.onPush?.call(challenge),
+                          challenge: challenge,
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        )
+                      ],
+                    );
+                  }),
+            );
           } else {
             return const Text('Error with loading data...');
           }

@@ -44,6 +44,7 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
 class _AcceptanceCriteriaMediaListState
     extends State<AcceptanceCriteriaMediaList> {
   ChallengeController challengeController = ChallengeController();
+  ScrollController scrollController = ScrollController();
 
   String searchBarText = "";
 
@@ -62,53 +63,45 @@ class _AcceptanceCriteriaMediaListState
   }
 
   Widget _buildList() {
-    return ListView.separated(
-        itemCount: widget.isSaveInsteadOfEditButtonVisible
-            ? widget.mediaList.length + 1 + 1
-            : widget.mediaList.length +
-                1 +
-                1, // +1 for extra separator at the end + 1 for searchbar
-        separatorBuilder: (context, index) => const SizedBox(
-              height: 17,
-            ),
-        itemBuilder: (BuildContext content, int index) {
-          if (index == 0) {
-            return ListItemAcceptanceCriteriaBar(
-              acceptanceCriteria: widget.acceptanceCriteria,
-              initialProgress: widget.evidence?.progress ??
-                  widget.acceptanceCriteria.progress,
-              isProgressBarLocked: !widget.isSaveInsteadOfEditButtonVisible,
-            );
-          }
-          if (widget.isSaveInsteadOfEditButtonVisible) {
-            // if (index == 1) {
-            //   return ListItemIconSmall(
-            //     onTap: () => 0, // not yet implemented
-            //     icon: Icons.add,
-            //     title: "Upload Media",
-            //   );
-            // }
-            if (index == widget.mediaList.length + 1) {
-              return Container(
-                height: 40,
-              ); // +1 for new Challenge listitem + 1 for searchbar
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          itemCount: widget.mediaList.length + 1, // +1 for progress bar
+          itemBuilder: (BuildContext content, int index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  ListItemAcceptanceCriteriaBar(
+                    acceptanceCriteria: widget.acceptanceCriteria,
+                    initialProgress: widget.evidence?.progress ??
+                        widget.acceptanceCriteria.progress,
+                    isProgressBarLocked:
+                        !widget.isSaveInsteadOfEditButtonVisible,
+                  ),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
             }
-            return ListItemMediaSmall(
-              onTap: () => ppush(context, index: index - 1),
-              media: widget.mediaList[index - 1],
+            return Column(
+              children: [
+                ListItemMediaSmall(
+                  onTap: () => ppush(context, index: index - 1),
+                  media: widget.mediaList[index - 1],
+                ),
+                const SizedBox(
+                  height: 17,
+                )
+              ],
             );
-          } else {
-            if ((index + 1) == widget.mediaList.length + 1 + 1) {
-              return Container(
-                height: 40,
-              ); // +1 for new Challenge listitem + 1 for searchbar
-            }
-            return ListItemMediaSmall(
-              onTap: () => ppush(context, index: (index + 1) - 1 - 1),
-              media: widget.mediaList[(index + 1) - 1 - 1],
-            );
-          }
-        });
+          }),
+    );
   }
 
   changeList(String value) {

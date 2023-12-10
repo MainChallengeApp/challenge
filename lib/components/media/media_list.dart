@@ -7,6 +7,7 @@ import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
+import '../../globals.dart';
 import '../../models/media.dart';
 import '../../providers/design_provider.dart';
 import '../navigation/no_animation_page_route.dart';
@@ -28,6 +29,8 @@ class MediaList extends StatefulWidget {
 class _MediaListState extends State<MediaList> {
   String searchBarText = "";
 
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,36 +45,50 @@ class _MediaListState extends State<MediaList> {
   Widget _buildList() {
     List<Media> mediaList = widget.challenge.media
         .where((element) => element.title.contains(searchBarText))
-        .toList(); //.where((e) => e.title.contains(searchBarText))
+        .toList();
 
-    return ListView.separated(
-        itemCount: mediaList.length +
-            1 +
-            1, // +1 for extra separator at the end + 1 for searchbar
-        separatorBuilder: (context, index) => const SizedBox(
-              height: 17,
-            ),
-        itemBuilder: (BuildContext content, int index) {
-          if (index == 0) {
-            return ListItemSearchbar(
-              changeList: changeList,
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          itemCount: mediaList.length + 1, // + 1 for searchbar
+          itemBuilder: (BuildContext content, int index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  ListItemSearchbar(
+                    changeList: changeList,
+                  ),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
+            }
+            // if (index == 1) {
+            //   return ListItemIconSmall(
+            //     onTap: () => 0, // not yet implemented
+            //     icon: Icons.add,
+            //     title: "Upload Media",
+            //   );
+            // }
+            return Column(
+              children: [
+                ListItemMediaSmall(
+                  onTap: () => ppush(context, index: index - 1),
+                  media: mediaList[index - 1],
+                ),
+                const SizedBox(
+                  height: 17,
+                )
+              ],
             );
-          }
-          // if (index == 1) {
-          //   return ListItemIconSmall(
-          //     onTap: () => 0, // not yet implemented
-          //     icon: Icons.add,
-          //     title: "Upload Media",
-          //   );
-          // }
-          if (index == mediaList.length + 1) {
-            return Container(); // +1 for new Challenge listitem + 1 for searchbar
-          }
-          return ListItemMediaSmall(
-            onTap: () => ppush(context, index: index - 1),
-            media: mediaList[index - 1],
-          );
-        });
+          }),
+    );
   }
 
   changeList(String value) {

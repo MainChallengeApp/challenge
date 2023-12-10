@@ -22,6 +22,7 @@ class _SettingsListState extends State<SettingsList> {
   late Future<List<Challenge>> challengesFutures;
   Account account = Account(email: '');
   AccountController accountController = AccountController();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -64,38 +65,67 @@ class _SettingsListState extends State<SettingsList> {
 
   Widget _buildList() {
     int itemCount = 3;
-    return ListView.separated(
-        itemCount: itemCount + 1, // +1 for extra separator at the end
-        separatorBuilder: (context, index) => const SizedBox(
-              height: 17,
-            ),
-        itemBuilder: (BuildContext content, int index) {
-          if (index == 0) {
-            return ListItemIconSmall(
-                onTap: () {},
-                icon: Icons.person_outlined,
-                title: account.email!);
-          }
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          itemCount: itemCount,
+          itemBuilder: (BuildContext content, int index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  ListItemIconSmall(
+                      onTap: () {},
+                      icon: Icons.person_outlined,
+                      title: account.email!),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
+            }
 
-          if (index == 1) {
-            return ListItemIconSmall(
-                onTap: onTapFeedback,
-                icon: Icons.feedback_outlined,
-                title: 'Feedback');
-          }
+            if (index == 1) {
+              return Column(
+                children: [
+                  ListItemIconSmall(
+                      onTap: onTapFeedback,
+                      icon: Icons.feedback_outlined,
+                      title: 'Feedback'),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
+            }
 
-          if (index == itemCount - 1) {
-            return ListItemIconSmall(
-                onTap: onTapLogout, icon: Icons.logout, title: 'Log out');
-          }
+            if (index == itemCount - 1) {
+              return Column(
+                children: [
+                  ListItemIconSmall(
+                      onTap: onTapLogout, icon: Icons.logout, title: 'Log out'),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
+            }
 
-          if (index == itemCount) {
-            return Container(); // for separator at the end
-          }
-
-          return ListItemIconSmall(
-              onTap: () {}, icon: Icons.settings, title: 'settings');
-        });
+            return Column(
+              children: [
+                ListItemIconSmall(
+                    onTap: () {}, icon: Icons.settings, title: 'settings'),
+                const SizedBox(
+                  height: 17,
+                )
+              ],
+            );
+          }),
+    );
   }
 
   onTapLogout() {

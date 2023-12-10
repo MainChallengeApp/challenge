@@ -25,6 +25,8 @@ class _HomeListState extends State<HomeList> {
   late Future<List<Challenge>> challengesFutures;
   ChallengeController challengeController = ChallengeController();
 
+  ScrollController scrollController = ScrollController();
+
   String searchBarText = "";
 
   @override
@@ -78,39 +80,67 @@ class _HomeListState extends State<HomeList> {
                 .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
 
-            return ListView.separated(
-                itemCount: challengeList.length +
-                    1 +
-                    1 +
-                    1, // +1 for extra separator at the end +1 for new Challenge listitem + 1 for searchbar
-                separatorBuilder: (context, index) => const SizedBox(
-                      height: 17,
-                    ),
-                itemBuilder: (BuildContext content, int index) {
-                  if (index == 0) {
-                    return ListItemSearchbar(
-                      changeList: changeList,
+            return RawScrollbar(
+              controller: scrollController,
+              radius: const Radius.circular(4),
+              thumbColor: themeColor3,
+              padding: const EdgeInsets.only(right: 4),
+              child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  controller: scrollController,
+                  itemCount: challengeList.length +
+                      1 +
+                      1, // +1 for new Challenge listitem + 1 for searchbar
+                  // separatorBuilder: (context, index) => const SizedBox(
+                  //       height: 17,
+                  //     ),
+                  itemBuilder: (BuildContext content, int index) {
+                    if (index == 0) {
+                      return Column(
+                        children: [
+                          ListItemSearchbar(
+                            changeList: changeList,
+                          ),
+                          const SizedBox(
+                            height: 17,
+                          )
+                        ],
+                      );
+                    }
+                    if (index == 1) {
+                      return Column(
+                        children: [
+                          ListItemIconSmall(
+                            onTap: () => tapOnNewChallenge(),
+                            icon: Icons.add,
+                            title: "New Challenge",
+                          ),
+                          const SizedBox(
+                            height: 17,
+                          )
+                        ],
+                      );
+                    }
+                    // if (index == challengeList.length + 1 + 1) {
+                    //   return Container(); // +1 for new Challenge listitem + 1 for searchbar
+                    // }
+                    Challenge challenge = challengeList[index -
+                        1 -
+                        1]; // -1 for new Challenge listitem - 1 for searchbar
+                    return Column(
+                      children: [
+                        ListItemChallengeSmall(
+                          onTap: () => ppush(context,
+                              challenge: challenge, index: index - 1 - 1),
+                          challenge: challenge,
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        )
+                      ],
                     );
-                  }
-                  if (index == 1) {
-                    return ListItemIconSmall(
-                      onTap: () => tapOnNewChallenge(),
-                      icon: Icons.add,
-                      title: "New Challenge",
-                    );
-                  }
-                  if (index == challengeList.length + 1 + 1) {
-                    return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                  }
-                  Challenge challenge = challengeList[index -
-                      1 -
-                      1]; // -1 for new Challenge listitem - 1 for searchbar
-                  return ListItemChallengeSmall(
-                    onTap: () => ppush(context,
-                        challenge: challenge, index: index - 1 - 1),
-                    challenge: challenge,
-                  );
-                });
+                  }),
+            );
           } else {
             return const Text('Error with loading data...');
           }
