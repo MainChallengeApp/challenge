@@ -11,11 +11,9 @@ import 'package:challenge/models/challenge.dart';
 import '../../enums/challenge_status.dart';
 
 class HomeList extends StatefulWidget {
-  const HomeList(
-      {super.key, required this.title, this.onPush, this.tapOnNewChallenge});
+  const HomeList({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<Challenge>? onPush;
-  final Function? tapOnNewChallenge;
 
   @override
   State<HomeList> createState() => _HomeListState();

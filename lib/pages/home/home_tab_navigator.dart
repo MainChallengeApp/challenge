@@ -4,8 +4,6 @@ import 'package:challenge/pages/home/home_list.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
-import '../../enums/challenge_status.dart';
-
 class HomeTabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
@@ -33,37 +31,12 @@ class HomeTabNavigator extends TabNavigator {
     );
   }
 
-  void tapOnNewChallenge(BuildContext context) {
-    final Challenge challenge = Challenge(
-        status: ChallengeStatus.backlog,
-        title: '',
-        description: '',
-        thumbnailPath: '',
-        startDate: null,
-        endDate: null,
-        acceptanceCriteria: [],
-        media: []);
-    var routeBuilders = prouteBuilders(context, challenge: challenge);
-
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: Duration.zero,
-        reverseTransitionDuration: Duration.zero,
-        pageBuilder: (context, animation1, animation2) =>
-            routeBuilders[HomeTabNavigatorRoutes.newChallenge]!(context),
-      ),
-    );
-  }
-
   @override
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, Challenge? challenge}) {
     return {
       HomeTabNavigatorRoutes.root: (context) => HomeList(
-          title: tabItem.name,
-          onPush: (c) => ppush(context, challenge: c),
-          tapOnNewChallenge: () => tapOnNewChallenge(context)),
+          title: tabItem.name, onPush: (c) => ppush(context, challenge: c)),
       // HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
       //       preTitle: tabItem.name,
       //       challenge: challenge!,
