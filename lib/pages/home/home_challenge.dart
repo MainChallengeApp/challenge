@@ -630,6 +630,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
       widget.challenge = challengeList[value];
       currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
+      selectedAcceptanceCriteria = 0;
     });
   }
 

@@ -215,7 +215,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
                               isDescriptionExpanded
                                   ? Container()
                                   : acceptanceCriteria(e.acceptanceCriteria),
-                              isDescriptionExpanded ? Container() : dots(),
+                              isDescriptionExpanded
+                                  ? Container()
+                                  : dots(e.acceptanceCriteria),
                               isDescriptionExpanded
                                   ? Container()
                                   : Expanded(child: Container()),
@@ -449,11 +451,11 @@ class _SearchChallengeState extends State<SearchChallenge> {
     }
   }
 
-  dots() {
+  dots(List<AcceptanceCriteria> acceptanceCriteria) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-            widget.challenge.acceptanceCriteria.length,
+            acceptanceCriteria.length,
             (index) => Padding(
                   padding: const EdgeInsets.only(
                       left: 5, right: 5, top: 10, bottom: 23),
@@ -505,6 +507,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
       currentTitle = widget.challenge.title;
       widget.initialChalleneIndex = value;
       pageController = PageController(initialPage: value);
+      selectedAcceptanceCriteria = 0;
     });
   }
 
