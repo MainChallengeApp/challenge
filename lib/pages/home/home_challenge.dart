@@ -81,15 +81,14 @@ class _HomeChallengeState extends State<HomeChallenge> {
                 closeOnScroll: true,
                 // The end action pane is the one at the right or the bottom side.
                 endActionPane: ActionPane(
-                  extentRatio: (widget.challenge.status ==
-                              ChallengeStatus.inProgress ||
-                          widget.challenge.status == ChallengeStatus.backlog)
+                  extentRatio: (e.status == ChallengeStatus.inProgress ||
+                          e.status == ChallengeStatus.backlog)
                       ? 0.5
                       : 0.25,
                   motion: const ScrollMotion(),
                   children: [
-                    (widget.challenge.status == ChallengeStatus.inProgress ||
-                            widget.challenge.status == ChallengeStatus.backlog)
+                    (e.status == ChallengeStatus.inProgress ||
+                            e.status == ChallengeStatus.backlog)
                         ? Expanded(
                             child: GestureDetector(
                               onTap: editChallenge,
@@ -117,8 +116,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
                             ),
                           )
                         : Container(),
-                    (widget.challenge.status == ChallengeStatus.inProgress ||
-                            widget.challenge.status == ChallengeStatus.backlog)
+                    (e.status == ChallengeStatus.inProgress ||
+                            e.status == ChallengeStatus.backlog)
                         ? const SizedBox(
                             width: 20,
                           )
@@ -293,7 +292,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                           isDescriptionExpanded
                               ? Container()
                               : acceptanceCriteria(e.acceptanceCriteria),
-                          isDescriptionExpanded ? Container() : dots(),
+                          isDescriptionExpanded ? Container() : dots(e),
                           // isDescriptionExpanded
                           //     ? Container()
                           //     : const SizedBox(
@@ -333,10 +332,10 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                     height: 55,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                        color: widget.challenge.status ==
-                                                ChallengeStatus.backlog
-                                            ? themeColor2
-                                            : Colors.white,
+                                        color:
+                                            e.status == ChallengeStatus.backlog
+                                                ? themeColor2
+                                                : Colors.white,
                                         border: Border.all(
                                             width: 1,
                                             color: const Color.fromRGBO(
@@ -345,18 +344,16 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                             Radius.circular(16))),
                                     child: Center(
                                         child: Text(
-                                      widget.challenge.status ==
-                                              ChallengeStatus.inProgress
+                                      e.status == ChallengeStatus.inProgress
                                           ? 'End'
-                                          : widget.challenge.status ==
-                                                  ChallengeStatus.success
+                                          : e.status == ChallengeStatus.success
                                               ? 'Accept Again'
-                                              : widget.challenge.status ==
+                                              : e.status ==
                                                       ChallengeStatus.backlog
                                                   ? 'Start'
                                                   : 'Try Again', // ChallengeStatus.failed
                                       style: TextStyle(
-                                          color: widget.challenge.status ==
+                                          color: e.status ==
                                                   ChallengeStatus.backlog
                                               ? Colors.white
                                               : Colors.black,
@@ -550,11 +547,11 @@ class _HomeChallengeState extends State<HomeChallenge> {
     }
   }
 
-  dots() {
+  dots(Challenge challenge) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-            widget.challenge.acceptanceCriteria.length,
+            challenge.acceptanceCriteria.length,
             (index) => Padding(
                   padding: const EdgeInsets.only(
                       left: 5, right: 5, top: 10, bottom: 23),
