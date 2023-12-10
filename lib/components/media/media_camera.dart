@@ -215,6 +215,8 @@ class _CameraStateMedia extends State<MediaCamera> {
   acceptButton() {
     return GestureDetector(
       onTap: () {
+        flashMode = FlashMode.off;
+        _controller.setFlashMode(FlashMode.off);
         if (widget.acceptanceCriteria != null) {
           if (currentMedia.isEmpty) {
             Navigator.push(
