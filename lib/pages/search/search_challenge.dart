@@ -540,4 +540,71 @@ class _SearchChallengeState extends State<SearchChallenge> {
       child: child,
     );
   }
+
+  void onTapStartOrEndDate(String startOrEnd) async {
+    DateTime? initialDateTime = startOrEnd == 'start'
+        ? widget.challenge.startDate
+        : widget.challenge.endDate;
+    setState(() {
+      if (startOrEnd == 'start') {
+        widget.challenge.startDate = null;
+      } else {
+        widget.challenge.endDate = null;
+      }
+    });
+
+    bool isDateTimeChanged = false;
+
+    await showCupertinoModalPopup(
+      context: context,
+      builder: (_) {
+        final size = MediaQuery.of(context).size;
+        return GestureDetector(
+          onTap: () {
+            if (startOrEnd == 'start') {
+              setState(() {
+                if (initialDateTime == null && !isDateTimeChanged) {
+                  widget.challenge.startDate = DateTime.now();
+                } else {
+                  widget.challenge.startDate = initialDateTime;
+                }
+              });
+            } else {
+              setState(() {
+                if (initialDateTime == null && !isDateTimeChanged) {
+                  widget.challenge.endDate = DateTime.now();
+                } else {
+                  widget.challenge.endDate = initialDateTime;
+                }
+              });
+            }
+          },
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+            ),
+            height: size.height * 0.27,
+            child: CupertinoDatePicker(
+              initialDateTime: initialDateTime,
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: (value) {
+                isDateTimeChanged = true;
+                setState(() {
+                  if (startOrEnd == 'start') {
+                    widget.challenge.startDate = value;
+                  } else if (startOrEnd == 'end') {
+                    widget.challenge.endDate = value;
+                  }
+                });
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
