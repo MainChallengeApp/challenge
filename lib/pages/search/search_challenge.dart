@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import '../../components/edit_challenge/edit_challenge.dart';
 import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/tab_item.dart';
 import '../../models/acceptance_criteria.dart';
+import '../../models/activity.dart';
 import '../home/home_challenge.dart';
 
 class SearchChallenge extends StatefulWidget {
@@ -214,6 +216,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
                               startAndEndDate(e),
                               isDescriptionExpanded
                                   ? Container()
+                                  : addAcceptanceCriteriaButton(),
+                              isDescriptionExpanded
+                                  ? Container()
                                   : acceptanceCriteria(e.acceptanceCriteria),
                               isDescriptionExpanded
                                   ? Container()
@@ -227,37 +232,37 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Expanded(
-                                          child: GestureDetector(
-                                            onTap: onTapEditChallenge,
-                                            child: Container(
-                                              height: 55,
-                                              width: double.infinity,
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                              226,
-                                                              232,
-                                                              240,
-                                                              1)),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(16))),
-                                              child: const Center(
-                                                  child: Text(
-                                                'Edit',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black),
-                                              )),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
+                                        // Expanded(
+                                        //   child: GestureDetector(
+                                        //     onTap: onTapEditChallenge,
+                                        //     child: Container(
+                                        //       height: 55,
+                                        //       width: double.infinity,
+                                        //       decoration: BoxDecoration(
+                                        //           border: Border.all(
+                                        //               width: 1,
+                                        //               color:
+                                        //                   const Color.fromRGBO(
+                                        //                       226,
+                                        //                       232,
+                                        //                       240,
+                                        //                       1)),
+                                        //           borderRadius:
+                                        //               const BorderRadius.all(
+                                        //                   Radius.circular(16))),
+                                        //       child: const Center(
+                                        //           child: Text(
+                                        //         'Edit',
+                                        //         style: TextStyle(
+                                        //             fontWeight: FontWeight.w500,
+                                        //             color: Colors.black),
+                                        //       )),
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                        // const SizedBox(
+                                        //   width: 16,
+                                        // ),
                                         Expanded(
                                           child: GestureDetector(
                                             onTap: onTapAccept,
@@ -307,36 +312,44 @@ class _SearchChallengeState extends State<SearchChallenge> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
+                child: GestureDetector(
+                  onTap: () => onTapStartOrEndDate('start'),
                   child: standardContainer(
                       child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Start',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    (e.startDate != null ? _dateFormat(e.startDate!) : '-'),
-                    style: const TextStyle(color: themeColor3),
-                  )
-                ],
-              ))),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Start',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        (e.startDate != null ? _dateFormat(e.startDate!) : '-'),
+                        style: const TextStyle(color: themeColor3),
+                      )
+                    ],
+                  )),
+                ),
+              ),
               const SizedBox(width: 16),
               Expanded(
+                child: GestureDetector(
+                  onTap: () => onTapStartOrEndDate('end'),
                   child: standardContainer(
                       child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'End',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    (e.endDate != null ? _dateFormat(e.endDate!) : '-'),
-                    style: const TextStyle(color: themeColor3),
-                  )
-                ],
-              ))),
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'End',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        (e.endDate != null ? _dateFormat(e.endDate!) : '-'),
+                        style: const TextStyle(color: themeColor3),
+                      )
+                    ],
+                  )),
+                ),
+              ),
             ],
           );
   }
@@ -379,62 +392,65 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   singleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
-    return Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: Colors.white.withAlpha(170),
-            border: Border.all(
-                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.all(10),
-              // width: 59,
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Text('${acceptanceCriteria.progress}%',
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                  overflow: TextOverflow.ellipsis),
-            ),
-            Container(
-              constraints: const BoxConstraints(
-                maxWidth: 88, // Set your desired maximum width
+    return GestureDetector(
+      onTap: () => onTapAcceptanceCriteria(acceptanceCriteria),
+      child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              color: Colors.white.withAlpha(170),
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                // width: 59,
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text('${acceptanceCriteria.progress}%',
+                    style: const TextStyle(fontSize: 12, color: themeColor3),
+                    overflow: TextOverflow.ellipsis),
               ),
-              margin: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Text(
-                  '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                  overflow: TextOverflow.ellipsis),
-            ),
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Text(acceptanceCriteria.frequence,
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                  overflow: TextOverflow.ellipsis),
-            ),
-            Expanded(child: Container()),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: Icon(getIconData(acceptanceCriteria),
-                  color: themeColor3, size: 14),
-            ),
-          ],
-        ));
+              Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 88, // Set your desired maximum width
+                ),
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text(
+                    '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
+                    style: const TextStyle(fontSize: 12, color: themeColor3),
+                    overflow: TextOverflow.ellipsis),
+              ),
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Text(acceptanceCriteria.frequence,
+                    style: const TextStyle(fontSize: 12, color: themeColor3),
+                    overflow: TextOverflow.ellipsis),
+              ),
+              Expanded(child: Container()),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                    color: Color.fromRGBO(241, 245, 249, 1),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: Icon(getIconData(acceptanceCriteria),
+                    color: themeColor3, size: 14),
+              ),
+            ],
+          )),
+    );
   }
 
   IconData getIconData(AcceptanceCriteria acceptanceCriteria) {
@@ -606,5 +622,78 @@ class _SearchChallengeState extends State<SearchChallenge> {
         );
       },
     );
+  }
+
+  void onTapAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
+    Navigator.push(
+      context,
+      NoAnimationPageRoute(
+        builder: (context) => AddAcceptanceCriteria(
+            preTitle: '${widget.title}/${widget.challenge.title}',
+            challenge: widget.challenge,
+            acceptanceCriteria: acceptanceCriteria,
+            acceptanceCriteriaIndex: widget.challenge.acceptanceCriteria
+                .indexOf(acceptanceCriteria)),
+      ),
+    ).then((_) => setState(() {}));
+  }
+
+  addAcceptanceCriteriaButton() {
+    return GestureDetector(
+      onTap: onTapAddAcceptanceCriteriaButton,
+      child: standardContainer(
+        child: Row(
+          children: [
+            Container(
+              width: 30,
+              height: 30,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: BorderRadius.all(Radius.circular(12))),
+              child: const Center(
+                  child: Icon(
+                Icons.add,
+                color: themeColor3,
+              )),
+            ),
+            const SizedBox(
+              width: 200,
+              height: 40,
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Add Acceptance Criteria')),
+            ),
+            const Expanded(
+              child: SizedBox(),
+            ),
+            const Icon(
+              Icons.chevron_right_outlined,
+              color: themeColor3,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void onTapAddAcceptanceCriteriaButton() {
+    Navigator.push(
+      context,
+      NoAnimationPageRoute(
+        builder: (context) => AddAcceptanceCriteria(
+          preTitle: '${widget.title}/${widget.challenge.title}/',
+          challenge: widget.challenge,
+          acceptanceCriteria: AcceptanceCriteria(
+              id: widget.challenge.acceptanceCriteria.length,
+              activity: Activity(title: '', amount: 0, unit: ''),
+              frequence: '',
+              tracking: '',
+              progress: 0,
+              evidences: []),
+          acceptanceCriteriaIndex: null,
+        ),
+      ),
+    ).then((_) => setState(() {}));
   }
 }
