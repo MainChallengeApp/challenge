@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge.dart';
@@ -86,6 +88,10 @@ class _MediaDetailState extends State<MediaDetail> {
     return GestureDetector(
       onTap: () {
         Media media = widget.media[currentMediaIndex];
+
+        File file = File(media.source);
+        file.delete();
+
         widget.media.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
         widget.challenge.acceptanceCriteria.forEach((a) {
