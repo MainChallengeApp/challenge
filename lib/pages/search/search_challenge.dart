@@ -417,19 +417,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                // width: 59,
-                decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text('${acceptanceCriteria.progress}%',
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
-                    overflow: TextOverflow.ellipsis),
-              ),
-              Container(
                 constraints: const BoxConstraints(
-                  maxWidth: 88, // Set your desired maximum width
+                  maxWidth: 160, // Set your desired maximum width
                 ),
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(10),
@@ -647,7 +636,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
             acceptanceCriteriaIndex: widget.challenge.acceptanceCriteria
                 .indexOf(acceptanceCriteria)),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) => setState(() {
+          selectedAcceptanceCriteria = 0;
+        }));
   }
 
   addAcceptanceCriteriaButton() {
@@ -706,6 +697,11 @@ class _SearchChallengeState extends State<SearchChallenge> {
           acceptanceCriteriaIndex: null,
         ),
       ),
+    ).then((_) => setState(() {
+          selectedAcceptanceCriteria = 0;
+        }));
+  }
+
   _launchURL(String link) async {
     final Uri url = Uri.parse(link);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {

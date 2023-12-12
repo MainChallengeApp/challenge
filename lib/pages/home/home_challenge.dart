@@ -230,7 +230,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                       removeWww: true, humanize: true),
                                   text: e.description,
                                   overflow: TextOverflow.ellipsis,
-                                  maxLines: isDescriptionExpanded ? 9999 : 4,
+                                  maxLines: isDescriptionExpanded ? 999 : 4,
                                   textDirection: TextDirection.ltr,
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(
