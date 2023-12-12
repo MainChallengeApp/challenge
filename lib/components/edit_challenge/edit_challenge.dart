@@ -282,35 +282,42 @@ class _EditChallengeState extends State<EditChallenge> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
+          child: GestureDetector(
+            onTap: () => onTapStartOrEndDate('start'),
             child: standardContainer(
                 child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Start"),
-            DatePickerExample(
-                restorationId: 'main',
-                initialDate: widget.editChallenge.startDate ?? DateTime.now(),
-                editChallenge: widget.editChallenge,
-                isActualEmpty: widget.editChallenge.startDate == null,
-                isStartDate: true) // very bad workaround
-          ],
-        ))),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Start"),
+                Text(
+                  (widget.editChallenge.startDate != null
+                      ? _dateFormat(widget.editChallenge.startDate!)
+                      : '-'),
+                  style: const TextStyle(color: themeColor3),
+                ) // very bad workaround
+              ],
+            )),
+          ),
+        ),
         const SizedBox(width: 16),
         Expanded(
+          child: GestureDetector(
+            onTap: () => onTapStartOrEndDate('end'),
             child: standardContainer(
                 child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("End"),
-            DatePickerExample(
-              restorationId: 'main',
-              initialDate: widget.editChallenge.endDate ?? DateTime.now(),
-              editChallenge: widget.editChallenge,
-              isStartDate: false,
-              isActualEmpty: widget.editChallenge.endDate == null,
-            ) // very bad workaround
-          ],
-        ))),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("End"),
+                Text(
+                  (widget.editChallenge.endDate != null
+                      ? _dateFormat(widget.editChallenge.endDate!)
+                      : '-'),
+                  style: const TextStyle(color: themeColor3),
+                )
+              ],
+            )),
+          ),
+        ),
       ],
     );
   }
@@ -569,5 +576,76 @@ class _EditChallengeState extends State<EditChallenge> {
         ),
       ),
     ).then((_) => setState(() {}));
+  }
+
+  void onTapStartOrEndDate(String startOrEnd) async {
+    DateTime? initialDateTime = startOrEnd == 'start'
+        ? widget.editChallenge.startDate
+        : widget.editChallenge.endDate;
+    setState(() {
+      if (startOrEnd == 'start') {
+        widget.editChallenge.startDate = null;
+      } else {
+        widget.editChallenge.endDate = null;
+      }
+    });
+
+    bool isDateTimeChanged = false;
+
+    await showCupertinoModalPopup(
+      context: context,
+      builder: (_) {
+        final size = MediaQuery.of(context).size;
+        return GestureDetector(
+          onTap: () {
+            if (startOrEnd == 'start') {
+              setState(() {
+                if (initialDateTime == null && !isDateTimeChanged) {
+                  widget.editChallenge.startDate = DateTime.now();
+                } else {
+                  widget.editChallenge.startDate = initialDateTime;
+                }
+              });
+            } else {
+              setState(() {
+                if (initialDateTime == null && !isDateTimeChanged) {
+                  widget.editChallenge.endDate = DateTime.now();
+                } else {
+                  widget.editChallenge.endDate = initialDateTime;
+                }
+              });
+            }
+          },
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
+            ),
+            height: size.height * 0.27,
+            child: CupertinoDatePicker(
+              initialDateTime: initialDateTime,
+              mode: CupertinoDatePickerMode.date,
+              onDateTimeChanged: (value) {
+                isDateTimeChanged = true;
+                setState(() {
+                  if (startOrEnd == 'start') {
+                    widget.editChallenge.startDate = value;
+                  } else if (startOrEnd == 'end') {
+                    widget.editChallenge.endDate = value;
+                  }
+                });
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  String _dateFormat(DateTime date) {
+    return '${date.day}.${date.month}.${date.year}';
   }
 }
