@@ -11,8 +11,10 @@ import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/challenge_status.dart';
@@ -220,8 +222,13 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                             226, 232, 240, 1)),
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(16))),
-                                child: Text(
-                                  e.description,
+                                child: Linkify(
+                                  onOpen: (link) {
+                                    _launchURL(link.url);
+                                  },
+                                  options: const LinkifyOptions(
+                                      removeWww: true, humanize: true),
+                                  text: e.description,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: isDescriptionExpanded ? 9999 : 4,
                                   textDirection: TextDirection.ltr,
@@ -650,14 +657,14 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   onTapSingleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) async {
     // Ensure that plugin services are initialized so that `availableCameras()`
-// can be called before `runApp()`
+    // can be called before `runApp()`
     if (acceptanceCriteria.tracking == 'camera') {
       WidgetsFlutterBinding.ensureInitialized();
 
-// Obtain a list of the available cameras on the device.
+      // Obtain a list of the available cameras on the device.
       final cameras = await availableCameras();
 
-// Get a specific camera from the list of available cameras.
+      // Get a specific camera from the list of available cameras.
 
       context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       Navigator.push(
@@ -750,6 +757,13 @@ class _HomeChallengeState extends State<HomeChallenge> {
           .firstWhere((element) => element.id == widget.challenge.id)
           .status = widget.challenge.status;
       challengeController.writeFile(context, allChallengesList);
+    }
+  }
+
+  _launchURL(String link) async {
+    final Uri url = Uri.parse(link);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
     }
   }
 }

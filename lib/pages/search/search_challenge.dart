@@ -7,7 +7,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/edit_challenge/edit_challenge.dart';
 import '../../components/navigation/no_animation_page_route.dart';
@@ -203,8 +205,13 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                                 226, 232, 240, 1)),
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(16))),
-                                    child: Text(
-                                      e.description,
+                                    child: Linkify(
+                                      onOpen: (link) {
+                                        _launchURL(link.url);
+                                      },
+                                      options: const LinkifyOptions(
+                                          removeWww: true, humanize: true),
+                                      text: e.description,
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: isDescriptionExpanded ? 999 : 4,
                                       textDirection: TextDirection.ltr,
@@ -699,6 +706,10 @@ class _SearchChallengeState extends State<SearchChallenge> {
           acceptanceCriteriaIndex: null,
         ),
       ),
-    ).then((_) => setState(() {}));
+  _launchURL(String link) async {
+    final Uri url = Uri.parse(link);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
