@@ -67,7 +67,7 @@ class _RegistrationState extends State<Registration> {
             ListItemAcceptButton(
                 onTapAccept: onTapAccept, isAcceptable: isEmailValid(email)),
             const SizedBox(
-              height: 230,
+              height: 140,
             ),
             Container(
               width: 90,
@@ -77,7 +77,18 @@ class _RegistrationState extends State<Registration> {
                 image: AssetImage('assets/icons/challenge_icon_black.png'),
                 fit: BoxFit.contain,
               )),
-            )
+            ),
+            const SizedBox(
+              height: 90,
+            ),
+            Center(
+              child: Text("Your Email will be added to the Email list",
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 10,
+                    fontWeight: FontWeight.w100,
+                  )),
+            ),
           ],
         ),
       ),
