@@ -41,6 +41,8 @@ class _CameraStateMedia extends State<MediaCamera> {
   List<Media> currentMedia = [];
   CameraDescription? currentCamera;
 
+  var isCameraFeedback = false;
+
   @override
   void initState() {
     super.initState();
@@ -144,7 +146,17 @@ class _CameraStateMedia extends State<MediaCamera> {
                               child: acceptButton(),
                             )
                           ]),
-                    )
+                    ),
+                    isCameraFeedback
+                        ? Container(
+                            width: double.infinity,
+                            height: double.infinity,
+                            color: Colors.black,
+                            // decoration: BoxDecoration(
+                            //     border:
+                            //         Border.all(color: Colors.white, width: 15)),
+                          )
+                        : Container()
                   ]),
                 )
               : const Center(
@@ -173,6 +185,7 @@ class _CameraStateMedia extends State<MediaCamera> {
 
           if (!mounted) return;
           setState(() {
+            cameraFeedback();
             int mediaId = widget.mediaList.length;
 
             widget.mediaList.add(Media(
@@ -313,6 +326,18 @@ class _CameraStateMedia extends State<MediaCamera> {
           color: flashMode == FlashMode.off ? Colors.white : Colors.white,
         )),
       ),
+    );
+  }
+
+  void cameraFeedback() {
+    setState(() {
+      isCameraFeedback = true;
+    });
+    Future.delayed(
+      Duration(milliseconds: 100),
+      () => setState(() {
+        isCameraFeedback = false;
+      }),
     );
   }
 }
