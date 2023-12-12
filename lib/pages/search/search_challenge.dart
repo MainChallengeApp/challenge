@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -166,18 +167,22 @@ class _SearchChallengeState extends State<SearchChallenge> {
                           // margin: EdgeInsets.only(bottom:16),
                           child: Column(
                             children: [
-                              Container(
-                                width: double.infinity,
-                                height: 180,
-                                decoration: BoxDecoration(
-                                    color:
-                                        const Color.fromRGBO(241, 245, 249, 1),
-                                    image: DecorationImage(
-                                      image: AssetImage(e.thumbnailPath),
-                                      fit: BoxFit.cover,
-                                    ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(12))),
+                              GestureDetector(
+                                onTap: () => MySnackBar.showSnackBar(context,
+                                    'The Video Trailer feature will be added soon'),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 180,
+                                  decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          241, 245, 249, 1),
+                                      image: DecorationImage(
+                                        image: AssetImage(e.thumbnailPath),
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12))),
+                                ),
                               ),
                               const SizedBox(
                                 height: 16,

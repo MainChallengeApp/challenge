@@ -5,6 +5,7 @@ import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/media/media_camera.dart';
 import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
@@ -306,12 +307,23 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     documentationButton(
-                                        iconData: Icons.numbers, onTap: null),
+                                        iconData: Icons.numbers,
+                                        onTap: () => MySnackBar.showSnackBar(
+                                            context,
+                                            'The Numbers feature is coming soon.'),
+                                        color: Colors.grey[200]),
                                     documentationButton(
-                                        iconData: Icons.notes, onTap: null),
+                                        iconData: Icons.notes,
+                                        onTap: () => MySnackBar.showSnackBar(
+                                            context,
+                                            'The Notes feature is coming soon.'),
+                                        color: Colors.grey[200]),
                                     documentationButton(
                                         iconData: Icons.gps_not_fixed,
-                                        onTap: null),
+                                        onTap: () => MySnackBar.showSnackBar(
+                                            context,
+                                            'The GPS feature is coming soon.'),
+                                        color: Colors.grey[200]),
                                     documentationButton(
                                         iconData: Icons.camera_alt_outlined,
                                         onTap: onTapCamera),
@@ -414,7 +426,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     return '${date.day}.${date.month}.${date.year}';
   }
 
-  documentationButton({required IconData iconData, required onTap}) {
+  documentationButton(
+      {required IconData iconData, required onTap, Color? color}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -424,7 +437,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
         decoration: BoxDecoration(
             border: Border.all(
                 width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            borderRadius: const BorderRadius.all(Radius.circular(16))),
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            color: color),
         child: Center(child: Icon(iconData)),
       ),
     );
