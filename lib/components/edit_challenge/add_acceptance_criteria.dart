@@ -73,10 +73,10 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
                   height: 32,
                 ),
                 frequence(),
-                const SizedBox(
-                  height: 32,
-                ),
-                tracking(),
+                // const SizedBox(
+                //   height: 32,
+                // ),
+                // tracking(),
                 const Expanded(child: SizedBox()),
                 buttons()
               ],
