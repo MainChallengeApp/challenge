@@ -57,7 +57,7 @@ class _RegistrationState extends State<Registration> {
               height: 200,
             ),
             ListItemEmail(
-              changeList: (value) => email = value,
+              changeList: onChangeList,
               textEditingController: textEditingController,
               errorText: errorText,
             ),
@@ -65,8 +65,7 @@ class _RegistrationState extends State<Registration> {
               height: 16,
             ),
             ListItemAcceptButton(
-              onTapAccept: onTapAccept,
-            ),
+                onTapAccept: onTapAccept, isAcceptable: isEmailValid(email)),
             const SizedBox(
               height: 230,
             ),
@@ -83,6 +82,11 @@ class _RegistrationState extends State<Registration> {
         ),
       ),
     );
+  }
+
+  onChangeList(value) {
+    setState(() {});
+    return email = value;
   }
 
   onTapAccept() {
