@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
-import 'package:challenge/components/edit_challenge/date_picker.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/cupertino.dart';
