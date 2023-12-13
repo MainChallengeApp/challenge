@@ -1,14 +1,20 @@
+import 'package:uuid/uuid.dart';
+
 class Media {
-  int id;
+  String? id;
   String type;
   String title;
   String source;
 
   Media(
-      {required this.id,
+      {this.id,
       required this.type,
       required this.title,
-      required this.source});
+      required this.source}) {
+    if (id == null || id!.isEmpty) {
+      id = const Uuid().v4();
+    }
+  }
 
   static fromJsonList(json) {
     List<Media> list = [];
@@ -24,8 +30,8 @@ class Media {
         .toList();
   }
 
-  static copyMediaIdList(List<int> mediaIdList) {
-    List<int> mediaIdListCopy = [];
+  static copyMediaIdList(List<String> mediaIdList) {
+    List<String> mediaIdListCopy = [];
     for (var id in mediaIdList) {
       mediaIdListCopy.add(id);
     }

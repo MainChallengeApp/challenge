@@ -2,7 +2,7 @@ import 'media.dart';
 
 class Evidence {
   int progress;
-  List<int> mediaIds;
+  List<String> mediaIds;
 
   Evidence({required this.progress, required this.mediaIds});
 

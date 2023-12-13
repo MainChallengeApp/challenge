@@ -1,14 +1,19 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/media.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/edit_challenge/edit_challenge.dart';
@@ -489,6 +494,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
   void onTapAccept() async {
     Challenge challengeCopy = Challenge.copyChallenge(widget.challenge);
 
+    modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(challengeCopy);
+
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);
     challengeList.insert(0, challengeCopy);
@@ -707,5 +714,23 @@ class _SearchChallengeState extends State<SearchChallenge> {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  void modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(
+      Challenge challenge) async {
+    String path = challenge.thumbnailPath;
+    final byteData = await rootBundle.load(path);
+
+    String filePath = '${(await getTemporaryDirectory()).path}/$path';
+
+    final file = File(filePath);
+    await file.create(recursive: true);
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    challenge.media
+        .add(Media(source: filePath, title: 'thumbnail', type: 'image'));
+
+    challenge.thumbnailPath = '';
   }
 }

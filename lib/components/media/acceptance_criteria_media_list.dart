@@ -133,7 +133,7 @@ class _AcceptanceCriteriaMediaListState
           // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
           var evidence = Evidence(
               progress: widget.acceptanceCriteria.progress,
-              mediaIds: widget.mediaList.map((e) => e.id).toList());
+              mediaIds: widget.mediaList.map((e) => e.id!).toList());
 
           widget.acceptanceCriteria.evidences.insert(0, evidence);
           allChallengesList

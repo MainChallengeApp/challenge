@@ -185,20 +185,15 @@ class _CameraStateMedia extends State<MediaCamera> {
 
           if (!mounted) return;
           setState(() {
-            cameraFeedback();
-            int mediaId = widget.mediaList.length;
-
             widget.mediaList.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
-                source: image.path,
-                id: mediaId));
+                source: image.path));
 
             currentMedia.add(Media(
                 type: 'image',
                 title: DateTime.now().toString(),
-                source: image.path,
-                id: mediaId));
+                source: image.path));
           });
 
           // // If the picture was taken, display it on a new screen.
