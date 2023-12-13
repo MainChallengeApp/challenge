@@ -177,8 +177,8 @@ class _CameraStateMedia extends State<MediaCamera> {
         // catch the error.
         try {
           // Ensure that the camera is initialized.
-          await _initializeControllerFuture;
-
+          // await _initializeControllerFuture;
+          cameraFeedback();
           // Attempt to take a picture and get the file `image`
           // where it was saved.
           final image = await _controller.takePicture();
