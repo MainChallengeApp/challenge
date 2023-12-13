@@ -317,19 +317,19 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                         iconData: Icons.numbers,
                                         onTap: () => MySnackBar.showSnackBar(
                                             context,
-                                            'The Numbers feature is coming soon.'),
+                                            'The Numbers feature will be added soon.'),
                                         color: Colors.grey[200]),
                                     documentationButton(
                                         iconData: Icons.notes,
                                         onTap: () => MySnackBar.showSnackBar(
                                             context,
-                                            'The Notes feature is coming soon.'),
+                                            'The Notes feature will be added soon.'),
                                         color: Colors.grey[200]),
                                     documentationButton(
                                         iconData: Icons.gps_not_fixed,
                                         onTap: () => MySnackBar.showSnackBar(
                                             context,
-                                            'The GPS feature is coming soon.'),
+                                            'The GPS feature will be added soon.'),
                                         color: Colors.grey[200]),
                                     documentationButton(
                                         iconData: Icons.camera_alt_outlined,
