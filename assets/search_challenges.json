@@ -2,8 +2,8 @@
   {
     "status": "InProgress",
     "title": "Wandern",
-    "description": "Entdecke die Schönheit der Natur und verbessere deine Ausdauer durch regelmäßiges Wandern.\namazonwerbung: \n https://amzn.to/47yA3Oo",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Entdecke die Schönheit der Natur und verbessere deine Ausdauer durch regelmäßiges Wandern.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/wandern.jpg",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -21,8 +21,8 @@
   {
     "status": "InProgress",
     "title": "Liegestütze",
-    "description": "Stärke deine Arme, Schultern und Brustmuskulatur durch regelmäßiges Liegestütztraining.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Stärke deine Arme, Schultern und Brustmuskulatur durch regelmäßiges Liegestütztraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/pushups.png",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -40,8 +40,8 @@
   {
     "status": "InProgress",
     "title": "Meditieren",
-    "description": "Finde innere Ruhe und verbessere deine mentale Gesundheit durch tägliches Meditieren.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Finde innere Ruhe und verbessere deine mentale Gesundheit durch tägliches Meditieren.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/meditation.jpeg",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -59,8 +59,8 @@
   {
     "status": "InProgress",
     "title": "Lesen",
-    "description": "Tauche in neue Welten ein und erweitere deinen Horizont durch regelmäßiges Lesen.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Tauche in neue Welten ein und erweitere deinen Horizont durch regelmäßiges Lesen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/reading.jpeg",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -78,8 +78,8 @@
   {
     "status": "InProgress",
     "title": "Bouldern",
-    "description": "Fordere deine Geschicklichkeit und Stärke heraus, indem du anspruchsvolle Boulderprobleme löst.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Fordere deine Geschicklichkeit und Stärke heraus, indem du anspruchsvolle Boulderprobleme löst.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/bouldern.jpeg",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -97,8 +97,8 @@
   {
     "status": "InProgress",
     "title": "Schwimmen",
-    "description": "Verbessere deine Ausdauer und stärke deinen gesamten Körper durch regelmäßiges Schwimmen.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Verbessere deine Ausdauer und stärke deinen gesamten Körper durch regelmäßiges Schwimmen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/swimming.jpeg",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -116,8 +116,8 @@
   {
     "status": "InProgress",
     "title": "Fahrrad Tour",
-    "description": "Erkunde neue Strecken und verbessere deine Fitness durch regelmäßige Fahrradtouren.",
-    "thumbnailPath": "assets/images/thumbnail.png",
+    "description": "Erkunde neue Strecken und verbessere deine Fitness durch regelmäßige Fahrradtouren.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
+    "thumbnailPath": "assets/images/bike_tour.png",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -135,7 +135,7 @@
   {
     "status": "InProgress",
     "title": "Springen",
-    "description": "Steigere deine Fitness und Ausdauer durch tägliches Springtraining.",
+    "description": "Steigere deine Fitness und Ausdauer durch tägliches Springtraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -154,7 +154,7 @@
   {
     "status": "InProgress",
     "title": "Kampfsport",
-    "description": "Lerne Selbstverteidigungstechniken und stärke deinen Körper durch Kampfsporttraining.",
+    "description": "Lerne Selbstverteidigungstechniken und stärke deinen Körper durch Kampfsporttraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -173,7 +173,7 @@
   {
     "status": "InProgress",
     "title": "Dehnen",
-    "description": "Verbessere deine Flexibilität und vermeide Verletzungen durch regelmäßiges Dehnen.",
+    "description": "Verbessere deine Flexibilität und vermeide Verletzungen durch regelmäßiges Dehnen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -192,7 +192,7 @@
   {
     "status": "InProgress",
     "title": "Bungee Jumping",
-    "description": "Überwinde deine Ängste und erlebe den Adrenalinkick beim Bungee Jumping.",
+    "description": "Überwinde deine Ängste und erlebe den Adrenalinkick beim Bungee Jumping.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -211,7 +211,7 @@
   {
     "status": "InProgress",
     "title": "Fallschirmspringen",
-    "description": "Schwebe über den Wolken und erlebe den Nervenkitzel des Fallschirmspringens.",
+    "description": "Schwebe über den Wolken und erlebe den Nervenkitzel des Fallschirmspringens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -230,7 +230,7 @@
   {
     "status": "InProgress",
     "title": "Tauchen",
-    "description": "Entdecke die faszinierende Unterwasserwelt durch regelmäßiges Tauchtraining.",
+    "description": "Entdecke die faszinierende Unterwasserwelt durch regelmäßiges Tauchtraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -249,7 +249,7 @@
   {
     "status": "InProgress",
     "title": "Marathon",
-    "description": "Stelle deine Ausdauer auf die Probe und laufe einen Marathon.",
+    "description": "Stelle deine Ausdauer auf die Probe und laufe einen Marathon.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -268,7 +268,7 @@
   {
     "status": "InProgress",
     "title": "Xletics",
-    "description": "Meistere verschiedene Hindernisse und zeige deine Fitness im Xletics-Wettkampf.",
+    "description": "Meistere verschiedene Hindernisse und zeige deine Fitness im Xletics-Wettkampf.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -287,7 +287,7 @@
   {
     "status": "InProgress",
     "title": "Kajakfahren",
-    "description": "Erkunde Gewässer und verbessere deine Paddeltechnik durch regelmäßiges Kajakfahren.",
+    "description": "Erkunde Gewässer und verbessere deine Paddeltechnik durch regelmäßiges Kajakfahren.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -306,7 +306,7 @@
   {
     "status": "InProgress",
     "title": "Jonglieren",
-    "description": "Lerne die Kunst des Jonglierens und beeindrucke mit deinen Fähigkeiten.",
+    "description": "Lerne die Kunst des Jonglierens und beeindrucke mit deinen Fähigkeiten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -325,7 +325,7 @@
   {
     "status": "InProgress",
     "title": "Handstand",
-    "description": "Trainiere deine Balance und Stärke durch das Erlernen des Handstands.",
+    "description": "Trainiere deine Balance und Stärke durch das Erlernen des Handstands.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -344,7 +344,7 @@
   {
     "status": "InProgress",
     "title": "Flick Flack",
-    "description": "Zeige akrobatische Fähigkeiten und erlerne den Flick Flack.",
+    "description": "Zeige akrobatische Fähigkeiten und erlerne den Flick Flack.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -363,7 +363,7 @@
   {
     "status": "InProgress",
     "title": "Parkour",
-    "description": "Überwinde Hindernisse und meistere die Kunst des Parkours.",
+    "description": "Überwinde Hindernisse und meistere die Kunst des Parkours.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -382,7 +382,7 @@
   {
     "status": "InProgress",
     "title": "Tanzen",
-    "description": "Entfalte deine künstlerische Seite und verbessere deine Fitness durch regelmäßiges Tanzen.",
+    "description": "Entfalte deine künstlerische Seite und verbessere deine Fitness durch regelmäßiges Tanzen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -401,7 +401,7 @@
   {
     "status": "InProgress",
     "title": "Tagebuch",
-    "description": "Reflektiere deine Gedanken und Erlebnisse durch das Führen eines Tagebuchs.",
+    "description": "Reflektiere deine Gedanken und Erlebnisse durch das Führen eines Tagebuchs.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -420,7 +420,7 @@
   {
     "status": "InProgress",
     "title": "Instrument lernen",
-    "description": "Entwickle musikalische Fähigkeiten und lerne ein neues Instrument.",
+    "description": "Entwickle musikalische Fähigkeiten und lerne ein neues Instrument.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -439,7 +439,7 @@
   {
     "status": "InProgress",
     "title": "Sprache lernen",
-    "description": "Erobere neue Horizonte und lerne eine neue Sprache in einem Sprachkurs.",
+    "description": "Erobere neue Horizonte und lerne eine neue Sprache in einem Sprachkurs.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -458,7 +458,7 @@
   {
     "status": "InProgress",
     "title": "Wasserski",
-    "description": "Genieße die Geschwindigkeit und den Nervenkitzel des Wasserskifahrens.",
+    "description": "Genieße die Geschwindigkeit und den Nervenkitzel des Wasserskifahrens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -477,7 +477,7 @@
   {
     "status": "InProgress",
     "title": "Survival-Training",
-    "description": "Erlange Überlebenskompetenzen und erlebe ein intensives Survival-Training.",
+    "description": "Erlange Überlebenskompetenzen und erlebe ein intensives Survival-Training.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -496,7 +496,7 @@
   {
     "status": "InProgress",
     "title": "Bogenschießen",
-    "description": "Schärfe deine Konzentration und Treffsicherheit durch das Erlernen des Bogenschießens.",
+    "description": "Schärfe deine Konzentration und Treffsicherheit durch das Erlernen des Bogenschießens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -515,7 +515,7 @@
   {
     "status": "InProgress",
     "title": "Präsentieren",
-    "description": "Entwickle deine Präsentationsfähigkeiten und trete vor Publikum auf.",
+    "description": "Entwickle deine Präsentationsfähigkeiten und trete vor Publikum auf.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -534,7 +534,7 @@
   {
     "status": "InProgress",
     "title": "Dankbarkeit",
-    "description": "Fokussiere dich auf positive Aspekte und führe ein Dankbarkeitstagebuch.",
+    "description": "Fokussiere dich auf positive Aspekte und führe ein Dankbarkeitstagebuch.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -553,7 +553,7 @@
   {
     "status": "InProgress",
     "title": "Töpfern",
-    "description": "Entfalte deine kreative Seite und erschaffe Kunstwerke durch das Töpfern.",
+    "description": "Entfalte deine kreative Seite und erschaffe Kunstwerke durch das Töpfern.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -572,7 +572,7 @@
   {
     "status": "InProgress",
     "title": "Andere Stadt besuchen",
-    "description": "Erweitere deinen Horizont und erkunde eine andere Stadt.",
+    "description": "Erweitere deinen Horizont und erkunde eine andere Stadt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -591,7 +591,7 @@
   {
     "status": "InProgress",
     "title": "Eigene Stadt erkunden",
-    "description": "Entdecke versteckte Schätze und Sehenswürdigkeiten in deiner eigenen Stadt.",
+    "description": "Entdecke versteckte Schätze und Sehenswürdigkeiten in deiner eigenen Stadt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -610,7 +610,7 @@
   {
     "status": "InProgress",
     "title": "Angeln",
-    "description": "Genieße die Ruhe der Natur und verbessere deine Geduld beim Angeln.",
+    "description": "Genieße die Ruhe der Natur und verbessere deine Geduld beim Angeln.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -629,7 +629,7 @@
   {
     "status": "InProgress",
     "title": "Soziale Arbeit",
-    "description": "Unterstütze deine Gemeinschaft durch ehrenamtliche soziale Arbeit.",
+    "description": "Unterstütze deine Gemeinschaft durch ehrenamtliche soziale Arbeit.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -648,7 +648,7 @@
   {
     "status": "InProgress",
     "title": "Heißluftballon",
-    "description": "Erlebe die Welt aus der Vogelperspektive und mache eine Fahrt mit dem Heißluftballon.",
+    "description": "Erlebe die Welt aus der Vogelperspektive und mache eine Fahrt mit dem Heißluftballon.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -667,7 +667,7 @@
   {
     "status": "InProgress",
     "title": "Zeichen-Challenge",
-    "description": "Verbessere deine zeichnerischen Fähigkeiten durch regelmäßige Zeichen-Challenges.",
+    "description": "Verbessere deine zeichnerischen Fähigkeiten durch regelmäßige Zeichen-Challenges.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -686,7 +686,7 @@
   {
     "status": "InProgress",
     "title": "Slam-Poetry",
-    "description": "Entwickle deine poetischen Fähigkeiten und beteilige dich an einem Slam-Poetry-Event.",
+    "description": "Entwickle deine poetischen Fähigkeiten und beteilige dich an einem Slam-Poetry-Event.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -705,7 +705,7 @@
   {
     "status": "InProgress",
     "title": "DIY-Workshop",
-    "description": "Erfahre Neues und erschaffe etwas Einzigartiges in einem DIY-Workshop.",
+    "description": "Erfahre Neues und erschaffe etwas Einzigartiges in einem DIY-Workshop.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -724,7 +724,7 @@
   {
     "status": "InProgress",
     "title": "Biwakieren",
-    "description": "Verbringe eine Nacht in der Natur und erlebe das Abenteuer des Biwakierens.",
+    "description": "Verbringe eine Nacht in der Natur und erlebe das Abenteuer des Biwakierens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -743,7 +743,7 @@
   {
     "status": "InProgress",
     "title": "Verreisen",
-    "description": "Entfliehe dem Alltag und erlebe neue Orte durch eine Reise.",
+    "description": "Entfliehe dem Alltag und erlebe neue Orte durch eine Reise.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -762,7 +762,7 @@
   {
     "status": "InProgress",
     "title": "Social Media Detox",
-    "description": "Gönn dir eine Auszeit von sozialen Medien und entgift deine digitale Präsenz.",
+    "description": "Gönn dir eine Auszeit von sozialen Medien und entgift deine digitale Präsenz.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -781,7 +781,7 @@
   {
     "status": "InProgress",
     "title": "Kalt Duschen",
-    "description": "Stärke deinen Geist und Körper durch tägliches kaltes Duschen.",
+    "description": "Stärke deinen Geist und Körper durch tägliches kaltes Duschen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -800,7 +800,7 @@
   {
     "status": "InProgress",
     "title": "Wim Hof Atemtechnik",
-    "description": "Erlange Kontrolle über deinen Atem und praktiziere die Wim Hof Atemtechnik.",
+    "description": "Erlange Kontrolle über deinen Atem und praktiziere die Wim Hof Atemtechnik.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -819,7 +819,7 @@
   {
     "status": "InProgress",
     "title": "Diät",
-    "description": "Verfolge eine bestimmte Diät und dokumentiere deine Fortschritte.",
+    "description": "Verfolge eine bestimmte Diät und dokumentiere deine Fortschritte.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -838,7 +838,7 @@
   {
     "status": "InProgress",
     "title": "Wasser trinken",
-    "description": "Verbessere deine Gesundheit und trinke ausreichend Wasser täglich.",
+    "description": "Verbessere deine Gesundheit und trinke ausreichend Wasser täglich.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -857,7 +857,7 @@
   {
     "status": "InProgress",
     "title": "Sucht besiegen",
-    "description": "Überwinde eine Sucht und dokumentiere deine Reise zur Genesung.",
+    "description": "Überwinde eine Sucht und dokumentiere deine Reise zur Genesung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -876,7 +876,7 @@
   {
     "status": "InProgress",
     "title": "Geld verdienen",
-    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.",
+    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -895,7 +895,7 @@
   {
     "status": "InProgress",
     "title": "Schlafrhythmus",
-    "description": "Optimiere deinen Schlafrhythmus für bessere Gesundheit und Produktivität.",
+    "description": "Optimiere deinen Schlafrhythmus für bessere Gesundheit und Produktivität.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -914,7 +914,7 @@
   {
     "status": "InProgress",
     "title": "Laufen",
-    "description": "Steigere deine Ausdauer und Laufleistung durch regelmäßiges Laufen.",
+    "description": "Steigere deine Ausdauer und Laufleistung durch regelmäßiges Laufen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -933,7 +933,7 @@
   {
     "status": "InProgress",
     "title": "Spazieren gehen",
-    "description": "Genieße die Natur und verbessere deine Gesundheit durch regelmäßiges Spazierengehen.",
+    "description": "Genieße die Natur und verbessere deine Gesundheit durch regelmäßiges Spazierengehen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -952,7 +952,7 @@
   {
     "status": "InProgress",
     "title": "Geld verdienen",
-    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.",
+    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -971,7 +971,7 @@
   {
     "status": "InProgress",
     "title": "Phobie bekämpfen",
-    "description": "Stell dich deinen Ängsten und besiege eine Phobie.",
+    "description": "Stell dich deinen Ängsten und besiege eine Phobie.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -990,7 +990,7 @@
   {
     "status": "InProgress",
     "title": "Treppen steigen",
-    "description": "Verbessere deine Fitness und steige täglich Treppen.",
+    "description": "Verbessere deine Fitness und steige täglich Treppen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1009,7 +1009,7 @@
   {
     "status": "InProgress",
     "title": "Wingsuit",
-    "description": "Erfahre den Nervenkitzel des Wingsuit-Fliegens.",
+    "description": "Erfahre den Nervenkitzel des Wingsuit-Fliegens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1028,7 +1028,7 @@
   {
     "status": "InProgress",
     "title": "Gym",
-    "description": "Besuche das Fitnessstudio und verbessere deine körperliche Fitness.",
+    "description": "Besuche das Fitnessstudio und verbessere deine körperliche Fitness.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1047,7 +1047,7 @@
   {
     "status": "InProgress",
     "title": "Streit schlichten",
-    "description": "Übe dich in der Kunst der Konfliktlösung und schlichte einen Streit.",
+    "description": "Übe dich in der Kunst der Konfliktlösung und schlichte einen Streit.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1066,7 +1066,7 @@
   {
     "status": "InProgress",
     "title": "Fasten",
-    "description": "Praktiziere intermittierendes Fasten für mentale Klarheit und Gesundheit.",
+    "description": "Praktiziere intermittierendes Fasten für mentale Klarheit und Gesundheit.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1085,7 +1085,7 @@
   {
     "status": "InProgress",
     "title": "Kalorien essen",
-    "description": "Überwache deine Kalorienaufnahme für besseres Ernährungsverständnis.",
+    "description": "Überwache deine Kalorienaufnahme für besseres Ernährungsverständnis.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1104,7 +1104,7 @@
   {
     "status": "InProgress",
     "title": "keine Musik hören",
-    "description": "Verzichte für einen Tag auf das Hören von Musik und erlebe die Stille.",
+    "description": "Verzichte für einen Tag auf das Hören von Musik und erlebe die Stille.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1123,7 +1123,7 @@
   {
     "status": "InProgress",
     "title": "Wohnung aufräumen",
-    "description": "Schaffe Ordnung und Ruhe in deinem Lebensraum durch das Aufräumen deiner Wohnung.",
+    "description": "Schaffe Ordnung und Ruhe in deinem Lebensraum durch das Aufräumen deiner Wohnung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1142,7 +1142,7 @@
   {
     "status": "InProgress",
     "title": "Alten Freund kontaktieren",
-    "description": "Nimm Kontakt zu einem alten Freund auf und tausche Erinnerungen aus.",
+    "description": "Nimm Kontakt zu einem alten Freund auf und tausche Erinnerungen aus.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1161,7 +1161,7 @@
   {
     "status": "InProgress",
     "title": "Über Ziele nachdenken",
-    "description": "Reflektiere über deine langfristigen Ziele und setze klare Absichten.",
+    "description": "Reflektiere über deine langfristigen Ziele und setze klare Absichten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1180,7 +1180,7 @@
   {
     "status": "InProgress",
     "title": "Affirmationen",
-    "description": "Praktiziere positive Affirmationen, um deine mentale Einstellung zu stärken.",
+    "description": "Praktiziere positive Affirmationen, um deine mentale Einstellung zu stärken.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1199,7 +1199,7 @@
   {
     "status": "InProgress",
     "title": "Neue Person kennenlernen",
-    "description": "Erweitere dein soziales Netzwerk, indem du eine neue Person kennenlernen.",
+    "description": "Erweitere dein soziales Netzwerk, indem du eine neue Person kennenlernen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1218,7 +1218,7 @@
   {
     "status": "InProgress",
     "title": "Über Finanzen lernen",
-    "description": "Bilde dich im Bereich Finanzen weiter und erweitere dein Wissen.",
+    "description": "Bilde dich im Bereich Finanzen weiter und erweitere dein Wissen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1237,7 +1237,7 @@
   {
     "status": "InProgress",
     "title": "Plank für Bauch",
-    "description": "Stärke deine Bauchmuskulatur durch tägliche Plank-Übungen.",
+    "description": "Stärke deine Bauchmuskulatur durch tägliche Plank-Übungen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1256,7 +1256,7 @@
   {
     "status": "InProgress",
     "title": "Verzichte eine Woche lang auf zuckerhaltige Lebensmittel",
-    "description": "Herausforderung: Verzichte eine Woche lang auf zuckerhaltige Lebensmittel.",
+    "description": "Herausforderung: Verzichte eine Woche lang auf zuckerhaltige Lebensmittel.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1275,7 +1275,7 @@
   {
     "status": "InProgress",
     "title": "Drill Bootcamp",
-    "description": "Fordere dich heraus und absolviere ein intensives Drill Bootcamp.",
+    "description": "Fordere dich heraus und absolviere ein intensives Drill Bootcamp.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1294,7 +1294,7 @@
   {
     "status": "InProgress",
     "title": "Fotografie",
-    "description": "Entdecke die Welt der Fotografie und dokumentiere deine Perspektive.",
+    "description": "Entdecke die Welt der Fotografie und dokumentiere deine Perspektive.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1313,7 +1313,7 @@
   {
     "status": "InProgress",
     "title": "Etwas bauen",
-    "description": "Kanalisiere deine Kreativität und baue etwas Eigenes.",
+    "description": "Kanalisiere deine Kreativität und baue etwas Eigenes.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1332,7 +1332,7 @@
   {
     "status": "InProgress",
     "title": "Spenden (so viel, dass es weh tut)",
-    "description": "Setze dich für eine gute Sache ein und spende großzügig.",
+    "description": "Setze dich für eine gute Sache ein und spende großzügig.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1351,7 +1351,7 @@
   {
     "status": "InProgress",
     "title": "Vitamine einnehmen",
-    "description": "Nimm täglich deine Vitamine ein und fördere deine Gesundheit.",
+    "description": "Nimm täglich deine Vitamine ein und fördere deine Gesundheit.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1370,7 +1370,7 @@
   {
     "status": "InProgress",
     "title": "Jemandem vergeben",
-    "description": "Praktiziere Vergebung und lasse alte Konflikte hinter dir.",
+    "description": "Praktiziere Vergebung und lasse alte Konflikte hinter dir.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1389,7 +1389,7 @@
   {
     "status": "InProgress",
     "title": "In Fremdsprache lesen",
-    "description": "Fordere dich intellektuell heraus und lese ein Buch in einer Fremdsprache.",
+    "description": "Fordere dich intellektuell heraus und lese ein Buch in einer Fremdsprache.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1408,7 +1408,7 @@
   {
     "status": "InProgress",
     "title": "Podcast machen (online oder offline)",
-    "description": "Teile deine Gedanken und Ideen, indem du einen eigenen Podcast erstellst.",
+    "description": "Teile deine Gedanken und Ideen, indem du einen eigenen Podcast erstellst.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1427,7 +1427,7 @@
   {
     "status": "InProgress",
     "title": "Gartenarbeit",
-    "description": "Verbringe Zeit im Grünen und gestalte deinen Garten nach deinen Vorstellungen.",
+    "description": "Verbringe Zeit im Grünen und gestalte deinen Garten nach deinen Vorstellungen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1446,7 +1446,7 @@
   {
     "status": "InProgress",
     "title": "Neues Rezept",
-    "description": "Probiere ein neues Rezept aus und erweitere deinen kulinarischen Horizont.",
+    "description": "Probiere ein neues Rezept aus und erweitere deinen kulinarischen Horizont.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1465,7 +1465,7 @@
   {
     "status": "InProgress",
     "title": "Verzichten",
-    "description": "Übe Verzicht und stärke deine Willenskraft.",
+    "description": "Übe Verzicht und stärke deine Willenskraft.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1484,7 +1484,7 @@
   {
     "status": "InProgress",
     "title": "Essen ohne Ablenkung",
-    "description": "Genieße deine Mahlzeiten bewusst und ohne Ablenkung von Technologie oder anderen Aktivitäten.",
+    "description": "Genieße deine Mahlzeiten bewusst und ohne Ablenkung von Technologie oder anderen Aktivitäten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1503,7 +1503,7 @@
   {
     "status": "InProgress",
     "title": "Theater/Musikal",
-    "description": "Erweitere deinen kulturellen Horizont und besuche ein Theaterstück oder ein Musical.",
+    "description": "Erweitere deinen kulturellen Horizont und besuche ein Theaterstück oder ein Musical.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1522,7 +1522,7 @@
   {
     "status": "InProgress",
     "title": "Bucket List erstellen",
-    "description": "Setze dich hin und erstelle deine persönliche Bucket List mit Dingen, die du im Leben erreichen möchtest.",
+    "description": "Setze dich hin und erstelle deine persönliche Bucket List mit Dingen, die du im Leben erreichen möchtest.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1541,7 +1541,7 @@
   {
     "status": "InProgress",
     "title": "Feedback für die App geben :)",
-    "description": "Teile dein konstruktives Feedback zur App und trage dazu bei, sie noch besser zu machen.",
+    "description": "Teile dein konstruktives Feedback zur App und trage dazu bei, sie noch besser zu machen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1560,7 +1560,7 @@
   {
     "status": "InProgress",
     "title": "Fremde Kultur kennenlernen",
-    "description": "Tauche in eine fremde Kultur ein, sei es durch Essen, Musik, oder andere kulturelle Aktivitäten.",
+    "description": "Tauche in eine fremde Kultur ein, sei es durch Essen, Musik, oder andere kulturelle Aktivitäten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1579,7 +1579,7 @@
   {
     "status": "InProgress",
     "title": "Self Care (Spa, etc.)",
-    "description": "Nimm dir Zeit für Selbstfürsorge und entspanne in einem Spa oder bei anderen selbstpflegenden Aktivitäten.",
+    "description": "Nimm dir Zeit für Selbstfürsorge und entspanne in einem Spa oder bei anderen selbstpflegenden Aktivitäten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1598,7 +1598,7 @@
   {
     "status": "InProgress",
     "title": "Fremde Arbeit kennenlernen (Bauernhof, etc.)",
-    "description": "Gewinne Einblicke in eine für dich fremde Arbeitswelt, zum Beispiel durch einen Besuch auf einem Bauernhof.",
+    "description": "Gewinne Einblicke in eine für dich fremde Arbeitswelt, zum Beispiel durch einen Besuch auf einem Bauernhof.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1617,7 +1617,7 @@
   {
     "status": "InProgress",
     "title": "Elevator Pitch",
-    "description": "Entwickle und präsentiere einen überzeugenden Elevator Pitch für dein Projekt oder eine Idee.",
+    "description": "Entwickle und präsentiere einen überzeugenden Elevator Pitch für dein Projekt oder eine Idee.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1636,7 +1636,7 @@
   {
     "status": "InProgress",
     "title": "Origami (auf den meditation)",
-    "description": "Falte Origami-Kunstwerke als kreative Form der Meditation und Entspannung.",
+    "description": "Falte Origami-Kunstwerke als kreative Form der Meditation und Entspannung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1655,7 +1655,7 @@
   {
     "status": "InProgress",
     "title": "Random Act of Kindness (bei Fremden)",
-    "description": "Führe eine zufällige freundliche Geste gegenüber Fremden durch und erlebe die positive Wirkung.",
+    "description": "Führe eine zufällige freundliche Geste gegenüber Fremden durch und erlebe die positive Wirkung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1674,7 +1674,7 @@
   {
     "status": "InProgress",
     "title": "Digitale Organisation",
-    "description": "Optimiere deine digitale Organisation, sei es in Bezug auf Dateien, E-Mails oder Aufgaben.",
+    "description": "Optimiere deine digitale Organisation, sei es in Bezug auf Dateien, E-Mails oder Aufgaben.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1693,7 +1693,7 @@
   {
     "status": "InProgress",
     "title": "Traumtagebuch",
-    "description": "Halte deine Träume in einem Tagebuch fest und reflektiere über ihre Bedeutung.",
+    "description": "Halte deine Träume in einem Tagebuch fest und reflektiere über ihre Bedeutung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1712,7 +1712,7 @@
   {
     "status": "InProgress",
     "title": "Morgen Routine Upgrade",
-    "description": "Optimiere deine Morgenroutine für einen produktiveren und positiven Start in den Tag.",
+    "description": "Optimiere deine Morgenroutine für einen produktiveren und positiven Start in den Tag.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1731,7 +1731,7 @@
   {
     "status": "InProgress",
     "title": "Abend Routine Upgrade",
-    "description": "Optimiere deine Abendroutine für einen entspannten Ausklang des Tages.",
+    "description": "Optimiere deine Abendroutine für einen entspannten Ausklang des Tages.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1750,7 +1750,7 @@
   {
     "status": "InProgress",
     "title": "Stille",
-    "description": "Suche bewusst die Stille, sei es durch Meditation oder einen ruhigen Ort in der Natur.",
+    "description": "Suche bewusst die Stille, sei es durch Meditation oder einen ruhigen Ort in der Natur.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1769,7 +1769,7 @@
   {
     "status": "InProgress",
     "title": "In Geduld üben",
-    "description": "Praktiziere Geduld in verschiedenen Situationen des täglichen Lebens.",
+    "description": "Praktiziere Geduld in verschiedenen Situationen des täglichen Lebens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1788,7 +1788,7 @@
   {
     "status": "InProgress",
     "title": "Vegetarisch essen",
-    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegetarisch.",
+    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegetarisch.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1807,7 +1807,7 @@
   {
     "status": "InProgress",
     "title": "Vegan essen",
-    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegan.",
+    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegan.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1826,7 +1826,7 @@
   {
     "status": "InProgress",
     "title": "App weiterempfehlen ;)",
-    "description": "Teile die Challenge App mit Freunden und fordere sie heraus, ebenfalls an Challenges teilzunehmen.",
+    "description": "Teile die Challenge App mit Freunden und fordere sie heraus, ebenfalls an Challenges teilzunehmen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1845,7 +1845,7 @@
   {
     "status": "InProgress",
     "title": "In die Alster springen",
-    "description": "Erlebe ein erfrischendes Schwimmerlebnis in der Alster.",
+    "description": "Erlebe ein erfrischendes Schwimmerlebnis in der Alster.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1864,7 +1864,7 @@
   {
     "status": "InProgress",
     "title": "Schritte",
-    "description": "Setze dir ein tägliches Schritte-Ziel und dokumentiere deinen Fortschritt.",
+    "description": "Setze dir ein tägliches Schritte-Ziel und dokumentiere deinen Fortschritt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
@@ -1883,7 +1883,7 @@
   {
     "status": "InProgress",
     "title": "Ganzkörper workout",
-    "description": "Führe ein Ganzkörpertraining durch, um deine Fitness zu verbessern.",
+    "description": "Führe ein Ganzkörpertraining durch, um deine Fitness zu verbessern.\n\nUnterstützung:\nhttps://paypal.me/reimusdl",
     "thumbnailPath": "assets/images/thumbnail.png",
     "acceptanceCriteria": [
       {
