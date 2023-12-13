@@ -90,7 +90,11 @@ class _MediaDetailState extends State<MediaDetail> {
         Media media = widget.media[currentMediaIndex];
 
         File file = File(media.source);
-        file.delete();
+        file.exists().then((value) {
+          if (value) {
+            file.delete();
+          }
+        });
 
         widget.media.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
