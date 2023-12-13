@@ -587,18 +587,15 @@ class _SearchChallengeState extends State<SearchChallenge> {
           onTap: () {
             if (startOrEnd == 'start') {
               setState(() {
-                if (initialDateTime == null && !isDateTimeChanged) {
-                  widget.challenge.startDate = DateTime.now();
-                } else {
-                  widget.challenge.startDate = initialDateTime;
+                if (!isDateTimeChanged) {
+                  widget.challenge.startDate =
+                      initialDateTime ?? DateTime.now();
                 }
               });
             } else {
               setState(() {
-                if (initialDateTime == null && !isDateTimeChanged) {
-                  widget.challenge.endDate = DateTime.now();
-                } else {
-                  widget.challenge.endDate = initialDateTime;
+                if (!isDateTimeChanged) {
+                  widget.challenge.endDate = initialDateTime ?? DateTime.now();
                 }
               });
             }

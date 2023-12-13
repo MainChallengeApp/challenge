@@ -599,18 +599,16 @@ class _EditChallengeState extends State<EditChallenge> {
           onTap: () {
             if (startOrEnd == 'start') {
               setState(() {
-                if (initialDateTime == null && !isDateTimeChanged) {
-                  widget.editChallenge.startDate = DateTime.now();
-                } else {
-                  widget.editChallenge.startDate = initialDateTime;
+                if (!isDateTimeChanged) {
+                  widget.editChallenge.startDate =
+                      initialDateTime ?? DateTime.now();
                 }
               });
             } else {
               setState(() {
-                if (initialDateTime == null && !isDateTimeChanged) {
-                  widget.editChallenge.endDate = DateTime.now();
-                } else {
-                  widget.editChallenge.endDate = initialDateTime;
+                if (!isDateTimeChanged) {
+                  widget.editChallenge.endDate =
+                      initialDateTime ?? DateTime.now();
                 }
               });
             }
