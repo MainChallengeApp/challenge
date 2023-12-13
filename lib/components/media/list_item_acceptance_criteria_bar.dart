@@ -117,7 +117,7 @@ class _ListItemAcceptanceCriteriaBarState
                   ),
                   Container(
                     constraints: const BoxConstraints(
-                      maxWidth: 200, // Set your desired maximum width
+                      maxWidth: 150, // Set your desired maximum width
                     ),
                     margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.all(10),
