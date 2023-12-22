@@ -506,7 +506,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
   void onTapAccept() async {
     Challenge challengeCopy = Challenge.copyChallenge(widget.challenge);
 
-    modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(challengeCopy);
+    // modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(challengeCopy);
 
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);
@@ -841,23 +841,5 @@ class _SearchChallengeState extends State<SearchChallenge> {
               );
             }).toList(),
           ));
-  }
-
-  void modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(
-      Challenge challenge) async {
-    String path = challenge.thumbnailPath;
-    final byteData = await rootBundle.load(path);
-
-    String filePath = '${(await getTemporaryDirectory()).path}/$path';
-
-    final file = File(filePath);
-    await file.create(recursive: true);
-    await file.writeAsBytes(byteData.buffer
-        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-    challenge.media
-        .add(Media(source: filePath, title: 'thumbnail', type: 'image'));
-
-    challenge.thumbnailPath = '';
   }
 }

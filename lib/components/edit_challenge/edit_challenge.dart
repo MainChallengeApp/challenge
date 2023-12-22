@@ -369,57 +369,50 @@ class _EditChallengeState extends State<EditChallenge> {
     ));
   }
 
-  Container thumbnailUploadAndTitle() {
-    return standardContainer(
-      child: Row(
-        children: [
-          GestureDetector(
+  thumbnailUploadAndTitle() {
+    return Row(
+      children: [
+        GestureDetector(
             onTap: () async {
-              File? file = await UploadMedia.onTapUploadMedia();
+              XFile? file = await UploadMedia.onTapUploadMedia();
               setState(() {
                 if (file != null) {
                   widget.editChallenge.thumbnailPath = file.path;
                 }
               });
             },
-            child: Container(
-              width: 30,
-              height: 30,
-              margin: const EdgeInsets.only(right: 10),
-              decoration: BoxDecoration(
-                  image: widget.challenge.thumbnailPath != ''
-                      ? DecorationImage(
-                          image: AssetImage(widget.editChallenge.thumbnailPath),
-                          fit: BoxFit.cover,
-                        )
-                      : null,
-                  color: const Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: const BorderRadius.all(Radius.circular(12))),
-              child: widget.editChallenge.thumbnailPath != ''
-                  ? null
-                  : const Icon(
-                      Icons.upload,
-                      color: themeColor3,
-                    ),
-            ),
+            child: squardedStandardContainer(
+                child: Center(
+                    child: Container(
+              width: 55,
+              height: 55,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(13)),
+                  child: widget.editChallenge.thumbnailPath != ''
+                      ? Image.asset(widget.editChallenge.thumbnailPath,
+                          fit: BoxFit.cover)
+                      : const Center(
+                          child: Icon(Icons.file_upload_rounded,
+                              color: themeColor3),
+                        )),
+            )))),
+        SizedBox(
+          width: 16,
+        ),
+        Expanded(
+            child: standardContainer(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: TextField(
+                onChanged: (value) => widget.editChallenge.title = value,
+                decoration: const InputDecoration.collapsed(hintText: 'Title'),
+                controller: TextEditingController()
+                  ..text = widget.editChallenge.title
+                  ..selection = TextSelection.collapsed(
+                      offset: widget.editChallenge.title.length)),
           ),
-          SizedBox(
-            width: 230,
-            height: 30,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                  onChanged: (value) => widget.editChallenge.title = value,
-                  decoration:
-                      const InputDecoration.collapsed(hintText: 'Title'),
-                  controller: TextEditingController()
-                    ..text = widget.editChallenge.title
-                    ..selection = TextSelection.collapsed(
-                        offset: widget.editChallenge.title.length)),
-            ),
-          )
-        ],
-      ),
+        ))
+      ],
     );
   }
 
@@ -428,6 +421,20 @@ class _EditChallengeState extends State<EditChallenge> {
       // width: double.infinity,
       height: 55 * heightFactor,
       padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
+      child: child,
+    );
+  }
+
+  squardedStandardContainer({required Widget child}) {
+    return Container(
+      width: 55,
+      height: 55,
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
           color: Colors.white,
@@ -515,6 +522,7 @@ class _EditChallengeState extends State<EditChallenge> {
     // check inputs e.g. endDate > startDate
 
     widget.challenge.title = widget.editChallenge.title;
+    widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
     widget.challenge.description = widget.editChallenge.description;
     widget.challenge.startDate = widget.editChallenge.startDate;
     widget.challenge.endDate = widget.editChallenge.endDate;
