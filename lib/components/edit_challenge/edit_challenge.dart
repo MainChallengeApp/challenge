@@ -1,12 +1,17 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../models/acceptance_criteria.dart';
 import '../../models/activity.dart';
@@ -115,11 +120,11 @@ class _EditChallengeState extends State<EditChallenge> {
               child: Column(
                 children: [
                   thumbnailUploadAndTitle(),
-                  // storageLocation(),
                   description(),
                   startAndEndDate(),
-                  addAcceptanceCriteriaButton(),
-                  acceptanceCriteria(),
+                  amountAndUnit(),
+                  // frequence(),
+                  Expanded(child: Container()),
                   buttons()
                 ],
               ),
@@ -368,25 +373,35 @@ class _EditChallengeState extends State<EditChallenge> {
     return standardContainer(
       child: Row(
         children: [
-          Container(
-            width: 30,
-            height: 30,
-            margin: const EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-                image: widget.challenge.thumbnailPath != ''
-                    ? DecorationImage(
-                        image: AssetImage(widget.editChallenge.thumbnailPath),
-                        fit: BoxFit.cover,
-                      )
-                    : null,
-                color: const Color.fromRGBO(241, 245, 249, 1),
-                borderRadius: const BorderRadius.all(Radius.circular(12))),
-            child: widget.editChallenge.thumbnailPath != ''
-                ? null
-                : const Icon(
-                    Icons.upload,
-                    color: themeColor3,
-                  ),
+          GestureDetector(
+            onTap: () async {
+              File? file = await UploadMedia.onTapUploadMedia();
+              setState(() {
+                if (file != null) {
+                  widget.editChallenge.thumbnailPath = file.path;
+                }
+              });
+            },
+            child: Container(
+              width: 30,
+              height: 30,
+              margin: const EdgeInsets.only(right: 10),
+              decoration: BoxDecoration(
+                  image: widget.challenge.thumbnailPath != ''
+                      ? DecorationImage(
+                          image: AssetImage(widget.editChallenge.thumbnailPath),
+                          fit: BoxFit.cover,
+                        )
+                      : null,
+                  color: const Color.fromRGBO(241, 245, 249, 1),
+                  borderRadius: const BorderRadius.all(Radius.circular(12))),
+              child: widget.editChallenge.thumbnailPath != ''
+                  ? null
+                  : const Icon(
+                      Icons.upload,
+                      color: themeColor3,
+                    ),
+            ),
           ),
           SizedBox(
             width: 230,
@@ -512,7 +527,7 @@ class _EditChallengeState extends State<EditChallenge> {
     }
 
     if (allChallengesList.contains(widget.challenge)) {
-// wip
+      // wip
       // challengeList.firstWhere((element) => element == widget.challenge).status =
       //         ChallengStatus.factory('Success');
       //     allChallengesList
@@ -644,5 +659,98 @@ class _EditChallengeState extends State<EditChallenge> {
 
   String _dateFormat(DateTime date) {
     return '${date.day}.${date.month}.${date.year}';
+  }
+
+  amountAndUnit() {
+    AcceptanceCriteria acceptanceCriteria =
+        widget.editChallenge.acceptanceCriteria[0];
+    return Row(
+      children: [
+        Expanded(
+            flex: 1,
+            child: standardContainer(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  textAlign: TextAlign.end,
+                  controller: TextEditingController()
+                    ..text = acceptanceCriteria.activity.amount == 0
+                        ? ''
+                        : acceptanceCriteria.activity.amount.toString(),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(
+                        RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                    TextInputFormatter.withFunction(
+                      (oldValue, newValue) => newValue.copyWith(
+                        text: newValue.text.replaceAll(',', '.'),
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) {
+                    if (value.endsWith('.')) {
+                      acceptanceCriteria.activity.amount =
+                          double.parse(value.split('.')[0]);
+                    } else if (value == '') {
+                      acceptanceCriteria.activity.amount = 0;
+                    } else {
+                      acceptanceCriteria.activity.amount = double.parse(value);
+                    }
+                  },
+                  decoration:
+                      const InputDecoration.collapsed(hintText: 'Amount'),
+                ),
+              ),
+            )),
+        const SizedBox(
+          width: 16,
+        ),
+        Expanded(
+            flex: 2,
+            child: standardContainer(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TextField(
+                  controller: TextEditingController()
+                    ..text = acceptanceCriteria.activity.unit,
+                  onChanged: (value) {
+                    acceptanceCriteria.activity.unit = value;
+                  },
+                  decoration: const InputDecoration.collapsed(hintText: 'Unit'),
+                ),
+              ),
+            )),
+      ],
+    );
+  }
+
+  List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
+  frequence() {
+    if (widget.editChallenge.acceptanceCriteria.isEmpty) return Container();
+    AcceptanceCriteria acceptanceCriteria =
+        widget.editChallenge.acceptanceCriteria[0];
+    return standardContainer(
+        child: DropdownButton<String>(
+      isExpanded: true,
+      value: acceptanceCriteria.frequence == ''
+          ? null
+          : acceptanceCriteria.frequence,
+      icon: const Icon(Icons.expand_more),
+      style: const TextStyle(color: Colors.black),
+      hint: const Text('Frequence'),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          acceptanceCriteria.frequence = value!;
+        });
+      },
+      items: frequenceList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      }).toList(),
+    ));
   }
 }

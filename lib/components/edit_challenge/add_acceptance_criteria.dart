@@ -1,3 +1,4 @@
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -11,47 +12,26 @@ class AddAcceptanceCriteria extends StatefulWidget {
       required this.preTitle,
       required this.challenge,
       required this.acceptanceCriteria,
-      required this.acceptanceCriteriaIndex});
+      required this.acceptanceCriteriaIndex,
+      this.areButtonsVisible = true});
   final String preTitle;
   final Challenge challenge;
   final AcceptanceCriteria acceptanceCriteria;
   final int? acceptanceCriteriaIndex;
+  final bool areButtonsVisible;
 
   @override
   State<AddAcceptanceCriteria> createState() => _AddAcceptanceCriteriaState();
 }
 
 class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   widget.challenge.acceptanceCriteria.add(AcceptanceCriteria(activity: Activity(title: 'title', amount: 2.0, unit: 'Km'), frequence: 'frequence', tracking: 'gps', progress: 0))
-  // }
-
   @override
   Widget build(BuildContext context) {
+    String title = widget.acceptanceCriteriaIndex == null
+        ? 'Add Acceptance Criteria'
+        : widget.acceptanceCriteria.activity.title;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        titleSpacing: 0,
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                '${widget.preTitle}/${widget.acceptanceCriteriaIndex == null ? 'Add Acceptance Criteria' : widget.acceptanceCriteria.activity.title}',
-                style: const TextStyle(
-                    color: Colors.black, fontSize: appBarFontSize),
-              ),
-            ),
-          ),
-        ),
-      ),
+      appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: title),
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
@@ -78,7 +58,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
                 // ),
                 // tracking(),
                 const Expanded(child: SizedBox()),
-                buttons()
+                widget.areButtonsVisible ? buttons() : Container()
               ],
             ),
           ),
@@ -142,7 +122,10 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
       children: [
         FractionallySizedBox(
           widthFactor:
-              widget.challenge.acceptanceCriteria[index].progress / 100,
+              widget.challenge.acceptanceCriteria[index].calcProgressRatio() > 1
+                  ? 1
+                  : widget.challenge.acceptanceCriteria[index]
+                      .calcProgressRatio(),
           heightFactor: 1,
           child: Container(
             width: 40,
@@ -234,7 +217,6 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
     );
   }
 
-  String? dropdownValue2;
   List<String> list2 = <String>['camera'];
   tracking() {
     return standardContainer(
@@ -261,7 +243,6 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
     ));
   }
 
-  String? dropdownValue;
   List<String> list = <String>['once', 'daily', 'weekly', 'monthly'];
   frequence() {
     return standardContainer(

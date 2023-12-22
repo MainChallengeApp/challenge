@@ -7,7 +7,7 @@ class AcceptanceCriteria {
   Activity activity;
   String frequence;
   String tracking;
-  int progress;
+  double progress;
   List<Evidence> evidences;
 
   AcceptanceCriteria(
@@ -57,5 +57,12 @@ class AcceptanceCriteria {
           evidences: isTryAgain ? [] : Evidence.copyEvidenceList(a.evidences)));
     }
     return acceptanceCriteriaListCopy;
+  }
+
+  double calcProgressRatio() {
+    if (activity.amount == 0) {
+      return 1;
+    }
+    return progress / activity.amount;
   }
 }

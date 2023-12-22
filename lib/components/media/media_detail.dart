@@ -55,16 +55,20 @@ class _MediaDetailState extends State<MediaDetail> {
                   child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
-                child: Image.asset(e.source,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Center(
-                          child: SizedBox(
-                            width: 20,
-                            height: 20,
-                            child:
-                                Icon(Icons.question_mark, color: themeColor3),
-                          ),
-                        )),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Image.asset(e.source,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) =>
+                          const Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child:
+                                  Icon(Icons.question_mark, color: themeColor3),
+                            ),
+                          )),
+                ),
               ));
             }).toList(),
           ),

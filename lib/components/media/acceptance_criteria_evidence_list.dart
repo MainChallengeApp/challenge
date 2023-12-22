@@ -1,3 +1,5 @@
+import 'package:camera/camera.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +13,7 @@ import '../../models/evidence.dart';
 import '../../providers/design_provider.dart';
 import '../navigation/no_animation_page_route.dart';
 import 'acceptance_criteria_media_list.dart';
+import 'media_camera.dart';
 
 class AcceptanceCriteriaEvidenceList extends StatefulWidget {
   const AcceptanceCriteriaEvidenceList(
@@ -29,13 +32,18 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
 
 class _AcceptanceCriteriaEvidenceListState
     extends State<AcceptanceCriteriaEvidenceList> {
-  String searchBarText = "";
   ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     setIsBottomNavBarVisibleToFalse();
+    Future.delayed(Duration.zero, () {
+      List<String> preTitleArray = widget.preTitle.split('/');
+      if (preTitleArray.length >= 3 && preTitleArray.contains('Evidence')) {
+        Navigator.pop(context);
+      }
+    });
   }
 
   @override
@@ -43,8 +51,7 @@ class _AcceptanceCriteriaEvidenceListState
     return Scaffold(
         appBar: CustomeAppBar.build(
           preTitle: widget.preTitle,
-          title:
-              '${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
+          title: 'Evidence',
         ),
         backgroundColor: Colors.white,
         body: Stack(
@@ -63,47 +70,51 @@ class _AcceptanceCriteriaEvidenceListState
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.acceptanceCriteria.evidences.length,
+          itemCount: widget.acceptanceCriteria.evidences.length +
+              1, // +1 for new Evidence
           itemBuilder: (BuildContext content, int index) {
-            return Column(
-              children: [
-                GestureDetector(
-                  onTap: () =>
-                      onTapEvidence(widget.acceptanceCriteria.evidences[index]),
-                  child: ListItemAcceptanceCriteriaBar(
-                    acceptanceCriteria: widget.acceptanceCriteria,
-                    isProgressBarLocked: true,
-                    initialProgress:
-                        widget.acceptanceCriteria.evidences[index].progress,
-                  ),
-                ),
-                const SizedBox(
-                  height: 17,
-                )
-              ],
-            );
+            if (index == 0) {
+              return newEvidence();
+            }
+
+            Evidence evidence = widget
+                .acceptanceCriteria.evidences[index - 1]; // -1 for new Evidence
+            return evidenceListItem(evidence);
           }),
     );
   }
 
-  changeList(String value) {
-    setState(() {
-      // challengesFutures = getChallenges(context);
-      searchBarText = value;
-    });
+  Column newEvidence() {
+    return Column(
+      children: [
+        ListItemIconSmall(
+            onTap: () => onTapNewEvidence(),
+            icon: Icons.add,
+            title: 'New Evidence'),
+        const SizedBox(
+          height: 17,
+        )
+      ],
+    );
   }
 
-  void ppush(BuildContext context, {required int index}) {
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-    // Navigator.push(
-    //   context,
-    //   PageRouteBuilder(
-    //     transitionDuration: Duration.zero,
-    //     reverseTransitionDuration: Duration.zero,
-    //     pageBuilder: (context, animation1, animation2) =>
-    //         MediaDetail(media: widget.challenge.media.where((element) => element.title.contains(searchBarText)).toList(), preTitle: '${widget.preTitle}/Media', initialMediaIdex: index,),
-    //   ),
-    // ).then((_) => setState(() {}));
+  Column evidenceListItem(Evidence evidence) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () => onTapEvidence(evidence),
+          child: ListItemAcceptanceCriteriaBar(
+            acceptanceCriteria: widget.acceptanceCriteria,
+            isProgressBarLocked: true,
+            initialProgress: evidence.progress,
+            isEvidence: true,
+          ),
+        ),
+        const SizedBox(
+          height: 17,
+        )
+      ],
+    );
   }
 
   button() {
@@ -167,5 +178,34 @@ class _AcceptanceCriteriaEvidenceListState
     } else {
       return title;
     }
+  }
+
+  void onTapNewEvidence() async {
+    // Ensure that plugin services are initialized so that `availableCameras()`
+    // can be called before `runApp()`
+    WidgetsFlutterBinding.ensureInitialized();
+
+    // Obtain a list of the available cameras on the device.
+    final cameras = await availableCameras();
+
+    // Get a specific camera from the list of available cameras.
+
+    // ignore: use_build_context_synchronously
+    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      NoAnimationPageRoute(
+        builder: (context) => MediaCamera(
+          cameras: cameras,
+          preTitle: '${widget.preTitle}/Evidence',
+          mediaList: widget.challenge.media,
+          acceptanceCriteria: widget.acceptanceCriteria,
+          challenge: widget.challenge,
+        ),
+      ),
+    ).then((_) => setState(() {
+          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        }));
   }
 }

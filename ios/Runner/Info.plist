@@ -6,6 +6,8 @@
 	<string>We need access to your camera to take photos and videos.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to your microphone for voice recording and audio features.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow access to photo library</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

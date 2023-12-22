@@ -13,6 +13,7 @@ class ListItemSearchbar extends StatefulWidget {
 }
 
 class _ListItemSearchbarState extends State<ListItemSearchbar> {
+  TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -44,11 +45,28 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
               height: 40,
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: TextField(
-                  onChanged: widget.changeList ?? (value) {},
-                  decoration: const InputDecoration.collapsed(
-                    hintText: 'Search',
-                  ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: textEditingController,
+                        onChanged: widget.changeList ?? (value) {},
+                        decoration: const InputDecoration.collapsed(
+                          hintText: 'Search',
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        textEditingController.clear();
+                        widget.changeList?.call('');
+                      },
+                      child: Icon(
+                        Icons.highlight_remove_rounded,
+                        color: themeColor3,
+                      ),
+                    )
+                  ],
                 ),
               ),
             )
@@ -58,5 +76,4 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
       ),
     );
   }
-
 }

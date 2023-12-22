@@ -1,5 +1,6 @@
 import 'package:challenge/components/edit_challenge/edit_challenge.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:challenge/models/challenge.dart';
 
 import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/challenge_status.dart';
+import '../../models/activity.dart';
 
 class HomeList extends StatefulWidget {
   const HomeList({super.key, required this.title, this.onPush});
@@ -168,6 +170,13 @@ class _HomeListState extends State<HomeList> {
   }
 
   tapOnNewChallenge() {
+    AcceptanceCriteria acceptanceCriteria = AcceptanceCriteria(
+        id: null,
+        activity: Activity(title: '', amount: 0, unit: ''),
+        frequence: 'once',
+        tracking: 'camera',
+        progress: 0,
+        evidences: []);
     final Challenge challenge = Challenge(
         status: ChallengeStatus.inProgress,
         title: '',
@@ -175,7 +184,7 @@ class _HomeListState extends State<HomeList> {
         thumbnailPath: '',
         startDate: null,
         endDate: null,
-        acceptanceCriteria: [],
+        acceptanceCriteria: [acceptanceCriteria],
         media: []);
 
     Navigator.push(

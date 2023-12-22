@@ -77,6 +77,8 @@ class _SearchListState extends State<SearchList> {
             filteredChallenges = snapshot.data!
                 .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
+            filteredChallenges.sort((a, b) =>
+                a.title.toLowerCase().compareTo(b.title.toLowerCase()));
 
             return RawScrollbar(
               controller: scrollController,

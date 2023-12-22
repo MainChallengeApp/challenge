@@ -1,35 +1,32 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/models/activity.dart';
 import 'package:flutter/material.dart';
 
 import '../../globals.dart';
 import '../../models/acceptance_criteria.dart';
-import '../../models/activity.dart';
-import '../../models/evidence.dart';
 
 class ListItemAcceptanceCriteriaBar extends StatefulWidget {
   ListItemAcceptanceCriteriaBar(
       {super.key,
       required this.acceptanceCriteria,
       this.isProgressBarLocked = false,
-      this.initialProgress = 0}) {
-    editAcceptanceCriteria = AcceptanceCriteria(
-        id: acceptanceCriteria.id,
-        activity: Activity(
-            title: acceptanceCriteria.activity.title,
-            amount: acceptanceCriteria.activity.amount,
-            unit: acceptanceCriteria.activity.unit),
-        frequence: acceptanceCriteria.frequence,
-        tracking: acceptanceCriteria.tracking,
+      this.isEvidence = false,
+      this.initialProgress = 0,
+      this.editAcceptanceCriteria}) {
+    editAcceptanceCriteria ??= AcceptanceCriteria(
+        id: 0,
+        activity: Activity(title: 'title', amount: 0, unit: 'unit'),
+        frequence: 'daily',
+        tracking: 'camera',
         progress: initialProgress,
-        evidences: acceptanceCriteria.evidences
-            .map((e) => Evidence(progress: e.progress, mediaIds: e.mediaIds))
-            .toList());
+        evidences: []);
   }
 
   final AcceptanceCriteria acceptanceCriteria;
-  late AcceptanceCriteria editAcceptanceCriteria;
+  late AcceptanceCriteria? editAcceptanceCriteria;
   final bool isProgressBarLocked;
-  final int initialProgress;
+  final bool isEvidence;
+  final double initialProgress;
 
   @override
   State<ListItemAcceptanceCriteriaBar> createState() =>
@@ -43,9 +40,9 @@ class _ListItemAcceptanceCriteriaBarState
     // TODO: implement initState
     super.initState();
     if (widget.initialProgress != 0) {
-      widget.editAcceptanceCriteria.progress = widget.initialProgress;
+      widget.editAcceptanceCriteria!.progress = widget.initialProgress;
     } else {
-      widget.editAcceptanceCriteria.progress =
+      widget.editAcceptanceCriteria!.progress =
           widget.acceptanceCriteria.progress;
     }
   }
@@ -70,7 +67,18 @@ class _ListItemAcceptanceCriteriaBarState
     return Stack(
       children: [
         FractionallySizedBox(
-          widthFactor: widget.editAcceptanceCriteria.progress / 100,
+          widthFactor: widget.isEvidence
+              ? widget.acceptanceCriteria.activity.amount == 0
+                  ? 1
+                  : widget.initialProgress /
+                              widget.acceptanceCriteria.activity.amount >
+                          1
+                      ? 1
+                      : widget.initialProgress /
+                          widget.acceptanceCriteria.activity.amount
+              : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
+                  ? 1
+                  : widget.editAcceptanceCriteria!.calcProgressRatio(),
           heightFactor: 1,
           child: Container(
             width: 40,
@@ -80,38 +88,51 @@ class _ListItemAcceptanceCriteriaBarState
                 borderRadius: BorderRadius.all(Radius.circular(24))),
           ),
         ),
+        Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: Colors.white,
+                  width: 10,
+                  strokeAlign: BorderSide.strokeAlignOutside),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
+        ),
         GestureDetector(
-          onHorizontalDragUpdate: (details) {
-            if (!widget.isProgressBarLocked) {
-              setState(() {
-                int newProgress = 0;
-                newProgress = (details.localPosition.dx / 350 * 100).round();
-                if (newProgress > 100) {
-                  newProgress = 100;
-                } else if (newProgress <= 0) {
-                  newProgress = 0;
-                }
-                widget.editAcceptanceCriteria.progress = newProgress;
-                widget.acceptanceCriteria.progress = newProgress;
-              });
-            }
-          },
+          // onHorizontalDragUpdate: (details) {
+          //   if (!widget.isProgressBarLocked) {
+          //     setState(() {
+          //       int newProgress = 0;
+          //       newProgress = (details.localPosition.dx / 350 * 100).round();
+          //       if (newProgress > 100) {
+          //         newProgress = 100;
+          //       } else if (newProgress <= 0) {
+          //         newProgress = 0;
+          //       }
+          //       widget.editAcceptanceCriteria!.progress =
+          //           newProgress.toDouble();
+          //     });
+          //   }
+          // },
           child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Colors.white.withAlpha(170),
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
                   borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: Row(
                 children: [
                   Container(
                     margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.all(10),
-                    width: 59,
                     decoration: const BoxDecoration(
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      '${widget.editAcceptanceCriteria.progress}%',
+                      widget.isEvidence
+                          ? widget.acceptanceCriteria.activity.amount == 0
+                              ? '100%'
+                              : '${(widget.initialProgress / widget.acceptanceCriteria.activity.amount * 100).toInt()}%'
+                          : '${(widget.editAcceptanceCriteria!.calcProgressRatio() * 100).toInt()}%',
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     ),
                   ),
@@ -125,30 +146,14 @@ class _ListItemAcceptanceCriteriaBarState
                         color: Color.fromRGBO(241, 245, 249, 1),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                        '${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
+                        widget.isEvidence
+                            ? '${doubleAsInt(widget.initialProgress)}/${doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}'
+                            : '${doubleAsInt(widget.editAcceptanceCriteria!.progress)}/${doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}',
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
                         overflow: TextOverflow.ellipsis),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Text(
-                      widget.acceptanceCriteria.frequence,
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
-                    ),
-                  ),
                   Expanded(child: Container()),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Icon(getIconData(), color: themeColor3, size: 14),
-                  ),
                 ],
               )),
         )
@@ -168,5 +173,12 @@ class _ListItemAcceptanceCriteriaBarState
     } else {
       return Icons.not_accessible;
     }
+  }
+
+  String doubleAsInt(double number) {
+    if (number.toString().endsWith('.0')) {
+      return number.toString().split('.')[0];
+    }
+    return number.toString();
   }
 }

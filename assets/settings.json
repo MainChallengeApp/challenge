@@ -3,7 +3,7 @@
         "status": "Failed",
         "title": "100 Km March",
         "description": "March 100 Km in 24h.",
-        "thumbnailPath": "assets/images/thumbnail2.png",
+        "thumbnailPath": "assets/images/thumbnail.png",
         "startDate": "2023-04-28",
         "endDate": "2023-04-29",
         "acceptanceCriteria": [

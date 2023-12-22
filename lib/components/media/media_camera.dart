@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
 import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
-import 'package:challenge/components/media/media_list.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +25,7 @@ class MediaCamera extends StatefulWidget {
   final List<CameraDescription> cameras;
   final String preTitle;
   final List<Media> mediaList;
-  final AcceptanceCriteria? acceptanceCriteria;
+  final AcceptanceCriteria acceptanceCriteria;
   final Challenge challenge;
 
   @override
@@ -56,9 +54,11 @@ class _CameraStateMedia extends State<MediaCamera> {
         // Define the resolution to use.
         ResolutionPreset.max,
       );
-
       // Next, initialize the controller. This returns a Future.
       _initializeControllerFuture = _controller.initialize();
+      _initializeControllerFuture.then((value) => _controller
+          .getMinZoomLevel()
+          .then((value) => _controller.setZoomLevel(1)));
     }
   }
 
@@ -71,102 +71,113 @@ class _CameraStateMedia extends State<MediaCamera> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final deviceRatio = size.height / size.width;
-    // Fill this out in the next steps.
-    return FutureBuilder<void>(
-      future: _initializeControllerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          // If the Future is complete, display the preview.
-          return currentCamera != null
-              ? GestureDetector(
-                  onDoubleTap: () {
-                    setState(() {
-                      if (widget.cameras.length >= 2 &&
-                          currentCamera == widget.cameras[0]) {
-                        currentCamera = widget.cameras[1];
-                        _controller = CameraController(
-                          // Get a specific camera from the list of available cameras.
-                          currentCamera!,
-                          // Define the resolution to use.
-                          ResolutionPreset.max,
-                        );
+    return Scaffold(
+      appBar: CustomeAppBar.build(
+          preTitle: widget.preTitle,
+          title: 'Camera',
+          backgroundColor: Colors.white,
+          textColor: Colors.black),
+      body: FutureBuilder<void>(
+        future: _initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If the Future is complete, display the preview.
+            return currentCamera != null
+                ? GestureDetector(
+                    onDoubleTap: () {
+                      setState(() {
+                        if (widget.cameras.length >= 2 &&
+                            currentCamera == widget.cameras[0]) {
+                          currentCamera = widget.cameras[1];
+                          _controller = CameraController(
+                            // Get a specific camera from the list of available cameras.
+                            currentCamera!,
+                            // Define the resolution to use.
+                            ResolutionPreset.max,
+                          );
 
-                        // Next, initialize the controller. This returns a Future.
-                        _initializeControllerFuture = _controller.initialize();
-                      } else if (widget.cameras.length >= 2 &&
-                          currentCamera == widget.cameras[1]) {
-                        currentCamera = widget.cameras[0];
-                        _controller = CameraController(
-                          // Get a specific camera from the list of available cameras.
-                          currentCamera!,
-                          // Define the resolution to use.
-                          ResolutionPreset.max,
-                        );
+                          // Next, initialize the controller. This returns a Future.
+                          _initializeControllerFuture =
+                              _controller.initialize();
+                        } else if (widget.cameras.length >= 2 &&
+                            currentCamera == widget.cameras[1]) {
+                          currentCamera = widget.cameras[0];
+                          _controller = CameraController(
+                            // Get a specific camera from the list of available cameras.
+                            currentCamera!,
+                            // Define the resolution to use.
+                            ResolutionPreset.max,
+                          );
 
-                        // Next, initialize the controller. This returns a Future.
-                        _initializeControllerFuture = _controller.initialize();
-                      }
-                    });
-                  },
-                  child: Stack(children: [
-                    Transform.scale(
-                      scale: deviceRatio,
-                      child: Center(
-                        child: CameraPreview(_controller),
-                      ),
+                          // Next, initialize the controller. This returns a Future.
+                          _initializeControllerFuture =
+                              _controller.initialize();
+                        }
+                      });
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          color: Colors.white,
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Transform.scale(
+                              scale: 1.13, child: CameraPreview(_controller)),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 32, top: 16),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: flashButton(),
+                                    ),
+                                    const SizedBox(
+                                      width: 50,
+                                    ),
+                                    Container(
+                                      child: documentationButton(
+                                          Icons.camera_alt_outlined),
+                                    ),
+                                    const SizedBox(
+                                      width: 50,
+                                    ),
+                                    Container(
+                                      child: acceptButton(),
+                                    )
+                                  ]),
+                            ),
+                          ),
+                        ),
+                        isCameraFeedback
+                            ? Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                color: Colors.white,
+                                // decoration: BoxDecoration(
+                                //     border:
+                                //         Border.all(color: Colors.white, width: 15)),
+                              )
+                            : Container()
+                      ],
                     ),
-                    CustomeAppBar.build(
-                        preTitle: widget.preTitle,
-                        title: widget.acceptanceCriteria == null
-                            ? 'Camera'
-                            : '${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
-                        backgroundColor: Colors.transparent,
-                        textColor: Colors.white),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              child: flashButton(),
-                            ),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            Container(
-                              child: documentationButton(
-                                  Icons.camera_alt_outlined),
-                            ),
-                            const SizedBox(
-                              width: 50,
-                            ),
-                            Container(
-                              child: acceptButton(),
-                            )
-                          ]),
-                    ),
-                    isCameraFeedback
-                        ? Container(
-                            width: double.infinity,
-                            height: double.infinity,
-                            color: Colors.black,
-                            // decoration: BoxDecoration(
-                            //     border:
-                            //         Border.all(color: Colors.white, width: 15)),
-                          )
-                        : Container()
-                  ]),
-                )
-              : const Center(
-                  child: Text('No camera found'),
-                );
-        } else {
-          // Otherwise, display a loading indicator.
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
+                  )
+                : const Center(
+                    child: Text('No camera found'),
+                  );
+          } else {
+            // Otherwise, display a loading indicator.
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
 
@@ -185,15 +196,13 @@ class _CameraStateMedia extends State<MediaCamera> {
 
           if (!mounted) return;
           setState(() {
-            widget.mediaList.add(Media(
+            Media media = Media(
                 type: 'image',
-                title: DateTime.now().toString(),
-                source: image.path));
+                title: DateTime.now().toString().split('.')[0],
+                source: image.path);
+            widget.mediaList.add(media);
 
-            currentMedia.add(Media(
-                type: 'image',
-                title: DateTime.now().toString(),
-                source: image.path));
+            currentMedia.add(media);
           });
 
           // // If the picture was taken, display it on a new screen.
@@ -214,7 +223,7 @@ class _CameraStateMedia extends State<MediaCamera> {
       child: Container(
         width: 55,
         height: 55,
-        margin: const EdgeInsets.only(bottom: 50),
+        // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(width: 1, color: Colors.white),
@@ -243,7 +252,7 @@ class _CameraStateMedia extends State<MediaCamera> {
       child: Container(
         width: 40,
         height: 40,
-        margin: const EdgeInsets.only(bottom: 50),
+        // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
             color: flashMode == FlashMode.off ? Colors.white : themeColor1,
             border: Border.all(width: 1, color: Colors.white),
@@ -262,47 +271,22 @@ class _CameraStateMedia extends State<MediaCamera> {
       onTap: () {
         flashMode = FlashMode.off;
         _controller.setFlashMode(FlashMode.off);
-        if (widget.acceptanceCriteria != null) {
-          if (currentMedia.isEmpty) {
-            Navigator.push(
-              context,
-              NoAnimationPageRoute(
-                builder: (context) => AcceptanceCriteriaEvidenceList(
-                    preTitle:
-                        '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
-                    challenge: widget.challenge,
-                    acceptanceCriteria: widget.acceptanceCriteria!),
-              ),
-            ).then((_) => setState(() {}));
-          } else {
-            Navigator.push(
-              context,
-              NoAnimationPageRoute(
-                builder: (context) => AcceptanceCriteriaMediaList(
-                  preTitle:
-                      '${widget.preTitle}/${widget.acceptanceCriteria?.activity.title} ${widget.acceptanceCriteria?.activity.amount} ${widget.acceptanceCriteria?.activity.unit} - Camera',
-                  mediaList: currentMedia,
-                  acceptanceCriteria: widget.acceptanceCriteria!,
-                  challenge: widget.challenge,
-                ),
-              ),
-            ).then((_) => setState(() {}));
-          }
-        } else {
-          Navigator.push(
-            context,
-            NoAnimationPageRoute(
-              builder: (context) => MediaList(
-                  preTitle: '${widget.preTitle}/Camera',
-                  challenge: widget.challenge),
+        Navigator.push(
+          context,
+          NoAnimationPageRoute(
+            builder: (context) => AcceptanceCriteriaMediaList(
+              preTitle: '${widget.preTitle}/Camera',
+              mediaList: currentMedia,
+              acceptanceCriteria: widget.acceptanceCriteria,
+              challenge: widget.challenge,
             ),
-          ).then((_) => setState(() {}));
-        }
+          ),
+        ).then((_) => setState(() {}));
       },
       child: Container(
         width: 40,
         height: 40,
-        margin: const EdgeInsets.only(bottom: 50),
+        // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
             image: currentMedia.isNotEmpty
                 ? DecorationImage(

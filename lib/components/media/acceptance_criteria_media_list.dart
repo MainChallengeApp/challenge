@@ -9,9 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/acceptance_criteria.dart';
+import '../../models/activity.dart';
 import '../../models/evidence.dart';
 import '../../models/media.dart';
 import '../../providers/design_provider.dart';
@@ -22,17 +24,29 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
   AcceptanceCriteriaMediaList(
       {super.key,
       required this.preTitle,
-      this.tapOnNewChallenge,
       required this.challenge,
       required this.mediaList,
       required this.acceptanceCriteria,
       this.evidence,
-      this.isSaveInsteadOfEditButtonVisible = true});
+      this.isSaveInsteadOfEditButtonVisible = true}) {
+    editAcceptanceCriteria = AcceptanceCriteria(
+        id: acceptanceCriteria.id,
+        activity: Activity(
+            title: acceptanceCriteria.activity.title,
+            amount: acceptanceCriteria.activity.amount,
+            unit: acceptanceCriteria.activity.unit),
+        frequence: acceptanceCriteria.frequence,
+        tracking: acceptanceCriteria.tracking,
+        progress: acceptanceCriteria.progress,
+        evidences: acceptanceCriteria.evidences
+            .map((e) => Evidence(progress: e.progress, mediaIds: e.mediaIds))
+            .toList());
+  }
   final String preTitle;
-  final Function? tapOnNewChallenge;
   final Challenge challenge;
   final List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
+  late AcceptanceCriteria editAcceptanceCriteria;
   final Evidence? evidence;
   bool isSaveInsteadOfEditButtonVisible;
 
@@ -46,20 +60,25 @@ class _AcceptanceCriteriaMediaListState
   ChallengeController challengeController = ChallengeController();
   ScrollController scrollController = ScrollController();
 
+  TextEditingController amountTextEditingController = TextEditingController();
+
   String searchBarText = "";
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CustomeAppBar.build(
-            preTitle: widget.preTitle,
-            title: widget.evidence == null
-                ? '${widget.acceptanceCriteria.evidences.length + 1}'
-                : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [_buildList(), button()],
-        ));
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+          appBar: CustomeAppBar.build(
+              preTitle: widget.preTitle,
+              title: widget.evidence == null
+                  ? '${widget.acceptanceCriteria.evidences.length + 1}'
+                  : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
+          backgroundColor: Colors.white,
+          body: Stack(
+            children: [_buildList(), button()],
+          )),
+    );
   }
 
   Widget _buildList() {
@@ -76,12 +95,16 @@ class _AcceptanceCriteriaMediaListState
             if (index == 0) {
               return Column(
                 children: [
-                  ListItemAcceptanceCriteriaBar(
-                    acceptanceCriteria: widget.acceptanceCriteria,
-                    initialProgress: widget.evidence?.progress ??
-                        widget.acceptanceCriteria.progress,
-                    isProgressBarLocked:
-                        !widget.isSaveInsteadOfEditButtonVisible,
+                  GestureDetector(
+                    onTap: openProgressDialog,
+                    child: ListItemAcceptanceCriteriaBar(
+                      acceptanceCriteria: widget.acceptanceCriteria,
+                      initialProgress: widget.evidence?.progress ??
+                          widget.acceptanceCriteria.progress,
+                      isProgressBarLocked:
+                          !widget.isSaveInsteadOfEditButtonVisible,
+                      editAcceptanceCriteria: widget.editAcceptanceCriteria,
+                    ),
                   ),
                   const SizedBox(
                     height: 17,
@@ -128,53 +151,7 @@ class _AcceptanceCriteriaMediaListState
 
   button() {
     return GestureDetector(
-      onTap: () {
-        if (widget.isSaveInsteadOfEditButtonVisible) {
-          // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-          var evidence = Evidence(
-              progress: widget.acceptanceCriteria.progress,
-              mediaIds: widget.mediaList.map((e) => e.id!).toList());
-
-          widget.acceptanceCriteria.evidences.insert(0, evidence);
-          allChallengesList
-              .firstWhere((element) => element.id == widget.challenge.id)
-              .acceptanceCriteria
-              .where((element) => element.id == widget.acceptanceCriteria.id)
-              .toList()[0] = widget.acceptanceCriteria;
-
-          challengeController.writeFile(context, allChallengesList);
-
-          // Navigator.removeRoute(context, ModalRoute.of(context)!);
-          // Navigator.removeRoute(context, ModalRoute.of(context)!);
-
-          // Navigator.pop(context);
-          // Navigator.pop(context);
-
-          // setIsBottomNavBarVisibleToTrue();
-
-          // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-          Navigator.push(
-            context,
-            NoAnimationPageRoute(
-              builder: (context) => AcceptanceCriteriaEvidenceList(
-                preTitle: splitTitle(widget.preTitle),
-                acceptanceCriteria: widget.acceptanceCriteria,
-                challenge: widget.challenge,
-              ),
-            ),
-          ).then((_) {
-            navigatorKeys[TabItem.Home]!.currentState!.pop(context);
-            navigatorKeys[TabItem.Home]!.currentState!.pop(context);
-          });
-          // setIsBottomNavBarVisibleToTrue();
-        } else {
-          setState(() {
-            widget.isSaveInsteadOfEditButtonVisible = true;
-          });
-        }
-
-        // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-      },
+      onTap: onTapSave,
       child: widget.isSaveInsteadOfEditButtonVisible
           ? Align(
               alignment: Alignment.bottomCenter,
@@ -199,6 +176,67 @@ class _AcceptanceCriteriaMediaListState
     );
   }
 
+  void onTapSave() {
+    if (widget.isSaveInsteadOfEditButtonVisible) {
+      // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+      widget.acceptanceCriteria.progress =
+          widget.editAcceptanceCriteria.progress;
+      var evidence = Evidence(
+          progress: widget.acceptanceCriteria.progress,
+          mediaIds: widget.mediaList.map((e) => e.id!).toList());
+
+      widget.acceptanceCriteria.evidences.insert(0, evidence);
+      allChallengesList
+          .firstWhere((element) => element.id == widget.challenge.id)
+          .acceptanceCriteria
+          .where((element) => element.id == widget.acceptanceCriteria.id)
+          .toList()[0] = widget.acceptanceCriteria;
+
+      challengeController.writeFile(context, allChallengesList);
+
+      List<String> titleList = widget.preTitle.split(
+          '/'); // propably the worst workaround i ever did...sorry future developer but i am in a hurry to release this app on 01.01.2024 <3
+      if (titleList[2] == 'Evidence') {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+      } else {
+        Navigator.pop(context);
+        Navigator.pop(context);
+      }
+
+      // Navigator.removeRoute(context, ModalRoute.of(context)!);
+      // Navigator.removeRoute(context, ModalRoute.of(context)!);
+
+      // Navigator.pop(context);
+      // Navigator.pop(context);
+
+      // setIsBottomNavBarVisibleToTrue();
+
+      // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+      // Navigator.push(
+      //   context,
+      //   NoAnimationPageRoute(
+      //     builder: (context) => AcceptanceCriteriaEvidenceList(
+      //       preTitle: splitTitle(widget.preTitle),
+      //       acceptanceCriteria: widget.acceptanceCriteria,
+      //       challenge: widget.challenge,
+      //     ),
+      //   ),
+      // ).then((_) {
+      //   navigatorKeys[TabItem.Home]!.currentState!.pop(context);
+      //   navigatorKeys[TabItem.Home]!.currentState!.pop(context);
+      // });
+      // setIsBottomNavBarVisibleToTrue();
+    } else {
+      setState(() {
+        widget.isSaveInsteadOfEditButtonVisible = true;
+      });
+    }
+
+    // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+  }
+
   String splitTitle(String title) {
     // Find the index of the last '/' in the string
     int lastIndex = title.lastIndexOf('/');
@@ -210,5 +248,179 @@ class _AcceptanceCriteriaMediaListState
     } else {
       return title;
     }
+  }
+
+  void openProgressDialog() {
+    if (widget.isSaveInsteadOfEditButtonVisible) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: Dialog(
+              insetPadding: const EdgeInsets.only(
+                  top: 150, bottom: 200, left: 50, right: 50),
+              alignment: Alignment.center,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(24))),
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(24))),
+                  child: Column(
+                    children: [amountAndUnit(), setProgressButtons()],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  Widget setProgressButtons() {
+    return Row(
+      children: [
+        const SizedBox(
+          width: 16,
+        ),
+        Expanded(
+            flex: 1,
+            child: GestureDetector(
+                onTap: () => setState(() {
+                      if (widget.editAcceptanceCriteria.progress - 1 >= 0) {
+                        widget.editAcceptanceCriteria.progress -= 1;
+                        amountTextEditingController.text =
+                            widget.editAcceptanceCriteria.progress.toString();
+                      } else {
+                        widget.editAcceptanceCriteria.progress = 0;
+                        amountTextEditingController.text =
+                            widget.editAcceptanceCriteria.progress.toString();
+                      }
+                    }),
+                child: standardContainer(
+                    child: const Center(
+                  child: Text('-1'),
+                )))),
+        const SizedBox(
+          width: 16,
+        ),
+        Expanded(
+            flex: 1,
+            child: GestureDetector(
+                onTap: () => setState(() {
+                      widget.editAcceptanceCriteria.progress += 1;
+                      amountTextEditingController.text =
+                          widget.editAcceptanceCriteria.progress.toString();
+                    }),
+                child: standardContainer(
+                    child: const Center(
+                  child: Text('+1'),
+                )))),
+        const SizedBox(
+          width: 16,
+        ),
+        Expanded(
+            flex: 2,
+            child: GestureDetector(
+                onTap: () => setState(() {
+                      widget.editAcceptanceCriteria.progress =
+                          widget.acceptanceCriteria.activity.amount;
+                      amountTextEditingController.text =
+                          widget.editAcceptanceCriteria.progress.toString();
+                    }),
+                child: standardContainer(
+                    child: const Center(
+                  child: Text('100%'),
+                )))),
+        const SizedBox(
+          width: 16,
+        ),
+      ],
+    );
+  }
+
+  amountAndUnit() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+      child: Row(
+        children: [
+          Expanded(
+              flex: 1,
+              child: standardContainer(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextField(
+                    textAlign: TextAlign.end,
+                    controller: amountTextEditingController
+                      ..text =
+                          widget.editAcceptanceCriteria.progress.toString(),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                      TextInputFormatter.withFunction(
+                        (oldValue, newValue) => newValue.copyWith(
+                          text: newValue.text.replaceAll(',', '.'),
+                        ),
+                      ),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        double number = 0;
+                        if (value.endsWith('.')) {
+                          number = double.parse(value.split('.')[0]);
+                          widget.editAcceptanceCriteria.progress = number;
+                        } else if (value == '') {
+                          widget.editAcceptanceCriteria.progress = 0;
+                        } else {
+                          number = double.parse(value);
+                          widget.editAcceptanceCriteria.progress = number;
+                        }
+                      });
+                    },
+                    decoration:
+                        const InputDecoration.collapsed(hintText: 'Amount'),
+                  ),
+                ),
+              )),
+          const SizedBox(
+            width: 16,
+          ),
+          Expanded(
+              flex: 2,
+              child: standardContainer(
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextField(
+                    enabled: false,
+                    controller: TextEditingController()
+                      ..text = widget.acceptanceCriteria.activity.unit,
+                    decoration:
+                        const InputDecoration.collapsed(hintText: 'Unit'),
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
+
+  standardContainer({required Widget child, double heightFactor = 1}) {
+    return Container(
+      // width: double.infinity,
+      height: 55 * heightFactor,
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(
+              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+          borderRadius: const BorderRadius.all(Radius.circular(16))),
+      child: child,
+    );
   }
 }
