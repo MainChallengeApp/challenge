@@ -14,6 +14,7 @@ class ListItemSearchbar extends StatefulWidget {
 
 class _ListItemSearchbarState extends State<ListItemSearchbar> {
   TextEditingController textEditingController = TextEditingController();
+  String searchText = '';
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -50,22 +51,30 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
                     Expanded(
                       child: TextField(
                         controller: textEditingController,
-                        onChanged: widget.changeList ?? (value) {},
+                        onChanged: (value) {
+                          setState(() {
+                            searchText = value;
+                            widget.changeList?.call(value);
+                          });
+                        },
                         decoration: const InputDecoration.collapsed(
                           hintText: 'Search',
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        textEditingController.clear();
-                        widget.changeList?.call('');
-                      },
-                      child: Icon(
-                        Icons.highlight_remove_rounded,
-                        color: themeColor3,
-                      ),
-                    )
+                    searchText == ''
+                        ? Container()
+                        : GestureDetector(
+                            onTap: () {
+                              textEditingController.clear();
+                              widget.changeList?.call('');
+                              searchText = '';
+                            },
+                            child: const Icon(
+                              Icons.highlight_remove_rounded,
+                              color: themeColor3,
+                            ),
+                          )
                   ],
                 ),
               ),
