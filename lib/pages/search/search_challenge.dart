@@ -1,12 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:io';
-
 import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/media.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -14,7 +11,6 @@ import 'package:challenge/models/challenge.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../components/edit_challenge/edit_challenge.dart';
