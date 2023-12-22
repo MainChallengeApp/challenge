@@ -343,7 +343,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
       }),
       child: Container(
           width: double.infinity,
-          height: isDescriptionExpanded ? 403 : 80,
+          height: isDescriptionExpanded ? 402 : 80,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               border: Border.all(
