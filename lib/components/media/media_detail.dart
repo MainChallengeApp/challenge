@@ -115,7 +115,10 @@ class _MediaDetailState extends State<MediaDetail> {
 
         ChallengeController challengeController = ChallengeController();
         challengeController.writeFile(context, allChallengesList);
-        Navigator.pop(context);
+        setState(() {});
+        if (widget.media.isEmpty) {
+          Navigator.pop(context);
+        }
       },
       child: Container(
         width: 55,
