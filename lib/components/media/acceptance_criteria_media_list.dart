@@ -1,15 +1,14 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/enums/tab_item.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/acceptance_criteria.dart';
@@ -19,6 +18,7 @@ import '../../models/media.dart';
 import '../../providers/design_provider.dart';
 import '../navigation/no_animation_page_route.dart';
 import 'media_detail.dart';
+import 'upload_media.dart';
 
 class AcceptanceCriteriaMediaList extends StatefulWidget {
   AcceptanceCriteriaMediaList(
@@ -90,7 +90,11 @@ class _AcceptanceCriteriaMediaListState
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: widget.mediaList.length + 1, // +1 for progress bar
+          itemCount: widget.isSaveInsteadOfEditButtonVisible
+              ? widget.mediaList.length +
+                  1 +
+                  1 // +1 for progress bar +1 for upload Media when Save Button is visible
+              : widget.mediaList.length + 1,
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return Column(
@@ -112,11 +116,32 @@ class _AcceptanceCriteriaMediaListState
                 ],
               );
             }
+            if (widget.isSaveInsteadOfEditButtonVisible) {
+              if (index == 1) {
+                return Column(
+                  children: [
+                    GestureDetector(
+                      onTap: openProgressDialog,
+                      child: ListItemIconSmall(
+                          onTap: onTapUploadMedia,
+                          icon: Icons.upload_rounded,
+                          title: 'Upload Media'),
+                    ),
+                    const SizedBox(
+                      height: 17,
+                    )
+                  ],
+                );
+              }
+            } else {
+              index += 1; // workaround to satisfiy index below
+            }
+
             return Column(
               children: [
                 ListItemMediaSmall(
-                  onTap: () => ppush(context, index: index - 1),
-                  media: widget.mediaList[index - 1],
+                  onTap: () => ppush(context, index: index - 1 - 1),
+                  media: widget.mediaList[index - 1 - 1],
                 ),
                 const SizedBox(
                   height: 17,
@@ -422,5 +447,20 @@ class _AcceptanceCriteriaMediaListState
           borderRadius: const BorderRadius.all(Radius.circular(16))),
       child: child,
     );
+  }
+
+  onTapUploadMedia() async {
+    XFile? file = await UploadMedia.onTapUploadMedia();
+    if (file != null) {
+      setState(() {
+        Media media = Media(
+            type: 'image',
+            title: DateTime.now().toString().split('.')[0],
+            source: file.path);
+
+        widget.challenge.media.add(media);
+        widget.mediaList.add(media);
+      });
+    }
   }
 }

@@ -1,10 +1,14 @@
+import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/media/list_item_media_small.dart';
 import 'package:challenge/components/media/media_detail.dart';
+import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../globals.dart';
@@ -31,6 +35,8 @@ class _MediaListState extends State<MediaList> {
 
   ScrollController scrollController = ScrollController();
 
+  ChallengeController challengeController = ChallengeController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +61,8 @@ class _MediaListState extends State<MediaList> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: mediaList.length + 1, // + 1 for searchbar
+          itemCount:
+              mediaList.length + 1 + 1, // + 1 for searchbar + 1 for new Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return Column(
@@ -69,18 +76,33 @@ class _MediaListState extends State<MediaList> {
                 ],
               );
             }
+
+            if (index == 1) {
+              return Column(
+                children: [
+                  ListItemIconSmall(
+                    icon: Icons.file_upload_rounded,
+                    title: 'Upload Media',
+                    onTap: onTapUploadMedia,
+                  ),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
+            }
             // if (index == 1) {
             //   return ListItemIconSmall(
             //     onTap: () => 0, // not yet implemented
-            //     icon: Icons.add,
+            //     icon: Icons.add_rounded,
             //     title: "Upload Media",
             //   );
             // }
             return Column(
               children: [
                 ListItemMediaSmall(
-                  onTap: () => ppush(context, index: index - 1),
-                  media: mediaList[index - 1],
+                  onTap: () => ppush(context, index: index - 1 - 1),
+                  media: mediaList[index - 1 - 1],
                 ),
                 const SizedBox(
                   height: 17,
@@ -113,5 +135,18 @@ class _MediaListState extends State<MediaList> {
         ),
       ),
     ).then((_) => setState(() {}));
+  }
+
+  onTapUploadMedia() async {
+    XFile? file = await UploadMedia.onTapUploadMedia();
+    if (file != null) {
+      setState(() {
+        widget.challenge.media.add(Media(
+            type: 'image',
+            title: DateTime.now().toString().split('.')[0],
+            source: file.path));
+        challengeController.writeFile(context, allChallengesList);
+      });
+    }
   }
 }
