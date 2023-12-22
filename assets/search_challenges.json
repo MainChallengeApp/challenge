@@ -592,7 +592,7 @@
     "status": "InProgress",
     "title": "Andere Stadt besuchen",
     "description": "Erweitere deinen Horizont und erkunde eine andere Stadt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/diy.png",
+    "thumbnailPath": "assets/images/other_city.png",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -630,7 +630,7 @@
     "status": "InProgress",
     "title": "Angeln",
     "description": "Genieße die Ruhe der Natur und verbessere deine Geduld beim Angeln.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/diy.png",
+    "thumbnailPath": "assets/images/fishing.png",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -915,7 +915,7 @@
     "status": "InProgress",
     "title": "Angst bekämpfen",
     "description": "Stell dich deinen Ängsten und besiege eine Phobie.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/diy.png",
+    "thumbnailPath": "assets/images/fear.png",
     "acceptanceCriteria": [
       {
         "activity": {
@@ -1029,7 +1029,7 @@
     "status": "InProgress",
     "title": "Alte Freunde kontaktieren",
     "description": "Nimm Kontakt zu alten Freunden auf und schwellkt in Erinnerungen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/diy.png",
+    "thumbnailPath": "assets/images/old_friends.png",
     "acceptanceCriteria": [
       {
         "activity": {
