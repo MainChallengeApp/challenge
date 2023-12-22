@@ -676,7 +676,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: const Center(
                   child: Icon(
-                Icons.add,
+                Icons.add_rounded,
                 color: themeColor3,
               )),
             ),

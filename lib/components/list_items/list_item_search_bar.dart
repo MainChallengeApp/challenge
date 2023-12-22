@@ -36,7 +36,7 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
               margin: const EdgeInsets.all(12),
               child: const Center(
                   child: Icon(
-                Icons.search,
+                Icons.search_rounded,
                 color: themeColor3,
               )),
             ),

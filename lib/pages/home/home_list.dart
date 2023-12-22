@@ -114,7 +114,7 @@ class _HomeListState extends State<HomeList> {
                         children: [
                           ListItemIconSmall(
                             onTap: () => tapOnNewChallenge(),
-                            icon: Icons.add,
+                            icon: Icons.add_rounded,
                             title: "New Challenge",
                           ),
                           const SizedBox(

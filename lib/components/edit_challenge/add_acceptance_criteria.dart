@@ -194,7 +194,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: const Center(
                 child: Icon(
-              Icons.add,
+              Icons.add_rounded,
               color: themeColor3,
             )),
           ),

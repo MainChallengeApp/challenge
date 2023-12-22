@@ -107,7 +107,9 @@ class _SettingsListState extends State<SettingsList> {
               return Column(
                 children: [
                   ListItemIconSmall(
-                      onTap: onTapLogout, icon: Icons.logout, title: 'Log out'),
+                      onTap: onTapLogout,
+                      icon: Icons.logout_rounded,
+                      title: 'Log out'),
                   const SizedBox(
                     height: 17,
                   )

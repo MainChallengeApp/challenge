@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 
 enum TabItem {
-  Search(Icons.search),
+  Search(Icons.search_rounded),
   Home(Icons.person),
-  Settings(Icons.settings);
+  Settings(Icons.settings_rounded);
 
   const TabItem(this.icon);
   final IconData icon;

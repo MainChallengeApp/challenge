@@ -256,7 +256,7 @@ class _EditChallengeState extends State<EditChallenge> {
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: const Center(
                   child: Icon(
-                Icons.add,
+                Icons.add_rounded,
                 color: themeColor3,
               )),
             ),
