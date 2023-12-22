@@ -66,6 +66,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   Widget build(BuildContext context) {
     widget.challenge = challengeList[
         currentChallengeIndex]; // dirty workaround - the problem is related to the feature to unvisible the BottomNavBar
+    currentTitle = widget.challenge.title;
     checkChallengeStatus();
 
     return Scaffold(
@@ -626,8 +627,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
     challengeList.removeWhere((element) => element.id == widget.challenge.id);
     challengeController.writeFile(context, allChallengesList);
 
-    // Slidable.of(context2)?.close();
-    Navigator.pop(context);
+    setState(() {
+      if (currentChallengeIndex > challengeList.length) {
+        currentChallengeIndex = challengeList.length - 1;
+      }
+      Slidable.of(context2)?.close(duration: Duration.zero);
+    });
+    if (challengeList.isEmpty) {
+      Navigator.pop(context);
+    }
   }
 
   void onTapOpenMediaPage() {
