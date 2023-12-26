@@ -218,19 +218,19 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       documentationButton(
-                                          iconData: Icons.numbers,
+                                          iconData: Icons.numbers_rounded,
                                           onTap: () => MySnackBar.showSnackBar(
                                               context,
                                               'The Numbers feature will be added soon.'),
                                           color: Colors.grey[200]),
                                       documentationButton(
-                                          iconData: Icons.notes,
+                                          iconData: Icons.notes_rounded,
                                           onTap: () => MySnackBar.showSnackBar(
                                               context,
                                               'The Notes feature will be added soon.'),
                                           color: Colors.grey[200]),
                                       documentationButton(
-                                          iconData: Icons.gps_not_fixed,
+                                          iconData: Icons.gps_not_fixed_rounded,
                                           onTap: () => MySnackBar.showSnackBar(
                                               context,
                                               'The GPS feature will be added soon.'),
