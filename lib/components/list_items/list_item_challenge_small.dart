@@ -53,14 +53,15 @@ class ListItemChallengeSmall extends StatelessWidget {
                                     color: themeColor3),
                               )),
               ),
-              Container(
-                child: Text(
-                  challenge.title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
+              Expanded(
+                child: Container(
+                  child: Text(
+                    challenge.title,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
                 ),
               ),
-              Expanded(child: Container()),
               isProgressVisible
                   ? Container(
                       width: 25,
