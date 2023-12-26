@@ -323,16 +323,20 @@ class _SearchChallengeState extends State<SearchChallenge> {
       onTap: () => MySnackBar.showSnackBar(
           context, 'The Video Trailer feature will be added soon'),
       child: Container(
-        width: double.infinity,
-        height: 180,
-        decoration: BoxDecoration(
-            color: const Color.fromRGBO(241, 245, 249, 1),
-            image: DecorationImage(
-              image: AssetImage(e.thumbnailPath),
-              fit: BoxFit.contain,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(12))),
-      ),
+          width: double.infinity,
+          height: 180,
+          decoration: const BoxDecoration(
+              color: Color.fromRGBO(241, 245, 249, 1),
+              borderRadius: BorderRadius.all(Radius.circular(12))),
+          child: Center(
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: e.thumbnailPath != ''
+                    ? Image.asset(e.thumbnailPath, fit: BoxFit.contain)
+                    : e.media.isNotEmpty
+                        ? Image.asset(e.media.first.source, fit: BoxFit.contain)
+                        : Icon(Icons.question_mark, color: themeColor3)),
+          )),
     );
   }
 
