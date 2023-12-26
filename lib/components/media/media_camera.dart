@@ -4,8 +4,8 @@ import 'package:camera/camera.dart';
 import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../models/acceptance_criteria.dart';
 import '../../models/media.dart';
@@ -56,9 +56,12 @@ class _CameraStateMedia extends State<MediaCamera> {
       );
       // Next, initialize the controller. This returns a Future.
       _initializeControllerFuture = _controller.initialize();
-      _initializeControllerFuture.then((value) => _controller
-          .getMinZoomLevel()
-          .then((value) => _controller.setZoomLevel(1)));
+      _initializeControllerFuture
+          .then((value) => _controller.getMinZoomLevel().then((value) {
+                _controller
+                    .lockCaptureOrientation(DeviceOrientation.portraitUp);
+                _controller.setZoomLevel(1);
+              }));
     }
   }
 
@@ -85,35 +88,7 @@ class _CameraStateMedia extends State<MediaCamera> {
             return currentCamera != null
                 ? GestureDetector(
                     onDoubleTap: () {
-                      setState(() {
-                        if (widget.cameras.length >= 2 &&
-                            currentCamera == widget.cameras[0]) {
-                          currentCamera = widget.cameras[1];
-                          _controller = CameraController(
-                            // Get a specific camera from the list of available cameras.
-                            currentCamera!,
-                            // Define the resolution to use.
-                            ResolutionPreset.max,
-                          );
-
-                          // Next, initialize the controller. This returns a Future.
-                          _initializeControllerFuture =
-                              _controller.initialize();
-                        } else if (widget.cameras.length >= 2 &&
-                            currentCamera == widget.cameras[1]) {
-                          currentCamera = widget.cameras[0];
-                          _controller = CameraController(
-                            // Get a specific camera from the list of available cameras.
-                            currentCamera!,
-                            // Define the resolution to use.
-                            ResolutionPreset.max,
-                          );
-
-                          // Next, initialize the controller. This returns a Future.
-                          _initializeControllerFuture =
-                              _controller.initialize();
-                        }
-                      });
+                      onDoubleTapChangeCamera();
                     },
                     child: Stack(
                       children: [
@@ -179,6 +154,38 @@ class _CameraStateMedia extends State<MediaCamera> {
         },
       ),
     );
+  }
+
+  void onDoubleTapChangeCamera() {
+    setState(() {
+      if (widget.cameras.length >= 2 && currentCamera == widget.cameras[0]) {
+        currentCamera = widget.cameras[1];
+        _controller = CameraController(
+          // Get a specific camera from the list of available cameras.
+          currentCamera!,
+          // Define the resolution to use.
+          ResolutionPreset.max,
+        );
+
+        // Next, initialize the controller. This returns a Future.
+        _initializeControllerFuture = _controller.initialize();
+      } else if (widget.cameras.length >= 2 &&
+          currentCamera == widget.cameras[1]) {
+        currentCamera = widget.cameras[0];
+        _controller = CameraController(
+          // Get a specific camera from the list of available cameras.
+          currentCamera!,
+          // Define the resolution to use.
+          ResolutionPreset.max,
+        );
+
+        // Next, initialize the controller. This returns a Future.
+        _initializeControllerFuture = _controller.initialize();
+      }
+      _initializeControllerFuture.then((value) {
+        _controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
+      });
+    });
   }
 
   documentationButton(IconData iconData) {
