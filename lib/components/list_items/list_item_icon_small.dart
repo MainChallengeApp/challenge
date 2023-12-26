@@ -3,7 +3,10 @@ import 'package:challenge/globals.dart';
 
 class ListItemIconSmall extends StatelessWidget {
   const ListItemIconSmall(
-      {super.key, required this.onTap, required this.icon, required this.title});
+      {super.key,
+      required this.onTap,
+      required this.icon,
+      required this.title});
 
   final dynamic Function() onTap;
 
@@ -20,8 +23,7 @@ class ListItemIconSmall extends StatelessWidget {
           height: 64,
           margin: EdgeInsets.only(left: 20, right: 20),
           decoration: BoxDecoration(
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              border: Border.all(width: 1, color: themeColor5),
               borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: Row(
             children: [
@@ -32,7 +34,11 @@ class ListItemIconSmall extends StatelessWidget {
                     color: Color.fromRGBO(241, 245, 249, 1),
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 margin: const EdgeInsets.all(12),
-                child: Center(child: Icon(icon, color: themeColor3,)),
+                child: Center(
+                    child: Icon(
+                  icon,
+                  color: themeColor3,
+                )),
               ),
               Text(title)
             ],
