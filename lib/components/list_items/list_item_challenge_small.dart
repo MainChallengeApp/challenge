@@ -1,3 +1,4 @@
+import 'package:challenge/enums/challenge_status.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
 
@@ -5,11 +6,16 @@ import '../../globals.dart';
 
 class ListItemChallengeSmall extends StatelessWidget {
   const ListItemChallengeSmall(
-      {super.key, required this.onTap, required this.challenge});
+      {super.key,
+      required this.onTap,
+      required this.challenge,
+      this.isProgressVisible = false});
 
   final dynamic Function() onTap;
 
   final Challenge challenge;
+
+  final bool isProgressVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,7 @@ class ListItemChallengeSmall extends StatelessWidget {
           width: double.infinity,
           height: 64,
           margin: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
@@ -32,7 +39,7 @@ class ListItemChallengeSmall extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 width: 40,
                 height: 40,
-                margin: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(right: 12),
                 child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
                     child: challenge.thumbnailPath != ''
@@ -47,13 +54,35 @@ class ListItemChallengeSmall extends StatelessWidget {
                               )),
               ),
               Container(
-                width: 280,
                 child: Text(
                   challenge.title,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-              )
+              ),
+              Expanded(child: Container()),
+              isProgressVisible
+                  ? Container(
+                      width: 25,
+                      height: 25,
+                      margin: EdgeInsets.only(right: 7),
+                      child: CircularProgressIndicator(
+                        backgroundColor: themeColor5,
+                        strokeCap: StrokeCap.round,
+                        value: challenge.acceptanceCriteria.isEmpty
+                            ? 0
+                            : challenge.acceptanceCriteria[0].activity.amount <=
+                                    0
+                                ? 0
+                                : challenge.acceptanceCriteria[0].progress /
+                                    challenge
+                                        .acceptanceCriteria[0].activity.amount,
+                        color: challenge.status == ChallengeStatus.failed
+                            ? Colors.red[300]
+                            : Colors.green[300],
+                      ),
+                    )
+                  : Container()
             ],
           ),
         ),
