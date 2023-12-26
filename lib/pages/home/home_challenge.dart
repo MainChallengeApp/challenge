@@ -41,6 +41,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   bool isDescriptionExpanded = false;
 
   late BuildContext context2;
+  late BuildContext context3;
 
   late String currentTitle = widget.challenge.title;
 
@@ -702,22 +703,117 @@ class _HomeChallengeState extends State<HomeChallenge> {
         }));
   }
 
+  dialogYesButton() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context3);
+        if (checkAcceptanceCriteria()) {
+          widget.challenge.status = ChallengeStatus.success;
+        } else {
+          widget.challenge.status = ChallengeStatus.failed;
+        }
+        setState(() {
+          widget.challenge.endDate = DateTime.now();
+          challengeList
+              .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+          allChallengesList
+              .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+          challengeController.writeFile(context, allChallengesList);
+        });
+      },
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: 55,
+          margin: const EdgeInsets.only(bottom: 16, left: 16),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: Center(
+              child: Text(
+            'Yes',
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, color: Colors.black),
+          )),
+        ),
+      ),
+    );
+  }
+
+  dialogNoButton() {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context3);
+      },
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: 55,
+          margin: const EdgeInsets.only(bottom: 16, right: 16),
+          decoration: BoxDecoration(
+              color: themeColor2,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: Center(
+              child: Text(
+            'No',
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, color: Colors.white),
+          )),
+        ),
+      ),
+    );
+  }
+
   void onTapEndTryAgainAcceptAgainStartButton(Challenge challenge) {
     if (widget.challenge.status == ChallengeStatus.inProgress) {
       // End button
-      if (checkAcceptanceCriteria()) {
-        widget.challenge.status = ChallengeStatus.success;
-      } else {
-        widget.challenge.status = ChallengeStatus.failed;
-      }
-      setState(() {
-        widget.challenge.endDate = DateTime.now();
-        challengeList
-            .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
-        allChallengesList
-            .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
-        challengeController.writeFile(context, allChallengesList);
-      });
+      showDialog(
+        context: context,
+        builder: (context) {
+          context3 = context;
+          return GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: Dialog(
+              insetPadding: const EdgeInsets.only(
+                  top: 150, bottom: 200, left: 50, right: 50),
+              alignment: Alignment.center,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(24))),
+              child: SingleChildScrollView(
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(24))),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Text(
+                          'Do you really want to end this Challenge?\n\nThis action can not be undo.\n',
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(child: dialogYesButton()),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(child: dialogNoButton())
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
     } else if (widget.challenge.status == ChallengeStatus.failed ||
         widget.challenge.status == ChallengeStatus.success) {
       // Try Again Button and Accept Again
