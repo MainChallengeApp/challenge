@@ -559,7 +559,7 @@
       {
         "activity": {
           "title": "Danken",
-          "amount": 1.0,
+          "amount": 100.0,
           "unit": "Einträge"
         },
         "frequence": "daily",
