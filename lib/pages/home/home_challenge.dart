@@ -659,7 +659,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     challengeController.writeFile(context, allChallengesList);
 
     setState(() {
-      if (currentChallengeIndex > challengeList.length) {
+      if (currentChallengeIndex >= challengeList.length) {
         currentChallengeIndex = challengeList.length - 1;
       }
       Slidable.of(context2)?.close(duration: Duration.zero);
