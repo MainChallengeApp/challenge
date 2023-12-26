@@ -115,7 +115,12 @@ class _MediaDetailState extends State<MediaDetail> {
 
         ChallengeController challengeController = ChallengeController();
         challengeController.writeFile(context, allChallengesList);
-        setState(() {});
+
+        setState(() {
+          if (currentMediaIndex >= widget.media.length) {
+            currentMediaIndex = widget.media.length - 1;
+          }
+        });
         if (widget.media.isEmpty) {
           Navigator.pop(context);
         }
