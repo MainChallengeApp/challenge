@@ -47,7 +47,10 @@ class _SearchChallengeState extends State<SearchChallenge> {
   late String currentTitle = widget.challenge.title;
 
   TextEditingController amountTextEditingController =
-      TextEditingController(text: '1.0');
+      TextEditingController(text: '');
+
+  TextEditingController unitTextEditingController =
+      TextEditingController(text: '');
 
   bool isKeyboardUp = false;
 
@@ -57,6 +60,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
     super.initState();
     amountTextEditingController.text =
         widget.challenge.acceptanceCriteria[0].activity.amount.toString();
+
+    unitTextEditingController.text =
+        widget.challenge.acceptanceCriteria[0].activity.unit;
   }
 
   @override
@@ -543,6 +549,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
       isDescriptionExpanded = false;
       amountTextEditingController.text =
           widget.challenge.acceptanceCriteria[0].activity.amount.toString();
+      unitTextEditingController.text =
+          widget.challenge.acceptanceCriteria[0].activity.unit;
     });
   }
 
@@ -789,8 +797,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: TextField(
-                        controller: TextEditingController()
-                          ..text = acceptanceCriteria.activity.unit,
+                        controller: unitTextEditingController,
                         onChanged: (value) {
                           acceptanceCriteria.activity.unit = value;
                         },
@@ -798,7 +805,11 @@ class _SearchChallengeState extends State<SearchChallenge> {
                           isKeyboardUp = true;
                         }),
                         onSubmitted: (String s) => setState(() {
-                          isKeyboardUp = true;
+                          isKeyboardUp = false;
+                        }),
+                        onEditingComplete: () => setState(() {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          isKeyboardUp = false;
                         }),
                         decoration:
                             const InputDecoration.collapsed(hintText: 'Unit'),
