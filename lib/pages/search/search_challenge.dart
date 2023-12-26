@@ -191,7 +191,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                   // isDescriptionExpanded
                                   //     ? Container()
                                   //     : addAcceptanceCriteriaButton(),
-                                  startAndEndDate(e),
+                                  // startAndEndDate(e),
                                   amountAndUnit(e),
                                   // frequence(e),
                                   // isDescriptionExpanded
