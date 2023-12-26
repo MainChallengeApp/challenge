@@ -375,15 +375,45 @@ class _HomeChallengeState extends State<HomeChallenge> {
             borderRadius: BorderRadius.all(Radius.circular(12))),
         height: 180,
         width: double.infinity,
-        child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: e.thumbnailPath != ''
-                ? Image.asset(e.thumbnailPath, fit: BoxFit.contain)
-                : e.media.isNotEmpty
-                    ? Image.asset(e.media.first.source, fit: BoxFit.contain)
-                    : const Center(
-                        child: Icon(Icons.question_mark, color: themeColor3),
-                      )),
+        child: Stack(
+          children: [
+            Center(
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: e.thumbnailPath != ''
+                      ? Image.asset(e.thumbnailPath, fit: BoxFit.contain)
+                      : e.media.isNotEmpty
+                          ? Image.asset(e.media.first.source,
+                              fit: BoxFit.contain)
+                          : Icon(Icons.question_mark, color: themeColor3)),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Container(
+                clipBehavior: Clip.none,
+                margin: EdgeInsets.all(8),
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    color: themeColor2.withAlpha(120)),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      e.media.length.toString(),
+                      textAlign: TextAlign.end,
+                    ),
+                    Icon(
+                      Icons.image_outlined,
+                      size: 15,
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
