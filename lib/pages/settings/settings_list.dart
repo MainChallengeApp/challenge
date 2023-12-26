@@ -7,7 +7,9 @@ import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../components/navigation/no_animation_page_route.dart';
 import '../../models/account.dart';
+import '../credits/credits.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList({super.key, required this.title, this.onPush});
@@ -64,7 +66,7 @@ class _SettingsListState extends State<SettingsList> {
   }
 
   Widget _buildList() {
-    int itemCount = 3;
+    int itemCount = 4;
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
@@ -96,6 +98,20 @@ class _SettingsListState extends State<SettingsList> {
                       onTap: onTapFeedback,
                       icon: Icons.feedback_outlined,
                       title: 'Feedback'),
+                  const SizedBox(
+                    height: 17,
+                  )
+                ],
+              );
+            }
+
+            if (index == 2) {
+              return Column(
+                children: [
+                  ListItemIconSmall(
+                      onTap: onTapCredits,
+                      icon: Icons.handshake_outlined,
+                      title: 'Credits'),
                   const SizedBox(
                     height: 17,
                   )
@@ -157,5 +173,16 @@ class _SettingsListState extends State<SettingsList> {
     } else {
       throw 'Could not launch $emailLaunchUri';
     }
+  }
+
+  onTapCredits() {
+    Navigator.push(
+      context,
+      NoAnimationPageRoute(
+        builder: (context) => Credits(
+          preTitle: widget.title,
+        ),
+      ),
+    ).then((_) => setState(() {}));
   }
 }
