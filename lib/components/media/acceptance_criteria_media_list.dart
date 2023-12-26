@@ -64,6 +64,8 @@ class _AcceptanceCriteriaMediaListState
 
   String searchBarText = "";
 
+  late BuildContext context2;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -76,7 +78,7 @@ class _AcceptanceCriteriaMediaListState
                   : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
           backgroundColor: Colors.white,
           body: Stack(
-            children: [_buildList(), button()],
+            children: [_buildList(), progressButton()],
           )),
     );
   }
@@ -100,7 +102,7 @@ class _AcceptanceCriteriaMediaListState
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: openProgressDialog,
+                    onTap: onTapProgressBar,
                     child: ListItemAcceptanceCriteriaBar(
                       acceptanceCriteria: widget.acceptanceCriteria,
                       initialProgress: widget.evidence?.progress ??
@@ -121,7 +123,7 @@ class _AcceptanceCriteriaMediaListState
                 return Column(
                   children: [
                     GestureDetector(
-                      onTap: openProgressDialog,
+                      onTap: onTapProgressBar,
                       child: ListItemIconSmall(
                           onTap: onTapUploadMedia,
                           icon: Icons.upload_rounded,
@@ -174,7 +176,34 @@ class _AcceptanceCriteriaMediaListState
     ).then((_) => setState(() {}));
   }
 
-  button() {
+  progressButton() {
+    return GestureDetector(
+      onTap: onTapProgressBar,
+      child: widget.isSaveInsteadOfEditButtonVisible
+          ? Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 55,
+                margin: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: themeColor2,
+                    border: Border.all(
+                        width: 1,
+                        color: const Color.fromRGBO(226, 232, 240, 1)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16))),
+                child: Center(
+                    child: Text(
+                  widget.isSaveInsteadOfEditButtonVisible ? 'Progress' : 'Edit',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, color: Colors.white),
+                )),
+              ),
+            )
+          : Container(),
+    );
+  }
+
+  saveButton() {
     return GestureDetector(
       onTap: onTapSave,
       child: widget.isSaveInsteadOfEditButtonVisible
@@ -182,7 +211,7 @@ class _AcceptanceCriteriaMediaListState
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 55,
-                margin: const EdgeInsets.all(20),
+                margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
                 decoration: BoxDecoration(
                     color: themeColor2,
                     border: Border.all(
@@ -203,6 +232,7 @@ class _AcceptanceCriteriaMediaListState
 
   void onTapSave() {
     if (widget.isSaveInsteadOfEditButtonVisible) {
+      Navigator.pop(context2);
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       widget.acceptanceCriteria.progress =
           widget.editAcceptanceCriteria.progress;
@@ -275,16 +305,17 @@ class _AcceptanceCriteriaMediaListState
     }
   }
 
-  void openProgressDialog() {
+  void onTapProgressBar() {
     if (widget.isSaveInsteadOfEditButtonVisible) {
       showDialog(
         context: context,
         builder: (context) {
+          context2 = context;
           return GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Dialog(
               insetPadding: const EdgeInsets.only(
-                  top: 150, bottom: 200, left: 50, right: 50),
+                  top: 150, bottom: 120, left: 50, right: 50),
               alignment: Alignment.center,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(24))),
@@ -294,7 +325,11 @@ class _AcceptanceCriteriaMediaListState
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(24))),
                   child: Column(
-                    children: [amountAndUnit(), setProgressButtons()],
+                    children: [
+                      amountAndUnit(),
+                      setProgressButtons(),
+                      saveButton()
+                    ],
                   ),
                 ),
               ),
