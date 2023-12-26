@@ -135,6 +135,7 @@ class _HomeListState extends State<HomeList> {
                           onTap: () => ppush(context,
                               challenge: challenge, index: index - 1 - 1),
                           challenge: challenge,
+                          isProgressVisible: true,
                         ),
                         const SizedBox(
                           height: 17,
