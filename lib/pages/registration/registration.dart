@@ -65,7 +65,7 @@ class _RegistrationState extends State<Registration> {
               height: 16,
             ),
             ListItemAcceptButton(
-                onTapAccept: onTapAccept, isAcceptable: isEmailValid(email)),
+                onTapAccept: onTapAccept, isAcceptable: email.isNotEmpty),
             const SizedBox(
               height: 140,
             ),
@@ -78,17 +78,6 @@ class _RegistrationState extends State<Registration> {
                 fit: BoxFit.contain,
               )),
             ),
-            const SizedBox(
-              height: 90,
-            ),
-            Center(
-              child: Text("Your Email will be added to the Email list",
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 10,
-                    fontWeight: FontWeight.w100,
-                  )),
-            ),
           ],
         ),
       ),
@@ -96,22 +85,24 @@ class _RegistrationState extends State<Registration> {
   }
 
   onChangeList(value) {
-    setState(() {});
+    setState(() {
+      errorText = null;
+    });
     return email = value;
   }
 
   onTapAccept() {
-    if (isEmailValid(email)) {
+    if (email.isNotEmpty) {
       Account account = Account(email: email);
       accountController.writeFile(context, account);
-      sendMail();
+      // sendMail();
       setState(() {
         errorText = null;
         context.read<DesignProvider>().setIsRegistered(true);
       });
     } else {
       setState(() {
-        errorText = 'thats not an email...';
+        errorText = 'add a Username';
       });
     }
   }

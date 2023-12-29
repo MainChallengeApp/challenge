@@ -43,7 +43,7 @@ class _ListItemEmailState extends State<ListItemEmail> {
               margin: const EdgeInsets.all(12),
               child: const Center(
                   child: Icon(
-                Icons.email,
+                Icons.person_outline,
                 color: themeColor3,
               )),
             ),
@@ -56,7 +56,7 @@ class _ListItemEmailState extends State<ListItemEmail> {
                   controller: widget.textEditingController,
                   onChanged: widget.changeList ?? (value) {},
                   decoration: InputDecoration(
-                      hintText: 'Email', errorText: widget.errorText),
+                      hintText: 'Username', errorText: widget.errorText),
                 ),
               ),
             )
