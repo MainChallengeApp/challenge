@@ -450,7 +450,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
 
   bool checkAcceptanceCriteria() {
     for (var element in widget.challenge.acceptanceCriteria) {
-      if (element.calcProgressRatio() != 1) {
+      if (element.calcProgressRatio() < 1) {
         return false; // Return false if any element doesn't meet the condition.
       }
     }
