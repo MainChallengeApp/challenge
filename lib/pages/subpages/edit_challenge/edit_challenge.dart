@@ -1,4 +1,7 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/components/simple_components/custom_button.dart';
+import 'package:challenge/components/simple_components/custom_card.dart';
+import 'package:challenge/components/simple_components/custom_container.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
@@ -11,9 +14,8 @@ import 'package:challenge/models/challenge.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../models/acceptance_criteria.dart';
-import '../../../models/activity.dart';
-import '../../../components/navigation/no_animation_page_route.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
 class EditChallenge extends StatefulWidget {
   final String preTitle;
@@ -51,89 +53,26 @@ class _EditChallengeState extends State<EditChallenge> {
             preTitle: widget.preTitle,
             title: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
         backgroundColor: Colors.white,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
-              padding: const EdgeInsets.all(16),
-              width: double.infinity,
-              height: 120 + 8 * 64,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(24))),
-              child: Column(
-                children: [
-                  thumbnailUploadAndTitle(),
-                  description(),
-                  startAndEndDate(),
-                  amountAndUnit(),
-                  // frequence(),
-                  Expanded(child: Container()),
-                  buttons()
-                ],
-              ),
-            ),
-          ),
+        body: CustomCard(
+          children: [
+            thumbnailUploadAndTitle(),
+            description(),
+            startAndEndDate(),
+            amountAndUnit(),
+            // frequence(),
+            Expanded(child: Container()),
+            saveButton()
+          ],
         ),
       ),
     );
   }
 
-  buttons() {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 16,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Expanded(
-            //   child: Container(
-            //     height: 55,
-            //     width: 100,
-            //     decoration: BoxDecoration(
-            //         color: Colors.white,
-            //         border: Border.all(
-            //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            //         borderRadius: const BorderRadius.all(Radius.circular(16))),
-            //     child: const Center(
-            //         child: Text(
-            //       'Delete',
-            //       style:
-            //           TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-            //     )),
-            //   ),
-            // ),
-            // const SizedBox(
-            //   width: 16,
-            // ),
-            Expanded(
-              child: GestureDetector(
-                onTap: onTapSave,
-                child: Container(
-                  height: 55,
-                  decoration: BoxDecoration(
-                      color: themeColor2,
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(16))),
-                  child: const Center(
-                      child: Text(
-                    'Save',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500, color: Colors.white),
-                  )),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+  CustomButton saveButton() {
+    return CustomButton(
+      onTap: onTapSave,
+      text: 'Save',
+      isPrimaryButton: true,
     );
   }
 
@@ -187,44 +126,44 @@ class _EditChallengeState extends State<EditChallenge> {
     );
   }
 
-  addAcceptanceCriteriaButton() {
-    return GestureDetector(
-      onTap: onTapAddAcceptanceCriteriaButton,
-      child: standardContainer(
-        child: Row(
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              margin: const EdgeInsets.only(right: 10),
-              decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: const Center(
-                  child: Icon(
-                Icons.add_rounded,
-                color: themeColor3,
-              )),
-            ),
-            const SizedBox(
-              width: 200,
-              height: 40,
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Add Acceptance Criteria')),
-            ),
-            const Expanded(
-              child: SizedBox(),
-            ),
-            const Icon(
-              Icons.chevron_right_outlined,
-              color: themeColor3,
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  // addAcceptanceCriteriaButton() {
+  //   return GestureDetector(
+  //     onTap: onTapAddAcceptanceCriteriaButton,
+  //     child: standardContainer(
+  //       child: Row(
+  //         children: [
+  //           Container(
+  //             width: 30,
+  //             height: 30,
+  //             margin: const EdgeInsets.only(right: 10),
+  //             decoration: const BoxDecoration(
+  //                 color: Color.fromRGBO(241, 245, 249, 1),
+  //                 borderRadius: BorderRadius.all(Radius.circular(12))),
+  //             child: const Center(
+  //                 child: Icon(
+  //               Icons.add_rounded,
+  //               color: themeColor3,
+  //             )),
+  //           ),
+  //           const SizedBox(
+  //             width: 200,
+  //             height: 40,
+  //             child: Align(
+  //                 alignment: Alignment.centerLeft,
+  //                 child: Text('Add Acceptance Criteria')),
+  //           ),
+  //           const Expanded(
+  //             child: SizedBox(),
+  //           ),
+  //           const Icon(
+  //             Icons.chevron_right_outlined,
+  //             color: themeColor3,
+  //           )
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   startAndEndDate() {
     // widget.editChallenge.startDate ??= DateTime.now();
@@ -273,8 +212,9 @@ class _EditChallengeState extends State<EditChallenge> {
   }
 
   description() {
-    return standardContainer(
+    return CustomContainer(
         heightFactor: 1.8,
+        margin: const EdgeInsets.only(bottom: 16),
         child: TapRegion(
           child: TextField(
               maxLines: 999,
@@ -346,7 +286,8 @@ class _EditChallengeState extends State<EditChallenge> {
           width: 16,
         ),
         Expanded(
-            child: standardContainer(
+            child: CustomContainer(
+          margin: const EdgeInsets.only(bottom: 16),
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
@@ -443,26 +384,26 @@ class _EditChallengeState extends State<EditChallenge> {
                 )));
   }
 
-  void onTapAddAcceptanceCriteriaButton() {
-    Navigator.push(
-      context,
-      NoAnimationPageRoute(
-        builder: (context) => AddAcceptanceCriteria(
-          preTitle:
-              '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-          challenge: widget.editChallenge,
-          acceptanceCriteria: AcceptanceCriteria(
-              id: widget.challenge.acceptanceCriteria.length,
-              activity: Activity(title: '', amount: 0, unit: ''),
-              frequence: '',
-              tracking: '',
-              progress: 0,
-              evidences: []),
-          acceptanceCriteriaIndex: null,
-        ),
-      ),
-    ).then((_) => setState(() {}));
-  }
+  // void onTapAddAcceptanceCriteriaButton() {
+  //   Navigator.push(
+  //     context,
+  //     NoAnimationPageRoute(
+  //       builder: (context) => AddAcceptanceCriteria(
+  //         preTitle:
+  //             '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+  //         challenge: widget.editChallenge,
+  //         acceptanceCriteria: AcceptanceCriteria(
+  //             id: widget.challenge.acceptanceCriteria.length,
+  //             activity: Activity(title: '', amount: 0, unit: ''),
+  //             frequence: '',
+  //             tracking: '',
+  //             progress: 0,
+  //             evidences: []),
+  //         acceptanceCriteriaIndex: null,
+  //       ),
+  //     ),
+  //   ).then((_) => setState(() {}));
+  // }
 
   void onTapSave() async {
     // check inputs e.g. endDate > startDate
