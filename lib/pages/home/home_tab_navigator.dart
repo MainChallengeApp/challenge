@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:challenge/components/edit_challenge/edit_challenge.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/pages/home/home_list.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
@@ -43,7 +43,7 @@ class HomeTabNavigator extends TabNavigator {
       //       challenge: challenge!,
       //     ),
       HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
-            title: tabItem.name,
+            preTitle: tabItem.name,
             challenge: challenge!,
           ),
     };

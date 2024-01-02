@@ -1,4 +1,4 @@
-import 'package:challenge/components/edit_challenge/edit_challenge.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/acceptance_criteria.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
@@ -192,16 +192,11 @@ class _HomeListState extends State<HomeList> {
       context,
       NoAnimationPageRoute(
         builder: (context) => EditChallenge(
-          title: widget.title,
+          preTitle: widget.title,
           challenge: challenge,
-          homeListSetState: homeListSetState,
           isNewChallenge: true,
         ),
       ),
     ).then((_) => setState(() {}));
-  }
-
-  homeListSetState() {
-    setState(() {});
   }
 }

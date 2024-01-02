@@ -1,9 +1,7 @@
 // ignore_for_file: must_be_immutable
-
-import 'dart:io';
-
-import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/media/upload_media.dart';
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,68 +11,33 @@ import 'package:challenge/models/challenge.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../models/acceptance_criteria.dart';
-import '../../models/activity.dart';
-import '../navigation/no_animation_page_route.dart';
+import '../../../models/acceptance_criteria.dart';
+import '../../../models/activity.dart';
+import '../../../components/navigation/no_animation_page_route.dart';
 
 class EditChallenge extends StatefulWidget {
-  final Function? homeListSetState;
-
-  bool isNewChallenge;
-
-  bool isTryAgain;
+  final String preTitle;
+  final Challenge challenge;
+  late Challenge editChallenge;
+  final bool isNewChallenge;
+  final bool isTryAgain;
+  final bool isSearchEdit;
 
   EditChallenge(
       {super.key,
-      required this.title,
+      required this.preTitle,
       required this.challenge,
-      this.selectTab,
-      this.homeListSetState,
       this.isSearchEdit = false,
       this.isNewChallenge = false,
       this.isTryAgain = false}) {
-    title = title;
-    challenge = challenge;
-    editChallenge = Challenge(
-        status: challenge.status,
-        title: challenge.title,
-        description: challenge.description,
-        thumbnailPath: challenge.thumbnailPath,
-        startDate: challenge.startDate,
-        endDate: challenge.endDate,
-        acceptanceCriteria:
-            copyAcceptanceCriteria(challenge.acceptanceCriteria),
-        media: []);
+    editChallenge = Challenge.copyChallenge(challenge, isTryAgain: isTryAgain);
   }
-  String title;
-  Challenge challenge;
-  late Challenge editChallenge;
-  final Function? selectTab;
-  final bool isSearchEdit;
 
   @override
   State<EditChallenge> createState() => _EditChallengeState();
-
-  copyAcceptanceCriteria(List<AcceptanceCriteria> acceptanceCriteria) {
-    List<AcceptanceCriteria> acceptanceCriteriaList = [];
-    acceptanceCriteria.forEach((e) {
-      acceptanceCriteriaList.add(AcceptanceCriteria(
-          id: e.id,
-          activity: Activity(
-              title: e.activity.title,
-              amount: e.activity.amount,
-              unit: e.activity.unit),
-          frequence: e.frequence,
-          tracking: e.tracking,
-          progress: e.progress,
-          evidences: e.evidences));
-    });
-    return acceptanceCriteriaList;
-  }
 }
 
 class _EditChallengeState extends State<EditChallenge> {
-  bool isDescriptionExpanded = false;
   int selectedAcceptanceCriteria = 0;
 
   ChallengeController challengeController = ChallengeController();
@@ -84,26 +47,9 @@ class _EditChallengeState extends State<EditChallenge> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          titleSpacing: 0,
-          title: Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Text(
-                  '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: appBarFontSize),
-                ),
-              ),
-            ),
-          ),
-        ),
+        appBar: CustomeAppBar.build(
+            preTitle: widget.preTitle,
+            title: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
         backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
@@ -111,7 +57,7 @@ class _EditChallengeState extends State<EditChallenge> {
               margin: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
               padding: const EdgeInsets.all(16),
               width: double.infinity,
-              height: 120 + 8 * 64 + 2,
+              height: 120 + 8 * 64,
               decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
@@ -503,7 +449,7 @@ class _EditChallengeState extends State<EditChallenge> {
       NoAnimationPageRoute(
         builder: (context) => AddAcceptanceCriteria(
           preTitle:
-              '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+              '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
           acceptanceCriteria: AcceptanceCriteria(
               id: widget.challenge.acceptanceCriteria.length,
@@ -576,13 +522,11 @@ class _EditChallengeState extends State<EditChallenge> {
       context,
       NoAnimationPageRoute(
         builder: (context) => HomeChallenge(
-            preTitle: widget.title,
+            preTitle: widget.preTitle,
             challenge: widget.challenge,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
-    ).then((_) {
-      // widget.homeListSetState!.call();
-    });
+    );
   }
 
   void onTapSingleAcceptanceCriteria(int index) {
@@ -591,7 +535,7 @@ class _EditChallengeState extends State<EditChallenge> {
       NoAnimationPageRoute(
         builder: (context) => AddAcceptanceCriteria(
           preTitle:
-              '${widget.title}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
+              '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
           acceptanceCriteria: widget.editChallenge.acceptanceCriteria[index],
           acceptanceCriteriaIndex: index,

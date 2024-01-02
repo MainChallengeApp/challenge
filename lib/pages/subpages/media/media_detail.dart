@@ -5,8 +5,8 @@ import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 
-import '../../globals.dart';
-import '../../models/media.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/media.dart';
 
 class MediaDetail extends StatefulWidget {
   final String preTitle;

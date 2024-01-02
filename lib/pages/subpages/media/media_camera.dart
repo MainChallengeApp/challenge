@@ -7,10 +7,10 @@ import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../models/acceptance_criteria.dart';
-import '../../models/media.dart';
-import '../navigation/custom_app_bar.dart';
-import '../navigation/no_animation_page_route.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/media.dart';
+import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
 class MediaCamera extends StatefulWidget {
   const MediaCamera({

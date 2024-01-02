@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
-import 'package:challenge/components/media/list_item_media_small.dart';
+import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.dart';
+import 'package:challenge/components/list_items/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +11,13 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/acceptance_criteria.dart';
-import '../../models/activity.dart';
-import '../../models/evidence.dart';
-import '../../models/media.dart';
-import '../../providers/design_provider.dart';
-import '../navigation/no_animation_page_route.dart';
-import 'media_detail.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/activity.dart';
+import 'package:challenge/models/evidence.dart';
+import 'package:challenge/models/media.dart';
+import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/pages/subpages/media/media_detail.dart';
 import 'upload_media.dart';
 
 class AcceptanceCriteriaMediaList extends StatefulWidget {

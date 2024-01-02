@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../components/edit_challenge/edit_challenge.dart';
+import '../subpages/edit_challenge/edit_challenge.dart';
 import '../../components/navigation/no_animation_page_route.dart';
 import '../../enums/tab_item.dart';
 import '../../models/acceptance_criteria.dart';
@@ -564,9 +564,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
       context,
       NoAnimationPageRoute(
         builder: (context) => EditChallenge(
-          title: widget.title,
+          preTitle: '${widget.title}/${widget.challenge.title}',
           challenge: widget.challenge,
-          selectTab: widget.selectTab,
           isSearchEdit: true,
         ),
       ),

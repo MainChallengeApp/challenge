@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:camera/camera.dart';
-import 'package:challenge/components/edit_challenge/edit_challenge.dart';
-import 'package:challenge/components/media/media_camera.dart';
-import 'package:challenge/components/media/media_list.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
+import 'package:challenge/pages/subpages/media/media_camera.dart';
+import 'package:challenge/pages/subpages/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -16,10 +16,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../components/media/acceptance_criteria_evidence_list.dart';
-import '../../components/navigation/no_animation_page_route.dart';
-import '../../enums/challenge_status.dart';
-import '../../models/acceptance_criteria.dart';
+import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/enums/challenge_status.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
 
 class HomeChallenge extends StatefulWidget {
   // Function homeListSetState;
@@ -642,7 +642,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         context,
         NoAnimationPageRoute(
           builder: (context) => EditChallenge(
-            title: widget.preTitle,
+            preTitle: '${widget.preTitle}/${widget.challenge.title}',
             challenge: widget.challenge,
           ),
         ),
@@ -855,7 +855,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
             Challenge challenge =
                 Challenge.copyChallenge(widget.challenge, isTryAgain: true);
             return EditChallenge(
-              title: widget.preTitle,
+              preTitle: widget.preTitle,
               challenge: challenge,
               isTryAgain: true,
             );

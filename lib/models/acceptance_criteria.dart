@@ -47,16 +47,24 @@ class AcceptanceCriteria {
       List<AcceptanceCriteria> acceptanceCriteriaList,
       {bool isTryAgain = false}) {
     List<AcceptanceCriteria> acceptanceCriteriaListCopy = [];
-    for (var a in acceptanceCriteriaList) {
-      acceptanceCriteriaListCopy.add(AcceptanceCriteria(
-          id: a.id,
-          activity: Activity.copyActivity(a.activity),
-          frequence: a.frequence,
-          tracking: a.tracking,
-          progress: isTryAgain ? 0 : a.progress,
-          evidences: isTryAgain ? [] : Evidence.copyEvidenceList(a.evidences)));
+
+    for (var ac in acceptanceCriteriaList) {
+      acceptanceCriteriaListCopy
+          .add(_copyAcceptanceCriteria(ac, isTryAgain: isTryAgain));
     }
+
     return acceptanceCriteriaListCopy;
+  }
+
+  static AcceptanceCriteria _copyAcceptanceCriteria(AcceptanceCriteria ac,
+      {bool isTryAgain = false}) {
+    return AcceptanceCriteria(
+        id: ac.id,
+        activity: Activity.copyActivity(ac.activity),
+        frequence: ac.frequence,
+        tracking: ac.tracking,
+        progress: isTryAgain ? 0 : ac.progress,
+        evidences: isTryAgain ? [] : Evidence.copyEvidenceList(ac.evidences));
   }
 
   double calcProgressRatio() {

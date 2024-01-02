@@ -7,9 +7,9 @@ import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../components/navigation/no_animation_page_route.dart';
-import '../../models/account.dart';
-import '../credits/credits.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/models/account.dart';
+import 'package:challenge/pages/subpages/credits/credits.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList({super.key, required this.title, this.onPush});

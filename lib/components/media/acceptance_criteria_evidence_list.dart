@@ -1,19 +1,18 @@
 import 'package:camera/camera.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/media/list_item_acceptance_criteria_bar.dart';
+import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:provider/provider.dart';
 
-import '../../models/acceptance_criteria.dart';
-import '../../models/evidence.dart';
-import '../../providers/design_provider.dart';
-import '../navigation/no_animation_page_route.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/evidence.dart';
+import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'acceptance_criteria_media_list.dart';
-import 'media_camera.dart';
+import 'package:challenge/pages/subpages/media/media_camera.dart';
 
 class AcceptanceCriteriaEvidenceList extends StatefulWidget {
   const AcceptanceCriteriaEvidenceList(
