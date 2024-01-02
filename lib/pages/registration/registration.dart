@@ -7,7 +7,7 @@ import 'package:challenge/models/account.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../globals.dart';
+import 'package:challenge/globals.dart';
 import 'package:http/http.dart' as http;
 
 class Registration extends StatefulWidget {

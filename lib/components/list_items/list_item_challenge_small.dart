@@ -2,7 +2,7 @@ import 'package:challenge/enums/challenge_status.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
 
-import '../../globals.dart';
+import 'package:challenge/globals.dart';
 
 class ListItemChallengeSmall extends StatelessWidget {
   const ListItemChallengeSmall(

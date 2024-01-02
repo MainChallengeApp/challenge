@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import '../models/challenge.dart';
+import 'package:challenge/models/challenge.dart';
 
 import 'package:path_provider/path_provider.dart';
 

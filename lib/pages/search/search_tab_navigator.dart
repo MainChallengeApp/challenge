@@ -4,7 +4,7 @@ import 'package:challenge/models/challenge.dart';
 import 'package:challenge/pages/search/search_list.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
-import '../../components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
 class SearchTabNavigatorRoutes {
   static const String root = '/';

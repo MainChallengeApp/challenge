@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../globals.dart';
-import '../../models/media.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/media.dart';
 
 class ListItemMediaSmall extends StatelessWidget {
   const ListItemMediaSmall(

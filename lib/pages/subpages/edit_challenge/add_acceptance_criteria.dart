@@ -6,7 +6,7 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/services.dart';
 
-import '../../../models/acceptance_criteria.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
 
 class AddAcceptanceCriteria extends StatefulWidget {
   const AddAcceptanceCriteria(

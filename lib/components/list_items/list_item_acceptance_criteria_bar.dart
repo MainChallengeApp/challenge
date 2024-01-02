@@ -2,8 +2,8 @@
 import 'package:challenge/models/activity.dart';
 import 'package:flutter/material.dart';
 
-import '../../globals.dart';
-import '../../models/acceptance_criteria.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
 
 class ListItemAcceptanceCriteriaBar extends StatefulWidget {
   ListItemAcceptanceCriteriaBar(

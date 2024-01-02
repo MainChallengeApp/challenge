@@ -4,8 +4,8 @@ import 'package:challenge/models/challenge.dart';
 import 'package:challenge/pages/settings/settings_list.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
-import '../../components/navigation/no_animation_page_route.dart';
-import '../../enums/challenge_status.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/enums/challenge_status.dart';
 
 class SettingsTabNavigatorRoutes {
   static const String root = '/';

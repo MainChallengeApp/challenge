@@ -1,6 +1,6 @@
 import 'package:uuid/uuid.dart';
 
-import '../enums/challenge_status.dart';
+import 'package:challenge/enums/challenge_status.dart';
 import 'acceptance_criteria.dart';
 import 'media.dart';
 

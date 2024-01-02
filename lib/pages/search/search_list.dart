@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
-import '../../components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'search_challenge.dart';
 
 class SearchList extends StatefulWidget {

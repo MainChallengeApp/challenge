@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../globals.dart';
+import 'package:challenge/globals.dart';
 
 class CustomeAppBar extends AppBar {
   CustomeAppBar({super.key});

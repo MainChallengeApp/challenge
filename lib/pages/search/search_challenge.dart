@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
-import 'package:challenge/components/my_snack_bar/my_snack_bar.dart';
+import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,12 +13,12 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../subpages/edit_challenge/edit_challenge.dart';
-import '../../components/navigation/no_animation_page_route.dart';
-import '../../enums/tab_item.dart';
-import '../../models/acceptance_criteria.dart';
-import '../../models/activity.dart';
-import '../home/home_challenge.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/enums/tab_item.dart';
+import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/activity.dart';
+import 'package:challenge/pages/home/home_challenge.dart';
 
 class SearchChallenge extends StatefulWidget {
   SearchChallenge(
