@@ -12,7 +12,8 @@ class CustomeAppBar extends AppBar {
       {required preTitle,
       title,
       backgroundColor = Colors.white,
-      textColor = Colors.black}) {
+      textColor = Colors.black,
+      isFirstPage = false}) {
     String titletext = title == null ? preTitle : '$preTitle/$title';
 
     ScrollController scrollController = ScrollController();
@@ -23,8 +24,15 @@ class CustomeAppBar extends AppBar {
 
     return AppBar(
       elevation: 0,
+      leading: isFirstPage
+          ? const Icon(
+              Icons.chevron_left,
+              color: Colors.transparent,
+            )
+          : null,
       backgroundColor: backgroundColor,
       foregroundColor: textColor,
+      scrolledUnderElevation: 0,
       titleSpacing: 0,
       title: Align(
         alignment: Alignment.centerLeft,

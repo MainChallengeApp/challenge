@@ -37,30 +37,7 @@ class _SearchListState extends State<SearchList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: const Icon(
-            Icons.chevron_left,
-            color: Colors.transparent,
-          ),
-          foregroundColor: Colors.black,
-          titleSpacing: 0,
-          title: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Text(
-                  widget.title,
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: appBarFontSize),
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: Colors.white,
-        ),
+        appBar: CustomeAppBar.build(preTitle: widget.title, isFirstPage: true),
         body: Container(
           color: Colors.white,
           child: _buildList(),
