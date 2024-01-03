@@ -41,8 +41,7 @@ class _MediaDetailState extends State<MediaDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          CustomeAppBar.build(preTitle: widget.preTitle, title: currentTitle),
+      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: currentTitle),
       backgroundColor: Colors.white,
       body: Stack(
         children: [

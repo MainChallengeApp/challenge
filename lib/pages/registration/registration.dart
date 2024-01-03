@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:challenge/components/list_items/list_item_accept_button.dart';
 import 'package:challenge/components/list_items/list_item_email.dart';
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
 import 'package:challenge/models/account.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:challenge/globals.dart';
 import 'package:http/http.dart' as http;
 
 class Registration extends StatefulWidget {
@@ -27,28 +27,9 @@ class _RegistrationState extends State<Registration> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        leading: const Icon(
-          Icons.chevron_left,
-          color: Colors.transparent,
-        ),
-        foregroundColor: Colors.black,
-        titleSpacing: 0,
-        title: const Align(
-          alignment: Alignment.topLeft,
-          child: Padding(
-            padding: EdgeInsets.only(right: 24),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                'Registration',
-                style: TextStyle(color: Colors.black, fontSize: appBarFontSize),
-              ),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.white,
+      appBar: CustomeAppBar(
+        preTitle: 'Registration',
+        isFirstPage: false,
       ),
       body: SingleChildScrollView(
         child: Column(

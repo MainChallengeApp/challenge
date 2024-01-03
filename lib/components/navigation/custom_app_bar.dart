@@ -2,19 +2,27 @@ import 'package:flutter/material.dart';
 
 import 'package:challenge/globals.dart';
 
-class CustomeAppBar extends AppBar {
-  CustomeAppBar({super.key});
+class CustomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String preTitle;
+  final String? titleText;
+  final Color textColor;
+  final Color backgroundColor;
+  final bool isFirstPage;
 
-  // final String preTitle;
-  // final String title;
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-  static AppBar build(
-      {required preTitle,
-      title,
-      backgroundColor = Colors.white,
-      textColor = Colors.black,
-      isFirstPage = false}) {
-    String titletext = title == null ? preTitle : '$preTitle/$title';
+  const CustomeAppBar(
+      {super.key,
+      required this.preTitle,
+      this.titleText,
+      this.textColor = Colors.black,
+      this.backgroundColor = Colors.white,
+      this.isFirstPage = false});
+
+  @override
+  Widget build(BuildContext context) {
+    String titletext = titleText == null ? preTitle : '$preTitle/$titleText';
 
     ScrollController scrollController = ScrollController();
 

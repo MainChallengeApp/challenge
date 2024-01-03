@@ -39,7 +39,7 @@ class _MediaListState extends State<MediaList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: 'Media'),
+        appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: 'Media'),
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,

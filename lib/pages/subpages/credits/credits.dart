@@ -9,9 +9,9 @@ class Credits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomeAppBar.build(preTitle: preTitle, title: 'Credits'),
+      appBar: CustomeAppBar(preTitle: preTitle, titleText: 'Credits'),
       backgroundColor: Colors.white,
-      body: Center(
+      body: const Center(
         child: Text(
           'My Mom\n\n\nYou\n\n\nChallenge Icons made by Freepik from www.flaticon.com',
           textAlign: TextAlign.center,

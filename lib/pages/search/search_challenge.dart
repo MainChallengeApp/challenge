@@ -76,8 +76,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
         });
       },
       child: Scaffold(
-        appBar:
-            CustomeAppBar.build(preTitle: widget.title, title: currentTitle),
+        appBar: CustomeAppBar(preTitle: widget.title, titleText: currentTitle),
         backgroundColor: Colors.white,
         body: Center(
           child: PageView(

@@ -33,7 +33,7 @@ class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
         ? 'Add Acceptance Criteria'
         : widget.acceptanceCriteria.activity.title;
     return Scaffold(
-      appBar: CustomeAppBar.build(preTitle: widget.preTitle, title: title),
+      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: title),
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(

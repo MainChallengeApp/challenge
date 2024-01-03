@@ -49,9 +49,9 @@ class _EditChallengeState extends State<EditChallenge> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: CustomeAppBar.build(
+        appBar: CustomeAppBar(
             preTitle: widget.preTitle,
-            title: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
+            titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
         backgroundColor: Colors.white,
         body: CustomCard(
           children: [

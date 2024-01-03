@@ -71,8 +71,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     checkChallengeStatus();
 
     return Scaffold(
-      appBar:
-          CustomeAppBar.build(preTitle: widget.preTitle, title: currentTitle),
+      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: currentTitle),
       backgroundColor: Colors.white,
       body: PageView(
           controller: pageController,
@@ -362,6 +361,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.justify,
             style: const TextStyle(fontSize: 12, color: themeColor3),
+            linkStyle: TextStyle(
+                decorationColor: Colors.blue[500], color: Colors.blue[500]),
           )),
     );
   }

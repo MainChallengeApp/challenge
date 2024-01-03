@@ -1,3 +1,4 @@
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/acceptance_criteria.dart';
@@ -40,34 +41,12 @@ class _HomeListState extends State<HomeList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: const Icon(
-            Icons.chevron_left,
-            color: Colors.transparent,
-          ),
-          foregroundColor: Colors.black,
-          titleSpacing: 0,
-          title: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Text(
-                  widget.title,
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: appBarFontSize),
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: Colors.white,
+        appBar: CustomeAppBar(
+          preTitle: widget.title,
+          isFirstPage: true,
         ),
-        body: Container(
-          color: Colors.white,
-          child: _buildList(),
-        ));
+        backgroundColor: Colors.white,
+        body: _buildList());
   }
 
   Widget _buildList() {

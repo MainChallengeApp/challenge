@@ -1,3 +1,4 @@
+import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
@@ -35,29 +36,9 @@ class _SettingsListState extends State<SettingsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: const Icon(
-            Icons.chevron_left,
-            color: Colors.transparent,
-          ),
-          foregroundColor: Colors.black,
-          titleSpacing: 0,
-          title: Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Text(
-                  widget.title,
-                  style: const TextStyle(
-                      color: Colors.black, fontSize: appBarFontSize),
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: Colors.white,
+        appBar: CustomeAppBar(
+          preTitle: widget.title,
+          isFirstPage: true,
         ),
         body: Container(
           color: Colors.white,

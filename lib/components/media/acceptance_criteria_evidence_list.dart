@@ -48,9 +48,9 @@ class _AcceptanceCriteriaEvidenceListState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar.build(
+        appBar: CustomeAppBar(
           preTitle: widget.preTitle,
-          title: 'Evidence',
+          titleText: 'Evidence',
         ),
         backgroundColor: Colors.white,
         body: Stack(

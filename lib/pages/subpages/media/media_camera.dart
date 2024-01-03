@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
 import 'package:challenge/globals.dart';
@@ -75,11 +73,7 @@ class _CameraStateMedia extends State<MediaCamera> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomeAppBar.build(
-          preTitle: widget.preTitle,
-          title: 'Camera',
-          backgroundColor: Colors.white,
-          textColor: Colors.black),
+      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: 'Camera'),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -211,17 +205,6 @@ class _CameraStateMedia extends State<MediaCamera> {
 
             currentMedia.add(media);
           });
-
-          // // If the picture was taken, display it on a new screen.
-          // await Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (context) => DisplayPictureScreen(
-          //       // Pass the automatically generated path to
-          //       // the DisplayPictureScreen widget.
-          //       imagePath: image.path,
-          //     ),
-          //   ),
-          // );
         } catch (e) {
           // If an error occurs, log the error to the console.
           print(e);
@@ -324,22 +307,6 @@ class _CameraStateMedia extends State<MediaCamera> {
       () => setState(() {
         isCameraFeedback = false;
       }),
-    );
-  }
-}
-
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayPictureScreen({super.key, required this.imagePath});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Display the Picture')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
     );
   }
 }

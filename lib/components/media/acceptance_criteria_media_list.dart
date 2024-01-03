@@ -71,9 +71,9 @@ class _AcceptanceCriteriaMediaListState
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-          appBar: CustomeAppBar.build(
+          appBar: CustomeAppBar(
               preTitle: widget.preTitle,
-              title: widget.evidence == null
+              titleText: widget.evidence == null
                   ? '${widget.acceptanceCriteria.evidences.length + 1}'
                   : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
           backgroundColor: Colors.white,
