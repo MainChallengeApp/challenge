@@ -67,18 +67,7 @@ class _ListItemAcceptanceCriteriaBarState
     return Stack(
       children: [
         FractionallySizedBox(
-          widthFactor: widget.isEvidence
-              ? widget.acceptanceCriteria.activity.amount == 0
-                  ? 1
-                  : widget.initialProgress /
-                              widget.acceptanceCriteria.activity.amount >
-                          1
-                      ? 1
-                      : widget.initialProgress /
-                          widget.acceptanceCriteria.activity.amount
-              : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
-                  ? 1
-                  : widget.editAcceptanceCriteria!.calcProgressRatio(),
+          widthFactor: calcProgressRatio(),
           heightFactor: 1,
           child: Container(
             width: 40,
@@ -161,6 +150,21 @@ class _ListItemAcceptanceCriteriaBarState
     );
   }
 
+  double calcProgressRatio() {
+    return widget.isEvidence
+        ? widget.acceptanceCriteria.activity.amount == 0
+            ? 1
+            : widget.initialProgress /
+                        widget.acceptanceCriteria.activity.amount >
+                    1
+                ? 1
+                : widget.initialProgress /
+                    widget.acceptanceCriteria.activity.amount
+        : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
+            ? 1
+            : widget.editAcceptanceCriteria!.calcProgressRatio();
+  }
+
   IconData getIconData() {
     if (widget.acceptanceCriteria.tracking == 'camera') {
       return Icons.camera_alt_outlined;
@@ -171,7 +175,7 @@ class _ListItemAcceptanceCriteriaBarState
     } else if (widget.acceptanceCriteria.tracking == 'numbers') {
       return Icons.numbers;
     } else {
-      return Icons.not_accessible;
+      return Icons.not_interested_rounded;
     }
   }
 

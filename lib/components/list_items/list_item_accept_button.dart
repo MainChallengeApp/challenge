@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/components/list_items/list_item_container.dart';
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
@@ -7,29 +8,20 @@ class ListItemAcceptButton extends StatelessWidget {
   ListItemAcceptButton(
       {super.key, required this.onTapAccept, this.isAcceptable = true});
 
-  Function onTapAccept;
+  VoidCallback onTapAccept;
   bool isAcceptable;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTapAccept(),
-      child: Center(
-        child: Container(
-          width: double.infinity,
-          height: 64,
-          margin: const EdgeInsets.only(left: 20, right: 20),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24)),
-              color: isAcceptable ? themeColor2 : Colors.white),
-          child: Center(
-              child: Text(
-            'Accept',
-            style: TextStyle(color: isAcceptable ? Colors.white : Colors.black),
-          )),
-        ),
+      onTap: onTapAccept,
+      child: ListItemContainer(
+        backgroundColor: isAcceptable ? themeColor2 : Colors.white,
+        child: Center(
+            child: Text(
+          'Accept',
+          style: TextStyle(color: isAcceptable ? Colors.white : Colors.black),
+        )),
       ),
     );
   }
