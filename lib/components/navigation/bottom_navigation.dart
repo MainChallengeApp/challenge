@@ -39,10 +39,23 @@ class _BottomNavigationState extends State<BottomNavigation> {
           selectedIndex: widget.currentTab.index,
           destinations: <Widget>[
             NavigationDestination(
-              selectedIcon: Icon(TabItem.Search.icon, color: Colors.white),
-              icon: Icon(
-                TabItem.Search.icon,
-                color: Colors.white,
+              selectedIcon: Text(
+                String.fromCharCode(TabItem.Search.icon.codePoint),
+                style: TextStyle(
+                  inherit: false,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: TabItem.Search.icon.fontFamily,
+                ),
+              ),
+              icon: Text(
+                String.fromCharCode(TabItem.Search.icon.codePoint),
+                style: TextStyle(
+                  inherit: false,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: TabItem.Search.icon.fontFamily,
+                ),
               ),
               label: '',
             ),
