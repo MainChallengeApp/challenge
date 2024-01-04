@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:camera/camera.dart';
+import 'package:challenge/components/simple_components/custom_card.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/pages/subpages/media/media_camera.dart';
 import 'package:challenge/pages/subpages/media/media_list.dart';
@@ -78,222 +79,195 @@ class _HomeChallengeState extends State<HomeChallenge> {
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
           children: challengeList.map((e) {
-            return Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              child: Slidable(
-                key: const ValueKey(0),
-                closeOnScroll: true,
-                // The end action pane is the one at the right or the bottom side.
-                endActionPane: ActionPane(
-                  extentRatio: (e.status == ChallengeStatus.inProgress ||
+            return Slidable(
+              key: const ValueKey(0),
+              closeOnScroll: true,
+              // The end action pane is the one at the right or the bottom side.
+              endActionPane: ActionPane(
+                extentRatio: (e.status == ChallengeStatus.inProgress ||
+                        e.status == ChallengeStatus.backlog)
+                    ? 0.5
+                    : 0.25,
+                motion: const ScrollMotion(),
+                children: [
+                  editSlider(e),
+                  (e.status == ChallengeStatus.inProgress ||
                           e.status == ChallengeStatus.backlog)
-                      ? 0.5
-                      : 0.25,
-                  motion: const ScrollMotion(),
-                  children: [
-                    (e.status == ChallengeStatus.inProgress ||
-                            e.status == ChallengeStatus.backlog)
-                        ? Expanded(
-                            child: GestureDetector(
-                              onTap: editChallenge,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    border: Border.all(
-                                        width: 1,
-                                        color: const Color.fromRGBO(
-                                            226, 232, 240, 1)),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(24))),
-                                child: const Center(
-                                    child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.edit),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text("Edit")
-                                  ],
-                                )),
-                              ),
-                            ),
-                          )
-                        : Container(),
-                    (e.status == ChallengeStatus.inProgress ||
-                            e.status == ChallengeStatus.backlog)
-                        ? const SizedBox(
-                            width: 20,
-                          )
-                        : Container(),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: deleteChallenge,
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  width: 1,
-                                  color:
-                                      const Color.fromRGBO(226, 232, 240, 1)),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(24))),
-                          child: Center(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.delete,
-                                color: Colors.red.withAlpha(150),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                "Delete",
-                                style:
-                                    TextStyle(color: Colors.red.withAlpha(150)),
-                              )
-                            ],
-                          )),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                  ],
-                ),
-                child: Builder(builder: (context) {
-                  context2 = context;
-                  return Center(
-                    child: SingleChildScrollView(
-                      physics: challengeList.length == 1
-                          ? const AlwaysScrollableScrollPhysics()
-                          : const NeverScrollableScrollPhysics(),
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        padding: const EdgeInsets.all(16),
-                        width: double.infinity,
-                        height: 120 + 8 * 64,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                width: 1,
-                                color: const Color.fromRGBO(226, 232, 240, 1)),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(24))),
-                        // margin: EdgeInsets.only(bottom:16),
-                        child: Column(
-                          children: [
-                            thumbnail(e),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            description(e),
-                            isDescriptionExpanded
-                                ? Container()
-                                : const SizedBox(
-                                    height: 16,
-                                  ),
-                            startAndEndDate(e),
-                            // isDescriptionExpanded
-                            //     ? Container()
-                            //     : const SizedBox(
-                            //         height: 16,
-                            //       ),
-                            acceptanceCriteria(e.acceptanceCriteria),
-                            // isDescriptionExpanded
-                            //     ? Container()
-                            //     : const SizedBox(
-                            //         height: 12,
-                            //       ),
-                            isDescriptionExpanded
-                                ? Container()
-                                : Expanded(child: Container()),
-                            isDescriptionExpanded
-                                ? Container()
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      documentationButton(
-                                          iconData: Icons.numbers_rounded,
-                                          onTap: () => MySnackBar.showSnackBar(
-                                              context,
-                                              'The Numbers feature will be added soon.'),
-                                          color: Colors.grey[200]),
-                                      documentationButton(
-                                          iconData: Icons.notes_rounded,
-                                          onTap: () => MySnackBar.showSnackBar(
-                                              context,
-                                              'The Notes feature will be added soon.'),
-                                          color: Colors.grey[200]),
-                                      documentationButton(
-                                          iconData: Icons.gps_not_fixed_rounded,
-                                          onTap: () => MySnackBar.showSnackBar(
-                                              context,
-                                              'The GPS feature will be added soon.'),
-                                          color: Colors.grey[200]),
-                                      documentationButton(
-                                          iconData: Icons.camera_alt_outlined,
-                                          onTap: onTapCamera),
-                                    ],
-                                  ),
-                            isDescriptionExpanded
-                                ? Container()
-                                : const SizedBox(
-                                    height: 16,
-                                  ),
-                            isDescriptionExpanded
-                                ? Container()
-                                : GestureDetector(
-                                    onTap: () =>
-                                        onTapEndTryAgainAcceptAgainStartButton(
-                                            e),
-                                    child: Container(
-                                      height: 55,
-                                      width: double.infinity,
-                                      decoration: BoxDecoration(
-                                          color: e.status ==
-                                                  ChallengeStatus.backlog
-                                              ? themeColor2
-                                              : Colors.white,
-                                          border: Border.all(
-                                              width: 1,
-                                              color: const Color.fromRGBO(
-                                                  226, 232, 240, 1)),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(16))),
-                                      child: Center(
-                                          child: Text(
-                                        e.status == ChallengeStatus.inProgress
-                                            ? 'End'
-                                            : e.status ==
-                                                    ChallengeStatus.success
-                                                ? 'Accept Again'
-                                                : e.status ==
-                                                        ChallengeStatus.backlog
-                                                    ? 'Start'
-                                                    : 'Try Again', // ChallengeStatus.failed
-                                        style: TextStyle(
-                                            color: e.status ==
-                                                    ChallengeStatus.backlog
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontWeight: FontWeight.w500),
-                                      )),
-                                    ),
-                                  )
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
+                      ? const SizedBox(
+                          width: 20,
+                        )
+                      : Container(),
+                  deleteSlider(),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                ],
               ),
+              child: Builder(builder: (context) {
+                context2 = context;
+                return CustomCard(
+                  scrollPhysics: challengeList.length == 1
+                      ? const AlwaysScrollableScrollPhysics()
+                      : const NeverScrollableScrollPhysics(),
+                  children: [
+                    thumbnail(e),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    description(e),
+                    isDescriptionExpanded
+                        ? Container()
+                        : const SizedBox(
+                            height: 16,
+                          ),
+                    startAndEndDate(e),
+                    acceptanceCriteria(e.acceptanceCriteria),
+                    isDescriptionExpanded
+                        ? Container()
+                        : Expanded(child: Container()),
+                    documentationButtons(context),
+                    isDescriptionExpanded
+                        ? Container()
+                        : const SizedBox(
+                            height: 16,
+                          ),
+                    startEndTryAcceptAgainButton(e)
+                  ],
+                );
+              }),
             );
           }).toList()),
     );
+  }
+
+  Expanded deleteSlider() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: GestureDetector(
+          onTap: deleteChallenge,
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                borderRadius: const BorderRadius.all(Radius.circular(24))),
+            child: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.delete,
+                  color: Colors.red.withAlpha(150),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Delete",
+                  style: TextStyle(color: Colors.red.withAlpha(150)),
+                )
+              ],
+            )),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget editSlider(Challenge e) {
+    return (e.status == ChallengeStatus.inProgress ||
+            e.status == ChallengeStatus.backlog)
+        ? Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: GestureDetector(
+                onTap: editChallenge,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                          width: 1,
+                          color: const Color.fromRGBO(226, 232, 240, 1)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(24))),
+                  child: const Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text("Edit")
+                    ],
+                  )),
+                ),
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  StatelessWidget startEndTryAcceptAgainButton(Challenge e) {
+    return isDescriptionExpanded
+        ? Container()
+        : GestureDetector(
+            onTap: () => onTapStartEndTryAcceptAgainButton(e),
+            child: Container(
+              height: 55,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: e.status == ChallengeStatus.backlog
+                      ? themeColor2
+                      : Colors.white,
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              child: Center(
+                  child: Text(
+                e.status == ChallengeStatus.inProgress
+                    ? 'End'
+                    : e.status == ChallengeStatus.success
+                        ? 'Accept Again'
+                        : e.status == ChallengeStatus.backlog
+                            ? 'Start'
+                            : 'Try Again', // ChallengeStatus.failed
+                style: TextStyle(
+                    color: e.status == ChallengeStatus.backlog
+                        ? Colors.white
+                        : Colors.black,
+                    fontWeight: FontWeight.w500),
+              )),
+            ),
+          );
+  }
+
+  Widget documentationButtons(BuildContext context) {
+    return isDescriptionExpanded
+        ? Container()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              documentationButton(
+                  iconData: Icons.numbers_rounded,
+                  onTap: () => MySnackBar.showSnackBar(
+                      context, 'The Numbers feature will be added soon.'),
+                  color: Colors.grey[200]),
+              documentationButton(
+                  iconData: Icons.notes_rounded,
+                  onTap: () => MySnackBar.showSnackBar(
+                      context, 'The Notes feature will be added soon.'),
+                  color: Colors.grey[200]),
+              documentationButton(
+                  iconData: Icons.gps_not_fixed_rounded,
+                  onTap: () => MySnackBar.showSnackBar(
+                      context, 'The GPS feature will be added soon.'),
+                  color: Colors.grey[200]),
+              documentationButton(
+                  iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+            ],
+          );
   }
 
   Widget startAndEndDate(Challenge e) {
@@ -404,6 +378,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                     Text(
                       e.media.length.toString(),
                       textAlign: TextAlign.end,
+                      style: TextStyle(fontWeight: FontWeight.normal),
                     ),
                     Icon(
                       Icons.image_outlined,
@@ -559,7 +534,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                       child: Text(
                           '${(acceptanceCriteria.calcProgressRatio() * 100).toInt()}%',
                           style:
-                              const TextStyle(fontSize: 12, color: themeColor3),
+                              const TextStyle(fontSize: 10, color: themeColor3),
                           overflow: TextOverflow.ellipsis),
                     ),
                     acceptanceCriteria.activity.unit != '' ||
@@ -574,7 +549,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                             child: Text(
                                 '${doubleAsInt(acceptanceCriteria.progress)}/${doubleAsInt(acceptanceCriteria.activity.amount)} ${acceptanceCriteria.activity.unit}',
                                 style: const TextStyle(
-                                    fontSize: 12, color: themeColor3),
+                                    fontSize: 10, color: themeColor3),
                                 overflow: TextOverflow.ellipsis),
                           )
                         : Container()
@@ -799,7 +774,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  void onTapEndTryAgainAcceptAgainStartButton(Challenge challenge) {
+  void onTapStartEndTryAcceptAgainButton(Challenge challenge) {
     if (widget.challenge.status == ChallengeStatus.inProgress) {
       // End button
       showDialog(
@@ -824,7 +799,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                       const Padding(
                         padding: EdgeInsets.all(16.0),
                         child: Text(
-                          'Do you really want to end this Challenge?\n\nThis action can not be undo.\n',
+                          'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
                           textAlign: TextAlign.center,
                         ),
                       ),

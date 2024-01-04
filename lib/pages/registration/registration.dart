@@ -29,7 +29,7 @@ class _RegistrationState extends State<Registration> {
       backgroundColor: Colors.white,
       appBar: CustomeAppBar(
         preTitle: 'Registration',
-        isFirstPage: false,
+        isFirstPage: true,
       ),
       body: SingleChildScrollView(
         child: Column(

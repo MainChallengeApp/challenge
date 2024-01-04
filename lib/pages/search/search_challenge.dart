@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/components/simple_components/custom_card.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
@@ -85,93 +86,22 @@ class _SearchChallengeState extends State<SearchChallenge> {
               scrollDirection: Axis.vertical,
               children: widget.challenges.map(
                 (e) {
-                  return SingleChildScrollView(
-                    physics: isKeyboardUp
-                        ? const AlwaysScrollableScrollPhysics()
-                        : const NeverScrollableScrollPhysics(),
-                    child: Container(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        child: Slidable(
-                          key: const ValueKey(0),
-                          closeOnScroll: true,
-                          // The end action pane is the one at the right or the bottom side.
-                          endActionPane: ActionPane(
-                            extentRatio: 0.25,
-                            motion: const ScrollMotion(),
-                            children: [
-                              Expanded(
-                                  child: GestureDetector(
-                                onTap: () => onTapEditChallenge(),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          width: 1,
-                                          color: const Color.fromRGBO(
-                                              226, 232, 240, 1)),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(24))),
-                                  child: const Center(
-                                      child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Icon(Icons.edit),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text("Edit")
-                                    ],
-                                  )),
-                                ),
-                              )),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              // Expanded(
-                              //   child: GestureDetector(
-                              //     onTap: tapOnFavorite,
-                              //     child: Container(
-                              //       decoration: BoxDecoration(
-                              //           color: Colors.white,
-                              //           border: Border.all(
-                              //               width: 1,
-                              //               color: const Color.fromRGBO(
-                              //                   226, 232, 240, 1)),
-                              //           borderRadius: const BorderRadius.all(
-                              //               Radius.circular(24))),
-                              //       child: const Center(
-                              //           child: Column(
-                              //         mainAxisAlignment: MainAxisAlignment.center,
-                              //         children: [
-                              //           Icon(
-                              //             Icons.star_border_outlined,
-                              //             color: Colors.yellow,
-                              //           ),
-                              //           SizedBox(
-                              //             height: 5,
-                              //           ),
-                              //           Text(
-                              //             "Favorite",
-                              //             style: TextStyle(color: Colors.yellow),
-                              //           )
-                              //         ],
-                              //       )),
-                              //     ),
-                              //   ),
-                              // ),
-                              // const SizedBox(
-                              //   width: 20,
-                              // ),
-                            ],
-                          ),
-                          child: Builder(builder: (context) {
-                            context2 = context;
-                            return Container(
-                              margin:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              padding: const EdgeInsets.all(16),
-                              width: double.infinity,
-                              height: 120 + 8 * 64,
+                  return Container(
+                      // margin: const EdgeInsets.only(bottom: 16),
+                      child: Slidable(
+                    key: const ValueKey(0),
+                    closeOnScroll: true,
+                    // The end action pane is the one at the right or the bottom side.
+                    endActionPane: ActionPane(
+                      extentRatio: 0.25,
+                      motion: const ScrollMotion(),
+                      children: [
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: GestureDetector(
+                            onTap: () => onTapEditChallenge(),
+                            child: Container(
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   border: Border.all(
@@ -180,108 +110,160 @@ class _SearchChallengeState extends State<SearchChallenge> {
                                           226, 232, 240, 1)),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(24))),
-                              // margin: EdgeInsets.only(bottom:16),
-                              child: Column(
+                              child: const Center(
+                                  child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  thumbnail(context, e),
-                                  const SizedBox(
-                                    height: 16,
+                                  Icon(Icons.edit),
+                                  SizedBox(
+                                    height: 5,
                                   ),
-                                  description(e),
-                                  isDescriptionExpanded
-                                      ? Container()
-                                      : const SizedBox(
-                                          height: 16,
-                                        ),
-                                  // isDescriptionExpanded
-                                  //     ? Container()
-                                  //     : addAcceptanceCriteriaButton(),
-                                  // startAndEndDate(e),
-                                  amountAndUnit(e),
-                                  // frequence(e),
-                                  // isDescriptionExpanded
-                                  //     ? Container()
-                                  //     : acceptanceCriteria(e.acceptanceCriteria),
-                                  // isDescriptionExpanded
-                                  //     ? Container()
-                                  //     : dots(e.acceptanceCriteria),
-                                  isDescriptionExpanded
-                                      ? Container()
-                                      : Expanded(child: Container()),
-                                  isDescriptionExpanded
-                                      ? Container()
-                                      : Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            // Expanded(
-                                            //   child: GestureDetector(
-                                            //     onTap: onTapEditChallenge,
-                                            //     child: Container(
-                                            //       height: 55,
-                                            //       width: double.infinity,
-                                            //       decoration: BoxDecoration(
-                                            //           border: Border.all(
-                                            //               width: 1,
-                                            //               color:
-                                            //                   const Color.fromRGBO(
-                                            //                       226,
-                                            //                       232,
-                                            //                       240,
-                                            //                       1)),
-                                            //           borderRadius:
-                                            //               const BorderRadius.all(
-                                            //                   Radius.circular(16))),
-                                            //       child: const Center(
-                                            //           child: Text(
-                                            //         'Edit',
-                                            //         style: TextStyle(
-                                            //             fontWeight: FontWeight.w500,
-                                            //             color: Colors.black),
-                                            //       )),
-                                            //     ),
-                                            //   ),
-                                            // ),
-                                            // const SizedBox(
-                                            //   width: 16,
-                                            // ),
-                                            Expanded(
-                                              child: GestureDetector(
-                                                onTap: onTapAccept,
-                                                child: Container(
-                                                  height: 55,
-                                                  width: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                      color: themeColor2,
-                                                      border: Border.all(
-                                                          width: 1,
-                                                          color: const Color
-                                                              .fromRGBO(226,
-                                                              232, 240, 1)),
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                              Radius.circular(
-                                                                  16))),
-                                                  child: const Center(
-                                                      child: Text(
-                                                    'Accept',
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.white),
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                  Text("Edit")
                                 ],
-                              ),
-                            );
-                          }),
+                              )),
+                            ),
+                          ),
                         )),
-                  );
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        // Expanded(
+                        //   child: GestureDetector(
+                        //     onTap: tapOnFavorite,
+                        //     child: Container(
+                        //       decoration: BoxDecoration(
+                        //           color: Colors.white,
+                        //           border: Border.all(
+                        //               width: 1,
+                        //               color: const Color.fromRGBO(
+                        //                   226, 232, 240, 1)),
+                        //           borderRadius: const BorderRadius.all(
+                        //               Radius.circular(24))),
+                        //       child: const Center(
+                        //           child: Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           Icon(
+                        //             Icons.star_border_outlined,
+                        //             color: Colors.yellow,
+                        //           ),
+                        //           SizedBox(
+                        //             height: 5,
+                        //           ),
+                        //           Text(
+                        //             "Favorite",
+                        //             style: TextStyle(color: Colors.yellow),
+                        //           )
+                        //         ],
+                        //       )),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(
+                        //   width: 20,
+                        // ),
+                      ],
+                    ),
+                    child: Builder(builder: (context) {
+                      context2 = context;
+                      return CustomCard(
+                        scrollPhysics: isKeyboardUp
+                            ? const AlwaysScrollableScrollPhysics()
+                            : const NeverScrollableScrollPhysics(),
+                        children: [
+                          thumbnail(context, e),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          description(e),
+                          isDescriptionExpanded
+                              ? Container()
+                              : const SizedBox(
+                                  height: 16,
+                                ),
+                          // isDescriptionExpanded
+                          //     ? Container()
+                          //     : addAcceptanceCriteriaButton(),
+                          // startAndEndDate(e),
+                          amountAndUnit(e),
+                          // frequence(e),
+                          // isDescriptionExpanded
+                          //     ? Container()
+                          //     : acceptanceCriteria(e.acceptanceCriteria),
+                          // isDescriptionExpanded
+                          //     ? Container()
+                          //     : dots(e.acceptanceCriteria),
+                          isDescriptionExpanded
+                              ? Container()
+                              : Expanded(child: Container()),
+                          isDescriptionExpanded
+                              ? Container()
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    // Expanded(
+                                    //   child: GestureDetector(
+                                    //     onTap: onTapEditChallenge,
+                                    //     child: Container(
+                                    //       height: 55,
+                                    //       width: double.infinity,
+                                    //       decoration: BoxDecoration(
+                                    //           border: Border.all(
+                                    //               width: 1,
+                                    //               color:
+                                    //                   const Color.fromRGBO(
+                                    //                       226,
+                                    //                       232,
+                                    //                       240,
+                                    //                       1)),
+                                    //           borderRadius:
+                                    //               const BorderRadius.all(
+                                    //                   Radius.circular(16))),
+                                    //       child: const Center(
+                                    //           child: Text(
+                                    //         'Edit',
+                                    //         style: TextStyle(
+                                    //             fontWeight: FontWeight.w500,
+                                    //             color: Colors.black),
+                                    //       )),
+                                    //     ),
+                                    //   ),
+                                    // ),
+                                    // const SizedBox(
+                                    //   width: 16,
+                                    // ),
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: onTapAccept,
+                                        child: Container(
+                                          height: 55,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                              color: themeColor2,
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: const Color.fromRGBO(
+                                                      226, 232, 240, 1)),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(16))),
+                                          child: const Center(
+                                              child: Text(
+                                            'Accept',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white),
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                        ],
+                      );
+                    }),
+                  ));
                 },
               ).toList()),
         ),
