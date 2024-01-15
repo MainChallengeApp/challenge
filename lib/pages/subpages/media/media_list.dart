@@ -68,6 +68,8 @@ class _MediaListState extends State<MediaList> {
                 children: [
                   ListItemSearchbar(
                     changeList: changeList,
+                    textEditingController:
+                        TextEditingController(text: searchBarText),
                   ),
                   const SizedBox(
                     height: 17,

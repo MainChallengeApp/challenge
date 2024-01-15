@@ -75,7 +75,11 @@ class _SearchListState extends State<SearchList> {
                       return Column(
                         // cloumn instead of seperator
                         children: [
-                          ListItemSearchbar(changeList: changeList),
+                          ListItemSearchbar(
+                            changeList: changeList,
+                            textEditingController:
+                                TextEditingController(text: searchBarText),
+                          ),
                           const SizedBox(
                             height: 17,
                           )

@@ -5,19 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
 class ListItemSearchbar extends StatefulWidget {
-  ListItemSearchbar({super.key, this.changeList});
+  ListItemSearchbar(
+      {super.key,
+      this.changeList,
+      this.searchBarText = "",
+      required this.textEditingController});
 
   Function(String)? changeList;
+  String searchBarText;
+  TextEditingController textEditingController;
 
   @override
   State<ListItemSearchbar> createState() => _ListItemSearchbarState();
 }
 
 class _ListItemSearchbarState extends State<ListItemSearchbar> {
-  TextEditingController textEditingController = TextEditingController();
-  String searchText = '';
   @override
   Widget build(BuildContext context) {
+    widget.textEditingController.selection = TextSelection.collapsed(
+        offset: widget.textEditingController.text.length);
     return ListItemContainer(
       child: Row(
         children: [
@@ -43,10 +49,10 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
                 children: [
                   Expanded(
                     child: TextField(
-                      controller: textEditingController,
+                      controller: widget.textEditingController,
                       onChanged: (value) {
                         setState(() {
-                          searchText = value;
+                          widget.searchBarText = value;
                           widget.changeList?.call(value);
                         });
                       },
@@ -55,13 +61,13 @@ class _ListItemSearchbarState extends State<ListItemSearchbar> {
                       ),
                     ),
                   ),
-                  searchText == ''
+                  widget.textEditingController.text == ''
                       ? Container()
                       : GestureDetector(
                           onTap: () {
-                            textEditingController.clear();
+                            widget.textEditingController.clear();
                             widget.changeList?.call('');
-                            searchText = '';
+                            widget.searchBarText = '';
                           },
                           child: const Icon(
                             Icons.highlight_remove_rounded,

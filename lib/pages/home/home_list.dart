@@ -80,6 +80,8 @@ class _HomeListState extends State<HomeList> {
                         children: [
                           ListItemSearchbar(
                             changeList: changeList,
+                            textEditingController:
+                                TextEditingController(text: searchBarText),
                           ),
                           const SizedBox(
                             height: 17,
