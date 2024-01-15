@@ -7,6 +7,7 @@ import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -570,7 +571,9 @@ class _EditChallengeState extends State<EditChallenge> {
                   controller: TextEditingController()
                     ..text = acceptanceCriteria.activity.amount == 0
                         ? ''
-                        : acceptanceCriteria.activity.amount.toString(),
+                        : DesignUtil.doubleAsInt(
+                                acceptanceCriteria.activity.amount)
+                            .toString(),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: <TextInputFormatter>[

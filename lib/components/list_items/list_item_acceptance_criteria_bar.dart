@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:challenge/models/activity.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
 import 'package:challenge/globals.dart';
@@ -136,8 +137,8 @@ class _ListItemAcceptanceCriteriaBarState
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
                         widget.isEvidence
-                            ? '${doubleAsInt(widget.initialProgress)}/${doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}'
-                            : '${doubleAsInt(widget.editAcceptanceCriteria!.progress)}/${doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}',
+                            ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}'
+                            : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.progress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}',
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
                         overflow: TextOverflow.ellipsis),
@@ -177,12 +178,5 @@ class _ListItemAcceptanceCriteriaBarState
     } else {
       return Icons.not_interested_rounded;
     }
-  }
-
-  String doubleAsInt(double number) {
-    if (number.toString().endsWith('.0')) {
-      return number.toString().split('.')[0];
-    }
-    return number.toString();
   }
 }
