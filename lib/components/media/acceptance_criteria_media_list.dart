@@ -44,7 +44,7 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
   }
   final String preTitle;
   final Challenge challenge;
-  final List<Media> mediaList;
+  List<Media> mediaList;
   final AcceptanceCriteria acceptanceCriteria;
   late AcceptanceCriteria editAcceptanceCriteria;
   final Evidence? evidence;
@@ -249,16 +249,16 @@ class _AcceptanceCriteriaMediaListState
 
       challengeController.writeFile(context, allChallengesList);
 
-      List<String> titleList = widget.preTitle.split(
-          '/'); // propably the worst workaround i ever did...sorry future developer but i am in a hurry to release this app on 01.01.2024 <3
-      if (titleList[2] == 'Evidence') {
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
-      } else {
-        Navigator.pop(context);
-        Navigator.pop(context);
-      }
+      // List<String> titleList = widget.preTitle.split(
+      //     '/'); // propably the worst workaround i ever did...sorry future developer but i am in a hurry to release this app on 01.01.2024 <3
+      // if (titleList[2] == 'Evidence') {
+      //   Navigator.pop(context);
+      //   Navigator.pop(context);
+      //   Navigator.pop(context);
+      // } else {
+      Navigator.pop(context);
+      Navigator.pop(context);
+      // }
 
       // Navigator.removeRoute(context, ModalRoute.of(context)!);
       // Navigator.removeRoute(context, ModalRoute.of(context)!);

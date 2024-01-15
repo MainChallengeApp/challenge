@@ -180,12 +180,12 @@ class _AcceptanceCriteriaEvidenceListState
   }
 
   void onTapNewEvidence() async {
-    // Ensure that plugin services are initialized so that `availableCameras()`
-    // can be called before `runApp()`
-    WidgetsFlutterBinding.ensureInitialized();
+    // // Ensure that plugin services are initialized so that `availableCameras()`
+    // // can be called before `runApp()`
+    // WidgetsFlutterBinding.ensureInitialized();
 
-    // Obtain a list of the available cameras on the device.
-    final cameras = await availableCameras();
+    // // Obtain a list of the available cameras on the device.
+    // final cameras = await availableCameras();
 
     // Get a specific camera from the list of available cameras.
 
@@ -195,16 +195,14 @@ class _AcceptanceCriteriaEvidenceListState
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => MediaCamera(
-          cameras: cameras,
-          preTitle: '${widget.preTitle}/Evidence',
-          mediaList: widget.challenge.media,
-          acceptanceCriteria: widget.acceptanceCriteria,
-          challenge: widget.challenge,
-        ),
+        builder: (context) => AcceptanceCriteriaMediaList(
+            preTitle: '${widget.preTitle}/Evidences',
+            challenge: widget.challenge,
+            mediaList: [],
+            acceptanceCriteria: widget.acceptanceCriteria),
       ),
     ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+          // context.read<DesignProvider>().setIsBottomNavBarVisible(true);
         }));
   }
 }
