@@ -464,7 +464,7 @@ class _EditChallengeState extends State<EditChallenge> {
       context,
       NoAnimationPageRoute(
         builder: (context) => HomeChallenge(
-            preTitle: widget.preTitle,
+            preTitle: 'Home', // very bad workaround
             challenge: widget.challenge,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
