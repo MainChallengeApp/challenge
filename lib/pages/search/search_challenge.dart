@@ -760,8 +760,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
                         },
                         onTapOutside: (event) {
                           setState(() {
-                            amountTextEditingController.text =
-                                acceptanceCriteria.activity.amount.toString();
+                            // amountTextEditingController.text =
+                            //     acceptanceCriteria.activity.amount.toString();
+                            isKeyboardUp = false;
                           });
                         },
                         onTap: () => setState(() {
