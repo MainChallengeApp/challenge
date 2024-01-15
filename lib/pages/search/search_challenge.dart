@@ -5,6 +5,7 @@ import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -59,8 +60,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    amountTextEditingController.text =
-        widget.challenge.acceptanceCriteria[0].activity.amount.toString();
+    amountTextEditingController.text = DesignUtil.doubleAsInt(
+            widget.challenge.acceptanceCriteria[0].activity.amount)
+        .toString();
 
     unitTextEditingController.text =
         widget.challenge.acceptanceCriteria[0].activity.unit;
@@ -532,8 +534,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
       pageController = PageController(initialPage: value);
       selectedAcceptanceCriteria = 0;
       isDescriptionExpanded = false;
-      amountTextEditingController.text =
-          widget.challenge.acceptanceCriteria[0].activity.amount.toString();
+      amountTextEditingController.text = DesignUtil.doubleAsInt(
+              widget.challenge.acceptanceCriteria[0].activity.amount)
+          .toString();
       unitTextEditingController.text =
           widget.challenge.acceptanceCriteria[0].activity.unit;
     });

@@ -9,6 +9,7 @@ import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -547,7 +548,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12))),
                             child: Text(
-                                '${doubleAsInt(acceptanceCriteria.progress)}/${doubleAsInt(acceptanceCriteria.activity.amount)} ${acceptanceCriteria.activity.unit}',
+                                '${DesignUtil.doubleAsInt(acceptanceCriteria.progress)}/${DesignUtil.doubleAsInt(acceptanceCriteria.activity.amount)} ${acceptanceCriteria.activity.unit}',
                                 style: const TextStyle(
                                     fontSize: 10, color: themeColor3),
                                 overflow: TextOverflow.ellipsis),
@@ -858,11 +859,5 @@ class _HomeChallengeState extends State<HomeChallenge> {
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
-  }
-
-  String doubleAsInt(double number) {
-    if (number.toString().endsWith('.0'))
-      return number.toString().split('.')[0];
-    return number.toString();
   }
 }

@@ -4,6 +4,7 @@ import 'package:challenge/components/list_items/list_item_acceptance_criteria_ba
 import 'package:challenge/components/list_items/list_item_media_small.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.dart';
@@ -353,11 +354,15 @@ class _AcceptanceCriteriaMediaListState
                       if (widget.editAcceptanceCriteria.progress - 1 >= 0) {
                         widget.editAcceptanceCriteria.progress -= 1;
                         amountTextEditingController.text =
-                            widget.editAcceptanceCriteria.progress.toString();
+                            DesignUtil.doubleAsInt(
+                                    widget.editAcceptanceCriteria.progress)
+                                .toString();
                       } else {
                         widget.editAcceptanceCriteria.progress = 0;
                         amountTextEditingController.text =
-                            widget.editAcceptanceCriteria.progress.toString();
+                            DesignUtil.doubleAsInt(
+                                    widget.editAcceptanceCriteria.progress)
+                                .toString();
                       }
                     }),
                 child: standardContainer(
@@ -372,8 +377,9 @@ class _AcceptanceCriteriaMediaListState
             child: GestureDetector(
                 onTap: () => setState(() {
                       widget.editAcceptanceCriteria.progress += 1;
-                      amountTextEditingController.text =
-                          widget.editAcceptanceCriteria.progress.toString();
+                      amountTextEditingController.text = DesignUtil.doubleAsInt(
+                              widget.editAcceptanceCriteria.progress)
+                          .toString();
                     }),
                 child: standardContainer(
                     child: const Center(
@@ -388,8 +394,9 @@ class _AcceptanceCriteriaMediaListState
                 onTap: () => setState(() {
                       widget.editAcceptanceCriteria.progress =
                           widget.acceptanceCriteria.activity.amount;
-                      amountTextEditingController.text =
-                          widget.editAcceptanceCriteria.progress.toString();
+                      amountTextEditingController.text = DesignUtil.doubleAsInt(
+                              widget.editAcceptanceCriteria.progress)
+                          .toString();
                     }),
                 child: standardContainer(
                     child: const Center(
@@ -415,8 +422,9 @@ class _AcceptanceCriteriaMediaListState
                   child: TextField(
                     textAlign: TextAlign.end,
                     controller: amountTextEditingController
-                      ..text =
-                          widget.editAcceptanceCriteria.progress.toString(),
+                      ..text = DesignUtil.doubleAsInt(
+                              widget.editAcceptanceCriteria.progress)
+                          .toString(),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: <TextInputFormatter>[
