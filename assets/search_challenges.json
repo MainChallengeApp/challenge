@@ -1,17 +1,18 @@
 [
   {
     "status": "InProgress",
-    "title": "Wandern",
-    "description": "Entdecke die Schönheit der Natur und verbessere deine Ausdauer durch regelmäßiges Wandern.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/hiker.png",
+    "title": "Act of Kindness",
+    "description": "Make a random friendly gesture to strangers and experience the positive effect. This can already be a small compliment.\n\nAds:\n - :) ( https://paypal.me/reimusdl )\n",
+    "thumbnailPath": "assets/images/be_kind.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Wandern",
-          "amount": 10.0,
-          "unit": "Km"
+          "title": "Act of Kindness",
+          "amount": 1.0,
+          "unit": "act"
         },
-        "frequence": "once",
+        "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
       }
@@ -20,34 +21,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Liegestütze",
-    "description": "Stärke deine Arme, Schultern und Brustmuskulatur durch regelmäßiges Liegestütztraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/pushups.png",
+    "title": "Affirmationen",
+    "description": "Practice positive affirmations to strengthen your mental attitude.\n\nAds:\n - Mindfulness Impulse ( https://www.amazon.de/Achtsamkeitsimpulse-für-dich-Aljoscha-Long/dp/374740202X/ref=sr_1_3?crid=YYFMAL9XBE7N&keywords=affirmationskarten&qid=1704637408&sprefix=affirma%2Caps%2C149&sr=8-3 )\n ",
+    "thumbnailPath": "assets/images/affirmation.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Liegestütze",
+          "title": "Affirmationen",
           "amount": 100.0,
-          "unit": "Ausführungen"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Meditieren",
-    "description": "Finde innere Ruhe und verbessere deine mentale Gesundheit durch Meditation.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/meditation.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Meditieren",
-          "amount": 10.0,
-          "unit": "Minuten"
+          "unit": "days"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -58,34 +41,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Lesen",
-    "description": "Tauche in neue Welten ein und erweitere deinen Horizont durch regelmäßiges Lesen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/reading.png",
+    "title": "Archery",
+    "description": "Sharpen your concentration and marksmanship by learning archery.\n\nAds:\n - Bow ( https://amzn.to/48u84QK )\n - Archery Gloves ( https://amzn.to/48yZfVJ )\n ",
+    "thumbnailPath": "assets/images/bow.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Lesen",
-          "amount": 1.0,
-          "unit": "Buch"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Bouldern",
-    "description": "Fordere deine Geschicklichkeit und Stärke heraus, indem du anspruchsvolle Boulderprobleme löst.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/bouldering.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Bouldern",
-          "amount": 1.0,
-          "unit": "Trainingseinheiten"
+          "title": "Archery",
+          "amount": 10.0,
+          "unit": "sessions"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -96,34 +61,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Schwimmen",
-    "description": "Verbessere deine Ausdauer und stärke deinen gesamten Körper durch regelmäßiges Schwimmen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/swimming.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Schwimmen",
-          "amount": 1.0,
-          "unit": "Stunde"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Fahrrad Tour",
-    "description": "Erkunde neue Strecken und verbessere deine Fitness durch regelmäßige Fahrradtouren.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "title": "Bike Tour",
+    "description": "Explore new routes and improve your fitness with regular bike tours.\n\nAds:\n - Bike Bag ( https://www.amazon.de/ROCKBROS-Rahmentasche-Lenkertasche-Wasserdicht-Montainbikes/dp/B08HVPKBSF/ref=sr_1_8?crid=2V9JSQHIPN8LO&keywords=fahrrad+zubehör&qid=1704381177&sprefix=fahrrad+zub%2Caps%2C92&sr=8-8 )\n ",
     "thumbnailPath": "assets/images/bike_tour.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Fahrrad Tour",
+          "title": "Bike Tour",
           "amount": 20.0,
-          "unit": "Km"
+          "unit": "km"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -134,36 +81,18 @@
   },
   {
     "status": "InProgress",
-    "title": "Hochsprung",
-    "description": "Steigere deine Sprungkraft durch Springtraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/high-jump.png",
+    "title": "Bouldering",
+    "description": "Challenge your skill and strength by solving challenging bouldering problems.\n\nAds:\n - Boulder Ball ( https://www.amazon.de/BOULDERBALL-Kletterball-Weltneuheit-kleinstem-BB101A737/dp/B0BLP3Y7RK/ref=sr_1_5?__mk_de_DE=ÅMÅŽÕÑ&crid=18XTACYRV084I&keywords=bouldern&qid=1704381081&sprefix=bouldern%2Caps%2C89&sr=8-5 )\n ",
+    "thumbnailPath": "assets/images/bouldering.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Springen",
-          "amount": 1.0,
-          "unit": "Meter"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Seilspringen",
-    "description": "Steigere deine Fitness und Ausdauer durch Seilspringen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/skip_rope.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Springen",
+          "title": "Bouldering",
           "amount": 10.0,
-          "unit": "Minuten"
+          "unit": "sessions"
         },
-        "frequence": "daily",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
       }
@@ -172,36 +101,18 @@
   },
   {
     "status": "InProgress",
-    "title": "Kampfsport",
-    "description": "Lerne Selbstverteidigungstechniken und stärke deinen Körper durch Kampfsporttraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/fight_club.png",
+    "title": "Bucket List",
+    "description": "Sit down and create your personal bucket list of things you want to do in life. You can create this list directly in the app!\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/bucket_list.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Kampfsport",
+          "title": "Create",
           "amount": 1.0,
-          "unit": "Trainingseinheiten"
+          "unit": "list"
         },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Dehnen",
-    "description": "Verbessere deine Flexibilität und vermeide Verletzungen durch regelmäßiges Dehnen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/stretching.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Dehnen",
-          "amount": 15.0,
-          "unit": "Minuten"
-        },
-        "frequence": "daily",
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
       }
@@ -211,14 +122,15 @@
   {
     "status": "InProgress",
     "title": "Bungee Jumping",
-    "description": "Überwinde deine Ängste und erlebe den Adrenalinkick beim Bungee Jumping.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "description": "Overcome your fears and experience the adrenaline rush of bungee jumping.\n\nAds:\n - Exercise Resistance Belt ( https://www.amazon.de/DASKING-Widerstand-Resistance-Professionelle-Trainingsausrüstung/dp/B0981QJF9C/ref=sr_1_5?crid=1KH5IXTZQECZK&keywords=bungee%2Bjumping&qid=1704382053&sprefix=bungee%2Bjum%2Caps%2C99&sr=8-5&ufe=app_do%3Aamzn1.fos.d85e497d-ab66-4790-acf8-e520aaf28cd3&th=1 )\n ",
     "thumbnailPath": "assets/images/bungee_jumping.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Bungee Jumping",
+          "title": "Bungee jumping",
           "amount": 1.0,
-          "unit": "Sprünge"
+          "unit": "jump"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -229,433 +141,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Fallschirmspringen",
-    "description": "Schwebe über den Wolken und erlebe den Nervenkitzel des Fallschirmspringens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/skydiving.png",
+    "title": "Cleaning Up",
+    "description": "Create order and peace in your living space by tidying up your home.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/dusting.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Fallschirmspringen",
-          "amount": 1.0,
-          "unit": "Sprünge"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Tauchen",
-    "description": "Entdecke die faszinierende Unterwasserwelt durch regelmäßiges Tauchtraining.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/scuba_diving.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Tauchen",
-          "amount": 1.0,
-          "unit": "Tauchgänge"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Marathon",
-    "description": "Stelle deine Ausdauer auf die Probe und laufe einen Marathon.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/marathon.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Laufen",
-          "amount": 42.195,
-          "unit": "Km"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Xletics",
-    "description": "Meistere verschiedene Hindernisse und zeige deine Fitness im Xletics-Wettkampf.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/xletics.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Xletics",
-          "amount": 1.0,
-          "unit": "Wettkampf"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Kajakfahren",
-    "description": "Erkunde Gewässer und verbessere deine Paddeltechnik durch regelmäßiges Kajakfahren.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/kayaking.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Kajakfahren",
-          "amount": 1.0,
-          "unit": "Fahrt"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Jonglieren",
-    "description": "Lerne die Kunst des Jonglierens und beeindrucke mit deinen Fähigkeiten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/juggler.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Jonglieren",
-          "amount": 1.0,
-          "unit": "Minuten"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Handstand",
-    "description": "Trainiere deine Balance und Stärke durch das Erlernen des Handstands.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/hand_stand.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Handstand",
-          "amount": 1.0,
-          "unit": "Minuten"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Flick Flack",
-    "description": "Zeige akrobatische Fähigkeiten und erlerne den Flick Flack.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/flick_flack.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Flick Flack",
-          "amount": 1.0,
-          "unit": "Ausführungen"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Parkour",
-    "description": "Überwinde Hindernisse und meistere die Kunst des Parkours.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/parkour.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Parkour",
-          "amount": 1.0,
-          "unit": "Einheiten"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Tanzen",
-    "description": "Entfalte deine künstlerische Seite und verbessere deine Fitness durch Tanzen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/dance.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Tanzen",
-          "amount": 30.0,
-          "unit": "Minuten"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Tagebuch",
-    "description": "Reflektiere deine Gedanken und Erlebnisse durch das Führen eines Tagebuchs.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/diary.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Tagebuch",
-          "amount": 1.0,
-          "unit": "Eintrag"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Instrument lernen",
-    "description": "Entwickle musikalische Fähigkeiten und lerne ein neues Instrument.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/instrument.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Instrument lernen",
-          "amount": 1.0,
-          "unit": "Stunden"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Sprache lernen",
-    "description": "Erobere neue Horizonte und lerne eine neue Sprache in einem Sprachkurs.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/languages.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Sprache lernen",
-          "amount": 1.0,
-          "unit": "Stunden"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Wasserski",
-    "description": "Genieße die Geschwindigkeit und den Nervenkitzel des Wasserskifahrens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/water_skiing.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Wasserski",
-          "amount": 1.0,
-          "unit": "Einheiten"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Survival-Training",
-    "description": "Erlange Überlebenskompetenzen und erlebe ein intensives Survival-Training.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/knife.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Survival-Training",
-          "amount": 1.0,
-          "unit": "Einheiten"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "In der Natur übernachten",
-    "description": "Stelle deine Survival Fähigkeiten unter die Probe und übernachte beispielsweise im Wald.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/tent.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "In der Natur übernachten",
-          "amount": 1.0,
-          "unit": "Nächte"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Bogenschießen",
-    "description": "Schärfe deine Konzentration und Treffsicherheit durch das Erlernen des Bogenschießens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/bow.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Bogenschießen",
-          "amount": 1.0,
-          "unit": "Einheiten"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Präsentieren",
-    "description": "Entwickle deine Präsentationsfähigkeiten und trete vor Publikum auf.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/presentation.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Präsentieren",
-          "amount": 1.0,
-          "unit": "Präsentation"
-        },
-        "frequence": "monthly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Dankbarkeit",
-    "description": "Fokussiere dich auf positive Aspekte und führe ein Dankbarkeitstagebuch.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/thankfull.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Danken",
-          "amount": 100.0,
-          "unit": "Einträge"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Töpfern",
-    "description": "Entfalte deine kreative Seite und erschaffe Kunstwerke durch das Töpfern.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/pottery.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Töpfern",
-          "amount": 1.0,
-          "unit": "Kunstwerke"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Andere Stadt besuchen",
-    "description": "Erweitere deinen Horizont und erkunde eine andere Stadt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/other_city.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Besuchen",
-          "amount": 1.0,
-          "unit": "Städte"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Eigene Stadt erkunden",
-    "description": "Entdecke versteckte Schätze und Sehenswürdigkeiten in deiner eigenen Stadt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/own_city.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Stadterkundung",
-          "amount": 1.0,
-          "unit": "Orte"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Angeln",
-    "description": "Genieße die Ruhe der Natur und verbessere deine Geduld beim Angeln.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/fishing.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Angeln",
+          "title": "Clean up",
           "amount": 2.0,
-          "unit": "Fische"
+          "unit": "hours"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -666,17 +161,18 @@
   },
   {
     "status": "InProgress",
-    "title": "Heißluftballon",
-    "description": "Erlebe die Welt aus der Vogelperspektive und mache eine Fahrt mit dem Heißluftballon.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/air-hot-balloon.png",
+    "title": "Climbing Stairs",
+    "description": "Improve your fitness and climb stairs.\n\nAds:\n - Hometrainer ( https://www.amazon.de/Sportstech-Twister-Stepper-Power-Multifunktions-Display-Hometrainer/dp/B089DKTP73/ref=sr_1_3?crid=3VHR7VBLGRS51&keywords=treppen+steigen+trainer&qid=1704636963&sprefix=treppen+steigen%2Caps%2C167&sr=8-3 )\n ",
+    "thumbnailPath": "assets/images/career.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Heißluftballonfahrt",
-          "amount": 1.0,
-          "unit": "Fahrt"
+          "title": "Climbing stairs",
+          "amount": 1000.0,
+          "unit": "stairs"
         },
-        "frequence": "once",
+        "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
       }
@@ -685,36 +181,18 @@
   },
   {
     "status": "InProgress",
-    "title": "Zeichnen",
-    "description": "Verbessere deine zeichnerischen Fähigkeiten durch regelmäßige Zeichen-Challenges.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/sketchbook.png",
+    "title": "Cold Showers",
+    "description": "Strengthen your mind and body with cold showers.\n\nAds:\n - 'NIE WIEDER KRANK' ( https://www.amazon.de/Nie-wieder-krank-Gesund-leistungsfähig/dp/374230562X/ref=sr_1_2?crid=PNQ9NGTGV24R&keywords=kalt+duschen+buch&qid=1704384501&sprefix=kalt+dus%2Caps%2C91&sr=8-2 ) \n - 'Die Wim-Hof-Methode' ( https://www.amazon.de/Die-Wim-Hof-Methode-Potenzial-leistungsfähiger-glücklicher/dp/377879308X/ref=sr_1_1?crid=PNQ9NGTGV24R&keywords=kalt+duschen+buch&qid=1704384501&sprefix=kalt+dus%2Caps%2C91&sr=8-1 )\n ",
+    "thumbnailPath": "assets/images/shower.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Zeichnen",
-          "amount": 1.0,
-          "unit": "Zeichnungen"
+          "title": "Cold showers",
+          "amount": 100.0,
+          "unit": "showers"
         },
         "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Poetry Slam",
-    "description": "Entwickle deine poetischen Fähigkeiten und beteilige dich an einem Slam-Poetry-Event.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/poetry.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Poetry Slam",
-          "amount": 1.0,
-          "unit": "Event"
-        },
-        "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
       }
@@ -724,14 +202,15 @@
   {
     "status": "InProgress",
     "title": "DIY-Workshop",
-    "description": "Erfahre Neues und erschaffe etwas Einzigartiges in einem DIY-Workshop.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "description": "Learn something new and create something unique in a DIY workshop.\n\nAds:\n - product ( link )\n",
     "thumbnailPath": "assets/images/diy.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
           "title": "DIY-Workshop",
           "amount": 1.0,
-          "unit": "Workshop"
+          "unit": "thing"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -742,53 +221,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Verreisen",
-    "description": "Entfliehe dem Alltag und erlebe neue Orte durch eine Reise.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/travel.png",
+    "title": "Dancing",
+    "description": "Unleash your artistic side and improve your fitness through dance.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/dance.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Reisen",
-          "amount": 1.0,
-          "unit": "Reise"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Social Media Detox",
-    "description": "Gönn dir eine Auszeit von sozialen Medien und entgift deine digitale Präsenz.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/no-phone.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Social Media Detox",
-          "amount": 7.0,
-          "unit": "Tage"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Kalt Duschen",
-    "description": "Stärke deinen Geist und Körper durch kaltes Duschen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/shower.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Kalt Duschen",
-          "amount": 1.0,
-          "unit": "Ausführungen"
+          "title": "Dancing",
+          "amount": 30.0,
+          "unit": "sessions"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -799,15 +241,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Wim Hof Atemtechnik",
-    "description": "Erlange Kontrolle über deinen Atem und praktiziere die Wim Hof Atemtechnik.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/deep-breathing.png",
+    "title": "Diary",
+    "description": "Reflect on your thoughts and experiences by keeping a diary.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/diary.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Atemtechnik",
-          "amount": 1.0,
-          "unit": "Ausführungen"
+          "title": "Diary",
+          "amount": 100.0,
+          "unit": "entries"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -818,15 +261,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Diät",
-    "description": "Verfolge eine bestimmte Diät und dokumentiere deine Fortschritte.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "title": "Diet",
+    "description": "Follow a specific diet and document your progress.\n\nAds:\n - product ( link )\n",
     "thumbnailPath": "assets/images/diet.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Diät einhalten",
+          "title": "Follow a diet",
           "amount": 30.0,
-          "unit": "Tage"
+          "unit": "days"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -837,34 +281,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Wasser trinken",
-    "description": "Verbessere deine Gesundheit und trinke ausreichend Wasser.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/water.png",
+    "title": "Digital Orga",
+    "description": "Optimize your digital organization, be it in terms of files, emails or tasks.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/digital_organisation.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Wasser trinken",
-          "amount": 3.0,
-          "unit": "Liter"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Geld verdienen",
-    "description": "Entwickle zusätzliche Einnahmequellen und dokumentiere deine finanzielle Reise.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/earnings.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Geld verdienen",
-          "amount": 10000.0,
-          "unit": "Euro"
+          "title": "Digital organization",
+          "amount": 1.0,
+          "unit": "optimization"
         },
         "frequence": "monthly",
         "tracking": "camera",
@@ -875,34 +301,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Schlafrhythmus",
-    "description": "Optimiere deinen Schlafrhythmus für bessere Gesundheit und Produktivität.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/sleep.png",
+    "title": "Diving",
+    "description": "Discover the fascinating underwater world through regular diving training.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/scuba_diving.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Schlafrhythmus einhalten",
-          "amount": 30.0,
-          "unit": "Tage"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Laufen",
-    "description": "Steigere deine Ausdauer und Laufleistung durch regelmäßiges Laufen.\n\nWerbung: \n- Laufschuhe ( https://amzn.to/3S1hIo4 )\n",
-    "thumbnailPath": "assets/images/runner.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Laufen",
-          "amount": 10.0,
-          "unit": "Kilometer"
+          "title": "Diving",
+          "amount": 1.0,
+          "unit": "dive"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -913,34 +321,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Spazieren gehen",
-    "description": "Genieße die Natur und verbessere deine Gesundheit durch regelmäßiges Spazierengehen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/walking.png",
+    "title": "Donations",
+    "description": "Do you have more than you actually need? Get involved in a good cause and donate so much that it hurts.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/donation.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Spazieren gehen",
+          "title": "Donations",
           "amount": 1.0,
-          "unit": "Späziergänge"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Angst bekämpfen",
-    "description": "Stell dich deinen Ängsten und besiege eine Phobie.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/fear.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Angst aussetzen",
-          "amount": 1.0,
-          "unit": "Situationen"
+          "unit": "donation"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -951,15 +341,176 @@
   },
   {
     "status": "InProgress",
-    "title": "Treppen steigen",
-    "description": "Verbessere deine Fitness und steige Treppen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/career.png",
+    "title": "Drawing",
+    "description": "Improve your drawing skills with regular drawing challenges.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/sketchbook.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Treppen steigen",
+          "title": "Drawing",
+          "amount": 1.0,
+          "unit": "drawing"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Dream Diary",
+    "description": "Record your dreams in a diary and reflect on their meaning.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/fairytale.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Dream diary",
           "amount": 100.0,
-          "unit": "Treppen"
+          "unit": "entries"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Drill Bootcamp",
+    "description": "Challenge yourself and complete an intensive drill boot camp.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/bootcamp.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Drill Bootcamp",
+          "amount": 1.0,
+          "unit": "session"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Drink Water",
+    "description": "Improve your health and drink daily 3l of water.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/water.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Drink water",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Eating Vegan",
+    "description": "Eat an exclusively vegan diet for a certain period of time.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/vegan.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Vegan essen",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Eating Vegetarian",
+    "description": "Eat an exclusively vegetarian diet for a certain period of time.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/vegetarian.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Eat vegetarian",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Elevator Pitch",
+    "description": "Develop and present a convincing elevator pitch for your project, an idea or yourself.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/elevator.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Elevator pitch",
+          "amount": 1.0,
+          "unit": "presentation"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Evening Routine",
+    "description": "Optimize your evening routine for a relaxed end to the day.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/evening_routine.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Evening Routine Upgrade",
+          "amount": 1.0,
+          "unit": "optimization"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Hometown",
+    "description": "Discover hidden treasures and sights in your own city.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/own_city.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "City exploration",
+          "amount": 1.0,
+          "unit": "place"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -970,15 +521,156 @@
   },
   {
     "status": "InProgress",
-    "title": "Wingsuit",
-    "description": "Erfahre den Nervenkitzel des Wingsuit-Fliegens.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/wingsuit.png",
+    "title": "Fighting Fear",
+    "description": "Face your fears and conquer a phobia.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/fear.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Wingsuit",
+          "title": "Exposure to fear",
           "amount": 1.0,
-          "unit": "Flug"
+          "unit": "fear"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Fishing",
+    "description": "Enjoy the tranquillity of nature and improve your patience when fishing.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/fishing.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Fishing",
+          "amount": 1.0,
+          "unit": "fish"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Flick Flack",
+    "description": "Show off your acrobatic skills and learn the flick flack.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/flick_flack.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Flick Flack",
+          "amount": 1.0,
+          "unit": "execution"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Forgiving",
+    "description": "Practice forgiveness and leave old conflicts behind you.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/peace.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Forgiven",
+          "amount": 1.0,
+          "unit": "person"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Full Body Workout",
+    "description": "Do a full-body workout to improve your fitness.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/workout.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Full body workout",
+          "amount": 100.0,
+          "unit": "sessions"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Gardening",
+    "description": "Spend time in the countryside, design your garden, patio, balcony or rooms according to your own ideas.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/gardening.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Gardening",
+          "amount": 5.0,
+          "unit": "hours"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Gratitude",
+    "description": "Focus on positive aspects and keep a gratitude diary.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/thankfull.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Danken",
+          "amount": 100.0,
+          "unit": "entries"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Feedback",
+    "description": "Share your constructive feedback on the app and help make it even better <3.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/feedback.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Give feedback",
+          "amount": 1.0,
+          "unit": "feedback"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -990,14 +682,15 @@
   {
     "status": "InProgress",
     "title": "Gym",
-    "description": "Besuche das Fitnessstudio und verbessere deine körperliche Fitness.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "description": "Visit the gym and improve your physical fitness.\n\nAds:\n - product ( link )\n",
     "thumbnailPath": "assets/images/weightlifting.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Fitnessstudio",
-          "amount": 3.0,
-          "unit": "Einheiten"
+          "title": "Fitness studio",
+          "amount": 100.0,
+          "unit": "sessions"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1008,15 +701,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Massephase",
-    "description": "Nehme überschüssig Kalorien auf, um Körpermasse zuzunehmen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/overweight.png",
+    "title": "Handstand",
+    "description": "Train your balance and strength by learning the handstand.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/hand_stand.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Aufnahme",
-          "amount": 3000.0,
-          "unit": "Kalorien"
+          "title": "Handstand",
+          "amount": 1.0,
+          "unit": "min"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -1027,36 +721,18 @@
   },
   {
     "status": "InProgress",
-    "title": "Wohnung aufräumen",
-    "description": "Schaffe Ordnung und Ruhe in deinem Lebensraum durch das Aufräumen deiner Wohnung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/dusting.png",
+    "title": "High Jump",
+    "description": "Increase your jumping power with jumping training.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/high-jump.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Aufräumen",
-          "amount": 2.0,
-          "unit": "Stunden"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Alte Freunde kontaktieren",
-    "description": "Nimm Kontakt zu alten Freunden auf und schwellkt in Erinnerungen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/old_friends.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Kontaktieren",
+          "title": "Jumping",
           "amount": 1.0,
-          "unit": "Freund"
+          "unit": "meters"
         },
-        "frequence": "once",
+        "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
       }
@@ -1065,53 +741,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Neue Ziele",
-    "description": "Reflektiere über deine langfristigen Ziele und setze klare Absichten. Du kannst deine Ziele gleich in der App als Challenge eintragen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/goals.png",
+    "title": "Hiking",
+    "description": "Discover the beauty of nature and improve your stamina by hiking regularly.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/hiker.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Festlegen",
-          "amount": 1.0,
-          "unit": "Ziele"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Affirmationen",
-    "description": "Praktiziere positive Affirmationen, um deine mentale Einstellung zu stärken.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/affirmation.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Affirmationen",
+          "title": "hiking",
           "amount": 10.0,
-          "unit": "Affirmation"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Neue Person kennenlernen",
-    "description": "Erweitere dein soziales Netzwerk, indem du eine neue Person kennenlernen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/network.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Kennenlernen",
-          "amount": 1.0,
-          "unit": "Personen"
+          "unit": "km"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1122,34 +761,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Plank für den Bauch",
-    "description": "Stärke deine Bauchmuskulatur durch Plank-Übungen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/plank.png",
+    "title": "Hot Air Balloon",
+    "description": "Experience the world from a bird's eye view and take a ride in a hot air balloon.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/air-hot-balloon.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Plank",
-          "amount": 5.0,
-          "unit": "Minuten"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Zucker Detox",
-    "description": "Verzichte eine Woche lang auf zuckerhaltige Lebensmittel.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/sugar-free.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Verzicht auf Zucker",
-          "amount": 7.0,
-          "unit": "Tage"
+          "title": "Hot air balloon ride",
+          "amount": 1.0,
+          "unit": "flight"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1160,34 +781,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Drill Bootcamp",
-    "description": "Fordere dich heraus und absolviere ein intensives Drill Bootcamp.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/bootcamp.png",
+    "title": "Ice Bath",
+    "description": "Experience a refreshing ice bath in a lake.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/ice_bath.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Drill Bootcamp",
-          "amount": 1.0,
-          "unit": "Einheiten"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Fotografie",
-    "description": "Entdecke die Welt der Fotografie und dokumentiere deine Perspektive.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/photography.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Fotografieren",
-          "amount": 1.0,
-          "unit": "Fotos"
+          "title": "Ice bathing",
+          "amount": 3.0,
+          "unit": "min"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1198,34 +801,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Spenden",
-    "description": "Hast du mehr, als du eigentlich brauchst? Setze dich für eine gute Sache ein und spende so viel, dass es weh tut.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/donation.png",
+    "title": "Juggling",
+    "description": "Learn the art of juggling and impress with your skills.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/juggler.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Spenden",
+          "title": "Juggling",
           "amount": 1.0,
-          "unit": "Betrag"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Vitamine einnehmen",
-    "description": "Achte darauf, alle wichtigen Vitamine einzunehmen und fördere deine Gesundheit.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/vitamin.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Einnehmen",
-          "amount": 1.0,
-          "unit": "Vitame"
+          "unit": "minute"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -1236,15 +821,36 @@
   },
   {
     "status": "InProgress",
-    "title": "Jemandem vergeben",
-    "description": "Praktiziere Vergebung und lasse alte Konflikte hinter dir.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/peace.png",
+    "title": "Kayaking",
+    "description": "Explore the water and improve your paddling technique by kayaking regularly.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/kayaking.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Vergeben",
+          "title": "Kayaking",
           "amount": 1.0,
-          "unit": "Personen"
+          "unit": "session"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Keep Calm",
+    "description": "Consciously practice calmness in situations that normally make you overreact - for example, if you miss the train next time.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/calm.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Patience practice",
+          "amount": 1.0,
+          "unit": "Situations"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1255,53 +861,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Podcast aufnehmen",
-    "description": "Teile deine Gedanken und Ideen, indem du einen eigenen Podcast erstellst.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/podcast.png",
+    "title": "Making Money",
+    "description": "Develop additional sources of income and document your financial journey.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/earnings.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Podcast aufnehmen",
-          "amount": 1.0,
-          "unit": "Episode"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Gartenarbeit",
-    "description": "Verbringe Zeit im Grünen, gestalte deinen Garten, deine Terrasse, deinen Balkon oder deine Räume nach deinen Vorstellungen.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/gardening.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Gartenarbeit",
-          "amount": 1.0,
-          "unit": "Stunden"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Neues Rezept kochen",
-    "description": "Probiere ein neues Rezept aus und erweitere deinen kulinarischen Horizont.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/cooking.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Kochen",
-          "amount": 1.0,
-          "unit": "Gerichte"
+          "title": "Making money",
+          "amount": 10000.0,
+          "unit": "euro"
         },
         "frequence": "monthly",
         "tracking": "camera",
@@ -1312,15 +881,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Verzichten",
-    "description": "Übe Verzicht und stärke deine Willenskraft. Verzichte auf etwas,was dir nicht leicht fällt und das dir eigentlich nicht gut tut.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/renouncement.png",
+    "title": "Marathon",
+    "description": "Put your endurance to the test and run a marathon.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/marathon.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Verzichten",
-          "amount": 7.0,
-          "unit": "Tage"
+          "title": "Running",
+          "amount": 42195.0,
+          "unit": "km"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1331,110 +901,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Essen ohne Ablenkung",
-    "description": "Genieße deine Mahlzeiten bewusst und ohne Ablenkung von Technologie oder anderen Aktivitäten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/eat.png",
+    "title": "Martial Arts",
+    "description": "Learn self-defense techniques and strengthen your body through martial arts training.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/fight_club.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Essen ohne Ablenkung",
-          "amount": 3.0,
-          "unit": "Gerichte"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Theater/Musical Teilnahmen",
-    "description": "Erweitere deinen kulturellen Horizont und nehme an einem Theaterstück oder Musical teil.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/theater.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Theater Teilnahme",
-          "amount": 1.0,
-          "unit": "Aufführung"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Bucket List erstellen",
-    "description": "Setze dich hin und erstelle deine persönliche Bucket List mit Dingen, die du im Leben machen möchtest. Diese Liste kannst du direkt in der App erstellen!\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/bucket_list.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Erstellen",
-          "amount": 1.0,
-          "unit": "Bucket Liste"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Feedback für die App geben :)",
-    "description": "Teile dein konstruktives Feedback zur App und trage dazu bei, sie noch besser zu machen <3.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/feedback.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Feedback geben",
-          "amount": 1.0,
-          "unit": "Feedback"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Fremde Kultur kennenlernen",
-    "description": "Tauche in eine fremde Kultur ein, sei es durch Essen, Musik, oder andere kulturelle Aktivitäten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/culture.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Fremde Kultur kennenlernen",
-          "amount": 1.0,
-          "unit": "Kulturen"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Selfcare",
-    "description": "Nimm dir Zeit für Selbstfürsorge und entspanne in einem Spa oder bei anderen selbstpflegenden Aktivitäten.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/selfcare.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Selfcare",
-          "amount": 1.0,
-          "unit": "Stunden"
+          "title": "Martial arts",
+          "amount": 100.0,
+          "unit": "sessions"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1445,15 +921,196 @@
   },
   {
     "status": "InProgress",
-    "title": "Elevator Pitch",
-    "description": "Entwickle und präsentiere einen überzeugenden Elevator Pitch für dein Projekt, eine Idee oder dich selbst.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/elevator.png",
+    "title": "Meditation",
+    "description": "Find inner peace and improve your mental health through meditation.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/meditation.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Elevator Pitch",
+          "title": "Meditate",
+          "amount": 100.0,
+          "unit": "meditations"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Morning Routine",
+    "description": "Optimize your morning routine for a more productive and positive start to the day.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/sunrise.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Tomorrow Routine Upgrade",
           "amount": 1.0,
-          "unit": "Präsentation"
+          "unit": "optimization"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "New City",
+    "description": "Expand your horizons and explore another city.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/other_city.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Visit",
+          "amount": 1.0,
+          "unit": "city"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "New Culture",
+    "description": "Immerse yourself in a foreign culture, be it through food, music or other cultural activities.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/culture.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Getting to know a foreign culture",
+          "amount": 1.0,
+          "unit": "culture"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "New Instrument",
+    "description": "Develop your musical skills and learn a new instrument.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/instrument.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Learn to play an instrument",
+          "amount": 100.0,
+          "unit": "sessions"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "New Language",
+    "description": "Conquer new horizons and learn a new language in a language course.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/languages.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Learn language",
+          "amount": 100.0,
+          "unit": "session"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "New People",
+    "description": "Expand your social network by getting to know a new person.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/network.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Get to know",
+          "amount": 1.0,
+          "unit": "person"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "New Recipe",
+    "description": "Try out a new recipe and broaden your culinary horizons.\n\nAds:\n - Recipe book for self-writing ( https://www.amazon.de/Rezeptbuch-zum-Selberschreiben-schreiben-Softcover/dp/B09Z323GGY/ref=sr_1_9?__mk_de_DE=ÅMÅŽÕÑ&crid=UBS892J0UKHH&keywords=rezeptbuch&qid=1704638193&sprefix=rezeptbuch%2Caps%2C190&sr=8-9 )\n - 100 Classic Recipes ( https://www.amazon.de/Hundert-Klassiker-Lieblingsrezepte-Rezeptklassikern-kompliziert/dp/3833890789/ref=sr_1_3?__mk_de_DE=ÅMÅŽÕÑ&crid=1DPK5ODQ1ECHB&keywords=kochbuch&qid=1704638261&sprefix=kochbuch%2Caps%2C239&sr=8-3 )\n - 24/7 cooking by Tim Mälzer ( https://www.amazon.de/Vierundzwanzigsieben-kochen-hochwertiger-Ausstattung-Lesebändchen/dp/3442394155/ref=sr_1_4?__mk_de_DE=ÅMÅŽÕÑ&crid=1DPK5ODQ1ECHB&keywords=kochbuch&qid=1704638261&sprefix=kochbuch%2Caps%2C239&sr=8-4 )\n - Ramen cookbook ( https://www.amazon.de/Einfach-authentisch-Ramen-kochen-Nudelsuppen-Rezepte/dp/3949675779/ref=sr_1_10?__mk_de_DE=ÅMÅŽÕÑ&crid=1DPK5ODQ1ECHB&keywords=kochbuch&qid=1704638261&sprefix=kochbuch%2Caps%2C239&sr=8-10 )\n ",
+    "thumbnailPath": "assets/images/cooking.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Cooking",
+          "amount": 1.0,
+          "unit": "recipe"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Night in Nature",
+    "description": "Put your survival skills to the test and spend the night in the forest, for example.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/tent.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Spend the night in nature",
+          "amount": 1.0,
+          "unit": "Nights"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Old Friends",
+    "description": "Get in touch with old friends and reminisce.\n\nAds:\n - Book of friends ( https://www.amazon.de/Sophies-Kartenwelt-Freundebuch-Erwachsene-Ausfüllen/dp/B09TBKW5H8/ref=sr_1_5?crid=2CB6Q6CMIMOID&keywords=freundebuch+erwachsene&qid=1704637346&sprefix=freunde%2Caps%2C114&sr=8-5 )\n ",
+    "thumbnailPath": "assets/images/old_friends.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Contact us",
+          "amount": 1.0,
+          "unit": "friend"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1465,14 +1122,15 @@
   {
     "status": "InProgress",
     "title": "Origami",
-    "description": "Falte Origami-Kunstwerke als kreative Form der Meditation und Entspannung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "description": "Fold origami artworks as a creative form of meditation and relaxation.\n\nAds:\n - product ( link )\n",
     "thumbnailPath": "assets/images/origami.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Origami falten",
-          "amount": 1.0,
-          "unit": "Werke"
+          "title": "Origami of falten",
+          "amount": 10.0,
+          "unit": "work of art"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1483,110 +1141,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Random Act of Kindness",
-    "description": "Führe eine zufällige freundliche Geste gegenüber Fremden durch und erlebe die positive Wirkung. Dies kann bereits ein kleines Kompliment sein.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/be_kind.png",
+    "title": "Parkour",
+    "description": "Overcome obstacles and master the art of the parkour.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/parkour.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Random Act of Kindness",
-          "amount": 5.0,
-          "unit": "Aktionen"
-        },
-        "frequence": "weekly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Digitale Ordnung",
-    "description": "Optimiere deine digitale Organisation, sei es in Bezug auf Dateien, E-Mails oder Aufgaben.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/digital_organisation.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Digitale Organisation",
+          "title": "Parkour",
           "amount": 1.0,
-          "unit": "Optimierungen"
-        },
-        "frequence": "monthly",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Traumtagebuch",
-    "description": "Halte deine Träume in einem Tagebuch fest und reflektiere über ihre Bedeutung.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/fairytale.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Traumtagebuch",
-          "amount": 1.0,
-          "unit": "Einträge"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Morgen Routine Upgrade",
-    "description": "Optimiere deine Morgenroutine für einen produktiveren und positiven Start in den Tag.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/sunrise.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Morgen Routine Upgrade",
-          "amount": 1.0,
-          "unit": "Optimierungen"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Abend Routine Upgrade",
-    "description": "Optimiere deine Abendroutine für einen entspannten Ausklang des Tages.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/evening_routine.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Abend Routine Upgrade",
-          "amount": 1.0,
-          "unit": "Optimierungen"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Gelassen bleiben",
-    "description": "Praktiziere bewusst die Gelassenheit in Situationen, die dich normalerweise überreagieren lassen - beispielsweise, wenn du nächstes mal die Bahn verpasst.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/calm.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Geduldspraxis",
-          "amount": 1.0,
-          "unit": "Situationen"
+          "unit": "session"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1597,53 +1161,16 @@
   },
   {
     "status": "InProgress",
-    "title": "Vegetarisch essen",
-    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegetarisch.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/vegetarian.png",
+    "title": "Photography",
+    "description": "Discover the world of photography and document your perspective.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/photography.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Vegetarisch essen",
-          "amount": 3.0,
-          "unit": "Gerichte"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Vegan essen",
-    "description": "Ernähre dich für eine bestimmte Zeit ausschließlich vegan.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/vegan.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Vegan essen",
-          "amount": 3.0,
-          "unit": "Gerichte"
-        },
-        "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Eisbaden",
-    "description": "Erlebe ein erfrischendes Eisbad in einem See.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/ice_bath.png",
-    "acceptanceCriteria": [
-      {
-        "activity": {
-          "title": "Eisbaden",
-          "amount": 3.0,
-          "unit": "Minuten"
+          "title": "Photography",
+          "amount": 10.0,
+          "unit": "photos"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1654,15 +1181,296 @@
   },
   {
     "status": "InProgress",
-    "title": "Schritte",
-    "description": "Setze dir ein Schritte-Ziel und dokumentiere deinen Fortschritt.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
+    "title": "Plank",
+    "description": "Strengthen your abdominal muscles with plank exercises.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/plank.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Plank",
+          "amount": 5.0,
+          "unit": "min"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Podcast",
+    "description": "Share your thoughts and ideas by creating your own podcast.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/podcast.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Record podcast",
+          "amount": 1.0,
+          "unit": "episode"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Poetry Slam",
+    "description": "Develop your poetic skills and take part in a slam poetry event.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/poetry.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Poetry Slam",
+          "amount": 1.0,
+          "unit": "session"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Pottery",
+    "description": "Unleash your creative side and create works of art through pottery.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/pottery.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Pottery",
+          "amount": 1.0,
+          "unit": "work of art"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Presentation",
+    "description": "Develop your presentation skills and perform in front of an audience.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/presentation.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Present",
+          "amount": 1.0,
+          "unit": "presentation"
+        },
+        "frequence": "monthly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Push-ups",
+    "description": "Strengthen your arms, shoulders and chest muscles with regular push-up training.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/pushups.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "push-ups",
+          "amount": 100.0,
+          "unit": "push-ups"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Reading",
+    "description": "Immerse yourself in new worlds and broaden your horizons by reading regularly.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/reading.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Read",
+          "amount": 1.0,
+          "unit": "book"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Renounce",
+    "description": "Practice renunciation and strengthen your willpower. Give up something that is not easy for you and that is not actually good for you.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/renouncement.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Views",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Running",
+    "description": "Increase your endurance and running performance by running regularly.\n\nAds:\n - Running shoes ( https://amzn.to/3S1hIo4 )\n",
+    "thumbnailPath": "assets/images/runner.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Running",
+          "amount": 10.0,
+          "unit": "km"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Selfcare",
+    "description": "Take time for self-care and relax at a spa or with other self-care activities.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/selfcare.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Selfcare",
+          "amount": 10.0,
+          "unit": "sessions"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Skipping Rope",
+    "description": "Increase your fitness and stamina by jumping rope.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/skip_rope.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Jumping",
+          "amount": 15.0,
+          "unit": "min"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Skydiving",
+    "description": "Float above the clouds and experience the thrill of skydiving.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/skydiving.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Skydiving",
+          "amount": 1.0,
+          "unit": "jump"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Sleep Rhythm",
+    "description": "Optimize your sleep rhythm for better health and productivity.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/sleep.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Maintain your sleep rhythm",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Social Media Detox",
+    "description": "Take a break from social media and detox your digital presence.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/no-phone.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Social Media Detox",
+          "amount": 7.0,
+          "unit": "days"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Steps",
+    "description": "Set yourself a step goal and document your progress.\n\nAds:\n - product ( link )\n",
     "thumbnailPath": "assets/images/footprint.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Schritte",
+          "title": "Steps",
           "amount": 10000.0,
-          "unit": "Schritte"
+          "unit": "Steps"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -1673,17 +1481,258 @@
   },
   {
     "status": "InProgress",
-    "title": "Ganzkörper workout",
-    "description": "Führe ein Ganzkörpertraining durch, um deine Fitness zu verbessern.\n\nUnterstützung:\nhttps://paypal.me/reimusdl ",
-    "thumbnailPath": "assets/images/workout.png",
+    "title": "Stretching",
+    "description": "Improve your flexibility and avoid injuries by stretching regularly.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/stretching.png",
     "acceptanceCriteria": [
       {
+        "id": 0,
         "activity": {
-          "title": "Ganzkörper workout",
-          "amount": 3.0,
-          "unit": "Trainingseinheiten"
+          "title": "Stretching",
+          "amount": 15.0,
+          "unit": "min"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Sugar Detox",
+    "description": "Give up sugary foods for a week.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/sugar-free.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "No sugar",
+          "amount": 7.0,
+          "unit": "days"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Survival Training",
+    "description": "Gain survival skills and experience intensive survival training.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/knife.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Survival training",
+          "amount": 1.0,
+          "unit": "session"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Swimming",
+    "description": "Improve your stamina and strengthen your entire body with regular swimming.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/swimming.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Swimming",
+          "amount": 1.0,
+          "unit": "hour"
         },
         "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Taking Vitamins",
+    "description": "Make sure you take all the important vitamins and promote your health.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/vitamin.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Ingestion",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Theater",
+    "description": "Broaden your cultural horizons and take part in a theater.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/theater.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Theater participation",
+          "amount": 20.0,
+          "unit": "sessions"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Travel",
+    "description": "Escape everyday life and experience new places on a trip.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/travel.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Travel",
+          "amount": 10.0,
+          "unit": "days"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Walking",
+    "description": "Enjoy nature and improve your health by going for regular walks.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/walking.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Go for a walk",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "weekly",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Water Skiing",
+    "description": "Enjoy the speed and thrill of water skiing.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/water_skiing.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Water skiing",
+          "amount": 1.0,
+          "unit": "session"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Weight Gain",
+    "description": "Consume excess calories to gain body mass.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/overweight.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Recording",
+          "amount": 30.0,
+          "unit": "days"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wim Hof Breathing",
+    "description": "Gain control over your breath and practise the Wim Hof breathing technique.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/deep-breathing.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Breathing technique",
+          "amount": 30.0,
+          "unit": "sessions"
+        },
+        "frequence": "daily",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Wingsuit",
+    "description": "Experience the thrill of wingsuit flying.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/wingsuit.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Wingsuit",
+          "amount": 1.0,
+          "unit": "flight"
+        },
+        "frequence": "once",
+        "tracking": "camera",
+        "progress": 0.0
+      }
+    ],
+    "media": []
+  },
+  {
+    "status": "InProgress",
+    "title": "Xletics",
+    "description": "Master various obstacles and show off your fitness in the Xletics competition.\n\nAds:\n - product ( link )\n",
+    "thumbnailPath": "assets/images/xletics.png",
+    "acceptanceCriteria": [
+      {
+        "id": 0,
+        "activity": {
+          "title": "Xletics",
+          "amount": 1.0,
+          "unit": "session"
+        },
+        "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
       }
