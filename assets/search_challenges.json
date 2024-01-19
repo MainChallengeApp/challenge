@@ -469,8 +469,8 @@
         "id": 0,
         "activity": {
           "title": "Evening Routine Upgrade",
-          "amount": 1.0,
-          "unit": "optimization"
+          "amount": 100.0,
+          "unit": "days"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -789,7 +789,7 @@
         "id": 0,
         "activity": {
           "title": "Juggling",
-          "amount": 10,
+          "amount": 10.0,
           "unit": "sessions"
         },
         "frequence": "daily",
@@ -862,7 +862,7 @@
   {
     "status": "InProgress",
     "title": "Martial Arts",
-    "description": "Learn self-defense techniques and strengthen your body through martial arts training.\n\nAds:\n - product ( link )\n",
+    "description": "Embark on a journey of self-discipline and strength with the 'Martial Arts' Challenge. Train your body and mind through three weekly sessions of intense martial arts. Unleash your inner warrior, master techniques, and embrace the path of resilience and skill. 🥋\n\nAds:\n - MMA Gloves ( https://amzn.to/3S49quz )\n",
     "thumbnailPath": "assets/images/fight_club.png",
     "acceptanceCriteria": [
       {
@@ -882,7 +882,7 @@
   {
     "status": "InProgress",
     "title": "Meditation",
-    "description": "Find inner peace and improve your mental health through meditation.\n\nAds:\n - product ( link )\n",
+    "description": "Immerse yourself in tranquility with the 'Meditation' Challenge. Dedicate a daily session to finding inner peace and enhancing mental well-being. Harness the power of mindfulness, and let each moment guide you to a calmer, more centered self. 🧘‍♂️\n\nAds:\n - Meditation Pillow ( https://amzn.to/3UbdSdH )\n",
     "thumbnailPath": "assets/images/meditation.png",
     "acceptanceCriteria": [
       {
@@ -902,15 +902,15 @@
   {
     "status": "InProgress",
     "title": "Morning Routine",
-    "description": "Optimize your morning routine for a more productive and positive start to the day.\n\nAds:\n - product ( link )\n",
+    "description": "Craft a dynamic start to your day with the 'Morning Routine' Challenge. Establish habits that set a positive tone, from energizing exercises to mindful moments. Elevate your mornings and watch as the rest of your day follows suit. 🌅\n\nAds:\n - Good Morning Tea ( https://amzn.to/48VNbO4 )\n",
     "thumbnailPath": "assets/images/sunrise.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Tomorrow Routine Upgrade",
-          "amount": 1.0,
-          "unit": "optimization"
+          "amount": 100.0,
+          "unit": "days"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -922,7 +922,7 @@
   {
     "status": "InProgress",
     "title": "New City",
-    "description": "Expand your horizons and explore another city.\n\nAds:\n - product ( link )\n",
+    "description": "Embark on an adventure with the 'New City' Challenge. Explore unfamiliar streets, savor local flavors, and embrace the pulse of a new place. Uncover hidden gems and create lasting memories as you immerse yourself in the vibrant energy of a city waiting to be discovered. 🌆\n\nAds:\n - Germany Travel Guide ( https://amzn.to/48Dnm5I )\n",
     "thumbnailPath": "assets/images/other_city.png",
     "acceptanceCriteria": [
       {
@@ -942,7 +942,7 @@
   {
     "status": "InProgress",
     "title": "New Culture",
-    "description": "Immerse yourself in a foreign culture, be it through food, music or other cultural activities.\n\nAds:\n - product ( link )\n",
+    "description": "Dive into the rich tapestry of humanity with the 'New Culture' Challenge. Immerse yourself in customs, traditions, and the beauty of diversity. Open your mind, embrace differences, and forge connections that transcend borders. Experience the world in a new light and celebrate the mosaic of cultures around you. 🌍\n\nAds:\n - 'Überall zu Hause?!' ( https://amzn.to/3SohnMj )\n",
     "thumbnailPath": "assets/images/culture.png",
     "acceptanceCriteria": [
       {
@@ -962,14 +962,14 @@
   {
     "status": "InProgress",
     "title": "New Instrument",
-    "description": "Develop your musical skills and learn a new instrument.\n\nAds:\n - product ( link )\n",
+    "description": "Embark on a melodic adventure with the 'New Instrument' Challenge. Unleash the symphony within you as you learn to play a musical instrument. From the sweet notes of a guitar to the soulful tunes of a piano, let the music guide your journey of self-discovery. 🎶\n\nAds:\n - '55 Klavierstücke für Anfänger' ( https://amzn.to/3O9Amro )\n",
     "thumbnailPath": "assets/images/instrument.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Learn to play an instrument",
-          "amount": 100.0,
+          "amount": 55.0,
           "unit": "sessions"
         },
         "frequence": "daily",
@@ -982,7 +982,7 @@
   {
     "status": "InProgress",
     "title": "New Language",
-    "description": "Conquer new horizons and learn a new language in a language course.\n\nAds:\n - product ( link )\n",
+    "description": "Dive into a linguistic odyssey with the 'New Language' Challenge. Explore the beauty of communication as you learn the intricacies of a foreign tongue. From greetings to fluency, embrace the richness of diverse expressions and broaden your global horizons. 🌐\n\nAds:\n - 'Wie man jede Sprache in nur 7 Wochen lernt' ( https://amzn.to/4b1l41O )\n",
     "thumbnailPath": "assets/images/languages.png",
     "acceptanceCriteria": [
       {
@@ -1002,7 +1002,7 @@
   {
     "status": "InProgress",
     "title": "New People",
-    "description": "Expand your social network by getting to know a new person.\n\nAds:\n - product ( link )\n",
+    "description": "Embark on a social adventure with the 'New People' Challenge. Break the ice, forge connections, and discover the stories that weave our diverse tapestry. Each encounter is a chance to broaden your perspectives and create lasting bonds. Ready to meet the world? 🤝\n\nAds:\n - 'Wie man Freunde gewinnt' ( https://amzn.to/3HqEv6w )\n",
     "thumbnailPath": "assets/images/network.png",
     "acceptanceCriteria": [
       {
@@ -1022,15 +1022,15 @@
   {
     "status": "InProgress",
     "title": "New Recipe",
-    "description": "Try out a new recipe and broaden your culinary horizons.\n\nAds:\n - Recipe book for self-writing ( https://www.amazon.de/Rezeptbuch-zum-Selberschreiben-schreiben-Softcover/dp/B09Z323GGY/ref=sr_1_9?__mk_de_DE=ÅMÅŽÕÑ&crid=UBS892J0UKHH&keywords=rezeptbuch&qid=1704638193&sprefix=rezeptbuch%2Caps%2C190&sr=8-9 )\n - 100 Classic Recipes ( https://www.amazon.de/Hundert-Klassiker-Lieblingsrezepte-Rezeptklassikern-kompliziert/dp/3833890789/ref=sr_1_3?__mk_de_DE=ÅMÅŽÕÑ&crid=1DPK5ODQ1ECHB&keywords=kochbuch&qid=1704638261&sprefix=kochbuch%2Caps%2C239&sr=8-3 )\n - 24/7 cooking by Tim Mälzer ( https://www.amazon.de/Vierundzwanzigsieben-kochen-hochwertiger-Ausstattung-Lesebändchen/dp/3442394155/ref=sr_1_4?__mk_de_DE=ÅMÅŽÕÑ&crid=1DPK5ODQ1ECHB&keywords=kochbuch&qid=1704638261&sprefix=kochbuch%2Caps%2C239&sr=8-4 )\n - Ramen cookbook ( https://www.amazon.de/Einfach-authentisch-Ramen-kochen-Nudelsuppen-Rezepte/dp/3949675779/ref=sr_1_10?__mk_de_DE=ÅMÅŽÕÑ&crid=1DPK5ODQ1ECHB&keywords=kochbuch&qid=1704638261&sprefix=kochbuch%2Caps%2C239&sr=8-10 )\n",
+    "description": "Unleash your inner chef with the 'New Recipe' Challenge. Transform your kitchen into a culinary haven, experimenting with flavors and creating gastronomic delights. From savory to sweet, each dish is a journey of taste. Ready, set, cook up a storm! 🍲\n\nAds:\n -'Rezeptbuch zum Selberschreiben' ( https://amzn.to/47OeQ2I )\n - 'Hundert Klassiker' ( https://amzn.to/3So37mO )\n",
     "thumbnailPath": "assets/images/cooking.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Cooking",
-          "amount": 1.0,
-          "unit": "recipe"
+          "amount": 10.0,
+          "unit": "recipes"
         },
         "frequence": "monthly",
         "tracking": "camera",
@@ -1042,7 +1042,7 @@
   {
     "status": "InProgress",
     "title": "Night in Nature",
-    "description": "Put your survival skills to the test and spend the night in the forest, for example.\n\nAds:\n - product ( link )\n",
+    "description": "Discover the serene beauty of nature at night. Swap city lights for moonlit landscapes, stargaze, and share stories by the campfire. Immerse yourself in the tranquility of the nocturnal world. 🌙\n\nAds:\n - Bivvy Bag ( https://amzn.to/3RW1200 )\n - Sleeping Bag ( https://amzn.to/426LqM0 )\n - Sleeping Mat ( https://amzn.to/3HvgQ4R )\n",
     "thumbnailPath": "assets/images/tent.png",
     "acceptanceCriteria": [
       {
@@ -1050,7 +1050,7 @@
         "activity": {
           "title": "Spend the night in nature",
           "amount": 1.0,
-          "unit": "Nights"
+          "unit": "Night"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1062,7 +1062,7 @@
   {
     "status": "InProgress",
     "title": "Old Friends",
-    "description": "Get in touch with old friends and reminisce.\n\nAds:\n - Book of friends ( https://www.amazon.de/Sophies-Kartenwelt-Freundebuch-Erwachsene-Ausfüllen/dp/B09TBKW5H8/ref=sr_1_5?crid=2CB6Q6CMIMOID&keywords=freundebuch+erwachsene&qid=1704637346&sprefix=freunde%2Caps%2C114&sr=8-5 )\n",
+    "description": "Reconnect with cherished companions from the past. Rediscover shared memories, exchange laughter, and create new stories together. Strengthen the bonds of friendship that time couldn't break. 👫\n\nAds:\n - Book of friends ( https://amzn.to/3O3IHgw )\n",
     "thumbnailPath": "assets/images/old_friends.png",
     "acceptanceCriteria": [
       {
@@ -1082,7 +1082,7 @@
   {
     "status": "InProgress",
     "title": "Origami",
-    "description": "Fold origami artworks as a creative form of meditation and relaxation.\n\nAds:\n - product ( link )\n",
+    "description": "Unleash creativity with each fold, transforming paper into intricate art. Dive into the meditative world of origami, crafting beauty with precision. Elevate your skills, one delicate creation at a time. 📄\n\nAds:\n - Origami Paper ( https://amzn.to/3HpboAx )\n",
     "thumbnailPath": "assets/images/origami.png",
     "acceptanceCriteria": [
       {
@@ -1090,7 +1090,7 @@
         "activity": {
           "title": "Origami of falten",
           "amount": 10.0,
-          "unit": "work of art"
+          "unit": "works of art"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1102,15 +1102,15 @@
   {
     "status": "InProgress",
     "title": "Parkour",
-    "description": "Overcome obstacles and master the art of the parkour.\n\nAds:\n - product ( link )\n",
+    "description": "Conquer obstacles, embrace fluidity, and master the art of movement. Embark on a journey of agility, flipping and vaulting through urban landscapes. Transform your surroundings into a thrilling playground. Unleash your inner daredevil! 🏃‍♂️\n\nAds:\n - Plaster ( https://amzn.to/48FWRfW )\n",
     "thumbnailPath": "assets/images/parkour.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Parkour",
-          "amount": 1.0,
-          "unit": "session"
+          "amount": 10.0,
+          "unit": "sessions"
         },
         "frequence": "once",
         "tracking": "camera",
@@ -1122,7 +1122,7 @@
   {
     "status": "InProgress",
     "title": "Photography",
-    "description": "Discover the world of photography and document your perspective.\n\nAds:\n - product ( link )\n",
+    "description": "Capture moments that tell stories. Explore the world through your lens, framing beauty in everyday scenes. From portraits to landscapes, ignite your creativity. Freeze time and share your visual narratives. 📷\n\nAds:\n - Iphone Camera Lens ( https://amzn.to/4b4qDwk )\n",
     "thumbnailPath": "assets/images/photography.png",
     "acceptanceCriteria": [
       {
@@ -1142,7 +1142,7 @@
   {
     "status": "InProgress",
     "title": "Plank",
-    "description": "Strengthen your abdominal muscles with plank exercises.\n\nAds:\n - product ( link )\n",
+    "description": "Build core strength and endurance with the plank challenge. Begin with short durations, gradually extending. Feel the burn as you sculpt your abs. Share your plank progress and inspire others to join the stability journey. 🔥\n\nAds:\n - Plank Pad [Game] ( https://amzn.to/421gjRV )\n",
     "thumbnailPath": "assets/images/plank.png",
     "acceptanceCriteria": [
       {
@@ -1162,15 +1162,15 @@
   {
     "status": "InProgress",
     "title": "Podcast",
-    "description": "Share your thoughts and ideas by creating your own podcast.\n\nAds:\n - product ( link )\n",
+    "description": "Dive into the world of podcasting! Share your insights, stories, or passions. Craft engaging narratives, explore intriguing topics, and connect with your audience through the power of your voice. Unleash your creativity and make waves in the podcasting realm. 🎙️\n\nAds:\n - Microphone ( https://amzn.to/3vODLFJ )\n",
     "thumbnailPath": "assets/images/podcast.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Record podcast",
-          "amount": 1.0,
-          "unit": "episode"
+          "amount": 10.0,
+          "unit": "episodes"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1182,7 +1182,7 @@
   {
     "status": "InProgress",
     "title": "Poetry Slam",
-    "description": "Develop your poetic skills and take part in a slam poetry event.\n\nAds:\n - product ( link )\n",
+    "description": "Step into the spotlight and let your words dance! Craft powerful verses, spill emotions, and perform your poetry with flair. Whether it's spoken word or rhythmic rhymes, embrace the stage and share the cadence of your soul. 🎤\n\nAds:\n - 'Poesie Manuskript' ( https://amzn.to/3vG8c0S )\n",
     "thumbnailPath": "assets/images/poetry.png",
     "acceptanceCriteria": [
       {
@@ -1202,7 +1202,7 @@
   {
     "status": "InProgress",
     "title": "Pottery",
-    "description": "Unleash your creative side and create works of art through pottery.\n\nAds:\n - product ( link )\n",
+    "description": "Mold, shape, and spin wonders from raw clay! Unleash your creativity on the potter's wheel, crafting unique vessels that tell stories through form and texture. Embrace the therapeutic art of pottery and watch your hands breathe life into timeless creations. 🏺\n\nAds:\n - Pottery Starter-Kit ( https://amzn.to/3S2AcDA )\n",
     "thumbnailPath": "assets/images/pottery.png",
     "acceptanceCriteria": [
       {
@@ -1222,7 +1222,7 @@
   {
     "status": "InProgress",
     "title": "Presentation",
-    "description": "Develop your presentation skills and perform in front of an audience.\n\nAds:\n - product ( link )\n",
+    "description": "Step into the spotlight and refine your art of persuasion! Craft compelling narratives, polish public speaking skills, and captivate your audience. Whether it's a boardroom or a virtual space, master the art of effective communication and leave a lasting impression. 🎙️\n\nAds:\n - Presenter ( https://amzn.to/48AO8M3 )\n",
     "thumbnailPath": "assets/images/presentation.png",
     "acceptanceCriteria": [
       {
@@ -1242,7 +1242,7 @@
   {
     "status": "InProgress",
     "title": "Push-ups",
-    "description": "Strengthen your arms, shoulders and chest muscles with regular push-up training.\n\nAds:\n - product ( link )\n",
+    "description": "Strengthen your upper body and core with the classic push-up challenge. Progress from standard to advanced variations, sculpting your chest, shoulders, and triceps. Embrace the burn, and watch your strength soar! 💪\n\nAds:\n - Push Up Rack Board ( https://amzn.to/421OtF6 )\n",
     "thumbnailPath": "assets/images/pushups.png",
     "acceptanceCriteria": [
       {
@@ -1262,7 +1262,7 @@
   {
     "status": "InProgress",
     "title": "Reading",
-    "description": "Immerse yourself in new worlds and broaden your horizons by reading regularly.\n\nAds:\n - product ( link )\n",
+    "description": "Indulge in literary realms! Traverse genres, uncover narratives, and let each page broaden your horizons. Whether fiction or non-fiction, immerse yourself in the written tapestry. 📚\n\nAds:\n - Reading Lamp ( https://amzn.to/4bd2rIu )\n",
     "thumbnailPath": "assets/images/reading.png",
     "acceptanceCriteria": [
       {
@@ -1281,9 +1281,9 @@
   },
   {
     "status": "InProgress",
-    "title": "Renounce",
-    "description": "Practice renunciation and strengthen your willpower. Give up something that is not easy for you and that is not actually good for you.\n\nAds:\n - product ( link )\n",
-    "thumbnailPath": "assets/images/renouncement.png",
+    "title": "Stop Smoking",
+    "description": "Step into a healthier life by bidding farewell to smoking. Embrace clean lungs, renewed energy, and a vibrant future. Your body will thank you for this empowering choice. 🚭\n\nAds:\n - 'Endlich Nichtraucher! ' ( https://amzn.to/3SotWYc )\n",
+    "thumbnailPath": "assets/images/no-smoking.png",
     "acceptanceCriteria": [
       {
         "id": 0,
@@ -1302,7 +1302,7 @@
   {
     "status": "InProgress",
     "title": "Running",
-    "description": "Increase your endurance and running performance by running regularly.\n\nAds:\n - Running shoes ( https://amzn.to/3S1hIo4 )\n",
+    "description": "Hit the pavement, feel the rhythm, and conquer each stride. Whether a beginner or a seasoned runner, set new goals, surpass limits, and savor the runner's high. Ready, set, run your path to victory! 🏃‍♂️\n\nAds:\n - Drinking Bag ( https://amzn.to/3O7CMXM )\n",
     "thumbnailPath": "assets/images/runner.png",
     "acceptanceCriteria": [
       {
@@ -1322,7 +1322,7 @@
   {
     "status": "InProgress",
     "title": "Selfcare",
-    "description": "Take time for self-care and relax at a spa or with other self-care activities.\n\nAds:\n - product ( link )\n",
+    "description": "Dive into the bliss of self-nurturing moments. Embrace tranquility through spa sessions, mindful practices, and soulful escapes. Prioritize your well-being and recharge for life's journey. Elevate your self-care game, one rejuvenating step at a time. 💆‍♀️\n\nAds:\n - Nurture by Nature Relax & Calm ( https://amzn.to/425G8QT )\n",
     "thumbnailPath": "assets/images/selfcare.png",
     "acceptanceCriteria": [
       {
@@ -1342,7 +1342,7 @@
   {
     "status": "InProgress",
     "title": "Skipping Rope",
-    "description": "Increase your fitness and stamina by jumping rope.\n\nAds:\n - product ( link )\n",
+    "description": "Jump into fitness and fun with the Skipping Rope Challenge. Elevate your heart rate, enhance coordination, and enjoy a dynamic workout. Whether indoors or outdoors, let the rhythmic motion of the rope bring joy to your exercise routine. 🏃‍♂️\n\nAds:\n - Skipping Rope ( https://amzn.to/3O4I863 )\n",
     "thumbnailPath": "assets/images/skip_rope.png",
     "acceptanceCriteria": [
       {
@@ -1362,7 +1362,7 @@
   {
     "status": "InProgress",
     "title": "Skydiving",
-    "description": "Float above the clouds and experience the thrill of skydiving.\n\nAds:\n - product ( link )\n",
+    "description": "Float above the clouds and experience the thrill of skydiving.\n\nAds:\n - Skydiving ( https://amzn.to/3RW77tm )\n",
     "thumbnailPath": "assets/images/skydiving.png",
     "acceptanceCriteria": [
       {
@@ -1382,7 +1382,7 @@
   {
     "status": "InProgress",
     "title": "Sleep Rhythm",
-    "description": "Optimize your sleep rhythm for better health and productivity.\n\nAds:\n - product ( link )\n",
+    "description": "Transform your nights with the Sleep Rhythm Challenge. Establish a consistent sleep schedule, unlock the power of quality rest, and wake up refreshed every morning. Embrace the benefits of a well-regulated sleep pattern for a healthier and more energized life. 💤\n\nAds:\n - Wake-Up Light ( https://amzn.to/421QrW0 )\n",
     "thumbnailPath": "assets/images/sleep.png",
     "acceptanceCriteria": [
       {
@@ -1402,14 +1402,14 @@
   {
     "status": "InProgress",
     "title": "Social Media Detox",
-    "description": "Take a break from social media and detox your digital presence.\n\nAds:\n - product ( link )\n",
+    "description": "Unplug and rejuvenate with the Social Media Detox Challenge. Take a break from the virtual noise, rediscover genuine connections, and reclaim your time for meaningful activities. Embrace the freedom from constant notifications and savor the present moment. 📵\n\nAds:\n - 'Digitale Balance' ( https://amzn.to/3OaL1lU )\n",
     "thumbnailPath": "assets/images/no-phone.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Social Media Detox",
-          "amount": 7.0,
+          "amount": 30.0,
           "unit": "days"
         },
         "frequence": "once",
@@ -1422,7 +1422,7 @@
   {
     "status": "InProgress",
     "title": "Steps",
-    "description": "Set yourself a step goal and document your progress.\n\nAds:\n - product ( link )\n",
+    "description": "Step into a healthier you with our Steps Challenge! Set daily step goals, explore your surroundings, and boost your well-being. Every step brings you closer to a more active lifestyle. Lace up, step out, and stride towards a healthier, happier life! 🚶‍♂️\n\nAds:\n - Step Counter ( https://amzn.to/4aZb5Kt )\n",
     "thumbnailPath": "assets/images/footprint.png",
     "acceptanceCriteria": [
       {
@@ -1442,15 +1442,15 @@
   {
     "status": "InProgress",
     "title": "Stretching",
-    "description": "Improve your flexibility and avoid injuries by stretching regularly.\n\nAds:\n - product ( link )\n",
+    "description": "Embrace flexibility and enhance your well-being with our Stretching Challenge. Dedicate time each day to stretch your muscles, improve posture, and find balance. Feel the tension melt away as you embark on a journey to a more flexible and rejuvenated you. 🤸‍♂️\n\nAds:\n - Gym Mat ( https://amzn.to/3U6bftp )\n",
     "thumbnailPath": "assets/images/stretching.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Stretching",
-          "amount": 15.0,
-          "unit": "min"
+          "amount": 30.0,
+          "unit": "days"
         },
         "frequence": "daily",
         "tracking": "camera",
@@ -1462,7 +1462,7 @@
   {
     "status": "InProgress",
     "title": "Sugar Detox",
-    "description": "Give up sugary foods for a week.\n\nAds:\n - product ( link )\n",
+    "description": "Take control of your health with our Sugar Detox Challenge. Bid farewell to refined sugars and embrace a healthier lifestyle. Boost energy, focus, and achieve better overall well-being. Your body will thank you for this sweet transformation! 🍏\n\nAds:\n - Sugar Substitute ( https://amzn.to/47Hyopk )\n",
     "thumbnailPath": "assets/images/sugar-free.png",
     "acceptanceCriteria": [
       {
@@ -1482,7 +1482,7 @@
   {
     "status": "InProgress",
     "title": "Survival Training",
-    "description": "Gain survival skills and experience intensive survival training.\n\nAds:\n - product ( link )\n",
+    "description": "Explore self-reliance with our Survival Training Challenge. Acquire essential skills for the wild, mastering shelter-building and fire-making. Confront challenges to fortify both mind and body. Awaken your inner survivor! 🏕️\n\nAds:\n - Survival Kit ( https://amzn.to/47LOEW5 )\n",
     "thumbnailPath": "assets/images/knife.png",
     "acceptanceCriteria": [
       {
@@ -1502,15 +1502,15 @@
   {
     "status": "InProgress",
     "title": "Swimming",
-    "description": "Improve your stamina and strengthen your entire body with regular swimming.\n\nAds:\n - product ( link )\n",
+    "description": "Dive into the refreshing world of swimming! Immerse yourself in the water, enhance endurance, and sculpt your physique. Make waves of progress as you conquer lap after lap. Join the aquatic journey! 🏊‍♂️\n\nAds:\n - Swimming Goggles ( https://amzn.to/4b3vf5R )\n",
     "thumbnailPath": "assets/images/swimming.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Swimming",
-          "amount": 1.0,
-          "unit": "hour"
+          "amount": 30.0,
+          "unit": "sessions"
         },
         "frequence": "weekly",
         "tracking": "camera",
@@ -1522,14 +1522,14 @@
   {
     "status": "InProgress",
     "title": "Taking Vitamins",
-    "description": "Make sure you take all the important vitamins and promote your health.\n\nAds:\n - product ( link )\n",
+    "description": "Nourish your body, one vitamin at a time! Boost your wellness by making a habit of taking essential vitamins daily. Experience the vitality and support your health deserves. Elevate your routine with a daily dose of goodness! 💊\n\nAds:\n - Multivitamin ( https://amzn.to/3u5yKYU )\n",
     "thumbnailPath": "assets/images/vitamin.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Ingestion",
-          "amount": 30.0,
+          "amount": 365.0,
           "unit": "days"
         },
         "frequence": "daily",
@@ -1542,7 +1542,7 @@
   {
     "status": "InProgress",
     "title": "Theater",
-    "description": "Broaden your cultural horizons and take part in a theater.\n\nAds:\n - product ( link )\n",
+    "description": "Step into a world of stories and emotions! Immerse yourself in the captivating realm of theater. Whether it's a classic play or a modern production, let the stage be your portal to creativity, drama, and unforgettable moments. Unleash your imagination and let the show begin! 🎭\n\nAds:\n - 'Übungen und Spiele für Schauspieler und Nicht-Schauspieler' ( https://amzn.to/3OxqS9V )\n",
     "thumbnailPath": "assets/images/theater.png",
     "acceptanceCriteria": [
       {
@@ -1562,14 +1562,14 @@
   {
     "status": "InProgress",
     "title": "Travel",
-    "description": "Escape everyday life and experience new places on a trip.\n\nAds:\n - product ( link )\n",
+    "description": "Journey through diverse landscapes and cultures. Immerse yourself in new experiences, savor local flavors, and uncover the beauty of different places. Whether it's vibrant cities or serene nature, let every destination tell a unique story. Travel to broaden your horizons, create lasting memories, and let the world become your teacher. 🌍\n\nAds:\n - Suitcase ( https://amzn.to/3U6Mxcg )\n",
     "thumbnailPath": "assets/images/travel.png",
     "acceptanceCriteria": [
       {
         "id": 0,
         "activity": {
           "title": "Travel",
-          "amount": 10.0,
+          "amount": 14.0,
           "unit": "days"
         },
         "frequence": "once",
@@ -1582,7 +1582,7 @@
   {
     "status": "InProgress",
     "title": "Walking",
-    "description": "Enjoy nature and improve your health by going for regular walks.\n\nAds:\n - product ( link )\n",
+    "description": "Step into the rhythm of life with a mindful walk. Breathe in nature, let your surroundings be your guide. From park strolls to mountain hikes, relish each step as a meditation. Discover the joy of moving forward, embracing the journey one step at a time. 🚶‍♂️\n\nAds:\n - Water Bottle ( https://amzn.to/4aXibzb )\n",
     "thumbnailPath": "assets/images/walking.png",
     "acceptanceCriteria": [
       {
@@ -1602,7 +1602,7 @@
   {
     "status": "InProgress",
     "title": "Water Skiing",
-    "description": "Enjoy the speed and thrill of water skiing.\n\nAds:\n - product ( link )\n",
+    "description": "Feel the rush as you glide over the water's surface, skis cutting through waves. Embrace the thrill of speed and the challenge of maintaining balance. Whether it's your first time or a seasoned pro, water skiing is a splash of excitement and a testament to conquering aquatic adventures. 🎿\n\nAds:\n - Water Proof Bag ( https://amzn.to/3vIdadL )\n",
     "thumbnailPath": "assets/images/water_skiing.png",
     "acceptanceCriteria": [
       {
@@ -1622,7 +1622,7 @@
   {
     "status": "InProgress",
     "title": "Weight Gain",
-    "description": "Consume excess calories to gain body mass.\n\nAds:\n - product ( link )\n",
+    "description": "Transform your body and build confidence with the 'Weight Gain' challenge. This journey emphasizes balanced nutrition and targeted workouts for gradual and sustainable results. Celebrate a stronger, healthier you. It's not just about the numbers; it's about embracing a new, empowered version of yourself. 💪\n\nAds:\n - Mixer ( https://amzn.to/428ACNq )\n",
     "thumbnailPath": "assets/images/overweight.png",
     "acceptanceCriteria": [
       {
@@ -1642,7 +1642,7 @@
   {
     "status": "InProgress",
     "title": "Wim Hof Breathing",
-    "description": "Gain control over your breath and practise the Wim Hof breathing technique.\n\nAds:\n - product ( link )\n",
+    "description": "Explore the 'Wim Hof Breathing' challenge and unlock the potential of controlled breathwork. Elevate your mental clarity and physical well-being through this transformative practice. Immerse yourself in the benefits, fostering increased energy, focus, and inner strength. 🌬️\n\nAds:\n - 'NIE WIEDER KRANK' ( https://amzn.to/48zxpc1 ) \n - 'Die Wim-Hof-Methode' ( https://amzn.to/422aK5N )\n",
     "thumbnailPath": "assets/images/deep-breathing.png",
     "acceptanceCriteria": [
       {
@@ -1653,46 +1653,6 @@
           "unit": "sessions"
         },
         "frequence": "daily",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Wingsuit",
-    "description": "Experience the thrill of wingsuit flying.\n\nAds:\n - product ( link )\n",
-    "thumbnailPath": "assets/images/wingsuit.png",
-    "acceptanceCriteria": [
-      {
-        "id": 0,
-        "activity": {
-          "title": "Wingsuit",
-          "amount": 1.0,
-          "unit": "flight"
-        },
-        "frequence": "once",
-        "tracking": "camera",
-        "progress": 0.0
-      }
-    ],
-    "media": []
-  },
-  {
-    "status": "InProgress",
-    "title": "Xletics",
-    "description": "Master various obstacles and show off your fitness in the Xletics competition.\n\nAds:\n - product ( link )\n",
-    "thumbnailPath": "assets/images/xletics.png",
-    "acceptanceCriteria": [
-      {
-        "id": 0,
-        "activity": {
-          "title": "Xletics",
-          "amount": 1.0,
-          "unit": "session"
-        },
-        "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
       }
