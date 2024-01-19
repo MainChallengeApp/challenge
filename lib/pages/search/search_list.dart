@@ -49,7 +49,7 @@ class _SearchListState extends State<SearchList> {
         future: challengesFutures,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             filteredChallenges = snapshot.data!
                 .where((element) => element.searchInChallenge(searchBarText))
@@ -108,7 +108,7 @@ class _SearchListState extends State<SearchList> {
                   }),
             );
           } else {
-            return const Text('Error with loading data...');
+            return const Center(child: Text('Error with loading data...'));
           }
         });
   }
