@@ -128,12 +128,12 @@ class _SettingsListState extends State<SettingsList> {
   }
 
   onTapLogout() {
-    accountController.writeFile(context, Account());
+    accountController.writeFile(Account());
     context.read<DesignProvider>().setIsRegistered(false);
   }
 
   void loadAccount() async {
-    account = await accountController.readFile(context);
+    account = await accountController.readFile();
     setState(() {});
   }
 

@@ -1,9 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/json_file_controller/account_controller.dart';
-import 'package:challenge/models/account.dart';
 import 'package:challenge/pages/registration/registration.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/services/load_account_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/app.dart';
 import 'package:flutter/services.dart';
@@ -18,39 +17,24 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => DesignProvider()),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  AccountController accountController = AccountController();
-  Account account = Account();
+  LoadAccountService loadAccountService = LoadAccountService();
 
   @override
   void initState() {
     super.initState();
-
-    loadAccount();
-  }
-
-  Future<void> loadAccount() async {
-    // ignore: use_build_context_synchronously
-    account = await accountController.readFile(context);
-    if (account.email == null || account.email!.isEmpty) {
-      // ignore: use_build_context_synchronously
-      await accountController.writeFile(context, account);
-    } else {
-      // ignore: use_build_context_synchronously
-      context.read<DesignProvider>().setIsRegistered(true);
-    }
-    setState(() {});
+    loadAccountService.loadAccount(context);
   }
 
   @override
