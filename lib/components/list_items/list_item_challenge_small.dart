@@ -1,5 +1,5 @@
 import 'package:challenge/components/list_items/list_item_container.dart';
-import 'package:challenge/enums/challenge_status.dart';
+import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
 

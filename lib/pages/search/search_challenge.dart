@@ -17,7 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
-import 'package:challenge/enums/tab_item.dart';
+import 'package:challenge/enums/tab_item.enum.dart';
 import 'package:challenge/models/acceptance_criteria.dart';
 import 'package:challenge/models/activity.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
