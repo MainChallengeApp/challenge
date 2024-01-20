@@ -1,6 +1,6 @@
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/models/acceptance_criteria.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';

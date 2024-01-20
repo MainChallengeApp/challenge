@@ -4,7 +4,7 @@ import 'package:challenge/components/simple_components/custom_card.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

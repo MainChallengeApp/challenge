@@ -1,4 +1,4 @@
-import 'package:challenge/json_file_controller/account_controller.dart';
+import 'package:challenge/json_file_controller/account.controller.dart';
 import 'package:challenge/models/account.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';

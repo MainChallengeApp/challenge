@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/models/challenge.dart';
 import 'package:flutter/material.dart';
 

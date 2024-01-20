@@ -3,7 +3,7 @@ import 'package:challenge/components/list_items/list_item_media_small.dart';
 import 'package:challenge/pages/subpages/media/media_detail.dart';
 import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
