@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge.model.dart';
-import 'package:challenge/pages/search/search_list.dart';
+import 'package:challenge/pages/search/search_list.page.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
@@ -38,7 +38,7 @@ class SearchTabNavigator extends TabNavigator {
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, ChallengeModel? challenge}) {
     return {
-      SearchTabNavigatorRoutes.root: (context) => SearchList(
+      SearchTabNavigatorRoutes.root: (context) => SearchListPage(
             title: tabItem.name,
             onPush: (c) => ppush(context, challenge: c),
             selectTab: selectTab,

@@ -1,6 +1,6 @@
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/list_items/list_item_media_small.dart';
-import 'package:challenge/pages/subpages/media/media_detail.dart';
+import 'package:challenge/pages/subpages/media/media_detail.page.dart';
 import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
@@ -15,8 +15,8 @@ import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
-class MediaList extends StatefulWidget {
-  const MediaList(
+class MediaListPage extends StatefulWidget {
+  const MediaListPage(
       {super.key,
       required this.preTitle,
       this.tapOnNewChallenge,
@@ -26,10 +26,10 @@ class MediaList extends StatefulWidget {
   final ChallengeModel challenge;
 
   @override
-  State<MediaList> createState() => _MediaListState();
+  State<MediaListPage> createState() => _MediaListPageState();
 }
 
-class _MediaListState extends State<MediaList> {
+class _MediaListPageState extends State<MediaListPage> {
   String searchBarText = "";
 
   ScrollController scrollController = ScrollController();
@@ -126,7 +126,7 @@ class _MediaListState extends State<MediaList> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => MediaDetail(
+        builder: (context) => MediaDetailPage(
           media: widget.challenge.media
               .where((element) => element.title.contains(searchBarText))
               .toList(),

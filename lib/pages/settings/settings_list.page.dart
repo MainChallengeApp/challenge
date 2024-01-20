@@ -10,18 +10,18 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/models/account.model.dart';
-import 'package:challenge/pages/subpages/credits/credits.dart';
+import 'package:challenge/pages/subpages/credits/credits.page.dart';
 
-class SettingsList extends StatefulWidget {
-  const SettingsList({super.key, required this.title, this.onPush});
+class SettingsListPage extends StatefulWidget {
+  const SettingsListPage({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
 
   @override
-  State<SettingsList> createState() => _SettingsListState();
+  State<SettingsListPage> createState() => _SettingsListPageState();
 }
 
-class _SettingsListState extends State<SettingsList> {
+class _SettingsListPageState extends State<SettingsListPage> {
   late Future<List<ChallengeModel>> challengesFutures;
   AccountModel account = AccountModel(email: '');
   AccountController accountController = AccountController();
@@ -160,7 +160,7 @@ class _SettingsListState extends State<SettingsList> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => Credits(
+        builder: (context) => CreditsPage(
           preTitle: widget.title,
         ),
       ),

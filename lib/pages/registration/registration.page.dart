@@ -7,14 +7,14 @@ import 'package:challenge/providers/design.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Registration extends StatefulWidget {
-  const Registration({super.key});
+class RegistrationPage extends StatefulWidget {
+  const RegistrationPage({super.key});
 
   @override
-  State<Registration> createState() => _RegistrationState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _RegistrationState extends State<Registration> {
+class _RegistrationPageState extends State<RegistrationPage> {
   String email = '';
   AccountController accountController = AccountController();
   TextEditingController textEditingController = TextEditingController();

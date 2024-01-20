@@ -18,7 +18,7 @@ import 'package:challenge/models/evidence.model.dart';
 import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
-import 'package:challenge/pages/subpages/media/media_detail.dart';
+import 'package:challenge/pages/subpages/media/media_detail.page.dart';
 import 'upload_media.dart';
 
 class AcceptanceCriteriaMediaList extends StatefulWidget {
@@ -168,7 +168,7 @@ class _AcceptanceCriteriaMediaListState
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => MediaDetail(
+        builder: (context) => MediaDetailPage(
           media: widget.mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIdex: index,

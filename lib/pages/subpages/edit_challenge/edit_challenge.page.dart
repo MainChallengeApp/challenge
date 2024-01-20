@@ -2,11 +2,11 @@
 import 'package:challenge/components/simple_components/custom_button.dart';
 import 'package:challenge/components/simple_components/custom_card.dart';
 import 'package:challenge/components/simple_components/custom_container.dart';
-import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.page.dart';
 import 'package:challenge/components/media/upload_media.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:challenge/pages/home/home_challenge.page.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
-class EditChallenge extends StatefulWidget {
+class EditChallengePage extends StatefulWidget {
   final String preTitle;
   final ChallengeModel challenge;
   late ChallengeModel editChallenge;
@@ -26,7 +26,7 @@ class EditChallenge extends StatefulWidget {
   final bool isTryAgain;
   final bool isSearchEdit;
 
-  EditChallenge(
+  EditChallengePage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -38,10 +38,10 @@ class EditChallenge extends StatefulWidget {
   }
 
   @override
-  State<EditChallenge> createState() => _EditChallengeState();
+  State<EditChallengePage> createState() => _EditChallengePageState();
 }
 
-class _EditChallengeState extends State<EditChallenge> {
+class _EditChallengePageState extends State<EditChallengePage> {
   int selectedAcceptanceCriteria = 0;
 
   ChallengeController challengeController = ChallengeController();
@@ -465,7 +465,7 @@ class _EditChallengeState extends State<EditChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => HomeChallenge(
+        builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
             challenge: widget.challenge,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
@@ -477,7 +477,7 @@ class _EditChallengeState extends State<EditChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => AddAcceptanceCriteria(
+        builder: (context) => AddAcceptanceCriteriaPage(
           preTitle:
               '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,

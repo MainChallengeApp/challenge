@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 
 import 'package:challenge/models/acceptance_criteria.model.dart';
 
-class AddAcceptanceCriteria extends StatefulWidget {
-  const AddAcceptanceCriteria(
+class AddAcceptanceCriteriaPage extends StatefulWidget {
+  const AddAcceptanceCriteriaPage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -23,10 +23,11 @@ class AddAcceptanceCriteria extends StatefulWidget {
   final bool areButtonsVisible;
 
   @override
-  State<AddAcceptanceCriteria> createState() => _AddAcceptanceCriteriaState();
+  State<AddAcceptanceCriteriaPage> createState() =>
+      _AddAcceptanceCriteriaPageState();
 }
 
-class _AddAcceptanceCriteriaState extends State<AddAcceptanceCriteria> {
+class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
   @override
   Widget build(BuildContext context) {
     String title = widget.acceptanceCriteriaIndex == null

@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/components/simple_components/custom_card.dart';
-import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.dart';
+import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.page.dart';
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
@@ -15,15 +15,15 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/enums/tab_item.enum.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/models/activity.model.dart';
-import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:challenge/pages/home/home_challenge.page.dart';
 
-class SearchChallenge extends StatefulWidget {
-  SearchChallenge(
+class SearchChallengePage extends StatefulWidget {
+  SearchChallengePage(
       {super.key,
       required this.title,
       required this.challenge,
@@ -37,10 +37,10 @@ class SearchChallenge extends StatefulWidget {
   int initialChalleneIndex;
 
   @override
-  State<SearchChallenge> createState() => _SearchChallengeState();
+  State<SearchChallengePage> createState() => _SearchChallengePageState();
 }
 
-class _SearchChallengeState extends State<SearchChallenge> {
+class _SearchChallengePageState extends State<SearchChallengePage> {
   bool isDescriptionExpanded = false;
   late PageController pageController =
       PageController(initialPage: widget.initialChalleneIndex);
@@ -518,7 +518,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     // }
     homeNavigator.push(
       NoAnimationPageRoute(
-        builder: (context) => HomeChallenge(
+        builder: (context) => HomeChallengePage(
           preTitle: 'Home',
           challenge: challengeCopy,
           initialChalleneIndex: 0,
@@ -548,7 +548,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => EditChallenge(
+        builder: (context) => EditChallengePage(
           preTitle: '${widget.title}/${widget.challenge.title}',
           challenge: widget.challenge,
           isSearchEdit: true,
@@ -640,7 +640,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => AddAcceptanceCriteria(
+        builder: (context) => AddAcceptanceCriteriaPage(
             preTitle: '${widget.title}/${widget.challenge.title}',
             challenge: widget.challenge,
             acceptanceCriteria: acceptanceCriteria,
@@ -696,7 +696,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => AddAcceptanceCriteria(
+        builder: (context) => AddAcceptanceCriteriaPage(
           preTitle: '${widget.title}/${widget.challenge.title}/',
           challenge: widget.challenge,
           acceptanceCriteria: AcceptanceCriteriaModel(

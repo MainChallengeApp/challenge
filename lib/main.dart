@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/pages/registration/registration.dart';
+import 'package:challenge/pages/registration/registration.page.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/services/load_account.service.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +49,6 @@ class _MyAppState extends State<MyApp> {
         })),
         home: context.watch<DesignProvider>().isRegistered()
             ? const App()
-            : const Registration());
+            : const RegistrationPage());
   }
 }

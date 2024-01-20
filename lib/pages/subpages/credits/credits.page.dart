@@ -1,8 +1,8 @@
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
-class Credits extends StatelessWidget {
-  const Credits({super.key, required this.preTitle});
+class CreditsPage extends StatelessWidget {
+  const CreditsPage({super.key, required this.preTitle});
 
   final String preTitle;
 

@@ -8,20 +8,20 @@ import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.model.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
-import 'search_challenge.dart';
+import 'search_challenge.page.dart';
 
-class SearchList extends StatefulWidget {
-  const SearchList(
+class SearchListPage extends StatefulWidget {
+  const SearchListPage(
       {super.key, required this.title, this.onPush, required this.selectTab});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
   final Function selectTab;
 
   @override
-  State<SearchList> createState() => _SearchListState();
+  State<SearchListPage> createState() => _SearchListPageState();
 }
 
-class _SearchListState extends State<SearchList> {
+class _SearchListPageState extends State<SearchListPage> {
   late Future<List<ChallengeModel>> challengesFutures;
   late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
@@ -133,7 +133,7 @@ class _SearchListState extends State<SearchList> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => SearchChallenge(
+        builder: (context) => SearchChallengePage(
           title: widget.title,
           challenge: challenge,
           selectTab: widget.selectTab,

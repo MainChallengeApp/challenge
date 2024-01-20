@@ -10,8 +10,8 @@ import 'package:challenge/models/media.model.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
-class MediaCamera extends StatefulWidget {
-  const MediaCamera({
+class MediaCameraPage extends StatefulWidget {
+  const MediaCameraPage({
     super.key,
     required this.cameras,
     required this.preTitle,
@@ -27,10 +27,10 @@ class MediaCamera extends StatefulWidget {
   final ChallengeModel challenge;
 
   @override
-  State<MediaCamera> createState() => _CameraStateMedia();
+  State<MediaCameraPage> createState() => _CameraStateMedia();
 }
 
-class _CameraStateMedia extends State<MediaCamera> {
+class _CameraStateMedia extends State<MediaCameraPage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   FlashMode flashMode = FlashMode.off;

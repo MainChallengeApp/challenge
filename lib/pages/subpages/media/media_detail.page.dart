@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media.model.dart';
 
-class MediaDetail extends StatefulWidget {
+class MediaDetailPage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> media;
   final int initialMediaIdex;
   final ChallengeModel challenge;
 
-  const MediaDetail(
+  const MediaDetailPage(
       {super.key,
       required this.preTitle,
       required this.media,
@@ -22,10 +22,10 @@ class MediaDetail extends StatefulWidget {
       required this.challenge});
 
   @override
-  State<MediaDetail> createState() => _MediaDetailState();
+  State<MediaDetailPage> createState() => _MediaDetailPageState();
 }
 
-class _MediaDetailState extends State<MediaDetail> {
+class _MediaDetailPageState extends State<MediaDetailPage> {
   late PageController controller =
       PageController(initialPage: widget.initialMediaIdex);
   late String currentTitle = widget.media[widget.initialMediaIdex].title;

@@ -1,8 +1,8 @@
 import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
-import 'package:challenge/pages/home/home_challenge.dart';
+import 'package:challenge/pages/home/home_challenge.page.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small.dart';
@@ -14,16 +14,16 @@ import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:challenge/models/activity.model.dart';
 
-class HomeList extends StatefulWidget {
-  const HomeList({super.key, required this.title, this.onPush});
+class HomeListPage extends StatefulWidget {
+  const HomeListPage({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
 
   @override
-  State<HomeList> createState() => _HomeListState();
+  State<HomeListPage> createState() => _HomeListPageState();
 }
 
-class _HomeListState extends State<HomeList> {
+class _HomeListPageState extends State<HomeListPage> {
   late Future<List<ChallengeModel>> challengesFutures;
   ChallengeController challengeController = ChallengeController();
 
@@ -142,7 +142,7 @@ class _HomeListState extends State<HomeList> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => HomeChallenge(
+        builder: (context) => HomeChallengePage(
             preTitle: widget.title,
             challenge: challenge,
             initialChalleneIndex: index),
@@ -171,7 +171,7 @@ class _HomeListState extends State<HomeList> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => EditChallenge(
+        builder: (context) => EditChallengePage(
           preTitle: widget.title,
           challenge: challenge,
           isNewChallenge: true,

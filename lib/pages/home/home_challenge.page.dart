@@ -2,9 +2,9 @@
 
 import 'package:camera/camera.dart';
 import 'package:challenge/components/simple_components/custom_card.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
-import 'package:challenge/pages/subpages/media/media_camera.dart';
-import 'package:challenge/pages/subpages/media/media_list.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
+import 'package:challenge/pages/subpages/media/media_camera.page.dart';
+import 'package:challenge/pages/subpages/media/media_list.page.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
@@ -23,10 +23,10 @@ import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 
-class HomeChallenge extends StatefulWidget {
+class HomeChallengePage extends StatefulWidget {
   // Function homeListSetState;
 
-  HomeChallenge(
+  HomeChallengePage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -36,10 +36,10 @@ class HomeChallenge extends StatefulWidget {
   final int initialChalleneIndex;
 
   @override
-  State<HomeChallenge> createState() => _HomeChallengeState();
+  State<HomeChallengePage> createState() => _HomeChallengePageState();
 }
 
-class _HomeChallengeState extends State<HomeChallenge> {
+class _HomeChallengePageState extends State<HomeChallengePage> {
   bool isDescriptionExpanded = false;
 
   late BuildContext context2;
@@ -618,7 +618,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
       Navigator.push(
         context,
         NoAnimationPageRoute(
-          builder: (context) => EditChallenge(
+          builder: (context) => EditChallengePage(
             preTitle: '${widget.preTitle}/${widget.challenge.title}',
             challenge: widget.challenge,
           ),
@@ -651,7 +651,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => MediaList(
+        builder: (context) => MediaListPage(
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           challenge: widget.challenge,
         ),
@@ -698,7 +698,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     Navigator.push(
       context,
       NoAnimationPageRoute(
-        builder: (context) => MediaCamera(
+        builder: (context) => MediaCameraPage(
           cameras: cameras,
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           mediaList: widget.challenge.media,
@@ -833,7 +833,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
             ChallengeModel challenge = ChallengeModel.copyChallenge(
                 widget.challenge,
                 isTryAgain: true);
-            return EditChallenge(
+            return EditChallengePage(
               preTitle: widget.preTitle,
               challenge: challenge,
               isTryAgain: true,

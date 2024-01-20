@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
-import 'package:challenge/pages/home/home_list.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
+import 'package:challenge/pages/home/home_list.page.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
@@ -36,13 +36,13 @@ class HomeTabNavigator extends TabNavigator {
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, ChallengeModel? challenge}) {
     return {
-      HomeTabNavigatorRoutes.root: (context) => HomeList(
+      HomeTabNavigatorRoutes.root: (context) => HomeListPage(
           title: tabItem.name, onPush: (c) => ppush(context, challenge: c)),
       // HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
       //       preTitle: tabItem.name,
       //       challenge: challenge!,
       //     ),
-      HomeTabNavigatorRoutes.newChallenge: (context) => EditChallenge(
+      HomeTabNavigatorRoutes.newChallenge: (context) => EditChallengePage(
             preTitle: tabItem.name,
             challenge: challenge!,
           ),
