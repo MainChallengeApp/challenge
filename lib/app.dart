@@ -19,7 +19,7 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  TabItem _currentTab = TabItem.Search;
+  TabItemEnum _currentTab = TabItemEnum.Search;
   ChallengeController challengeController = ChallengeController();
 
   @override
@@ -28,7 +28,8 @@ class AppState extends State<App> {
     challengeController.readFile(context).then((value) {
       allChallengesList = value;
       setState(() {
-        _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;
+        _currentTab =
+            allChallengesList.isEmpty ? TabItemEnum.Search : TabItemEnum.Home;
       });
       return allChallengesList = value;
     });
@@ -38,12 +39,13 @@ class AppState extends State<App> {
     Future.delayed(Duration.zero, () async {
       allChallengesList = await challengeController.readFile(context);
       setState(() {
-        _currentTab = allChallengesList.isEmpty ? TabItem.Search : TabItem.Home;
+        _currentTab =
+            allChallengesList.isEmpty ? TabItemEnum.Search : TabItemEnum.Home;
       });
     });
   }
 
-  void _selectTab(TabItem tabItem) {
+  void _selectTab(TabItemEnum tabItem) {
     if (tabItem == _currentTab) {
       // pop to first route
       navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
@@ -57,9 +59,9 @@ class AppState extends State<App> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          _buildOffstageNavigator(TabItem.Search),
-          _buildOffstageNavigator(TabItem.Home),
-          _buildOffstageNavigator(TabItem.Settings),
+          _buildOffstageNavigator(TabItemEnum.Search),
+          _buildOffstageNavigator(TabItemEnum.Home),
+          _buildOffstageNavigator(TabItemEnum.Settings),
         ],
       ),
       backgroundColor: Colors.white,
@@ -91,9 +93,9 @@ class AppState extends State<App> {
         : null;
   }
 
-  Widget _buildOffstageNavigator(TabItem tabItem) {
+  Widget _buildOffstageNavigator(TabItemEnum tabItem) {
     switch (tabItem) {
-      case TabItem.Search:
+      case TabItemEnum.Search:
         return Offstage(
           offstage: _currentTab != tabItem,
           child: SearchTabNavigator(
@@ -102,7 +104,7 @@ class AppState extends State<App> {
             selectTab: _selectTab,
           ),
         );
-      case TabItem.Home:
+      case TabItemEnum.Home:
         return Offstage(
           offstage: _currentTab != tabItem,
           child: HomeTabNavigator(
@@ -110,7 +112,7 @@ class AppState extends State<App> {
             tabItem: tabItem,
           ),
         );
-      case TabItem.Settings:
+      case TabItemEnum.Settings:
         return Offstage(
           offstage: _currentTab != tabItem,
           child: SettingsTabNavigator(

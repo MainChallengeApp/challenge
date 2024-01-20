@@ -33,7 +33,7 @@ class SettingsTabNavigator extends TabNavigator {
 
   void tapOnNewChallenge(BuildContext context) {
     final Challenge challenge = Challenge(
-        status: ChallengeStatus.backlog,
+        status: ChallengeStatusEnum.backlog,
         title: 'new Challenge',
         description: '',
         thumbnailPath: '',

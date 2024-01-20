@@ -6,7 +6,7 @@ import 'media.dart';
 
 class Challenge {
   String? id; // set id automatically
-  ChallengeStatus? status;
+  ChallengeStatusEnum? status;
   String title;
   String description;
   String thumbnailPath;
@@ -33,7 +33,7 @@ class Challenge {
   static Challenge fromJson(Map json) {
     return Challenge(
         id: json.containsKey('id') ? json['id'] : null,
-        status: ChallengeStatus.factory(json['status']),
+        status: ChallengeStatusEnum.factory(json['status']),
         title: json['title'],
         description: json['description'],
         thumbnailPath: json['thumbnailPath'],
@@ -65,7 +65,7 @@ class Challenge {
   static Challenge copyChallenge(Challenge challenge,
       {bool isTryAgain = false}) {
     Challenge challengeCopy = Challenge(
-        status: isTryAgain ? ChallengeStatus.inProgress : challenge.status,
+        status: isTryAgain ? ChallengeStatusEnum.inProgress : challenge.status,
         title: challenge.title,
         startDate: isTryAgain ? null : challenge.startDate,
         endDate: isTryAgain ? null : challenge.endDate,

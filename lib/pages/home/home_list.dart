@@ -159,7 +159,7 @@ class _HomeListState extends State<HomeList> {
         progress: 0,
         evidences: []);
     final Challenge challenge = Challenge(
-        status: ChallengeStatus.inProgress,
+        status: ChallengeStatusEnum.inProgress,
         title: '',
         description: '',
         thumbnailPath: '',

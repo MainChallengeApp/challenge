@@ -13,7 +13,7 @@ class TabNavigator extends StatelessWidget {
   const TabNavigator(
       {super.key, required this.navigatorKey, required this.tabItem});
   final GlobalKey<NavigatorState>? navigatorKey;
-  final TabItem tabItem;
+  final TabItemEnum tabItem;
 
   void ppush(BuildContext context,
       {int challengeId = 0, Challenge? challenge}) {

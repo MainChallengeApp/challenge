@@ -14,7 +14,7 @@ List<Challenge> challengeList = [];
 List<Challenge> allChallengesList = [];
 
 final navigatorKeys = {
-  TabItem.Search: GlobalKey<NavigatorState>(),
-  TabItem.Home: GlobalKey<NavigatorState>(),
-  TabItem.Settings: GlobalKey<NavigatorState>(),
+  TabItemEnum.Search: GlobalKey<NavigatorState>(),
+  TabItemEnum.Home: GlobalKey<NavigatorState>(),
+  TabItemEnum.Settings: GlobalKey<NavigatorState>(),
 };

@@ -85,15 +85,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
               endActionPane: ActionPane(
-                extentRatio: (e.status == ChallengeStatus.inProgress ||
-                        e.status == ChallengeStatus.backlog)
+                extentRatio: (e.status == ChallengeStatusEnum.inProgress ||
+                        e.status == ChallengeStatusEnum.backlog)
                     ? 0.5
                     : 0.25,
                 motion: const ScrollMotion(),
                 children: [
                   editSlider(e),
-                  (e.status == ChallengeStatus.inProgress ||
-                          e.status == ChallengeStatus.backlog)
+                  (e.status == ChallengeStatusEnum.inProgress ||
+                          e.status == ChallengeStatusEnum.backlog)
                       ? const SizedBox(
                           width: 20,
                         )
@@ -177,8 +177,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   Widget editSlider(Challenge e) {
-    return (e.status == ChallengeStatus.inProgress ||
-            e.status == ChallengeStatus.backlog)
+    return (e.status == ChallengeStatusEnum.inProgress ||
+            e.status == ChallengeStatusEnum.backlog)
         ? Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
@@ -219,7 +219,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
               height: 55,
               width: double.infinity,
               decoration: BoxDecoration(
-                  color: e.status == ChallengeStatus.backlog
+                  color: e.status == ChallengeStatusEnum.backlog
                       ? themeColor2
                       : Colors.white,
                   border: Border.all(
@@ -227,15 +227,15 @@ class _HomeChallengeState extends State<HomeChallenge> {
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
               child: Center(
                   child: Text(
-                e.status == ChallengeStatus.inProgress
+                e.status == ChallengeStatusEnum.inProgress
                     ? 'End'
-                    : e.status == ChallengeStatus.success
+                    : e.status == ChallengeStatusEnum.success
                         ? 'Accept Again'
-                        : e.status == ChallengeStatus.backlog
+                        : e.status == ChallengeStatusEnum.backlog
                             ? 'Start'
                             : 'Try Again', // ChallengeStatus.failed
                 style: TextStyle(
-                    color: e.status == ChallengeStatus.backlog
+                    color: e.status == ChallengeStatusEnum.backlog
                         ? Colors.white
                         : Colors.black,
                     fontWeight: FontWeight.w500),
@@ -402,7 +402,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         if (DateTime.now()
             .isAfter(widget.challenge.endDate!.add(const Duration(days: 1)))) {
           if (!checkAcceptanceCriteria()) {
-            widget.challenge.status = ChallengeStatus.failed;
+            widget.challenge.status = ChallengeStatusEnum.failed;
           }
         }
         // else {
@@ -421,7 +421,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     if (widget.challenge.startDate == null ||
         DateTime.now().microsecondsSinceEpoch <
             widget.challenge.startDate!.microsecondsSinceEpoch) {
-      widget.challenge.status = ChallengeStatus.backlog;
+      widget.challenge.status = ChallengeStatusEnum.backlog;
     }
   }
 
@@ -499,7 +499,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
               // width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: widget.challenge.status == ChallengeStatus.failed
+                  color: widget.challenge.status == ChallengeStatusEnum.failed
                       ? Colors.red
                       : Colors.green,
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
@@ -613,8 +613,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     setState(() {
       Slidable.of(context2)?.close(duration: Duration.zero);
     });
-    if (widget.challenge.status == ChallengeStatus.inProgress ||
-        widget.challenge.status == ChallengeStatus.backlog) {
+    if (widget.challenge.status == ChallengeStatusEnum.inProgress ||
+        widget.challenge.status == ChallengeStatusEnum.backlog) {
       Navigator.push(
         context,
         NoAnimationPageRoute(
@@ -715,9 +715,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
       onTap: () {
         Navigator.pop(context3);
         if (checkAcceptanceCriteria()) {
-          widget.challenge.status = ChallengeStatus.success;
+          widget.challenge.status = ChallengeStatusEnum.success;
         } else {
-          widget.challenge.status = ChallengeStatus.failed;
+          widget.challenge.status = ChallengeStatusEnum.failed;
         }
         setState(() {
           widget.challenge.endDate = DateTime.now();
@@ -776,7 +776,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   void onTapStartEndTryAcceptAgainButton(Challenge challenge) {
-    if (widget.challenge.status == ChallengeStatus.inProgress) {
+    if (widget.challenge.status == ChallengeStatusEnum.inProgress) {
       // End button
       showDialog(
         context: context,
@@ -821,8 +821,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
           );
         },
       );
-    } else if (widget.challenge.status == ChallengeStatus.failed ||
-        widget.challenge.status == ChallengeStatus.success) {
+    } else if (widget.challenge.status == ChallengeStatusEnum.failed ||
+        widget.challenge.status == ChallengeStatusEnum.success) {
       // Try Again Button and Accept Again
       Navigator.pop(context);
       Navigator.push(
@@ -839,10 +839,10 @@ class _HomeChallengeState extends State<HomeChallenge> {
           },
         ),
       );
-    } else if (widget.challenge.status == ChallengeStatus.backlog) {
+    } else if (widget.challenge.status == ChallengeStatusEnum.backlog) {
       setState(() {
         widget.challenge.startDate = DateTime.now();
-        widget.challenge.status = ChallengeStatus.inProgress;
+        widget.challenge.status = ChallengeStatusEnum.inProgress;
       });
       allChallengesList
           .firstWhere((element) => element.id == widget.challenge.id)

@@ -68,7 +68,7 @@ class ListItemChallengeSmall extends StatelessWidget {
                               : challenge.acceptanceCriteria[0].progress /
                                   challenge
                                       .acceptanceCriteria[0].activity.amount,
-                      color: challenge.status == ChallengeStatus.failed
+                      color: challenge.status == ChallengeStatusEnum.failed
                           ? Colors.red[300]
                           : Colors.green[300],
                     ),

@@ -6,8 +6,8 @@ import 'package:challenge/globals.dart';
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation(
       {super.key, required this.currentTab, required this.onSelectTab});
-  final TabItem currentTab;
-  final ValueChanged<TabItem> onSelectTab;
+  final TabItemEnum currentTab;
+  final ValueChanged<TabItemEnum> onSelectTab;
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -26,7 +26,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         child: NavigationBar(
           onDestinationSelected: (int index) {
             setState(() {
-              widget.onSelectTab(TabItem.values[index]);
+              widget.onSelectTab(TabItemEnum.values[index]);
             });
           },
           indicatorColor: themeColor2,
@@ -40,21 +40,21 @@ class _BottomNavigationState extends State<BottomNavigation> {
           destinations: <Widget>[
             NavigationDestination(
               selectedIcon: Text(
-                String.fromCharCode(TabItem.Search.icon.codePoint),
+                String.fromCharCode(TabItemEnum.Search.icon.codePoint),
                 style: TextStyle(
                   inherit: false,
                   fontSize: 26,
                   fontWeight: FontWeight.w600,
-                  fontFamily: TabItem.Search.icon.fontFamily,
+                  fontFamily: TabItemEnum.Search.icon.fontFamily,
                 ),
               ),
               icon: Text(
-                String.fromCharCode(TabItem.Search.icon.codePoint),
+                String.fromCharCode(TabItemEnum.Search.icon.codePoint),
                 style: TextStyle(
                   inherit: false,
                   fontSize: 26,
                   fontWeight: FontWeight.w600,
-                  fontFamily: TabItem.Search.icon.fontFamily,
+                  fontFamily: TabItemEnum.Search.icon.fontFamily,
                 ),
               ),
               label: '',
@@ -71,8 +71,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
               label: '',
             ),
             NavigationDestination(
-              selectedIcon: Icon(TabItem.Settings.icon, color: Colors.white),
-              icon: Icon(TabItem.Settings.icon, color: Colors.white),
+              selectedIcon:
+                  Icon(TabItemEnum.Settings.icon, color: Colors.white),
+              icon: Icon(TabItemEnum.Settings.icon, color: Colors.white),
               label: '',
             ),
           ],

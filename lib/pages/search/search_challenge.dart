@@ -504,10 +504,10 @@ class _SearchChallengeState extends State<SearchChallenge> {
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
 
-    widget.selectTab(TabItem.Home);
+    widget.selectTab(TabItemEnum.Home);
 
     // ignore: use_build_context_synchronously
-    var homeNavigator = navigatorKeys[TabItem.Home]!.currentState!;
+    var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
 
     homeNavigator.popUntil((route) => route.isFirst);
     // // ignore: use_build_context_synchronously

@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 
-enum TabItem {
+enum TabItemEnum {
   Search(Icons.search_rounded),
   Home(Icons.person),
   Settings(Icons.settings_rounded);
 
-  const TabItem(this.icon);
+  const TabItemEnum(this.icon);
   final IconData icon;
 }
