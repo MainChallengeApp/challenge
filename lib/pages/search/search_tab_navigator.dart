@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:challenge/pages/search/search_list.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
@@ -22,7 +22,7 @@ class SearchTabNavigator extends TabNavigator {
 
   @override
   void ppush(BuildContext context,
-      {int challengeId = 0, Challenge? challenge}) {
+      {int challengeId = 0, ChallengeModel? challenge}) {
     var routeBuilders = prouteBuilders(context, challenge: challenge!);
 
     Navigator.push(
@@ -36,7 +36,7 @@ class SearchTabNavigator extends TabNavigator {
 
   @override
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
-      {int challengeId = 0, Challenge? challenge}) {
+      {int challengeId = 0, ChallengeModel? challenge}) {
     return {
       SearchTabNavigatorRoutes.root: (context) => SearchList(
             title: tabItem.name,

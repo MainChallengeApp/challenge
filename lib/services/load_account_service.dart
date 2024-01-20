@@ -1,12 +1,12 @@
 import 'package:challenge/json_file_controller/account.controller.dart';
-import 'package:challenge/models/account.dart';
+import 'package:challenge/models/account.model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoadAccountService {
   AccountController accountController = AccountController();
-  Account account = Account();
+  AccountModel account = AccountModel();
 
   Future<void> loadAccount(BuildContext context) async {
     // ignore: use_build_context_synchronously

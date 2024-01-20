@@ -11,17 +11,17 @@ import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
 class EditChallenge extends StatefulWidget {
   final String preTitle;
-  final Challenge challenge;
-  late Challenge editChallenge;
+  final ChallengeModel challenge;
+  late ChallengeModel editChallenge;
   final bool isNewChallenge;
   final bool isTryAgain;
   final bool isSearchEdit;
@@ -33,7 +33,8 @@ class EditChallenge extends StatefulWidget {
       this.isSearchEdit = false,
       this.isNewChallenge = false,
       this.isTryAgain = false}) {
-    editChallenge = Challenge.copyChallenge(challenge, isTryAgain: isTryAgain);
+    editChallenge =
+        ChallengeModel.copyChallenge(challenge, isTryAgain: isTryAgain);
   }
 
   @override
@@ -557,7 +558,7 @@ class _EditChallengeState extends State<EditChallenge> {
   }
 
   amountAndUnit() {
-    AcceptanceCriteria acceptanceCriteria =
+    AcceptanceCriteriaModel acceptanceCriteria =
         widget.editChallenge.acceptanceCriteria[0];
     return Row(
       children: [
@@ -625,7 +626,7 @@ class _EditChallengeState extends State<EditChallenge> {
   List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
   frequence() {
     if (widget.editChallenge.acceptanceCriteria.isEmpty) return Container();
-    AcceptanceCriteria acceptanceCriteria =
+    AcceptanceCriteriaModel acceptanceCriteria =
         widget.editChallenge.acceptanceCriteria[0];
     return standardContainer(
         child: DropdownButton<String>(

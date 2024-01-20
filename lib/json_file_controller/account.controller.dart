@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:challenge/models/account.dart';
+import 'package:challenge/models/account.model.dart';
 
 import 'package:path_provider/path_provider.dart';
 
@@ -10,20 +10,21 @@ class AccountController {
 
   AccountController();
 
-  Future<Account> readFile() async {
+  Future<AccountModel> readFile() async {
     try {
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final file = File('${documentsDirectory.path}/$filePath');
       final data = await file.readAsString();
 
       final jsonData = json.decode(data);
-      return Account.fromJson(jsonData); // body.map<Account>(Account.fromJson);
+      return AccountModel.fromJson(
+          jsonData); // body.map<Account>(Account.fromJson);
     } catch (e) {
-      return Account();
+      return AccountModel();
     }
   }
 
-  Future<void> writeFile(Account account) async {
+  Future<void> writeFile(AccountModel account) async {
     try {
       // Convert the list of Challenge objects to a list of JSON data.
       final jsonData = account.toJson();

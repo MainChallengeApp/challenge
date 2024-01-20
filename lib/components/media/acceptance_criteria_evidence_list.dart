@@ -3,11 +3,11 @@ import 'package:challenge/components/list_items/list_item_acceptance_criteria_ba
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:provider/provider.dart';
 
-import 'package:challenge/models/acceptance_criteria.dart';
-import 'package:challenge/models/evidence.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/models/evidence.model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'acceptance_criteria_media_list.dart';
@@ -19,8 +19,8 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
       required this.challenge,
       required this.acceptanceCriteria});
   final String preTitle;
-  final Challenge challenge;
-  final AcceptanceCriteria acceptanceCriteria;
+  final ChallengeModel challenge;
+  final AcceptanceCriteriaModel acceptanceCriteria;
 
   @override
   State<AcceptanceCriteriaEvidenceList> createState() =>
@@ -74,7 +74,7 @@ class _AcceptanceCriteriaEvidenceListState
               return newEvidence();
             }
 
-            Evidence evidence = widget
+            EvidenceModel evidence = widget
                 .acceptanceCriteria.evidences[index - 1]; // -1 for new Evidence
             return evidenceListItem(evidence);
           }),
@@ -95,7 +95,7 @@ class _AcceptanceCriteriaEvidenceListState
     );
   }
 
-  Column evidenceListItem(Evidence evidence) {
+  Column evidenceListItem(EvidenceModel evidence) {
     return Column(
       children: [
         GestureDetector(
@@ -137,7 +137,7 @@ class _AcceptanceCriteriaEvidenceListState
     );
   }
 
-  onTapEvidence(Evidence evidence) {
+  onTapEvidence(EvidenceModel evidence) {
     Navigator.push(
       context,
       NoAnimationPageRoute(

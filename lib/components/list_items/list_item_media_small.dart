@@ -1,7 +1,7 @@
 import 'package:challenge/components/list_items/list_item_container.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/media.dart';
+import 'package:challenge/models/media.model.dart';
 
 class ListItemMediaSmall extends StatelessWidget {
   const ListItemMediaSmall(
@@ -9,7 +9,7 @@ class ListItemMediaSmall extends StatelessWidget {
 
   final dynamic Function() onTap;
 
-  final Media media;
+  final MediaModel media;
 
   @override
   Widget build(BuildContext context) {

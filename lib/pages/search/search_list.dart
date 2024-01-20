@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'search_challenge.dart';
@@ -14,7 +14,7 @@ class SearchList extends StatefulWidget {
   const SearchList(
       {super.key, required this.title, this.onPush, required this.selectTab});
   final String title;
-  final ValueChanged<Challenge>? onPush;
+  final ValueChanged<ChallengeModel>? onPush;
   final Function selectTab;
 
   @override
@@ -22,8 +22,8 @@ class SearchList extends StatefulWidget {
 }
 
 class _SearchListState extends State<SearchList> {
-  late Future<List<Challenge>> challengesFutures;
-  late List<Challenge> filteredChallenges;
+  late Future<List<ChallengeModel>> challengesFutures;
+  late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
 
   String searchBarText = "";
@@ -89,7 +89,7 @@ class _SearchListState extends State<SearchList> {
                     // if (index == filteredChallenges.length + 1) {  // only for seperator...
                     //   return Container(); // + 1 for searchbar
                     // }
-                    Challenge challenge =
+                    ChallengeModel challenge =
                         filteredChallenges[index - 1]; // - 1 for searchbar
                     return Column(
                       children: [
@@ -113,12 +113,13 @@ class _SearchListState extends State<SearchList> {
         });
   }
 
-  static Future<List<Challenge>> getChallenges(BuildContext context) async {
+  static Future<List<ChallengeModel>> getChallenges(
+      BuildContext context) async {
     final assetBundle = DefaultAssetBundle.of(context);
     final data = await assetBundle.loadString('assets/search_challenges.json');
 
     final body = json.decode(data);
-    return body.map<Challenge>((e) => Challenge.fromJson(e)).toList();
+    return body.map<ChallengeModel>((e) => ChallengeModel.fromJson(e)).toList();
   }
 
   changeList(String value) {
@@ -128,7 +129,7 @@ class _SearchListState extends State<SearchList> {
     });
   }
 
-  onTapChallenge({required Challenge challenge, required int index}) {
+  onTapChallenge({required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRoute(

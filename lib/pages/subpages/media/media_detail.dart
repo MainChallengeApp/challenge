@@ -2,17 +2,17 @@ import 'dart:io';
 
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/media.dart';
+import 'package:challenge/models/media.model.dart';
 
 class MediaDetail extends StatefulWidget {
   final String preTitle;
-  final List<Media> media;
+  final List<MediaModel> media;
   final int initialMediaIdex;
-  final Challenge challenge;
+  final ChallengeModel challenge;
 
   const MediaDetail(
       {super.key,
@@ -90,7 +90,7 @@ class _MediaDetailState extends State<MediaDetail> {
   deleteButton() {
     return GestureDetector(
       onTap: () {
-        Media media = widget.media[currentMediaIndex];
+        MediaModel media = widget.media[currentMediaIndex];
 
         File file = File(media.source);
         file.exists().then((value) {

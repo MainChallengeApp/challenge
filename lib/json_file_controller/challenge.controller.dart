@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 
 import 'package:path_provider/path_provider.dart';
 
@@ -12,15 +12,15 @@ class ChallengeController {
 
   ChallengeController();
 
-  Future<List<Challenge>> readFile(BuildContext context) async {
+  Future<List<ChallengeModel>> readFile(BuildContext context) async {
     try {
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final file = File('${documentsDirectory.path}/$filePath');
       final data = await file.readAsString();
 
       final body = json.decode(data);
-      List<Challenge> c = body.map<Challenge>((e) {
-        return Challenge.fromJson(e);
+      List<ChallengeModel> c = body.map<ChallengeModel>((e) {
+        return ChallengeModel.fromJson(e);
       }).toList();
       return c;
     } catch (e) {
@@ -29,7 +29,7 @@ class ChallengeController {
   }
 
   Future<void> writeFile(
-      BuildContext context, List<Challenge> challenges) async {
+      BuildContext context, List<ChallengeModel> challenges) async {
     try {
       // Convert the list of Challenge objects to a list of JSON data.
       final jsonData =

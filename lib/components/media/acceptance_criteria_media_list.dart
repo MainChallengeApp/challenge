@@ -7,15 +7,15 @@ import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:challenge/models/acceptance_criteria.dart';
-import 'package:challenge/models/activity.dart';
-import 'package:challenge/models/evidence.dart';
-import 'package:challenge/models/media.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/models/activity.model.dart';
+import 'package:challenge/models/evidence.model.dart';
+import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/pages/subpages/media/media_detail.dart';
@@ -30,9 +30,9 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
       required this.acceptanceCriteria,
       this.evidence,
       this.isSaveInsteadOfEditButtonVisible = true}) {
-    editAcceptanceCriteria = AcceptanceCriteria(
+    editAcceptanceCriteria = AcceptanceCriteriaModel(
         id: acceptanceCriteria.id,
-        activity: Activity(
+        activity: ActivityModel(
             title: acceptanceCriteria.activity.title,
             amount: acceptanceCriteria.activity.amount,
             unit: acceptanceCriteria.activity.unit),
@@ -40,15 +40,16 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
         tracking: acceptanceCriteria.tracking,
         progress: acceptanceCriteria.progress,
         evidences: acceptanceCriteria.evidences
-            .map((e) => Evidence(progress: e.progress, mediaIds: e.mediaIds))
+            .map((e) =>
+                EvidenceModel(progress: e.progress, mediaIds: e.mediaIds))
             .toList());
   }
   final String preTitle;
-  final Challenge challenge;
-  List<Media> mediaList;
-  final AcceptanceCriteria acceptanceCriteria;
-  late AcceptanceCriteria editAcceptanceCriteria;
-  final Evidence? evidence;
+  final ChallengeModel challenge;
+  List<MediaModel> mediaList;
+  final AcceptanceCriteriaModel acceptanceCriteria;
+  late AcceptanceCriteriaModel editAcceptanceCriteria;
+  final EvidenceModel? evidence;
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
@@ -237,7 +238,7 @@ class _AcceptanceCriteriaMediaListState
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       widget.acceptanceCriteria.progress =
           widget.editAcceptanceCriteria.progress;
-      var evidence = Evidence(
+      var evidence = EvidenceModel(
           progress: widget.acceptanceCriteria.progress,
           mediaIds: widget.mediaList.map((e) => e.id!).toList());
 
@@ -496,7 +497,7 @@ class _AcceptanceCriteriaMediaListState
     XFile? file = await UploadMedia.onTapUploadMedia();
     if (file != null) {
       setState(() {
-        Media media = Media(
+        MediaModel media = MediaModel(
             type: 'image',
             title: DateTime.now().toString().split('.')[0],
             source: file.path);

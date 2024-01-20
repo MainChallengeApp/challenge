@@ -1,10 +1,10 @@
 import 'package:uuid/uuid.dart';
 
 import 'package:challenge/enums/challenge_status.enum.dart';
-import 'acceptance_criteria.dart';
-import 'media.dart';
+import 'acceptance_criteria.model.dart';
+import 'media.model.dart';
 
-class Challenge {
+class ChallengeModel {
   String? id; // set id automatically
   ChallengeStatusEnum? status;
   String title;
@@ -12,10 +12,10 @@ class Challenge {
   String thumbnailPath;
   DateTime? startDate;
   DateTime? endDate;
-  List<AcceptanceCriteria> acceptanceCriteria;
-  List<Media> media;
+  List<AcceptanceCriteriaModel> acceptanceCriteria;
+  List<MediaModel> media;
 
-  Challenge(
+  ChallengeModel(
       {this.id,
       required this.status,
       required this.title,
@@ -30,8 +30,8 @@ class Challenge {
     }
   }
 
-  static Challenge fromJson(Map json) {
-    return Challenge(
+  static ChallengeModel fromJson(Map json) {
+    return ChallengeModel(
         id: json.containsKey('id') ? json['id'] : null,
         status: ChallengeStatusEnum.factory(json['status']),
         title: json['title'],
@@ -44,8 +44,8 @@ class Challenge {
             ? null
             : DateTime.parse(json['endDate']),
         acceptanceCriteria:
-            AcceptanceCriteria.fromJsonList(json['acceptanceCriteria']),
-        media: Media.fromJsonList(json['media']));
+            AcceptanceCriteriaModel.fromJsonList(json['acceptanceCriteria']),
+        media: MediaModel.fromJsonList(json['media']));
   }
 
   Map<String, dynamic> toJson() {
@@ -57,24 +57,25 @@ class Challenge {
       'thumbnailPath': thumbnailPath,
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
-      'acceptanceCriteria': AcceptanceCriteria.toJsonList(acceptanceCriteria),
-      'media': Media.toJsonList(media)
+      'acceptanceCriteria':
+          AcceptanceCriteriaModel.toJsonList(acceptanceCriteria),
+      'media': MediaModel.toJsonList(media)
     };
   }
 
-  static Challenge copyChallenge(Challenge challenge,
+  static ChallengeModel copyChallenge(ChallengeModel challenge,
       {bool isTryAgain = false}) {
-    Challenge challengeCopy = Challenge(
+    ChallengeModel challengeCopy = ChallengeModel(
         status: isTryAgain ? ChallengeStatusEnum.inProgress : challenge.status,
         title: challenge.title,
         startDate: isTryAgain ? null : challenge.startDate,
         endDate: isTryAgain ? null : challenge.endDate,
         description: challenge.description,
         thumbnailPath: challenge.thumbnailPath,
-        acceptanceCriteria: AcceptanceCriteria.copyAcceptanceCriteriaList(
+        acceptanceCriteria: AcceptanceCriteriaModel.copyAcceptanceCriteriaList(
             challenge.acceptanceCriteria,
             isTryAgain: isTryAgain),
-        media: isTryAgain ? [] : Media.copyMediaList(challenge.media));
+        media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media));
     return challengeCopy;
   }
 

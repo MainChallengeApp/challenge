@@ -1,4 +1,4 @@
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/material.dart';
 
 import 'enums/tab_item.enum.dart';
@@ -10,8 +10,8 @@ const Color themeColor3 = Color.fromRGBO(100, 116, 139, 1);
 const Color themeColor4 = Color.fromRGBO(241, 245, 249, 1);
 const Color themeColor5 = Color.fromRGBO(226, 232, 240, 1);
 
-List<Challenge> challengeList = [];
-List<Challenge> allChallengesList = [];
+List<ChallengeModel> challengeList = [];
+List<ChallengeModel> allChallengesList = [];
 
 final navigatorKeys = {
   TabItemEnum.Search: GlobalKey<NavigatorState>(),

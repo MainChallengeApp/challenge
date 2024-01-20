@@ -4,26 +4,26 @@ import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
-import 'package:challenge/models/account.dart';
+import 'package:challenge/models/account.model.dart';
 import 'package:challenge/pages/subpages/credits/credits.dart';
 
 class SettingsList extends StatefulWidget {
   const SettingsList({super.key, required this.title, this.onPush});
   final String title;
-  final ValueChanged<Challenge>? onPush;
+  final ValueChanged<ChallengeModel>? onPush;
 
   @override
   State<SettingsList> createState() => _SettingsListState();
 }
 
 class _SettingsListState extends State<SettingsList> {
-  late Future<List<Challenge>> challengesFutures;
-  Account account = Account(email: '');
+  late Future<List<ChallengeModel>> challengesFutures;
+  AccountModel account = AccountModel(email: '');
   AccountController accountController = AccountController();
   ScrollController scrollController = ScrollController();
 
@@ -128,7 +128,7 @@ class _SettingsListState extends State<SettingsList> {
   }
 
   onTapLogout() {
-    accountController.writeFile(Account());
+    accountController.writeFile(AccountModel());
     context.read<DesignProvider>().setIsRegistered(false);
   }
 

@@ -1,16 +1,16 @@
-import 'package:challenge/models/evidence.dart';
+import 'package:challenge/models/evidence.model.dart';
 
-import 'activity.dart';
+import 'activity.model.dart';
 
-class AcceptanceCriteria {
+class AcceptanceCriteriaModel {
   int? id;
-  Activity activity;
+  ActivityModel activity;
   String frequence;
   String tracking;
   double progress;
-  List<Evidence> evidences;
+  List<EvidenceModel> evidences;
 
-  AcceptanceCriteria(
+  AcceptanceCriteriaModel(
       {required this.id,
       required this.activity,
       required this.frequence,
@@ -18,35 +18,35 @@ class AcceptanceCriteria {
       required this.progress,
       required this.evidences});
 
-  static List<AcceptanceCriteria> fromJsonList(json) {
-    List<AcceptanceCriteria> list = [];
-    json?.forEach((e) => list.add(AcceptanceCriteria(
+  static List<AcceptanceCriteriaModel> fromJsonList(json) {
+    List<AcceptanceCriteriaModel> list = [];
+    json?.forEach((e) => list.add(AcceptanceCriteriaModel(
         id: e['id'],
-        activity: Activity.fromJson(e['activity']),
+        activity: ActivityModel.fromJson(e['activity']),
         frequence: e['frequence'],
         tracking: e['tracking'],
         progress: e['progress'],
-        evidences: Evidence.fromJsonList(e['evidences']))));
+        evidences: EvidenceModel.fromJsonList(e['evidences']))));
     return list;
   }
 
-  static toJsonList(List<AcceptanceCriteria> acceptanceCriteria) {
+  static toJsonList(List<AcceptanceCriteriaModel> acceptanceCriteria) {
     return acceptanceCriteria
         .map((e) => {
               'id': e.id,
-              'activity': Activity.toJson(e.activity),
+              'activity': ActivityModel.toJson(e.activity),
               'frequence': e.frequence,
               'tracking': e.tracking,
               'progress': e.progress,
-              'evidences': Evidence.toJsonList(e.evidences)
+              'evidences': EvidenceModel.toJsonList(e.evidences)
             })
         .toList();
   }
 
-  static List<AcceptanceCriteria> copyAcceptanceCriteriaList(
-      List<AcceptanceCriteria> acceptanceCriteriaList,
+  static List<AcceptanceCriteriaModel> copyAcceptanceCriteriaList(
+      List<AcceptanceCriteriaModel> acceptanceCriteriaList,
       {bool isTryAgain = false}) {
-    List<AcceptanceCriteria> acceptanceCriteriaListCopy = [];
+    List<AcceptanceCriteriaModel> acceptanceCriteriaListCopy = [];
 
     for (var ac in acceptanceCriteriaList) {
       acceptanceCriteriaListCopy
@@ -56,15 +56,17 @@ class AcceptanceCriteria {
     return acceptanceCriteriaListCopy;
   }
 
-  static AcceptanceCriteria _copyAcceptanceCriteria(AcceptanceCriteria ac,
+  static AcceptanceCriteriaModel _copyAcceptanceCriteria(
+      AcceptanceCriteriaModel ac,
       {bool isTryAgain = false}) {
-    return AcceptanceCriteria(
+    return AcceptanceCriteriaModel(
         id: ac.id,
-        activity: Activity.copyActivity(ac.activity),
+        activity: ActivityModel.copyActivity(ac.activity),
         frequence: ac.frequence,
         tracking: ac.tracking,
         progress: isTryAgain ? 0 : ac.progress,
-        evidences: isTryAgain ? [] : Evidence.copyEvidenceList(ac.evidences));
+        evidences:
+            isTryAgain ? [] : EvidenceModel.copyEvidenceList(ac.evidences));
   }
 
   double calcProgressRatio() {

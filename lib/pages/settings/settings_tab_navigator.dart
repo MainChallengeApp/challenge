@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:challenge/pages/settings/settings_list.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
 
@@ -19,7 +19,7 @@ class SettingsTabNavigator extends TabNavigator {
 
   @override
   void ppush(BuildContext context,
-      {int challengeId = 0, Challenge? challenge}) {
+      {int challengeId = 0, ChallengeModel? challenge}) {
     var routeBuilders = prouteBuilders(context, challenge: challenge!);
 
     Navigator.push(
@@ -32,7 +32,7 @@ class SettingsTabNavigator extends TabNavigator {
   }
 
   void tapOnNewChallenge(BuildContext context) {
-    final Challenge challenge = Challenge(
+    final ChallengeModel challenge = ChallengeModel(
         status: ChallengeStatusEnum.backlog,
         title: 'new Challenge',
         description: '',
@@ -54,7 +54,7 @@ class SettingsTabNavigator extends TabNavigator {
 
   @override
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
-      {int challengeId = 0, Challenge? challenge}) {
+      {int challengeId = 0, ChallengeModel? challenge}) {
     return {
       SettingsTabNavigatorRoutes.root: (context) => SettingsList(
             title: tabItem.name,

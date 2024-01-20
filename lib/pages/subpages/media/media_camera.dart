@@ -1,12 +1,12 @@
 import 'package:camera/camera.dart';
 import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:challenge/models/acceptance_criteria.dart';
-import 'package:challenge/models/media.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/models/media.model.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
@@ -22,9 +22,9 @@ class MediaCamera extends StatefulWidget {
 
   final List<CameraDescription> cameras;
   final String preTitle;
-  final List<Media> mediaList;
-  final AcceptanceCriteria acceptanceCriteria;
-  final Challenge challenge;
+  final List<MediaModel> mediaList;
+  final AcceptanceCriteriaModel acceptanceCriteria;
+  final ChallengeModel challenge;
 
   @override
   State<MediaCamera> createState() => _CameraStateMedia();
@@ -34,7 +34,7 @@ class _CameraStateMedia extends State<MediaCamera> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
   FlashMode flashMode = FlashMode.off;
-  List<Media> currentMedia = [];
+  List<MediaModel> currentMedia = [];
   CameraDescription? currentCamera;
 
   var isCameraFeedback = false;
@@ -197,7 +197,7 @@ class _CameraStateMedia extends State<MediaCamera> {
 
           if (!mounted) return;
           setState(() {
-            Media media = Media(
+            MediaModel media = MediaModel(
                 type: 'image',
                 title: DateTime.now().toString().split('.')[0],
                 source: image.path);

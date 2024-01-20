@@ -1,12 +1,12 @@
 import 'package:uuid/uuid.dart';
 
-class Media {
+class MediaModel {
   String? id;
   String type;
   String title;
   String source;
 
-  Media(
+  MediaModel(
       {this.id,
       required this.type,
       required this.title,
@@ -17,13 +17,13 @@ class Media {
   }
 
   static fromJsonList(json) {
-    List<Media> list = [];
-    json?.forEach((e) => list.add(Media(
+    List<MediaModel> list = [];
+    json?.forEach((e) => list.add(MediaModel(
         type: e['type'], title: e['title'], source: e['source'], id: e['id'])));
     return list;
   }
 
-  static toJsonList(List<Media> media) {
+  static toJsonList(List<MediaModel> media) {
     return media
         .map((e) =>
             {'id': e.id, 'type': e.type, 'title': e.title, 'source': e.source})
@@ -38,10 +38,10 @@ class Media {
     return mediaIdListCopy;
   }
 
-  static copyMediaList(List<Media> mediaList) {
-    List<Media> mediaListCopy = [];
+  static copyMediaList(List<MediaModel> mediaList) {
+    List<MediaModel> mediaListCopy = [];
     for (var media in mediaList) {
-      mediaListCopy.add(Media(
+      mediaListCopy.add(MediaModel(
           id: media.id,
           type: media.type,
           title: media.title,

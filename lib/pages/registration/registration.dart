@@ -2,7 +2,7 @@ import 'package:challenge/components/list_items/list_item_accept_button.dart';
 import 'package:challenge/components/list_items/list_item_email.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/account.controller.dart';
-import 'package:challenge/models/account.dart';
+import 'package:challenge/models/account.model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +71,7 @@ class _RegistrationState extends State<Registration> {
 
   onTapAccept() {
     if (email.isNotEmpty) {
-      Account account = Account(email: email);
+      AccountModel account = AccountModel(email: email);
       accountController.writeFile(account);
       setState(() {
         errorText = null;

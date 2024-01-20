@@ -6,12 +6,12 @@ import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/media.dart';
+import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
@@ -23,7 +23,7 @@ class MediaList extends StatefulWidget {
       required this.challenge});
   final String preTitle;
   final Function? tapOnNewChallenge;
-  final Challenge challenge;
+  final ChallengeModel challenge;
 
   @override
   State<MediaList> createState() => _MediaListState();
@@ -48,7 +48,7 @@ class _MediaListState extends State<MediaList> {
   }
 
   Widget _buildList() {
-    List<Media> mediaList = widget.challenge.media
+    List<MediaModel> mediaList = widget.challenge.media
         .where((element) => element.title.contains(searchBarText))
         .toList();
 
@@ -142,7 +142,7 @@ class _MediaListState extends State<MediaList> {
     XFile? file = await UploadMedia.onTapUploadMedia();
     if (file != null) {
       setState(() {
-        widget.challenge.media.add(Media(
+        widget.challenge.media.add(MediaModel(
             type: 'image',
             title: DateTime.now().toString().split('.')[0],
             source: file.path));

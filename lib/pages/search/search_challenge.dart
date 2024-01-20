@@ -9,7 +9,7 @@ import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -18,8 +18,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/enums/tab_item.enum.dart';
-import 'package:challenge/models/acceptance_criteria.dart';
-import 'package:challenge/models/activity.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/models/activity.model.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 
 class SearchChallenge extends StatefulWidget {
@@ -31,9 +31,9 @@ class SearchChallenge extends StatefulWidget {
       required this.challenges,
       required this.initialChalleneIndex});
   final String title;
-  Challenge challenge;
+  ChallengeModel challenge;
   final Function selectTab;
-  final List<Challenge> challenges;
+  final List<ChallengeModel> challenges;
   int initialChalleneIndex;
 
   @override
@@ -273,7 +273,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     );
   }
 
-  GestureDetector description(Challenge e) {
+  GestureDetector description(ChallengeModel e) {
     return GestureDetector(
       onTap: () => setState(() {
         isDescriptionExpanded = !isDescriptionExpanded;
@@ -301,7 +301,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     );
   }
 
-  GestureDetector thumbnail(BuildContext context, Challenge e) {
+  GestureDetector thumbnail(BuildContext context, ChallengeModel e) {
     return GestureDetector(
       onTap: () => MySnackBar.showSnackBar(
           context, 'The Video Trailer feature will be added soon'),
@@ -323,7 +323,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     );
   }
 
-  Widget startAndEndDate(Challenge e) {
+  Widget startAndEndDate(ChallengeModel e) {
     return isDescriptionExpanded
         ? Container()
         : Row(
@@ -390,7 +390,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria(List<AcceptanceCriteria> acceptanceCriterias) {
+  acceptanceCriteria(List<AcceptanceCriteriaModel> acceptanceCriterias) {
     return SizedBox(
         // margin: EdgeInsets.only(top: 10),
         height: 55,
@@ -409,7 +409,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
         ));
   }
 
-  singleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
+  singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
     return GestureDetector(
       onTap: () => onTapAcceptanceCriteria(acceptanceCriteria),
       child: Container(
@@ -460,7 +460,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     );
   }
 
-  IconData getIconData(AcceptanceCriteria acceptanceCriteria) {
+  IconData getIconData(AcceptanceCriteriaModel acceptanceCriteria) {
     if (acceptanceCriteria.tracking == 'camera') {
       return Icons.camera_alt_outlined;
     } else if (acceptanceCriteria.tracking == 'gps') {
@@ -474,7 +474,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     }
   }
 
-  dots(List<AcceptanceCriteria> acceptanceCriteria) {
+  dots(List<AcceptanceCriteriaModel> acceptanceCriteria) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
@@ -493,7 +493,8 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   void onTapAccept() async {
-    Challenge challengeCopy = Challenge.copyChallenge(widget.challenge);
+    ChallengeModel challengeCopy =
+        ChallengeModel.copyChallenge(widget.challenge);
 
     // modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(challengeCopy);
 
@@ -635,7 +636,7 @@ class _SearchChallengeState extends State<SearchChallenge> {
     );
   }
 
-  void onTapAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
+  void onTapAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
     Navigator.push(
       context,
       NoAnimationPageRoute(
@@ -698,9 +699,9 @@ class _SearchChallengeState extends State<SearchChallenge> {
         builder: (context) => AddAcceptanceCriteria(
           preTitle: '${widget.title}/${widget.challenge.title}/',
           challenge: widget.challenge,
-          acceptanceCriteria: AcceptanceCriteria(
+          acceptanceCriteria: AcceptanceCriteriaModel(
               id: widget.challenge.acceptanceCriteria.length,
-              activity: Activity(title: '', amount: 0, unit: ''),
+              activity: ActivityModel(title: '', amount: 0, unit: ''),
               frequence: '',
               tracking: '',
               progress: 0,
@@ -720,9 +721,10 @@ class _SearchChallengeState extends State<SearchChallenge> {
     }
   }
 
-  amountAndUnit(Challenge challenge) {
+  amountAndUnit(ChallengeModel challenge) {
     if (challenge.acceptanceCriteria.isEmpty) return Container();
-    AcceptanceCriteria acceptanceCriteria = challenge.acceptanceCriteria[0];
+    AcceptanceCriteriaModel acceptanceCriteria =
+        challenge.acceptanceCriteria[0];
     return isDescriptionExpanded
         ? Container()
         : Row(
@@ -809,9 +811,10 @@ class _SearchChallengeState extends State<SearchChallenge> {
   }
 
   List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
-  frequence(Challenge challenge) {
+  frequence(ChallengeModel challenge) {
     if (challenge.acceptanceCriteria.isEmpty) return Container();
-    AcceptanceCriteria acceptanceCriteria = challenge.acceptanceCriteria[0];
+    AcceptanceCriteriaModel acceptanceCriteria =
+        challenge.acceptanceCriteria[0];
     return isDescriptionExpanded
         ? Container()
         : standardContainer(

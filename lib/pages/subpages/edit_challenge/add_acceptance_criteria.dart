@@ -3,10 +3,10 @@
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/services.dart';
 
-import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
 
 class AddAcceptanceCriteria extends StatefulWidget {
   const AddAcceptanceCriteria(
@@ -17,8 +17,8 @@ class AddAcceptanceCriteria extends StatefulWidget {
       required this.acceptanceCriteriaIndex,
       this.areButtonsVisible = true});
   final String preTitle;
-  final Challenge challenge;
-  final AcceptanceCriteria acceptanceCriteria;
+  final ChallengeModel challenge;
+  final AcceptanceCriteriaModel acceptanceCriteria;
   final int? acceptanceCriteriaIndex;
   final bool areButtonsVisible;
 

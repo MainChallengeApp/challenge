@@ -1,30 +1,30 @@
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/pages/home/home_challenge.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small.dart';
 import 'package:challenge/components/list_items/list_item_icon_small.dart';
 import 'package:challenge/components/list_items/list_item_search_bar.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
-import 'package:challenge/models/activity.dart';
+import 'package:challenge/models/activity.model.dart';
 
 class HomeList extends StatefulWidget {
   const HomeList({super.key, required this.title, this.onPush});
   final String title;
-  final ValueChanged<Challenge>? onPush;
+  final ValueChanged<ChallengeModel>? onPush;
 
   @override
   State<HomeList> createState() => _HomeListState();
 }
 
 class _HomeListState extends State<HomeList> {
-  late Future<List<Challenge>> challengesFutures;
+  late Future<List<ChallengeModel>> challengesFutures;
   ChallengeController challengeController = ChallengeController();
 
   ScrollController scrollController = ScrollController();
@@ -106,7 +106,7 @@ class _HomeListState extends State<HomeList> {
                     // if (index == challengeList.length + 1 + 1) {
                     //   return Container(); // +1 for new Challenge listitem + 1 for searchbar
                     // }
-                    Challenge challenge = challengeList[index -
+                    ChallengeModel challenge = challengeList[index -
                         1 -
                         1]; // -1 for new Challenge listitem - 1 for searchbar
                     return Column(
@@ -138,7 +138,7 @@ class _HomeListState extends State<HomeList> {
   }
 
   void ppush(BuildContext context,
-      {required Challenge challenge, required int index}) {
+      {required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRoute(
@@ -151,14 +151,14 @@ class _HomeListState extends State<HomeList> {
   }
 
   tapOnNewChallenge() {
-    AcceptanceCriteria acceptanceCriteria = AcceptanceCriteria(
+    AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
         id: null,
-        activity: Activity(title: '', amount: 0, unit: ''),
+        activity: ActivityModel(title: '', amount: 0, unit: ''),
         frequence: 'once',
         tracking: 'camera',
         progress: 0,
         evidences: []);
-    final Challenge challenge = Challenge(
+    final ChallengeModel challenge = ChallengeModel(
         status: ChallengeStatusEnum.inProgress,
         title: '',
         description: '',

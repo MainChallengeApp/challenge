@@ -1,14 +1,15 @@
-class Activity {
+class ActivityModel {
   String title;
   double amount;
   String unit;
 
-  Activity({required this.title, required this.amount, required this.unit});
+  ActivityModel(
+      {required this.title, required this.amount, required this.unit});
 
-  static fromJson(json) => Activity(
+  static fromJson(json) => ActivityModel(
       title: json['title'], amount: json['amount'], unit: json['unit']);
 
-  static toJson(Activity activity) {
+  static toJson(ActivityModel activity) {
     return {
       'title': activity.title,
       'amount': activity.amount,
@@ -16,8 +17,8 @@ class Activity {
     };
   }
 
-  static copyActivity(Activity activity) {
-    return Activity(
+  static copyActivity(ActivityModel activity) {
+    return ActivityModel(
         title: activity.title, amount: activity.amount, unit: activity.unit);
   }
 }

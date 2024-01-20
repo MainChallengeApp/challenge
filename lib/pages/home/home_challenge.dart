@@ -12,7 +12,7 @@ import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.dart';
+import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
-import 'package:challenge/models/acceptance_criteria.dart';
+import 'package:challenge/models/acceptance_criteria.model.dart';
 
 class HomeChallenge extends StatefulWidget {
   // Function homeListSetState;
@@ -32,7 +32,7 @@ class HomeChallenge extends StatefulWidget {
       required this.challenge,
       required this.initialChalleneIndex});
   final String preTitle;
-  Challenge challenge;
+  ChallengeModel challenge;
   final int initialChalleneIndex;
 
   @override
@@ -176,7 +176,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  Widget editSlider(Challenge e) {
+  Widget editSlider(ChallengeModel e) {
     return (e.status == ChallengeStatusEnum.inProgress ||
             e.status == ChallengeStatusEnum.backlog)
         ? Expanded(
@@ -210,7 +210,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
         : Container();
   }
 
-  StatelessWidget startEndTryAcceptAgainButton(Challenge e) {
+  StatelessWidget startEndTryAcceptAgainButton(ChallengeModel e) {
     return isDescriptionExpanded
         ? Container()
         : GestureDetector(
@@ -271,7 +271,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
           );
   }
 
-  Widget startAndEndDate(Challenge e) {
+  Widget startAndEndDate(ChallengeModel e) {
     return isDescriptionExpanded
         ? Container()
         : Row(
@@ -312,7 +312,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
           );
   }
 
-  GestureDetector description(Challenge e) {
+  GestureDetector description(ChallengeModel e) {
     return GestureDetector(
       onTap: () => setState(() {
         isDescriptionExpanded = !isDescriptionExpanded;
@@ -342,7 +342,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  GestureDetector thumbnail(Challenge e) {
+  GestureDetector thumbnail(ChallengeModel e) {
     return GestureDetector(
       onTap: onTapOpenMediaPage,
       child: Container(
@@ -457,7 +457,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
   }
 
   int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria(List<AcceptanceCriteria> acceptanceCriterias) {
+  acceptanceCriteria(List<AcceptanceCriteriaModel> acceptanceCriterias) {
     return isDescriptionExpanded
         ? Container()
         : Column(
@@ -485,7 +485,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
           );
   }
 
-  singleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) {
+  singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
     return GestureDetector(
       onTap: () => onTapSingleAcceptanceCriteria(acceptanceCriteria),
       child: Stack(
@@ -562,7 +562,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  IconData getIconData(AcceptanceCriteria acceptanceCriteria) {
+  IconData getIconData(AcceptanceCriteriaModel acceptanceCriteria) {
     if (acceptanceCriteria.tracking == 'camera') {
       return Icons.camera_alt_outlined;
     } else if (acceptanceCriteria.tracking == 'gps') {
@@ -576,7 +576,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     }
   }
 
-  dots(Challenge challenge) {
+  dots(ChallengeModel challenge) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
@@ -671,7 +671,8 @@ class _HomeChallengeState extends State<HomeChallenge> {
     });
   }
 
-  onTapSingleAcceptanceCriteria(AcceptanceCriteria acceptanceCriteria) async {
+  onTapSingleAcceptanceCriteria(
+      AcceptanceCriteriaModel acceptanceCriteria) async {
     Navigator.push(
       context,
       NoAnimationPageRoute(
@@ -775,7 +776,7 @@ class _HomeChallengeState extends State<HomeChallenge> {
     );
   }
 
-  void onTapStartEndTryAcceptAgainButton(Challenge challenge) {
+  void onTapStartEndTryAcceptAgainButton(ChallengeModel challenge) {
     if (widget.challenge.status == ChallengeStatusEnum.inProgress) {
       // End button
       showDialog(
@@ -829,8 +830,9 @@ class _HomeChallengeState extends State<HomeChallenge> {
         context,
         NoAnimationPageRoute(
           builder: (context) {
-            Challenge challenge =
-                Challenge.copyChallenge(widget.challenge, isTryAgain: true);
+            ChallengeModel challenge = ChallengeModel.copyChallenge(
+                widget.challenge,
+                isTryAgain: true);
             return EditChallenge(
               preTitle: widget.preTitle,
               challenge: challenge,
