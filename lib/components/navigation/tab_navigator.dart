@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.dart';
-import 'package:challenge/enums/tab_item.dart';
+import 'package:challenge/enums/tab_item.enum.dart';
 
 import 'no_animation_page_route.dart';
 

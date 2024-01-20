@@ -11,7 +11,7 @@ import 'package:challenge/components/list_items/list_item_search_bar.dart';
 import 'package:challenge/models/challenge.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
-import 'package:challenge/enums/challenge_status.dart';
+import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:challenge/models/activity.dart';
 
 class HomeList extends StatefulWidget {

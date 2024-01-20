@@ -3,7 +3,7 @@ import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/navigation/bottom_navigation.dart';
 import 'package:challenge/pages/settings/settings_tab_navigator.dart';
-import 'package:challenge/enums/tab_item.dart';
+import 'package:challenge/enums/tab_item.enum.dart';
 import 'package:challenge/pages/home/home_tab_navigator.dart';
 import 'package:challenge/pages/search/search_tab_navigator.dart';
 import 'package:challenge/components/navigation/tab_navigator.dart';
