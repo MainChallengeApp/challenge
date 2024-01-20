@@ -22,15 +22,8 @@ class AppState extends State<App> {
   TabItem _currentTab = TabItem.Search;
   ChallengeController challengeController = ChallengeController();
 
-  // final navigatorKeys = {
-  //   TabItem.Search: GlobalKey<NavigatorState>(),
-  //   TabItem.Home: GlobalKey<NavigatorState>(),
-  //   TabItem.Settings: GlobalKey<NavigatorState>(),
-  // };
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     challengeController.readFile(context).then((value) {
       allChallengesList = value;
