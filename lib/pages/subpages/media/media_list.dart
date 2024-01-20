@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media.model.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 
 class MediaList extends StatefulWidget {

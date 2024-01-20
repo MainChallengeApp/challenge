@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/pages/registration/registration.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/services/load_account_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/app.dart';

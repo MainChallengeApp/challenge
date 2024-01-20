@@ -1,6 +1,6 @@
 import 'package:challenge/json_file_controller/account.controller.dart';
 import 'package:challenge/models/account.model.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/design.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,5 +1,5 @@
 import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/design.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/components/navigation/bottom_navigation.dart';
 import 'package:challenge/pages/settings/settings_tab_navigator.dart';

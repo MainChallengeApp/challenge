@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/models/evidence.model.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.dart';
 import 'acceptance_criteria_media_list.dart';
 

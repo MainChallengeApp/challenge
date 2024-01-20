@@ -8,7 +8,7 @@ import 'package:challenge/pages/subpages/media/media_list.dart';
 import 'package:challenge/components/navigation/custom_app_bar.dart';
 import 'package:challenge/components/simple_components/my_snack_bar.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
