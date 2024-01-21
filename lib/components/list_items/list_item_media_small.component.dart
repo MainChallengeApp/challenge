@@ -1,10 +1,10 @@
-import 'package:challenge/components/list_items/list_item_container.dart';
+import 'package:challenge/components/list_items/list_item_container.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media.model.dart';
 
-class ListItemMediaSmall extends StatelessWidget {
-  const ListItemMediaSmall(
+class ListItemMediaSmallComponent extends StatelessWidget {
+  const ListItemMediaSmallComponent(
       {super.key, required this.onTap, required this.media});
 
   final dynamic Function() onTap;
@@ -15,7 +15,7 @@ class ListItemMediaSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ListItemContainer(
+      child: ListItemContainerComponent(
         child: Row(
           children: [
             Container(

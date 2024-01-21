@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
-class NoAnimationPageRoute extends CupertinoPageRoute {
-  NoAnimationPageRoute({
+class NoAnimationPageRouteComponent extends CupertinoPageRoute {
+  NoAnimationPageRouteComponent({
     required WidgetBuilder builder,
     RouteSettings? settings,
     bool maintainState = true,

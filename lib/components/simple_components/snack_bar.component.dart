@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MySnackBar {
+class SnackBarComponent {
   static showSnackBar(BuildContext context, String text) {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(

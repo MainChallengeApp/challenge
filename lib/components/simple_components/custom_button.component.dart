@@ -1,13 +1,13 @@
-import 'package:challenge/components/simple_components/custom_container.dart';
+import 'package:challenge/components/simple_components/custom_container.component.dart';
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
-class CustomButton extends StatelessWidget {
+class CustomButtonComponent extends StatelessWidget {
   final VoidCallback onTap;
   final bool isPrimaryButton;
   final String text;
 
-  const CustomButton(
+  const CustomButtonComponent(
       {super.key,
       required this.onTap,
       this.isPrimaryButton = false,
@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: CustomContainer(
+      child: CustomContainerComponent(
         backgroundColor: isPrimaryButton ? themeColor2 : Colors.white,
         child: Center(
             child: Text(

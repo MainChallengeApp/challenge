@@ -1,9 +1,9 @@
-import 'package:challenge/components/list_items/list_item_container.dart';
+import 'package:challenge/components/list_items/list_item_container.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
-class ListItemIconSmall extends StatelessWidget {
-  const ListItemIconSmall(
+class ListItemIconSmallComponent extends StatelessWidget {
+  const ListItemIconSmallComponent(
       {super.key,
       required this.onTap,
       required this.icon,
@@ -18,7 +18,7 @@ class ListItemIconSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ListItemContainer(
+      child: ListItemContainerComponent(
         child: Row(
           children: [
             Container(

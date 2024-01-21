@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,8 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: currentTitle),
+      appBar:
+          AppBarComponent(preTitle: widget.preTitle, titleText: currentTitle),
       backgroundColor: Colors.white,
       body: Stack(
         children: [

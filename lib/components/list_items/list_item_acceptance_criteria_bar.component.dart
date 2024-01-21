@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 
-class ListItemAcceptanceCriteriaBar extends StatefulWidget {
-  ListItemAcceptanceCriteriaBar(
+class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
+  ListItemAcceptanceCriteriaBarComponent(
       {super.key,
       required this.acceptanceCriteria,
       this.isProgressBarLocked = false,
@@ -30,12 +30,12 @@ class ListItemAcceptanceCriteriaBar extends StatefulWidget {
   final double initialProgress;
 
   @override
-  State<ListItemAcceptanceCriteriaBar> createState() =>
-      _ListItemAcceptanceCriteriaBarState();
+  State<ListItemAcceptanceCriteriaBarComponent> createState() =>
+      _ListItemAcceptanceCriteriaBarComponentState();
 }
 
-class _ListItemAcceptanceCriteriaBarState
-    extends State<ListItemAcceptanceCriteriaBar> {
+class _ListItemAcceptanceCriteriaBarComponentState
+    extends State<ListItemAcceptanceCriteriaBarComponent> {
   @override
   void initState() {
     // TODO: implement initState

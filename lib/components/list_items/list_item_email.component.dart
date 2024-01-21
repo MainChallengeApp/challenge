@@ -1,11 +1,11 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/list_items/list_item_container.dart';
+import 'package:challenge/components/list_items/list_item_container.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
-class ListItemEmail extends StatefulWidget {
-  ListItemEmail(
+class ListItemEmailComponent extends StatefulWidget {
+  ListItemEmailComponent(
       {super.key,
       this.changeList,
       required this.textEditingController,
@@ -16,15 +16,15 @@ class ListItemEmail extends StatefulWidget {
   String? errorText;
 
   @override
-  State<ListItemEmail> createState() => _ListItemEmailState();
+  State<ListItemEmailComponent> createState() => _ListItemEmailComponentState();
 }
 
-class _ListItemEmailState extends State<ListItemEmail> {
+class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
   var controller;
 
   @override
   Widget build(BuildContext context) {
-    return ListItemContainer(
+    return ListItemContainerComponent(
       child: Row(
         children: [
           Container(

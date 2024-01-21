@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:challenge/components/media/acceptance_criteria_media_list.dart';
+import 'package:challenge/components/media/acceptance_criteria_media_list.component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/models/media.model.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 
 class MediaCameraPage extends StatefulWidget {
   const MediaCameraPage({
@@ -73,7 +73,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: 'Camera'),
+      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: 'Camera'),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -263,8 +263,8 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         _controller.setFlashMode(FlashMode.off);
         Navigator.push(
           context,
-          NoAnimationPageRoute(
-            builder: (context) => AcceptanceCriteriaMediaList(
+          NoAnimationPageRouteComponent(
+            builder: (context) => AcceptanceCriteriaMediaListComponent(
               preTitle: '${widget.preTitle}/Camera',
               mediaList: currentMedia,
               acceptanceCriteria: widget.acceptanceCriteria,

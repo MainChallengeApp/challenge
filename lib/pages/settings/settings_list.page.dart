@@ -1,14 +1,14 @@
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/account.controller.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/models/account.model.dart';
 import 'package:challenge/pages/subpages/credits/credits.page.dart';
 
@@ -36,7 +36,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar(
+        appBar: AppBarComponent(
           preTitle: widget.title,
           isFirstPage: true,
         ),
@@ -61,7 +61,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == 0) {
               return Column(
                 children: [
-                  ListItemIconSmall(
+                  ListItemIconSmallComponent(
                       onTap: () {},
                       icon: Icons.person_outlined,
                       title: account.email!),
@@ -75,7 +75,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == 1) {
               return Column(
                 children: [
-                  ListItemIconSmall(
+                  ListItemIconSmallComponent(
                       onTap: onTapFeedback,
                       icon: Icons.feedback_outlined,
                       title: 'Feedback'),
@@ -89,7 +89,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == 2) {
               return Column(
                 children: [
-                  ListItemIconSmall(
+                  ListItemIconSmallComponent(
                       onTap: onTapCredits,
                       icon: Icons.handshake_outlined,
                       title: 'Credits'),
@@ -103,7 +103,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == itemCount - 1) {
               return Column(
                 children: [
-                  ListItemIconSmall(
+                  ListItemIconSmallComponent(
                       onTap: onTapLogout,
                       icon: Icons.logout_rounded,
                       title: 'Log out'),
@@ -116,7 +116,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
 
             return Column(
               children: [
-                ListItemIconSmall(
+                ListItemIconSmallComponent(
                     onTap: () {}, icon: Icons.settings, title: 'settings'),
                 const SizedBox(
                   height: 17,
@@ -159,7 +159,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
   onTapCredits() {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => CreditsPage(
           preTitle: widget.title,
         ),

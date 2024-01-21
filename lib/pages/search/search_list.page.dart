@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_challenge_small.dart';
-import 'package:challenge/components/list_items/list_item_search_bar.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small.component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar.component.dart';
 import 'package:challenge/models/challenge.model.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'search_challenge.page.dart';
 
 class SearchListPage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar(preTitle: widget.title, isFirstPage: true),
+        appBar: AppBarComponent(preTitle: widget.title, isFirstPage: true),
         body: Container(
           color: Colors.white,
           child: _buildList(),
@@ -75,7 +75,7 @@ class _SearchListPageState extends State<SearchListPage> {
                       return Column(
                         // cloumn instead of seperator
                         children: [
-                          ListItemSearchbar(
+                          ListItemSearchbarComponent(
                             changeList: changeList,
                             textEditingController:
                                 TextEditingController(text: searchBarText),
@@ -93,7 +93,7 @@ class _SearchListPageState extends State<SearchListPage> {
                         filteredChallenges[index - 1]; // - 1 for searchbar
                     return Column(
                       children: [
-                        ListItemChallengeSmall(
+                        ListItemChallengeSmallComponent(
                           onTap: () => onTapChallenge(
                               challenge: challenge,
                               index:
@@ -132,7 +132,7 @@ class _SearchListPageState extends State<SearchListPage> {
   onTapChallenge({required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           title: widget.title,
           challenge: challenge,

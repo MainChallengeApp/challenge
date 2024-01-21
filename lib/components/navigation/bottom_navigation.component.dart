@@ -3,17 +3,18 @@ import 'package:challenge/enums/tab_item.enum.dart';
 
 import 'package:challenge/globals.dart';
 
-class BottomNavigation extends StatefulWidget {
-  const BottomNavigation(
+class BottomNavigationComponent extends StatefulWidget {
+  const BottomNavigationComponent(
       {super.key, required this.currentTab, required this.onSelectTab});
   final TabItemEnum currentTab;
   final ValueChanged<TabItemEnum> onSelectTab;
 
   @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
+  State<BottomNavigationComponent> createState() =>
+      _BottomNavigationComponentState();
 }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
   @override
   Widget build(BuildContext context) {
     return Container(

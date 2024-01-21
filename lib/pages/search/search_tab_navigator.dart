@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:challenge/pages/search/search_list.page.dart';
-import 'package:challenge/components/navigation/tab_navigator.dart';
+import 'package:challenge/components/navigation/tab_navigator.component.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 
 class SearchTabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
 }
 
-class SearchTabNavigator extends TabNavigator {
+class SearchTabNavigator extends TabNavigatorComponent {
   const SearchTabNavigator(
       {super.key,
       required super.navigatorKey,
@@ -27,7 +27,7 @@ class SearchTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),

@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/components/simple_components/custom_button.dart';
-import 'package:challenge/components/simple_components/custom_card.dart';
-import 'package:challenge/components/simple_components/custom_container.dart';
+import 'package:challenge/components/simple_components/custom_button.component.dart';
+import 'package:challenge/components/simple_components/custom_card.component.dart';
+import 'package:challenge/components/simple_components/custom_container.component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.page.dart';
-import 'package:challenge/components/media/upload_media.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/services/upload_media.service.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/pages/home/home_challenge.page.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -16,7 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:challenge/models/acceptance_criteria.model.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 
 class EditChallengePage extends StatefulWidget {
   final String preTitle;
@@ -51,11 +51,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: CustomeAppBar(
+        appBar: AppBarComponent(
             preTitle: widget.preTitle,
             titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
         backgroundColor: Colors.white,
-        body: CustomCard(
+        body: CustomCardComponent(
           scrollPhysics: const AlwaysScrollableScrollPhysics(),
           children: [
             thumbnailUploadAndTitle(),
@@ -71,8 +71,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  CustomButton saveButton() {
-    return CustomButton(
+  CustomButtonComponent saveButton() {
+    return CustomButtonComponent(
       onTap: onTapSave,
       text: 'Save',
       isPrimaryButton: true,
@@ -215,7 +215,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   description() {
-    return CustomContainer(
+    return CustomContainerComponent(
         heightFactor: 1.8,
         margin: const EdgeInsets.only(bottom: 16),
         child: TapRegion(
@@ -263,7 +263,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       children: [
         GestureDetector(
             onTap: () async {
-              XFile? file = await UploadMedia.onTapUploadMedia();
+              XFile? file = await UploadMediaService.onTapUploadMedia();
               setState(() {
                 if (file != null) {
                   widget.editChallenge.thumbnailPath = file.path;
@@ -289,7 +289,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
           width: 16,
         ),
         Expanded(
-            child: CustomContainer(
+            child: CustomContainerComponent(
           margin: const EdgeInsets.only(bottom: 16),
           child: Align(
             alignment: Alignment.centerLeft,
@@ -464,7 +464,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
             challenge: widget.challenge,
@@ -476,7 +476,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void onTapSingleAcceptanceCriteria(int index) {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => AddAcceptanceCriteriaPage(
           preTitle:
               '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',

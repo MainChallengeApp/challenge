@@ -1,6 +1,6 @@
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
+import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.component.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.model.dart';
@@ -9,11 +9,11 @@ import 'package:provider/provider.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/models/evidence.model.dart';
 import 'package:challenge/providers/design.provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
-import 'acceptance_criteria_media_list.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
+import 'acceptance_criteria_media_list.component.dart';
 
-class AcceptanceCriteriaEvidenceList extends StatefulWidget {
-  const AcceptanceCriteriaEvidenceList(
+class AcceptanceCriteriaEvidenceListComponent extends StatefulWidget {
+  const AcceptanceCriteriaEvidenceListComponent(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -23,12 +23,12 @@ class AcceptanceCriteriaEvidenceList extends StatefulWidget {
   final AcceptanceCriteriaModel acceptanceCriteria;
 
   @override
-  State<AcceptanceCriteriaEvidenceList> createState() =>
-      _AcceptanceCriteriaEvidenceListState();
+  State<AcceptanceCriteriaEvidenceListComponent> createState() =>
+      _AcceptanceCriteriaEvidenceListComponentState();
 }
 
-class _AcceptanceCriteriaEvidenceListState
-    extends State<AcceptanceCriteriaEvidenceList> {
+class _AcceptanceCriteriaEvidenceListComponentState
+    extends State<AcceptanceCriteriaEvidenceListComponent> {
   ScrollController scrollController = ScrollController();
 
   @override
@@ -46,7 +46,7 @@ class _AcceptanceCriteriaEvidenceListState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar(
+        appBar: AppBarComponent(
           preTitle: widget.preTitle,
           titleText: 'Evidence',
         ),
@@ -84,7 +84,7 @@ class _AcceptanceCriteriaEvidenceListState
   Column newEvidence() {
     return Column(
       children: [
-        ListItemIconSmall(
+        ListItemIconSmallComponent(
             onTap: () => onTapNewEvidence(),
             icon: Icons.add,
             title: 'New Evidence'),
@@ -100,7 +100,7 @@ class _AcceptanceCriteriaEvidenceListState
       children: [
         GestureDetector(
           onTap: () => onTapEvidence(evidence),
-          child: ListItemAcceptanceCriteriaBar(
+          child: ListItemAcceptanceCriteriaBarComponent(
             acceptanceCriteria: widget.acceptanceCriteria,
             isProgressBarLocked: true,
             initialProgress: evidence.progress,
@@ -140,8 +140,8 @@ class _AcceptanceCriteriaEvidenceListState
   onTapEvidence(EvidenceModel evidence) {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
-        builder: (context) => AcceptanceCriteriaMediaList(
+      NoAnimationPageRouteComponent(
+        builder: (context) => AcceptanceCriteriaMediaListComponent(
           preTitle:
               '${widget.preTitle}/${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
           mediaList: widget.challenge.media
@@ -192,8 +192,8 @@ class _AcceptanceCriteriaEvidenceListState
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
-      NoAnimationPageRoute(
-        builder: (context) => AcceptanceCriteriaMediaList(
+      NoAnimationPageRouteComponent(
+        builder: (context) => AcceptanceCriteriaMediaListComponent(
             preTitle: '${widget.preTitle}/Evidences',
             challenge: widget.challenge,
             mediaList: [],

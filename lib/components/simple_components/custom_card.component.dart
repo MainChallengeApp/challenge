@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomCard extends StatelessWidget {
+class CustomCardComponent extends StatelessWidget {
   final List<Widget> children;
   final ScrollPhysics scrollPhysics;
 
-  const CustomCard(
+  const CustomCardComponent(
       {super.key,
       this.children = const [],
       this.scrollPhysics = const NeverScrollableScrollPhysics()});

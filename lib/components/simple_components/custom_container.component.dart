@@ -1,13 +1,13 @@
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
-class CustomContainer extends StatelessWidget {
+class CustomContainerComponent extends StatelessWidget {
   final double heightFactor;
   final Color backgroundColor;
   final Widget child;
   final EdgeInsetsGeometry? margin;
 
-  const CustomContainer(
+  const CustomContainerComponent(
       {super.key,
       required this.child,
       this.heightFactor = 1,

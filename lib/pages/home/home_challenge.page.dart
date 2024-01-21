@@ -1,12 +1,12 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:camera/camera.dart';
-import 'package:challenge/components/simple_components/custom_card.dart';
+import 'package:challenge/components/simple_components/custom_card.component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
 import 'package:challenge/pages/subpages/media/media_camera.page.dart';
 import 'package:challenge/pages/subpages/media/media_list.page.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
-import 'package:challenge/components/simple_components/my_snack_bar.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
+import 'package:challenge/components/simple_components/snack_bar.component.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -18,8 +18,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:challenge/components/media/acceptance_criteria_evidence_list.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/media/acceptance_criteria_evidence_list.component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 
@@ -73,7 +73,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     checkChallengeStatus();
 
     return Scaffold(
-      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: currentTitle),
+      appBar:
+          AppBarComponent(preTitle: widget.preTitle, titleText: currentTitle),
       backgroundColor: Colors.white,
       body: PageView(
           controller: pageController,
@@ -106,7 +107,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               ),
               child: Builder(builder: (context) {
                 context2 = context;
-                return CustomCard(
+                return CustomCardComponent(
                   scrollPhysics: challengeList.length == 1
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
@@ -252,17 +253,17 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             children: [
               documentationButton(
                   iconData: Icons.numbers_rounded,
-                  onTap: () => MySnackBar.showSnackBar(
+                  onTap: () => SnackBarComponent.showSnackBar(
                       context, 'The Numbers feature will be added soon.'),
                   color: Colors.grey[200]),
               documentationButton(
                   iconData: Icons.notes_rounded,
-                  onTap: () => MySnackBar.showSnackBar(
+                  onTap: () => SnackBarComponent.showSnackBar(
                       context, 'The Notes feature will be added soon.'),
                   color: Colors.grey[200]),
               documentationButton(
                   iconData: Icons.gps_not_fixed_rounded,
-                  onTap: () => MySnackBar.showSnackBar(
+                  onTap: () => SnackBarComponent.showSnackBar(
                       context, 'The GPS feature will be added soon.'),
                   color: Colors.grey[200]),
               documentationButton(
@@ -617,7 +618,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         widget.challenge.status == ChallengeStatusEnum.backlog) {
       Navigator.push(
         context,
-        NoAnimationPageRoute(
+        NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
             preTitle: '${widget.preTitle}/${widget.challenge.title}',
             challenge: widget.challenge,
@@ -650,7 +651,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           challenge: widget.challenge,
@@ -675,8 +676,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       AcceptanceCriteriaModel acceptanceCriteria) async {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
-        builder: (context) => AcceptanceCriteriaEvidenceList(
+      NoAnimationPageRouteComponent(
+        builder: (context) => AcceptanceCriteriaEvidenceListComponent(
             preTitle: '${widget.preTitle}/${widget.challenge.title}',
             challenge: widget.challenge,
             acceptanceCriteria: acceptanceCriteria),
@@ -697,7 +698,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
           cameras: cameras,
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
@@ -828,7 +829,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       Navigator.pop(context);
       Navigator.push(
         context,
-        NoAnimationPageRoute(
+        NoAnimationPageRouteComponent(
           builder: (context) {
             ChallengeModel challenge = ChallengeModel.copyChallenge(
                 widget.challenge,

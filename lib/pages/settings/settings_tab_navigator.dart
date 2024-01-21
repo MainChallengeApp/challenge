@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:challenge/pages/settings/settings_list.page.dart';
-import 'package:challenge/components/navigation/tab_navigator.dart';
+import 'package:challenge/components/navigation/tab_navigator.component.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 
 class SettingsTabNavigatorRoutes {
@@ -13,7 +13,7 @@ class SettingsTabNavigatorRoutes {
   static const String newChallenge = '/newChallenge';
 }
 
-class SettingsTabNavigator extends TabNavigator {
+class SettingsTabNavigator extends TabNavigatorComponent {
   const SettingsTabNavigator(
       {super.key, required super.navigatorKey, required super.tabItem});
 
@@ -24,7 +24,7 @@ class SettingsTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),
@@ -45,7 +45,7 @@ class SettingsTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) =>
             routeBuilders[SettingsTabNavigatorRoutes.newChallenge]!(context),
       ),

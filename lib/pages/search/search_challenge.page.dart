@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/simple_components/custom_card.dart';
+import 'package:challenge/components/simple_components/custom_card.component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria.page.dart';
-import 'package:challenge/components/simple_components/my_snack_bar.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/simple_components/snack_bar.component.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +16,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/enums/tab_item.enum.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/models/activity.model.dart';
@@ -79,7 +79,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         });
       },
       child: Scaffold(
-        appBar: CustomeAppBar(preTitle: widget.title, titleText: currentTitle),
+        appBar:
+            AppBarComponent(preTitle: widget.title, titleText: currentTitle),
         backgroundColor: Colors.white,
         body: Center(
           child: PageView(
@@ -168,7 +169,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                     ),
                     child: Builder(builder: (context) {
                       context2 = context;
-                      return CustomCard(
+                      return CustomCardComponent(
                         scrollPhysics: isKeyboardUp
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
@@ -303,7 +304,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   GestureDetector thumbnail(BuildContext context, ChallengeModel e) {
     return GestureDetector(
-      onTap: () => MySnackBar.showSnackBar(
+      onTap: () => SnackBarComponent.showSnackBar(
           context, 'The Video Trailer feature will be added soon'),
       child: Container(
           width: double.infinity,
@@ -517,7 +518,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     //   homeNavigator.pop(context);
     // }
     homeNavigator.push(
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           preTitle: 'Home',
           challenge: challengeCopy,
@@ -547,7 +548,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     Slidable.of(context2)?.close(duration: Duration.zero);
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
           preTitle: '${widget.title}/${widget.challenge.title}',
           challenge: widget.challenge,
@@ -639,7 +640,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   void onTapAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => AddAcceptanceCriteriaPage(
             preTitle: '${widget.title}/${widget.challenge.title}',
             challenge: widget.challenge,
@@ -695,7 +696,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   void onTapAddAcceptanceCriteriaButton() {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => AddAcceptanceCriteriaPage(
           preTitle: '${widget.title}/${widget.challenge.title}/',
           challenge: widget.challenge,

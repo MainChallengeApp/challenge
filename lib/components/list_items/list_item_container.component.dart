@@ -1,11 +1,11 @@
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
-class ListItemContainer extends StatelessWidget {
+class ListItemContainerComponent extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
 
-  const ListItemContainer(
+  const ListItemContainerComponent(
       {super.key, required this.child, this.backgroundColor = Colors.white});
 
   @override

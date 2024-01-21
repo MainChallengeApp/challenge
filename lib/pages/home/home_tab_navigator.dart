@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
 import 'package:challenge/pages/home/home_list.page.dart';
 import 'package:challenge/models/challenge.model.dart';
-import 'package:challenge/components/navigation/tab_navigator.dart';
+import 'package:challenge/components/navigation/tab_navigator.component.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 
 class HomeTabNavigatorRoutes {
   static const String root = '/';
@@ -14,7 +14,7 @@ class HomeTabNavigatorRoutes {
   static const String addAcceptanceCriteria = '/addAcceptanceCriteria';
 }
 
-class HomeTabNavigator extends TabNavigator {
+class HomeTabNavigator extends TabNavigatorComponent {
   const HomeTabNavigator(
       {super.key, required super.navigatorKey, required super.tabItem});
 
@@ -25,7 +25,7 @@ class HomeTabNavigator extends TabNavigator {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),

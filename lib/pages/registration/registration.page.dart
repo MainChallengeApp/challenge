@@ -1,6 +1,6 @@
-import 'package:challenge/components/list_items/list_item_accept_button.dart';
-import 'package:challenge/components/list_items/list_item_email.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/list_items/list_item_accept_button.component.dart';
+import 'package:challenge/components/list_items/list_item_email.component.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/account.controller.dart';
 import 'package:challenge/models/account.model.dart';
 import 'package:challenge/providers/design.provider.dart';
@@ -24,7 +24,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomeAppBar(
+      appBar: const AppBarComponent(
         preTitle: 'Registration',
         isFirstPage: true,
       ),
@@ -34,7 +34,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             const SizedBox(
               height: 200,
             ),
-            ListItemEmail(
+            ListItemEmailComponent(
               changeList: onChangeList,
               textEditingController: textEditingController,
               errorText: errorText,
@@ -42,7 +42,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             const SizedBox(
               height: 16,
             ),
-            ListItemAcceptButton(
+            ListItemAcceptButtonComponent(
                 onTapAccept: onTapAccept, isAcceptable: email.isNotEmpty),
             const SizedBox(
               height: 140,

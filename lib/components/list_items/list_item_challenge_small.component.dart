@@ -1,12 +1,12 @@
-import 'package:challenge/components/list_items/list_item_container.dart';
+import 'package:challenge/components/list_items/list_item_container.component.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.model.dart';
 
 import 'package:challenge/globals.dart';
 
-class ListItemChallengeSmall extends StatelessWidget {
-  const ListItemChallengeSmall(
+class ListItemChallengeSmallComponent extends StatelessWidget {
+  const ListItemChallengeSmallComponent(
       {super.key,
       required this.onTap,
       required this.challenge,
@@ -22,7 +22,7 @@ class ListItemChallengeSmall extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: ListItemContainer(
+      child: ListItemContainerComponent(
         child: Row(
           children: [
             Container(

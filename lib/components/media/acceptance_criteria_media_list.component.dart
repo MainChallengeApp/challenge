@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.dart';
-import 'package:challenge/components/list_items/list_item_media_small.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
+import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.component.dart';
+import 'package:challenge/components/list_items/list_item_media_small.component.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +17,12 @@ import 'package:challenge/models/activity.model.dart';
 import 'package:challenge/models/evidence.model.dart';
 import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design.provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/pages/subpages/media/media_detail.page.dart';
-import 'upload_media.dart';
+import '../../services/upload_media.service.dart';
 
-class AcceptanceCriteriaMediaList extends StatefulWidget {
-  AcceptanceCriteriaMediaList(
+class AcceptanceCriteriaMediaListComponent extends StatefulWidget {
+  AcceptanceCriteriaMediaListComponent(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -53,12 +53,12 @@ class AcceptanceCriteriaMediaList extends StatefulWidget {
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
-  State<AcceptanceCriteriaMediaList> createState() =>
-      _AcceptanceCriteriaMediaListState();
+  State<AcceptanceCriteriaMediaListComponent> createState() =>
+      _AcceptanceCriteriaMediaListComponentState();
 }
 
-class _AcceptanceCriteriaMediaListState
-    extends State<AcceptanceCriteriaMediaList> {
+class _AcceptanceCriteriaMediaListComponentState
+    extends State<AcceptanceCriteriaMediaListComponent> {
   ChallengeController challengeController = ChallengeController();
   ScrollController scrollController = ScrollController();
 
@@ -73,7 +73,7 @@ class _AcceptanceCriteriaMediaListState
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-          appBar: CustomeAppBar(
+          appBar: AppBarComponent(
               preTitle: widget.preTitle,
               titleText: widget.evidence == null
                   ? '${widget.acceptanceCriteria.evidences.length + 1}'
@@ -105,7 +105,7 @@ class _AcceptanceCriteriaMediaListState
                 children: [
                   GestureDetector(
                     onTap: onTapProgressBar,
-                    child: ListItemAcceptanceCriteriaBar(
+                    child: ListItemAcceptanceCriteriaBarComponent(
                       acceptanceCriteria: widget.acceptanceCriteria,
                       initialProgress: widget.evidence?.progress ??
                           widget.acceptanceCriteria.progress,
@@ -126,7 +126,7 @@ class _AcceptanceCriteriaMediaListState
                   children: [
                     GestureDetector(
                       onTap: onTapProgressBar,
-                      child: ListItemIconSmall(
+                      child: ListItemIconSmallComponent(
                           onTap: onTapUploadMedia,
                           icon: Icons.upload_rounded,
                           title: 'Upload Media'),
@@ -143,7 +143,7 @@ class _AcceptanceCriteriaMediaListState
 
             return Column(
               children: [
-                ListItemMediaSmall(
+                ListItemMediaSmallComponent(
                   onTap: () => ppush(context, index: index - 1 - 1),
                   media: widget.mediaList[index - 1 - 1],
                 ),
@@ -167,7 +167,7 @@ class _AcceptanceCriteriaMediaListState
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
           media: widget.mediaList,
           preTitle: '${widget.preTitle}/Media',
@@ -494,7 +494,7 @@ class _AcceptanceCriteriaMediaListState
   }
 
   onTapUploadMedia() async {
-    XFile? file = await UploadMedia.onTapUploadMedia();
+    XFile? file = await UploadMediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
         MediaModel media = MediaModel(

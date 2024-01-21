@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:challenge/globals.dart';
 
-class CustomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final String preTitle;
   final String? titleText;
   final Color textColor;
@@ -12,7 +12,7 @@ class CustomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
-  const CustomeAppBar(
+  const AppBarComponent(
       {super.key,
       required this.preTitle,
       this.titleText,

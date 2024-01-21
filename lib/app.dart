@@ -1,12 +1,12 @@
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/components/navigation/bottom_navigation.dart';
+import 'package:challenge/components/navigation/bottom_navigation.component.dart';
 import 'package:challenge/pages/settings/settings_tab_navigator.dart';
 import 'package:challenge/enums/tab_item.enum.dart';
 import 'package:challenge/pages/home/home_tab_navigator.dart';
 import 'package:challenge/pages/search/search_tab_navigator.dart';
-import 'package:challenge/components/navigation/tab_navigator.dart';
+import 'package:challenge/components/navigation/tab_navigator.component.dart';
 import 'package:provider/provider.dart';
 
 import 'globals.dart';
@@ -83,7 +83,7 @@ class AppState extends State<App> {
                 decoration: const BoxDecoration(
                   color: themeColor1,
                 ),
-                child: BottomNavigation(
+                child: BottomNavigationComponent(
                   currentTab: _currentTab,
                   onSelectTab: _selectTab,
                 ),
@@ -124,7 +124,7 @@ class AppState extends State<App> {
       default:
         return Offstage(
           offstage: _currentTab != tabItem,
-          child: TabNavigator(
+          child: TabNavigatorComponent(
             navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
           ),

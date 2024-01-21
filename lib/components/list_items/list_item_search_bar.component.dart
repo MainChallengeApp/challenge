@@ -1,11 +1,11 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/list_items/list_item_container.dart';
+import 'package:challenge/components/list_items/list_item_container.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
-class ListItemSearchbar extends StatefulWidget {
-  ListItemSearchbar(
+class ListItemSearchbarComponent extends StatefulWidget {
+  ListItemSearchbarComponent(
       {super.key,
       this.changeList,
       this.searchBarText = "",
@@ -16,15 +16,17 @@ class ListItemSearchbar extends StatefulWidget {
   TextEditingController textEditingController;
 
   @override
-  State<ListItemSearchbar> createState() => _ListItemSearchbarState();
+  State<ListItemSearchbarComponent> createState() =>
+      _ListItemSearchbarComponentState();
 }
 
-class _ListItemSearchbarState extends State<ListItemSearchbar> {
+class _ListItemSearchbarComponentState
+    extends State<ListItemSearchbarComponent> {
   @override
   Widget build(BuildContext context) {
     widget.textEditingController.selection = TextSelection.collapsed(
         offset: widget.textEditingController.text.length);
-    return ListItemContainer(
+    return ListItemContainerComponent(
       child: Row(
         children: [
           Container(

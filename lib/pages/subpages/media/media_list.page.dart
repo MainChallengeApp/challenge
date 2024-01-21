@@ -1,11 +1,11 @@
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/list_items/list_item_media_small.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
+import 'package:challenge/components/list_items/list_item_media_small.component.dart';
 import 'package:challenge/pages/subpages/media/media_detail.page.dart';
-import 'package:challenge/components/media/upload_media.dart';
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/services/upload_media.service.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/components/list_items/list_item_search_bar.dart';
+import 'package:challenge/components/list_items/list_item_search_bar.component.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design.provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 
 class MediaListPage extends StatefulWidget {
   const MediaListPage(
@@ -39,7 +39,7 @@ class _MediaListPageState extends State<MediaListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: 'Media'),
+        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: 'Media'),
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,
@@ -66,7 +66,7 @@ class _MediaListPageState extends State<MediaListPage> {
             if (index == 0) {
               return Column(
                 children: [
-                  ListItemSearchbar(
+                  ListItemSearchbarComponent(
                     changeList: changeList,
                     textEditingController:
                         TextEditingController(text: searchBarText),
@@ -81,7 +81,7 @@ class _MediaListPageState extends State<MediaListPage> {
             if (index == 1) {
               return Column(
                 children: [
-                  ListItemIconSmall(
+                  ListItemIconSmallComponent(
                     icon: Icons.file_upload_rounded,
                     title: 'Upload Media',
                     onTap: onTapUploadMedia,
@@ -101,7 +101,7 @@ class _MediaListPageState extends State<MediaListPage> {
             // }
             return Column(
               children: [
-                ListItemMediaSmall(
+                ListItemMediaSmallComponent(
                   onTap: () => ppush(context, index: index - 1 - 1),
                   media: mediaList[index - 1 - 1],
                 ),
@@ -125,7 +125,7 @@ class _MediaListPageState extends State<MediaListPage> {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
           media: widget.challenge.media
               .where((element) => element.title.contains(searchBarText))
@@ -139,7 +139,7 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   onTapUploadMedia() async {
-    XFile? file = await UploadMedia.onTapUploadMedia();
+    XFile? file = await UploadMediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
         widget.challenge.media.add(MediaModel(

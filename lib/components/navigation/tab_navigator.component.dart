@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:challenge/enums/tab_item.enum.dart';
 
-import 'no_animation_page_route.dart';
+import 'no_animation_page_route.component.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
   static const String detail = '/detail';
 }
 
-class TabNavigator extends StatelessWidget {
-  const TabNavigator(
+class TabNavigatorComponent extends StatelessWidget {
+  const TabNavigatorComponent(
       {super.key, required this.navigatorKey, required this.tabItem});
   final GlobalKey<NavigatorState>? navigatorKey;
   final TabItemEnum tabItem;
@@ -21,7 +21,7 @@ class TabNavigator extends StatelessWidget {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) =>
             routeBuilders[TabNavigatorRoutes.detail]!(context),
       ),

@@ -1,6 +1,6 @@
 // Currently not used in v1.0.0
 // Refactor/Clean when used...
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.model.dart';
@@ -34,7 +34,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
         ? 'Add Acceptance Criteria'
         : widget.acceptanceCriteria.activity.title;
     return Scaffold(
-      appBar: CustomeAppBar(preTitle: widget.preTitle, titleText: title),
+      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
       backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(

@@ -1,16 +1,16 @@
-import 'package:challenge/components/navigation/custom_app_bar.dart';
+import 'package:challenge/components/navigation/app_bar.component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
 import 'package:challenge/json_file_controller/challenge.controller.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/pages/home/home_challenge.page.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_challenge_small.dart';
-import 'package:challenge/components/list_items/list_item_icon_small.dart';
-import 'package:challenge/components/list_items/list_item_search_bar.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small.component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar.component.dart';
 import 'package:challenge/models/challenge.model.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.dart';
+import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:challenge/models/activity.model.dart';
 
@@ -40,7 +40,7 @@ class _HomeListPageState extends State<HomeListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomeAppBar(
+        appBar: AppBarComponent(
           preTitle: widget.title,
           isFirstPage: true,
         ),
@@ -78,7 +78,7 @@ class _HomeListPageState extends State<HomeListPage> {
                     if (index == 0) {
                       return Column(
                         children: [
-                          ListItemSearchbar(
+                          ListItemSearchbarComponent(
                             changeList: changeList,
                             textEditingController:
                                 TextEditingController(text: searchBarText),
@@ -92,7 +92,7 @@ class _HomeListPageState extends State<HomeListPage> {
                     if (index == 1) {
                       return Column(
                         children: [
-                          ListItemIconSmall(
+                          ListItemIconSmallComponent(
                             onTap: () => tapOnNewChallenge(),
                             icon: Icons.add_rounded,
                             title: "New Challenge",
@@ -111,7 +111,7 @@ class _HomeListPageState extends State<HomeListPage> {
                         1]; // -1 for new Challenge listitem - 1 for searchbar
                     return Column(
                       children: [
-                        ListItemChallengeSmall(
+                        ListItemChallengeSmallComponent(
                           onTap: () => ppush(context,
                               challenge: challenge, index: index - 1 - 1),
                           challenge: challenge,
@@ -141,7 +141,7 @@ class _HomeListPageState extends State<HomeListPage> {
       {required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: widget.title,
             challenge: challenge,
@@ -170,7 +170,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
     Navigator.push(
       context,
-      NoAnimationPageRoute(
+      NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
           preTitle: widget.title,
           challenge: challenge,
