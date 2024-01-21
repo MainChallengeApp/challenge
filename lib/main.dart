@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:challenge/pages/registration/registration.page.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/services/load_account.service.dart';
@@ -8,11 +6,7 @@ import 'package:challenge/app.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => DesignProvider()),
@@ -34,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    setOrientationToPortaitUp();
     loadAccountService.loadAccount(context);
   }
 
@@ -50,5 +45,12 @@ class _MyAppState extends State<MyApp> {
         home: context.watch<DesignProvider>().isRegistered()
             ? const App()
             : const RegistrationPage());
+  }
+
+  void setOrientationToPortaitUp() {
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
   }
 }
