@@ -721,6 +721,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         } else {
           widget.challenge.status = ChallengeStatusEnum.failed;
         }
+        context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
           widget.challenge.endDate = DateTime.now();
           challengeList
