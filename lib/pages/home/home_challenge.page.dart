@@ -642,6 +642,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       Slidable.of(context2)?.close(duration: Duration.zero);
     });
     if (challengeList.isEmpty) {
+      context.read<DesignProvider>().triggerSetStateHomeList();
       Navigator.pop(context);
     }
   }
