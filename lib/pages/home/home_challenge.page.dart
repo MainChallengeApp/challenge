@@ -82,7 +82,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           scrollDirection: Axis.vertical,
           children: challengeList.map((e) {
             return Slidable(
-              key: const ValueKey(0),
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
               endActionPane: ActionPane(

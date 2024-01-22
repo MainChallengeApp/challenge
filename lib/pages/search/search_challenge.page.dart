@@ -92,7 +92,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                   return Container(
                       // margin: const EdgeInsets.only(bottom: 16),
                       child: Slidable(
-                    key: const ValueKey(0),
                     closeOnScroll: true,
                     // The end action pane is the one at the right or the bottom side.
                     endActionPane: ActionPane(
