@@ -37,7 +37,7 @@ class _AcceptanceCriteriaEvidenceListComponentState
     setIsBottomNavBarVisibleToFalse();
     Future.delayed(Duration.zero, () {
       List<String> preTitleArray = widget.preTitle.split('/');
-      if (preTitleArray.length >= 3 && preTitleArray.contains('Evidence')) {
+      if (preTitleArray.length >= 3 && preTitleArray.contains('Evidences')) {
         Navigator.pop(context);
       }
     });
@@ -48,7 +48,7 @@ class _AcceptanceCriteriaEvidenceListComponentState
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.preTitle,
-          titleText: 'Evidence',
+          titleText: 'Evidences',
         ),
         backgroundColor: Colors.white,
         body: Stack(
