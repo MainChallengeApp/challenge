@@ -144,7 +144,7 @@ class _AcceptanceCriteriaEvidenceListPageState
         builder: (context) => AcceptanceCriteriaMediaListPage(
           preTitle:
               '${widget.preTitle}/${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
-          mediaList: widget.challenge.media
+          initialMediaList: widget.challenge.media
               .where((element) => evidence.mediaIds.contains(element.id))
               .toList(),
           acceptanceCriteria: widget.acceptanceCriteria,
@@ -196,7 +196,7 @@ class _AcceptanceCriteriaEvidenceListPageState
         builder: (context) => AcceptanceCriteriaMediaListPage(
             preTitle: '${widget.preTitle}/Evidences',
             challenge: widget.challenge,
-            mediaList: [],
+            initialMediaList: [],
             acceptanceCriteria: widget.acceptanceCriteria),
       ),
     ).then((_) => setState(() {

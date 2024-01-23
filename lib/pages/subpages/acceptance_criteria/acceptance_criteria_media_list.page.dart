@@ -26,7 +26,7 @@ class AcceptanceCriteriaMediaListPage extends StatefulWidget {
       {super.key,
       required this.preTitle,
       required this.challenge,
-      required this.mediaList,
+      required this.initialMediaList,
       required this.acceptanceCriteria,
       this.evidence,
       this.isSaveInsteadOfEditButtonVisible = true}) {
@@ -46,7 +46,7 @@ class AcceptanceCriteriaMediaListPage extends StatefulWidget {
   }
   final String preTitle;
   final ChallengeModel challenge;
-  List<MediaModel> mediaList;
+  final List<MediaModel> initialMediaList;
   final AcceptanceCriteriaModel acceptanceCriteria;
   late AcceptanceCriteriaModel editAcceptanceCriteria;
   final EvidenceModel? evidence;
@@ -67,6 +67,15 @@ class _AcceptanceCriteriaMediaListPageState
   String searchBarText = "";
 
   late BuildContext context2;
+
+  List<MediaModel> mediaList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    mediaList = widget.initialMediaList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,10 +104,10 @@ class _AcceptanceCriteriaMediaListPageState
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemCount: widget.isSaveInsteadOfEditButtonVisible
-              ? widget.mediaList.length +
+              ? mediaList.length +
                   1 +
                   1 // +1 for progress bar +1 for upload Media when Save Button is visible
-              : widget.mediaList.length + 1,
+              : mediaList.length + 1,
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return Column(
@@ -145,7 +154,7 @@ class _AcceptanceCriteriaMediaListPageState
               children: [
                 ListItemMediaSmallComponent(
                   onTap: () => ppush(context, index: index - 1 - 1),
-                  media: widget.mediaList[index - 1 - 1],
+                  media: mediaList[index - 1 - 1],
                 ),
                 const SizedBox(
                   height: 17,
@@ -169,7 +178,7 @@ class _AcceptanceCriteriaMediaListPageState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
-          media: widget.mediaList,
+          media: mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIdex: index,
           challenge: widget.challenge,
@@ -240,7 +249,7 @@ class _AcceptanceCriteriaMediaListPageState
           widget.editAcceptanceCriteria.progress;
       var evidence = EvidenceModel(
           progress: widget.acceptanceCriteria.progress,
-          mediaIds: widget.mediaList.map((e) => e.id!).toList());
+          mediaIds: mediaList.map((e) => e.id!).toList());
 
       widget.acceptanceCriteria.evidences.insert(0, evidence);
       allChallengesList
@@ -503,7 +512,7 @@ class _AcceptanceCriteriaMediaListPageState
             source: file.path);
 
         widget.challenge.media.add(media);
-        widget.mediaList.add(media);
+        mediaList.add(media);
       });
     }
   }

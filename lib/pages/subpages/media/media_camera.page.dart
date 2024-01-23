@@ -266,7 +266,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
           NoAnimationPageRouteComponent(
             builder: (context) => AcceptanceCriteriaMediaListPage(
               preTitle: '${widget.preTitle}/Camera',
-              mediaList: currentMedia,
+              initialMediaList: currentMedia,
               acceptanceCriteria: widget.acceptanceCriteria,
               challenge: widget.challenge,
             ),
