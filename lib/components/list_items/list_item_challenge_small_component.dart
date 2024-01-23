@@ -1,7 +1,7 @@
-import 'package:challenge/components/list_items/list_item_container.component.dart';
-import 'package:challenge/enums/challenge_status.enum.dart';
+import 'package:challenge/components/list_items/list_item_container_component.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/models/challenge_model.dart';
 
 import 'package:challenge/globals.dart';
 

@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/models/activity.model.dart';
+import 'package:challenge/models/activity_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
 
 class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
   ListItemAcceptanceCriteriaBarComponent(

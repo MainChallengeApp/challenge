@@ -1,4 +1,4 @@
-import 'media.model.dart';
+import 'media_model.dart';
 
 class EvidenceModel {
   double progress;

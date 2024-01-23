@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:challenge/components/navigation/app_bar.component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_challenge_small.component.dart';
-import 'package:challenge/components/list_items/list_item_search_bar.component.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/models/challenge_model.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
-import 'search_challenge.page.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'search_challenge_page.dart';
 
 class SearchListPage extends StatefulWidget {
   const SearchListPage(

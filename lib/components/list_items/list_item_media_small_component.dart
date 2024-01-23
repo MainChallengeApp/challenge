@@ -1,7 +1,7 @@
-import 'package:challenge/components/list_items/list_item_container.component.dart';
+import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/media.model.dart';
+import 'package:challenge/models/media_model.dart';
 
 class ListItemMediaSmallComponent extends StatelessWidget {
   const ListItemMediaSmallComponent(

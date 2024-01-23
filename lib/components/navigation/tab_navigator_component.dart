@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/models/challenge.model.dart';
-import 'package:challenge/enums/tab_item.enum.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/enums/tab_item_enum.dart';
 
-import 'no_animation_page_route.component.dart';
+import 'no_animation_page_route_component.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';

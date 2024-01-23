@@ -1,19 +1,19 @@
-import 'package:challenge/components/navigation/app_bar.component.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
-import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/models/acceptance_criteria.model.dart';
-import 'package:challenge/pages/home/home_challenge.page.dart';
-import 'package:challenge/providers/design.provider.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_challenge_small.component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
-import 'package:challenge/components/list_items/list_item_search_bar.component.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/models/challenge_model.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
-import 'package:challenge/enums/challenge_status.enum.dart';
-import 'package:challenge/models/activity.model.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/models/activity_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeListPage extends StatefulWidget {

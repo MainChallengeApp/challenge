@@ -1,5 +1,5 @@
-import 'package:challenge/enums/challenge_status.enum.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

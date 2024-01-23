@@ -1,39 +1,33 @@
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/models/account_model.dart';
 
 import 'package:path_provider/path_provider.dart';
 
-class ChallengeController {
-  final String filePath = 'home_challenges.json';
+class AccountController {
+  final String filePath = 'account.json';
 
-  ChallengeController();
+  AccountController();
 
-  Future<List<ChallengeModel>> readFile(BuildContext context) async {
+  Future<AccountModel> readFile() async {
     try {
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final file = File('${documentsDirectory.path}/$filePath');
       final data = await file.readAsString();
 
-      final body = json.decode(data);
-      List<ChallengeModel> c = body.map<ChallengeModel>((e) {
-        return ChallengeModel.fromJson(e);
-      }).toList();
-      return c;
+      final jsonData = json.decode(data);
+      return AccountModel.fromJson(
+          jsonData); // body.map<Account>(Account.fromJson);
     } catch (e) {
-      return [];
+      return AccountModel();
     }
   }
 
-  Future<void> writeFile(
-      BuildContext context, List<ChallengeModel> challenges) async {
+  Future<void> writeFile(AccountModel account) async {
     try {
       // Convert the list of Challenge objects to a list of JSON data.
-      final jsonData =
-          challenges.map((challenge) => challenge.toJson()).toList();
+      final jsonData = account.toJson();
 
       // Convert the list of JSON data to a JSON string.
       final jsonString = json.encode(jsonData);

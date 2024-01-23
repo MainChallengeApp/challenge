@@ -1,9 +1,9 @@
-import 'package:challenge/components/list_items/list_item_accept_button.component.dart';
-import 'package:challenge/components/list_items/list_item_email.component.dart';
-import 'package:challenge/components/navigation/app_bar.component.dart';
-import 'package:challenge/json_file_controller/account.controller.dart';
-import 'package:challenge/models/account.model.dart';
-import 'package:challenge/providers/design.provider.dart';
+import 'package:challenge/components/list_items/list_item_accept_button_component.dart';
+import 'package:challenge/components/list_items/list_item_email_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/json_file_controller/account_controller.dart';
+import 'package:challenge/models/account_model.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

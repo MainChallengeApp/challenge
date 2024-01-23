@@ -1,25 +1,25 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
-import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.component.dart';
-import 'package:challenge/components/list_items/list_item_media_small.component.dart';
-import 'package:challenge/components/navigation/app_bar.component.dart';
-import 'package:challenge/json_file_controller/challenge.controller.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
+import 'package:challenge/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:challenge/models/acceptance_criteria.model.dart';
-import 'package:challenge/models/activity.model.dart';
-import 'package:challenge/models/evidence.model.dart';
-import 'package:challenge/models/media.model.dart';
-import 'package:challenge/providers/design.provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
-import 'package:challenge/pages/subpages/media/media_detail.page.dart';
-import 'package:challenge/services/upload_media.service.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/activity_model.dart';
+import 'package:challenge/models/evidence_model.dart';
+import 'package:challenge/models/media_model.dart';
+import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/subpages/media/media_detail_page.dart';
+import 'package:challenge/services/upload_media_service.dart';
 
 class AcceptanceCriteriaMediaListPage extends StatefulWidget {
   AcceptanceCriteriaMediaListPage(

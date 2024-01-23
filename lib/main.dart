@@ -1,6 +1,6 @@
-import 'package:challenge/pages/registration/registration.page.dart';
-import 'package:challenge/providers/design.provider.dart';
-import 'package:challenge/services/load_account.service.dart';
+import 'package:challenge/pages/registration/registration_page.dart';
+import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/services/load_account_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/app.dart';
 import 'package:flutter/services.dart';

@@ -1,12 +1,12 @@
 // Currently not used in v1.0.0
 // Refactor/Clean when used...
-import 'package:challenge/components/navigation/app_bar.component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 
-import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
 
 class AddAcceptanceCriteriaPage extends StatefulWidget {
   const AddAcceptanceCriteriaPage(

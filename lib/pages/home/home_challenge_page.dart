@@ -1,27 +1,27 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:camera/camera.dart';
-import 'package:challenge/components/simple_components/custom_card.component.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge.page.dart';
-import 'package:challenge/pages/subpages/media/media_camera.page.dart';
-import 'package:challenge/pages/subpages/media/media_list.page.dart';
-import 'package:challenge/components/navigation/app_bar.component.dart';
-import 'package:challenge/components/simple_components/snack_bar.component.dart';
-import 'package:challenge/json_file_controller/challenge.controller.dart';
-import 'package:challenge/providers/design.provider.dart';
+import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:challenge/pages/subpages/media/media_camera_page.dart';
+import 'package:challenge/pages/subpages/media/media_list_page.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:challenge/pages/subpages/acceptance_criteria/acceptance_criteria_evidence_list.page.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
-import 'package:challenge/enums/challenge_status.enum.dart';
-import 'package:challenge/models/acceptance_criteria.model.dart';
+import 'package:challenge/pages/subpages/acceptance_criteria/acceptance_criteria_evidence_list_page.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
 
 class HomeChallengePage extends StatefulWidget {
   // Function homeListSetState;

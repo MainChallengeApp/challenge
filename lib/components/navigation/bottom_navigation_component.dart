@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/enums/tab_item.enum.dart';
+import 'package:challenge/enums/tab_item_enum.dart';
 
 import 'package:challenge/globals.dart';
 

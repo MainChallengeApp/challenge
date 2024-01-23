@@ -1,6 +1,6 @@
-import 'package:challenge/models/evidence.model.dart';
+import 'package:challenge/models/evidence_model.dart';
 
-import 'activity.model.dart';
+import 'activity_model.dart';
 
 class AcceptanceCriteriaModel {
   int? id;

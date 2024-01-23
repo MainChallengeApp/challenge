@@ -1,16 +1,16 @@
-import 'package:challenge/components/list_items/list_item_icon_small.component.dart';
-import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar.component.dart';
-import 'package:challenge/components/navigation/app_bar.component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge.model.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:provider/provider.dart';
 
-import 'package:challenge/models/acceptance_criteria.model.dart';
-import 'package:challenge/models/evidence.model.dart';
-import 'package:challenge/providers/design.provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
-import 'acceptance_criteria_media_list.page.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/evidence_model.dart';
+import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'acceptance_criteria_media_list_page.dart';
 
 class AcceptanceCriteriaEvidenceListPage extends StatefulWidget {
   const AcceptanceCriteriaEvidenceListPage(

@@ -1,8 +1,8 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:challenge/enums/challenge_status.enum.dart';
-import 'acceptance_criteria.model.dart';
-import 'media.model.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
+import 'acceptance_criteria_model.dart';
+import 'media_model.dart';
 
 class ChallengeModel {
   String? id; // set id automatically
