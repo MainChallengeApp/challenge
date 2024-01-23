@@ -11,6 +11,27 @@ The app for finding new challenges, tracking and completing them!
 
 1. run `flutter test`
 
+## Updating Version
+
+1. run `scripts/update_version.sh <'major' | 'minor' | 'patch'>`
+
+## Release new Version
+
+### Apple AppStore
+
+1. open the project in Xcode
+2. select 'Any iOS Device (arm64)' as Runner
+3. click on Product>Archive
+4. click through
+5. login to https://appstoreconnect.apple.com/
+6. create new version
+7. select the new build version (this can take a while)
+8. adjust every other field
+
+### Google PlayStore
+
+1. to be implemented...
+
 ## Common Errors
 
 ### Module 'camera_avfoundation' not found
