@@ -59,4 +59,4 @@ git add $YAML_FILE
 git commit -m "update: v$CURRENT_VERSION to v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"
 git tag "v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"
 
-echo "Version incremented to '$MAJOR.$MINOR.$PATCH' in '$YAML_FILE' and committed to git."
+echo "Version incremented to 'v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER' in '$YAML_FILE' and committed to git."
