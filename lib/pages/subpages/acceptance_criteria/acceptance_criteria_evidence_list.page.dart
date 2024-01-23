@@ -10,10 +10,10 @@ import 'package:challenge/models/acceptance_criteria.model.dart';
 import 'package:challenge/models/evidence.model.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
-import 'acceptance_criteria_media_list.component.dart';
+import 'acceptance_criteria_media_list.page.dart';
 
-class AcceptanceCriteriaEvidenceListComponent extends StatefulWidget {
-  const AcceptanceCriteriaEvidenceListComponent(
+class AcceptanceCriteriaEvidenceListPage extends StatefulWidget {
+  const AcceptanceCriteriaEvidenceListPage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -23,12 +23,12 @@ class AcceptanceCriteriaEvidenceListComponent extends StatefulWidget {
   final AcceptanceCriteriaModel acceptanceCriteria;
 
   @override
-  State<AcceptanceCriteriaEvidenceListComponent> createState() =>
-      _AcceptanceCriteriaEvidenceListComponentState();
+  State<AcceptanceCriteriaEvidenceListPage> createState() =>
+      _AcceptanceCriteriaEvidenceListPageState();
 }
 
-class _AcceptanceCriteriaEvidenceListComponentState
-    extends State<AcceptanceCriteriaEvidenceListComponent> {
+class _AcceptanceCriteriaEvidenceListPageState
+    extends State<AcceptanceCriteriaEvidenceListPage> {
   ScrollController scrollController = ScrollController();
 
   @override
@@ -141,7 +141,7 @@ class _AcceptanceCriteriaEvidenceListComponentState
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => AcceptanceCriteriaMediaListComponent(
+        builder: (context) => AcceptanceCriteriaMediaListPage(
           preTitle:
               '${widget.preTitle}/${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
           mediaList: widget.challenge.media
@@ -193,7 +193,7 @@ class _AcceptanceCriteriaEvidenceListComponentState
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => AcceptanceCriteriaMediaListComponent(
+        builder: (context) => AcceptanceCriteriaMediaListPage(
             preTitle: '${widget.preTitle}/Evidences',
             challenge: widget.challenge,
             mediaList: [],

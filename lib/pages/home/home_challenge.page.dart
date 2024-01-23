@@ -18,7 +18,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:challenge/components/media/acceptance_criteria_evidence_list.component.dart';
+import 'package:challenge/pages/subpages/acceptance_criteria/acceptance_criteria_evidence_list.page.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/enums/challenge_status.enum.dart';
 import 'package:challenge/models/acceptance_criteria.model.dart';
@@ -677,7 +677,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => AcceptanceCriteriaEvidenceListComponent(
+        builder: (context) => AcceptanceCriteriaEvidenceListPage(
             preTitle: '${widget.preTitle}/${widget.challenge.title}',
             challenge: widget.challenge,
             acceptanceCriteria: acceptanceCriteria),

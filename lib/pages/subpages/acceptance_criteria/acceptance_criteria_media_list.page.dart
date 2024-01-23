@@ -19,10 +19,10 @@ import 'package:challenge/models/media.model.dart';
 import 'package:challenge/providers/design.provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route.component.dart';
 import 'package:challenge/pages/subpages/media/media_detail.page.dart';
-import '../../services/upload_media.service.dart';
+import 'package:challenge/services/upload_media.service.dart';
 
-class AcceptanceCriteriaMediaListComponent extends StatefulWidget {
-  AcceptanceCriteriaMediaListComponent(
+class AcceptanceCriteriaMediaListPage extends StatefulWidget {
+  AcceptanceCriteriaMediaListPage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -53,12 +53,12 @@ class AcceptanceCriteriaMediaListComponent extends StatefulWidget {
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
-  State<AcceptanceCriteriaMediaListComponent> createState() =>
-      _AcceptanceCriteriaMediaListComponentState();
+  State<AcceptanceCriteriaMediaListPage> createState() =>
+      _AcceptanceCriteriaMediaListPageState();
 }
 
-class _AcceptanceCriteriaMediaListComponentState
-    extends State<AcceptanceCriteriaMediaListComponent> {
+class _AcceptanceCriteriaMediaListPageState
+    extends State<AcceptanceCriteriaMediaListPage> {
   ChallengeController challengeController = ChallengeController();
   ScrollController scrollController = ScrollController();
 

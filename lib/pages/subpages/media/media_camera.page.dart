@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:challenge/components/media/acceptance_criteria_media_list.component.dart';
+import 'package:challenge/pages/subpages/acceptance_criteria/acceptance_criteria_media_list.page.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge.model.dart';
 import 'package:flutter/material.dart';
@@ -264,7 +264,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         Navigator.push(
           context,
           NoAnimationPageRouteComponent(
-            builder: (context) => AcceptanceCriteriaMediaListComponent(
+            builder: (context) => AcceptanceCriteriaMediaListPage(
               preTitle: '${widget.preTitle}/Camera',
               mediaList: currentMedia,
               acceptanceCriteria: widget.acceptanceCriteria,
