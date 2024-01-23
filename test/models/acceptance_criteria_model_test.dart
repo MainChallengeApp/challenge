@@ -1,0 +1,275 @@
+import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/activity_model.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+void main() {
+  group('calcProgressRatio()', () {
+    test('should be 1 when amount == progress', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
+          id: 1,
+          activity: ActivityModel(
+            title: 'title',
+            amount: 1,
+            unit: 'unit',
+          ),
+          frequence: 'daily',
+          tracking: 'tracking',
+          progress: 1,
+          evidences: []);
+
+      // Act
+      double progressRatio = acceptanceCriteria.calcProgressRatio();
+
+      // Assert
+      expect(progressRatio, equals(1));
+    });
+
+    test('should be 0.5 when amount = 2 * progress', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
+          id: 1,
+          activity: ActivityModel(
+            title: 'title',
+            amount: 2,
+            unit: 'unit',
+          ),
+          frequence: 'daily',
+          tracking: 'tracking',
+          progress: 1,
+          evidences: []);
+
+      // Act
+      double progressRatio = acceptanceCriteria.calcProgressRatio();
+
+      // Assert
+      expect(progressRatio, equals(0.5));
+    });
+
+    test('should be 1 when amount == 0', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
+          id: 1,
+          activity: ActivityModel(
+            title: 'title',
+            amount: 0,
+            unit: 'unit',
+          ),
+          frequence: 'daily',
+          tracking: 'tracking',
+          progress: 1,
+          evidences: []);
+
+      // Act
+      double progressRatio = acceptanceCriteria.calcProgressRatio();
+
+      // Assert
+      expect(progressRatio, equals(1));
+    });
+  });
+
+  group('isComplete()', () {
+    test('should be true when progress == amount', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
+          id: 1,
+          activity: ActivityModel(
+            title: 'title',
+            amount: 1,
+            unit: 'unit',
+          ),
+          frequence: 'daily',
+          tracking: 'tracking',
+          progress: 1,
+          evidences: []);
+
+      // Act
+      bool isComplete = acceptanceCriteria.isCompleted();
+
+      // Assert
+      expect(isComplete, equals(true));
+    });
+
+    test('should be true when progress > amount', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
+          id: 1,
+          activity: ActivityModel(
+            title: 'title',
+            amount: 1,
+            unit: 'unit',
+          ),
+          frequence: 'daily',
+          tracking: 'tracking',
+          progress: 2,
+          evidences: []);
+
+      // Act
+      bool isComplete = acceptanceCriteria.isCompleted();
+
+      // Assert
+      expect(isComplete, equals(true));
+    });
+
+    test('should not be true when progress < amount', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
+          id: 1,
+          activity: ActivityModel(
+            title: 'title',
+            amount: 10,
+            unit: 'unit',
+          ),
+          frequence: 'daily',
+          tracking: 'tracking',
+          progress: 2,
+          evidences: []);
+
+      // Act
+      bool isComplete = acceptanceCriteria.isCompleted();
+
+      // Assert
+      expect(isComplete, equals(false));
+    });
+  });
+
+  group('areAllAcceptanceCriteriasCompleted()', () {
+    test('should be true when all acceptance criteria are completed', () {
+      // Arrange
+      List<AcceptanceCriteriaModel> acceptanceCriterias = [
+        AcceptanceCriteriaModel(
+            id: 1,
+            activity: ActivityModel(
+              title: 'title',
+              amount: 1,
+              unit: 'unit',
+            ),
+            frequence: 'daily',
+            tracking: 'tracking',
+            progress: 1,
+            evidences: []),
+        AcceptanceCriteriaModel(
+            id: 2,
+            activity: ActivityModel(
+              title: 'title',
+              amount: 1,
+              unit: 'unit',
+            ),
+            frequence: 'daily',
+            tracking: 'tracking',
+            progress: 1,
+            evidences: [])
+      ];
+
+      // Act
+      bool areAllCompleted =
+          AcceptanceCriteriaModel.areAllAcceptanceCriteriasCompleted(
+              acceptanceCriterias: acceptanceCriterias);
+
+      // Assert
+      expect(areAllCompleted, equals(true));
+    });
+
+    test('should be false when one acceptance criteria is not completed', () {
+      // Arrange
+      List<AcceptanceCriteriaModel> acceptanceCriterias = [
+        AcceptanceCriteriaModel(
+            id: 1,
+            activity: ActivityModel(
+              title: 'title',
+              amount: 2,
+              unit: 'unit',
+            ),
+            frequence: 'daily',
+            tracking: 'tracking',
+            progress: 1,
+            evidences: []),
+        AcceptanceCriteriaModel(
+            id: 2,
+            activity: ActivityModel(
+              title: 'title',
+              amount: 1,
+              unit: 'unit',
+            ),
+            frequence: 'daily',
+            tracking: 'tracking',
+            progress: 1,
+            evidences: [])
+      ];
+
+      // Act
+      bool areAllCompleted =
+          AcceptanceCriteriaModel.areAllAcceptanceCriteriasCompleted(
+              acceptanceCriterias: acceptanceCriterias);
+
+      // Assert
+      expect(areAllCompleted, equals(false));
+    });
+  });
+
+  group('copyAcceptanceCriteriaList()', () {
+    test(
+        'should copy acceptance criteria list when passing an acceptance criteria',
+        () {
+      // Arrange
+      List<AcceptanceCriteriaModel> acceptanceCriterias = [
+        AcceptanceCriteriaModel(
+            id: 1,
+            activity: ActivityModel(
+              title: 'title',
+              amount: 2,
+              unit: 'unit',
+            ),
+            frequence: 'daily',
+            tracking: 'tracking',
+            progress: 1,
+            evidences: []),
+        AcceptanceCriteriaModel(
+            id: 2,
+            activity: ActivityModel(
+              title: 'title',
+              amount: 1,
+              unit: 'unit',
+            ),
+            frequence: 'daily',
+            tracking: 'tracking',
+            progress: 1,
+            evidences: [])
+      ];
+
+      // Act
+      List<AcceptanceCriteriaModel> acceptanceCriteriasCopy =
+          AcceptanceCriteriaModel.copyAcceptanceCriterias(acceptanceCriterias);
+
+      // Assert (maybe just override the == operator)
+      expect(acceptanceCriteriasCopy.length, equals(2));
+      expect(acceptanceCriteriasCopy[0].id, equals(acceptanceCriterias[0].id));
+      expect(acceptanceCriteriasCopy[0].frequence,
+          equals(acceptanceCriterias[0].frequence));
+      expect(acceptanceCriteriasCopy[0].progress,
+          equals(acceptanceCriterias[0].progress));
+      expect(acceptanceCriteriasCopy[0].activity.title,
+          equals(acceptanceCriterias[0].activity.title));
+      expect(acceptanceCriteriasCopy[0].activity.amount,
+          equals(acceptanceCriterias[0].activity.amount));
+      expect(acceptanceCriteriasCopy[0].activity.unit,
+          equals(acceptanceCriterias[0].activity.unit));
+      expect(acceptanceCriteriasCopy[0].evidences,
+          equals(acceptanceCriterias[0].evidences));
+
+      expect(acceptanceCriteriasCopy[1].id, equals(acceptanceCriterias[1].id));
+      expect(acceptanceCriteriasCopy[1].frequence,
+          equals(acceptanceCriterias[1].frequence));
+      expect(acceptanceCriteriasCopy[1].progress,
+          equals(acceptanceCriterias[1].progress));
+      expect(acceptanceCriteriasCopy[1].activity.title,
+          equals(acceptanceCriterias[1].activity.title));
+      expect(acceptanceCriteriasCopy[1].activity.amount,
+          equals(acceptanceCriterias[1].activity.amount));
+      expect(acceptanceCriteriasCopy[1].activity.unit,
+          equals(acceptanceCriterias[1].activity.unit));
+      expect(acceptanceCriteriasCopy[1].evidences,
+          equals(acceptanceCriterias[1].evidences));
+    });
+  });
+}

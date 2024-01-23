@@ -43,7 +43,7 @@ class AcceptanceCriteriaModel {
         .toList();
   }
 
-  static List<AcceptanceCriteriaModel> copyAcceptanceCriteriaList(
+  static List<AcceptanceCriteriaModel> copyAcceptanceCriterias(
       List<AcceptanceCriteriaModel> acceptanceCriteriaList,
       {bool isTryAgain = false}) {
     List<AcceptanceCriteriaModel> acceptanceCriteriaListCopy = [];

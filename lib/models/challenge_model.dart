@@ -72,7 +72,7 @@ class ChallengeModel {
         endDate: isTryAgain ? null : challenge.endDate,
         description: challenge.description,
         thumbnailPath: challenge.thumbnailPath,
-        acceptanceCriterias: AcceptanceCriteriaModel.copyAcceptanceCriteriaList(
+        acceptanceCriterias: AcceptanceCriteriaModel.copyAcceptanceCriterias(
             challenge.acceptanceCriterias,
             isTryAgain: isTryAgain),
         media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media));
