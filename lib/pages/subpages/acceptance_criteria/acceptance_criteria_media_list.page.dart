@@ -254,7 +254,7 @@ class _AcceptanceCriteriaMediaListPageState
       widget.acceptanceCriteria.evidences.insert(0, evidence);
       allChallengesList
           .firstWhere((element) => element.id == widget.challenge.id)
-          .acceptanceCriteria
+          .acceptanceCriterias
           .where((element) => element.id == widget.acceptanceCriteria.id)
           .toList()[0] = widget.acceptanceCriteria;
 

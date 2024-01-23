@@ -7,11 +7,11 @@ enum ChallengeStatusEnum {
   // const ChallengeStatus(String status);
 
   static ChallengeStatusEnum factory(String status) {
-    if (status == 'ChallengeStatus.success') {
+    if (status == 'success') {
       return ChallengeStatusEnum.success;
-    } else if (status == 'ChallengeStatus.failed') {
+    } else if (status == 'failed') {
       return ChallengeStatusEnum.failed;
-    } else if (status == 'ChallengeStatus.backlog') {
+    } else if (status == 'backlog') {
       return ChallengeStatusEnum.backlog;
     } else {
       return ChallengeStatusEnum.inProgress;

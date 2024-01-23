@@ -61,11 +61,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     // TODO: implement initState
     super.initState();
     amountTextEditingController.text = DesignUtil.doubleAsInt(
-            widget.challenge.acceptanceCriteria[0].activity.amount)
+            widget.challenge.acceptanceCriterias[0].activity.amount)
         .toString();
 
     unitTextEditingController.text =
-        widget.challenge.acceptanceCriteria[0].activity.unit;
+        widget.challenge.acceptanceCriterias[0].activity.unit;
   }
 
   @override
@@ -537,10 +537,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       selectedAcceptanceCriteria = 0;
       isDescriptionExpanded = false;
       amountTextEditingController.text = DesignUtil.doubleAsInt(
-              widget.challenge.acceptanceCriteria[0].activity.amount)
+              widget.challenge.acceptanceCriterias[0].activity.amount)
           .toString();
       unitTextEditingController.text =
-          widget.challenge.acceptanceCriteria[0].activity.unit;
+          widget.challenge.acceptanceCriterias[0].activity.unit;
     });
   }
 
@@ -645,8 +645,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
             preTitle: '${widget.title}/${widget.challenge.title}',
             challenge: widget.challenge,
             acceptanceCriteria: acceptanceCriteria,
-            acceptanceCriteriaIndex:
-                widget.challenge.acceptanceCriteria.indexOf(acceptanceCriteria),
+            acceptanceCriteriaIndex: widget.challenge.acceptanceCriterias
+                .indexOf(acceptanceCriteria),
             areButtonsVisible: false),
       ),
     ).then((_) => setState(() {
@@ -701,7 +701,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           preTitle: '${widget.title}/${widget.challenge.title}/',
           challenge: widget.challenge,
           acceptanceCriteria: AcceptanceCriteriaModel(
-              id: widget.challenge.acceptanceCriteria.length,
+              id: widget.challenge.acceptanceCriterias.length,
               activity: ActivityModel(title: '', amount: 0, unit: ''),
               frequence: '',
               tracking: '',
@@ -723,9 +723,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   amountAndUnit(ChallengeModel challenge) {
-    if (challenge.acceptanceCriteria.isEmpty) return Container();
+    if (challenge.acceptanceCriterias.isEmpty) return Container();
     AcceptanceCriteriaModel acceptanceCriteria =
-        challenge.acceptanceCriteria[0];
+        challenge.acceptanceCriterias[0];
     return isDescriptionExpanded
         ? Container()
         : Row(
@@ -813,9 +813,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
   frequence(ChallengeModel challenge) {
-    if (challenge.acceptanceCriteria.isEmpty) return Container();
+    if (challenge.acceptanceCriterias.isEmpty) return Container();
     AcceptanceCriteriaModel acceptanceCriteria =
-        challenge.acceptanceCriteria[0];
+        challenge.acceptanceCriterias[0];
     return isDescriptionExpanded
         ? Container()
         : standardContainer(

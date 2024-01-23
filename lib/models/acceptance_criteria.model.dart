@@ -75,4 +75,18 @@ class AcceptanceCriteriaModel {
     }
     return progress / activity.amount;
   }
+
+  bool isCompleted() {
+    return calcProgressRatio() >= 1;
+  }
+
+  static bool areAllAcceptanceCriteriasCompleted(
+      {required List<AcceptanceCriteriaModel> acceptanceCriterias}) {
+    for (var ac in acceptanceCriterias) {
+      if (!ac.isCompleted()) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

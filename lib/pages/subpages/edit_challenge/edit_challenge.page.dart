@@ -100,7 +100,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     color: Color.fromRGBO(241, 245, 249, 1),
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
-                  '${widget.editChallenge.acceptanceCriteria[index].activity.title} ${widget.editChallenge.acceptanceCriteria[index].activity.amount} ${widget.editChallenge.acceptanceCriteria[index].activity.unit}',
+                  '${widget.editChallenge.acceptanceCriterias[index].activity.title} ${widget.editChallenge.acceptanceCriterias[index].activity.amount} ${widget.editChallenge.acceptanceCriterias[index].activity.unit}',
                   style: const TextStyle(fontSize: 12, color: themeColor3),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -112,7 +112,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     color: Color.fromRGBO(241, 245, 249, 1),
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
-                  widget.editChallenge.acceptanceCriteria[index].frequence,
+                  widget.editChallenge.acceptanceCriterias[index].frequence,
                   style: const TextStyle(fontSize: 12, color: themeColor3),
                 ),
               ),
@@ -340,7 +340,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       child: Container(
         height: 130,
         child: ListView.separated(
-          itemCount: widget.editChallenge.acceptanceCriteria.length,
+          itemCount: widget.editChallenge.acceptanceCriterias.length,
           separatorBuilder: (context, index) => const SizedBox(
             height: 16,
           ),
@@ -353,15 +353,15 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   IconData getIconData(int index) {
-    if (widget.editChallenge.acceptanceCriteria[index].tracking == 'camera') {
+    if (widget.editChallenge.acceptanceCriterias[index].tracking == 'camera') {
       return Icons.camera_alt_outlined;
-    } else if (widget.editChallenge.acceptanceCriteria[index].tracking ==
+    } else if (widget.editChallenge.acceptanceCriterias[index].tracking ==
         'gps') {
       return Icons.gps_not_fixed;
-    } else if (widget.editChallenge.acceptanceCriteria[index].tracking ==
+    } else if (widget.editChallenge.acceptanceCriterias[index].tracking ==
         'notes') {
       return Icons.notes;
-    } else if (widget.editChallenge.acceptanceCriteria[index].tracking ==
+    } else if (widget.editChallenge.acceptanceCriterias[index].tracking ==
         'numbers') {
       return Icons.numbers;
     } else {
@@ -373,7 +373,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-            widget.editChallenge.acceptanceCriteria.length,
+            widget.editChallenge.acceptanceCriterias.length,
             (index) => Padding(
                   padding: const EdgeInsets.only(
                       left: 5, right: 5, top: 10, bottom: 23),
@@ -416,8 +416,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     widget.challenge.description = widget.editChallenge.description;
     widget.challenge.startDate = widget.editChallenge.startDate;
     widget.challenge.endDate = widget.editChallenge.endDate;
-    widget.challenge.acceptanceCriteria =
-        widget.editChallenge.acceptanceCriteria;
+    widget.challenge.acceptanceCriterias =
+        widget.editChallenge.acceptanceCriterias;
 
     if (widget.isSearchEdit) {
       Navigator.pop(context);
@@ -481,7 +481,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
           preTitle:
               '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
           challenge: widget.editChallenge,
-          acceptanceCriteria: widget.editChallenge.acceptanceCriteria[index],
+          acceptanceCriteria: widget.editChallenge.acceptanceCriterias[index],
           acceptanceCriteriaIndex: index,
         ),
       ),
@@ -559,7 +559,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   amountAndUnit() {
     AcceptanceCriteriaModel acceptanceCriteria =
-        widget.editChallenge.acceptanceCriteria[0];
+        widget.editChallenge.acceptanceCriterias[0];
     return Row(
       children: [
         Expanded(
@@ -625,9 +625,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
   frequence() {
-    if (widget.editChallenge.acceptanceCriteria.isEmpty) return Container();
+    if (widget.editChallenge.acceptanceCriterias.isEmpty) return Container();
     AcceptanceCriteriaModel acceptanceCriteria =
-        widget.editChallenge.acceptanceCriteria[0];
+        widget.editChallenge.acceptanceCriterias[0];
     return standardContainer(
         child: DropdownButton<String>(
       isExpanded: true,

@@ -12,7 +12,7 @@ class ChallengeModel {
   String thumbnailPath;
   DateTime? startDate;
   DateTime? endDate;
-  List<AcceptanceCriteriaModel> acceptanceCriteria;
+  List<AcceptanceCriteriaModel> acceptanceCriterias;
   List<MediaModel> media;
 
   ChallengeModel(
@@ -23,7 +23,7 @@ class ChallengeModel {
       required this.thumbnailPath,
       this.startDate,
       this.endDate,
-      required this.acceptanceCriteria,
+      required this.acceptanceCriterias,
       required this.media}) {
     if (id == null || id!.isEmpty) {
       id = const Uuid().v4();
@@ -43,7 +43,7 @@ class ChallengeModel {
         endDate: json['endDate'] == null || json['endDate'] == 'null'
             ? null
             : DateTime.parse(json['endDate']),
-        acceptanceCriteria:
+        acceptanceCriterias:
             AcceptanceCriteriaModel.fromJsonList(json['acceptanceCriteria']),
         media: MediaModel.fromJsonList(json['media']));
   }
@@ -58,7 +58,7 @@ class ChallengeModel {
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
       'acceptanceCriteria':
-          AcceptanceCriteriaModel.toJsonList(acceptanceCriteria),
+          AcceptanceCriteriaModel.toJsonList(acceptanceCriterias),
       'media': MediaModel.toJsonList(media)
     };
   }
@@ -72,8 +72,8 @@ class ChallengeModel {
         endDate: isTryAgain ? null : challenge.endDate,
         description: challenge.description,
         thumbnailPath: challenge.thumbnailPath,
-        acceptanceCriteria: AcceptanceCriteriaModel.copyAcceptanceCriteriaList(
-            challenge.acceptanceCriteria,
+        acceptanceCriterias: AcceptanceCriteriaModel.copyAcceptanceCriteriaList(
+            challenge.acceptanceCriterias,
             isTryAgain: isTryAgain),
         media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media));
     return challengeCopy;
@@ -84,7 +84,7 @@ class ChallengeModel {
     if (description.toLowerCase().contains(searchText.toLowerCase())) {
       return true;
     }
-    for (var a in acceptanceCriteria) {
+    for (var a in acceptanceCriterias) {
       if (a.activity.title.toLowerCase().contains(searchText.toLowerCase())) {
         return true;
       }
@@ -94,6 +94,16 @@ class ChallengeModel {
 
   @override
   String toString() {
-    return 'Challenge{id: $id, status: $status, title: $title, description: $description, thumbnailPath: $thumbnailPath, startDate: $startDate, endDate: $endDate, acceptanceCriteria: $acceptanceCriteria, media: $media}';
+    return 'Challenge{id: $id, status: $status, title: $title, description: $description, thumbnailPath: $thumbnailPath, startDate: $startDate, endDate: $endDate, acceptanceCriteria: $acceptanceCriterias, media: $media}';
+  }
+
+  bool checkChallengeStatus() {
+    if (AcceptanceCriteriaModel.areAllAcceptanceCriteriasCompleted(
+        acceptanceCriterias: acceptanceCriterias)) {
+      status = ChallengeStatusEnum.success;
+      return true;
+    }
+
+    return false;
   }
 }

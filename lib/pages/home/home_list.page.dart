@@ -168,7 +168,7 @@ class _HomeListPageState extends State<HomeListPage> {
         thumbnailPath: '',
         startDate: null,
         endDate: null,
-        acceptanceCriteria: [acceptanceCriteria],
+        acceptanceCriterias: [acceptanceCriteria],
         media: []);
 
     Navigator.push(

@@ -122,7 +122,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                             height: 16,
                           ),
                     startAndEndDate(e),
-                    acceptanceCriteria(e.acceptanceCriteria),
+                    acceptanceCriteria(e.acceptanceCriterias),
                     isDescriptionExpanded
                         ? Container()
                         : Expanded(child: Container()),
@@ -396,7 +396,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   void checkChallengeStatus() {
-    if (widget.challenge.acceptanceCriteria.isNotEmpty) {
+    if (widget.challenge.acceptanceCriterias.isNotEmpty) {
       if (widget.challenge.endDate != null) {
         // if (widget.challenge.status != ChallengStatus.failed) {
         if (DateTime.now()
@@ -426,8 +426,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   bool checkAcceptanceCriteria() {
-    for (var element in widget.challenge.acceptanceCriteria) {
-      if (element.calcProgressRatio() < 1) {
+    for (var acceptanceCriteria in widget.challenge.acceptanceCriterias) {
+      if (acceptanceCriteria.calcProgressRatio() < 1) {
         return false; // Return false if any element doesn't meet the condition.
       }
     }
@@ -580,7 +580,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-            challenge.acceptanceCriteria.length,
+            challenge.acceptanceCriterias.length,
             (index) => Padding(
                   padding: const EdgeInsets.only(
                       left: 5, right: 5, top: 10, bottom: 23),
@@ -703,7 +703,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           cameras: cameras,
           preTitle: '${widget.preTitle}/${widget.challenge.title}',
           mediaList: widget.challenge.media,
-          acceptanceCriteria: widget.challenge.acceptanceCriteria[0],
+          acceptanceCriteria: widget.challenge.acceptanceCriterias[0],
           challenge: widget.challenge,
         ),
       ),

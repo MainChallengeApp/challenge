@@ -124,11 +124,11 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
     return Stack(
       children: [
         FractionallySizedBox(
-          widthFactor:
-              widget.challenge.acceptanceCriteria[index].calcProgressRatio() > 1
-                  ? 1
-                  : widget.challenge.acceptanceCriteria[index]
-                      .calcProgressRatio(),
+          widthFactor: widget.challenge.acceptanceCriterias[index]
+                      .calcProgressRatio() >
+                  1
+              ? 1
+              : widget.challenge.acceptanceCriterias[index].calcProgressRatio(),
           heightFactor: 1,
           child: Container(
             width: 40,
@@ -154,7 +154,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                       color: Color.fromRGBO(241, 245, 249, 1),
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
-                    '${widget.challenge.acceptanceCriteria[index].activity.title} ${widget.challenge.acceptanceCriteria[index].activity.amount} ${widget.challenge.acceptanceCriteria[index].activity.unit}',
+                    '${widget.challenge.acceptanceCriterias[index].activity.title} ${widget.challenge.acceptanceCriterias[index].activity.amount} ${widget.challenge.acceptanceCriterias[index].activity.unit}',
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                   ),
                 ),
@@ -165,7 +165,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                       color: Color.fromRGBO(241, 245, 249, 1),
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
-                    widget.challenge.acceptanceCriteria[index].frequence,
+                    widget.challenge.acceptanceCriterias[index].frequence,
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                   ),
                 ),
@@ -366,7 +366,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
     return SizedBox(
         height: 71,
         child: PageView.builder(
-          itemCount: widget.challenge.acceptanceCriteria.length,
+          itemCount: widget.challenge.acceptanceCriterias.length,
           controller: PageController(viewportFraction: 1),
           onPageChanged: (int index) =>
               setState(() => selectedAcceptanceCriteria = index),
@@ -380,13 +380,14 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
   }
 
   IconData getIconData(int index) {
-    if (widget.challenge.acceptanceCriteria[index].tracking == 'camera') {
+    if (widget.challenge.acceptanceCriterias[index].tracking == 'camera') {
       return Icons.camera_alt_outlined;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'gps') {
+    } else if (widget.challenge.acceptanceCriterias[index].tracking == 'gps') {
       return Icons.gps_not_fixed;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking == 'notes') {
+    } else if (widget.challenge.acceptanceCriterias[index].tracking ==
+        'notes') {
       return Icons.notes;
-    } else if (widget.challenge.acceptanceCriteria[index].tracking ==
+    } else if (widget.challenge.acceptanceCriterias[index].tracking ==
         'numbers') {
       return Icons.numbers;
     } else {
@@ -398,7 +399,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
     return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-            widget.challenge.acceptanceCriteria.length,
+            widget.challenge.acceptanceCriterias.length,
             (index) => Padding(
                   padding: const EdgeInsets.only(
                       left: 5, right: 5, top: 10, bottom: 23),
@@ -415,10 +416,10 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
   void onTapSaveAcceptanceCriteria() {
     try {
       if (widget.acceptanceCriteriaIndex == null) {
-        widget.challenge.acceptanceCriteria
+        widget.challenge.acceptanceCriterias
             .insert(0, widget.acceptanceCriteria);
       } else {
-        widget.challenge.acceptanceCriteria[widget.acceptanceCriteriaIndex!] =
+        widget.challenge.acceptanceCriterias[widget.acceptanceCriteriaIndex!] =
             widget.acceptanceCriteria;
       }
 
@@ -431,7 +432,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
 
   void onTapDeleteAcceptanceCriteria() {
     if (widget.acceptanceCriteriaIndex != null) {
-      widget.challenge.acceptanceCriteria
+      widget.challenge.acceptanceCriterias
           .removeAt(widget.acceptanceCriteriaIndex!);
     }
     Navigator.pop(context);

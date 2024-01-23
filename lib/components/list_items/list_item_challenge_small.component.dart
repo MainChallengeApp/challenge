@@ -61,13 +61,14 @@ class ListItemChallengeSmallComponent extends StatelessWidget {
                     child: CircularProgressIndicator(
                       backgroundColor: themeColor5,
                       strokeCap: StrokeCap.round,
-                      value: challenge.acceptanceCriteria.isEmpty
+                      value: challenge.acceptanceCriterias.isEmpty
                           ? 0
-                          : challenge.acceptanceCriteria[0].activity.amount <= 0
+                          : challenge.acceptanceCriterias[0].activity.amount <=
+                                  0
                               ? 0
-                              : challenge.acceptanceCriteria[0].progress /
+                              : challenge.acceptanceCriterias[0].progress /
                                   challenge
-                                      .acceptanceCriteria[0].activity.amount,
+                                      .acceptanceCriterias[0].activity.amount,
                       color: challenge.status == ChallengeStatusEnum.failed
                           ? Colors.red[300]
                           : Colors.green[300],

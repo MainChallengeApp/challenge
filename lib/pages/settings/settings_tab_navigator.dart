@@ -39,7 +39,7 @@ class SettingsTabNavigator extends TabNavigatorComponent {
         thumbnailPath: '',
         startDate: DateTime.now(),
         endDate: DateTime.now(),
-        acceptanceCriteria: [],
+        acceptanceCriterias: [],
         media: []);
     var routeBuilders = prouteBuilders(context, challenge: challenge);
 
