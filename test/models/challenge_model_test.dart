@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('searchInChallenge()', () {
-    test('should be in search when all title is pased to funciton', () {
+    test('should be in search when all title is passed to funciton', () {
       // Arrange
       ChallengeModel challenge = ChallengeModel(
           status: ChallengeStatusEnum.inProgress,
@@ -31,7 +31,7 @@ void main() {
     });
 
     test(
-        'should not be in search when pased string is not in any Challenge property',
+        'should not be in search when passed string is not in any Challenge property',
         () {
       // Arrange
       ChallengeModel challenge = ChallengeModel(
