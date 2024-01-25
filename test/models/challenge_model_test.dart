@@ -1,23 +1,279 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('Challenge Model', () {
-    test('check challenge status', () {
+  group('searchInChallenge()', () {
+    test('should be in search when all title is pased to funciton', () {
       // Arrange
       ChallengeModel challenge = ChallengeModel(
           status: ChallengeStatusEnum.inProgress,
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [],
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 2,
+                evidences: [])
+          ],
           media: []);
       // Act
+      bool isInSearch = challenge.searchInChallenge('title');
+      // Assert
+      expect(isInSearch, equals(true));
+    });
+
+    test(
+        'should not be in search when pased string is not in any Challenge property',
+        () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 2,
+                evidences: [])
+          ],
+          media: []);
+      // Act
+      bool isInSearch = challenge.searchInChallenge('x');
+      // Assert
+      expect(isInSearch, equals(false));
+    });
+  });
+  group('isChallengeCompleted()', () {
+    test('should be completed when all acceptance criteras are completed', () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 2,
+                evidences: []),
+            AcceptanceCriteriaModel(
+                id: 2,
+                title: 'title',
+                amount: 1,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: [])
+          ],
+          media: []);
+      // Act
+      bool isCompleted = challenge.isChallengeCompleted();
+      // Assert
+      expect(isCompleted, equals(true));
+    });
+
+    test(
+        'should not be completed when one acceptance criteras is not completed',
+        () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: []),
+            AcceptanceCriteriaModel(
+                id: 2,
+                title: 'title',
+                amount: 1,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: [])
+          ],
+          media: []);
+      // Act
+      bool isCompleted = challenge.isChallengeCompleted();
+      // Assert
+      expect(isCompleted, equals(false));
+    });
+  });
+
+  group('checkChallengeStatus()', () {
+    test('should be success when all acceptance criteras are completed', () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 2,
+                evidences: []),
+            AcceptanceCriteriaModel(
+                id: 2,
+                title: 'title',
+                amount: 1,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: [])
+          ],
+          media: []);
+      // Act
+      challenge.checkChallengeStatus();
+      // Assert
+      expect(challenge.status, equals(ChallengeStatusEnum.success));
+    });
+
+    test(
+        'should be failed when one acceptance criteras is not completed and endDate is before now',
+        () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: []),
+            AcceptanceCriteriaModel(
+                id: 2,
+                title: 'title',
+                amount: 1,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: [])
+          ],
+          endDate: DateTime.now().subtract(const Duration(days: 1)),
+          media: []);
+      // Act
+      challenge.checkChallengeStatus();
+      // Assert
+      expect(challenge.status, equals(ChallengeStatusEnum.failed));
+    });
+
+    test(
+        'should be backlog when one acceptance criteras is not completed and startDate is after now',
+        () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: []),
+            AcceptanceCriteriaModel(
+                id: 2,
+                title: 'title',
+                amount: 1,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: [])
+          ],
+          startDate: DateTime.now().add(const Duration(days: 1)),
+          media: []);
+      // Act
+      challenge.checkChallengeStatus();
+      // Assert
+      expect(challenge.status, equals(ChallengeStatusEnum.backlog));
+    });
+
+    test(
+        'should be inProgress when one acceptance criteras is not completed and startDate is before now and endDate is after now',
+        () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [
+            AcceptanceCriteriaModel(
+                id: 1,
+                title: 'title',
+                amount: 2,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: []),
+            AcceptanceCriteriaModel(
+                id: 2,
+                title: 'title',
+                amount: 1,
+                unit: 'unit',
+                frequence: 'daily',
+                tracking: 'tracking',
+                progress: 1,
+                evidences: [])
+          ],
+          startDate: DateTime.now().subtract(const Duration(days: 1)),
+          endDate: DateTime.now().add(const Duration(days: 1)),
+          media: []);
+      // Act
+      challenge.checkChallengeStatus();
       // Assert
       expect(challenge.status, equals(ChallengeStatusEnum.inProgress));
     });
-
-    // You can add more tests here
   });
 }

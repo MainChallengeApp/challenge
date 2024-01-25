@@ -19,7 +19,6 @@ import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/activity_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 
 class SearchChallengePage extends StatefulWidget {
@@ -60,12 +59,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    amountTextEditingController.text = DesignUtil.doubleAsInt(
-            widget.challenge.acceptanceCriterias[0].activity.amount)
-        .toString();
+    amountTextEditingController.text =
+        DesignUtil.doubleAsInt(widget.challenge.acceptanceCriterias[0].amount)
+            .toString();
 
     unitTextEditingController.text =
-        widget.challenge.acceptanceCriterias[0].activity.unit;
+        widget.challenge.acceptanceCriterias[0].unit;
   }
 
   @override
@@ -433,7 +432,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                     color: Color.fromRGBO(241, 245, 249, 1),
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
-                    '${acceptanceCriteria.activity.title} ${acceptanceCriteria.activity.amount} ${acceptanceCriteria.activity.unit}',
+                    '${acceptanceCriteria.title} ${acceptanceCriteria.amount} ${acceptanceCriteria.unit}',
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                     overflow: TextOverflow.ellipsis),
               ),
@@ -536,11 +535,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       pageController = PageController(initialPage: value);
       selectedAcceptanceCriteria = 0;
       isDescriptionExpanded = false;
-      amountTextEditingController.text = DesignUtil.doubleAsInt(
-              widget.challenge.acceptanceCriterias[0].activity.amount)
-          .toString();
+      amountTextEditingController.text =
+          DesignUtil.doubleAsInt(widget.challenge.acceptanceCriterias[0].amount)
+              .toString();
       unitTextEditingController.text =
-          widget.challenge.acceptanceCriterias[0].activity.unit;
+          widget.challenge.acceptanceCriterias[0].unit;
     });
   }
 
@@ -702,7 +701,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           challenge: widget.challenge,
           acceptanceCriteria: AcceptanceCriteriaModel(
               id: widget.challenge.acceptanceCriterias.length,
-              activity: ActivityModel(title: '', amount: 0, unit: ''),
+              title: '',
+              amount: 0,
+              unit: '',
               frequence: '',
               tracking: '',
               progress: 0,
@@ -755,19 +756,19 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             double number = 0;
                             if (value.endsWith('.')) {
                               number = double.parse(value.split('.')[0]);
-                              acceptanceCriteria.activity.amount = number;
+                              acceptanceCriteria.amount = number;
                             } else if (value == '') {
-                              acceptanceCriteria.activity.amount = 0;
+                              acceptanceCriteria.amount = 0;
                             } else {
                               number = double.parse(value);
-                              acceptanceCriteria.activity.amount = number;
+                              acceptanceCriteria.amount = number;
                             }
                           });
                         },
                         onTapOutside: (event) {
                           setState(() {
                             // amountTextEditingController.text =
-                            //     acceptanceCriteria.activity.amount.toString();
+                            //     acceptanceCriteria.amount.toString();
                             isKeyboardUp = false;
                           });
                         },
@@ -790,7 +791,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                       child: TextField(
                         controller: unitTextEditingController,
                         onChanged: (value) {
-                          acceptanceCriteria.activity.unit = value;
+                          acceptanceCriteria.unit = value;
                         },
                         onTap: () => setState(() {
                           isKeyboardUp = true;

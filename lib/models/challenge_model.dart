@@ -6,7 +6,7 @@ import 'media_model.dart';
 
 class ChallengeModel {
   String? id; // set id automatically
-  ChallengeStatusEnum? status;
+  ChallengeStatusEnum status;
   String title;
   String description;
   String thumbnailPath;
@@ -85,7 +85,7 @@ class ChallengeModel {
       return true;
     }
     for (var a in acceptanceCriterias) {
-      if (a.activity.title.toLowerCase().contains(searchText.toLowerCase())) {
+      if (a.title.toLowerCase().contains(searchText.toLowerCase())) {
         return true;
       }
     }
@@ -97,13 +97,25 @@ class ChallengeModel {
     return 'Challenge{id: $id, status: $status, title: $title, description: $description, thumbnailPath: $thumbnailPath, startDate: $startDate, endDate: $endDate, acceptanceCriteria: $acceptanceCriterias, media: $media}';
   }
 
-  bool checkChallengeStatus() {
-    if (AcceptanceCriteriaModel.areAllAcceptanceCriteriasCompleted(
-        acceptanceCriterias: acceptanceCriterias)) {
-      status = ChallengeStatusEnum.success;
-      return true;
+  bool isChallengeCompleted() {
+    for (var ac in acceptanceCriterias) {
+      if (!ac.isCompleted()) {
+        return false;
+      }
     }
+    return true;
+  }
 
-    return false;
+  ChallengeStatusEnum checkChallengeStatus() {
+    if (isChallengeCompleted()) {
+      status = ChallengeStatusEnum.success;
+    } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
+      status = ChallengeStatusEnum.failed;
+    } else if (startDate != null && startDate!.isAfter(DateTime.now())) {
+      status = ChallengeStatusEnum.backlog;
+    } else {
+      status = ChallengeStatusEnum.inProgress;
+    }
+    return status;
   }
 }

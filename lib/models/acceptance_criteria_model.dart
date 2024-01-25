@@ -1,10 +1,10 @@
 import 'package:challenge/models/evidence_model.dart';
 
-import 'activity_model.dart';
-
 class AcceptanceCriteriaModel {
   int? id;
-  ActivityModel activity;
+  String title;
+  double amount;
+  String unit;
   String frequence;
   String tracking;
   double progress;
@@ -12,7 +12,9 @@ class AcceptanceCriteriaModel {
 
   AcceptanceCriteriaModel(
       {required this.id,
-      required this.activity,
+      required this.title,
+      required this.amount,
+      required this.unit,
       required this.frequence,
       required this.tracking,
       required this.progress,
@@ -22,7 +24,9 @@ class AcceptanceCriteriaModel {
     List<AcceptanceCriteriaModel> list = [];
     json?.forEach((e) => list.add(AcceptanceCriteriaModel(
         id: e['id'],
-        activity: ActivityModel.fromJson(e['activity']),
+        title: e['title'],
+        amount: e['amount'],
+        unit: e['unit'],
         frequence: e['frequence'],
         tracking: e['tracking'],
         progress: e['progress'],
@@ -34,7 +38,9 @@ class AcceptanceCriteriaModel {
     return acceptanceCriteria
         .map((e) => {
               'id': e.id,
-              'activity': ActivityModel.toJson(e.activity),
+              'title': e.title,
+              'amount': e.amount,
+              'unit': e.unit,
               'frequence': e.frequence,
               'tracking': e.tracking,
               'progress': e.progress,
@@ -61,7 +67,9 @@ class AcceptanceCriteriaModel {
       {bool isTryAgain = false}) {
     return AcceptanceCriteriaModel(
         id: ac.id,
-        activity: ActivityModel.copyActivity(ac.activity),
+        title: ac.title,
+        amount: ac.amount,
+        unit: ac.unit,
         frequence: ac.frequence,
         tracking: ac.tracking,
         progress: isTryAgain ? 0 : ac.progress,
@@ -70,23 +78,13 @@ class AcceptanceCriteriaModel {
   }
 
   double calcProgressRatio() {
-    if (activity.amount == 0) {
+    if (amount == 0) {
       return 1;
     }
-    return progress / activity.amount;
+    return progress / amount;
   }
 
   bool isCompleted() {
     return calcProgressRatio() >= 1;
-  }
-
-  static bool areAllAcceptanceCriteriasCompleted(
-      {required List<AcceptanceCriteriaModel> acceptanceCriterias}) {
-    for (var ac in acceptanceCriterias) {
-      if (!ac.isCompleted()) {
-        return false;
-      }
-    }
-    return true;
   }
 }

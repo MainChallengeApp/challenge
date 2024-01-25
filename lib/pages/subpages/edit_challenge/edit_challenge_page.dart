@@ -100,7 +100,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     color: Color.fromRGBO(241, 245, 249, 1),
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
-                  '${widget.editChallenge.acceptanceCriterias[index].activity.title} ${widget.editChallenge.acceptanceCriterias[index].activity.amount} ${widget.editChallenge.acceptanceCriterias[index].activity.unit}',
+                  '${widget.editChallenge.acceptanceCriterias[index].title} ${widget.editChallenge.acceptanceCriterias[index].amount} ${widget.editChallenge.acceptanceCriterias[index].unit}',
                   style: const TextStyle(fontSize: 12, color: themeColor3),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -570,10 +570,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 child: TextField(
                   textAlign: TextAlign.end,
                   controller: TextEditingController()
-                    ..text = acceptanceCriteria.activity.amount == 0
+                    ..text = acceptanceCriteria.amount == 0
                         ? ''
-                        : DesignUtil.doubleAsInt(
-                                acceptanceCriteria.activity.amount)
+                        : DesignUtil.doubleAsInt(acceptanceCriteria.amount)
                             .toString(),
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
@@ -588,12 +587,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
                   ],
                   onChanged: (value) {
                     if (value.endsWith('.')) {
-                      acceptanceCriteria.activity.amount =
+                      acceptanceCriteria.amount =
                           double.parse(value.split('.')[0]);
                     } else if (value == '') {
-                      acceptanceCriteria.activity.amount = 0;
+                      acceptanceCriteria.amount = 0;
                     } else {
-                      acceptanceCriteria.activity.amount = double.parse(value);
+                      acceptanceCriteria.amount = double.parse(value);
                     }
                   },
                   decoration:
@@ -611,9 +610,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 alignment: Alignment.centerLeft,
                 child: TextField(
                   controller: TextEditingController()
-                    ..text = acceptanceCriteria.activity.unit,
+                    ..text = acceptanceCriteria.unit,
                   onChanged: (value) {
-                    acceptanceCriteria.activity.unit = value;
+                    acceptanceCriteria.unit = value;
                   },
                   decoration: const InputDecoration.collapsed(hintText: 'Unit'),
                 ),

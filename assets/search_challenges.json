@@ -7,11 +7,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Act of Kindness",
-          "amount": 1.0,
-          "unit": "act"
-        },
+        "title": "Act of Kindness",
+        "amount": 1.0,
+        "unit": "act",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -27,11 +25,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Affirmationen",
-          "amount": 100.0,
-          "unit": "days"
-        },
+        "title": "Affirmationen",
+        "amount": 100.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -47,11 +43,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Archery",
-          "amount": 10.0,
-          "unit": "sessions"
-        },
+        "title": "Archery",
+        "amount": 10.0,
+        "unit": "sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -67,11 +61,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Bike Tour",
-          "amount": 20.0,
-          "unit": "km"
-        },
+        "title": "Bike Tour",
+        "amount": 20.0,
+        "unit": "km",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -87,11 +79,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Bouldering",
-          "amount": 10.0,
-          "unit": "sessions"
-        },
+        "title": "Bouldering",
+        "amount": 10.0,
+        "unit": "sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -107,11 +97,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Create",
-          "amount": 1.0,
-          "unit": "list"
-        },
+        "title": "Create",
+        "amount": 1.0,
+        "unit": "list",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -127,11 +115,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Bungee jumping",
-          "amount": 1.0,
-          "unit": "jump"
-        },
+        "title": "Bungee jumping",
+        "amount": 1.0,
+        "unit": "jump",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -147,11 +133,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Clean up",
-          "amount": 2.0,
-          "unit": "hours"
-        },
+        "title": "Clean up",
+        "amount": 2.0,
+        "unit": "hours",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -167,11 +151,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Climbing stairs",
-          "amount": 1000.0,
-          "unit": "stairs"
-        },
+        "title": "Climbing stairs",
+        "amount": 1000.0,
+        "unit": "stairs",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -187,11 +169,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Cold showers",
-          "amount": 100.0,
-          "unit": "showers"
-        },
+        "title": "Cold showers",
+        "amount": 100.0,
+        "unit": "showers",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -207,11 +187,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "DIY-Workshop",
-          "amount": 1.0,
-          "unit": "thing"
-        },
+        "title": "DIY-Workshop",
+        "amount": 1.0,
+        "unit": "thing",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -227,11 +205,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Dancing",
-          "amount": 30.0,
-          "unit": "sessions"
-        },
+        "title": "Dancing",
+        "amount": 30.0,
+        "unit": "sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -247,11 +223,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Diary",
-          "amount": 100.0,
-          "unit": "entries"
-        },
+        "title": "Diary",
+        "amount": 100.0,
+        "unit": "entries",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -267,11 +241,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Follow a diet",
-          "amount": 365.0,
-          "unit": "days"
-        },
+        "title": "Follow a diet",
+        "amount": 365.0,
+        "unit": "days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -287,11 +259,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Digital Organization",
-          "amount": 1.0,
-          "unit": "optimization"
-        },
+        "title": "Digital Organization",
+        "amount": 1.0,
+        "unit": "optimization",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -307,11 +277,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Diving",
-          "amount": 1.0,
-          "unit": "dive"
-        },
+        "title": "Diving",
+        "amount": 1.0,
+        "unit": "dive",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -327,11 +295,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Donations",
-          "amount": 1.0,
-          "unit": "donation"
-        },
+        "title": "Donations",
+        "amount": 1.0,
+        "unit": "donation",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -347,11 +313,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Drawing",
-          "amount": 1.0,
-          "unit": "drawing"
-        },
+        "title": "Drawing",
+        "amount": 1.0,
+        "unit": "drawing",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -367,11 +331,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Dream diary",
-          "amount": 100.0,
-          "unit": "entries"
-        },
+        "title": "Dream diary",
+        "amount": 100.0,
+        "unit": "entries",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -387,11 +349,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Drink water",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Drink water",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -407,11 +367,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Vegan essen",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Vegan essen",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -427,11 +385,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Eat vegetarian",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Eat vegetarian",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -447,11 +403,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Elevator pitch",
-          "amount": 1.0,
-          "unit": "presentation"
-        },
+        "title": "Elevator pitch",
+        "amount": 1.0,
+        "unit": "presentation",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -467,11 +421,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Evening Routine Upgrade",
-          "amount": 100.0,
-          "unit": "days"
-        },
+        "title": "Evening Routine Upgrade",
+        "amount": 100.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -487,11 +439,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "City exploration",
-          "amount": 1.0,
-          "unit": "place"
-        },
+        "title": "City exploration",
+        "amount": 1.0,
+        "unit": "place",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -507,11 +457,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Exposure to fear",
-          "amount": 1.0,
-          "unit": "fear"
-        },
+        "title": "Exposure to fear",
+        "amount": 1.0,
+        "unit": "fear",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -527,11 +475,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Fishing",
-          "amount": 1.0,
-          "unit": "fish"
-        },
+        "title": "Fishing",
+        "amount": 1.0,
+        "unit": "fish",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -547,11 +493,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Flick Flack",
-          "amount": 1.0,
-          "unit": "execution"
-        },
+        "title": "Flick Flack",
+        "amount": 1.0,
+        "unit": "execution",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -567,11 +511,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Forgiven",
-          "amount": 1.0,
-          "unit": "person"
-        },
+        "title": "Forgiven",
+        "amount": 1.0,
+        "unit": "person",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -587,11 +529,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Full body workout",
-          "amount": 100.0,
-          "unit": "sessions"
-        },
+        "title": "Full body workout",
+        "amount": 100.0,
+        "unit": "sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -607,11 +547,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Gardening",
-          "amount": 5.0,
-          "unit": "sessions"
-        },
+        "title": "Gardening",
+        "amount": 5.0,
+        "unit": "sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -627,11 +565,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Danken",
-          "amount": 100.0,
-          "unit": "entries"
-        },
+        "title": "Danken",
+        "amount": 100.0,
+        "unit": "entries",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -647,11 +583,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Give feedback",
-          "amount": 1.0,
-          "unit": "feedback"
-        },
+        "title": "Give feedback",
+        "amount": 1.0,
+        "unit": "feedback",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -667,11 +601,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Fitness studio",
-          "amount": 100.0,
-          "unit": "sessions"
-        },
+        "title": "Fitness studio",
+        "amount": 100.0,
+        "unit": "sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -687,11 +619,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Handstand",
-          "amount": 1.0,
-          "unit": "min"
-        },
+        "title": "Handstand",
+        "amount": 1.0,
+        "unit": "min",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -707,11 +637,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Jumping",
-          "amount": 1.0,
-          "unit": "meters"
-        },
+        "title": "Jumping",
+        "amount": 1.0,
+        "unit": "meters",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -727,11 +655,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "hiking",
-          "amount": 10.0,
-          "unit": "km"
-        },
+        "title": "hiking",
+        "amount": 10.0,
+        "unit": "km",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -747,11 +673,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Hot air balloon ride",
-          "amount": 1.0,
-          "unit": "flight"
-        },
+        "title": "Hot air balloon ride",
+        "amount": 1.0,
+        "unit": "flight",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -767,11 +691,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Ice bathing",
-          "amount": 3.0,
-          "unit": "min"
-        },
+        "title": "Ice bathing",
+        "amount": 3.0,
+        "unit": "min",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -787,11 +709,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Juggling",
-          "amount": 10.0,
-          "unit": "sessions"
-        },
+        "title": "Juggling",
+        "amount": 10.0,
+        "unit": "sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -807,11 +727,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Kayaking",
-          "amount": 1.0,
-          "unit": "session"
-        },
+        "title": "Kayaking",
+        "amount": 1.0,
+        "unit": "session",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -827,11 +745,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Making money",
-          "amount": 10000.0,
-          "unit": "euro"
-        },
+        "title": "Making money",
+        "amount": 10000.0,
+        "unit": "euro",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -847,11 +763,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Running",
-          "amount": 42195.0,
-          "unit": "km"
-        },
+        "title": "Running",
+        "amount": 42195.0,
+        "unit": "km",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -867,11 +781,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Martial arts",
-          "amount": 100.0,
-          "unit": "sessions"
-        },
+        "title": "Martial arts",
+        "amount": 100.0,
+        "unit": "sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -887,11 +799,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Meditate",
-          "amount": 100.0,
-          "unit": "meditations"
-        },
+        "title": "Meditate",
+        "amount": 100.0,
+        "unit": "meditations",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -907,11 +817,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Tomorrow Routine Upgrade",
-          "amount": 100.0,
-          "unit": "days"
-        },
+        "title": "Tomorrow Routine Upgrade",
+        "amount": 100.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -927,11 +835,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Visit",
-          "amount": 1.0,
-          "unit": "city"
-        },
+        "title": "Visit",
+        "amount": 1.0,
+        "unit": "city",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -947,11 +853,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Getting to know a foreign culture",
-          "amount": 1.0,
-          "unit": "culture"
-        },
+        "title": "Getting to know a foreign culture",
+        "amount": 1.0,
+        "unit": "culture",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -967,11 +871,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Learn to play an instrument",
-          "amount": 55.0,
-          "unit": "sessions"
-        },
+        "title": "Learn to play an instrument",
+        "amount": 55.0,
+        "unit": "sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -987,11 +889,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Learn language",
-          "amount": 100.0,
-          "unit": "session"
-        },
+        "title": "Learn language",
+        "amount": 100.0,
+        "unit": "session",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1007,11 +907,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Get to know",
-          "amount": 1.0,
-          "unit": "person"
-        },
+        "title": "Get to know",
+        "amount": 1.0,
+        "unit": "person",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1027,11 +925,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Cooking",
-          "amount": 10.0,
-          "unit": "recipes"
-        },
+        "title": "Cooking",
+        "amount": 10.0,
+        "unit": "recipes",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -1047,11 +943,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Spend the night in nature",
-          "amount": 1.0,
-          "unit": "Night"
-        },
+        "title": "Spend the night in nature",
+        "amount": 1.0,
+        "unit": "Night",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1067,11 +961,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Contact us",
-          "amount": 1.0,
-          "unit": "friend"
-        },
+        "title": "Contact us",
+        "amount": 1.0,
+        "unit": "friend",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1087,11 +979,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Origami of falten",
-          "amount": 10.0,
-          "unit": "works of art"
-        },
+        "title": "Origami of falten",
+        "amount": 10.0,
+        "unit": "works of art",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1107,11 +997,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Parkour",
-          "amount": 10.0,
-          "unit": "sessions"
-        },
+        "title": "Parkour",
+        "amount": 10.0,
+        "unit": "sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1127,11 +1015,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Photography",
-          "amount": 10.0,
-          "unit": "photos"
-        },
+        "title": "Photography",
+        "amount": 10.0,
+        "unit": "photos",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1147,11 +1033,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Plank",
-          "amount": 5.0,
-          "unit": "min"
-        },
+        "title": "Plank",
+        "amount": 5.0,
+        "unit": "min",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1167,11 +1051,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Record podcast",
-          "amount": 10.0,
-          "unit": "episodes"
-        },
+        "title": "Record podcast",
+        "amount": 10.0,
+        "unit": "episodes",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1187,11 +1069,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Poetry Slam",
-          "amount": 1.0,
-          "unit": "session"
-        },
+        "title": "Poetry Slam",
+        "amount": 1.0,
+        "unit": "session",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1207,11 +1087,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Pottery",
-          "amount": 1.0,
-          "unit": "work of art"
-        },
+        "title": "Pottery",
+        "amount": 1.0,
+        "unit": "work of art",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1227,11 +1105,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Present",
-          "amount": 1.0,
-          "unit": "presentation"
-        },
+        "title": "Present",
+        "amount": 1.0,
+        "unit": "presentation",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -1247,11 +1123,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "push-ups",
-          "amount": 100.0,
-          "unit": "push-ups"
-        },
+        "title": "push-ups",
+        "amount": 100.0,
+        "unit": "push-ups",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1267,11 +1141,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Read",
-          "amount": 1.0,
-          "unit": "book"
-        },
+        "title": "Read",
+        "amount": 1.0,
+        "unit": "book",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1287,11 +1159,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Views",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Views",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1307,11 +1177,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Running",
-          "amount": 10.0,
-          "unit": "km"
-        },
+        "title": "Running",
+        "amount": 10.0,
+        "unit": "km",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1327,11 +1195,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Selfcare",
-          "amount": 10.0,
-          "unit": "sessions"
-        },
+        "title": "Selfcare",
+        "amount": 10.0,
+        "unit": "sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1347,11 +1213,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Jumping",
-          "amount": 15.0,
-          "unit": "min"
-        },
+        "title": "Jumping",
+        "amount": 15.0,
+        "unit": "min",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1367,11 +1231,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Skydiving",
-          "amount": 1.0,
-          "unit": "jump"
-        },
+        "title": "Skydiving",
+        "amount": 1.0,
+        "unit": "jump",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1387,11 +1249,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Maintain your sleep rhythm",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Maintain your sleep rhythm",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1407,11 +1267,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Social Media Detox",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Social Media Detox",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1427,11 +1285,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Steps",
-          "amount": 10000.0,
-          "unit": "Steps"
-        },
+        "title": "Steps",
+        "amount": 10000.0,
+        "unit": "Steps",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1447,11 +1303,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Stretching",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Stretching",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1467,11 +1321,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "No sugar",
-          "amount": 7.0,
-          "unit": "days"
-        },
+        "title": "No sugar",
+        "amount": 7.0,
+        "unit": "days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1487,11 +1339,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Survival training",
-          "amount": 1.0,
-          "unit": "session"
-        },
+        "title": "Survival training",
+        "amount": 1.0,
+        "unit": "session",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1507,11 +1357,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Swimming",
-          "amount": 30.0,
-          "unit": "sessions"
-        },
+        "title": "Swimming",
+        "amount": 30.0,
+        "unit": "sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1527,11 +1375,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Ingestion",
-          "amount": 365.0,
-          "unit": "days"
-        },
+        "title": "Ingestion",
+        "amount": 365.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1547,11 +1393,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Theater participation",
-          "amount": 20.0,
-          "unit": "sessions"
-        },
+        "title": "Theater participation",
+        "amount": 20.0,
+        "unit": "sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1567,11 +1411,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Travel",
-          "amount": 14.0,
-          "unit": "days"
-        },
+        "title": "Travel",
+        "amount": 14.0,
+        "unit": "days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1587,11 +1429,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Go for a walk",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Go for a walk",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1607,11 +1447,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Water skiing",
-          "amount": 1.0,
-          "unit": "session"
-        },
+        "title": "Water skiing",
+        "amount": 1.0,
+        "unit": "session",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1627,11 +1465,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Recording",
-          "amount": 30.0,
-          "unit": "days"
-        },
+        "title": "Recording",
+        "amount": 30.0,
+        "unit": "days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1647,11 +1483,9 @@
     "acceptanceCriteria": [
       {
         "id": 0,
-        "activity": {
-          "title": "Breathing technique",
-          "amount": 30.0,
-          "unit": "sessions"
-        },
+        "title": "Breathing technique",
+        "amount": 30.0,
+        "unit": "sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0

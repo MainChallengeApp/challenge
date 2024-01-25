@@ -538,8 +538,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                               const TextStyle(fontSize: 10, color: themeColor3),
                           overflow: TextOverflow.ellipsis),
                     ),
-                    acceptanceCriteria.activity.unit != '' ||
-                            acceptanceCriteria.activity.amount != 0
+                    acceptanceCriteria.unit != '' ||
+                            acceptanceCriteria.amount != 0
                         ? Container(
                             margin: const EdgeInsets.only(right: 10),
                             padding: const EdgeInsets.all(10),
@@ -548,7 +548,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12))),
                             child: Text(
-                                '${DesignUtil.doubleAsInt(acceptanceCriteria.progress)}/${DesignUtil.doubleAsInt(acceptanceCriteria.activity.amount)} ${acceptanceCriteria.activity.unit}',
+                                '${DesignUtil.doubleAsInt(acceptanceCriteria.progress)}/${DesignUtil.doubleAsInt(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}',
                                 style: const TextStyle(
                                     fontSize: 10, color: themeColor3),
                                 overflow: TextOverflow.ellipsis),

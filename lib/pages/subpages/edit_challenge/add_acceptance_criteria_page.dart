@@ -32,7 +32,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
   Widget build(BuildContext context) {
     String title = widget.acceptanceCriteriaIndex == null
         ? 'Add Acceptance Criteria'
-        : widget.acceptanceCriteria.activity.title;
+        : widget.acceptanceCriteria.title;
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
       backgroundColor: Colors.white,
@@ -154,7 +154,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                       color: Color.fromRGBO(241, 245, 249, 1),
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
-                    '${widget.challenge.acceptanceCriterias[index].activity.title} ${widget.challenge.acceptanceCriterias[index].activity.amount} ${widget.challenge.acceptanceCriterias[index].activity.unit}',
+                    '${widget.challenge.acceptanceCriterias[index].title} ${widget.challenge.acceptanceCriterias[index].amount} ${widget.challenge.acceptanceCriterias[index].unit}',
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                   ),
                 ),
@@ -281,9 +281,9 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
             alignment: Alignment.centerLeft,
             child: TextField(
               controller: TextEditingController()
-                ..text = widget.acceptanceCriteria.activity.amount == 0
+                ..text = widget.acceptanceCriteria.amount == 0
                     ? ''
-                    : widget.acceptanceCriteria.activity.amount.toString(),
+                    : widget.acceptanceCriteria.amount.toString(),
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
@@ -296,13 +296,12 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
               ],
               onChanged: (value) {
                 if (value.endsWith('.')) {
-                  widget.acceptanceCriteria.activity.amount =
+                  widget.acceptanceCriteria.amount =
                       double.parse(value.split('.')[0]);
                 } else if (value == '') {
-                  widget.acceptanceCriteria.activity.amount = 0;
+                  widget.acceptanceCriteria.amount = 0;
                 } else {
-                  widget.acceptanceCriteria.activity.amount =
-                      double.parse(value);
+                  widget.acceptanceCriteria.amount = double.parse(value);
                 }
               },
               decoration: InputDecoration.collapsed(hintText: 'Amount'),
@@ -318,9 +317,9 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
             alignment: Alignment.centerLeft,
             child: TextField(
               controller: TextEditingController()
-                ..text = widget.acceptanceCriteria.activity.unit,
+                ..text = widget.acceptanceCriteria.unit,
               onChanged: (value) {
-                widget.acceptanceCriteria.activity.unit = value;
+                widget.acceptanceCriteria.unit = value;
               },
               decoration: const InputDecoration.collapsed(hintText: 'Unit'),
             ),
@@ -335,11 +334,10 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
-          onChanged: (value) =>
-              widget.acceptanceCriteria.activity.title = value,
+          onChanged: (value) => widget.acceptanceCriteria.title = value,
           decoration: const InputDecoration.collapsed(hintText: 'Activity'),
           controller: TextEditingController()
-            ..text = widget.acceptanceCriteria.activity.title,
+            ..text = widget.acceptanceCriteria.title,
         ),
       ),
     );

@@ -63,12 +63,10 @@ class ListItemChallengeSmallComponent extends StatelessWidget {
                       strokeCap: StrokeCap.round,
                       value: challenge.acceptanceCriterias.isEmpty
                           ? 0
-                          : challenge.acceptanceCriterias[0].activity.amount <=
-                                  0
+                          : challenge.acceptanceCriterias[0].amount <= 0
                               ? 0
                               : challenge.acceptanceCriterias[0].progress /
-                                  challenge
-                                      .acceptanceCriterias[0].activity.amount,
+                                  challenge.acceptanceCriterias[0].amount,
                       color: challenge.status == ChallengeStatusEnum.failed
                           ? Colors.red[300]
                           : Colors.green[300],

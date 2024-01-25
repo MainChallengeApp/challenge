@@ -13,7 +13,6 @@ import 'package:challenge/models/challenge_model.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
-import 'package:challenge/models/activity_model.dart';
 import 'package:provider/provider.dart';
 
 class HomeListPage extends StatefulWidget {
@@ -156,7 +155,9 @@ class _HomeListPageState extends State<HomeListPage> {
   tapOnNewChallenge() {
     AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
         id: null,
-        activity: ActivityModel(title: '', amount: 0, unit: ''),
+        title: '',
+        amount: 0,
+        unit: '',
         frequence: 'once',
         tracking: 'camera',
         progress: 0,

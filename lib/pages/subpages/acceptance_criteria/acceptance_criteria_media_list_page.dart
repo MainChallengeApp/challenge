@@ -13,7 +13,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/activity_model.dart';
 import 'package:challenge/models/evidence_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/providers/design_provider.dart';
@@ -32,10 +31,9 @@ class AcceptanceCriteriaMediaListPage extends StatefulWidget {
       this.isSaveInsteadOfEditButtonVisible = true}) {
     editAcceptanceCriteria = AcceptanceCriteriaModel(
         id: acceptanceCriteria.id,
-        activity: ActivityModel(
-            title: acceptanceCriteria.activity.title,
-            amount: acceptanceCriteria.activity.amount,
-            unit: acceptanceCriteria.activity.unit),
+        title: acceptanceCriteria.title,
+        amount: acceptanceCriteria.amount,
+        unit: acceptanceCriteria.unit,
         frequence: acceptanceCriteria.frequence,
         tracking: acceptanceCriteria.tracking,
         progress: acceptanceCriteria.progress,
@@ -403,7 +401,7 @@ class _AcceptanceCriteriaMediaListPageState
             child: GestureDetector(
                 onTap: () => setState(() {
                       widget.editAcceptanceCriteria.progress =
-                          widget.acceptanceCriteria.activity.amount;
+                          widget.acceptanceCriteria.amount;
                       amountTextEditingController.text = DesignUtil.doubleAsInt(
                               widget.editAcceptanceCriteria.progress)
                           .toString();
@@ -476,7 +474,7 @@ class _AcceptanceCriteriaMediaListPageState
                   child: TextField(
                     enabled: false,
                     controller: TextEditingController()
-                      ..text = widget.acceptanceCriteria.activity.unit,
+                      ..text = widget.acceptanceCriteria.unit,
                     decoration:
                         const InputDecoration.collapsed(hintText: 'Unit'),
                   ),

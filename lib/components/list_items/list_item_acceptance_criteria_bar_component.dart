@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/models/activity_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +15,9 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       this.editAcceptanceCriteria}) {
     editAcceptanceCriteria ??= AcceptanceCriteriaModel(
         id: 0,
-        activity: ActivityModel(title: 'title', amount: 0, unit: 'unit'),
+        title: 'title',
+        amount: 0,
+        unit: 'unit',
         frequence: 'daily',
         tracking: 'camera',
         progress: initialProgress,
@@ -119,9 +120,9 @@ class _ListItemAcceptanceCriteriaBarComponentState
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
                       widget.isEvidence
-                          ? widget.acceptanceCriteria.activity.amount == 0
+                          ? widget.acceptanceCriteria.amount == 0
                               ? '100%'
-                              : '${(widget.initialProgress / widget.acceptanceCriteria.activity.amount * 100).toInt()}%'
+                              : '${(widget.initialProgress / widget.acceptanceCriteria.amount * 100).toInt()}%'
                           : '${(widget.editAcceptanceCriteria!.calcProgressRatio() * 100).toInt()}%',
                       style: const TextStyle(fontSize: 12, color: themeColor3),
                     ),
@@ -137,8 +138,8 @@ class _ListItemAcceptanceCriteriaBarComponentState
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
                         widget.isEvidence
-                            ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}'
-                            : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.progress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.activity.amount)} ${widget.acceptanceCriteria.activity.unit}',
+                            ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
+                            : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.progress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}',
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
                         overflow: TextOverflow.ellipsis),
@@ -153,14 +154,11 @@ class _ListItemAcceptanceCriteriaBarComponentState
 
   double calcProgressRatio() {
     return widget.isEvidence
-        ? widget.acceptanceCriteria.activity.amount == 0
+        ? widget.acceptanceCriteria.amount == 0
             ? 1
-            : widget.initialProgress /
-                        widget.acceptanceCriteria.activity.amount >
-                    1
+            : widget.initialProgress / widget.acceptanceCriteria.amount > 1
                 ? 1
-                : widget.initialProgress /
-                    widget.acceptanceCriteria.activity.amount
+                : widget.initialProgress / widget.acceptanceCriteria.amount
         : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
             ? 1
             : widget.editAcceptanceCriteria!.calcProgressRatio();

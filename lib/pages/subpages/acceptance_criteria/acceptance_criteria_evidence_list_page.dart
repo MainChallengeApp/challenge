@@ -143,7 +143,7 @@ class _AcceptanceCriteriaEvidenceListPageState
       NoAnimationPageRouteComponent(
         builder: (context) => AcceptanceCriteriaMediaListPage(
           preTitle:
-              '${widget.preTitle}/${widget.acceptanceCriteria.activity.title} ${widget.acceptanceCriteria.activity.amount} ${widget.acceptanceCriteria.activity.unit}',
+              '${widget.preTitle}/${widget.acceptanceCriteria.title} ${widget.acceptanceCriteria.amount} ${widget.acceptanceCriteria.unit}',
           initialMediaList: widget.challenge.media
               .where((element) => evidence.mediaIds.contains(element.id))
               .toList(),
