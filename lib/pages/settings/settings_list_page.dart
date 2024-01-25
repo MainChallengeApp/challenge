@@ -23,7 +23,7 @@ class SettingsListPage extends StatefulWidget {
 
 class _SettingsListPageState extends State<SettingsListPage> {
   late Future<List<ChallengeModel>> challengesFutures;
-  AccountModel account = AccountModel(email: '');
+  AccountModel account = AccountModel(username: '');
   AccountController accountController = AccountController();
   ScrollController scrollController = ScrollController();
 
@@ -64,7 +64,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
                   ListItemIconSmallComponent(
                       onTap: () {},
                       icon: Icons.person_outlined,
-                      title: account.email!),
+                      title: account.username!),
                   const SizedBox(
                     height: 17,
                   )

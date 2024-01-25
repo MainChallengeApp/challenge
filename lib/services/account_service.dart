@@ -11,7 +11,7 @@ class AccountService {
   Future<void> loadAccount(BuildContext context) async {
     // ignore: use_build_context_synchronously
     account = await accountController.readFile();
-    if (account.email == null || account.email!.isEmpty) {
+    if (account.username == null || account.username!.isEmpty) {
       // ignore: use_build_context_synchronously
       await accountController.writeFile(account);
     } else {
@@ -20,9 +20,12 @@ class AccountService {
     }
   }
 
-  void registerAcount({required String email, required BuildContext context}) {
-    AccountModel account = AccountModel(email: email);
-    accountController.writeFile(account);
-    context.read<DesignProvider>().setIsRegistered(true);
+  bool registerAccount({required String username}) {
+    if (AccountModel.isValidUsername(username)) {
+      AccountModel account = AccountModel(username: username);
+      accountController.writeFile(account);
+      return true;
+    }
+    return false;
   }
 }

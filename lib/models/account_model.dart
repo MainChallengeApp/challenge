@@ -1,11 +1,18 @@
 class AccountModel {
-  String? email;
+  String? username;
 
-  AccountModel({this.email});
+  AccountModel({this.username});
 
-  static AccountModel fromJson(json) => AccountModel(email: json['email']);
+  static AccountModel fromJson(json) => AccountModel(username: json['email']);
 
   Map<String, dynamic> toJson() {
-    return {'email': email};
+    return {'email': username};
+  }
+
+  static bool isValidUsername(String username) {
+    if (username.isEmpty) {
+      return false;
+    }
+    return true;
   }
 }

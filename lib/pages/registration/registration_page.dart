@@ -2,8 +2,10 @@ import 'package:challenge/components/list_items/list_item_accept_button_componen
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/services/account_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -13,7 +15,7 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  String email = '';
+  String username = '';
   AccountService accountService = AccountService();
   TextEditingController textEditingController = TextEditingController();
   String? errorText;
@@ -39,7 +41,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             const SpaceComponent(),
             ListItemAcceptButtonComponent(
-                onTapAccept: onTapAccept, isAcceptable: email.isNotEmpty),
+                onTapAccept: onTapAccept, isAcceptable: username.isNotEmpty),
             const SpaceComponent(),
             appIcon(),
           ],
@@ -64,12 +66,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     setState(() {
       errorText = null;
     });
-    return email = value;
+    return username = value;
   }
 
   onTapAccept() {
-    if (email.isNotEmpty) {
-      accountService.registerAcount(email: email, context: context);
+    if (accountService.registerAccount(username: username)) {
+      context.read<DesignProvider>().setIsRegistered(true);
     } else {
       setState(() {
         errorText = 'add a Username';
