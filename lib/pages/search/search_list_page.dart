@@ -37,7 +37,8 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarComponent(preTitle: widget.title, isFirstPage: true),
+        appBar:
+            AppBarComponent(preTitle: widget.title, isFirstPageInRoute: true),
         body: Container(
           color: Colors.white,
           child: _buildList(),

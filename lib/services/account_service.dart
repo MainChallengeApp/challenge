@@ -4,7 +4,7 @@ import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoadAccountService {
+class AccountService {
   AccountController accountController = AccountController();
   AccountModel account = AccountModel();
 
@@ -18,5 +18,11 @@ class LoadAccountService {
       // ignore: use_build_context_synchronously
       context.read<DesignProvider>().setIsRegistered(true);
     }
+  }
+
+  void registerAcount({required String email, required BuildContext context}) {
+    AccountModel account = AccountModel(email: email);
+    accountController.writeFile(account);
+    context.read<DesignProvider>().setIsRegistered(true);
   }
 }

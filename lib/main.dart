@@ -1,6 +1,6 @@
 import 'package:challenge/pages/registration/registration_page.dart';
 import 'package:challenge/providers/design_provider.dart';
-import 'package:challenge/services/load_account_service.dart';
+import 'package:challenge/services/account_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/app.dart';
 import 'package:flutter/services.dart';
@@ -23,13 +23,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  LoadAccountService loadAccountService = LoadAccountService();
+  AccountService accountService = AccountService();
 
   @override
   void initState() {
     super.initState();
     setOrientationToPortaitUp();
-    loadAccountService.loadAccount(context);
+    accountService.loadAccount(context);
   }
 
   @override

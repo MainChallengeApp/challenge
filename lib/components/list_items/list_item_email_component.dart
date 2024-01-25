@@ -7,11 +7,11 @@ import 'package:challenge/globals.dart';
 class ListItemEmailComponent extends StatefulWidget {
   ListItemEmailComponent(
       {super.key,
-      this.changeList,
+      this.onChangeTextField,
       required this.textEditingController,
       this.errorText});
 
-  Function(String)? changeList;
+  Function(String)? onChangeTextField;
   final TextEditingController textEditingController;
   String? errorText;
 
@@ -47,7 +47,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
               alignment: Alignment.centerLeft,
               child: TextField(
                 controller: widget.textEditingController,
-                onChanged: widget.changeList ?? (value) {},
+                onChanged: widget.onChangeTextField ?? (value) {},
                 decoration: InputDecoration(
                     hintText: 'Username', errorText: widget.errorText),
               ),

@@ -44,7 +44,7 @@ class _HomeListPageState extends State<HomeListPage> {
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.title,
-          isFirstPage: true,
+          isFirstPageInRoute: true,
         ),
         backgroundColor: Colors.white,
         body: _buildList());

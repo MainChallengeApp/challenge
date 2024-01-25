@@ -1,11 +1,9 @@
 import 'package:challenge/components/list_items/list_item_accept_button_component.dart';
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/json_file_controller/account_controller.dart';
-import 'package:challenge/models/account_model.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/services/account_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -16,7 +14,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   String email = '';
-  AccountController accountController = AccountController();
+  AccountService accountService = AccountService();
   TextEditingController textEditingController = TextEditingController();
   String? errorText;
 
@@ -26,43 +24,43 @@ class _RegistrationPageState extends State<RegistrationPage> {
       backgroundColor: Colors.white,
       appBar: const AppBarComponent(
         preTitle: 'Registration',
-        isFirstPage: true,
+        isFirstPageInRoute: true,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(
+            const SpaceComponent(
               height: 200,
             ),
             ListItemEmailComponent(
-              changeList: onChangeList,
+              onChangeTextField: onChangeTextField,
               textEditingController: textEditingController,
               errorText: errorText,
             ),
-            const SizedBox(
-              height: 16,
-            ),
+            const SpaceComponent(),
             ListItemAcceptButtonComponent(
                 onTapAccept: onTapAccept, isAcceptable: email.isNotEmpty),
-            const SizedBox(
-              height: 140,
-            ),
-            Container(
-              width: 90,
-              height: 90,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                image: AssetImage('assets/icons/challenge_icon_black.png'),
-                fit: BoxFit.contain,
-              )),
-            ),
+            const SpaceComponent(),
+            appIcon(),
           ],
         ),
       ),
     );
   }
 
-  onChangeList(value) {
+  Container appIcon() {
+    return Container(
+      width: 80,
+      height: 80,
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+        image: AssetImage('assets/icons/challenge_icon_black.png'),
+        fit: BoxFit.contain,
+      )),
+    );
+  }
+
+  onChangeTextField(value) {
     setState(() {
       errorText = null;
     });
@@ -71,12 +69,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   onTapAccept() {
     if (email.isNotEmpty) {
-      AccountModel account = AccountModel(email: email);
-      accountController.writeFile(account);
-      setState(() {
-        errorText = null;
-        context.read<DesignProvider>().setIsRegistered(true);
-      });
+      accountService.registerAcount(email: email, context: context);
     } else {
       setState(() {
         errorText = 'add a Username';

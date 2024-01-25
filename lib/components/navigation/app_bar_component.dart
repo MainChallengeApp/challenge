@@ -7,7 +7,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final String? titleText;
   final Color textColor;
   final Color backgroundColor;
-  final bool isFirstPage;
+  final bool isFirstPageInRoute;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -18,7 +18,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       this.titleText,
       this.textColor = Colors.black,
       this.backgroundColor = Colors.white,
-      this.isFirstPage = false});
+      this.isFirstPageInRoute = false});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       elevation: 0,
-      leading: isFirstPage
+      leading: isFirstPageInRoute
           ? const Icon(
               Icons.chevron_left,
               color: Colors.transparent,

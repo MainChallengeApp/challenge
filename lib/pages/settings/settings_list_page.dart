@@ -38,7 +38,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.title,
-          isFirstPage: true,
+          isFirstPageInRoute: true,
         ),
         body: Container(
           color: Colors.white,
