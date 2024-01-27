@@ -42,7 +42,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             const SpaceComponent(),
             ListItemAcceptButtonComponent(
                 onTapAccept: onTapAccept, isAcceptable: username.isNotEmpty),
-            const SpaceComponent(),
+            const SpaceComponent(
+              height: 200,
+            ),
             appIcon(),
           ],
         ),
