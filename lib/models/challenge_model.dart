@@ -118,4 +118,17 @@ class ChallengeModel {
     }
     return status;
   }
+
+  String getThumbnailPath() {
+    if (thumbnailPath.isNotEmpty) {
+      return thumbnailPath;
+    } else if (media.isNotEmpty) {
+      thumbnailPath = media.last.source;
+    }
+    return thumbnailPath;
+  }
+
+  bool isThumbnailFromAssetsImage() {
+    return thumbnailPath.startsWith('assets/images/');
+  }
 }

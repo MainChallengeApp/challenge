@@ -1,6 +1,7 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/media_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -274,6 +275,94 @@ void main() {
       challenge.checkChallengeStatus();
       // Assert
       expect(challenge.status, equals(ChallengeStatusEnum.inProgress));
+    });
+  });
+
+  group('getThumbnailPath()', () {
+    test('should return thumbnailPath when it is not empty', () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'thumbnailPath',
+          acceptanceCriterias: [],
+          media: []);
+      // Act
+      String thumbnailPath = challenge.getThumbnailPath();
+      // Assert
+      expect(thumbnailPath, equals('thumbnailPath'));
+      expect(thumbnailPath, equals(challenge.thumbnailPath));
+    });
+
+    test('should return last media source when thumbnailPath is empty', () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: '',
+          acceptanceCriterias: [],
+          media: [
+            MediaModel(
+                id: '1', title: 'media1', source: 'source1', type: 'image'),
+            MediaModel(
+                id: '2', title: 'media2', source: 'source2', type: 'image')
+          ]);
+      // Act
+      String thumbnailPath = challenge.getThumbnailPath();
+      // Assert
+      expect(thumbnailPath, equals('source2'));
+      expect(thumbnailPath, equals(challenge.thumbnailPath));
+    });
+
+    test('should return empty string when thumbnailPath and media is empty',
+        () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: '',
+          acceptanceCriterias: [],
+          media: []);
+      // Act
+      String thumbnailPath = challenge.getThumbnailPath();
+      // Assert
+      expect(thumbnailPath, equals(''));
+      expect(thumbnailPath, equals(challenge.thumbnailPath));
+    });
+  });
+
+  group('isThumbnailFromAssetsImage()', () {
+    test('should return true when starts with "assets/images/"', () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'assets/images/image.png',
+          acceptanceCriterias: [],
+          media: []);
+      // Act
+      bool isThumbnailFromAssetsImage = challenge.isThumbnailFromAssetsImage();
+      // Assert
+      expect(isThumbnailFromAssetsImage, equals(true));
+    });
+
+    test('should return false when not starts with "assets/images/"', () {
+      // Arrange
+      ChallengeModel challenge = ChallengeModel(
+          status: ChallengeStatusEnum.inProgress,
+          title: 'title',
+          description: 'description',
+          thumbnailPath: 'assets/ima',
+          acceptanceCriterias: [],
+          media: []);
+      // Act
+      bool isThumbnailFromAssetsImage = challenge.isThumbnailFromAssetsImage();
+      // Assert
+      expect(isThumbnailFromAssetsImage, equals(false));
     });
   });
 }
