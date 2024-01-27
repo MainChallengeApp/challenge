@@ -45,18 +45,16 @@ class ListItemChallengeSmallComponent extends StatelessWidget {
                         )),
             ),
             Expanded(
-              child: Container(
-                child: Text(
-                  challenge.title,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
+              child: Text(
+                challenge.title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
             ),
             Container(
                 width: 25,
                 height: 25,
-                margin: EdgeInsets.only(right: 7),
+                margin: const EdgeInsets.only(right: 7),
                 child: challenge.status != ChallengeStatusEnum.backlog
                     ? CircularProgressIndicator(
                         backgroundColor: themeColor5,

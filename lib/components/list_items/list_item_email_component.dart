@@ -20,8 +20,6 @@ class ListItemEmailComponent extends StatefulWidget {
 }
 
 class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
-  var controller;
-
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
