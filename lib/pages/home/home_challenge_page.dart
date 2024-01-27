@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:camera/camera.dart';
+import 'package:challenge/components/challenge/thumbnail_max.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
@@ -111,7 +112,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
-                    thumbnail(e),
+                    ThumbnailMaxComponent(
+                        challengeModel: e,
+                        onTapOpenMediaPage: onTapOpenMediaPage),
                     const SizedBox(
                       height: 16,
                     ),
@@ -339,59 +342,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             linkStyle: TextStyle(
                 decorationColor: Colors.blue[500], color: Colors.blue[500]),
           )),
-    );
-  }
-
-  GestureDetector thumbnail(ChallengeModel e) {
-    return GestureDetector(
-      onTap: onTapOpenMediaPage,
-      child: Container(
-        decoration: const BoxDecoration(
-            color: themeColor4,
-            borderRadius: BorderRadius.all(Radius.circular(12))),
-        height: 180,
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Center(
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: e.thumbnailPath != ''
-                      ? Image.asset(e.thumbnailPath, fit: BoxFit.contain)
-                      : e.media.isNotEmpty
-                          ? Image.asset(e.media.first.source,
-                              fit: BoxFit.contain)
-                          : Icon(Icons.question_mark, color: themeColor3)),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                clipBehavior: Clip.none,
-                margin: EdgeInsets.all(8),
-                padding: EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    color: themeColor2.withAlpha(120)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      e.media.length.toString(),
-                      textAlign: TextAlign.end,
-                      style: TextStyle(fontWeight: FontWeight.normal),
-                    ),
-                    Icon(
-                      Icons.image_outlined,
-                      size: 15,
-                    )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 

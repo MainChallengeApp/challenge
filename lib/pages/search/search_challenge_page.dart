@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/components/challenge/thumbnail_max.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
@@ -172,7 +173,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
                         children: [
-                          thumbnail(context, e),
+                          ThumbnailMaxComponent(
+                            challengeModel: e,
+                            isMediaListVisible: false,
+                            onTapOpenMediaPage: () =>
+                                onTapOpenMediaPage(context),
+                          ),
                           const SizedBox(
                             height: 16,
                           ),
@@ -301,26 +307,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  GestureDetector thumbnail(BuildContext context, ChallengeModel e) {
-    return GestureDetector(
-      onTap: () => SnackBarComponent.showSnackBar(
-          context, 'The Video Trailer feature will be added soon'),
-      child: Container(
-          width: double.infinity,
-          height: 180,
-          decoration: const BoxDecoration(
-              color: themeColor4,
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: Center(
-            child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                child: e.thumbnailPath != ''
-                    ? Image.asset(e.thumbnailPath, fit: BoxFit.contain)
-                    : e.media.isNotEmpty
-                        ? Image.asset(e.media.first.source, fit: BoxFit.contain)
-                        : Icon(Icons.question_mark, color: themeColor3)),
-          )),
-    );
+  onTapOpenMediaPage(BuildContext context) {
+    SnackBarComponent.showSnackBar(
+        context, 'The Video Trailer will be added soon');
   }
 
   Widget startAndEndDate(ChallengeModel e) {
