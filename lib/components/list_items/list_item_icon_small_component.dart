@@ -25,7 +25,7 @@ class ListItemIconSmallComponent extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
+                  color: themeColor4,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               margin: const EdgeInsets.only(right: 12),
               child: Center(

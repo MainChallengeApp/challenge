@@ -151,7 +151,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                   margin: const EdgeInsets.only(right: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
+                      color: themeColor4,
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
                     '${widget.challenge.acceptanceCriterias[index].title} ${widget.challenge.acceptanceCriterias[index].amount} ${widget.challenge.acceptanceCriterias[index].unit}',
@@ -162,7 +162,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                   margin: const EdgeInsets.only(right: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
+                      color: themeColor4,
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
                     widget.challenge.acceptanceCriterias[index].frequence,
@@ -173,7 +173,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
-                      color: Color.fromRGBO(241, 245, 249, 1),
+                      color: themeColor4,
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Icon(getIconData(index), color: themeColor3, size: 14),
                 ),
@@ -193,7 +193,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
             height: 30,
             margin: const EdgeInsets.only(right: 10),
             decoration: const BoxDecoration(
-                color: Color.fromRGBO(241, 245, 249, 1),
+                color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: const Center(
                 child: Icon(

@@ -116,7 +116,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
                     margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.all(10),
                     decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
+                        color: themeColor4,
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
                       widget.isEvidence
@@ -134,7 +134,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
                     margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.all(10),
                     decoration: const BoxDecoration(
-                        color: Color.fromRGBO(241, 245, 249, 1),
+                        color: themeColor4,
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
                         widget.isEvidence

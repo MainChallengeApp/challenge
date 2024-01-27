@@ -309,7 +309,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           width: double.infinity,
           height: 180,
           decoration: const BoxDecoration(
-              color: Color.fromRGBO(241, 245, 249, 1),
+              color: themeColor4,
               borderRadius: BorderRadius.all(Radius.circular(12))),
           child: Center(
             child: ClipRRect(
@@ -429,7 +429,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
+                    color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
                     '${acceptanceCriteria.title} ${acceptanceCriteria.amount} ${acceptanceCriteria.unit}',
@@ -440,7 +440,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
+                    color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(acceptanceCriteria.frequence,
                     style: const TextStyle(fontSize: 12, color: themeColor3),
@@ -450,7 +450,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
+                    color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Icon(getIconData(acceptanceCriteria),
                     color: themeColor3, size: 14),
@@ -664,7 +664,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               height: 30,
               margin: const EdgeInsets.only(right: 10),
               decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
+                  color: themeColor4,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               child: const Center(
                   child: Icon(

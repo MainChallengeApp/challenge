@@ -20,7 +20,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                  color: Color.fromRGBO(241, 245, 249, 1),
+                  color: themeColor4,
                   borderRadius: BorderRadius.all(Radius.circular(12))),
               width: 40,
               height: 40,

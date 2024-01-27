@@ -347,7 +347,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       onTap: onTapOpenMediaPage,
       child: Container(
         decoration: const BoxDecoration(
-            color: Color.fromRGBO(241, 245, 249, 1),
+            color: themeColor4,
             borderRadius: BorderRadius.all(Radius.circular(12))),
         height: 180,
         width: double.infinity,
@@ -530,7 +530,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       padding: const EdgeInsets.all(10),
                       // width: 59,
                       decoration: const BoxDecoration(
-                          color: Color.fromRGBO(241, 245, 249, 1),
+                          color: themeColor4,
                           borderRadius: BorderRadius.all(Radius.circular(12))),
                       child: Text(
                           '${(acceptanceCriteria.calcProgressRatio() * 100).toInt()}%',
@@ -544,7 +544,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                             margin: const EdgeInsets.only(right: 10),
                             padding: const EdgeInsets.all(10),
                             decoration: const BoxDecoration(
-                                color: Color.fromRGBO(241, 245, 249, 1),
+                                color: themeColor4,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12))),
                             child: Text(

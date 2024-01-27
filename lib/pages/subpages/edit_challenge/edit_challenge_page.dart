@@ -97,7 +97,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
+                    color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
                   '${widget.editChallenge.acceptanceCriterias[index].title} ${widget.editChallenge.acceptanceCriterias[index].amount} ${widget.editChallenge.acceptanceCriterias[index].unit}',
@@ -109,7 +109,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 margin: const EdgeInsets.only(right: 10),
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
+                    color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
                   widget.editChallenge.acceptanceCriterias[index].frequence,
@@ -120,7 +120,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
-                    color: Color.fromRGBO(241, 245, 249, 1),
+                    color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Icon(getIconData(index), color: themeColor3, size: 14),
               ),
@@ -140,7 +140,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   //             height: 30,
   //             margin: const EdgeInsets.only(right: 10),
   //             decoration: const BoxDecoration(
-  //                 color: Color.fromRGBO(241, 245, 249, 1),
+  //                 color: themeColor4,
   //                 borderRadius: BorderRadius.all(Radius.circular(12))),
   //             child: const Center(
   //                 child: Icon(
@@ -238,7 +238,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
           height: 40,
           margin: const EdgeInsets.only(right: 12),
           decoration: const BoxDecoration(
-              color: Color.fromRGBO(241, 245, 249, 1),
+              color: themeColor4,
               borderRadius: BorderRadius.all(Radius.circular(12))),
           child: const Center(
               child: Icon(
