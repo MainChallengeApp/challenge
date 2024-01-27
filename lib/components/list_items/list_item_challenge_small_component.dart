@@ -7,16 +7,11 @@ import 'package:challenge/globals.dart';
 
 class ListItemChallengeSmallComponent extends StatelessWidget {
   const ListItemChallengeSmallComponent(
-      {super.key,
-      required this.onTap,
-      required this.challenge,
-      this.isProgressVisible = false});
+      {super.key, required this.onTap, required this.challenge});
 
   final dynamic Function() onTap;
 
   final ChallengeModel challenge;
-
-  final bool isProgressVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +29,20 @@ class ListItemChallengeSmallComponent extends StatelessWidget {
               margin: const EdgeInsets.only(right: 12),
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: challenge.thumbnailPath != ''
-                      ? Image.asset(challenge.thumbnailPath, fit: BoxFit.cover)
-                      : challenge.media.isNotEmpty
-                          ? Image.asset(challenge.media.first.source,
+                  child: challenge.getThumbnailPath() != ''
+                      ? challenge.isThumbnailFromAssetsImage()
+                          ? Transform.scale(
+                              scale: 0.8,
+                              child: Image.asset(
+                                challenge.getThumbnailPath(),
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                          : Image.asset(challenge.getThumbnailPath(),
                               fit: BoxFit.cover)
-                          : const Center(
-                              child:
-                                  Icon(Icons.question_mark, color: themeColor3),
-                            )),
+                      : const Center(
+                          child: Icon(Icons.question_mark, color: themeColor3),
+                        )),
             ),
             Expanded(
               child: Container(
@@ -53,29 +53,25 @@ class ListItemChallengeSmallComponent extends StatelessWidget {
                 ),
               ),
             ),
-            isProgressVisible
-                ? Container(
-                    width: 25,
-                    height: 25,
-                    margin: EdgeInsets.only(right: 7),
-                    child: challenge.status != ChallengeStatusEnum.backlog
-                        ? CircularProgressIndicator(
-                            backgroundColor: themeColor5,
-                            strokeCap: StrokeCap.round,
-                            value: challenge.acceptanceCriterias.isEmpty
+            Container(
+                width: 25,
+                height: 25,
+                margin: EdgeInsets.only(right: 7),
+                child: challenge.status != ChallengeStatusEnum.backlog
+                    ? CircularProgressIndicator(
+                        backgroundColor: themeColor5,
+                        strokeCap: StrokeCap.round,
+                        value: challenge.acceptanceCriterias.isEmpty
+                            ? 1
+                            : challenge.acceptanceCriterias[0].amount <= 0
                                 ? 1
-                                : challenge.acceptanceCriterias[0].amount <= 0
-                                    ? 1
-                                    : challenge.acceptanceCriterias[0]
-                                        .calcProgressRatio(),
-                            color:
-                                challenge.status == ChallengeStatusEnum.failed
-                                    ? Colors.red[300]
-                                    : Colors.green[300],
-                          )
-                        : Container(),
-                  )
-                : Container()
+                                : challenge.acceptanceCriterias[0]
+                                    .calcProgressRatio(),
+                        color: challenge.status == ChallengeStatusEnum.failed
+                            ? Colors.red[300]
+                            : Colors.green[300],
+                      )
+                    : Container())
           ],
         ),
       ),

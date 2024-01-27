@@ -117,7 +117,6 @@ class _HomeListPageState extends State<HomeListPage> {
                           onTap: () => ppush(context,
                               challenge: challenge, index: index - 1 - 1),
                           challenge: challenge,
-                          isProgressVisible: true,
                         ),
                         const SizedBox(
                           height: 17,
