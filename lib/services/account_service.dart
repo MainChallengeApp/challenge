@@ -22,7 +22,7 @@ class AccountService {
 
   bool registerAccount({required String username}) {
     if (AccountModel.isValidUsername(username)) {
-      AccountModel account = AccountModel(username: username);
+      account.username = username;
       accountController.writeFile(account);
       return true;
     }
