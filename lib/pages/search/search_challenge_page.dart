@@ -754,13 +754,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             }
                           });
                         },
-                        onTapOutside: (event) {
-                          setState(() {
-                            // amountTextEditingController.text =
-                            //     acceptanceCriteria.amount.toString();
-                            isKeyboardUp = false;
-                          });
-                        },
                         onTap: () => setState(() {
                           isKeyboardUp = true;
                         }),
