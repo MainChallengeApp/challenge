@@ -20,7 +20,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
       child: Container(
         decoration: const BoxDecoration(
             color: themeColor4,
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+            borderRadius: BorderRadius.all(Radius.circular(16))),
         height: 180,
         width: double.infinity,
         child: Stack(
