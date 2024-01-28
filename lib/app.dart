@@ -78,7 +78,7 @@ class AppState extends State<App> {
               borderRadius: BorderRadius.circular(
                   24.0), // Hier können Sie den Radius nach Bedarf ändern
               child: Container(
-                height: 72,
+                height: 81,
                 // width: 450,
                 decoration: const BoxDecoration(
                   color: themeColor1,

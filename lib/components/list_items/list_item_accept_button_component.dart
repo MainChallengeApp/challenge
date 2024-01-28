@@ -4,23 +4,27 @@ import 'package:challenge/components/list_items/list_item_container_component.da
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
-class ListItemAcceptButtonComponent extends StatelessWidget {
-  ListItemAcceptButtonComponent(
-      {super.key, required this.onTapAccept, this.isAcceptable = true});
+class ListItemButtonComponent extends StatelessWidget {
+  const ListItemButtonComponent(
+      {super.key,
+      required this.onTapAccept,
+      this.isMainButton = true,
+      required this.text});
 
-  VoidCallback onTapAccept;
-  bool isAcceptable;
+  final VoidCallback onTapAccept;
+  final bool isMainButton;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTapAccept,
       child: ListItemContainerComponent(
-        backgroundColor: isAcceptable ? themeColor2 : Colors.white,
+        backgroundColor: isMainButton ? themeColor2 : Colors.white,
         child: Center(
             child: Text(
-          'Accept',
-          style: TextStyle(color: isAcceptable ? Colors.white : Colors.black),
+          text,
+          style: TextStyle(color: isMainButton ? Colors.white : Colors.black),
         )),
       ),
     );

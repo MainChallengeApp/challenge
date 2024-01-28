@@ -21,7 +21,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
       decoration: const BoxDecoration(color: themeColor1),
       // height: 100,
       // width: 350,
-      padding: const EdgeInsets.only(top: 5),
+      padding: const EdgeInsets.only(top: 12),
       child: SingleChildScrollView(
         physics: const ScrollPhysics(parent: NeverScrollableScrollPhysics()),
         child: NavigationBar(

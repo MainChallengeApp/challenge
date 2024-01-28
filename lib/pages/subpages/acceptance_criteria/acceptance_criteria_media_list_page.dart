@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/components/list_items/list_item_accept_button_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
@@ -83,7 +84,7 @@ class _AcceptanceCriteriaMediaListPageState
           appBar: AppBarComponent(
               preTitle: widget.preTitle,
               titleText: widget.evidence == null
-                  ? '${widget.acceptanceCriteria.evidences.length + 1}'
+                  ? 'New Evidence'
                   : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
           backgroundColor: Colors.white,
           body: Stack(
@@ -186,30 +187,19 @@ class _AcceptanceCriteriaMediaListPageState
   }
 
   progressButton() {
-    return GestureDetector(
-      onTap: onTapProgressBar,
-      child: widget.isSaveInsteadOfEditButtonVisible
-          ? Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 55,
-                margin: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    color: themeColor2,
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: Center(
-                    child: Text(
-                  widget.isSaveInsteadOfEditButtonVisible ? 'Progress' : 'Edit',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.white),
-                )),
+    return widget.isSaveInsteadOfEditButtonVisible
+        ? Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: ListItemButtonComponent(
+                text: 'Progress',
+                onTapAccept: onTapProgressBar,
+                isMainButton: true,
               ),
-            )
-          : Container(),
-    );
+            ),
+          )
+        : Container();
   }
 
   saveButton() {

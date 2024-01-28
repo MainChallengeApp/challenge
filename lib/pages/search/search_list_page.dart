@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
@@ -81,9 +82,7 @@ class _SearchListPageState extends State<SearchListPage> {
                             textEditingController:
                                 TextEditingController(text: searchBarText),
                           ),
-                          const SizedBox(
-                            height: 17,
-                          )
+                          const SpaceComponent()
                         ],
                       );
                     }
@@ -101,9 +100,7 @@ class _SearchListPageState extends State<SearchListPage> {
                                   index - 1), // widget.onPush?.call(challenge),
                           challenge: challenge,
                         ),
-                        const SizedBox(
-                          height: 17,
-                        )
+                        const SpaceComponent()
                       ],
                     );
                   }),
