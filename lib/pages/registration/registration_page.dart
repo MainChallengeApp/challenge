@@ -2,6 +2,7 @@ import 'package:challenge/components/list_items/list_item_accept_button_componen
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/models/account_model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/services/account_service.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +41,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
               errorText: errorText,
             ),
             const SpaceComponent(),
-            ListItemAcceptButtonComponent(
-                onTapAccept: onTapAccept, isAcceptable: username.isNotEmpty),
+            ListItemButtonComponent(
+              onTapAccept: onTapAccept,
+              isMainButton: AccountModel.isValidUsername(username),
+              text: 'Accept',
+            ),
             const SpaceComponent(
               height: 200,
             ),
