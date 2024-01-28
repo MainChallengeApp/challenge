@@ -315,34 +315,39 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  GestureDetector description(ChallengeModel e) {
-    return GestureDetector(
-      onTap: () => setState(() {
-        isDescriptionExpanded = !isDescriptionExpanded;
-      }),
-      child: Container(
-          width: double.infinity,
-          height: isDescriptionExpanded ? 402 : 80,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Linkify(
-            onOpen: (link) {
-              _launchURL(link.url);
-            },
-            options: const LinkifyOptions(removeWww: true, humanize: true),
-            text: e.description,
-            overflow: TextOverflow.ellipsis,
-            maxLines: isDescriptionExpanded ? 999 : 4,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.justify,
-            style: const TextStyle(fontSize: 12, color: themeColor3),
-            linkStyle: TextStyle(
-                decorationColor: Colors.blue[500], color: Colors.blue[500]),
-          )),
-    );
+  description(ChallengeModel e) {
+    return e.description.isNotEmpty
+        ? GestureDetector(
+            onTap: () => setState(() {
+              isDescriptionExpanded = !isDescriptionExpanded;
+            }),
+            child: Container(
+                width: double.infinity,
+                height: isDescriptionExpanded ? 402 : 80,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 1,
+                        color: const Color.fromRGBO(226, 232, 240, 1)),
+                    borderRadius: const BorderRadius.all(Radius.circular(16))),
+                child: Linkify(
+                  onOpen: (link) {
+                    _launchURL(link.url);
+                  },
+                  options:
+                      const LinkifyOptions(removeWww: true, humanize: true),
+                  text: e.description,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: isDescriptionExpanded ? 999 : 4,
+                  textDirection: TextDirection.ltr,
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(fontSize: 12, color: themeColor3),
+                  linkStyle: TextStyle(
+                      decorationColor: Colors.blue[500],
+                      color: Colors.blue[500]),
+                )),
+          )
+        : Container();
   }
 
   void checkChallengeStatus() {
