@@ -9,7 +9,7 @@
         "id": 0,
         "title": "Act of Kindness",
         "amount": 1.0,
-        "unit": "act",
+        "unit": "Act",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -27,7 +27,7 @@
         "id": 0,
         "title": "Affirmationen",
         "amount": 100.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -45,7 +45,7 @@
         "id": 0,
         "title": "Archery",
         "amount": 10.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -63,7 +63,7 @@
         "id": 0,
         "title": "Bike Tour",
         "amount": 20.0,
-        "unit": "km",
+        "unit": "Km",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -81,7 +81,7 @@
         "id": 0,
         "title": "Bouldering",
         "amount": 10.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -99,7 +99,7 @@
         "id": 0,
         "title": "Create",
         "amount": 1.0,
-        "unit": "list",
+        "unit": "List",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -117,7 +117,7 @@
         "id": 0,
         "title": "Bungee jumping",
         "amount": 1.0,
-        "unit": "jump",
+        "unit": "Jump",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -135,7 +135,7 @@
         "id": 0,
         "title": "Clean up",
         "amount": 2.0,
-        "unit": "hours",
+        "unit": "Hours",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -153,7 +153,7 @@
         "id": 0,
         "title": "Climbing stairs",
         "amount": 1000.0,
-        "unit": "stairs",
+        "unit": "Stairs",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -171,7 +171,7 @@
         "id": 0,
         "title": "Cold showers",
         "amount": 100.0,
-        "unit": "showers",
+        "unit": "Showers",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -189,7 +189,7 @@
         "id": 0,
         "title": "DIY-Workshop",
         "amount": 1.0,
-        "unit": "thing",
+        "unit": "Thing",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -207,7 +207,7 @@
         "id": 0,
         "title": "Dancing",
         "amount": 30.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -225,7 +225,7 @@
         "id": 0,
         "title": "Diary",
         "amount": 100.0,
-        "unit": "entries",
+        "unit": "Entries",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -243,7 +243,7 @@
         "id": 0,
         "title": "Follow a diet",
         "amount": 365.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -261,7 +261,7 @@
         "id": 0,
         "title": "Digital Organization",
         "amount": 1.0,
-        "unit": "optimization",
+        "unit": "Optimization",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -279,7 +279,7 @@
         "id": 0,
         "title": "Diving",
         "amount": 1.0,
-        "unit": "dive",
+        "unit": "Dive",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -297,7 +297,7 @@
         "id": 0,
         "title": "Donations",
         "amount": 1.0,
-        "unit": "donation",
+        "unit": "Donation",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -315,7 +315,7 @@
         "id": 0,
         "title": "Drawing",
         "amount": 1.0,
-        "unit": "drawing",
+        "unit": "Drawing",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -333,7 +333,7 @@
         "id": 0,
         "title": "Dream diary",
         "amount": 100.0,
-        "unit": "entries",
+        "unit": "Entries",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -351,7 +351,7 @@
         "id": 0,
         "title": "Drink water",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -369,7 +369,7 @@
         "id": 0,
         "title": "Vegan essen",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -387,7 +387,7 @@
         "id": 0,
         "title": "Eat vegetarian",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -405,7 +405,7 @@
         "id": 0,
         "title": "Elevator pitch",
         "amount": 1.0,
-        "unit": "presentation",
+        "unit": "Presentation",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -423,7 +423,7 @@
         "id": 0,
         "title": "Evening Routine Upgrade",
         "amount": 100.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -441,7 +441,7 @@
         "id": 0,
         "title": "City exploration",
         "amount": 1.0,
-        "unit": "place",
+        "unit": "Place",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -459,7 +459,7 @@
         "id": 0,
         "title": "Exposure to fear",
         "amount": 1.0,
-        "unit": "fear",
+        "unit": "Fear",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -477,7 +477,7 @@
         "id": 0,
         "title": "Fishing",
         "amount": 1.0,
-        "unit": "fish",
+        "unit": "Fish",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -495,7 +495,7 @@
         "id": 0,
         "title": "Flick Flack",
         "amount": 1.0,
-        "unit": "execution",
+        "unit": "Execution",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -513,7 +513,7 @@
         "id": 0,
         "title": "Forgiven",
         "amount": 1.0,
-        "unit": "person",
+        "unit": "Person",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -531,7 +531,7 @@
         "id": 0,
         "title": "Full body workout",
         "amount": 100.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -549,7 +549,7 @@
         "id": 0,
         "title": "Gardening",
         "amount": 5.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -567,7 +567,7 @@
         "id": 0,
         "title": "Danken",
         "amount": 100.0,
-        "unit": "entries",
+        "unit": "Entries",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -585,7 +585,7 @@
         "id": 0,
         "title": "Give feedback",
         "amount": 1.0,
-        "unit": "feedback",
+        "unit": "Feedback",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -603,7 +603,7 @@
         "id": 0,
         "title": "Fitness studio",
         "amount": 100.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -621,7 +621,7 @@
         "id": 0,
         "title": "Handstand",
         "amount": 1.0,
-        "unit": "min",
+        "unit": "Min",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -639,7 +639,7 @@
         "id": 0,
         "title": "Jumping",
         "amount": 1.0,
-        "unit": "meters",
+        "unit": "Meters",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -657,7 +657,7 @@
         "id": 0,
         "title": "hiking",
         "amount": 10.0,
-        "unit": "km",
+        "unit": "Km",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -675,7 +675,7 @@
         "id": 0,
         "title": "Hot air balloon ride",
         "amount": 1.0,
-        "unit": "flight",
+        "unit": "Flight",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -693,7 +693,7 @@
         "id": 0,
         "title": "Ice bathing",
         "amount": 3.0,
-        "unit": "min",
+        "unit": "Min",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -711,7 +711,7 @@
         "id": 0,
         "title": "Juggling",
         "amount": 10.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -729,7 +729,7 @@
         "id": 0,
         "title": "Kayaking",
         "amount": 1.0,
-        "unit": "session",
+        "unit": "Session",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -747,7 +747,7 @@
         "id": 0,
         "title": "Making money",
         "amount": 10000.0,
-        "unit": "euro",
+        "unit": "Euro",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -765,7 +765,7 @@
         "id": 0,
         "title": "Running",
         "amount": 42195.0,
-        "unit": "km",
+        "unit": "Km",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -783,7 +783,7 @@
         "id": 0,
         "title": "Martial arts",
         "amount": 100.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -801,7 +801,7 @@
         "id": 0,
         "title": "Meditate",
         "amount": 100.0,
-        "unit": "meditations",
+        "unit": "Meditations",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -819,7 +819,7 @@
         "id": 0,
         "title": "Tomorrow Routine Upgrade",
         "amount": 100.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -837,7 +837,7 @@
         "id": 0,
         "title": "Visit",
         "amount": 1.0,
-        "unit": "city",
+        "unit": "City",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -855,7 +855,7 @@
         "id": 0,
         "title": "Getting to know a foreign culture",
         "amount": 1.0,
-        "unit": "culture",
+        "unit": "Culture",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -873,7 +873,7 @@
         "id": 0,
         "title": "Learn to play an instrument",
         "amount": 55.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -891,7 +891,7 @@
         "id": 0,
         "title": "Learn language",
         "amount": 100.0,
-        "unit": "session",
+        "unit": "Session",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -909,7 +909,7 @@
         "id": 0,
         "title": "Get to know",
         "amount": 1.0,
-        "unit": "person",
+        "unit": "Person",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -927,7 +927,7 @@
         "id": 0,
         "title": "Cooking",
         "amount": 10.0,
-        "unit": "recipes",
+        "unit": "Recipes",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -963,7 +963,7 @@
         "id": 0,
         "title": "Contact us",
         "amount": 1.0,
-        "unit": "friend",
+        "unit": "Friend",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -981,7 +981,7 @@
         "id": 0,
         "title": "Origami of falten",
         "amount": 10.0,
-        "unit": "works of art",
+        "unit": "Works of art",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -999,7 +999,7 @@
         "id": 0,
         "title": "Parkour",
         "amount": 10.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1017,7 +1017,7 @@
         "id": 0,
         "title": "Photography",
         "amount": 10.0,
-        "unit": "photos",
+        "unit": "Photos",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1035,7 +1035,7 @@
         "id": 0,
         "title": "Plank",
         "amount": 5.0,
-        "unit": "min",
+        "unit": "Min",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1053,7 +1053,7 @@
         "id": 0,
         "title": "Record podcast",
         "amount": 10.0,
-        "unit": "episodes",
+        "unit": "Episodes",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1071,7 +1071,7 @@
         "id": 0,
         "title": "Poetry Slam",
         "amount": 1.0,
-        "unit": "session",
+        "unit": "Session",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1089,7 +1089,7 @@
         "id": 0,
         "title": "Pottery",
         "amount": 1.0,
-        "unit": "work of art",
+        "unit": "Work of art",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1107,7 +1107,7 @@
         "id": 0,
         "title": "Present",
         "amount": 1.0,
-        "unit": "presentation",
+        "unit": "Presentation",
         "frequence": "monthly",
         "tracking": "camera",
         "progress": 0.0
@@ -1125,7 +1125,7 @@
         "id": 0,
         "title": "push-ups",
         "amount": 100.0,
-        "unit": "push-ups",
+        "unit": "Push-ups",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1143,7 +1143,7 @@
         "id": 0,
         "title": "Read",
         "amount": 1.0,
-        "unit": "book",
+        "unit": "Book",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1161,7 +1161,7 @@
         "id": 0,
         "title": "Views",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1179,7 +1179,7 @@
         "id": 0,
         "title": "Running",
         "amount": 10.0,
-        "unit": "km",
+        "unit": "Km",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1197,7 +1197,7 @@
         "id": 0,
         "title": "Selfcare",
         "amount": 10.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1215,7 +1215,7 @@
         "id": 0,
         "title": "Jumping",
         "amount": 15.0,
-        "unit": "min",
+        "unit": "Min",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1233,7 +1233,7 @@
         "id": 0,
         "title": "Skydiving",
         "amount": 1.0,
-        "unit": "jump",
+        "unit": "Jump",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1251,7 +1251,7 @@
         "id": 0,
         "title": "Maintain your sleep rhythm",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1269,7 +1269,7 @@
         "id": 0,
         "title": "Social Media Detox",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1305,7 +1305,7 @@
         "id": 0,
         "title": "Stretching",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1323,7 +1323,7 @@
         "id": 0,
         "title": "No sugar",
         "amount": 7.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1341,7 +1341,7 @@
         "id": 0,
         "title": "Survival training",
         "amount": 1.0,
-        "unit": "session",
+        "unit": "Session",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1359,7 +1359,7 @@
         "id": 0,
         "title": "Swimming",
         "amount": 30.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1377,7 +1377,7 @@
         "id": 0,
         "title": "Ingestion",
         "amount": 365.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1395,7 +1395,7 @@
         "id": 0,
         "title": "Theater participation",
         "amount": 20.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1413,7 +1413,7 @@
         "id": 0,
         "title": "Travel",
         "amount": 14.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1431,7 +1431,7 @@
         "id": 0,
         "title": "Go for a walk",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "weekly",
         "tracking": "camera",
         "progress": 0.0
@@ -1449,7 +1449,7 @@
         "id": 0,
         "title": "Water skiing",
         "amount": 1.0,
-        "unit": "session",
+        "unit": "Session",
         "frequence": "once",
         "tracking": "camera",
         "progress": 0.0
@@ -1467,7 +1467,7 @@
         "id": 0,
         "title": "Recording",
         "amount": 30.0,
-        "unit": "days",
+        "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
@@ -1485,7 +1485,7 @@
         "id": 0,
         "title": "Breathing technique",
         "amount": 30.0,
-        "unit": "sessions",
+        "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
         "progress": 0.0
