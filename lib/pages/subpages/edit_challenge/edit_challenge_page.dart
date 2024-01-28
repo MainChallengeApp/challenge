@@ -2,6 +2,7 @@
 import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -64,18 +65,31 @@ class _EditChallengePageState extends State<EditChallengePage> {
             amountAndUnit(),
             // frequence(),
             Expanded(child: Container()),
-            saveButton()
+            cancelAndSaveButton()
           ],
         ),
       ),
     );
   }
 
-  CustomButtonComponent saveButton() {
-    return CustomButtonComponent(
-      onTap: onTapSave,
-      text: 'Save',
-      isPrimaryButton: true,
+  cancelAndSaveButton() {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomButtonComponent(
+            onTap: onTapCancel,
+            text: 'Cancel',
+          ),
+        ),
+        const SpaceComponent(),
+        Expanded(
+          child: CustomButtonComponent(
+            onTap: onTapSave,
+            text: 'Save',
+            isPrimaryButton: true,
+          ),
+        ),
+      ],
     );
   }
 
@@ -407,6 +421,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
   //     ),
   //   ).then((_) => setState(() {}));
   // }
+
+  void onTapCancel() {
+    Navigator.pop(context);
+  }
 
   void onTapSave() async {
     // check inputs e.g. endDate > startDate
