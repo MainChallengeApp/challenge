@@ -12,7 +12,8 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       this.isProgressBarLocked = false,
       this.isEvidence = false,
       this.initialProgress = 0,
-      this.editAcceptanceCriteria}) {
+      this.editAcceptanceCriteria,
+      this.isFailed = false}) {
     editAcceptanceCriteria ??= AcceptanceCriteriaModel(
         id: 0,
         title: 'title',
@@ -29,6 +30,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
   final bool isProgressBarLocked;
   final bool isEvidence;
   final double initialProgress;
+  final bool isFailed;
 
   @override
   State<ListItemAcceptanceCriteriaBarComponent> createState() =>
@@ -74,9 +76,9 @@ class _ListItemAcceptanceCriteriaBarComponentState
           child: Container(
             width: 40,
             height: 40,
-            decoration: const BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(24))),
+            decoration: BoxDecoration(
+                color: widget.isFailed ? Colors.red : Colors.green,
+                borderRadius: const BorderRadius.all(Radius.circular(24))),
           ),
         ),
         Container(

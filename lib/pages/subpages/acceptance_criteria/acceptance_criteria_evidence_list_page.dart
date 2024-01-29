@@ -1,6 +1,7 @@
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -105,6 +106,7 @@ class _AcceptanceCriteriaEvidenceListPageState
             isProgressBarLocked: true,
             initialProgress: evidence.progress,
             isEvidence: true,
+            isFailed: widget.challenge.status == ChallengeStatusEnum.failed,
           ),
         ),
         const SizedBox(
