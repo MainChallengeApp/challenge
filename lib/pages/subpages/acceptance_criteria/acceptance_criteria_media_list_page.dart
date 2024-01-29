@@ -4,6 +4,7 @@ import 'package:challenge/components/list_items/list_item_icon_small_component.d
 import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -232,6 +233,13 @@ class _AcceptanceCriteriaMediaListPageState
   void onTapSave() {
     if (widget.isSaveInsteadOfEditButtonVisible) {
       Navigator.pop(context2);
+
+      if (widget.challenge.startDate == null &&
+          widget.editAcceptanceCriteria.progress > 0) {
+        widget.challenge.startDate = DateTime.now();
+        widget.challenge.status = ChallengeStatusEnum.inProgress;
+      }
+
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       widget.acceptanceCriteria.progress =
           widget.editAcceptanceCriteria.progress;
@@ -245,6 +253,14 @@ class _AcceptanceCriteriaMediaListPageState
           .acceptanceCriterias
           .where((element) => element.id == widget.acceptanceCriteria.id)
           .toList()[0] = widget.acceptanceCriteria;
+
+      allChallengesList.map((element) {
+        if (element.id == widget.challenge.id) {
+          element = widget.challenge;
+        }
+        return element;
+      });
+      // .firstWhere((element) => element.id == widget.challenge.id) = widget.challenge;
 
       challengeController.writeFile(context, allChallengesList);
 
