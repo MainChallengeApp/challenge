@@ -31,8 +31,8 @@ class TabNavigatorComponent extends StatelessWidget {
   Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
       {int challengeId = 0, ChallengeModel? challenge}) {
     return {
-      TabNavigatorRoutes.root: (context) => Placeholder(),
-      TabNavigatorRoutes.detail: (context) => Placeholder(),
+      TabNavigatorRoutes.root: (context) => const Placeholder(),
+      TabNavigatorRoutes.detail: (context) => const Placeholder(),
     };
   }
 

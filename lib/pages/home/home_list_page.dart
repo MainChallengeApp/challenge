@@ -1,4 +1,5 @@
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
@@ -85,9 +86,7 @@ class _HomeListPageState extends State<HomeListPage> {
                             textEditingController:
                                 TextEditingController(text: searchBarText),
                           ),
-                          const SizedBox(
-                            height: 17,
-                          )
+                          const SpaceComponent()
                         ],
                       );
                     }
@@ -99,9 +98,7 @@ class _HomeListPageState extends State<HomeListPage> {
                             icon: Icons.add_rounded,
                             title: "New Challenge",
                           ),
-                          const SizedBox(
-                            height: 17,
-                          )
+                          const SpaceComponent()
                         ],
                       );
                     }

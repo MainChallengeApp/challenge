@@ -3,6 +3,7 @@
 import 'package:camera/camera.dart';
 import 'package:challenge/components/challenge/thumbnail_max.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/pages/subpages/media/media_list_page.dart';
@@ -119,11 +120,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       height: 16,
                     ),
                     description(e),
-                    isDescriptionExpanded
-                        ? Container()
-                        : const SizedBox(
-                            height: 16,
-                          ),
                     startAndEndDate(e),
                     acceptanceCriteria(e.acceptanceCriterias),
                     isDescriptionExpanded
@@ -317,35 +313,41 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   description(ChallengeModel e) {
     return e.description.isNotEmpty
-        ? GestureDetector(
-            onTap: () => setState(() {
-              isDescriptionExpanded = !isDescriptionExpanded;
-            }),
-            child: Container(
-                width: double.infinity,
-                height: isDescriptionExpanded ? 402 : 80,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: Linkify(
-                  onOpen: (link) {
-                    _launchURL(link.url);
-                  },
-                  options:
-                      const LinkifyOptions(removeWww: true, humanize: true),
-                  text: e.description,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: isDescriptionExpanded ? 999 : 4,
-                  textDirection: TextDirection.ltr,
-                  textAlign: TextAlign.justify,
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                  linkStyle: TextStyle(
-                      decorationColor: Colors.blue[500],
-                      color: Colors.blue[500]),
-                )),
+        ? Column(
+            children: [
+              GestureDetector(
+                onTap: () => setState(() {
+                  isDescriptionExpanded = !isDescriptionExpanded;
+                }),
+                child: Container(
+                    width: double.infinity,
+                    height: isDescriptionExpanded ? 402 : 80,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromRGBO(226, 232, 240, 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16))),
+                    child: Linkify(
+                      onOpen: (link) {
+                        _launchURL(link.url);
+                      },
+                      options:
+                          const LinkifyOptions(removeWww: true, humanize: true),
+                      text: e.description,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: isDescriptionExpanded ? 999 : 4,
+                      textDirection: TextDirection.ltr,
+                      textAlign: TextAlign.justify,
+                      style: const TextStyle(fontSize: 12, color: themeColor3),
+                      linkStyle: TextStyle(
+                          decorationColor: Colors.blue[500],
+                          color: Colors.blue[500]),
+                    )),
+              ),
+              isDescriptionExpanded ? Container() : const SpaceComponent()
+            ],
           )
         : Container();
   }
