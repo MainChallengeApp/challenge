@@ -9,11 +9,15 @@ class ListItemSearchbarComponent extends StatefulWidget {
       {super.key,
       this.changeList,
       this.searchBarText = "",
-      required this.textEditingController});
+      required this.textEditingController,
+      this.isEnabled = true,
+      this.autoFocus = false});
 
   Function(String)? changeList;
   String searchBarText;
   TextEditingController textEditingController;
+  final bool isEnabled;
+  final bool autoFocus;
 
   @override
   State<ListItemSearchbarComponent> createState() =>
@@ -51,7 +55,9 @@ class _ListItemSearchbarComponentState
                 children: [
                   Expanded(
                     child: TextField(
+                      autofocus: widget.autoFocus,
                       controller: widget.textEditingController,
+                      enabled: widget.isEnabled,
                       onChanged: (value) {
                         setState(() {
                           widget.searchBarText = value;

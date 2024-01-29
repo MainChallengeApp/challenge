@@ -13,10 +13,19 @@ import 'search_challenge_page.dart';
 
 class SearchListPage extends StatefulWidget {
   const SearchListPage(
-      {super.key, required this.title, this.onPush, required this.selectTab});
+      {super.key,
+      required this.title,
+      this.onPush,
+      required this.selectTab,
+      this.isFirstPageInRoute = true,
+      this.initialSearchText = "",
+      this.isSearchBarAutoFocus = false});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
   final Function selectTab;
+  final bool isFirstPageInRoute;
+  final String initialSearchText;
+  final bool isSearchBarAutoFocus;
 
   @override
   State<SearchListPage> createState() => _SearchListPageState();
@@ -33,13 +42,15 @@ class _SearchListPageState extends State<SearchListPage> {
   void initState() {
     super.initState();
     challengesFutures = getChallenges(context);
+    searchBarText = widget.initialSearchText;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            AppBarComponent(preTitle: widget.title, isFirstPageInRoute: true),
+        appBar: AppBarComponent(
+            preTitle: widget.title,
+            isFirstPageInRoute: widget.isFirstPageInRoute),
         body: Container(
           color: Colors.white,
           child: _buildList(),
@@ -78,6 +89,7 @@ class _SearchListPageState extends State<SearchListPage> {
                         // cloumn instead of seperator
                         children: [
                           ListItemSearchbarComponent(
+                            autoFocus: widget.isSearchBarAutoFocus,
                             changeList: changeList,
                             textEditingController:
                                 TextEditingController(text: searchBarText),
