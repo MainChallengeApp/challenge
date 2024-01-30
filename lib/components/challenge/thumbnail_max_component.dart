@@ -69,7 +69,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                       ),
                     ),
                   )
-                : Container()
+                : Container(),
           ],
         ),
       ),

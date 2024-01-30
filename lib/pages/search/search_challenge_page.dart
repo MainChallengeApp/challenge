@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/challenge/thumbnail_max.dart';
+import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';

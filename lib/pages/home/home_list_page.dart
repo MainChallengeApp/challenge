@@ -115,9 +115,7 @@ class _HomeListPageState extends State<HomeListPage> {
                               challenge: challenge, index: index - 1 - 1),
                           challenge: challenge,
                         ),
-                        const SizedBox(
-                          height: 17,
-                        )
+                        const SpaceComponent()
                       ],
                     );
                   }),
