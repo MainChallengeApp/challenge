@@ -15,7 +15,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -33,7 +34,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -51,7 +53,14 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": [
+      "knowledge",
+      "physicalHealth",
+      "mentalHealth",
+      "social",
+      "other"
+    ]
   },
   {
     "status": "backlog",
@@ -69,7 +78,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -87,7 +97,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -105,7 +116,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -123,7 +135,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -141,7 +154,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -159,7 +173,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -177,7 +192,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -195,7 +211,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -213,7 +230,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -231,7 +249,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -249,7 +268,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -267,7 +287,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -285,7 +306,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -303,7 +325,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -321,7 +344,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -339,7 +363,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -357,7 +382,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -375,7 +401,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -393,7 +420,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -411,7 +439,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -429,7 +458,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -447,7 +477,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -465,7 +496,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -483,7 +515,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -501,7 +534,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -519,7 +553,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -537,7 +572,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -555,7 +591,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -573,7 +610,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -591,7 +629,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -609,7 +648,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -627,7 +667,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -645,7 +686,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -663,7 +705,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -681,7 +724,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -699,7 +743,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -717,7 +762,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -735,7 +781,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -753,7 +800,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -771,7 +819,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -789,7 +838,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -807,7 +857,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -825,7 +876,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -843,7 +895,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -861,7 +914,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -879,7 +933,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -897,7 +952,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -915,7 +971,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -933,7 +990,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -951,7 +1009,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -969,7 +1028,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -987,7 +1047,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1005,7 +1066,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1023,7 +1085,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1041,7 +1104,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1059,7 +1123,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1077,7 +1142,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1095,7 +1161,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1113,7 +1180,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1131,7 +1199,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1149,7 +1218,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1167,7 +1237,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1185,7 +1256,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1203,7 +1275,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1221,7 +1294,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1239,7 +1313,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1257,7 +1332,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1275,7 +1351,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1293,7 +1370,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1311,7 +1389,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1329,7 +1408,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1347,7 +1427,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1365,7 +1446,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1383,7 +1465,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1401,7 +1484,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1419,7 +1503,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1437,7 +1522,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1455,7 +1541,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1473,7 +1560,8 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1491,6 +1579,7 @@
         "progress": 0.0
       }
     ],
-    "media": []
+    "media": [],
+    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
   }
 ]

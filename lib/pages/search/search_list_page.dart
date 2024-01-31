@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
@@ -14,18 +15,22 @@ import 'search_challenge_page.dart';
 class SearchListPage extends StatefulWidget {
   const SearchListPage(
       {super.key,
+      this.preTitle = "",
       required this.title,
       this.onPush,
       required this.selectTab,
       this.isFirstPageInRoute = true,
       this.initialSearchText = "",
-      this.isSearchBarAutoFocus = false});
+      this.isSearchBarAutoFocus = false,
+      this.categories = const []});
+  final String preTitle;
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
   final Function selectTab;
   final bool isFirstPageInRoute;
   final String initialSearchText;
   final bool isSearchBarAutoFocus;
+  final List<ChallengeCategoryEnum> categories;
 
   @override
   State<SearchListPage> createState() => _SearchListPageState();
@@ -49,7 +54,8 @@ class _SearchListPageState extends State<SearchListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarComponent(
-            preTitle: widget.title,
+            preTitle: widget.preTitle,
+            titleText: widget.title,
             isFirstPageInRoute: widget.isFirstPageInRoute),
         body: Container(
           color: Colors.white,
@@ -65,6 +71,7 @@ class _SearchListPageState extends State<SearchListPage> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             filteredChallenges = snapshot.data!
+                .where((element) => element.isInCategories(widget.categories))
                 .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
             filteredChallenges.sort((a, b) =>
@@ -144,7 +151,7 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
-          title: widget.title,
+          title: '${widget.preTitle}/${widget.title}',
           challenge: challenge,
           selectTab: widget.selectTab,
           challenges: filteredChallenges,

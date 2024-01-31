@@ -538,7 +538,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: '${widget.title}/${widget.challenge.title}',
+          preTitle: widget.challenge.title,
           challenge: widget.challenge,
           isSearchEdit: true,
         ),

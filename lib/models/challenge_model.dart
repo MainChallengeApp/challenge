@@ -1,3 +1,4 @@
+import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:challenge/enums/challenge_status_enum.dart';
@@ -14,6 +15,7 @@ class ChallengeModel {
   DateTime? endDate;
   List<AcceptanceCriteriaModel> acceptanceCriterias;
   List<MediaModel> media;
+  List<ChallengeCategoryEnum> categories;
 
   ChallengeModel(
       {this.id,
@@ -24,7 +26,8 @@ class ChallengeModel {
       this.startDate,
       this.endDate,
       required this.acceptanceCriterias,
-      required this.media}) {
+      required this.media,
+      this.categories = const []}) {
     if (id == null || id!.isEmpty) {
       id = const Uuid().v4();
     }
@@ -45,7 +48,8 @@ class ChallengeModel {
             : DateTime.parse(json['endDate']),
         acceptanceCriterias:
             AcceptanceCriteriaModel.fromJsonList(json['acceptanceCriteria']),
-        media: MediaModel.fromJsonList(json['media']));
+        media: MediaModel.fromJsonList(json['media']),
+        categories: ChallengeCategoryEnum.fromJsonList(json['categories']));
   }
 
   Map<String, dynamic> toJson() {
@@ -59,7 +63,8 @@ class ChallengeModel {
       'endDate': endDate.toString(),
       'acceptanceCriteria':
           AcceptanceCriteriaModel.toJsonList(acceptanceCriterias),
-      'media': MediaModel.toJsonList(media)
+      'media': MediaModel.toJsonList(media),
+      'categories': ChallengeCategoryEnum.toJsonList(categories)
     };
   }
 
@@ -75,7 +80,9 @@ class ChallengeModel {
         acceptanceCriterias: AcceptanceCriteriaModel.copyAcceptanceCriterias(
             challenge.acceptanceCriterias,
             isTryAgain: isTryAgain),
-        media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media));
+        media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media),
+        categories:
+            ChallengeCategoryEnum.copyCategoryList(challenge.categories));
     return challengeCopy;
   }
 
@@ -92,9 +99,15 @@ class ChallengeModel {
     return false;
   }
 
+  bool isInCategories(List<ChallengeCategoryEnum> categories) {
+    return categories.isEmpty
+        ? true
+        : this.categories.toSet().intersection(categories.toSet()).isNotEmpty;
+  }
+
   @override
   String toString() {
-    return 'Challenge{id: $id, status: $status, title: $title, description: $description, thumbnailPath: $thumbnailPath, startDate: $startDate, endDate: $endDate, acceptanceCriteria: $acceptanceCriterias, media: $media}';
+    return 'Challenge{id: $id, status: $status, title: $title, description: $description, thumbnailPath: $thumbnailPath, startDate: $startDate, endDate: $endDate, acceptanceCriteria: $acceptanceCriterias, media: $media, categories: $categories}';
   }
 
   bool isChallengeCompleted() {

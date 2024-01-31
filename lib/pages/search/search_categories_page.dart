@@ -25,7 +25,7 @@ class SearchCategoriesPage extends StatefulWidget {
 }
 
 class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
-  late Future<List<ChallengeModel>> challengesFutures;
+  late List<ChallengeModel> challenges;
   late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
 
@@ -34,7 +34,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   @override
   void initState() {
     super.initState();
-    challengesFutures = getChallenges(context);
+    getChallenges(context).then((value) => challenges = value);
   }
 
   @override
@@ -91,7 +91,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                           child: CategoryComponent(
                         text: 'Mental Health',
                         imagePath: 'assets/images/categories/mental_health.png',
-                        onTap: () {},
+                        onTap: onTapMentalHealth,
                       )),
                       SpaceComponent(),
                       Expanded(
@@ -99,7 +99,36 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                         text: 'Physical Health',
                         imagePath:
                             'assets/images/categories/physical_health.png',
-                        onTap: () {},
+                        onTap: onTapPhysicalHealth,
+                      )),
+                      SpaceComponent(
+                        width: 20,
+                      ),
+                    ],
+                  ),
+                  SpaceComponent()
+                ],
+              );
+            } else if (index == 2) {
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      SpaceComponent(
+                        width: 20,
+                      ),
+                      Expanded(
+                          child: CategoryComponent(
+                        text: 'Knowledge',
+                        imagePath: 'assets/images/categories/knowledge.png',
+                        onTap: onTapKnowledge,
+                      )),
+                      SpaceComponent(),
+                      Expanded(
+                          child: CategoryComponent(
+                        text: 'Social',
+                        imagePath: 'assets/images/categories/social.png',
+                        onTap: onTapSocial,
                       )),
                       SpaceComponent(
                         width: 20,
@@ -119,38 +148,9 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                       ),
                       Expanded(
                           child: CategoryComponent(
-                        text: 'Knowledge',
-                        imagePath: 'assets/images/categories/knowledge.png',
-                        onTap: () {},
-                      )),
-                      SpaceComponent(),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Social',
-                        imagePath: 'assets/images/categories/social.png',
-                        onTap: () {},
-                      )),
-                      SpaceComponent(
-                        width: 20,
-                      ),
-                    ],
-                  ),
-                  SpaceComponent()
-                ],
-              );
-            } else if (index == 4) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      SpaceComponent(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: CategoryComponent(
                         text: 'Other',
                         imagePath: 'assets/images/categories/other2.png',
-                        onTap: () {},
+                        onTap: onTapOther,
                       )),
                       SpaceComponent(),
                       Expanded(
@@ -158,7 +158,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                         text: 'Recommendation',
                         imagePath:
                             'assets/images/categories/recommendation.png',
-                        onTap: () {},
+                        onTap: onTapRecommendation,
                       )),
                       SpaceComponent(
                         width: 20,
@@ -190,27 +190,13 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     });
   }
 
-  onTapChallenge({required ChallengeModel challenge, required int index}) {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => SearchChallengePage(
-          title: widget.title,
-          challenge: challenge,
-          selectTab: widget.selectTab,
-          challenges: filteredChallenges,
-          initialChalleneIndex: index,
-        ),
-      ),
-    );
-  }
-
   void onTapSearchbar() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-          title: 'Search/All Challenges',
+          title: 'All Challenges',
+          preTitle: 'Search',
           selectTab: widget.selectTab,
           isFirstPageInRoute: false,
           initialSearchText: searchBarText,
@@ -228,6 +214,98 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           title: 'Search/All Challenges',
           selectTab: widget.selectTab,
           isFirstPageInRoute: false,
+        ),
+      ),
+    );
+  }
+
+  void onTapMentalHealth() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchListPage(
+          title: 'Mental Health',
+          preTitle: 'Search',
+          selectTab: widget.selectTab,
+          isFirstPageInRoute: false,
+          categories: const [ChallengeCategoryEnum.mentalHealth],
+        ),
+      ),
+    );
+  }
+
+  void onTapPhysicalHealth() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchListPage(
+          title: 'Physical Health',
+          preTitle: 'Search',
+          selectTab: widget.selectTab,
+          isFirstPageInRoute: false,
+          categories: const [ChallengeCategoryEnum.physicalHealth],
+        ),
+      ),
+    );
+  }
+
+  void onTapKnowledge() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchListPage(
+          title: 'Knowledge',
+          preTitle: 'Search',
+          selectTab: widget.selectTab,
+          isFirstPageInRoute: false,
+          categories: const [ChallengeCategoryEnum.knowledge],
+        ),
+      ),
+    );
+  }
+
+  void onTapSocial() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchListPage(
+          title: 'Social',
+          preTitle: 'Search',
+          selectTab: widget.selectTab,
+          isFirstPageInRoute: false,
+          categories: const [ChallengeCategoryEnum.social],
+        ),
+      ),
+    );
+  }
+
+  void onTapOther() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchListPage(
+          title: 'Other',
+          preTitle: 'Search',
+          selectTab: widget.selectTab,
+          isFirstPageInRoute: false,
+          categories: const [ChallengeCategoryEnum.other],
+        ),
+      ),
+    );
+  }
+
+  void onTapRecommendation() {
+    List<ChallengeModel> challengesCopy = challenges;
+    challengesCopy.shuffle();
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchChallengePage(
+          title: 'Search/Recommendation',
+          selectTab: widget.selectTab,
+          challenge: challengesCopy[0],
+          challenges: challengesCopy,
+          initialChalleneIndex: 0,
         ),
       ),
     );
