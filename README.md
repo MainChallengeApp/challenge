@@ -14,6 +14,7 @@ The app for finding new challenges, tracking and completing them!
 ## Updating Version
 
 1. run `scripts/update_version.sh <'major' | 'minor' | 'patch'>`
+2. run `flutter build ios`
 
 ## Release new Version
 
@@ -22,7 +23,7 @@ The app for finding new challenges, tracking and completing them!
 1. open the project in Xcode
 2. select 'Any iOS Device (arm64)' as Runner
 3. click on Product>Archive
-4. click through
+4. click through and wait till its done
 5. login to https://appstoreconnect.apple.com/
 6. create new version
 7. select the new build version (this can take a while)
