@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 
 import 'no_animation_page_route_component.dart';
@@ -15,9 +14,8 @@ class TabNavigatorComponent extends StatelessWidget {
   final GlobalKey<NavigatorState>? navigatorKey;
   final TabItemEnum tabItem;
 
-  void ppush(BuildContext context,
-      {int challengeId = 0, ChallengeModel? challenge}) {
-    var routeBuilders = prouteBuilders(context, challengeId: challengeId);
+  void ppush(BuildContext context) {
+    var routeBuilders = prouteBuilders(context);
 
     Navigator.push(
       context,
@@ -28,8 +26,7 @@ class TabNavigatorComponent extends StatelessWidget {
     );
   }
 
-  Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
-      {int challengeId = 0, ChallengeModel? challenge}) {
+  Map<String, WidgetBuilder> prouteBuilders(BuildContext context) {
     return {
       TabNavigatorRoutes.root: (context) => const Placeholder(),
       TabNavigatorRoutes.detail: (context) => const Placeholder(),

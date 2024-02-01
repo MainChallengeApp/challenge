@@ -15,9 +15,8 @@ import 'search_challenge_page.dart';
 
 class SearchCategoriesPage extends StatefulWidget {
   const SearchCategoriesPage(
-      {super.key, required this.title, this.onPush, required this.selectTab});
+      {super.key, required this.title, required this.selectTab});
   final String title;
-  final ValueChanged<ChallengeModel>? onPush;
   final Function selectTab;
 
   @override

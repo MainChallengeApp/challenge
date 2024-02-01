@@ -38,6 +38,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
               borderRadius: BorderRadius.all(Radius.circular(16))),
           backgroundColor: themeColor1,
           selectedIndex: widget.currentTab.index,
+          elevation: 0,
           destinations: <Widget>[
             NavigationDestination(
               selectedIcon: Text(
