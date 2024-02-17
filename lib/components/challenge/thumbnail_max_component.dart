@@ -45,8 +45,8 @@ class ThumbnailMaxComponent extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: Container(
                       clipBehavior: Clip.none,
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.all(2),
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8)),

@@ -113,12 +113,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
-                    ThumbnailMaxComponent(
-                        challengeModel: e,
-                        onTapOpenMediaPage: onTapOpenMediaPage),
-                    const SizedBox(
-                      height: 16,
-                    ),
+                    thumbnail(e),
                     description(e),
                     startAndEndDate(e),
                     acceptanceCriteria(e.acceptanceCriterias),
@@ -137,6 +132,16 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               }),
             );
           }).toList()),
+    );
+  }
+
+  thumbnail(ChallengeModel e) {
+    return Column(
+      children: [
+        ThumbnailMaxComponent(
+            challengeModel: e, onTapOpenMediaPage: onTapOpenMediaPage),
+        const SpaceComponent()
+      ],
     );
   }
 
