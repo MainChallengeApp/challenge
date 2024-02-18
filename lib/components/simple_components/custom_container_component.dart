@@ -17,7 +17,7 @@ class CustomContainerComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: double.infinity,
+      width: double.infinity,
       height: 55 * heightFactor,
       padding: const EdgeInsets.all(10),
       margin: margin,

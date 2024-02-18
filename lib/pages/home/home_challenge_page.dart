@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:camera/camera.dart';
+import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
@@ -15,10 +16,8 @@ import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/pages/subpages/acceptance_criteria/acceptance_criteria_evidence_list_page.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
@@ -316,45 +315,30 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  description(ChallengeModel e) {
-    return e.description.isNotEmpty
-        ? Column(
+  description(ChallengeModel challenge) {
+    DescriptionComponent descriptionComponent = DescriptionComponent(
+      challenge: challenge,
+      isDescriptionExpanded: isDescriptionExpanded,
+    );
+    return isDescriptionExpanded
+        ? Expanded(
+            child: GestureDetector(
+                onTap: () => setState(() {
+                      isDescriptionExpanded = !isDescriptionExpanded;
+                    }),
+                child: descriptionComponent))
+        : Column(
             children: [
               GestureDetector(
-                onTap: () => setState(() {
-                  isDescriptionExpanded = !isDescriptionExpanded;
-                }),
-                child: Container(
-                    width: double.infinity,
-                    height: isDescriptionExpanded ? 402 : 80,
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 1,
-                            color: const Color.fromRGBO(226, 232, 240, 1)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16))),
-                    child: Linkify(
-                      onOpen: (link) {
-                        _launchURL(link.url);
-                      },
-                      options:
-                          const LinkifyOptions(removeWww: true, humanize: true),
-                      text: e.description,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: isDescriptionExpanded ? 999 : 4,
-                      textDirection: TextDirection.ltr,
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
-                      linkStyle: TextStyle(
-                          decorationColor: Colors.blue[500],
-                          color: Colors.blue[500]),
-                    )),
-              ),
-              isDescriptionExpanded ? Container() : const SpaceComponent()
+                  onTap: () => setState(() {
+                        isDescriptionExpanded = !isDescriptionExpanded;
+                      }),
+                  child: descriptionComponent),
+              challenge.description.isNotEmpty
+                  ? const SpaceComponent()
+                  : Container()
             ],
-          )
-        : Container();
+          );
   }
 
   void checkChallengeStatus() {
@@ -817,13 +801,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           .firstWhere((element) => element.id == widget.challenge.id)
           .status = widget.challenge.status;
       challengeController.writeFile(context, allChallengesList);
-    }
-  }
-
-  _launchURL(String link) async {
-    final Uri url = Uri.parse(link);
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
     }
   }
 }

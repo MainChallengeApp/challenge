@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -12,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -183,15 +184,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             height: 16,
                           ),
                           description(e),
-                          isDescriptionExpanded
-                              ? Container()
-                              : const SizedBox(
-                                  height: 16,
-                                ),
                           // isDescriptionExpanded
                           //     ? Container()
                           //     : addAcceptanceCriteriaButton(),
-                          // startAndEndDate(e),
                           startAndEndDate(e),
                           amountAndUnit(e),
                           // frequence(e),
@@ -279,32 +274,30 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  GestureDetector description(ChallengeModel e) {
-    return GestureDetector(
-      onTap: () => setState(() {
-        isDescriptionExpanded = !isDescriptionExpanded;
-      }),
-      child: Container(
-          width: double.infinity,
-          height: isDescriptionExpanded ? 402 : 80,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Linkify(
-            onOpen: (link) {
-              _launchURL(link.url);
-            },
-            options: const LinkifyOptions(removeWww: true, humanize: true),
-            text: e.description,
-            overflow: TextOverflow.ellipsis,
-            maxLines: isDescriptionExpanded ? 999 : 4,
-            textDirection: TextDirection.ltr,
-            textAlign: TextAlign.justify,
-            style: const TextStyle(fontSize: 12, color: themeColor3),
-          )),
+  description(ChallengeModel challenge) {
+    DescriptionComponent descriptionComponent = DescriptionComponent(
+      challenge: challenge,
+      isDescriptionExpanded: isDescriptionExpanded,
     );
+    return isDescriptionExpanded
+        ? Expanded(
+            child: GestureDetector(
+                onTap: () => setState(() {
+                      isDescriptionExpanded = !isDescriptionExpanded;
+                    }),
+                child: descriptionComponent))
+        : Column(
+            children: [
+              GestureDetector(
+                  onTap: () => setState(() {
+                        isDescriptionExpanded = !isDescriptionExpanded;
+                      }),
+                  child: descriptionComponent),
+              challenge.description.isNotEmpty
+                  ? const SpaceComponent()
+                  : Container()
+            ],
+          );
   }
 
   onTapOpenMediaPage(BuildContext context) {
