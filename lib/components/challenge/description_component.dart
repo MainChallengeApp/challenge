@@ -18,33 +18,43 @@ class DescriptionComponent extends StatefulWidget {
 class _DescriptionComponentState extends State<DescriptionComponent> {
   @override
   Widget build(BuildContext context) {
+    // return CustomContainerComponent(
+    //   child: SingleChildScrollView(
+    //     scrollDirection: Axis.vertical,
+    //     child: Linkify(
+    //       onOpen: (link) {
+    //         _launchURL(link.url);
+    //       },
+    //       options: const LinkifyOptions(removeWww: true, humanize: true),
+    //       text: widget.challenge.description,
+    //       textAlign: TextAlign.justify,
+    //       style: const TextStyle(fontSize: 12, color: themeColor3),
+    //       linkStyle: TextStyle(
+    //           decorationColor: Colors.blue[500], color: Colors.blue[500]),
+    //     ),
+    //   ),
+    // );
+
     return widget.challenge.description.isNotEmpty
         ? widget.isDescriptionExpanded
-            ? Container(
-                width: double.infinity,
-                // height: 394,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: Linkify(
-                  onOpen: (link) {
-                    _launchURL(link.url);
-                  },
-                  options:
-                      const LinkifyOptions(removeWww: true, humanize: true),
-                  text: widget.challenge.description,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: widget.isDescriptionExpanded ? 999 : 4,
-                  textDirection: TextDirection.ltr,
-                  textAlign: TextAlign.justify,
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                  linkStyle: TextStyle(
-                      decorationColor: Colors.blue[500],
-                      color: Colors.blue[500]),
-                ))
+            ? CustomContainerComponent(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Linkify(
+                    onOpen: (link) {
+                      _launchURL(link.url);
+                    },
+                    options:
+                        const LinkifyOptions(removeWww: true, humanize: true),
+                    text: widget.challenge.description,
+                    textAlign: TextAlign.justify,
+                    style: const TextStyle(fontSize: 12, color: themeColor3),
+                    linkStyle: TextStyle(
+                        decorationColor: Colors.blue[500],
+                        color: Colors.blue[500]),
+                  ),
+                ),
+              )
             : CustomContainerComponent(
                 child: Linkify(
                 onOpen: (link) {

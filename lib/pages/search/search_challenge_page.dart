@@ -169,7 +169,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                     ),
                     child: Builder(builder: (context) {
                       context2 = context;
-                      return CustomCardComponent(
+                      return CardComponent(
                         scrollPhysics: isKeyboardUp
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),

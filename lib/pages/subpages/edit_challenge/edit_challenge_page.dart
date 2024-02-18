@@ -56,7 +56,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
             preTitle: widget.preTitle,
             titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
         backgroundColor: Colors.white,
-        body: CustomCardComponent(
+        body: CardComponent(
           scrollPhysics: const AlwaysScrollableScrollPhysics(),
           children: [
             thumbnailUploadAndTitle(),

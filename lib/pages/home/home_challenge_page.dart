@@ -107,7 +107,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               ),
               child: Builder(builder: (context) {
                 context2 = context;
-                return CustomCardComponent(
+                return CardComponent(
                   scrollPhysics: challengeList.length == 1
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
