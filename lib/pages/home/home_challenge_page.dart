@@ -615,6 +615,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
       selectedAcceptanceCriteria = 0;
+      isDescriptionExpanded = false;
     });
   }
 
