@@ -154,10 +154,10 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                       SpaceComponent(),
                       Expanded(
                           child: CategoryComponent(
-                        text: 'Recommendation',
+                        text: 'Random',
                         imagePath:
                             'assets/images/categories/recommendation.png',
-                        onTap: onTapRecommendation,
+                        onTap: onTapRandom,
                       )),
                       SpaceComponent(
                         width: 20,
@@ -293,7 +293,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     );
   }
 
-  void onTapRecommendation() {
+  void onTapRandom() {
     List<ChallengeModel> challengesCopy = challenges;
     challengesCopy.shuffle();
     Navigator.push(
