@@ -55,19 +55,21 @@ class _ListItemSearchbarComponentState
                 children: [
                   Expanded(
                     child: TextField(
-                      autofocus: widget.autoFocus,
-                      controller: widget.textEditingController,
-                      enabled: widget.isEnabled,
-                      onChanged: (value) {
-                        setState(() {
-                          widget.searchBarText = value;
-                          widget.changeList?.call(value);
-                        });
-                      },
-                      decoration: const InputDecoration.collapsed(
-                        hintText: 'Search',
-                      ),
-                    ),
+                        autofocus: widget.autoFocus,
+                        controller: widget.textEditingController,
+                        enabled: widget.isEnabled,
+                        onChanged: (value) {
+                          setState(() {
+                            widget.searchBarText = value;
+                            widget.changeList?.call(value);
+                          });
+                        },
+                        decoration: const InputDecoration.collapsed(
+                          hintText: 'Search',
+                          hintStyle: TextStyle(
+                            color: themeColor3,
+                          ),
+                        )),
                   ),
                   widget.textEditingController.text == ''
                       ? Container()
