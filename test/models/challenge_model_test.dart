@@ -21,7 +21,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 2,
+                currentProgress: 2,
                 evidences: [])
           ],
           media: []);
@@ -48,7 +48,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 2,
+                currentProgress: 2,
                 evidences: [])
           ],
           media: []);
@@ -74,7 +74,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 2,
+                currentProgress: 2,
                 evidences: []),
             AcceptanceCriteriaModel(
                 id: 2,
@@ -83,7 +83,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: [])
           ],
           media: []);
@@ -110,7 +110,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: []),
             AcceptanceCriteriaModel(
                 id: 2,
@@ -119,7 +119,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: [])
           ],
           media: []);
@@ -146,7 +146,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 2,
+                currentProgress: 2,
                 evidences: []),
             AcceptanceCriteriaModel(
                 id: 2,
@@ -155,7 +155,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: [])
           ],
           media: []);
@@ -182,7 +182,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: []),
             AcceptanceCriteriaModel(
                 id: 2,
@@ -191,7 +191,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: [])
           ],
           endDate: DateTime.now().subtract(const Duration(days: 1)),
@@ -219,7 +219,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: []),
             AcceptanceCriteriaModel(
                 id: 2,
@@ -228,7 +228,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: [])
           ],
           startDate: DateTime.now().add(const Duration(days: 1)),
@@ -256,7 +256,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: []),
             AcceptanceCriteriaModel(
                 id: 2,
@@ -265,7 +265,7 @@ void main() {
                 unit: 'unit',
                 frequence: 'daily',
                 tracking: 'tracking',
-                progress: 1,
+                currentProgress: 1,
                 evidences: [])
           ],
           startDate: DateTime.now().subtract(const Duration(days: 1)),

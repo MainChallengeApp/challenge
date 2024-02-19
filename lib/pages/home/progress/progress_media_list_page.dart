@@ -22,8 +22,8 @@ import 'package:challenge/components/navigation/no_animation_page_route_componen
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 
-class AcceptanceCriteriaMediaListPage extends StatefulWidget {
-  AcceptanceCriteriaMediaListPage(
+class ProgressMediaListPage extends StatefulWidget {
+  ProgressMediaListPage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -38,7 +38,7 @@ class AcceptanceCriteriaMediaListPage extends StatefulWidget {
         unit: acceptanceCriteria.unit,
         frequence: acceptanceCriteria.frequence,
         tracking: acceptanceCriteria.tracking,
-        progress: acceptanceCriteria.progress,
+        currentProgress: acceptanceCriteria.currentProgress,
         evidences: acceptanceCriteria.evidences
             .map((e) =>
                 EvidenceModel(progress: e.progress, mediaIds: e.mediaIds))
@@ -53,12 +53,10 @@ class AcceptanceCriteriaMediaListPage extends StatefulWidget {
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
-  State<AcceptanceCriteriaMediaListPage> createState() =>
-      _AcceptanceCriteriaMediaListPageState();
+  State<ProgressMediaListPage> createState() => _ProgressMediaListPageState();
 }
 
-class _AcceptanceCriteriaMediaListPageState
-    extends State<AcceptanceCriteriaMediaListPage> {
+class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   ChallengeController challengeController = ChallengeController();
   ScrollController scrollController = ScrollController();
 
@@ -85,7 +83,7 @@ class _AcceptanceCriteriaMediaListPageState
           appBar: AppBarComponent(
               preTitle: widget.preTitle,
               titleText: widget.evidence == null
-                  ? 'New Evidence'
+                  ? 'New Progress'
                   : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
           backgroundColor: Colors.white,
           body: Stack(
@@ -117,7 +115,7 @@ class _AcceptanceCriteriaMediaListPageState
                     child: ListItemAcceptanceCriteriaBarComponent(
                       acceptanceCriteria: widget.acceptanceCriteria,
                       initialProgress: widget.evidence?.progress ??
-                          widget.acceptanceCriteria.progress,
+                          widget.acceptanceCriteria.currentProgress,
                       isProgressBarLocked:
                           !widget.isSaveInsteadOfEditButtonVisible,
                       editAcceptanceCriteria: widget.editAcceptanceCriteria,
@@ -235,16 +233,16 @@ class _AcceptanceCriteriaMediaListPageState
       Navigator.pop(context2);
 
       if (widget.challenge.startDate == null &&
-          widget.editAcceptanceCriteria.progress > 0) {
+          widget.editAcceptanceCriteria.currentProgress > 0) {
         widget.challenge.startDate = DateTime.now();
         widget.challenge.status = ChallengeStatusEnum.inProgress;
       }
 
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-      widget.acceptanceCriteria.progress =
-          widget.editAcceptanceCriteria.progress;
+      widget.acceptanceCriteria.currentProgress =
+          widget.editAcceptanceCriteria.currentProgress;
       var evidence = EvidenceModel(
-          progress: widget.acceptanceCriteria.progress,
+          progress: widget.acceptanceCriteria.currentProgress,
           mediaIds: mediaList.map((e) => e.id!).toList());
 
       widget.acceptanceCriteria.evidences.insert(0, evidence);
@@ -365,18 +363,19 @@ class _AcceptanceCriteriaMediaListPageState
             flex: 1,
             child: GestureDetector(
                 onTap: () => setState(() {
-                      if (widget.editAcceptanceCriteria.progress - 1 >= 0) {
-                        widget.editAcceptanceCriteria.progress -= 1;
-                        amountTextEditingController.text =
-                            DesignUtil.doubleAsInt(
-                                    widget.editAcceptanceCriteria.progress)
-                                .toString();
+                      if (widget.editAcceptanceCriteria.currentProgress - 1 >=
+                          0) {
+                        widget.editAcceptanceCriteria.currentProgress -= 1;
+                        amountTextEditingController
+                            .text = DesignUtil.doubleAsInt(
+                                widget.editAcceptanceCriteria.currentProgress)
+                            .toString();
                       } else {
-                        widget.editAcceptanceCriteria.progress = 0;
-                        amountTextEditingController.text =
-                            DesignUtil.doubleAsInt(
-                                    widget.editAcceptanceCriteria.progress)
-                                .toString();
+                        widget.editAcceptanceCriteria.currentProgress = 0;
+                        amountTextEditingController
+                            .text = DesignUtil.doubleAsInt(
+                                widget.editAcceptanceCriteria.currentProgress)
+                            .toString();
                       }
                     }),
                 child: standardContainer(
@@ -390,9 +389,9 @@ class _AcceptanceCriteriaMediaListPageState
             flex: 1,
             child: GestureDetector(
                 onTap: () => setState(() {
-                      widget.editAcceptanceCriteria.progress += 1;
+                      widget.editAcceptanceCriteria.currentProgress += 1;
                       amountTextEditingController.text = DesignUtil.doubleAsInt(
-                              widget.editAcceptanceCriteria.progress)
+                              widget.editAcceptanceCriteria.currentProgress)
                           .toString();
                     }),
                 child: standardContainer(
@@ -406,10 +405,10 @@ class _AcceptanceCriteriaMediaListPageState
             flex: 2,
             child: GestureDetector(
                 onTap: () => setState(() {
-                      widget.editAcceptanceCriteria.progress =
+                      widget.editAcceptanceCriteria.currentProgress =
                           widget.acceptanceCriteria.amount;
                       amountTextEditingController.text = DesignUtil.doubleAsInt(
-                              widget.editAcceptanceCriteria.progress)
+                              widget.editAcceptanceCriteria.currentProgress)
                           .toString();
                     }),
                 child: standardContainer(
@@ -437,7 +436,7 @@ class _AcceptanceCriteriaMediaListPageState
                     textAlign: TextAlign.end,
                     controller: amountTextEditingController
                       ..text = DesignUtil.doubleAsInt(
-                              widget.editAcceptanceCriteria.progress)
+                              widget.editAcceptanceCriteria.currentProgress)
                           .toString(),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
@@ -455,12 +454,14 @@ class _AcceptanceCriteriaMediaListPageState
                         double number = 0;
                         if (value.endsWith('.')) {
                           number = double.parse(value.split('.')[0]);
-                          widget.editAcceptanceCriteria.progress = number;
+                          widget.editAcceptanceCriteria.currentProgress =
+                              number;
                         } else if (value == '') {
-                          widget.editAcceptanceCriteria.progress = 0;
+                          widget.editAcceptanceCriteria.currentProgress = 0;
                         } else {
                           number = double.parse(value);
-                          widget.editAcceptanceCriteria.progress = number;
+                          widget.editAcceptanceCriteria.currentProgress =
+                              number;
                         }
                       });
                     },

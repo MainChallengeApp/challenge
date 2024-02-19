@@ -688,7 +688,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               unit: '',
               frequence: '',
               tracking: '',
-              progress: 0,
+              currentProgress: 0,
               evidences: []),
           acceptanceCriteriaIndex: null,
         ),

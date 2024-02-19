@@ -12,7 +12,7 @@ void main() {
           unit: 'unit',
           frequence: 'daily',
           tracking: 'tracking',
-          progress: 1,
+          currentProgress: 1,
           evidences: []);
 
       // Act
@@ -31,7 +31,7 @@ void main() {
           unit: 'unit',
           frequence: 'daily',
           tracking: 'tracking',
-          progress: 1,
+          currentProgress: 1,
           evidences: []);
 
       // Act
@@ -50,7 +50,7 @@ void main() {
           unit: 'unit',
           frequence: 'daily',
           tracking: 'tracking',
-          progress: 1,
+          currentProgress: 1,
           evidences: []);
 
       // Act
@@ -71,7 +71,7 @@ void main() {
           unit: 'unit',
           frequence: 'daily',
           tracking: 'tracking',
-          progress: 1,
+          currentProgress: 1,
           evidences: []);
 
       // Act
@@ -90,7 +90,7 @@ void main() {
           unit: 'unit',
           frequence: 'daily',
           tracking: 'tracking',
-          progress: 2,
+          currentProgress: 2,
           evidences: []);
 
       // Act
@@ -109,7 +109,7 @@ void main() {
           unit: 'unit',
           frequence: 'daily',
           tracking: 'tracking',
-          progress: 2,
+          currentProgress: 2,
           evidences: []);
 
       // Act
@@ -133,7 +133,7 @@ void main() {
             unit: 'unit',
             frequence: 'daily',
             tracking: 'tracking',
-            progress: 1,
+            currentProgress: 1,
             evidences: []),
         AcceptanceCriteriaModel(
             id: 2,
@@ -142,7 +142,7 @@ void main() {
             unit: 'unit',
             frequence: 'daily',
             tracking: 'tracking',
-            progress: 1,
+            currentProgress: 1,
             evidences: [])
       ];
 
@@ -155,8 +155,8 @@ void main() {
       expect(acceptanceCriteriasCopy[0].id, equals(acceptanceCriterias[0].id));
       expect(acceptanceCriteriasCopy[0].frequence,
           equals(acceptanceCriterias[0].frequence));
-      expect(acceptanceCriteriasCopy[0].progress,
-          equals(acceptanceCriterias[0].progress));
+      expect(acceptanceCriteriasCopy[0].currentProgress,
+          equals(acceptanceCriterias[0].currentProgress));
       expect(acceptanceCriteriasCopy[0].title,
           equals(acceptanceCriterias[0].title));
       expect(acceptanceCriteriasCopy[0].amount,
@@ -169,8 +169,8 @@ void main() {
       expect(acceptanceCriteriasCopy[1].id, equals(acceptanceCriterias[1].id));
       expect(acceptanceCriteriasCopy[1].frequence,
           equals(acceptanceCriterias[1].frequence));
-      expect(acceptanceCriteriasCopy[1].progress,
-          equals(acceptanceCriterias[1].progress));
+      expect(acceptanceCriteriasCopy[1].currentProgress,
+          equals(acceptanceCriterias[1].currentProgress));
       expect(acceptanceCriteriasCopy[1].title,
           equals(acceptanceCriterias[1].title));
       expect(acceptanceCriteriasCopy[1].amount,

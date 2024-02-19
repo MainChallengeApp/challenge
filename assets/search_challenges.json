@@ -12,7 +12,7 @@
         "unit": "Act",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -31,7 +31,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -50,7 +50,7 @@
         "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -69,7 +69,7 @@
         "unit": "Km",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -88,7 +88,7 @@
         "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -107,7 +107,7 @@
         "unit": "List",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -126,7 +126,7 @@
         "unit": "Jump",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -145,7 +145,7 @@
         "unit": "Hours",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -164,7 +164,7 @@
         "unit": "Stairs",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -183,7 +183,7 @@
         "unit": "Showers",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -202,7 +202,7 @@
         "unit": "Thing",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -221,7 +221,7 @@
         "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -240,7 +240,7 @@
         "unit": "Entries",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -259,7 +259,7 @@
         "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -278,7 +278,7 @@
         "unit": "Optimization",
         "frequence": "monthly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -297,7 +297,7 @@
         "unit": "Dive",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -316,7 +316,7 @@
         "unit": "Donation",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -335,7 +335,7 @@
         "unit": "Drawing",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -354,7 +354,7 @@
         "unit": "Entries",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -373,7 +373,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -392,7 +392,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -411,7 +411,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -430,7 +430,7 @@
         "unit": "Presentation",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -449,7 +449,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -468,7 +468,7 @@
         "unit": "Place",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -487,7 +487,7 @@
         "unit": "Fear",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -506,7 +506,7 @@
         "unit": "Fish",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -525,7 +525,7 @@
         "unit": "Execution",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -544,7 +544,7 @@
         "unit": "Person",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -563,7 +563,7 @@
         "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -582,7 +582,7 @@
         "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -601,7 +601,7 @@
         "unit": "Entries",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -620,7 +620,7 @@
         "unit": "Feedback",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -639,7 +639,7 @@
         "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -658,7 +658,7 @@
         "unit": "Min",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -677,7 +677,7 @@
         "unit": "Meters",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -696,7 +696,7 @@
         "unit": "Km",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -715,7 +715,7 @@
         "unit": "Flight",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -734,7 +734,7 @@
         "unit": "Min",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -753,7 +753,7 @@
         "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -772,7 +772,7 @@
         "unit": "Session",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -791,7 +791,7 @@
         "unit": "Euro",
         "frequence": "monthly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -810,7 +810,7 @@
         "unit": "Km",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -829,7 +829,7 @@
         "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -848,7 +848,7 @@
         "unit": "Meditations",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -867,7 +867,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -886,7 +886,7 @@
         "unit": "City",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -905,7 +905,7 @@
         "unit": "Culture",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -924,7 +924,7 @@
         "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -943,7 +943,7 @@
         "unit": "Session",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -962,7 +962,7 @@
         "unit": "Person",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -981,7 +981,7 @@
         "unit": "Recipes",
         "frequence": "monthly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1000,7 +1000,7 @@
         "unit": "Night",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1019,7 +1019,7 @@
         "unit": "Friend",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1038,7 +1038,7 @@
         "unit": "Works of art",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1057,7 +1057,7 @@
         "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1076,7 +1076,7 @@
         "unit": "Photos",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1095,7 +1095,7 @@
         "unit": "Min",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1114,7 +1114,7 @@
         "unit": "Episodes",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1133,7 +1133,7 @@
         "unit": "Session",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1152,7 +1152,7 @@
         "unit": "Work of art",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1171,7 +1171,7 @@
         "unit": "Presentation",
         "frequence": "monthly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1190,7 +1190,7 @@
         "unit": "Push-ups",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1209,7 +1209,7 @@
         "unit": "Book",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1228,7 +1228,7 @@
         "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1247,7 +1247,7 @@
         "unit": "Km",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1266,7 +1266,7 @@
         "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1285,7 +1285,7 @@
         "unit": "Min",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1304,7 +1304,7 @@
         "unit": "Jump",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1323,7 +1323,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1342,7 +1342,7 @@
         "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1361,7 +1361,7 @@
         "unit": "Steps",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1380,7 +1380,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1399,7 +1399,7 @@
         "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1418,7 +1418,7 @@
         "unit": "Session",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1437,7 +1437,7 @@
         "unit": "Sessions",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1456,7 +1456,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1475,7 +1475,7 @@
         "unit": "Sessions",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1494,7 +1494,7 @@
         "unit": "Days",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1513,7 +1513,7 @@
         "unit": "Days",
         "frequence": "weekly",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1532,7 +1532,7 @@
         "unit": "Session",
         "frequence": "once",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1551,7 +1551,7 @@
         "unit": "Days",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],
@@ -1570,7 +1570,7 @@
         "unit": "Sessions",
         "frequence": "daily",
         "tracking": "camera",
-        "progress": 0.0
+        "currentProgress": 0.0
       }
     ],
     "media": [],

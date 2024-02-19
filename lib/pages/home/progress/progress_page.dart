@@ -1,6 +1,7 @@
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -11,10 +12,10 @@ import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/evidence_model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
-import 'acceptance_criteria_media_list_page.dart';
+import 'progress_media_list_page.dart';
 
-class AcceptanceCriteriaEvidenceListPage extends StatefulWidget {
-  const AcceptanceCriteriaEvidenceListPage(
+class ProgressPage extends StatefulWidget {
+  const ProgressPage(
       {super.key,
       required this.preTitle,
       required this.challenge,
@@ -24,12 +25,10 @@ class AcceptanceCriteriaEvidenceListPage extends StatefulWidget {
   final AcceptanceCriteriaModel acceptanceCriteria;
 
   @override
-  State<AcceptanceCriteriaEvidenceListPage> createState() =>
-      _AcceptanceCriteriaEvidenceListPageState();
+  State<ProgressPage> createState() => _ProgressPageState();
 }
 
-class _AcceptanceCriteriaEvidenceListPageState
-    extends State<AcceptanceCriteriaEvidenceListPage> {
+class _ProgressPageState extends State<ProgressPage> {
   ScrollController scrollController = ScrollController();
 
   @override
@@ -49,7 +48,7 @@ class _AcceptanceCriteriaEvidenceListPageState
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.preTitle,
-          titleText: 'Evidences',
+          titleText: 'Progress',
         ),
         backgroundColor: Colors.white,
         body: Stack(
@@ -69,38 +68,36 @@ class _AcceptanceCriteriaEvidenceListPageState
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: widget.acceptanceCriteria.evidences.length +
-              1, // +1 for new Evidence
+              1, // +1 for new Progress
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              return newEvidence();
+              return newProgress();
             }
 
             EvidenceModel evidence = widget
                 .acceptanceCriteria.evidences[index - 1]; // -1 for new Evidence
-            return evidenceListItem(evidence);
+            return progressListItem(evidence);
           }),
     );
   }
 
-  Column newEvidence() {
+  Column newProgress() {
     return Column(
       children: [
         ListItemIconSmallComponent(
             onTap: () => onTapNewEvidence(),
             icon: Icons.add,
-            title: 'New Evidence'),
-        const SizedBox(
-          height: 17,
-        )
+            title: 'New Progress'),
+        const SpaceComponent()
       ],
     );
   }
 
-  Column evidenceListItem(EvidenceModel evidence) {
+  Column progressListItem(EvidenceModel evidence) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () => onTapEvidence(evidence),
+          onTap: () => onTapProgress(evidence),
           child: ListItemAcceptanceCriteriaBarComponent(
             acceptanceCriteria: widget.acceptanceCriteria,
             isProgressBarLocked: true,
@@ -109,9 +106,7 @@ class _AcceptanceCriteriaEvidenceListPageState
             isFailed: widget.challenge.status == ChallengeStatusEnum.failed,
           ),
         ),
-        const SizedBox(
-          height: 17,
-        )
+        const SpaceComponent()
       ],
     );
   }
@@ -139,12 +134,12 @@ class _AcceptanceCriteriaEvidenceListPageState
     );
   }
 
-  onTapEvidence(EvidenceModel evidence) {
+  onTapProgress(EvidenceModel evidence) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => AcceptanceCriteriaMediaListPage(
-          preTitle: '${widget.preTitle}/Evidences',
+        builder: (context) => ProgressMediaListPage(
+          preTitle: '${widget.preTitle}/Progress',
           initialMediaList: widget.challenge.media
               .where((element) => evidence.mediaIds.contains(element.id))
               .toList(),
@@ -194,8 +189,8 @@ class _AcceptanceCriteriaEvidenceListPageState
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => AcceptanceCriteriaMediaListPage(
-            preTitle: '${widget.preTitle}/Evidences',
+        builder: (context) => ProgressMediaListPage(
+            preTitle: '${widget.preTitle}/Progress',
             challenge: widget.challenge,
             initialMediaList: [],
             acceptanceCriteria: widget.acceptanceCriteria),

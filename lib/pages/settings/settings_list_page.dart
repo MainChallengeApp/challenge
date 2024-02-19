@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/models/account_model.dart';
-import 'package:challenge/pages/subpages/credits/credits_page.dart';
+import 'package:challenge/pages/settings/credits/credits_page.dart';
 
 class SettingsListPage extends StatefulWidget {
   const SettingsListPage({super.key, required this.title, this.onPush});

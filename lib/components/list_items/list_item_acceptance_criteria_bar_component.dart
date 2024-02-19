@@ -21,7 +21,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
         unit: 'unit',
         frequence: 'daily',
         tracking: 'camera',
-        progress: initialProgress,
+        currentProgress: initialProgress,
         evidences: []);
   }
 
@@ -44,10 +44,10 @@ class _ListItemAcceptanceCriteriaBarComponentState
     // TODO: implement initState
     super.initState();
     if (widget.initialProgress != 0) {
-      widget.editAcceptanceCriteria!.progress = widget.initialProgress;
+      widget.editAcceptanceCriteria!.currentProgress = widget.initialProgress;
     } else {
-      widget.editAcceptanceCriteria!.progress =
-          widget.acceptanceCriteria.progress;
+      widget.editAcceptanceCriteria!.currentProgress =
+          widget.acceptanceCriteria.currentProgress;
     }
   }
 
@@ -141,7 +141,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
                     child: Text(
                         widget.isEvidence
                             ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
-                            : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.progress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}',
+                            : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.currentProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}',
                         style:
                             const TextStyle(fontSize: 12, color: themeColor3),
                         overflow: TextOverflow.ellipsis),

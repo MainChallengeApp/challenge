@@ -7,7 +7,7 @@ class AcceptanceCriteriaModel {
   String unit;
   String frequence;
   String tracking;
-  double progress;
+  double currentProgress;
   List<EvidenceModel> evidences;
 
   AcceptanceCriteriaModel(
@@ -17,7 +17,7 @@ class AcceptanceCriteriaModel {
       required this.unit,
       required this.frequence,
       required this.tracking,
-      required this.progress,
+      required this.currentProgress,
       required this.evidences});
 
   static List<AcceptanceCriteriaModel> fromJsonList(json) {
@@ -29,7 +29,7 @@ class AcceptanceCriteriaModel {
         unit: e['unit'],
         frequence: e['frequence'],
         tracking: e['tracking'],
-        progress: e['progress'],
+        currentProgress: e['currentProgress'],
         evidences: EvidenceModel.fromJsonList(e['evidences']))));
     return list;
   }
@@ -43,7 +43,7 @@ class AcceptanceCriteriaModel {
               'unit': e.unit,
               'frequence': e.frequence,
               'tracking': e.tracking,
-              'progress': e.progress,
+              'progress': e.currentProgress,
               'evidences': EvidenceModel.toJsonList(e.evidences)
             })
         .toList();
@@ -72,7 +72,7 @@ class AcceptanceCriteriaModel {
         unit: ac.unit,
         frequence: ac.frequence,
         tracking: ac.tracking,
-        progress: isTryAgain ? 0 : ac.progress,
+        currentProgress: isTryAgain ? 0 : ac.currentProgress,
         evidences:
             isTryAgain ? [] : EvidenceModel.copyEvidenceList(ac.evidences));
   }
@@ -81,7 +81,7 @@ class AcceptanceCriteriaModel {
     if (amount == 0) {
       return 1;
     }
-    return progress / amount;
+    return currentProgress / amount;
   }
 
   bool isCompleted() {
