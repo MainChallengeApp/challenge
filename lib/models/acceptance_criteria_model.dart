@@ -8,7 +8,7 @@ class AcceptanceCriteriaModel {
   String frequence;
   String tracking;
   double currentProgress;
-  List<EvidenceModel> evidences;
+  List<ProgressModel> progress;
 
   AcceptanceCriteriaModel(
       {required this.id,
@@ -18,7 +18,7 @@ class AcceptanceCriteriaModel {
       required this.frequence,
       required this.tracking,
       required this.currentProgress,
-      required this.evidences});
+      required this.progress});
 
   static List<AcceptanceCriteriaModel> fromJsonList(json) {
     List<AcceptanceCriteriaModel> list = [];
@@ -30,7 +30,7 @@ class AcceptanceCriteriaModel {
         frequence: e['frequence'],
         tracking: e['tracking'],
         currentProgress: e['currentProgress'],
-        evidences: EvidenceModel.fromJsonList(e['evidences']))));
+        progress: ProgressModel.fromJsonList(e['progress']))));
     return list;
   }
 
@@ -43,8 +43,8 @@ class AcceptanceCriteriaModel {
               'unit': e.unit,
               'frequence': e.frequence,
               'tracking': e.tracking,
-              'progress': e.currentProgress,
-              'evidences': EvidenceModel.toJsonList(e.evidences)
+              'currentProgress': e.currentProgress,
+              'progress': ProgressModel.toJsonList(e.progress)
             })
         .toList();
   }
@@ -73,8 +73,8 @@ class AcceptanceCriteriaModel {
         frequence: ac.frequence,
         tracking: ac.tracking,
         currentProgress: isTryAgain ? 0 : ac.currentProgress,
-        evidences:
-            isTryAgain ? [] : EvidenceModel.copyEvidenceList(ac.evidences));
+        progress:
+            isTryAgain ? [] : ProgressModel.copyEvidenceList(ac.progress));
   }
 
   double calcProgressRatio() {

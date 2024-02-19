@@ -39,9 +39,9 @@ class ProgressMediaListPage extends StatefulWidget {
         frequence: acceptanceCriteria.frequence,
         tracking: acceptanceCriteria.tracking,
         currentProgress: acceptanceCriteria.currentProgress,
-        evidences: acceptanceCriteria.evidences
+        progress: acceptanceCriteria.progress
             .map((e) =>
-                EvidenceModel(progress: e.progress, mediaIds: e.mediaIds))
+                ProgressModel(progress: e.progress, mediaIds: e.mediaIds))
             .toList());
   }
   final String preTitle;
@@ -49,7 +49,7 @@ class ProgressMediaListPage extends StatefulWidget {
   final List<MediaModel> initialMediaList;
   final AcceptanceCriteriaModel acceptanceCriteria;
   late AcceptanceCriteriaModel editAcceptanceCriteria;
-  final EvidenceModel? evidence;
+  final ProgressModel? evidence;
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
@@ -84,7 +84,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               preTitle: widget.preTitle,
               titleText: widget.evidence == null
                   ? 'New Progress'
-                  : '${widget.acceptanceCriteria.evidences.length - widget.acceptanceCriteria.evidences.indexOf(widget.evidence!)}'),
+                  : '${widget.acceptanceCriteria.progress.length - widget.acceptanceCriteria.progress.indexOf(widget.evidence!)}'),
           backgroundColor: Colors.white,
           body: Stack(
             children: [_buildList(), progressButton()],
@@ -241,11 +241,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       widget.acceptanceCriteria.currentProgress =
           widget.editAcceptanceCriteria.currentProgress;
-      var evidence = EvidenceModel(
+      var evidence = ProgressModel(
           progress: widget.acceptanceCriteria.currentProgress,
           mediaIds: mediaList.map((e) => e.id!).toList());
 
-      widget.acceptanceCriteria.evidences.insert(0, evidence);
+      widget.acceptanceCriteria.progress.insert(0, evidence);
       allChallengesList
           .firstWhere((element) => element.id == widget.challenge.id)
           .acceptanceCriterias

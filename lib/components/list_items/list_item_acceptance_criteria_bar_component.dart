@@ -22,7 +22,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
         frequence: 'daily',
         tracking: 'camera',
         currentProgress: initialProgress,
-        evidences: []);
+        progress: []);
   }
 
   final AcceptanceCriteriaModel acceptanceCriteria;

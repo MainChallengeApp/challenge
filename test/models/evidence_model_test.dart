@@ -12,7 +12,7 @@ void main() {
         }
       ];
       // Act
-      List<EvidenceModel> evidences = EvidenceModel.fromJsonList(json);
+      List<ProgressModel> evidences = ProgressModel.fromJsonList(json);
       // Assert
       expect(evidences[0].progress, equals(1.0));
       expect(evidences[0].mediaIds, equals(['1', '2', '3']));

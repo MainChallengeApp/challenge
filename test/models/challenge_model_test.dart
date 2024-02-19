@@ -22,7 +22,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 2,
-                evidences: [])
+                progress: [])
           ],
           media: []);
       // Act
@@ -49,7 +49,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 2,
-                evidences: [])
+                progress: [])
           ],
           media: []);
       // Act
@@ -75,7 +75,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 2,
-                evidences: []),
+                progress: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -84,7 +84,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: [])
+                progress: [])
           ],
           media: []);
       // Act
@@ -111,7 +111,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: []),
+                progress: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -120,7 +120,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: [])
+                progress: [])
           ],
           media: []);
       // Act
@@ -147,7 +147,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 2,
-                evidences: []),
+                progress: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -156,7 +156,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: [])
+                progress: [])
           ],
           media: []);
       // Act
@@ -183,7 +183,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: []),
+                progress: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -192,7 +192,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: [])
+                progress: [])
           ],
           endDate: DateTime.now().subtract(const Duration(days: 1)),
           media: []);
@@ -220,7 +220,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: []),
+                progress: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -229,7 +229,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: [])
+                progress: [])
           ],
           startDate: DateTime.now().add(const Duration(days: 1)),
           media: []);
@@ -257,7 +257,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: []),
+                progress: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -266,7 +266,7 @@ void main() {
                 frequence: 'daily',
                 tracking: 'tracking',
                 currentProgress: 1,
-                evidences: [])
+                progress: [])
           ],
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)),

@@ -155,7 +155,7 @@ class _HomeListPageState extends State<HomeListPage> {
         frequence: 'once',
         tracking: 'camera',
         currentProgress: 0,
-        evidences: []);
+        progress: []);
     final ChallengeModel challenge = ChallengeModel(
         status: ChallengeStatusEnum.inProgress,
         title: '',

@@ -1,31 +1,31 @@
 import 'media_model.dart';
 
-class EvidenceModel {
+class ProgressModel {
   double progress;
   List<String> mediaIds;
 
-  EvidenceModel({required this.progress, required this.mediaIds});
+  ProgressModel({required this.progress, required this.mediaIds});
 
   static fromJsonList(json) {
-    List<EvidenceModel> list = [];
-    json?.forEach((e) => list.add(EvidenceModel(
+    List<ProgressModel> list = [];
+    json?.forEach((e) => list.add(ProgressModel(
         progress: e['progress'], mediaIds: List.from(e['mediaIds']))));
     return list;
   }
 
-  static toJsonList(List<EvidenceModel> evidences) {
-    return evidences
-        .map((e) => {'progress': e.progress, 'mediaIds': e.mediaIds})
+  static toJsonList(List<ProgressModel> progress) {
+    return progress
+        .map((p) => {'progress': p.progress, 'mediaIds': p.mediaIds})
         .toList();
   }
 
-  static copyEvidenceList(List<EvidenceModel> evidences) {
-    List<EvidenceModel> EvidenceListCopy = [];
-    for (var e in EvidenceListCopy) {
-      EvidenceListCopy.add(EvidenceModel(
+  static copyEvidenceList(List<ProgressModel> progress) {
+    List<ProgressModel> progressListCopy = [];
+    for (var e in progressListCopy) {
+      progressListCopy.add(ProgressModel(
           progress: e.progress,
           mediaIds: MediaModel.copyMediaIdList(e.mediaIds)));
     }
-    return EvidenceListCopy;
+    return progressListCopy;
   }
 }

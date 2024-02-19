@@ -67,15 +67,15 @@ class _ProgressPageState extends State<ProgressPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.acceptanceCriteria.evidences.length +
+          itemCount: widget.acceptanceCriteria.progress.length +
               1, // +1 for new Progress
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return newProgress();
             }
 
-            EvidenceModel evidence = widget
-                .acceptanceCriteria.evidences[index - 1]; // -1 for new Evidence
+            ProgressModel evidence = widget
+                .acceptanceCriteria.progress[index - 1]; // -1 for new Evidence
             return progressListItem(evidence);
           }),
     );
@@ -93,7 +93,7 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  Column progressListItem(EvidenceModel evidence) {
+  Column progressListItem(ProgressModel evidence) {
     return Column(
       children: [
         GestureDetector(
@@ -134,7 +134,7 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  onTapProgress(EvidenceModel evidence) {
+  onTapProgress(ProgressModel evidence) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

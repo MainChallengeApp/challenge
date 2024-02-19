@@ -103,7 +103,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
         widget.media.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
         widget.challenge.acceptanceCriterias.forEach((a) {
-          a.evidences.forEach((e) {
+          a.progress.forEach((e) {
             e.mediaIds.removeWhere((mediaId) => mediaId == media.id);
           });
         });

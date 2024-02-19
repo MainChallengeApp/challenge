@@ -13,7 +13,7 @@ void main() {
           frequence: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
-          evidences: []);
+          progress: []);
 
       // Act
       double progressRatio = acceptanceCriteria.calcProgressRatio();
@@ -32,7 +32,7 @@ void main() {
           frequence: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
-          evidences: []);
+          progress: []);
 
       // Act
       double progressRatio = acceptanceCriteria.calcProgressRatio();
@@ -51,7 +51,7 @@ void main() {
           frequence: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
-          evidences: []);
+          progress: []);
 
       // Act
       double progressRatio = acceptanceCriteria.calcProgressRatio();
@@ -72,7 +72,7 @@ void main() {
           frequence: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
-          evidences: []);
+          progress: []);
 
       // Act
       bool isComplete = acceptanceCriteria.isCompleted();
@@ -91,7 +91,7 @@ void main() {
           frequence: 'daily',
           tracking: 'tracking',
           currentProgress: 2,
-          evidences: []);
+          progress: []);
 
       // Act
       bool isComplete = acceptanceCriteria.isCompleted();
@@ -110,7 +110,7 @@ void main() {
           frequence: 'daily',
           tracking: 'tracking',
           currentProgress: 2,
-          evidences: []);
+          progress: []);
 
       // Act
       bool isComplete = acceptanceCriteria.isCompleted();
@@ -134,7 +134,7 @@ void main() {
             frequence: 'daily',
             tracking: 'tracking',
             currentProgress: 1,
-            evidences: []),
+            progress: []),
         AcceptanceCriteriaModel(
             id: 2,
             title: 'title',
@@ -143,7 +143,7 @@ void main() {
             frequence: 'daily',
             tracking: 'tracking',
             currentProgress: 1,
-            evidences: [])
+            progress: [])
       ];
 
       // Act
@@ -163,8 +163,8 @@ void main() {
           equals(acceptanceCriterias[0].amount));
       expect(
           acceptanceCriteriasCopy[0].unit, equals(acceptanceCriterias[0].unit));
-      expect(acceptanceCriteriasCopy[0].evidences,
-          equals(acceptanceCriterias[0].evidences));
+      expect(acceptanceCriteriasCopy[0].progress,
+          equals(acceptanceCriterias[0].progress));
 
       expect(acceptanceCriteriasCopy[1].id, equals(acceptanceCriterias[1].id));
       expect(acceptanceCriteriasCopy[1].frequence,
@@ -177,8 +177,8 @@ void main() {
           equals(acceptanceCriterias[1].amount));
       expect(
           acceptanceCriteriasCopy[1].unit, equals(acceptanceCriterias[1].unit));
-      expect(acceptanceCriteriasCopy[1].evidences,
-          equals(acceptanceCriterias[1].evidences));
+      expect(acceptanceCriteriasCopy[1].progress,
+          equals(acceptanceCriterias[1].progress));
     });
   });
 }
