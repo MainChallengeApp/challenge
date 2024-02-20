@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:challenge/globals.dart';
-
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final String preTitle;
   final String? titleText;
   final Color textColor;
   final Color backgroundColor;
   final bool isFirstPageInRoute;
+
+  final double appBarFontSize = 21;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

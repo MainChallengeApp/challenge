@@ -88,17 +88,17 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                       ),
                       Expanded(
                           child: CategoryComponent(
-                        text: 'Mental Health',
+                        text: 'Mental',
                         imagePath: 'assets/images/categories/mental_health.png',
-                        onTap: onTapMentalHealth,
+                        onTap: onTapMental,
                       )),
                       SpaceComponent(),
                       Expanded(
                           child: CategoryComponent(
-                        text: 'Physical Health',
+                        text: 'Physical',
                         imagePath:
                             'assets/images/categories/physical_health.png',
-                        onTap: onTapPhysicalHealth,
+                        onTap: onTapPhysical,
                       )),
                       SpaceComponent(
                         width: 20,
@@ -118,9 +118,9 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                       ),
                       Expanded(
                           child: CategoryComponent(
-                        text: 'Knowledge',
+                        text: 'Learning',
                         imagePath: 'assets/images/categories/knowledge.png',
-                        onTap: onTapKnowledge,
+                        onTap: onTapLearning,
                       )),
                       SpaceComponent(),
                       Expanded(
@@ -218,12 +218,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     );
   }
 
-  void onTapMentalHealth() {
+  void onTapMental() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-          title: 'Mental Health',
+          title: 'Mental',
           preTitle: 'Search',
           selectTab: widget.selectTab,
           isFirstPageInRoute: false,
@@ -233,12 +233,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     );
   }
 
-  void onTapPhysicalHealth() {
+  void onTapPhysical() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-          title: 'Physical Health',
+          title: 'Physical',
           preTitle: 'Search',
           selectTab: widget.selectTab,
           isFirstPageInRoute: false,
@@ -248,7 +248,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     );
   }
 
-  void onTapKnowledge() {
+  void onTapLearning() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
