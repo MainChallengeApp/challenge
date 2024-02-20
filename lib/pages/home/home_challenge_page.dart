@@ -71,7 +71,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     widget.challenge = challengeList[
         currentChallengeIndex]; // dirty workaround - the problem is related to the feature to unvisible the BottomNavBar
     currentTitle = widget.challenge.title;
-    checkChallengeStatus();
+    widget.challenge.checkChallengeStatus();
 
     return Scaffold(
       appBar:
@@ -783,7 +783,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 widget.challenge,
                 isTryAgain: true);
             return EditChallengePage(
-              preTitle: widget.preTitle,
+              preTitle: '${widget.preTitle}/${widget.challenge.title}',
               challenge: challenge,
               isTryAgain: true,
             );
