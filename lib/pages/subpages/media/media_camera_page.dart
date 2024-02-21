@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:camera/camera.dart';
 import 'package:challenge/components/media/video_thumbnail_component.dart';
 import 'package:challenge/pages/home/progress/progress_media_list_page.dart';
@@ -209,7 +211,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             //   ),
             // ).then((_) => setState(() {}));
           } on Exception catch (e) {
-            print(e);
+            log(e.toString());
           }
         } else {
           // Take the Picture in a try / catch block. If anything goes wrong,
@@ -234,7 +236,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             });
           } catch (e) {
             // If an error occurs, log the error to the console.
-            print(e);
+            log(e.toString());
           }
         }
       },
@@ -248,7 +250,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             await _controller.startVideoRecording();
           } catch (e) {
             // If an error occurs, log the error to the console.
-            print(e);
+            log(e.toString());
           }
         }
       },

@@ -1,5 +1,7 @@
 // Currently not used in v1.0.0
 // Refactor/Clean when used...
+import 'dart:developer';
+
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -424,7 +426,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
       Navigator.pop(context);
     } catch (e) {
       // Todo: Fehlerbehebung
-      print(e);
+      log(e.toString());
     }
   }
 

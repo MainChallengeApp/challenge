@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 
@@ -47,7 +48,7 @@ class ChallengeController {
 
       // You can display a success message or handle any other logic here.
     } catch (e) {
-      print("Error writing JSON file: $e");
+      log("Error writing JSON file: $e");
       // Handle the error, e.g., show an error message to the user.
     }
   }
