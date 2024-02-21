@@ -10,11 +10,10 @@ class VideoThumbnailComponent extends StatefulWidget {
       : super(key: key);
 
   @override
-  _VideoThumbnailComponentState createState() =>
-      _VideoThumbnailComponentState();
+  VideoThumbnailComponentState createState() => VideoThumbnailComponentState();
 }
 
-class _VideoThumbnailComponentState extends State<VideoThumbnailComponent> {
+class VideoThumbnailComponentState extends State<VideoThumbnailComponent> {
   late VideoPlayerController _videoPlayerController;
 
   @override

@@ -70,7 +70,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     mediaList = widget.initialMediaList;
   }

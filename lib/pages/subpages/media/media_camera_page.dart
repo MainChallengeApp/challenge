@@ -101,31 +101,28 @@ class _CameraStateMedia extends State<MediaCameraPage> {
                         ),
                         Align(
                           alignment: Alignment.bottomCenter,
-                          child: Container(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 32, top: 16),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      child: flashButton(),
-                                    ),
-                                    const SizedBox(
-                                      width: 50,
-                                    ),
-                                    Container(
-                                      child: documentationButton(
-                                          Icons.camera_alt_outlined),
-                                    ),
-                                    const SizedBox(
-                                      width: 50,
-                                    ),
-                                    Container(
-                                      child: acceptButton(),
-                                    )
-                                  ]),
-                            ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 32, top: 16),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    child: flashButton(),
+                                  ),
+                                  const SizedBox(
+                                    width: 50,
+                                  ),
+                                  Container(
+                                    child: documentationButton(
+                                        Icons.camera_alt_outlined),
+                                  ),
+                                  const SizedBox(
+                                    width: 50,
+                                  ),
+                                  Container(
+                                    child: acceptButton(),
+                                  )
+                                ]),
                           ),
                         ),
                         isCameraFeedback
@@ -365,7 +362,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
       isCameraFeedback = true;
     });
     Future.delayed(
-      Duration(milliseconds: 100),
+      const Duration(milliseconds: 100),
       () => setState(() {
         isCameraFeedback = false;
       }),

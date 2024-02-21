@@ -192,7 +192,7 @@ class _ProgressPageState extends State<ProgressPage> {
         builder: (context) => ProgressMediaListPage(
             preTitle: '${widget.preTitle}/Progress',
             challenge: widget.challenge,
-            initialMediaList: [],
+            initialMediaList: const [],
             acceptanceCriteria: widget.acceptanceCriteria),
       ),
     ).then((_) => setState(() {

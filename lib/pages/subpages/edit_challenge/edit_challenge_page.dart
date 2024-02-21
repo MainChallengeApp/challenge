@@ -286,11 +286,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
             },
             child: squardedStandardContainer(
                 child: Center(
-                    child: Container(
+                    child: SizedBox(
               width: 55,
               height: 55,
               child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(13)),
+                  borderRadius: const BorderRadius.all(Radius.circular(13)),
                   child: widget.editChallenge.thumbnailPath != ''
                       ? Image.asset(widget.editChallenge.thumbnailPath,
                           fit: BoxFit.cover)
@@ -299,7 +299,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                               color: themeColor3),
                         )),
             )))),
-        SizedBox(
+        const SizedBox(
           width: 16,
         ),
         Expanded(
@@ -351,7 +351,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   acceptanceCriteria() {
     return Expanded(
-      child: Container(
+      child: SizedBox(
         height: 130,
         child: ListView.separated(
           itemCount: widget.editChallenge.acceptanceCriterias.length,

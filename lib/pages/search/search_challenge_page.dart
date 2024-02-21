@@ -16,7 +16,6 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
@@ -60,7 +59,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     amountTextEditingController.text =
         DesignUtil.doubleAsInt(widget.challenge.acceptanceCriterias[0].amount)
@@ -91,9 +89,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               scrollDirection: Axis.vertical,
               children: widget.challenges.map(
                 (e) {
-                  return Container(
-                      // margin: const EdgeInsets.only(bottom: 16),
-                      child: Slidable(
+                  return Slidable(
                     closeOnScroll: true,
                     // The end action pane is the one at the right or the bottom side.
                     endActionPane: ActionPane(
@@ -267,7 +263,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                         ],
                       );
                     }),
-                  ));
+                  );
                 },
               ).toList()),
         ),
@@ -699,13 +695,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         }));
   }
 
-  _launchURL(String link) async {
-    final Uri url = Uri.parse(link);
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
   amountAndUnit(ChallengeModel challenge) {
     if (challenge.acceptanceCriterias.isEmpty) return Container();
     AcceptanceCriteriaModel acceptanceCriteria =
@@ -723,8 +712,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                         textAlign: TextAlign.end,
                         controller:
                             amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
-                        keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(
                               RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
@@ -752,7 +741,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           isKeyboardUp = true;
                         }),
                         decoration:
-                            InputDecoration.collapsed(hintText: 'Amount'),
+                            const InputDecoration.collapsed(hintText: 'Amount'),
                       ),
                     ),
                   )),
@@ -818,7 +807,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           : acceptanceCriteria.frequence,
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
-      hint: Text('Frequence'),
+      hint: const Text('Frequence'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
@@ -847,7 +836,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               textAlign: TextAlign.end,
               controller:
                   amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
                     RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
@@ -874,7 +864,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               onTap: () => setState(() {
                 isKeyboardUp = true;
               }),
-              decoration: InputDecoration.collapsed(hintText: 'Amount'),
+              decoration: const InputDecoration.collapsed(hintText: 'Amount'),
             ),
           ),
         ),

@@ -184,7 +184,6 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
   }
 
   Container acceptanceCriteriaButton() {
-    // TODO: Acceptance criteria list with first listitem is add acceptance criteria
     return standardContainer(
       child: Row(
         children: [
@@ -230,7 +229,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
           : widget.acceptanceCriteria.tracking,
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
-      hint: Text('Tracking'),
+      hint: const Text('Tracking'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
@@ -256,7 +255,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
           : widget.acceptanceCriteria.frequence,
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
-      hint: Text('Frequence'),
+      hint: const Text('Frequence'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
@@ -284,7 +283,8 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                 ..text = widget.acceptanceCriteria.amount == 0
                     ? ''
                     : widget.acceptanceCriteria.amount.toString(),
-              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
                     RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
@@ -304,7 +304,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                   widget.acceptanceCriteria.amount = double.parse(value);
                 }
               },
-              decoration: InputDecoration.collapsed(hintText: 'Amount'),
+              decoration: const InputDecoration.collapsed(hintText: 'Amount'),
             ),
           ),
         )),

@@ -83,7 +83,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                 children: [
                   Row(
                     children: [
-                      SpaceComponent(
+                      const SpaceComponent(
                         width: 20,
                       ),
                       Expanded(
@@ -92,7 +92,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                         imagePath: 'assets/images/categories/mental_health.png',
                         onTap: onTapMental,
                       )),
-                      SpaceComponent(),
+                      const SpaceComponent(),
                       Expanded(
                           child: CategoryComponent(
                         text: 'Physical',
@@ -100,12 +100,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                             'assets/images/categories/physical_health.png',
                         onTap: onTapPhysical,
                       )),
-                      SpaceComponent(
+                      const SpaceComponent(
                         width: 20,
                       ),
                     ],
                   ),
-                  SpaceComponent()
+                  const SpaceComponent()
                 ],
               );
             } else if (index == 2) {
@@ -113,7 +113,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                 children: [
                   Row(
                     children: [
-                      SpaceComponent(
+                      const SpaceComponent(
                         width: 20,
                       ),
                       Expanded(
@@ -122,19 +122,19 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                         imagePath: 'assets/images/categories/knowledge.png',
                         onTap: onTapLearning,
                       )),
-                      SpaceComponent(),
+                      const SpaceComponent(),
                       Expanded(
                           child: CategoryComponent(
                         text: 'Social',
                         imagePath: 'assets/images/categories/social.png',
                         onTap: onTapSocial,
                       )),
-                      SpaceComponent(
+                      const SpaceComponent(
                         width: 20,
                       ),
                     ],
                   ),
-                  SpaceComponent()
+                  const SpaceComponent()
                 ],
               );
             } else if (index == 3) {
@@ -142,7 +142,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                 children: [
                   Row(
                     children: [
-                      SpaceComponent(
+                      const SpaceComponent(
                         width: 20,
                       ),
                       Expanded(
@@ -151,7 +151,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                         imagePath: 'assets/images/categories/other2.png',
                         onTap: onTapOther,
                       )),
-                      SpaceComponent(),
+                      const SpaceComponent(),
                       Expanded(
                           child: CategoryComponent(
                         text: 'Random',
@@ -159,12 +159,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                             'assets/images/categories/recommendation.png',
                         onTap: onTapRandom,
                       )),
-                      SpaceComponent(
+                      const SpaceComponent(
                         width: 20,
                       ),
                     ],
                   ),
-                  SpaceComponent()
+                  const SpaceComponent()
                 ],
               );
             }

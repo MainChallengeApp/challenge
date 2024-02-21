@@ -41,7 +41,6 @@ class _ListItemAcceptanceCriteriaBarComponentState
     extends State<ListItemAcceptanceCriteriaBarComponent> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.initialProgress != 0) {
       widget.editAcceptanceCriteria!.currentProgress = widget.initialProgress;

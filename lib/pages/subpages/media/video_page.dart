@@ -9,10 +9,10 @@ class VideoPage extends StatefulWidget {
   const VideoPage({Key? key, required this.filePath}) : super(key: key);
 
   @override
-  _VideoPageState createState() => _VideoPageState();
+  VideoPageState createState() => VideoPageState();
 }
 
-class _VideoPageState extends State<VideoPage> {
+class VideoPageState extends State<VideoPage> {
   late VideoPlayerController _videoPlayerController;
 
   @override

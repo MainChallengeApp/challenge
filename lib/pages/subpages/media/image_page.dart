@@ -33,7 +33,6 @@ class _ImagePageState extends State<ImagePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     currentMediaIndex = widget.initialMediaIdex;
   }
@@ -102,11 +101,11 @@ class _ImagePageState extends State<ImagePage> {
 
         widget.media.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
-        widget.challenge.acceptanceCriterias.forEach((a) {
-          a.progress.forEach((e) {
+        for (var a in widget.challenge.acceptanceCriterias) {
+          for (var e in a.progress) {
             e.mediaIds.removeWhere((mediaId) => mediaId == media.id);
-          });
-        });
+          }
+        }
 
         allChallengesList
             .firstWhere((element) => element.id == widget.challenge.id)

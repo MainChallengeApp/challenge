@@ -9,10 +9,10 @@ class VideoComponent extends StatefulWidget {
   const VideoComponent({Key? key, required this.filePath}) : super(key: key);
 
   @override
-  _VideoComponentState createState() => _VideoComponentState();
+  VideoComponentState createState() => VideoComponentState();
 }
 
-class _VideoComponentState extends State<VideoComponent> {
+class VideoComponentState extends State<VideoComponent> {
   late VideoPlayerController _videoPlayerController;
 
   @override

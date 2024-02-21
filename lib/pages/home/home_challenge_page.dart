@@ -57,7 +57,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero, () {
       setState(() {
@@ -688,11 +687,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
               borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Center(
+          child: const Center(
               child: Text(
             'Yes',
-            style: const TextStyle(
-                fontWeight: FontWeight.w500, color: Colors.black),
+            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
           )),
         ),
       ),
@@ -714,11 +712,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
               borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Center(
+          child: const Center(
               child: Text(
             'No',
-            style: const TextStyle(
-                fontWeight: FontWeight.w500, color: Colors.white),
+            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
           )),
         ),
       ),
@@ -757,7 +754,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       Row(
                         children: [
                           Expanded(child: dialogYesButton()),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
                           Expanded(child: dialogNoButton())
