@@ -3,6 +3,7 @@
 import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
@@ -188,8 +189,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           //     ? Container()
                           //     : addAcceptanceCriteriaButton(),
                           startAndEndDate(e),
+                          frequence(e),
                           amountAndUnit(e),
-                          // frequence(e),
                           // isDescriptionExpanded
                           //     ? Container()
                           //     : acceptanceCriteria(e.acceptanceCriteria),
@@ -787,34 +788,98 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           );
   }
 
-  List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
+  List<String> frequenceList = <String>['Time', 'Day', 'Weekdays'];
   frequence(ChallengeModel challenge) {
-    if (challenge.acceptanceCriterias.isEmpty) return Container();
     AcceptanceCriteriaModel acceptanceCriteria =
         challenge.acceptanceCriterias[0];
     return isDescriptionExpanded
         ? Container()
-        : standardContainer(
-            child: DropdownButton<String>(
-            isExpanded: true,
-            value: acceptanceCriteria.frequence == ''
-                ? null
-                : acceptanceCriteria.frequence,
-            icon: const Icon(Icons.expand_more),
-            style: const TextStyle(color: Colors.black),
-            hint: Text('Frequence'),
-            onChanged: (String? value) {
-              // This is called when the user selects an item.
-              setState(() {
-                acceptanceCriteria.frequence = value!;
-              });
-            },
-            items: frequenceList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ));
+        : Column(
+            children: [
+              acceptanceCriteria.frequence == 'Time'
+                  ? timeFrequence(acceptanceCriteria)
+                  : frequenceDropDown(acceptanceCriteria),
+              const SpaceComponent(),
+            ],
+          );
+  }
+
+  CustomContainerComponent frequenceDropDown(
+      AcceptanceCriteriaModel acceptanceCriteria) {
+    List<String> frequenceList = <String>['Time', 'Day', 'Weekdays'];
+
+    return CustomContainerComponent(
+        child: DropdownButton<String>(
+      borderRadius: BorderRadius.circular(16),
+      isExpanded: true,
+      underline: Container(),
+      value: acceptanceCriteria.frequence == ''
+          ? null
+          : acceptanceCriteria.frequence,
+      icon: const Icon(Icons.expand_more),
+      style: const TextStyle(color: Colors.black),
+      hint: Text('Frequence'),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          acceptanceCriteria.frequence = value!;
+        });
+      },
+      items: frequenceList.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value == "Time" && acceptanceCriteria.amount != 1
+                ? 'Times'
+                : value));
+      }).toList(),
+    ));
+  }
+
+  timeFrequence(AcceptanceCriteriaModel acceptanceCriteria) {
+    return Row(
+      children: [
+        CustomContainerComponent(
+          margin: const EdgeInsets.only(right: SpaceComponent.staticWidth),
+          isQuadratic: true,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: TextField(
+              textAlign: TextAlign.end,
+              controller:
+                  amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(
+                    RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                TextInputFormatter.withFunction(
+                  (oldValue, newValue) => newValue.copyWith(
+                    text: newValue.text.replaceAll(',', '.'),
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  double number = 0;
+                  if (value.endsWith('.')) {
+                    number = double.parse(value.split('.')[0]);
+                    acceptanceCriteria.amount = number;
+                  } else if (value == '') {
+                    acceptanceCriteria.amount = 0;
+                  } else {
+                    number = double.parse(value);
+                    acceptanceCriteria.amount = number;
+                  }
+                });
+              },
+              onTap: () => setState(() {
+                isKeyboardUp = true;
+              }),
+              decoration: InputDecoration.collapsed(hintText: 'Amount'),
+            ),
+          ),
+        ),
+        Expanded(child: frequenceDropDown(acceptanceCriteria))
+      ],
+    );
   }
 }

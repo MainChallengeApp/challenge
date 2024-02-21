@@ -6,18 +6,20 @@ class CustomContainerComponent extends StatelessWidget {
   final Color backgroundColor;
   final Widget child;
   final EdgeInsetsGeometry? margin;
+  final bool isQuadratic;
 
   const CustomContainerComponent(
       {super.key,
       required this.child,
       this.heightFactor = 1,
       this.backgroundColor = Colors.white,
-      this.margin});
+      this.margin,
+      this.isQuadratic = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: isQuadratic ? 55 : double.infinity,
       height: 55 * heightFactor,
       padding: const EdgeInsets.all(10),
       margin: margin,
