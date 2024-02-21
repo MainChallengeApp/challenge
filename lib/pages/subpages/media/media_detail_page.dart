@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/pages/subpages/media/video_component.dart';
 import 'package:flutter/material.dart';
 
 import 'package:challenge/globals.dart';
@@ -50,26 +51,38 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
             onPageChanged: onSwipeMedia,
             scrollDirection: Axis.vertical,
             controller: controller,
-            children: widget.media.map((e) {
-              return Center(
-                  child: SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Image.asset(e.source,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Center(
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child:
-                                  Icon(Icons.question_mark, color: themeColor3),
-                            ),
-                          )),
-                ),
-              ));
+            children: widget.media.map((media) {
+              return media.type == 'image'
+                  ? Center(
+                      child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Image.asset(media.source,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Center(
+                                  child: SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: Icon(Icons.question_mark,
+                                        color: themeColor3),
+                                  ),
+                                )),
+                      ),
+                    ))
+                  : Center(
+                      child: SizedBox(
+                      width: double.infinity,
+                      height: double.infinity,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: VideoComponent(
+                          filePath: media.source,
+                        ),
+                      ),
+                    ));
             }).toList(),
           ),
           Align(

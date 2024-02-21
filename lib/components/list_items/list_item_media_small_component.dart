@@ -1,4 +1,5 @@
 import 'package:challenge/components/list_items/list_item_container_component.dart';
+import 'package:challenge/components/media/video_thumbnail_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media_model.dart';
@@ -27,13 +28,19 @@ class ListItemMediaSmallComponent extends StatelessWidget {
               margin: const EdgeInsets.only(right: 12),
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: Image.asset(media.source,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Center(
-                            child:
-                                Icon(Icons.question_mark, color: themeColor3),
-                          ))),
+                  child: media.type == 'image'
+                      ? Image.asset(media.source,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              const Center(
+                                child: Icon(Icons.question_mark,
+                                    color: themeColor3),
+                              ))
+                      : media.type == 'video'
+                          ? VideoThumbnailComponent(
+                              filePath: media.source,
+                            )
+                          : null),
             ),
             Text(
               media.title,

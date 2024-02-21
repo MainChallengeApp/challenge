@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:challenge/components/media/video_thumbnail_component.dart';
 import 'package:challenge/pages/home/progress/progress_media_list_page.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -38,6 +39,8 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   CameraDescription? currentCamera;
 
   var isCameraFeedback = false;
+
+  bool isRecording = false;
 
   @override
   void initState() {
@@ -185,29 +188,71 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   documentationButton(IconData iconData) {
     return GestureDetector(
       onTap: () async {
-        // Take the Picture in a try / catch block. If anything goes wrong,
-        // catch the error.
-        try {
-          // Ensure that the camera is initialized.
-          // await _initializeControllerFuture;
-          cameraFeedback();
-          // Attempt to take a picture and get the file `image`
-          // where it was saved.
-          final image = await _controller.takePicture();
-
-          if (!mounted) return;
+        if (isRecording) {
           setState(() {
-            MediaModel media = MediaModel(
-                type: 'image',
-                title: DateTime.now().toString().split('.')[0],
-                source: image.path);
-            widget.mediaList.add(media);
-
-            currentMedia.add(media);
+            isRecording = false;
           });
-        } catch (e) {
-          // If an error occurs, log the error to the console.
-          print(e);
+          try {
+            final video = await _controller.stopVideoRecording();
+            if (!mounted) return;
+            setState(() {
+              MediaModel media = MediaModel(
+                  type: 'video',
+                  title: DateTime.now().toString().split('.')[0],
+                  source: video.path);
+              widget.mediaList.add(media);
+
+              currentMedia.add(media);
+            });
+            // Navigator.push(
+            //   context,
+            //   NoAnimationPageRouteComponent(
+            //     builder: (context) =>
+            //         VideoPage(filePath: currentMedia.last.source),
+            //   ),
+            // ).then((_) => setState(() {}));
+          } on Exception catch (e) {
+            print(e);
+          }
+        } else {
+          // Take the Picture in a try / catch block. If anything goes wrong,
+          // catch the error.
+          try {
+            // Ensure that the camera is initialized.
+            // await _initializeControllerFuture;
+            cameraFeedback();
+            // Attempt to take a picture and get the file `image`
+            // where it was saved.
+            final image = await _controller.takePicture();
+
+            if (!mounted) return;
+            setState(() {
+              MediaModel media = MediaModel(
+                  type: 'image',
+                  title: DateTime.now().toString().split('.')[0],
+                  source: image.path);
+              widget.mediaList.add(media);
+
+              currentMedia.add(media);
+            });
+          } catch (e) {
+            // If an error occurs, log the error to the console.
+            print(e);
+          }
+        }
+      },
+      onLongPress: () async {
+        if (!isRecording) {
+          setState(() {
+            isRecording = true;
+          });
+          try {
+            await _controller.prepareForVideoRecording();
+            await _controller.startVideoRecording();
+          } catch (e) {
+            // If an error occurs, log the error to the console.
+            print(e);
+          }
         }
       },
       child: Container(
@@ -215,10 +260,15 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         height: 55,
         // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(width: 1, color: Colors.white),
+            color: isRecording ? themeColor1 : Colors.white,
+            border: Border.all(
+                width: 1, color: isRecording ? themeColor1 : Colors.white),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: Center(child: Icon(iconData)),
+        child: Center(
+            child: Icon(
+          iconData,
+          color: isRecording ? Colors.white : Colors.black,
+        )),
       ),
     );
   }
@@ -245,7 +295,9 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
             color: flashMode == FlashMode.off ? Colors.white : themeColor1,
-            border: Border.all(width: 1, color: Colors.white),
+            border: Border.all(
+                width: 1,
+                color: flashMode == FlashMode.off ? Colors.white : themeColor1),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
         child: Center(
             child: Icon(
@@ -279,21 +331,31 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
             image: currentMedia.isNotEmpty
-                ? DecorationImage(
-                    image: AssetImage(currentMedia.last.source),
-                    fit: BoxFit.cover,
-                  )
+                ? currentMedia.last.type == 'image'
+                    ? DecorationImage(
+                        image: AssetImage(currentMedia.last.source),
+                        fit: BoxFit.cover,
+                      )
+                    : null
                 : null,
-            color: flashMode == FlashMode.off
-                ? Colors.white.withAlpha(100)
-                : themeColor1,
+            color: Colors.white.withAlpha(100),
             border: Border.all(width: 1, color: Colors.white),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: Center(
-            child: Icon(
-          Icons.chevron_right,
-          color: flashMode == FlashMode.off ? Colors.white : Colors.white,
-        )),
+        child: Stack(
+          children: [
+            currentMedia.isNotEmpty && currentMedia.last.type == 'video'
+                ? ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    child: VideoThumbnailComponent(
+                        filePath: currentMedia.last.source))
+                : Container(),
+            Center(
+                child: Icon(
+              Icons.chevron_right,
+              color: flashMode == FlashMode.off ? Colors.white : Colors.white,
+            ))
+          ],
+        ),
       ),
     );
   }
