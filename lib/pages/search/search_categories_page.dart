@@ -300,7 +300,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
-          title: 'Search/Recommendation',
+          title: 'Search/Random',
           selectTab: widget.selectTab,
           challenge: challengesCopy[0],
           challenges: challengesCopy,
