@@ -39,6 +39,7 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
         ? widget.isDescriptionExpanded
             ? CustomContainerComponent(
                 child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   child: Linkify(
                     onOpen: (link) {
