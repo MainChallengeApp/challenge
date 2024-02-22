@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('searchInChallenge()', () {
-    test('should be in search when all title is passed to funciton', () {
+    test('should be in search when all title is passed to function', () {
       // Arrange
       ChallengeModel challenge = ChallengeModel(
           status: ChallengeStatusEnum.inProgress,
