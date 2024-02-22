@@ -276,7 +276,7 @@
         "title": "Digital Organization",
         "amount": 1.0,
         "unit": "Optimization",
-        "frequence": "monthly",
+        "frequence": "Weekdays",
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -789,7 +789,7 @@
         "title": "Making money",
         "amount": 10000.0,
         "unit": "Euro",
-        "frequence": "monthly",
+        "frequence": "Weekdays",
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -979,7 +979,7 @@
         "title": "Cooking",
         "amount": 10.0,
         "unit": "Recipes",
-        "frequence": "monthly",
+        "frequence": "Weekdays",
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1169,7 +1169,7 @@
         "title": "Present",
         "amount": 1.0,
         "unit": "Presentation",
-        "frequence": "monthly",
+        "frequence": "Weekdays",
         "tracking": "camera",
         "currentProgress": 0.0
       }
