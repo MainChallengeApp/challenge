@@ -15,7 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/evidence_model.dart';
+import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';

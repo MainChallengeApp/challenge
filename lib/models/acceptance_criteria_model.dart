@@ -1,4 +1,4 @@
-import 'package:challenge/models/evidence_model.dart';
+import 'package:challenge/models/progress_model.dart';
 
 class AcceptanceCriteriaModel {
   int? id;
