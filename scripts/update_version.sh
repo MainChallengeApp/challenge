@@ -57,7 +57,7 @@ case $VERSION_COMPONENT in
         ;;
 esac
 
- flutter build ios
+flutter build ios
 
 # stash all changes
 # Update the version in the YAML file using sed
