@@ -1,4 +1,6 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/enums/frequence_type_enum.dart.dart';
+import 'package:challenge/models/frequence_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +21,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
         title: 'title',
         amount: 0,
         unit: 'unit',
-        frequence: 'daily',
+        frequence: FrequenceModel(amount: null, type: FrequenceTypeEnum.daily),
         tracking: 'camera',
         currentProgress: initialProgress,
         progress: []);

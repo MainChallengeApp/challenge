@@ -3,6 +3,7 @@ import 'package:challenge/components/simple_components/custom_button_component.d
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/frequence_type_enum.dart.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -126,7 +127,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
-                  widget.editChallenge.acceptanceCriterias[index].frequence,
+                  widget.editChallenge.acceptanceCriterias[index].frequence.type
+                      .toString(),
                   style: const TextStyle(fontSize: 12, color: themeColor3),
                 ),
               ),
@@ -648,16 +650,14 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return standardContainer(
         child: DropdownButton<String>(
       isExpanded: true,
-      value: acceptanceCriteria.frequence == ''
-          ? null
-          : acceptanceCriteria.frequence,
+      value: acceptanceCriteria.frequence.type.toString(),
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
       hint: const Text('Frequence'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
-          acceptanceCriteria.frequence = value!;
+          acceptanceCriteria.frequence.type = FrequenceTypeEnum.factory(value!);
         });
       },
       items: frequenceList.map<DropdownMenuItem<String>>((String value) {
