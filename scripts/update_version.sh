@@ -4,11 +4,11 @@
 
 # Check if the correct number of arguments is provided
 if [ "$#" -ne 1 ]; then
-    echo "Usage: $0 <yaml_file> <version_component>"
+    echo "Usage: $0 <'major' | 'minor' | 'patch'| 'build'>"
     exit 1
 fi
 
-YAML_FILE="../pubspec.yaml"
+YAML_FILE="pubspec.yaml"
 VERSION_COMPONENT=$1
 
 # Escape special characters in the key path for sed
@@ -37,23 +37,31 @@ case $VERSION_COMPONENT in
         MAJOR=$((MAJOR + 1))
         MINOR=0
         PATCH=0
+        BUILD_NUMBER=1
         ;;
     "minor")
         MINOR=$((MINOR + 1))
         PATCH=0
+        BUILD_NUMBER=1
         ;;
     "patch")
         PATCH=$((PATCH + 1))
+        BUILD_NUMBER=1
+        ;;
+    "build")
+        BUILD_NUMBER=$((BUILD_NUMBER + 1))
         ;;
     *)
-        echo "Error: Unsupported version component. Use 'major', 'minor', or 'patch'."
+        echo "Error: Unsupported version component. Use 'major', 'minor', 'patch' or 'build'."
         exit 1
         ;;
 esac
 
+ flutter build ios
+
 # stash all changes
 # Update the version in the YAML file using sed
-sed -i '' -E "s/($ESCAPED_KEY_PATH:[[:space:]]*)[0-9]+\.[0-9]+\.[0-9]+/\1$MAJOR.$MINOR.$PATCH/" "$YAML_FILE"
+sed -i '' -E "s/($ESCAPED_KEY_PATH:[[:space:]]*)[0-9]+\.[0-9]+\.[0-9]+\+[0-9]/\1$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER/" "$YAML_FILE"
 
 git add $YAML_FILE
 git commit -m "update: v$CURRENT_VERSION to v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"

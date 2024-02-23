@@ -13,8 +13,7 @@ The app for finding new challenges, tracking and completing them!
 
 ## Updating Version
 
-1. run `scripts/update_version.sh <'major' | 'minor' | 'patch'>`
-2. run `flutter build ios`
+1. run `scripts/update_version.sh <'major' | 'minor' | 'patch'| 'build'>`
 
 ## Release new Version
 
