@@ -1,3 +1,4 @@
+import 'package:challenge/models/frequence_model.dart';
 import 'package:challenge/models/progress_model.dart';
 
 class AcceptanceCriteriaModel {
@@ -5,7 +6,7 @@ class AcceptanceCriteriaModel {
   String title;
   double amount;
   String unit;
-  String frequence;
+  FrequenceModel frequence;
   String tracking;
   double currentProgress;
   List<ProgressModel> progress;
@@ -27,7 +28,7 @@ class AcceptanceCriteriaModel {
         title: e['title'],
         amount: e['amount'],
         unit: e['unit'],
-        frequence: e['frequence'],
+        frequence: FrequenceModel.fromJson(e['frequence']),
         tracking: e['tracking'],
         currentProgress: e['currentProgress'],
         progress: ProgressModel.fromJsonList(e['progress']))));

@@ -5,6 +5,8 @@ import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/frequence_type_enum.dart.dart';
+import 'package:challenge/models/frequence_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -55,6 +57,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   TextEditingController unitTextEditingController =
       TextEditingController(text: '');
 
+  TextEditingController frequenceAmountTextEditingController =
+      TextEditingController(text: '');
+
   bool isKeyboardUp = false;
 
   @override
@@ -66,6 +71,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
     unitTextEditingController.text =
         widget.challenge.acceptanceCriterias[0].unit;
+
+    frequenceAmountTextEditingController.text =
+        widget.challenge.acceptanceCriterias[0].frequence.amount.toString();
   }
 
   @override
@@ -185,8 +193,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           //     ? Container()
                           //     : addAcceptanceCriteriaButton(),
                           startAndEndDate(e),
-                          frequence(e),
                           amountAndUnit(e),
+                          frequence(e),
                           // isDescriptionExpanded
                           //     ? Container()
                           //     : acceptanceCriteria(e.acceptanceCriteria),
@@ -421,7 +429,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 decoration: const BoxDecoration(
                     color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(acceptanceCriteria.frequence,
+                child: Text(acceptanceCriteria.frequence.toString(),
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                     overflow: TextOverflow.ellipsis),
               ),
@@ -683,7 +691,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               title: '',
               amount: 0,
               unit: '',
-              frequence: '',
+              frequence:
+                  FrequenceModel(amount: 1, type: FrequenceTypeEnum.time),
               tracking: '',
               currentProgress: 0,
               progress: []),
@@ -777,7 +786,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           );
   }
 
-  List<String> frequenceList = <String>['Time', 'Day', 'Weekdays'];
   frequence(ChallengeModel challenge) {
     AcceptanceCriteriaModel acceptanceCriteria =
         challenge.acceptanceCriterias[0];
@@ -785,9 +793,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         ? Container()
         : Column(
             children: [
-              acceptanceCriteria.frequence == 'Time'
+              acceptanceCriteria.frequence.type == FrequenceTypeEnum.time
                   ? timeFrequence(acceptanceCriteria)
-                  : frequenceDropDown(acceptanceCriteria),
+                  : acceptanceCriteria.frequence.type == FrequenceTypeEnum.daily
+                      ? dayFrequence(acceptanceCriteria)
+                      : frequenceDropDown(acceptanceCriteria),
               const SpaceComponent(),
             ],
           );
@@ -795,31 +805,33 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   CustomContainerComponent frequenceDropDown(
       AcceptanceCriteriaModel acceptanceCriteria) {
-    List<String> frequenceList = <String>['Time', 'Day', 'Weekdays'];
+    Map<FrequenceTypeEnum, String> frequenceMap = {
+      FrequenceTypeEnum.time: 'Time',
+      FrequenceTypeEnum.daily: 'Day',
+      FrequenceTypeEnum.weekday: 'Weekday'
+    };
 
     return CustomContainerComponent(
         child: DropdownButton<String>(
       borderRadius: BorderRadius.circular(16),
       isExpanded: true,
       underline: Container(),
-      value: acceptanceCriteria.frequence == ''
-          ? null
-          : acceptanceCriteria.frequence,
+      value: acceptanceCriteria.frequence.type.toString().split('.')[1],
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
       hint: const Text('Frequence'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
-          acceptanceCriteria.frequence = value!;
+          acceptanceCriteria.frequence.type = FrequenceTypeEnum.factory(value!);
         });
       },
-      items: frequenceList.map<DropdownMenuItem<String>>((String value) {
+      items: frequenceMap.entries.map((e) {
         return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value == "Time" && acceptanceCriteria.amount != 1
-                ? 'Times'
-                : value));
+            value: e.key.toString2(),
+            child: Text(acceptanceCriteria.frequence.amount != 1
+                ? '${e.value}s'
+                : e.value));
       }).toList(),
     ));
   }
@@ -833,11 +845,49 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
-              textAlign: TextAlign.end,
+              textAlign: TextAlign.center,
               controller:
-                  amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+                  frequenceAmountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+              keyboardType: const TextInputType.numberWithOptions(),
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(
+                    RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                TextInputFormatter.withFunction(
+                  (oldValue, newValue) => newValue.copyWith(
+                    text: newValue.text.replaceAll(',', '.'),
+                  ),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  acceptanceCriteria.frequence.amount =
+                      value == '' ? null : int.parse(value);
+                });
+              },
+              onTap: () => setState(() {
+                isKeyboardUp = true;
+              }),
+              decoration: const InputDecoration.collapsed(hintText: '∞'),
+            ),
+          ),
+        ),
+        Expanded(child: frequenceDropDown(acceptanceCriteria))
+      ],
+    );
+  }
+
+  dayFrequence(AcceptanceCriteriaModel acceptanceCriteria) {
+    return Row(
+      children: [
+        CustomContainerComponent(
+          isQuadratic: true,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: TextField(
+              textAlign: TextAlign.center,
+              controller:
+                  frequenceAmountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+              keyboardType: const TextInputType.numberWithOptions(),
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.allow(
                     RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
@@ -864,10 +914,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               onTap: () => setState(() {
                 isKeyboardUp = true;
               }),
-              decoration: const InputDecoration.collapsed(hintText: 'Amount'),
+              decoration: const InputDecoration.collapsed(hintText: '∞'),
             ),
           ),
         ),
+        const SpaceComponent(),
         Expanded(child: frequenceDropDown(acceptanceCriteria))
       ],
     );

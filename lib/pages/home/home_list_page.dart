@@ -1,5 +1,7 @@
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/frequence_type_enum.dart.dart';
+import 'package:challenge/models/frequence_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
@@ -152,7 +154,7 @@ class _HomeListPageState extends State<HomeListPage> {
         title: '',
         amount: 0,
         unit: '',
-        frequence: 'once',
+        frequence: FrequenceModel(amount: 1, type: FrequenceTypeEnum.time),
         tracking: 'camera',
         currentProgress: 0,
         progress: []);

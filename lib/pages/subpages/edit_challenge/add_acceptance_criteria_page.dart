@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/enums/frequence_type_enum.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -167,7 +168,8 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                       color: themeColor4,
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
-                    widget.challenge.acceptanceCriterias[index].frequence,
+                    widget.challenge.acceptanceCriterias[index].frequence.type
+                        .toString(),
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                   ),
                 ),
@@ -252,16 +254,15 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
     return standardContainer(
         child: DropdownButton<String>(
       isExpanded: true,
-      value: widget.acceptanceCriteria.frequence == ''
-          ? null
-          : widget.acceptanceCriteria.frequence,
+      value: widget.acceptanceCriteria.frequence.type.toString(),
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
       hint: const Text('Frequence'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
-          widget.acceptanceCriteria.frequence = value!;
+          widget.acceptanceCriteria.frequence.type =
+              FrequenceTypeEnum.factory(value!);
         });
       },
       items: list.map<DropdownMenuItem<String>>((String value) {
