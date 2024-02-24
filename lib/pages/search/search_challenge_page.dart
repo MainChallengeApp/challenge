@@ -2,6 +2,7 @@
 
 import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
@@ -87,8 +88,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         });
       },
       child: Scaffold(
-        appBar:
-            AppBarComponent(preTitle: widget.title, titleText: currentTitle),
+        appBar: AppBarComponent(preTitle: widget.title),
         backgroundColor: Colors.white,
         body: Center(
           child: PageView(
@@ -96,7 +96,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               onPageChanged: onPageChanged,
               scrollDirection: Axis.vertical,
               children: widget.challenges.map(
-                (e) {
+                (challenge) {
                   return Slidable(
                     closeOnScroll: true,
                     // The end action pane is the one at the right or the bottom side.
@@ -179,95 +179,16 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
                         children: [
-                          ThumbnailMaxComponent(
-                            challengeModel: e,
-                            isMediaListVisible: false,
-                            onTapOpenMediaPage: () =>
-                                onTapOpenMediaPage(context),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          description(e),
-                          // isDescriptionExpanded
-                          //     ? Container()
-                          //     : addAcceptanceCriteriaButton(),
-                          startAndEndDate(e),
-                          amountAndUnit(e),
-                          frequence(e),
-                          // isDescriptionExpanded
-                          //     ? Container()
-                          //     : acceptanceCriteria(e.acceptanceCriteria),
-                          // isDescriptionExpanded
-                          //     ? Container()
-                          //     : dots(e.acceptanceCriteria),
+                          thumbnail(challenge, context),
+                          title(challenge.title),
+                          description(challenge),
+                          startAndEndDate(challenge),
+                          amountAndUnit(challenge),
+                          frequence(challenge),
                           isDescriptionExpanded
                               ? Container()
                               : Expanded(child: Container()),
-                          isDescriptionExpanded
-                              ? Container()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Expanded(
-                                    //   child: GestureDetector(
-                                    //     onTap: onTapEditChallenge,
-                                    //     child: Container(
-                                    //       height: 55,
-                                    //       width: double.infinity,
-                                    //       decoration: BoxDecoration(
-                                    //           border: Border.all(
-                                    //               width: 1,
-                                    //               color:
-                                    //                   const Color.fromRGBO(
-                                    //                       226,
-                                    //                       232,
-                                    //                       240,
-                                    //                       1)),
-                                    //           borderRadius:
-                                    //               const BorderRadius.all(
-                                    //                   Radius.circular(16))),
-                                    //       child: const Center(
-                                    //           child: Text(
-                                    //         'Edit',
-                                    //         style: TextStyle(
-                                    //             fontWeight: FontWeight.w500,
-                                    //             color: Colors.black),
-                                    //       )),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 16,
-                                    // ),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: onTapAccept,
-                                        child: Container(
-                                          height: 55,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: themeColor2,
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: const Color.fromRGBO(
-                                                      226, 232, 240, 1)),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(16))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Accept',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                          acceptButton()
                         ],
                       );
                     }),
@@ -276,6 +197,82 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               ).toList()),
         ),
       ),
+    );
+  }
+
+  acceptButton() {
+    return isDescriptionExpanded
+        ? Container()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Expanded(
+              //   child: GestureDetector(
+              //     onTap: onTapEditChallenge,
+              //     child: Container(
+              //       height: 55,
+              //       width: double.infinity,
+              //       decoration: BoxDecoration(
+              //           border: Border.all(
+              //               width: 1,
+              //               color:
+              //                   const Color.fromRGBO(
+              //                       226,
+              //                       232,
+              //                       240,
+              //                       1)),
+              //           borderRadius:
+              //               const BorderRadius.all(
+              //                   Radius.circular(16))),
+              //       child: const Center(
+              //           child: Text(
+              //         'Edit',
+              //         style: TextStyle(
+              //             fontWeight: FontWeight.w500,
+              //             color: Colors.black),
+              //       )),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   width: 16,
+              // ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: onTapAccept,
+                  child: Container(
+                    height: 55,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: themeColor2,
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromRGBO(226, 232, 240, 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16))),
+                    child: const Center(
+                        child: Text(
+                      'Accept',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )),
+                  ),
+                ),
+              ),
+            ],
+          );
+  }
+
+  thumbnail(ChallengeModel challenge, BuildContext context) {
+    return Column(
+      children: [
+        ThumbnailMaxComponent(
+          challengeModel: challenge,
+          isMediaListVisible: false,
+          onTapOpenMediaPage: () => onTapOpenMediaPage(context),
+        ),
+        const SpaceComponent()
+      ],
     );
   }
 
@@ -888,5 +885,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         Expanded(child: frequenceDropDown(acceptanceCriteria))
       ],
     );
+  }
+
+  title(String challengeTitle) {
+    return TitleComponent(challengeTitle: challengeTitle);
   }
 }

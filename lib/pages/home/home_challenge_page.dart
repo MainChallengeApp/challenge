@@ -3,6 +3,7 @@
 import 'package:camera/camera.dart';
 import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -73,27 +74,27 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     widget.challenge.checkChallengeStatus();
 
     return Scaffold(
-      appBar:
-          AppBarComponent(preTitle: widget.preTitle, titleText: currentTitle),
+      appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
       body: PageView(
           controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
-          children: challengeList.map((e) {
+          children: challengeList.map((challenge) {
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
               endActionPane: ActionPane(
-                extentRatio: (e.status == ChallengeStatusEnum.inProgress ||
-                        e.status == ChallengeStatusEnum.backlog)
-                    ? 0.5
-                    : 0.25,
+                extentRatio:
+                    (challenge.status == ChallengeStatusEnum.inProgress ||
+                            challenge.status == ChallengeStatusEnum.backlog)
+                        ? 0.5
+                        : 0.25,
                 motion: const ScrollMotion(),
                 children: [
-                  editSlider(e),
-                  (e.status == ChallengeStatusEnum.inProgress ||
-                          e.status == ChallengeStatusEnum.backlog)
+                  editSlider(challenge),
+                  (challenge.status == ChallengeStatusEnum.inProgress ||
+                          challenge.status == ChallengeStatusEnum.backlog)
                       ? const SizedBox(
                           width: 20,
                         )
@@ -111,25 +112,30 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
-                    thumbnail(e),
-                    description(e),
-                    startAndEndDate(e),
-                    acceptanceCriteria(e.acceptanceCriterias),
+                    thumbnail(challenge),
+                    title(challenge.title),
+                    description(challenge),
+                    startAndEndDate(challenge),
+                    acceptanceCriteria(challenge.acceptanceCriterias),
                     isDescriptionExpanded
                         ? Container()
                         : Expanded(child: Container()),
                     documentationButtons(context),
-                    isDescriptionExpanded
-                        ? Container()
-                        : const SizedBox(
-                            height: 16,
-                          ),
-                    startEndTryAcceptAgainButton(e)
+                    startEndTryAcceptAgainButton(challenge)
                   ],
                 );
               }),
             );
           }).toList()),
+    );
+  }
+
+  title(String challengeTitle) {
+    return Column(
+      children: [
+        TitleComponent(challengeTitle: challengeTitle),
+        const SpaceComponent()
+      ],
     );
   }
 
@@ -249,26 +255,31 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   Widget documentationButtons(BuildContext context) {
     return isDescriptionExpanded
         ? Container()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        : Column(
             children: [
-              documentationButton(
-                  iconData: Icons.numbers_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The Numbers feature will be added soon.'),
-                  color: Colors.grey[200]),
-              documentationButton(
-                  iconData: Icons.notes_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The Notes feature will be added soon.'),
-                  color: Colors.grey[200]),
-              documentationButton(
-                  iconData: Icons.gps_not_fixed_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The GPS feature will be added soon.'),
-                  color: Colors.grey[200]),
-              documentationButton(
-                  iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  documentationButton(
+                      iconData: Icons.numbers_rounded,
+                      onTap: () => SnackBarComponent.showSnackBar(
+                          context, 'The Numbers feature will be added soon.'),
+                      color: Colors.grey[200]),
+                  documentationButton(
+                      iconData: Icons.notes_rounded,
+                      onTap: () => SnackBarComponent.showSnackBar(
+                          context, 'The Notes feature will be added soon.'),
+                      color: Colors.grey[200]),
+                  documentationButton(
+                      iconData: Icons.gps_not_fixed_rounded,
+                      onTap: () => SnackBarComponent.showSnackBar(
+                          context, 'The GPS feature will be added soon.'),
+                      color: Colors.grey[200]),
+                  documentationButton(
+                      iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+                ],
+              ),
+              const SpaceComponent()
             ],
           );
   }
