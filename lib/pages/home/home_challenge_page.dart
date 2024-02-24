@@ -3,6 +3,7 @@
 import 'package:camera/camera.dart';
 import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -73,27 +74,27 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     widget.challenge.checkChallengeStatus();
 
     return Scaffold(
-      appBar:
-          AppBarComponent(preTitle: widget.preTitle, titleText: currentTitle),
+      appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
       body: PageView(
           controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
-          children: challengeList.map((e) {
+          children: challengeList.map((challenge) {
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
               endActionPane: ActionPane(
-                extentRatio: (e.status == ChallengeStatusEnum.inProgress ||
-                        e.status == ChallengeStatusEnum.backlog)
-                    ? 0.5
-                    : 0.25,
+                extentRatio:
+                    (challenge.status == ChallengeStatusEnum.inProgress ||
+                            challenge.status == ChallengeStatusEnum.backlog)
+                        ? 0.5
+                        : 0.25,
                 motion: const ScrollMotion(),
                 children: [
-                  editSlider(e),
-                  (e.status == ChallengeStatusEnum.inProgress ||
-                          e.status == ChallengeStatusEnum.backlog)
+                  editSlider(challenge),
+                  (challenge.status == ChallengeStatusEnum.inProgress ||
+                          challenge.status == ChallengeStatusEnum.backlog)
                       ? const SizedBox(
                           width: 20,
                         )
@@ -111,10 +112,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
-                    thumbnail(e),
-                    description(e),
-                    startAndEndDate(e),
-                    acceptanceCriteria(e.acceptanceCriterias),
+                    thumbnail(challenge),
+                    title(challenge.title),
+                    description(challenge),
+                    startAndEndDate(challenge),
+                    acceptanceCriteria(challenge.acceptanceCriterias),
                     isDescriptionExpanded
                         ? Container()
                         : Expanded(child: Container()),
@@ -124,13 +126,17 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                         : const SizedBox(
                             height: 16,
                           ),
-                    startEndTryAcceptAgainButton(e)
+                    startEndTryAcceptAgainButton(challenge)
                   ],
                 );
               }),
             );
           }).toList()),
     );
+  }
+
+  title(String challengeTitle) {
+    return TitleComponent(challengeTitle: challengeTitle);
   }
 
   thumbnail(ChallengeModel e) {

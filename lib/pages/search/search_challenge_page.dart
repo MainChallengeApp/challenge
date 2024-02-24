@@ -2,6 +2,7 @@
 
 import 'package:challenge/components/challenge/description_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
@@ -87,8 +88,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         });
       },
       child: Scaffold(
-        appBar:
-            AppBarComponent(preTitle: widget.title, titleText: currentTitle),
+        appBar: AppBarComponent(preTitle: widget.title),
         backgroundColor: Colors.white,
         body: Center(
           child: PageView(
@@ -96,7 +96,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               onPageChanged: onPageChanged,
               scrollDirection: Axis.vertical,
               children: widget.challenges.map(
-                (e) {
+                (challenge) {
                   return Slidable(
                     closeOnScroll: true,
                     // The end action pane is the one at the right or the bottom side.
@@ -180,7 +180,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             : const NeverScrollableScrollPhysics(),
                         children: [
                           ThumbnailMaxComponent(
-                            challengeModel: e,
+                            challengeModel: challenge,
                             isMediaListVisible: false,
                             onTapOpenMediaPage: () =>
                                 onTapOpenMediaPage(context),
@@ -188,13 +188,14 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           const SizedBox(
                             height: 16,
                           ),
-                          description(e),
+                          title(challenge.title),
+                          description(challenge),
                           // isDescriptionExpanded
                           //     ? Container()
                           //     : addAcceptanceCriteriaButton(),
-                          startAndEndDate(e),
-                          amountAndUnit(e),
-                          frequence(e),
+                          startAndEndDate(challenge),
+                          amountAndUnit(challenge),
+                          frequence(challenge),
                           // isDescriptionExpanded
                           //     ? Container()
                           //     : acceptanceCriteria(e.acceptanceCriteria),
@@ -888,5 +889,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         Expanded(child: frequenceDropDown(acceptanceCriteria))
       ],
     );
+  }
+
+  title(String challengeTitle) {
+    return TitleComponent(challengeTitle: challengeTitle);
   }
 }
