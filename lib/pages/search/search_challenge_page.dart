@@ -888,6 +888,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   title(String challengeTitle) {
-    return TitleComponent(challengeTitle: challengeTitle);
+    return Column(
+      children: [
+        TitleComponent(challengeTitle: challengeTitle),
+        const SpaceComponent()
+      ],
+    );
   }
 }
