@@ -1,4 +1,3 @@
-import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class TitleComponent extends StatelessWidget {
@@ -11,26 +10,21 @@ class TitleComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(challengeTitle,
-                      style: const TextStyle(fontSize: 20),
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left),
-                ),
-              ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(challengeTitle,
+                  style: const TextStyle(fontSize: 20),
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.left),
             ),
-          ],
+          ),
         ),
-        const SpaceComponent()
       ],
     );
   }

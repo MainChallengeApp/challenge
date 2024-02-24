@@ -121,11 +121,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                         ? Container()
                         : Expanded(child: Container()),
                     documentationButtons(context),
-                    isDescriptionExpanded
-                        ? Container()
-                        : const SizedBox(
-                            height: 16,
-                          ),
                     startEndTryAcceptAgainButton(challenge)
                   ],
                 );
@@ -136,7 +131,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   title(String challengeTitle) {
-    return TitleComponent(challengeTitle: challengeTitle);
+    return Column(
+      children: [
+        TitleComponent(challengeTitle: challengeTitle),
+        const SpaceComponent()
+      ],
+    );
   }
 
   thumbnail(ChallengeModel e) {
@@ -255,26 +255,31 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   Widget documentationButtons(BuildContext context) {
     return isDescriptionExpanded
         ? Container()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+        : Column(
             children: [
-              documentationButton(
-                  iconData: Icons.numbers_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The Numbers feature will be added soon.'),
-                  color: Colors.grey[200]),
-              documentationButton(
-                  iconData: Icons.notes_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The Notes feature will be added soon.'),
-                  color: Colors.grey[200]),
-              documentationButton(
-                  iconData: Icons.gps_not_fixed_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The GPS feature will be added soon.'),
-                  color: Colors.grey[200]),
-              documentationButton(
-                  iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  documentationButton(
+                      iconData: Icons.numbers_rounded,
+                      onTap: () => SnackBarComponent.showSnackBar(
+                          context, 'The Numbers feature will be added soon.'),
+                      color: Colors.grey[200]),
+                  documentationButton(
+                      iconData: Icons.notes_rounded,
+                      onTap: () => SnackBarComponent.showSnackBar(
+                          context, 'The Notes feature will be added soon.'),
+                      color: Colors.grey[200]),
+                  documentationButton(
+                      iconData: Icons.gps_not_fixed_rounded,
+                      onTap: () => SnackBarComponent.showSnackBar(
+                          context, 'The GPS feature will be added soon.'),
+                      color: Colors.grey[200]),
+                  documentationButton(
+                      iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+                ],
+              ),
+              const SpaceComponent()
             ],
           );
   }

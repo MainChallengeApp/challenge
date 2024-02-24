@@ -179,96 +179,16 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
                         children: [
-                          ThumbnailMaxComponent(
-                            challengeModel: challenge,
-                            isMediaListVisible: false,
-                            onTapOpenMediaPage: () =>
-                                onTapOpenMediaPage(context),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
+                          thumbnail(challenge, context),
                           title(challenge.title),
                           description(challenge),
-                          // isDescriptionExpanded
-                          //     ? Container()
-                          //     : addAcceptanceCriteriaButton(),
                           startAndEndDate(challenge),
                           amountAndUnit(challenge),
                           frequence(challenge),
-                          // isDescriptionExpanded
-                          //     ? Container()
-                          //     : acceptanceCriteria(e.acceptanceCriteria),
-                          // isDescriptionExpanded
-                          //     ? Container()
-                          //     : dots(e.acceptanceCriteria),
                           isDescriptionExpanded
                               ? Container()
                               : Expanded(child: Container()),
-                          isDescriptionExpanded
-                              ? Container()
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    // Expanded(
-                                    //   child: GestureDetector(
-                                    //     onTap: onTapEditChallenge,
-                                    //     child: Container(
-                                    //       height: 55,
-                                    //       width: double.infinity,
-                                    //       decoration: BoxDecoration(
-                                    //           border: Border.all(
-                                    //               width: 1,
-                                    //               color:
-                                    //                   const Color.fromRGBO(
-                                    //                       226,
-                                    //                       232,
-                                    //                       240,
-                                    //                       1)),
-                                    //           borderRadius:
-                                    //               const BorderRadius.all(
-                                    //                   Radius.circular(16))),
-                                    //       child: const Center(
-                                    //           child: Text(
-                                    //         'Edit',
-                                    //         style: TextStyle(
-                                    //             fontWeight: FontWeight.w500,
-                                    //             color: Colors.black),
-                                    //       )),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // const SizedBox(
-                                    //   width: 16,
-                                    // ),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: onTapAccept,
-                                        child: Container(
-                                          height: 55,
-                                          width: double.infinity,
-                                          decoration: BoxDecoration(
-                                              color: themeColor2,
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: const Color.fromRGBO(
-                                                      226, 232, 240, 1)),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(16))),
-                                          child: const Center(
-                                              child: Text(
-                                            'Accept',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white),
-                                          )),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
+                          acceptButton()
                         ],
                       );
                     }),
@@ -277,6 +197,82 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               ).toList()),
         ),
       ),
+    );
+  }
+
+  acceptButton() {
+    return isDescriptionExpanded
+        ? Container()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Expanded(
+              //   child: GestureDetector(
+              //     onTap: onTapEditChallenge,
+              //     child: Container(
+              //       height: 55,
+              //       width: double.infinity,
+              //       decoration: BoxDecoration(
+              //           border: Border.all(
+              //               width: 1,
+              //               color:
+              //                   const Color.fromRGBO(
+              //                       226,
+              //                       232,
+              //                       240,
+              //                       1)),
+              //           borderRadius:
+              //               const BorderRadius.all(
+              //                   Radius.circular(16))),
+              //       child: const Center(
+              //           child: Text(
+              //         'Edit',
+              //         style: TextStyle(
+              //             fontWeight: FontWeight.w500,
+              //             color: Colors.black),
+              //       )),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(
+              //   width: 16,
+              // ),
+              Expanded(
+                child: GestureDetector(
+                  onTap: onTapAccept,
+                  child: Container(
+                    height: 55,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: themeColor2,
+                        border: Border.all(
+                            width: 1,
+                            color: const Color.fromRGBO(226, 232, 240, 1)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16))),
+                    child: const Center(
+                        child: Text(
+                      'Accept',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.white),
+                    )),
+                  ),
+                ),
+              ),
+            ],
+          );
+  }
+
+  thumbnail(ChallengeModel challenge, BuildContext context) {
+    return Column(
+      children: [
+        ThumbnailMaxComponent(
+          challengeModel: challenge,
+          isMediaListVisible: false,
+          onTapOpenMediaPage: () => onTapOpenMediaPage(context),
+        ),
+        const SpaceComponent()
+      ],
     );
   }
 
