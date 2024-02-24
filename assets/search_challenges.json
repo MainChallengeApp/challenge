@@ -10,7 +10,7 @@
         "title": "Act of Kindness",
         "amount": 1.0,
         "unit": "Act",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -162,7 +162,7 @@
         "title": "Climbing stairs",
         "amount": 1000.0,
         "unit": "Stairs",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -276,7 +276,7 @@
         "title": "Digital Organization",
         "amount": 1.0,
         "unit": "Optimization",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -295,7 +295,7 @@
         "title": "Diving",
         "amount": 1.0,
         "unit": "Dive",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -466,7 +466,7 @@
         "title": "City exploration",
         "amount": 1.0,
         "unit": "Place",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -561,7 +561,7 @@
         "title": "Full body workout",
         "amount": 100.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -580,7 +580,7 @@
         "title": "Gardening",
         "amount": 5.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -637,7 +637,7 @@
         "title": "Fitness studio",
         "amount": 100.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -732,7 +732,7 @@
         "title": "Ice bathing",
         "amount": 3.0,
         "unit": "Min",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -770,7 +770,7 @@
         "title": "Kayaking",
         "amount": 1.0,
         "unit": "Session",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -789,7 +789,7 @@
         "title": "Making money",
         "amount": 10000.0,
         "unit": "Euro",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -827,7 +827,7 @@
         "title": "Martial arts",
         "amount": 100.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -979,7 +979,7 @@
         "title": "Cooking",
         "amount": 10.0,
         "unit": "Recipes",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1036,7 +1036,7 @@
         "title": "Origami of falten",
         "amount": 10.0,
         "unit": "Works of art",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1074,7 +1074,7 @@
         "title": "Photography",
         "amount": 10.0,
         "unit": "Photos",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1112,7 +1112,7 @@
         "title": "Record podcast",
         "amount": 10.0,
         "unit": "Episodes",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1150,7 +1150,7 @@
         "title": "Pottery",
         "amount": 1.0,
         "unit": "Work of art",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1169,7 +1169,7 @@
         "title": "Present",
         "amount": 1.0,
         "unit": "Presentation",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1207,7 +1207,7 @@
         "title": "Read",
         "amount": 1.0,
         "unit": "Book",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1245,7 +1245,7 @@
         "title": "Running",
         "amount": 10.0,
         "unit": "Km",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1264,7 +1264,7 @@
         "title": "Selfcare",
         "amount": 10.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1435,7 +1435,7 @@
         "title": "Swimming",
         "amount": 30.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1511,7 +1511,7 @@
         "title": "Go for a walk",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "weekday" },
+        "frequence": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }

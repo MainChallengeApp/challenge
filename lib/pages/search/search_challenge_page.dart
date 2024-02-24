@@ -805,7 +805,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     Map<FrequenceTypeEnum, String> frequenceMap = {
       FrequenceTypeEnum.time: 'Time',
       FrequenceTypeEnum.daily: 'Day',
-      FrequenceTypeEnum.weekday: 'Weekday'
     };
 
     return CustomContainerComponent(
