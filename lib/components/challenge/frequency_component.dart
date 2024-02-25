@@ -8,7 +8,10 @@ import 'package:flutter/services.dart';
 
 class FrequencyComponent extends StatefulWidget {
   final ChallengeModel challenge;
-  const FrequencyComponent({super.key, required this.challenge});
+  final Function? setIsKeyboardUp;
+
+  const FrequencyComponent(
+      {super.key, required this.challenge, this.setIsKeyboardUp});
 
   @override
   State<FrequencyComponent> createState() => _FrequencyComponentState();
@@ -103,7 +106,10 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             });
           },
           onTap: () => setState(() {
-            isKeyboardUp = true;
+            if (widget.setIsKeyboardUp != null) {
+              widget.setIsKeyboardUp!(true);
+            }
+            debugPrint(isKeyboardUp.toString());
           }),
           decoration: const InputDecoration.collapsed(hintText: '∞'),
         ),
