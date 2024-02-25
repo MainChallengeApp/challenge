@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/components/challenge/frequency_component.dart';
 import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/enums/frequence_type_enum.dart.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -64,7 +64,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
             description(),
             startAndEndDate(),
             amountAndUnit(),
-            // frequence(),
+            frequence(widget.challenge),
             Expanded(child: Container()),
             cancelAndSaveButton()
           ],
@@ -642,30 +642,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  List<String> frequenceList = <String>['once', 'daily', 'weekly', 'monthly'];
-  frequence() {
-    if (widget.editChallenge.acceptanceCriterias.isEmpty) return Container();
-    AcceptanceCriteriaModel acceptanceCriteria =
-        widget.editChallenge.acceptanceCriterias[0];
-    return standardContainer(
-        child: DropdownButton<String>(
-      isExpanded: true,
-      value: acceptanceCriteria.frequence.type.toString(),
-      icon: const Icon(Icons.expand_more),
-      style: const TextStyle(color: Colors.black),
-      hint: const Text('Frequence'),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          acceptanceCriteria.frequence.type = FrequenceTypeEnum.factory(value!);
-        });
-      },
-      items: frequenceList.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    ));
+  frequence(ChallengeModel challenge) {
+    return Column(
+      children: [
+        FrequencyComponent(challenge: challenge),
+        const SpaceComponent()
+      ],
+    );
   }
 }
