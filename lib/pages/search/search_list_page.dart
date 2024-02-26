@@ -96,7 +96,7 @@ class _SearchListPageState extends State<SearchListPage> {
                             changeList: changeList,
                             textEditingController:
                                 TextEditingController(text: searchBarText),
-                            hintText: 'search for new Challenges...',
+                            hintText: 'Search for new Challenges...',
                           ),
                           const SpaceComponent()
                         ],
