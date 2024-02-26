@@ -710,47 +710,46 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         : Row(
             children: [
               Expanded(
-                  flex: 1,
                   child: standardContainer(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextField(
-                        textAlign: TextAlign.end,
-                        controller:
-                            amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
-                        keyboardType: const TextInputType.numberWithOptions(
-                            decimal: true),
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                          TextInputFormatter.withFunction(
-                            (oldValue, newValue) => newValue.copyWith(
-                              text: newValue.text.replaceAll(',', '.'),
-                            ),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            double number = 0;
-                            if (value.endsWith('.')) {
-                              number = double.parse(value.split('.')[0]);
-                              acceptanceCriteria.amount = number;
-                            } else if (value == '') {
-                              acceptanceCriteria.amount = 0;
-                            } else {
-                              number = double.parse(value);
-                              acceptanceCriteria.amount = number;
-                            }
-                          });
-                        },
-                        onTap: () => setState(() {
-                          isKeyboardUp = true;
-                        }),
-                        decoration:
-                            const InputDecoration.collapsed(hintText: 'Amount'),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextField(
+                    textAlign: TextAlign.end,
+                    controller:
+                        amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                      TextInputFormatter.withFunction(
+                        (oldValue, newValue) => newValue.copyWith(
+                          text: newValue.text.replaceAll(',', '.'),
+                        ),
                       ),
-                    ),
-                  )),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        double number = 0;
+                        if (value.endsWith('.')) {
+                          number = double.parse(value.split('.')[0]);
+                          acceptanceCriteria.amount = number;
+                        } else if (value == '') {
+                          acceptanceCriteria.amount = 0;
+                        } else {
+                          number = double.parse(value);
+                          acceptanceCriteria.amount = number;
+                        }
+                      });
+                    },
+                    onTap: () => setState(() {
+                      isKeyboardUp = true;
+                    }),
+                    decoration:
+                        const InputDecoration.collapsed(hintText: 'Amount'),
+                  ),
+                ),
+              )),
               const SizedBox(
                 width: 16,
               ),

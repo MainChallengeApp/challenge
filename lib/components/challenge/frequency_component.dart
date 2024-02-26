@@ -34,36 +34,39 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             : frequenceDropDown(acceptanceCriteria);
   }
 
-  CustomContainerComponent frequenceDropDown(
-      AcceptanceCriteriaModel acceptanceCriteria) {
+  frequenceDropDown(AcceptanceCriteriaModel acceptanceCriteria) {
     Map<FrequenceTypeEnum, String> frequenceMap = {
       FrequenceTypeEnum.time: 'Time',
       FrequenceTypeEnum.daily: 'Day',
     };
 
-    return CustomContainerComponent(
-        child: DropdownButton<String>(
-      borderRadius: BorderRadius.circular(16),
-      isExpanded: true,
-      underline: Container(),
-      value: acceptanceCriteria.frequence.type.toString().split('.')[1],
-      icon: const Icon(Icons.expand_more),
-      style: const TextStyle(color: Colors.black),
-      hint: const Text('Frequence'),
-      onChanged: (String? value) {
-        // This is called when the user selects an item.
-        setState(() {
-          acceptanceCriteria.frequence.type = FrequenceTypeEnum.factory(value!);
-        });
-      },
-      items: frequenceMap.entries.map((e) {
-        return DropdownMenuItem<String>(
-            value: e.key.toString2(),
-            child: Text(acceptanceCriteria.frequence.amount != 1
-                ? '${e.value}s'
-                : e.value));
-      }).toList(),
-    ));
+    return Expanded(
+      flex: 3,
+      child: CustomContainerComponent(
+          child: DropdownButton<String>(
+        borderRadius: BorderRadius.circular(16),
+        isExpanded: true,
+        underline: Container(),
+        value: acceptanceCriteria.frequence.type.toString().split('.')[1],
+        icon: const Icon(Icons.expand_more),
+        style: const TextStyle(color: Colors.black),
+        hint: const Text('Frequence'),
+        onChanged: (String? value) {
+          // This is called when the user selects an item.
+          setState(() {
+            acceptanceCriteria.frequence.type =
+                FrequenceTypeEnum.factory(value!);
+          });
+        },
+        items: frequenceMap.entries.map((e) {
+          return DropdownMenuItem<String>(
+              value: e.key.toString2(),
+              child: Text(acceptanceCriteria.frequence.amount != 1
+                  ? '${e.value}s'
+                  : e.value));
+        }).toList(),
+      )),
+    );
   }
 
   timeFrequence(AcceptanceCriteriaModel acceptanceCriteria) {
@@ -71,7 +74,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
       children: [
         frequencyAmountInput(acceptanceCriteria),
         const SpaceComponent(),
-        Expanded(child: frequenceDropDown(acceptanceCriteria))
+        frequenceDropDown(acceptanceCriteria)
       ],
     );
   }
@@ -81,35 +84,38 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
       frequenceAmountTextEditingController.text =
           acceptanceCriteria.frequence.amount.toString();
     }
-    return CustomContainerComponent(
-      isQuadratic: true,
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: TextField(
-          textAlign: TextAlign.center,
-          controller:
-              frequenceAmountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
-          keyboardType: const TextInputType.numberWithOptions(),
-          inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-            TextInputFormatter.withFunction(
-              (oldValue, newValue) => newValue.copyWith(
-                text: newValue.text.replaceAll(',', '.'),
+    return Expanded(
+      child: CustomContainerComponent(
+        // isQuadratic: true,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: TextField(
+            textAlign: TextAlign.end,
+            controller:
+                frequenceAmountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+            keyboardType: const TextInputType.numberWithOptions(),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+              TextInputFormatter.withFunction(
+                (oldValue, newValue) => newValue.copyWith(
+                  text: newValue.text.replaceAll(',', '.'),
+                ),
               ),
-            ),
-          ],
-          onChanged: (value) {
-            setState(() {
-              acceptanceCriteria.frequence.amount =
-                  value == '' ? null : int.parse(value);
-            });
-          },
-          onTap: () => setState(() {
-            if (widget.setIsKeyboardUp != null) {
-              widget.setIsKeyboardUp!(true);
-            }
-          }),
-          decoration: const InputDecoration.collapsed(hintText: '∞'),
+            ],
+            onChanged: (value) {
+              setState(() {
+                acceptanceCriteria.frequence.amount =
+                    value == '' ? null : int.parse(value);
+              });
+            },
+            onTap: () => setState(() {
+              if (widget.setIsKeyboardUp != null) {
+                widget.setIsKeyboardUp!(true);
+              }
+            }),
+            decoration: const InputDecoration.collapsed(hintText: '∞'),
+          ),
         ),
       ),
     );
@@ -120,7 +126,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
       children: [
         frequencyAmountInput(acceptanceCriteria),
         const SpaceComponent(),
-        Expanded(child: frequenceDropDown(acceptanceCriteria))
+        frequenceDropDown(acceptanceCriteria)
       ],
     );
   }
