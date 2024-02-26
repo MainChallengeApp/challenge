@@ -1,3 +1,4 @@
+import 'package:challenge/enums/frequence_type_enum.dart.dart';
 import 'package:challenge/models/frequence_model.dart';
 import 'package:challenge/models/progress_model.dart';
 
@@ -42,7 +43,7 @@ class AcceptanceCriteriaModel {
               'title': e.title,
               'amount': e.amount,
               'unit': e.unit,
-              'frequence': e.frequence,
+              'frequence': FrequenceModel.toJson(e.frequence),
               'tracking': e.tracking,
               'currentProgress': e.currentProgress,
               'progress': ProgressModel.toJsonList(e.progress)
@@ -71,7 +72,7 @@ class AcceptanceCriteriaModel {
         title: ac.title,
         amount: ac.amount,
         unit: ac.unit,
-        frequence: ac.frequence,
+        frequence: FrequenceModel.copyFrequence(ac.frequence),
         tracking: ac.tracking,
         currentProgress: isTryAgain ? 0 : ac.currentProgress,
         progress:

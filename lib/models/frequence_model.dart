@@ -12,6 +12,10 @@ class FrequenceModel {
   }
 
   static toJson(FrequenceModel frequenceModel) {
-    return '{"amount": ${frequenceModel.amount ?? 0}, "type": "${frequenceModel.type.toString2()}" }';
+    return "{'amount': ${frequenceModel.amount ?? 0}, 'type': '${frequenceModel.type.toString2()}' }";
+  }
+
+  static copyFrequence(FrequenceModel frequence) {
+    return FrequenceModel(type: frequence.type, amount: frequence.amount);
   }
 }
