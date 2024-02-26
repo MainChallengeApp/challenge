@@ -780,7 +780,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         : Column(
             children: [
               FrequencyComponent(
-                  challenge: challenge, setIsKeyboardUp: setIsKeyboardUp),
+                  challenge: challenge,
+                  setIsKeyboardUp: setIsKeyboardUp,
+                  reloadSeachChallengePage: setState2),
               const SpaceComponent()
             ],
           );
@@ -799,5 +801,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     setState(() {
       isKeyboardUp = isKeyboardReallyUp;
     });
+  }
+
+  setState2() {
+    setState(() {});
   }
 }

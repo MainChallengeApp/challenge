@@ -9,9 +9,14 @@ import 'package:flutter/services.dart';
 class FrequencyComponent extends StatefulWidget {
   final ChallengeModel challenge;
   final Function? setIsKeyboardUp;
+  final Function? reloadSeachChallengePage;
 
-  const FrequencyComponent(
-      {super.key, required this.challenge, this.setIsKeyboardUp});
+  const FrequencyComponent({
+    super.key,
+    required this.challenge,
+    this.setIsKeyboardUp,
+    this.reloadSeachChallengePage,
+  });
 
   @override
   State<FrequencyComponent> createState() => _FrequencyComponentState();
@@ -108,6 +113,10 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
                 acceptanceCriteria.frequency.amount =
                     value == '' ? null : int.parse(value);
               });
+              widget.challenge.setChallengeEndDate();
+              if (widget.reloadSeachChallengePage != null) {
+                widget.reloadSeachChallengePage!.call();
+              }
             },
             onTap: () => setState(() {
               if (widget.setIsKeyboardUp != null) {
