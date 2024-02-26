@@ -1,4 +1,5 @@
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +66,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
                       onTap: () {},
                       icon: Icons.person_outlined,
                       title: account.username!),
-                  const SizedBox(
-                    height: 17,
-                  )
+                  const SpaceComponent()
                 ],
               );
             }
@@ -79,9 +78,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
                       onTap: onTapFeedback,
                       icon: Icons.feedback_outlined,
                       title: 'Feedback'),
-                  const SizedBox(
-                    height: 17,
-                  )
+                  const SpaceComponent()
                 ],
               );
             }
@@ -93,9 +90,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
                       onTap: onTapCredits,
                       icon: Icons.handshake_outlined,
                       title: 'Credits'),
-                  const SizedBox(
-                    height: 17,
-                  )
+                  const SpaceComponent()
                 ],
               );
             }
@@ -107,9 +102,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
                       onTap: onTapLogout,
                       icon: Icons.logout_rounded,
                       title: 'Log out'),
-                  const SizedBox(
-                    height: 17,
-                  )
+                  const SpaceComponent()
                 ],
               );
             }
@@ -118,9 +111,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
               children: [
                 ListItemIconSmallComponent(
                     onTap: () {}, icon: Icons.settings, title: 'settings'),
-                const SizedBox(
-                  height: 17,
-                )
+                const SpaceComponent()
               ],
             );
           }),
