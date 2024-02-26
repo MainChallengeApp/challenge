@@ -89,4 +89,52 @@ class AcceptanceCriteriaModel {
   bool isCompleted() {
     return calcProgressRatio() >= 1;
   }
+
+  int calcCurrentFrequencyAmount(DateTime? challengeStartDate) {
+    if (challengeStartDate == null) {
+      return 0;
+    }
+    return frequence.type == FrequenceTypeEnum.daily
+        ? DateTime.now().difference(challengeStartDate).inDays + 1
+        : 0;
+  }
+
+  String calcCurrentDones() {
+    int dones = progress
+        .where((element) => element.percentProgress >= 1)
+        .map((e) => e.date.toString().split(' ')[0])
+        .toSet()
+        .length;
+
+    return frequence.type == FrequenceTypeEnum.daily
+        ? dones == 0
+            ? ''
+            : '+$dones/'
+        : '';
+  }
+
+  String calcCurrentFails(DateTime? challengeStartDate) {
+    if (challengeStartDate == null) {
+      return '';
+    }
+    DateTime nowWithoutTime =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    int dones = progress
+        .where((element) =>
+            element.percentProgress >= 1 &&
+            !(DateTime(
+                    element.date!.year, element.date!.month, element.date!.day)
+                .isAtSameMomentAs(nowWithoutTime)))
+        .map((e) => e.date.toString().split(' ')[0])
+        .toSet()
+        .length;
+
+    int fails = DateTime.now().difference(challengeStartDate).inDays - dones;
+
+    return frequence.type == FrequenceTypeEnum.daily
+        ? fails == 0
+            ? ''
+            : '-$fails/'
+        : '';
+  }
 }

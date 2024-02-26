@@ -482,7 +482,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    progressPercentage(acceptanceCriteria),
+                    // progressPercentage(acceptanceCriteria),
                     progressAbsolute(acceptanceCriteria),
                     progressRecurring(acceptanceCriteria)
                   ],
@@ -829,7 +829,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: Text(
-                '${DesignUtil.doubleAsInt(acceptanceCriteria.currentProgress)}/${DesignUtil.doubleAsInt(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}',
+                '${acceptanceCriteria.calcCurrentFails(widget.challenge.startDate)}${acceptanceCriteria.calcCurrentDones()}${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequence.amount ?? '∞'} ${acceptanceCriteria.frequence.type == FrequenceTypeEnum.daily ? 'Days' : acceptanceCriteria.frequence.type == FrequenceTypeEnum.time ? 'Times' : ''}',
                 style: const TextStyle(fontSize: 10, color: themeColor3),
                 overflow: TextOverflow.ellipsis),
           );

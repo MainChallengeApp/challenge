@@ -40,8 +40,10 @@ class ProgressMediaListPage extends StatefulWidget {
         tracking: acceptanceCriteria.tracking,
         currentProgress: acceptanceCriteria.currentProgress,
         progress: acceptanceCriteria.progress
-            .map((e) =>
-                ProgressModel(progress: e.progress, mediaIds: e.mediaIds))
+            .map((e) => ProgressModel(
+                progress: e.progress,
+                mediaIds: e.mediaIds,
+                percentProgress: e.percentProgress))
             .toList());
   }
   final String preTitle;
@@ -240,11 +242,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       widget.acceptanceCriteria.currentProgress =
           widget.editAcceptanceCriteria.currentProgress;
-      var evidence = ProgressModel(
+      var progress = ProgressModel(
           progress: widget.acceptanceCriteria.currentProgress,
-          mediaIds: mediaList.map((e) => e.id!).toList());
+          mediaIds: mediaList.map((e) => e.id!).toList(),
+          percentProgress: widget.acceptanceCriteria.currentProgress /
+              widget.acceptanceCriteria.amount);
 
-      widget.acceptanceCriteria.progress.insert(0, evidence);
+      widget.acceptanceCriteria.progress.insert(0, progress);
       allChallengesList
           .firstWhere((element) => element.id == widget.challenge.id)
           .acceptanceCriterias
