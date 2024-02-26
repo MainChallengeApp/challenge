@@ -6,8 +6,8 @@ import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/enums/frequence_type_enum.dart.dart';
-import 'package:challenge/models/frequence_model.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -58,7 +58,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   TextEditingController unitTextEditingController =
       TextEditingController(text: '');
 
-  TextEditingController frequenceAmountTextEditingController =
+  TextEditingController frequencyAmountTextEditingController =
       TextEditingController(text: '');
 
   bool isKeyboardUp = false;
@@ -73,8 +73,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     unitTextEditingController.text =
         widget.challenge.acceptanceCriterias[0].unit;
 
-    frequenceAmountTextEditingController.text =
-        widget.challenge.acceptanceCriterias[0].frequence.amount.toString();
+    frequencyAmountTextEditingController.text =
+        widget.challenge.acceptanceCriterias[0].frequency.amount.toString();
   }
 
   @override
@@ -184,7 +184,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           description(challenge),
                           startAndEndDate(challenge),
                           amountAndUnit(challenge),
-                          frequence(challenge),
+                          frequency(challenge),
                           isDescriptionExpanded
                               ? Container()
                               : Expanded(child: Container()),
@@ -426,7 +426,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 decoration: const BoxDecoration(
                     color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(acceptanceCriteria.frequence.toString(),
+                child: Text(acceptanceCriteria.frequency.toString(),
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                     overflow: TextOverflow.ellipsis),
               ),
@@ -688,8 +688,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               title: '',
               amount: 0,
               unit: '',
-              frequence:
-                  FrequenceModel(amount: 1, type: FrequenceTypeEnum.time),
+              frequency:
+                  FrequencyModel(amount: 1, type: FrequencyTypeEnum.time),
               tracking: '',
               currentProgress: 0,
               progress: []),
@@ -782,7 +782,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           );
   }
 
-  frequence(ChallengeModel challenge) {
+  frequency(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
         : Column(

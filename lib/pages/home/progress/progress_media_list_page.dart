@@ -36,7 +36,7 @@ class ProgressMediaListPage extends StatefulWidget {
         title: acceptanceCriteria.title,
         amount: acceptanceCriteria.amount,
         unit: acceptanceCriteria.unit,
-        frequence: acceptanceCriteria.frequence,
+        frequency: acceptanceCriteria.frequency,
         tracking: acceptanceCriteria.tracking,
         currentProgress: acceptanceCriteria.currentProgress,
         progress: acceptanceCriteria.progress

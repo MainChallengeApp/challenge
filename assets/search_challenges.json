@@ -10,7 +10,7 @@
         "title": "Act of Kindness",
         "amount": 1.0,
         "unit": "Act",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -29,7 +29,7 @@
         "title": "Affirmationen",
         "amount": 100.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -48,7 +48,7 @@
         "title": "Archery",
         "amount": 10.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -67,7 +67,7 @@
         "title": "Bike Tour",
         "amount": 20.0,
         "unit": "Km",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -86,7 +86,7 @@
         "title": "Bouldering",
         "amount": 10.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -105,7 +105,7 @@
         "title": "Create",
         "amount": 1.0,
         "unit": "List",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -124,7 +124,7 @@
         "title": "Bungee jumping",
         "amount": 1.0,
         "unit": "Jump",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -143,7 +143,7 @@
         "title": "Clean up",
         "amount": 2.0,
         "unit": "Hours",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -162,7 +162,7 @@
         "title": "Climbing stairs",
         "amount": 1000.0,
         "unit": "Stairs",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -181,7 +181,7 @@
         "title": "Cold showers",
         "amount": 100.0,
         "unit": "Showers",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -200,7 +200,7 @@
         "title": "DIY-Workshop",
         "amount": 1.0,
         "unit": "Thing",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -219,7 +219,7 @@
         "title": "Dancing",
         "amount": 30.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -238,7 +238,7 @@
         "title": "Diary",
         "amount": 100.0,
         "unit": "Entries",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -257,7 +257,7 @@
         "title": "Follow a diet",
         "amount": 365.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -276,7 +276,7 @@
         "title": "Digital Organization",
         "amount": 1.0,
         "unit": "Optimization",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -295,7 +295,7 @@
         "title": "Diving",
         "amount": 1.0,
         "unit": "Dive",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -314,7 +314,7 @@
         "title": "Donations",
         "amount": 1.0,
         "unit": "Donation",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -333,7 +333,7 @@
         "title": "Drawing",
         "amount": 1.0,
         "unit": "Drawing",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -352,7 +352,7 @@
         "title": "Dream diary",
         "amount": 100.0,
         "unit": "Entries",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -371,7 +371,7 @@
         "title": "Drink water",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -390,7 +390,7 @@
         "title": "Vegan essen",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 30, "type": "daily" },
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -409,7 +409,7 @@
         "title": "Eat vegetarian",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -428,7 +428,7 @@
         "title": "Elevator pitch",
         "amount": 1.0,
         "unit": "Presentation",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -447,7 +447,7 @@
         "title": "Evening Routine Upgrade",
         "amount": 100.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -466,7 +466,7 @@
         "title": "City exploration",
         "amount": 1.0,
         "unit": "Place",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -485,7 +485,7 @@
         "title": "Exposure to fear",
         "amount": 1.0,
         "unit": "Fear",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -504,7 +504,7 @@
         "title": "Fishing",
         "amount": 1.0,
         "unit": "Fish",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -523,7 +523,7 @@
         "title": "Flick Flack",
         "amount": 1.0,
         "unit": "Execution",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -542,7 +542,7 @@
         "title": "Forgiven",
         "amount": 1.0,
         "unit": "Person",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -561,7 +561,7 @@
         "title": "Full body workout",
         "amount": 100.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -580,7 +580,7 @@
         "title": "Gardening",
         "amount": 5.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -599,7 +599,7 @@
         "title": "Danken",
         "amount": 100.0,
         "unit": "Entries",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -618,7 +618,7 @@
         "title": "Give feedback",
         "amount": 1.0,
         "unit": "Feedback",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -637,7 +637,7 @@
         "title": "Fitness studio",
         "amount": 100.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -656,7 +656,7 @@
         "title": "Handstand",
         "amount": 1.0,
         "unit": "Min",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -675,7 +675,7 @@
         "title": "Jumping",
         "amount": 1.0,
         "unit": "Meters",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -694,7 +694,7 @@
         "title": "hiking",
         "amount": 10.0,
         "unit": "Km",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -713,7 +713,7 @@
         "title": "Hot air balloon ride",
         "amount": 1.0,
         "unit": "Flight",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -732,7 +732,7 @@
         "title": "Ice bathing",
         "amount": 3.0,
         "unit": "Min",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -751,7 +751,7 @@
         "title": "Juggling",
         "amount": 10.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -770,7 +770,7 @@
         "title": "Kayaking",
         "amount": 1.0,
         "unit": "Session",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -789,7 +789,7 @@
         "title": "Making money",
         "amount": 10000.0,
         "unit": "Euro",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -808,7 +808,7 @@
         "title": "Running",
         "amount": 42.195,
         "unit": "Km",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -827,7 +827,7 @@
         "title": "Martial arts",
         "amount": 100.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -846,7 +846,7 @@
         "title": "Meditate",
         "amount": 100.0,
         "unit": "Meditations",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -865,7 +865,7 @@
         "title": "Tomorrow Routine Upgrade",
         "amount": 100.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -884,7 +884,7 @@
         "title": "Visit",
         "amount": 1.0,
         "unit": "City",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -903,7 +903,7 @@
         "title": "Getting to know a foreign culture",
         "amount": 1.0,
         "unit": "Culture",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -922,7 +922,7 @@
         "title": "Learn to play an instrument",
         "amount": 55.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -941,7 +941,7 @@
         "title": "Learn language",
         "amount": 100.0,
         "unit": "Session",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -960,7 +960,7 @@
         "title": "Get to know",
         "amount": 1.0,
         "unit": "Person",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -979,7 +979,7 @@
         "title": "Cooking",
         "amount": 10.0,
         "unit": "Recipes",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -998,7 +998,7 @@
         "title": "Spend the night in nature",
         "amount": 1.0,
         "unit": "Night",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1017,7 +1017,7 @@
         "title": "Contact us",
         "amount": 1.0,
         "unit": "Friend",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1036,7 +1036,7 @@
         "title": "Origami of falten",
         "amount": 10.0,
         "unit": "Works of art",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1055,7 +1055,7 @@
         "title": "Parkour",
         "amount": 10.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1074,7 +1074,7 @@
         "title": "Photography",
         "amount": 10.0,
         "unit": "Photos",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1093,7 +1093,7 @@
         "title": "Plank",
         "amount": 5.0,
         "unit": "Min",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1112,7 +1112,7 @@
         "title": "Record podcast",
         "amount": 10.0,
         "unit": "Episodes",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1131,7 +1131,7 @@
         "title": "Poetry Slam",
         "amount": 1.0,
         "unit": "Session",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1150,7 +1150,7 @@
         "title": "Pottery",
         "amount": 1.0,
         "unit": "Work of art",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1169,7 +1169,7 @@
         "title": "Present",
         "amount": 1.0,
         "unit": "Presentation",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1188,7 +1188,7 @@
         "title": "push-ups",
         "amount": 100.0,
         "unit": "Push-ups",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1207,7 +1207,7 @@
         "title": "Read",
         "amount": 1.0,
         "unit": "Book",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1226,7 +1226,7 @@
         "title": "Views",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1245,7 +1245,7 @@
         "title": "Running",
         "amount": 10.0,
         "unit": "Km",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1264,7 +1264,7 @@
         "title": "Selfcare",
         "amount": 10.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1283,7 +1283,7 @@
         "title": "Jumping",
         "amount": 15.0,
         "unit": "Min",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1302,7 +1302,7 @@
         "title": "Skydiving",
         "amount": 1.0,
         "unit": "Jump",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1321,7 +1321,7 @@
         "title": "Maintain your sleep rhythm",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1340,7 +1340,7 @@
         "title": "Social Media Detox",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1359,7 +1359,7 @@
         "title": "Steps",
         "amount": 10000.0,
         "unit": "Steps",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1378,7 +1378,7 @@
         "title": "Stretching",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1397,7 +1397,7 @@
         "title": "No sugar",
         "amount": 7.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1416,7 +1416,7 @@
         "title": "Survival training",
         "amount": 1.0,
         "unit": "Session",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1435,7 +1435,7 @@
         "title": "Swimming",
         "amount": 30.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1454,7 +1454,7 @@
         "title": "Ingestion",
         "amount": 365.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1473,7 +1473,7 @@
         "title": "Theater participation",
         "amount": 20.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1492,7 +1492,7 @@
         "title": "Travel",
         "amount": 14.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1511,7 +1511,7 @@
         "title": "Go for a walk",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1530,7 +1530,7 @@
         "title": "Water skiing",
         "amount": 1.0,
         "unit": "Session",
-        "frequence": { "amount": 1, "type": "time" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1549,7 +1549,7 @@
         "title": "Recording",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1568,7 +1568,7 @@
         "title": "Breathing technique",
         "amount": 30.0,
         "unit": "Sessions",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }

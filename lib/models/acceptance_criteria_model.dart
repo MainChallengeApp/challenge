@@ -1,5 +1,5 @@
-import 'package:challenge/enums/frequence_type_enum.dart.dart';
-import 'package:challenge/models/frequence_model.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/models/progress_model.dart';
 
 class AcceptanceCriteriaModel {
@@ -7,7 +7,7 @@ class AcceptanceCriteriaModel {
   String title;
   double amount;
   String unit;
-  FrequenceModel frequence;
+  FrequencyModel frequency;
   String tracking;
   double currentProgress;
   List<ProgressModel> progress;
@@ -17,7 +17,7 @@ class AcceptanceCriteriaModel {
       required this.title,
       required this.amount,
       required this.unit,
-      required this.frequence,
+      required this.frequency,
       required this.tracking,
       required this.currentProgress,
       required this.progress});
@@ -29,7 +29,7 @@ class AcceptanceCriteriaModel {
         title: e['title'],
         amount: e['amount'],
         unit: e['unit'],
-        frequence: FrequenceModel.fromJson(e['frequence']),
+        frequency: FrequencyModel.fromJson(e['frequency']),
         tracking: e['tracking'],
         currentProgress: e['currentProgress'],
         progress: ProgressModel.fromJsonList(e['progress']))));
@@ -43,7 +43,7 @@ class AcceptanceCriteriaModel {
               'title': e.title,
               'amount': e.amount,
               'unit': e.unit,
-              'frequence': FrequenceModel.toJson(e.frequence),
+              'frequency': FrequencyModel.toJson(e.frequency),
               'tracking': e.tracking,
               'currentProgress': e.currentProgress,
               'progress': ProgressModel.toJsonList(e.progress)
@@ -72,7 +72,7 @@ class AcceptanceCriteriaModel {
         title: ac.title,
         amount: ac.amount,
         unit: ac.unit,
-        frequence: FrequenceModel.copyFrequence(ac.frequence),
+        frequency: FrequencyModel.copyFrequency(ac.frequency),
         tracking: ac.tracking,
         currentProgress: isTryAgain ? 0 : ac.currentProgress,
         progress:
@@ -94,7 +94,7 @@ class AcceptanceCriteriaModel {
     if (challengeStartDate == null) {
       return 0;
     }
-    return frequence.type == FrequenceTypeEnum.daily
+    return frequency.type == FrequencyTypeEnum.daily
         ? DateTime.now().difference(challengeStartDate).inDays + 1
         : 0;
   }
@@ -106,7 +106,7 @@ class AcceptanceCriteriaModel {
         .toSet()
         .length;
 
-    return frequence.type == FrequenceTypeEnum.daily
+    return frequency.type == FrequencyTypeEnum.daily
         ? dones == 0
             ? ''
             : '+$dones/'
@@ -131,7 +131,7 @@ class AcceptanceCriteriaModel {
 
     int fails = DateTime.now().difference(challengeStartDate).inDays - dones;
 
-    return frequence.type == FrequenceTypeEnum.daily
+    return frequency.type == FrequencyTypeEnum.daily
         ? fails == 0
             ? ''
             : '-$fails/'

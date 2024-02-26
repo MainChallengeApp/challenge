@@ -6,7 +6,7 @@ import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/enums/frequence_type_enum.dart.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/pages/subpages/media/media_list_page.dart';
@@ -819,8 +819,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   progressRecurring(AcceptanceCriteriaModel acceptanceCriteria) {
-    return acceptanceCriteria.frequence.amount == 1 &&
-            acceptanceCriteria.frequence.type == FrequenceTypeEnum.time
+    return acceptanceCriteria.frequency.amount == 1 &&
+            acceptanceCriteria.frequency.type == FrequencyTypeEnum.time
         ? Container()
         : Container(
             margin: const EdgeInsets.only(right: 10),
@@ -829,7 +829,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: Text(
-                '${acceptanceCriteria.calcCurrentFails(widget.challenge.startDate)}${acceptanceCriteria.calcCurrentDones()}${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequence.amount ?? '∞'} ${acceptanceCriteria.frequence.type == FrequenceTypeEnum.daily ? 'Days' : acceptanceCriteria.frequence.type == FrequenceTypeEnum.time ? 'Times' : ''}',
+                '${acceptanceCriteria.calcCurrentFails(widget.challenge.startDate)}${acceptanceCriteria.calcCurrentDones()}${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? 'Times' : ''}',
                 style: const TextStyle(fontSize: 10, color: themeColor3),
                 overflow: TextOverflow.ellipsis),
           );

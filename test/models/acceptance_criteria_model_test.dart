@@ -10,7 +10,7 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequence: 'daily',
+          frequency: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -29,7 +29,7 @@ void main() {
           title: 'title',
           amount: 2,
           unit: 'unit',
-          frequence: 'daily',
+          frequency: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -48,7 +48,7 @@ void main() {
           title: 'title',
           amount: 0,
           unit: 'unit',
-          frequence: 'daily',
+          frequency: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -69,7 +69,7 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequence: 'daily',
+          frequency: 'daily',
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -88,7 +88,7 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequence: 'daily',
+          frequency: 'daily',
           tracking: 'tracking',
           currentProgress: 2,
           progress: []);
@@ -107,7 +107,7 @@ void main() {
           title: 'title',
           amount: 10,
           unit: 'unit',
-          frequence: 'daily',
+          frequency: 'daily',
           tracking: 'tracking',
           currentProgress: 2,
           progress: []);
@@ -131,7 +131,7 @@ void main() {
             title: 'title',
             amount: 2,
             unit: 'unit',
-            frequence: 'daily',
+            frequency: 'daily',
             tracking: 'tracking',
             currentProgress: 1,
             progress: []),
@@ -140,7 +140,7 @@ void main() {
             title: 'title',
             amount: 1,
             unit: 'unit',
-            frequence: 'daily',
+            frequency: 'daily',
             tracking: 'tracking',
             currentProgress: 1,
             progress: [])
@@ -153,8 +153,8 @@ void main() {
       // Assert (maybe just override the == operator)
       expect(acceptanceCriteriasCopy.length, equals(2));
       expect(acceptanceCriteriasCopy[0].id, equals(acceptanceCriterias[0].id));
-      expect(acceptanceCriteriasCopy[0].frequence,
-          equals(acceptanceCriterias[0].frequence));
+      expect(acceptanceCriteriasCopy[0].frequency,
+          equals(acceptanceCriterias[0].frequency));
       expect(acceptanceCriteriasCopy[0].currentProgress,
           equals(acceptanceCriterias[0].currentProgress));
       expect(acceptanceCriteriasCopy[0].title,
@@ -167,8 +167,8 @@ void main() {
           equals(acceptanceCriterias[0].progress));
 
       expect(acceptanceCriteriasCopy[1].id, equals(acceptanceCriterias[1].id));
-      expect(acceptanceCriteriasCopy[1].frequence,
-          equals(acceptanceCriterias[1].frequence));
+      expect(acceptanceCriteriasCopy[1].frequency,
+          equals(acceptanceCriterias[1].frequency));
       expect(acceptanceCriteriasCopy[1].currentProgress,
           equals(acceptanceCriterias[1].currentProgress));
       expect(acceptanceCriteriasCopy[1].title,

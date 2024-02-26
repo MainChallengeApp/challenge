@@ -3,7 +3,7 @@
 import 'dart:developer';
 
 import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/enums/frequence_type_enum.dart.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -58,7 +58,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                 const SizedBox(
                   height: 32,
                 ),
-                frequence(),
+                frequency(),
                 // const SizedBox(
                 //   height: 32,
                 // ),
@@ -168,7 +168,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                       color: themeColor4,
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   child: Text(
-                    widget.challenge.acceptanceCriterias[index].frequence.type
+                    widget.challenge.acceptanceCriterias[index].frequency.type
                         .toString(),
                     style: const TextStyle(fontSize: 12, color: themeColor3),
                   ),
@@ -250,19 +250,19 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
   }
 
   List<String> list = <String>['once', 'daily', 'weekly', 'monthly'];
-  frequence() {
+  frequency() {
     return standardContainer(
         child: DropdownButton<String>(
       isExpanded: true,
-      value: widget.acceptanceCriteria.frequence.type.toString(),
+      value: widget.acceptanceCriteria.frequency.type.toString(),
       icon: const Icon(Icons.expand_more),
       style: const TextStyle(color: Colors.black),
-      hint: const Text('Frequence'),
+      hint: const Text('Frequency'),
       onChanged: (String? value) {
         // This is called when the user selects an item.
         setState(() {
-          widget.acceptanceCriteria.frequence.type =
-              FrequenceTypeEnum.factory(value!);
+          widget.acceptanceCriteria.frequency.type =
+              FrequencyTypeEnum.factory(value!);
         });
       },
       items: list.map<DropdownMenuItem<String>>((String value) {

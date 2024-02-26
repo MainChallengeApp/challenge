@@ -64,7 +64,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
             description(),
             startAndEndDate(),
             amountAndUnit(),
-            frequence(widget.challenge),
+            frequency(widget.challenge),
             Expanded(child: Container()),
             cancelAndSaveButton()
           ],
@@ -127,7 +127,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     color: themeColor4,
                     borderRadius: BorderRadius.all(Radius.circular(12))),
                 child: Text(
-                  widget.editChallenge.acceptanceCriterias[index].frequence.type
+                  widget.editChallenge.acceptanceCriterias[index].frequency.type
                       .toString(),
                   style: const TextStyle(fontSize: 12, color: themeColor3),
                 ),
@@ -414,7 +414,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   //         acceptanceCriteria: AcceptanceCriteria(
   //             id: widget.challenge.acceptanceCriteria.length,
   //             activity: Activity(title: '', amount: 0, unit: ''),
-  //             frequence: '',
+  //             frequency: '',
   //             tracking: '',
   //             progress: 0,
   //             evidences: []),
@@ -642,7 +642,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  frequence(ChallengeModel challenge) {
+  frequency(ChallengeModel challenge) {
     return Column(
       children: [
         FrequencyComponent(challenge: challenge),
