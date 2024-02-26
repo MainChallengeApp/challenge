@@ -5,19 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
 class ListItemSearchbarComponent extends StatefulWidget {
+  final String hintText;
+  Function(String)? changeList;
+  String searchBarText;
+  TextEditingController textEditingController;
+  final bool isEnabled;
+  final bool autoFocus;
   ListItemSearchbarComponent(
       {super.key,
       this.changeList,
       this.searchBarText = "",
       required this.textEditingController,
       this.isEnabled = true,
-      this.autoFocus = false});
-
-  Function(String)? changeList;
-  String searchBarText;
-  TextEditingController textEditingController;
-  final bool isEnabled;
-  final bool autoFocus;
+      this.autoFocus = false,
+      this.hintText = 'Search'});
 
   @override
   State<ListItemSearchbarComponent> createState() =>
@@ -64,9 +65,9 @@ class _ListItemSearchbarComponentState
                             widget.changeList?.call(value);
                           });
                         },
-                        decoration: const InputDecoration.collapsed(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(
+                        decoration: InputDecoration.collapsed(
+                          hintText: widget.hintText,
+                          hintStyle: const TextStyle(
                             color: themeColor3,
                           ),
                         )),

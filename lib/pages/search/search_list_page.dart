@@ -87,27 +87,21 @@ class _SearchListPageState extends State<SearchListPage> {
                   controller: scrollController,
                   itemCount:
                       filteredChallenges.length + 1, //  + 1 for searchbar
-                  // separatorBuilder: (context, index) => const SizedBox( // doesnt work properly with scrollbar (scrollbar jumps around)
-                  //       height: 17,
-                  //     ),
                   itemBuilder: (BuildContext content, int index) {
                     if (index == 0) {
                       return Column(
-                        // cloumn instead of seperator
                         children: [
                           ListItemSearchbarComponent(
                             autoFocus: widget.isSearchBarAutoFocus,
                             changeList: changeList,
                             textEditingController:
                                 TextEditingController(text: searchBarText),
+                            hintText: 'search for new Challenges...',
                           ),
                           const SpaceComponent()
                         ],
                       );
                     }
-                    // if (index == filteredChallenges.length + 1) {  // only for seperator...
-                    //   return Container(); // + 1 for searchbar
-                    // }
                     ChallengeModel challenge =
                         filteredChallenges[index - 1]; // - 1 for searchbar
                     return Column(

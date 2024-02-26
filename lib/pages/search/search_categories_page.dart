@@ -73,6 +73,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                       isEnabled: false,
                       textEditingController:
                           TextEditingController(text: searchBarText),
+                      hintText: 'Search for new Challenges...',
                     ),
                   ),
                   const SpaceComponent()
