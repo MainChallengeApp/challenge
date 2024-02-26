@@ -27,16 +27,11 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
   Widget build(BuildContext context) {
     AcceptanceCriteriaModel acceptanceCriteria =
         widget.challenge.acceptanceCriterias[0];
-    return Column(
-      children: [
-        acceptanceCriteria.frequence.type == FrequenceTypeEnum.time
-            ? timeFrequence(acceptanceCriteria)
-            : acceptanceCriteria.frequence.type == FrequenceTypeEnum.daily
-                ? dayFrequence(acceptanceCriteria)
-                : frequenceDropDown(acceptanceCriteria),
-        const SpaceComponent(),
-      ],
-    );
+    return acceptanceCriteria.frequence.type == FrequenceTypeEnum.time
+        ? timeFrequence(acceptanceCriteria)
+        : acceptanceCriteria.frequence.type == FrequenceTypeEnum.daily
+            ? dayFrequence(acceptanceCriteria)
+            : frequenceDropDown(acceptanceCriteria);
   }
 
   CustomContainerComponent frequenceDropDown(
@@ -82,6 +77,10 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
   }
 
   frequencyAmountInput(AcceptanceCriteriaModel acceptanceCriteria) {
+    if (acceptanceCriteria.frequence.amount != null) {
+      frequenceAmountTextEditingController.text =
+          acceptanceCriteria.frequence.amount.toString();
+    }
     return CustomContainerComponent(
       isQuadratic: true,
       child: Align(
@@ -109,7 +108,6 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             if (widget.setIsKeyboardUp != null) {
               widget.setIsKeyboardUp!(true);
             }
-            debugPrint(isKeyboardUp.toString());
           }),
           decoration: const InputDecoration.collapsed(hintText: '∞'),
         ),
