@@ -784,13 +784,15 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   frequence(ChallengeModel challenge) {
-    return Column(
-      children: [
-        FrequencyComponent(
-            challenge: challenge, setIsKeyboardUp: setIsKeyboardUp),
-        const SpaceComponent()
-      ],
-    );
+    return isDescriptionExpanded
+        ? Container()
+        : Column(
+            children: [
+              FrequencyComponent(
+                  challenge: challenge, setIsKeyboardUp: setIsKeyboardUp),
+              const SpaceComponent()
+            ],
+          );
   }
 
   title(String challengeTitle) {
