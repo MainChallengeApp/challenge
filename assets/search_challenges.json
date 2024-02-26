@@ -390,7 +390,7 @@
         "title": "Vegan essen",
         "amount": 30.0,
         "unit": "Days",
-        "frequence": { "amount": 1, "type": "daily" },
+        "frequence": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
