@@ -83,9 +83,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        setState(() {
-          isKeyboardUp = false;
-        });
+        setIsKeyboardUp(false);
       },
       child: Scaffold(
         appBar: AppBarComponent(preTitle: widget.title),
@@ -742,9 +740,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                         }
                       });
                     },
-                    onTap: () => setState(() {
-                      isKeyboardUp = true;
-                    }),
+                    onTap: () => setIsKeyboardUp(true),
                     decoration:
                         const InputDecoration.collapsed(hintText: 'Amount'),
                   ),
@@ -763,16 +759,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                         onChanged: (value) {
                           acceptanceCriteria.unit = value;
                         },
-                        onTap: () => setState(() {
-                          isKeyboardUp = true;
-                        }),
-                        onSubmitted: (String s) => setState(() {
-                          isKeyboardUp = false;
-                        }),
-                        onEditingComplete: () => setState(() {
+                        onTap: () => setIsKeyboardUp(true),
+                        onSubmitted: (_) => setIsKeyboardUp(false),
+                        onEditingComplete: () {
                           FocusManager.instance.primaryFocus?.unfocus();
-                          isKeyboardUp = false;
-                        }),
+                          setIsKeyboardUp(false);
+                        },
                         decoration:
                             const InputDecoration.collapsed(hintText: 'Unit'),
                       ),
