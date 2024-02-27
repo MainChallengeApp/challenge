@@ -68,6 +68,7 @@ class _ListItemSearchbarComponentState
                         decoration: InputDecoration.collapsed(
                           hintText: widget.hintText,
                           hintStyle: const TextStyle(
+                            fontSize: basicFontSize,
                             color: themeColor3,
                           ),
                         )),

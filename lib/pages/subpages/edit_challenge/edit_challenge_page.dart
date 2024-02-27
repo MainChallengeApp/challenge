@@ -237,6 +237,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
         child: TapRegion(
           child: TextField(
               maxLines: 999,
+              style: const TextStyle(fontSize: basicFontSize),
               onChanged: (value) => widget.editChallenge.description = value,
               controller: TextEditingController()
                 ..text = widget.editChallenge.description,
@@ -310,6 +311,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
           child: Align(
             alignment: Alignment.centerLeft,
             child: TextField(
+                style: const TextStyle(fontSize: basicFontSize),
                 onChanged: (value) => widget.editChallenge.title = value,
                 decoration: const InputDecoration.collapsed(hintText: 'Title'),
                 controller: TextEditingController()
@@ -588,6 +590,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextField(
+                  style: const TextStyle(fontSize: basicFontSize),
                   textAlign: TextAlign.end,
                   controller: TextEditingController()
                     ..text = acceptanceCriteria.amount == 0
@@ -628,6 +631,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: TextField(
+                  style: const TextStyle(fontSize: basicFontSize),
                   controller: TextEditingController()
                     ..text = acceptanceCriteria.unit,
                   onChanged: (value) {
