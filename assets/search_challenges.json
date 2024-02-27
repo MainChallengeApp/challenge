@@ -276,7 +276,7 @@
         "title": "Digital Organization",
         "amount": 1.0,
         "unit": "Optimization",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
