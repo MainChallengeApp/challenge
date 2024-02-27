@@ -254,7 +254,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-          title: 'Knowledge',
+          title: 'Learning',
           preTitle: 'Search',
           selectTab: widget.selectTab,
           isFirstPageInRoute: false,
