@@ -152,6 +152,8 @@ class _SearchListPageState extends State<SearchListPage> {
           initialChalleneIndex: index,
         ),
       ),
-    );
+    ).then((value) => setState(
+          () {},
+        ));
   }
 }

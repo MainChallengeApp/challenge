@@ -824,19 +824,16 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   progressRecurring(AcceptanceCriteriaModel acceptanceCriteria) {
-    return acceptanceCriteria.frequency.amount == 1 &&
-            acceptanceCriteria.frequency.type == FrequencyTypeEnum.time
-        ? Container()
-        : Container(
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-                color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            child: Text(
-                '${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? 'Times' : ''}',
-                style: const TextStyle(fontSize: 10, color: themeColor3),
-                overflow: TextOverflow.ellipsis),
-          );
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+          color: themeColor4,
+          borderRadius: BorderRadius.all(Radius.circular(12))),
+      child: Text(
+          '${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
+          style: const TextStyle(fontSize: 10, color: themeColor3),
+          overflow: TextOverflow.ellipsis),
+    );
   }
 }
