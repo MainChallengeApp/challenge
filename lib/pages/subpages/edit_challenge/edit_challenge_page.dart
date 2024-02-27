@@ -615,8 +615,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                       acceptanceCriteria.amount = double.parse(value);
                     }
                   },
-                  decoration:
-                      const InputDecoration.collapsed(hintText: 'Amount'),
+                  decoration: const InputDecoration.collapsed(hintText: '0'),
                 ),
               ),
             )),

@@ -764,8 +764,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                       });
                     },
                     onTap: () => setIsKeyboardUp(true),
-                    decoration:
-                        const InputDecoration.collapsed(hintText: 'Amount'),
+                    decoration: const InputDecoration.collapsed(hintText: '0'),
                   ),
                 ),
               )),

@@ -307,7 +307,7 @@ class _AddAcceptanceCriteriaPageState extends State<AddAcceptanceCriteriaPage> {
                   widget.acceptanceCriteria.amount = double.parse(value);
                 }
               },
-              decoration: const InputDecoration.collapsed(hintText: 'Amount'),
+              decoration: const InputDecoration.collapsed(hintText: '0'),
             ),
           ),
         )),

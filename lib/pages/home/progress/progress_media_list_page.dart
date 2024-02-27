@@ -468,8 +468,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                         }
                       });
                     },
-                    decoration:
-                        const InputDecoration.collapsed(hintText: 'Amount'),
+                    decoration: const InputDecoration.collapsed(hintText: '0'),
                   ),
                 ),
               )),
