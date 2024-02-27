@@ -685,7 +685,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         }
         context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
-          widget.challenge.endDate = DateTime.now();
+          widget.challenge.endDate = DesignUtil.dateWithoutTime(DateTime.now());
           challengeList
               .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
           allChallengesList
@@ -805,7 +805,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       );
     } else if (widget.challenge.status == ChallengeStatusEnum.backlog) {
       setState(() {
-        widget.challenge.startDate = DateTime.now();
+        widget.challenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
+        widget.challenge.setChallengeEndDate();
         widget.challenge.status = ChallengeStatusEnum.inProgress;
       });
       allChallengesList
@@ -829,7 +830,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: Text(
-                '${acceptanceCriteria.calcCurrentFails(widget.challenge.startDate)}${acceptanceCriteria.calcCurrentDones()}${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? 'Times' : ''}',
+                '${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? 'Times' : ''}',
                 style: const TextStyle(fontSize: 10, color: themeColor3),
                 overflow: TextOverflow.ellipsis),
           );

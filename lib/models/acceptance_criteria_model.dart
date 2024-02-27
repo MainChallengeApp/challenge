@@ -1,6 +1,7 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/utils/design_util.dart';
 
 class AcceptanceCriteriaModel {
   int? id;
@@ -91,7 +92,9 @@ class AcceptanceCriteriaModel {
   }
 
   int calcCurrentFrequencyAmount(DateTime? challengeStartDate) {
-    if (challengeStartDate == null) {
+    if (challengeStartDate == null ||
+        DesignUtil.dateWithoutTime(DateTime.now())
+            .isBefore(challengeStartDate)) {
       return 0;
     }
     return frequency.type == FrequencyTypeEnum.daily
@@ -109,12 +112,14 @@ class AcceptanceCriteriaModel {
     return frequency.type == FrequencyTypeEnum.daily
         ? dones == 0
             ? ''
-            : '+$dones/'
+            : '$dones/'
         : '';
   }
 
   String calcCurrentFails(DateTime? challengeStartDate) {
-    if (challengeStartDate == null) {
+    if (challengeStartDate == null ||
+        challengeStartDate
+            .isAfter(DesignUtil.dateWithoutTime(DateTime.now()))) {
       return '';
     }
     DateTime nowWithoutTime =
@@ -134,7 +139,7 @@ class AcceptanceCriteriaModel {
     return frequency.type == FrequencyTypeEnum.daily
         ? fails == 0
             ? ''
-            : '-$fails/'
+            : '-$fails'
         : '';
   }
 }

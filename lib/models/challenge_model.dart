@@ -170,10 +170,9 @@ class ChallengeModel {
         endDate != null &&
         frequency.type == FrequencyTypeEnum.daily) {
       int amount = DesignUtil.dateWithoutTime(endDate!)
-              .difference(DesignUtil.dateWithoutTime(startDate!))
-              .inDays +
-          1;
-      if (amount > 0) {
+          .difference(DesignUtil.dateWithoutTime(startDate!))
+          .inDays;
+      if (amount >= 0) {
         frequency.amount = amount;
       }
     } else if (frequency.type == FrequencyTypeEnum.daily && endDate == null) {
