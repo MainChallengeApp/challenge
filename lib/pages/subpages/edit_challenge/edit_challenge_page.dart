@@ -64,7 +64,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
             description(),
             startAndEndDate(),
             amountAndUnit(),
-            frequency(widget.challenge),
+            frequency(widget.editChallenge),
             Expanded(child: Container()),
             cancelAndSaveButton()
           ],
