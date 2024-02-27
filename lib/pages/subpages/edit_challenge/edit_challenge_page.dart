@@ -232,7 +232,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   description() {
     return CustomContainerComponent(
-        heightFactor: 1.8,
+        heightFactor: 3,
         margin: const EdgeInsets.only(bottom: 16),
         child: TapRegion(
           child: TextField(
