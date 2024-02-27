@@ -734,6 +734,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: TextField(
+                    style: const TextStyle(fontSize: basicFontSize),
                     textAlign: TextAlign.end,
                     controller:
                         amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
@@ -777,6 +778,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: TextField(
+                        style: const TextStyle(fontSize: basicFontSize),
                         controller: unitTextEditingController,
                         onChanged: (value) {
                           acceptanceCriteria.unit = value;

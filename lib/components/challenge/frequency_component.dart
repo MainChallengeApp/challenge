@@ -1,6 +1,7 @@
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +101,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         child: Align(
           alignment: Alignment.centerLeft,
           child: TextField(
+            style: const TextStyle(fontSize: basicFontSize),
             textAlign: TextAlign.end,
             controller:
                 frequencyAmountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
