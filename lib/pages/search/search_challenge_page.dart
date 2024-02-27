@@ -271,7 +271,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           isMediaListVisible: false,
           onTapOpenMediaPage: () => onTapOpenMediaPage(context),
         ),
-        const SpaceComponent()
+        const SpaceComponent(
+          height: 11,
+        )
       ],
     );
   }
@@ -815,7 +817,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     return Column(
       children: [
         TitleComponent(challengeTitle: challengeTitle),
-        const SpaceComponent()
+        const SpaceComponent(
+          height: 11,
+        )
       ],
     );
   }

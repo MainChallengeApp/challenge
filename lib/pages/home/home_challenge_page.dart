@@ -135,7 +135,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return Column(
       children: [
         TitleComponent(challengeTitle: challengeTitle),
-        const SpaceComponent()
+        const SpaceComponent(
+          height: 11,
+        )
       ],
     );
   }
@@ -145,7 +147,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       children: [
         ThumbnailMaxComponent(
             challengeModel: e, onTapOpenMediaPage: onTapOpenMediaPage),
-        const SpaceComponent()
+        const SpaceComponent(
+          height: 11,
+        )
       ],
     );
   }
