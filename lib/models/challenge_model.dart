@@ -1,6 +1,7 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:challenge/enums/challenge_status_enum.dart';
@@ -157,6 +158,26 @@ class ChallengeModel {
         frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount != null) {
       endDate = startDate!.add(Duration(days: frequency.amount!));
+    } else if (frequency.type == FrequencyTypeEnum.daily &&
+        frequency.amount == null) {
+      endDate = null;
+    }
+  }
+
+  setChallengeFrequencyAmount() {
+    FrequencyModel frequency = acceptanceCriterias.first.frequency;
+    if (startDate != null &&
+        endDate != null &&
+        frequency.type == FrequencyTypeEnum.daily) {
+      int amount = DesignUtil.dateWithoutTime(endDate!)
+              .difference(DesignUtil.dateWithoutTime(startDate!))
+              .inDays +
+          1;
+      if (amount > 0) {
+        frequency.amount = amount;
+      }
+    } else if (frequency.type == FrequencyTypeEnum.daily && endDate == null) {
+      frequency.amount = null;
     }
   }
 }

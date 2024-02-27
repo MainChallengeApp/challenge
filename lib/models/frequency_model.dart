@@ -6,6 +6,10 @@ class FrequencyModel {
 
   FrequencyModel({this.amount, required this.type});
 
+  setAmountByStartAndEndDate(DateTime startDate, DateTime endDate) {
+    amount = startDate.difference(endDate).inDays;
+  }
+
   static fromJson(json) {
     return FrequencyModel(
         amount: json['amount'], type: FrequencyTypeEnum.factory(json['type']));

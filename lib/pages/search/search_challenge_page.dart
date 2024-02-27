@@ -555,14 +555,16 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   void onTapStartOrEndDate(String startOrEnd) async {
-    DateTime? initialDateTime = startOrEnd == 'start'
-        ? widget.challenge.startDate
-        : widget.challenge.endDate;
+    DateTime? initialDateTime =
+        startOrEnd == 'start' || widget.challenge.endDate == null
+            ? widget.challenge.startDate
+            : widget.challenge.endDate;
     setState(() {
       if (startOrEnd == 'start') {
         widget.challenge.startDate = null;
-      } else {
+      } else if (startOrEnd == 'end') {
         widget.challenge.endDate = null;
+        widget.challenge.setChallengeFrequencyAmount();
       }
     });
 
@@ -570,22 +572,25 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
     await showCupertinoModalPopup(
       context: context,
-      builder: (_) {
-        final size = MediaQuery.of(context).size;
+      builder: (c) {
+        var size = MediaQuery.of(context).size;
         return GestureDetector(
           onTap: () {
             if (startOrEnd == 'start') {
               setState(() {
                 if (!isDateTimeChanged) {
-                  widget.challenge.startDate =
-                      initialDateTime ?? DateTime.now();
+                  widget.challenge.startDate = initialDateTime ??
+                      DesignUtil.dateWithoutTime(DateTime.now());
                 }
+                widget.challenge.setChallengeEndDate();
               });
-            } else {
+            } else if (startOrEnd == 'end') {
               setState(() {
                 if (!isDateTimeChanged) {
-                  widget.challenge.endDate = initialDateTime ?? DateTime.now();
+                  widget.challenge.endDate = initialDateTime ??
+                      DesignUtil.dateWithoutTime(DateTime.now());
                 }
+                widget.challenge.setChallengeFrequencyAmount();
               });
             }
           },
@@ -599,15 +604,30 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
             ),
             height: size.height * 0.27,
             child: CupertinoDatePicker(
+              maximumDate: startOrEnd == 'start' &&
+                      widget.challenge.acceptanceCriterias.first.frequency
+                              .amount ==
+                          null &&
+                      widget.challenge.startDate != null
+                  ? widget.challenge.endDate
+                  : null,
+              minimumDate: startOrEnd == 'end'
+                  ? initialDateTime != null
+                      ? widget.challenge.startDate
+                      : null
+                  : DesignUtil.dateWithoutTime(DateTime.now()),
               initialDateTime: initialDateTime,
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: (value) {
+                value = DesignUtil.dateWithoutTime(value);
                 isDateTimeChanged = true;
                 setState(() {
                   if (startOrEnd == 'start') {
                     widget.challenge.startDate = value;
+                    widget.challenge.setChallengeEndDate();
                   } else if (startOrEnd == 'end') {
                     widget.challenge.endDate = value;
+                    widget.challenge.setChallengeFrequencyAmount();
                   }
                 });
               },

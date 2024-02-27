@@ -5,4 +5,8 @@ class DesignUtil {
     }
     return number.toString();
   }
+
+  static DateTime dateWithoutTime(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
+  }
 }

@@ -62,6 +62,9 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             acceptanceCriteria.frequency.type =
                 FrequencyTypeEnum.factory(value!);
           });
+          widget.challenge.setChallengeEndDate();
+          widget.challenge.setChallengeFrequencyAmount();
+          widget.reloadSeachChallengePage?.call();
         },
         items: frequencyMap.entries.map((e) {
           return DropdownMenuItem<String>(
@@ -88,6 +91,8 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
     if (acceptanceCriteria.frequency.amount != null) {
       frequencyAmountTextEditingController.text =
           acceptanceCriteria.frequency.amount.toString();
+    } else {
+      frequencyAmountTextEditingController.text = '';
     }
     return Expanded(
       child: CustomContainerComponent(
@@ -114,9 +119,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
                     value == '' ? null : int.parse(value);
               });
               widget.challenge.setChallengeEndDate();
-              if (widget.reloadSeachChallengePage != null) {
-                widget.reloadSeachChallengePage!.call();
-              }
+              widget.reloadSeachChallengePage?.call();
             },
             onTap: () => setState(() {
               if (widget.setIsKeyboardUp != null) {
