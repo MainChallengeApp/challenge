@@ -175,7 +175,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                       return CardComponent(
                         scrollPhysics: isKeyboardUp
                             ? const AlwaysScrollableScrollPhysics()
-                            : const NeverScrollableScrollPhysics(),
+                            : widget.challenges.length == 1
+                                ? const AlwaysScrollableScrollPhysics()
+                                : const NeverScrollableScrollPhysics(),
                         children: [
                           thumbnail(challenge, context),
                           title(challenge.title),
