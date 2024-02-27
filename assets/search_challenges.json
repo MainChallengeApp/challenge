@@ -10,7 +10,7 @@
         "title": "Act of Kindness",
         "amount": 1.0,
         "unit": "Act",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -27,9 +27,9 @@
       {
         "id": 0,
         "title": "Affirmationen",
-        "amount": 100.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 15.0,
+        "unit": "min",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -46,9 +46,9 @@
       {
         "id": 0,
         "title": "Archery",
-        "amount": 10.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -84,9 +84,9 @@
       {
         "id": 0,
         "title": "Bouldering",
-        "amount": 10.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -179,9 +179,9 @@
       {
         "id": 0,
         "title": "Cold showers",
-        "amount": 100.0,
-        "unit": "Showers",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Shower",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -217,9 +217,9 @@
       {
         "id": 0,
         "title": "Dancing",
-        "amount": 30.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 30, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -236,9 +236,9 @@
       {
         "id": 0,
         "title": "Diary",
-        "amount": 100.0,
-        "unit": "Entries",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Entry",
+        "frequency": { "amount": 100, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -255,9 +255,9 @@
       {
         "id": 0,
         "title": "Follow a diet",
-        "amount": 365.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 365, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -295,7 +295,7 @@
         "title": "Diving",
         "amount": 1.0,
         "unit": "Dive",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -333,7 +333,7 @@
         "title": "Drawing",
         "amount": 1.0,
         "unit": "Drawing",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -350,9 +350,9 @@
       {
         "id": 0,
         "title": "Dream diary",
-        "amount": 100.0,
-        "unit": "Entries",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Entry",
+        "frequency": { "amount": 100, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -369,9 +369,9 @@
       {
         "id": 0,
         "title": "Drink water",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -388,8 +388,8 @@
       {
         "id": 0,
         "title": "Vegan essen",
-        "amount": 30.0,
-        "unit": "Days",
+        "amount": 1.0,
+        "unit": "Day",
         "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
@@ -407,9 +407,9 @@
       {
         "id": 0,
         "title": "Eat vegetarian",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -445,9 +445,9 @@
       {
         "id": 0,
         "title": "Evening Routine Upgrade",
-        "amount": 100.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -559,9 +559,9 @@
       {
         "id": 0,
         "title": "Full body workout",
-        "amount": 100.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 100, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -578,9 +578,9 @@
       {
         "id": 0,
         "title": "Gardening",
-        "amount": 5.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -635,9 +635,9 @@
       {
         "id": 0,
         "title": "Fitness studio",
-        "amount": 100.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 30, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -656,7 +656,7 @@
         "title": "Handstand",
         "amount": 1.0,
         "unit": "Min",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -749,9 +749,9 @@
       {
         "id": 0,
         "title": "Juggling",
-        "amount": 10.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -789,7 +789,7 @@
         "title": "Making money",
         "amount": 10000.0,
         "unit": "Euro",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -825,9 +825,9 @@
       {
         "id": 0,
         "title": "Martial arts",
-        "amount": 100.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -844,9 +844,9 @@
       {
         "id": 0,
         "title": "Meditate",
-        "amount": 100.0,
-        "unit": "Meditations",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Meditation",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -863,9 +863,9 @@
       {
         "id": 0,
         "title": "Tomorrow Routine Upgrade",
-        "amount": 100.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -920,9 +920,9 @@
       {
         "id": 0,
         "title": "Learn to play an instrument",
-        "amount": 55.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 30, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -977,9 +977,9 @@
       {
         "id": 0,
         "title": "Cooking",
-        "amount": 10.0,
-        "unit": "Recipes",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Recipe",
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1034,9 +1034,9 @@
       {
         "id": 0,
         "title": "Origami of falten",
-        "amount": 10.0,
-        "unit": "Works of art",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Work of art",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1053,9 +1053,9 @@
       {
         "id": 0,
         "title": "Parkour",
-        "amount": 10.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1091,9 +1091,9 @@
       {
         "id": 0,
         "title": "Plank",
-        "amount": 5.0,
+        "amount": 2.0,
         "unit": "Min",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1169,7 +1169,7 @@
         "title": "Present",
         "amount": 1.0,
         "unit": "Presentation",
-        "frequency": { "amount": 1, "type": "daily" },
+        "frequency": { "amount": 1, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1224,9 +1224,9 @@
       {
         "id": 0,
         "title": "Views",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": null, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1262,9 +1262,9 @@
       {
         "id": 0,
         "title": "Selfcare",
-        "amount": 10.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1319,9 +1319,9 @@
       {
         "id": 0,
         "title": "Maintain your sleep rhythm",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1338,9 +1338,9 @@
       {
         "id": 0,
         "title": "Social Media Detox",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1376,9 +1376,9 @@
       {
         "id": 0,
         "title": "Stretching",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1395,9 +1395,9 @@
       {
         "id": 0,
         "title": "No sugar",
-        "amount": 7.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 7, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1433,9 +1433,9 @@
       {
         "id": 0,
         "title": "Swimming",
-        "amount": 30.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1452,9 +1452,9 @@
       {
         "id": 0,
         "title": "Ingestion",
-        "amount": 365.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1471,9 +1471,9 @@
       {
         "id": 0,
         "title": "Theater participation",
-        "amount": 20.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "time" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "time" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1509,9 +1509,9 @@
       {
         "id": 0,
         "title": "Go for a walk",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Day",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1547,9 +1547,9 @@
       {
         "id": 0,
         "title": "Recording",
-        "amount": 30.0,
-        "unit": "Days",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 80.0,
+        "unit": "Kg",
+        "frequency": { "amount": 30, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
@@ -1566,9 +1566,9 @@
       {
         "id": 0,
         "title": "Breathing technique",
-        "amount": 30.0,
-        "unit": "Sessions",
-        "frequency": { "amount": 1, "type": "daily" },
+        "amount": 1.0,
+        "unit": "Session",
+        "frequency": { "amount": 10, "type": "daily" },
         "tracking": "camera",
         "currentProgress": 0.0
       }
