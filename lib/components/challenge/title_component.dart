@@ -17,7 +17,7 @@ class TitleComponent extends StatelessWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Padding(
-              padding: const EdgeInsets.only(left: 10.0),
+              padding: const EdgeInsets.only(left: 10.0 + 1),
               child: Text(challengeTitle,
                   style: const TextStyle(fontSize: 20),
                   overflow: TextOverflow.ellipsis,
