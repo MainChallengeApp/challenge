@@ -1,4 +1,6 @@
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/frequency_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -10,7 +12,7 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequency: 'daily',
+          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -29,7 +31,7 @@ void main() {
           title: 'title',
           amount: 2,
           unit: 'unit',
-          frequency: 'daily',
+          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -48,7 +50,7 @@ void main() {
           title: 'title',
           amount: 0,
           unit: 'unit',
-          frequency: 'daily',
+          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -69,7 +71,7 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequency: 'daily',
+          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -88,7 +90,7 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequency: 'daily',
+          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
           tracking: 'tracking',
           currentProgress: 2,
           progress: []);
@@ -107,7 +109,7 @@ void main() {
           title: 'title',
           amount: 10,
           unit: 'unit',
-          frequency: 'daily',
+          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
           tracking: 'tracking',
           currentProgress: 2,
           progress: []);
@@ -131,7 +133,7 @@ void main() {
             title: 'title',
             amount: 2,
             unit: 'unit',
-            frequency: 'daily',
+            frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
             tracking: 'tracking',
             currentProgress: 1,
             progress: []),
@@ -140,7 +142,7 @@ void main() {
             title: 'title',
             amount: 1,
             unit: 'unit',
-            frequency: 'daily',
+            frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
             tracking: 'tracking',
             currentProgress: 1,
             progress: [])
@@ -153,8 +155,10 @@ void main() {
       // Assert (maybe just override the == operator)
       expect(acceptanceCriteriasCopy.length, equals(2));
       expect(acceptanceCriteriasCopy[0].id, equals(acceptanceCriterias[0].id));
-      expect(acceptanceCriteriasCopy[0].frequency,
-          equals(acceptanceCriterias[0].frequency));
+      expect(acceptanceCriteriasCopy[0].frequency.amount,
+          equals(acceptanceCriterias[0].frequency.amount));
+      expect(acceptanceCriteriasCopy[0].frequency.type,
+          equals(acceptanceCriterias[0].frequency.type));
       expect(acceptanceCriteriasCopy[0].currentProgress,
           equals(acceptanceCriterias[0].currentProgress));
       expect(acceptanceCriteriasCopy[0].title,
@@ -167,8 +171,10 @@ void main() {
           equals(acceptanceCriterias[0].progress));
 
       expect(acceptanceCriteriasCopy[1].id, equals(acceptanceCriterias[1].id));
-      expect(acceptanceCriteriasCopy[1].frequency,
-          equals(acceptanceCriterias[1].frequency));
+      expect(acceptanceCriteriasCopy[1].frequency.amount,
+          equals(acceptanceCriterias[1].frequency.amount));
+      expect(acceptanceCriteriasCopy[1].frequency.type,
+          equals(acceptanceCriterias[1].frequency.type));
       expect(acceptanceCriteriasCopy[1].currentProgress,
           equals(acceptanceCriterias[1].currentProgress));
       expect(acceptanceCriteriasCopy[1].title,

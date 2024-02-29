@@ -1,6 +1,8 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -19,7 +21,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 2,
                 progress: [])
@@ -46,7 +48,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 2,
                 progress: [])
@@ -72,7 +74,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 2,
                 progress: []),
@@ -81,7 +83,7 @@ void main() {
                 title: 'title',
                 amount: 1,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: [])
@@ -108,7 +110,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: []),
@@ -117,7 +119,7 @@ void main() {
                 title: 'title',
                 amount: 1,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: [])
@@ -138,13 +140,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
+          endDate: DateTime.now().add(const Duration(days: 1)),
           acceptanceCriterias: [
             AcceptanceCriteriaModel(
                 id: 1,
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 2,
                 progress: []),
@@ -153,7 +156,7 @@ void main() {
                 title: 'title',
                 amount: 1,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: [])
@@ -180,7 +183,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: []),
@@ -189,7 +192,7 @@ void main() {
                 title: 'title',
                 amount: 1,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: [])
@@ -217,7 +220,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: []),
@@ -226,7 +229,7 @@ void main() {
                 title: 'title',
                 amount: 1,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: [])
@@ -254,7 +257,7 @@ void main() {
                 title: 'title',
                 amount: 2,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: []),
@@ -263,7 +266,7 @@ void main() {
                 title: 'title',
                 amount: 1,
                 unit: 'unit',
-                frequency: 'daily',
+                frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
                 tracking: 'tracking',
                 currentProgress: 1,
                 progress: [])

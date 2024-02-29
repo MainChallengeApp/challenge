@@ -114,10 +114,6 @@ class ChallengeModel {
   }
 
   bool isChallengeCompleted() {
-    if (endDate == null) {
-      return false;
-    }
-
     for (var ac in acceptanceCriterias) {
       if (!ac.isCompleted()) {
         return false;

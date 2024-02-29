@@ -8,7 +8,8 @@ void main() {
       List<Map<String, dynamic>> json = [
         {
           'progress': 1.0,
-          'mediaIds': ['1', '2', '3']
+          'mediaIds': ['1', '2', '3'],
+          'percentProgress': 1.0
         }
       ];
       // Act
@@ -16,6 +17,7 @@ void main() {
       // Assert
       expect(evidences[0].progress, equals(1.0));
       expect(evidences[0].mediaIds, equals(['1', '2', '3']));
+      expect(evidences[0].percentProgress, equals(1.0));
     });
   });
 }
