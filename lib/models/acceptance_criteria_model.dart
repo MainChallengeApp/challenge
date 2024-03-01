@@ -91,15 +91,21 @@ class AcceptanceCriteriaModel {
     return calcProgressRatio() >= 1;
   }
 
-  int calcCurrentFrequencyAmount(DateTime? challengeStartDate) {
-    if (challengeStartDate == null ||
-        DesignUtil.dateWithoutTime(DateTime.now())
-            .isBefore(challengeStartDate)) {
+  int getCurrentFrequencyAmount(DateTime? challengeStartDate) {
+    if (frequency.type == FrequencyTypeEnum.daily) {
+      if (challengeStartDate == null ||
+          DesignUtil.dateWithoutTime(DateTime.now())
+              .isBefore(challengeStartDate)) {
+        return 0;
+      }
+      return frequency.type == FrequencyTypeEnum.daily
+          ? DateTime.now().difference(challengeStartDate).inDays + 1
+          : 0;
+    } else if (frequency.type == FrequencyTypeEnum.time) {
+      return frequency.currentAmount ?? 0;
+    } else {
       return 0;
     }
-    return frequency.type == FrequencyTypeEnum.daily
-        ? DateTime.now().difference(challengeStartDate).inDays + 1
-        : 0;
   }
 
   String calcCurrentDones() {

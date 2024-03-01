@@ -43,7 +43,8 @@ class ProgressMediaListPage extends StatefulWidget {
             .map((e) => ProgressModel(
                 progress: e.progress,
                 mediaIds: e.mediaIds,
-                percentProgress: e.percentProgress))
+                percentProgress: e.percentProgress,
+                frequencyAmount: e.frequencyAmount))
             .toList());
   }
   final String preTitle;
@@ -246,7 +247,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           progress: widget.acceptanceCriteria.currentProgress,
           mediaIds: mediaList.map((e) => e.id!).toList(),
           percentProgress: widget.acceptanceCriteria.currentProgress /
-              widget.acceptanceCriteria.amount);
+              widget.acceptanceCriteria.amount,
+          frequencyAmount: widget.acceptanceCriteria
+              .getCurrentFrequencyAmount(widget.challenge.startDate));
 
       widget.acceptanceCriteria.progress.insert(0, progress);
       allChallengesList

@@ -97,7 +97,7 @@ class _ListItemChallengeSmallComponentState
           color: themeColor4,
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Text(
-          '${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
+          '${acceptanceCriteria.getCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
           style: const TextStyle(fontSize: 10, color: themeColor3),
           overflow: TextOverflow.ellipsis),
     );

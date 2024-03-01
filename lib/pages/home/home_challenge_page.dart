@@ -117,7 +117,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     title(challenge.title),
                     description(challenge),
                     startAndEndDate(challenge),
-                    acceptanceCriteria(challenge.acceptanceCriterias),
+                    acceptanceCriteria(challenge),
                     isDescriptionExpanded
                         ? Container()
                         : Expanded(child: Container()),
@@ -418,7 +418,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria(List<AcceptanceCriteriaModel> acceptanceCriterias) {
+  acceptanceCriteria(ChallengeModel challenge) {
+    List<AcceptanceCriteriaModel> acceptanceCriterias =
+        challenge.acceptanceCriterias;
     return isDescriptionExpanded
         ? Container()
         : Column(
@@ -435,7 +437,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     itemBuilder: (_, i) {
                       return Transform.scale(
                         scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
-                        child: singleAcceptanceCriteria(acceptanceCriterias[i]),
+                        child: singleAcceptanceCriteria(
+                            acceptanceCriterias[i], challenge.startDate),
                       );
                     },
                   )),
@@ -446,7 +449,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
+  singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria,
+      DateTime? challengeStartDate) {
     return GestureDetector(
       onTap: () => onTapSingleAcceptanceCriteria(acceptanceCriteria),
       child: Stack(
@@ -488,7 +492,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                   children: [
                     // progressPercentage(acceptanceCriteria),
                     progressAbsolute(acceptanceCriteria),
-                    progressRecurring(acceptanceCriteria)
+                    progressRecurring(acceptanceCriteria, challengeStartDate)
                   ],
                 ),
               ))
@@ -812,18 +816,16 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         widget.challenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
         widget.challenge.setEndDate();
         widget.challenge.status = ChallengeStatusEnum.inProgress;
+        widget.challenge.acceptanceCriterias.first.frequency.currentAmount = 1;
       });
       allChallengesList
-          .firstWhere((element) => element.id == widget.challenge.id)
-          .startDate = widget.challenge.startDate;
-      allChallengesList
-          .firstWhere((element) => element.id == widget.challenge.id)
-          .status = widget.challenge.status;
+          .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
       challengeController.writeFile(context, allChallengesList);
     }
   }
 
-  progressRecurring(AcceptanceCriteriaModel acceptanceCriteria) {
+  progressRecurring(AcceptanceCriteriaModel acceptanceCriteria,
+      DateTime? challengeStartDate) {
     return Container(
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(10),
@@ -831,7 +833,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           color: themeColor4,
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Text(
-          '${acceptanceCriteria.calcCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
+          '${acceptanceCriteria.getCurrentFrequencyAmount(challengeStartDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
           style: const TextStyle(fontSize: 10, color: themeColor3),
           overflow: TextOverflow.ellipsis),
     );
