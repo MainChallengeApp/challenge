@@ -57,11 +57,11 @@ case $VERSION_COMPONENT in
         ;;
 esac
 
-flutter build ios
-
 # stash all changes
 # Update the version in the YAML file using sed
 sed -i '' -E "s/($ESCAPED_KEY_PATH:[[:space:]]*)[0-9]+\.[0-9]+\.[0-9]+\+[0-9]/\1$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER/" "$YAML_FILE"
+
+flutter build ios
 
 git add $YAML_FILE
 git commit -m "update: v$CURRENT_VERSION to v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"
