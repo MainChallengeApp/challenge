@@ -21,7 +21,8 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
         title: 'title',
         amount: 0,
         unit: 'unit',
-        frequency: FrequencyModel(amount: null, type: FrequencyTypeEnum.daily),
+        frequency: FrequencyModel(
+            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
         tracking: 'camera',
         currentProgress: initialProgress,
         progress: []);

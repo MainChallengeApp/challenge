@@ -2,9 +2,11 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 
 class FrequencyModel {
   int? amount;
+  int? currentAmount;
   FrequencyTypeEnum type;
 
-  FrequencyModel({this.amount, required this.type});
+  FrequencyModel(
+      {this.amount, required this.type, required this.currentAmount});
 
   setAmountByStartAndEndDate(DateTime startDate, DateTime endDate) {
     amount = startDate.difference(endDate).inDays;
@@ -12,7 +14,9 @@ class FrequencyModel {
 
   static fromJson(json) {
     return FrequencyModel(
-        amount: json['amount'], type: FrequencyTypeEnum.factory(json['type']));
+        amount: json['amount'],
+        type: FrequencyTypeEnum.factory(json['type']),
+        currentAmount: json['currentAmount']);
   }
 
   static toJson(FrequencyModel frequencyModel) {
@@ -20,6 +24,9 @@ class FrequencyModel {
   }
 
   static copyFrequency(FrequencyModel frequency) {
-    return FrequencyModel(type: frequency.type, amount: frequency.amount);
+    return FrequencyModel(
+        type: frequency.type,
+        amount: frequency.amount,
+        currentAmount: frequency.currentAmount);
   }
 }

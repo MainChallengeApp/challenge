@@ -568,7 +568,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         widget.challenge.startDate = null;
       } else if (startOrEnd == 'end') {
         widget.challenge.endDate = null;
-        widget.challenge.setChallengeFrequencyAmount();
+        widget.challenge.setFrequencyAmount();
       }
     });
 
@@ -710,8 +710,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               title: '',
               amount: 0,
               unit: '',
-              frequency:
-                  FrequencyModel(amount: 1, type: FrequencyTypeEnum.time),
+              frequency: FrequencyModel(
+                  amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
               tracking: '',
               currentProgress: 0,
               progress: []),

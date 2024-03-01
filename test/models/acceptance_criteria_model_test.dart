@@ -12,7 +12,8 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+          frequency:
+              FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -31,7 +32,8 @@ void main() {
           title: 'title',
           amount: 2,
           unit: 'unit',
-          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+          frequency:
+              FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -50,7 +52,8 @@ void main() {
           title: 'title',
           amount: 0,
           unit: 'unit',
-          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+          frequency:
+              FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -71,7 +74,8 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+          frequency:
+              FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
           progress: []);
@@ -90,7 +94,8 @@ void main() {
           title: 'title',
           amount: 1,
           unit: 'unit',
-          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+          frequency:
+              FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 2,
           progress: []);
@@ -109,7 +114,8 @@ void main() {
           title: 'title',
           amount: 10,
           unit: 'unit',
-          frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+          frequency:
+              FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 2,
           progress: []);
@@ -133,7 +139,8 @@ void main() {
             title: 'title',
             amount: 2,
             unit: 'unit',
-            frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+            frequency:
+                FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
             tracking: 'tracking',
             currentProgress: 1,
             progress: []),
@@ -142,7 +149,8 @@ void main() {
             title: 'title',
             amount: 1,
             unit: 'unit',
-            frequency: FrequencyModel(type: FrequencyTypeEnum.daily),
+            frequency:
+                FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
             tracking: 'tracking',
             currentProgress: 1,
             progress: [])
@@ -159,6 +167,8 @@ void main() {
           equals(acceptanceCriterias[0].frequency.amount));
       expect(acceptanceCriteriasCopy[0].frequency.type,
           equals(acceptanceCriterias[0].frequency.type));
+      expect(acceptanceCriteriasCopy[0].frequency.currentAmount,
+          equals(acceptanceCriterias[0].frequency.currentAmount));
       expect(acceptanceCriteriasCopy[0].currentProgress,
           equals(acceptanceCriterias[0].currentProgress));
       expect(acceptanceCriteriasCopy[0].title,
@@ -175,6 +185,8 @@ void main() {
           equals(acceptanceCriterias[1].frequency.amount));
       expect(acceptanceCriteriasCopy[1].frequency.type,
           equals(acceptanceCriterias[1].frequency.type));
+      expect(acceptanceCriteriasCopy[1].frequency.currentAmount,
+          equals(acceptanceCriterias[1].frequency.currentAmount));
       expect(acceptanceCriteriasCopy[1].currentProgress,
           equals(acceptanceCriterias[1].currentProgress));
       expect(acceptanceCriteriasCopy[1].title,
