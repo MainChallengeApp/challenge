@@ -155,7 +155,8 @@ class _HomeListPageState extends State<HomeListPage> {
         title: '',
         amount: 0,
         unit: '',
-        frequency: FrequencyModel(amount: 1, type: FrequencyTypeEnum.time),
+        frequency: FrequencyModel(
+            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
         tracking: 'camera',
         currentProgress: 0,
         progress: []);
