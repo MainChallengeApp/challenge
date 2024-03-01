@@ -108,11 +108,6 @@ class ChallengeModel {
         : this.categories.toSet().intersection(categories.toSet()).isNotEmpty;
   }
 
-  @override
-  String toString() {
-    return 'Challenge{id: $id, status: $status, title: $title, description: $description, thumbnailPath: $thumbnailPath, startDate: $startDate, endDate: $endDate, acceptanceCriteria: $acceptanceCriterias, media: $media, categories: $categories}';
-  }
-
   bool isChallengeCompleted() {
     for (var ac in acceptanceCriterias) {
       if (!ac.isCompleted()) {
