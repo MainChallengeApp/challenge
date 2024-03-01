@@ -148,7 +148,7 @@ class ChallengeModel {
     return thumbnailPath.startsWith('assets/images/');
   }
 
-  setChallengeEndDate() {
+  setEndDate() {
     FrequencyModel frequency = acceptanceCriterias.first.frequency;
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&
@@ -160,7 +160,7 @@ class ChallengeModel {
     }
   }
 
-  setChallengeFrequencyAmount() {
+  setFrequencyAmount() {
     FrequencyModel frequency = acceptanceCriterias.first.frequency;
     if (startDate != null &&
         endDate != null &&

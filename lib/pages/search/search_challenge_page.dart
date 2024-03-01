@@ -586,7 +586,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                   widget.challenge.startDate = initialDateTime ??
                       DesignUtil.dateWithoutTime(DateTime.now());
                 }
-                widget.challenge.setChallengeEndDate();
+                widget.challenge.setEndDate();
               });
             } else if (startOrEnd == 'end') {
               setState(() {
@@ -594,7 +594,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                   widget.challenge.endDate = initialDateTime ??
                       DesignUtil.dateWithoutTime(DateTime.now());
                 }
-                widget.challenge.setChallengeFrequencyAmount();
+                widget.challenge.setFrequencyAmount();
               });
             }
           },
@@ -628,10 +628,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 setState(() {
                   if (startOrEnd == 'start') {
                     widget.challenge.startDate = value;
-                    widget.challenge.setChallengeEndDate();
+                    widget.challenge.setEndDate();
                   } else if (startOrEnd == 'end') {
                     widget.challenge.endDate = value;
-                    widget.challenge.setChallengeFrequencyAmount();
+                    widget.challenge.setFrequencyAmount();
                   }
                 });
               },

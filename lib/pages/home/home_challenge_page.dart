@@ -810,7 +810,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     } else if (widget.challenge.status == ChallengeStatusEnum.backlog) {
       setState(() {
         widget.challenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
-        widget.challenge.setChallengeEndDate();
+        widget.challenge.setEndDate();
         widget.challenge.status = ChallengeStatusEnum.inProgress;
       });
       allChallengesList

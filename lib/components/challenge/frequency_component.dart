@@ -63,8 +63,8 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             acceptanceCriteria.frequency.type =
                 FrequencyTypeEnum.factory(value!);
           });
-          widget.challenge.setChallengeEndDate();
-          widget.challenge.setChallengeFrequencyAmount();
+          widget.challenge.setEndDate();
+          widget.challenge.setFrequencyAmount();
           widget.reloadSeachChallengePage?.call();
         },
         items: frequencyMap.entries.map((e) {
@@ -120,7 +120,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
                 acceptanceCriteria.frequency.amount =
                     value == '' ? null : int.parse(value);
               });
-              widget.challenge.setChallengeEndDate();
+              widget.challenge.setEndDate();
               widget.reloadSeachChallengePage?.call();
             },
             onTap: () => setState(() {
