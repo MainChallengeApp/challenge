@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:challenge/components/categories/category_component.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/pages/components/categories/category_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'search_challenge_page.dart';
 
 class SearchCategoriesPage extends StatefulWidget {

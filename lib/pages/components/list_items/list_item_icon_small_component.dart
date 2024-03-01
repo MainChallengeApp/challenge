@@ -1,4 +1,4 @@
-import 'package:challenge/components/list_items/list_item_container_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 

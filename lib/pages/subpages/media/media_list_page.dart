@@ -1,11 +1,11 @@
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/providers/design_provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 
 class MediaListPage extends StatefulWidget {
   const MediaListPage(

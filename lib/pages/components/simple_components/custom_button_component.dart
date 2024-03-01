@@ -1,4 +1,4 @@
-import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 

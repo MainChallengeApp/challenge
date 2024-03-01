@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/components/list_items/list_item_accept_button_component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
-import 'package:challenge/components/list_items/list_item_media_small_component.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_accept_button_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -18,7 +18,7 @@ import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/providers/design_provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 

@@ -1,4 +1,4 @@
-import 'package:challenge/components/list_items/list_item_container_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';

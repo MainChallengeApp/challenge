@@ -1,5 +1,5 @@
-import 'package:challenge/components/simple_components/custom_container_component.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';

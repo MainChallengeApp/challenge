@@ -2,7 +2,7 @@
 // Refactor/Clean when used...
 import 'dart:developer';
 
-import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';

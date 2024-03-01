@@ -1,16 +1,16 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/components/challenge/description_component.dart';
-import 'package:challenge/components/challenge/frequency_component.dart';
-import 'package:challenge/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/components/challenge/title_component.dart';
-import 'package:challenge/components/simple_components/custom_card_component.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/pages/components/challenge/description_component.dart';
+import 'package:challenge/pages/components/challenge/frequency_component.dart';
+import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/pages/components/challenge/title_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
-import 'package:challenge/components/simple_components/snack_bar_component.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,7 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';

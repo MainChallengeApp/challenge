@@ -1,9 +1,9 @@
 import 'package:challenge/pages/search/search_categories_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:challenge/components/navigation/tab_navigator_component.dart';
+import 'package:challenge/pages/components/navigation/tab_navigator_component.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 
 class SearchTabNavigatorRoutes {
   static const String root = '/';

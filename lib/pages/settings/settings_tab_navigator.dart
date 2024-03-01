@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/settings/settings_list_page.dart';
-import 'package:challenge/components/navigation/tab_navigator_component.dart';
+import 'package:challenge/pages/components/navigation/tab_navigator_component.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 
 class SettingsTabNavigatorRoutes {

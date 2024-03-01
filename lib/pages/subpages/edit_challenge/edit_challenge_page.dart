@@ -1,12 +1,12 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/components/challenge/frequency_component.dart';
-import 'package:challenge/components/simple_components/custom_button_component.dart';
-import 'package:challenge/components/simple_components/custom_card_component.dart';
-import 'package:challenge/components/simple_components/custom_container_component.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/pages/components/challenge/frequency_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -18,7 +18,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 
 class EditChallengePage extends StatefulWidget {
   final String preTitle;

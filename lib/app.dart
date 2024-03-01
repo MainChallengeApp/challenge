@@ -1,12 +1,12 @@
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/settings/settings_tab_navigator.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/pages/home/home_tab_navigator.dart';
 import 'package:challenge/pages/search/search_tab_navigator.dart';
-import 'package:challenge/components/navigation/tab_navigator_component.dart';
+import 'package:challenge/pages/components/navigation/tab_navigator_component.dart';
 import 'package:provider/provider.dart';
 
 import 'globals.dart';

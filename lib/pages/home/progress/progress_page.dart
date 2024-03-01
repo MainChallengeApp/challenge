@@ -1,7 +1,7 @@
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/components/list_items/list_item_acceptance_criteria_bar_component.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
+import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/providers/design_provider.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'progress_media_list_page.dart';
 
 class ProgressPage extends StatefulWidget {
