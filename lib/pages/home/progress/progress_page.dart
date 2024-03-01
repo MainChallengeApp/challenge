@@ -37,7 +37,7 @@ class _ProgressPageState extends State<ProgressPage> {
     setIsBottomNavBarVisibleToFalse();
     Future.delayed(Duration.zero, () {
       List<String> preTitleArray = widget.preTitle.split('/');
-      if (preTitleArray.length >= 3 && preTitleArray.contains('Evidences')) {
+      if (preTitleArray.length >= 3 && preTitleArray.contains('Progress')) {
         Navigator.pop(context);
       }
     });
