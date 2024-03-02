@@ -12,6 +12,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       {super.key,
       required this.acceptanceCriteria,
       this.isProgressBarLocked = false,
+      this.isProgress = false,
       this.isEvidence = false,
       this.initialProgress = 0,
       this.editAcceptanceCriteria,
@@ -31,7 +32,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
   final AcceptanceCriteriaModel acceptanceCriteria;
   late AcceptanceCriteriaModel? editAcceptanceCriteria;
   final bool isProgressBarLocked;
-  final bool isEvidence;
+  final bool isProgress;
   final double initialProgress;
   final bool isFailed;
 
@@ -123,7 +124,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
                         color: themeColor4,
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                      widget.isEvidence
+                      widget.isProgress
                           ? widget.acceptanceCriteria.amount == 0
                               ? '100%'
                               : '${(widget.initialProgress / widget.acceptanceCriteria.amount * 100).toInt()}%'
@@ -141,7 +142,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
                         color: themeColor4,
                         borderRadius: BorderRadius.all(Radius.circular(12))),
                     child: Text(
-                        widget.isEvidence
+                        widget.isProgress
                             ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
                             : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.currentProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}',
                         style:
@@ -157,7 +158,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
   }
 
   double calcProgressRatio() {
-    return widget.isEvidence
+    return widget.isProgress
         ? widget.acceptanceCriteria.amount == 0
             ? 1
             : widget.initialProgress / widget.acceptanceCriteria.amount > 1
