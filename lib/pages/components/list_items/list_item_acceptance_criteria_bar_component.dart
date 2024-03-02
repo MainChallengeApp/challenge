@@ -167,18 +167,4 @@ class _ListItemAcceptanceCriteriaBarComponentState
             ? 1
             : widget.editAcceptanceCriteria!.calcProgressRatio();
   }
-
-  IconData getIconData() {
-    if (widget.acceptanceCriteria.tracking == 'camera') {
-      return Icons.camera_alt_outlined;
-    } else if (widget.acceptanceCriteria.tracking == 'gps') {
-      return Icons.gps_not_fixed;
-    } else if (widget.acceptanceCriteria.tracking == 'notes') {
-      return Icons.notes;
-    } else if (widget.acceptanceCriteria.tracking == 'numbers') {
-      return Icons.numbers;
-    } else {
-      return Icons.not_interested_rounded;
-    }
-  }
 }
