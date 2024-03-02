@@ -13,7 +13,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       required this.acceptanceCriteria,
       this.isProgressBarLocked = false,
       this.isProgress = false,
-      this.isEvidence = false,
+      this.isRepetition = false,
       this.initialProgress = 0,
       this.editAcceptanceCriteria,
       this.isFailed = false}) {
@@ -35,6 +35,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
   final bool isProgress;
   final double initialProgress;
   final bool isFailed;
+  final bool isRepetition;
 
   @override
   State<ListItemAcceptanceCriteriaBarComponent> createState() =>
