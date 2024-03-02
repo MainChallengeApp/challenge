@@ -74,9 +74,9 @@ class _ProgressPageState extends State<ProgressPage> {
               return newProgress();
             }
 
-            ProgressModel evidence = widget
+            ProgressModel progress = widget
                 .acceptanceCriteria.progress[index - 1]; // -1 for new Evidence
-            return progressListItem(evidence);
+            return progressListItem(progress);
           }),
     );
   }
@@ -93,15 +93,15 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  Column progressListItem(ProgressModel evidence) {
+  Column progressListItem(ProgressModel progress) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () => onTapProgress(evidence),
+          onTap: () => onTapProgress(progress),
           child: ListItemAcceptanceCriteriaBarComponent(
             acceptanceCriteria: widget.acceptanceCriteria,
             isProgressBarLocked: true,
-            initialProgress: evidence.progress,
+            initialProgress: progress.progress,
             isEvidence: true,
             isFailed: widget.challenge.status == ChallengeStatusEnum.failed,
           ),
@@ -134,18 +134,18 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  onTapProgress(ProgressModel evidence) {
+  onTapProgress(ProgressModel progress) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
           preTitle: '${widget.preTitle}/Progress',
           initialMediaList: widget.challenge.media
-              .where((element) => evidence.mediaIds.contains(element.id))
+              .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
           acceptanceCriteria: widget.acceptanceCriteria,
           challenge: widget.challenge,
-          evidence: evidence,
+          progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
         ),
       ),

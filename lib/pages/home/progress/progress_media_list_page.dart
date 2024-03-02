@@ -29,7 +29,7 @@ class ProgressMediaListPage extends StatefulWidget {
       required this.challenge,
       required this.initialMediaList,
       required this.acceptanceCriteria,
-      this.evidence,
+      this.progress,
       this.isSaveInsteadOfEditButtonVisible = true}) {
     editAcceptanceCriteria = AcceptanceCriteriaModel(
         id: acceptanceCriteria.id,
@@ -52,7 +52,7 @@ class ProgressMediaListPage extends StatefulWidget {
   final List<MediaModel> initialMediaList;
   final AcceptanceCriteriaModel acceptanceCriteria;
   late AcceptanceCriteriaModel editAcceptanceCriteria;
-  final ProgressModel? evidence;
+  final ProgressModel? progress;
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
@@ -64,8 +64,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   ScrollController scrollController = ScrollController();
 
   TextEditingController amountTextEditingController = TextEditingController();
-
-  String searchBarText = "";
 
   late BuildContext context2;
 
@@ -84,9 +82,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       child: Scaffold(
           appBar: AppBarComponent(
               preTitle: widget.preTitle,
-              titleText: widget.evidence == null
+              titleText: widget.progress == null
                   ? 'New Progress'
-                  : '${widget.acceptanceCriteria.progress.length - widget.acceptanceCriteria.progress.indexOf(widget.evidence!)}'),
+                  : '${widget.acceptanceCriteria.progress.length - widget.acceptanceCriteria.progress.indexOf(widget.progress!)}'),
           backgroundColor: Colors.white,
           body: Stack(
             children: [_buildList(), progressButton()],
@@ -116,7 +114,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     onTap: onTapProgressBar,
                     child: ListItemAcceptanceCriteriaBarComponent(
                       acceptanceCriteria: widget.acceptanceCriteria,
-                      initialProgress: widget.evidence?.progress ??
+                      initialProgress: widget.progress?.progress ??
                           widget.acceptanceCriteria.currentProgress,
                       isProgressBarLocked:
                           !widget.isSaveInsteadOfEditButtonVisible,
@@ -163,13 +161,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             );
           }),
     );
-  }
-
-  changeList(String value) {
-    setState(() {
-      // challengesFutures = getChallenges(context);
-      searchBarText = value;
-    });
   }
 
   void ppush(BuildContext context, {required int index}) {
