@@ -32,6 +32,7 @@ class ProgressModel {
         .map((p) => {
               'date': p.date.toString(),
               'progress': p.progress,
+              'percentProgress': p.percentProgress,
               'mediaIds': p.mediaIds,
               'frequencyAmount': p.frequencyAmount
             })

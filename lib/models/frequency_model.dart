@@ -19,8 +19,12 @@ class FrequencyModel {
         currentAmount: json['currentAmount']);
   }
 
-  static toJson(FrequencyModel frequencyModel) {
-    return "{'amount': ${frequencyModel.amount ?? 0}, 'type': '${frequencyModel.type.toString2()}' }";
+  static Map<String, dynamic> toJson(FrequencyModel frequency) {
+    return {
+      'amount': frequency.amount ?? 0,
+      'type': frequency.type.toString2(),
+      'currentAmount': frequency.currentAmount ?? 0
+    };
   }
 
   static copyFrequency(FrequencyModel frequency) {
