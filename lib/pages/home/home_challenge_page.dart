@@ -6,7 +6,6 @@ import 'package:challenge/pages/components/challenge/thumbnail_max_component.dar
 import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/pages/subpages/media/media_list_page.dart';
@@ -833,7 +832,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           color: themeColor4,
           borderRadius: BorderRadius.all(Radius.circular(12))),
       child: Text(
-          '${acceptanceCriteria.getCurrentFrequencyAmount(challengeStartDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
+          '${acceptanceCriteria.getCurrentFrequencyAmount(challengeStartDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${DesignUtil.dayDaysTimeOrTimes(acceptanceCriteria.frequency)}',
           style: const TextStyle(fontSize: 10, color: themeColor3),
           overflow: TextOverflow.ellipsis),
     );
