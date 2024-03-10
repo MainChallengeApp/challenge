@@ -5,19 +5,24 @@ void main() {
   group('fromJsonList()', () {
     test('should create Evidence when json is passed correctly', () {
       // Arrange
+      DateTime date = DateTime.now();
       List<Map<String, dynamic>> json = [
         {
           'progress': 1.0,
           'mediaIds': ['1', '2', '3'],
-          'percentProgress': 1.0
+          'percentProgress': 1.0,
+          'date': date,
+          'frequencyAmount': 1
         }
       ];
       // Act
-      List<ProgressModel> evidences = ProgressModel.fromJsonList(json);
+      List<ProgressModel> progress = ProgressModel.fromJsonList(json);
       // Assert
-      expect(evidences[0].progress, equals(1.0));
-      expect(evidences[0].mediaIds, equals(['1', '2', '3']));
-      expect(evidences[0].percentProgress, equals(1.0));
+      expect(progress[0].progress, equals(1.0));
+      expect(progress[0].mediaIds, equals(['1', '2', '3']));
+      expect(progress[0].percentProgress, equals(1.0));
+      expect(progress[0].date, equals(date));
+      expect(progress[0].frequencyAmount, equals(1));
     });
   });
 }

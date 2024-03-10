@@ -16,7 +16,7 @@ void main() {
               FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
-          progress: []);
+          repetitions: []);
 
       // Act
       double progressRatio = acceptanceCriteria.calcProgressRatio();
@@ -36,7 +36,7 @@ void main() {
               FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
-          progress: []);
+          repetitions: []);
 
       // Act
       double progressRatio = acceptanceCriteria.calcProgressRatio();
@@ -56,7 +56,7 @@ void main() {
               FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
-          progress: []);
+          repetitions: []);
 
       // Act
       double progressRatio = acceptanceCriteria.calcProgressRatio();
@@ -78,7 +78,7 @@ void main() {
               FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 1,
-          progress: []);
+          repetitions: []);
 
       // Act
       bool isComplete = acceptanceCriteria.isCompleted();
@@ -98,7 +98,7 @@ void main() {
               FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 2,
-          progress: []);
+          repetitions: []);
 
       // Act
       bool isComplete = acceptanceCriteria.isCompleted();
@@ -118,7 +118,7 @@ void main() {
               FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
           tracking: 'tracking',
           currentProgress: 2,
-          progress: []);
+          repetitions: []);
 
       // Act
       bool isComplete = acceptanceCriteria.isCompleted();
@@ -143,7 +143,7 @@ void main() {
                 FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
             tracking: 'tracking',
             currentProgress: 1,
-            progress: []),
+            repetitions: []),
         AcceptanceCriteriaModel(
             id: 2,
             title: 'title',
@@ -153,7 +153,7 @@ void main() {
                 FrequencyModel(type: FrequencyTypeEnum.daily, currentAmount: 0),
             tracking: 'tracking',
             currentProgress: 1,
-            progress: [])
+            repetitions: [])
       ];
 
       // Act
@@ -177,8 +177,8 @@ void main() {
           equals(acceptanceCriterias[0].amount));
       expect(
           acceptanceCriteriasCopy[0].unit, equals(acceptanceCriterias[0].unit));
-      expect(acceptanceCriteriasCopy[0].progress,
-          equals(acceptanceCriterias[0].progress));
+      expect(acceptanceCriteriasCopy[0].repetitions,
+          equals(acceptanceCriterias[0].repetitions));
 
       expect(acceptanceCriteriasCopy[1].id, equals(acceptanceCriterias[1].id));
       expect(acceptanceCriteriasCopy[1].frequency.amount,
@@ -195,8 +195,8 @@ void main() {
           equals(acceptanceCriterias[1].amount));
       expect(
           acceptanceCriteriasCopy[1].unit, equals(acceptanceCriterias[1].unit));
-      expect(acceptanceCriteriasCopy[1].progress,
-          equals(acceptanceCriterias[1].progress));
+      expect(acceptanceCriteriasCopy[1].repetitions,
+          equals(acceptanceCriterias[1].repetitions));
     });
   });
 }

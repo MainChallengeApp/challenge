@@ -39,13 +39,8 @@ class ProgressMediaListPage extends StatefulWidget {
         frequency: acceptanceCriteria.frequency,
         tracking: acceptanceCriteria.tracking,
         currentProgress: acceptanceCriteria.currentProgress,
-        progress: acceptanceCriteria.progress
-            .map((e) => ProgressModel(
-                progress: e.progress,
-                mediaIds: e.mediaIds,
-                percentProgress: e.percentProgress,
-                frequencyAmount: e.frequencyAmount))
-            .toList());
+        repetitions:
+            ProgressModel.copyRepetitionList(acceptanceCriteria.repetitions));
   }
   final String preTitle;
   final ChallengeModel challenge;
@@ -84,7 +79,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               preTitle: widget.preTitle,
               titleText: widget.progress == null
                   ? 'New Progress'
-                  : '${widget.acceptanceCriteria.progress.length - widget.acceptanceCriteria.progress.indexOf(widget.progress!)}'),
+                  : '${widget.progress!.frequencyAmount}'),
           backgroundColor: Colors.white,
           body: Stack(
             children: [_buildList(), progressButton()],
@@ -235,6 +230,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       widget.acceptanceCriteria.currentProgress =
           widget.editAcceptanceCriteria.currentProgress;
       var progress = ProgressModel(
+          date: DateTime.now(),
           progress: widget.acceptanceCriteria.currentProgress,
           mediaIds: mediaList.map((e) => e.id!).toList(),
           percentProgress: widget.acceptanceCriteria.currentProgress /
@@ -242,7 +238,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           frequencyAmount: widget.acceptanceCriteria
               .getCurrentFrequencyAmount(widget.challenge.startDate));
 
-      widget.acceptanceCriteria.progress.insert(0, progress);
+      widget.acceptanceCriteria.repetitions[progress.frequencyAmount - 1]
+          .progressList
+          .add(progress);
       allChallengesList
           .firstWhere((element) => element.id == widget.challenge.id)
           .acceptanceCriterias

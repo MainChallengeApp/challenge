@@ -25,7 +25,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 2,
-                progress: [])
+                repetitions: [])
           ],
           media: []);
       // Act
@@ -53,7 +53,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 2,
-                progress: [])
+                repetitions: [])
           ],
           media: []);
       // Act
@@ -80,7 +80,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 2,
-                progress: []),
+                repetitions: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -90,7 +90,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: [])
+                repetitions: [])
           ],
           media: []);
       // Act
@@ -118,7 +118,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: []),
+                repetitions: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -128,7 +128,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: [])
+                repetitions: [])
           ],
           media: []);
       // Act
@@ -157,7 +157,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 2,
-                progress: []),
+                repetitions: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -167,7 +167,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: [])
+                repetitions: [])
           ],
           media: []);
       // Act
@@ -195,7 +195,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: []),
+                repetitions: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -205,7 +205,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: [])
+                repetitions: [])
           ],
           endDate: DateTime.now().subtract(const Duration(days: 1)),
           media: []);
@@ -234,7 +234,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: []),
+                repetitions: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -244,7 +244,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: [])
+                repetitions: [])
           ],
           startDate: DateTime.now().add(const Duration(days: 1)),
           media: []);
@@ -273,7 +273,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: []),
+                repetitions: []),
             AcceptanceCriteriaModel(
                 id: 2,
                 title: 'title',
@@ -283,7 +283,7 @@ void main() {
                     type: FrequencyTypeEnum.daily, currentAmount: 0),
                 tracking: 'tracking',
                 currentProgress: 1,
-                progress: [])
+                repetitions: [])
           ],
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)),

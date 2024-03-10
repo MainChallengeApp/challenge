@@ -1,3 +1,4 @@
+import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
@@ -67,16 +68,13 @@ class _ProgressPageState extends State<ProgressPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.acceptanceCriteria.progress.length +
-              1, // +1 for new Progress
+          itemCount: widget.acceptanceCriteria.repetitions.length,
           itemBuilder: (BuildContext content, int index) {
-            if (index == 0) {
-              return newProgress();
-            }
-
-            ProgressModel progress = widget
-                .acceptanceCriteria.progress[index - 1]; // -1 for new Evidence
-            return progressListItem(progress);
+            RepetitionModel repetition =
+                widget.acceptanceCriteria.repetitions[index];
+            repetition.progressList
+                .sort((a, b) => b.date.millisecond - a.date.millisecond);
+            return repetitionListItem(repetition);
           }),
     );
   }
@@ -93,17 +91,20 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  Column progressListItem(ProgressModel progress) {
+  Column repetitionListItem(RepetitionModel repetition) {
+    repetition.progressList
+        .sort((a, b) => b.date.millisecond - a.date.microsecond);
     return Column(
       children: [
         GestureDetector(
-          onTap: () => onTapProgress(progress),
+          onTap: () => onTapRepetition(repetition),
           child: ListItemAcceptanceCriteriaBarComponent(
             acceptanceCriteria: widget.acceptanceCriteria,
             isProgressBarLocked: true,
-            initialProgress: progress.progress,
-            isEvidence: true,
+            initialProgress: repetition.progressList.first.progress,
+            isRepetition: true,
             isFailed: widget.challenge.status == ChallengeStatusEnum.failed,
+            repetition: repetition,
           ),
         ),
         const SpaceComponent()
@@ -199,4 +200,6 @@ class _ProgressPageState extends State<ProgressPage> {
           // context.read<DesignProvider>().setIsBottomNavBarVisible(true);
         }));
   }
+
+  onTapRepetition(RepetitionModel repetition) {}
 }

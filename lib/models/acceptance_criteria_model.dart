@@ -1,6 +1,7 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 
 class AcceptanceCriteriaModel {
@@ -11,7 +12,7 @@ class AcceptanceCriteriaModel {
   FrequencyModel frequency;
   String tracking;
   double currentProgress;
-  List<ProgressModel> progress;
+  List<RepetitionModel> repetitions;
 
   AcceptanceCriteriaModel(
       {required this.id,
@@ -21,7 +22,13 @@ class AcceptanceCriteriaModel {
       required this.frequency,
       required this.tracking,
       required this.currentProgress,
-      required this.progress});
+      required this.repetitions}) {
+    if (repetitions.isEmpty) {
+      for (var i = 1; i <= (frequency.amount ?? 0); i++) {
+        repetitions.add(RepetitionModel(repetionNumber: i, progressList: []));
+      }
+    }
+  }
 
   static List<AcceptanceCriteriaModel> fromJsonList(json) {
     List<AcceptanceCriteriaModel> list = [];
@@ -33,7 +40,7 @@ class AcceptanceCriteriaModel {
         frequency: FrequencyModel.fromJson(e['frequency']),
         tracking: e['tracking'],
         currentProgress: e['currentProgress'],
-        progress: ProgressModel.fromJsonList(e['progress']))));
+        repetitions: ProgressModel.fromJsonListList(e['repetitions']))));
     return list;
   }
 
@@ -47,7 +54,7 @@ class AcceptanceCriteriaModel {
               'frequency': FrequencyModel.toJson(e.frequency),
               'tracking': e.tracking,
               'currentProgress': e.currentProgress,
-              'progress': ProgressModel.toJsonList(e.progress)
+              'repetitions': ProgressModel.toJsonListList(e.repetitions)
             })
         .toList();
   }
@@ -76,8 +83,9 @@ class AcceptanceCriteriaModel {
         frequency: FrequencyModel.copyFrequency(ac.frequency),
         tracking: ac.tracking,
         currentProgress: isTryAgain ? 0 : ac.currentProgress,
-        progress:
-            isTryAgain ? [] : ProgressModel.copyEvidenceList(ac.progress));
+        repetitions: isTryAgain
+            ? null
+            : ProgressModel.copyRepetitionList(ac.repetitions));
   }
 
   double calcProgressRatio() {
@@ -108,44 +116,42 @@ class AcceptanceCriteriaModel {
     }
   }
 
-  String calcCurrentDones() {
-    int dones = progress
-        .where((element) => element.percentProgress >= 1)
-        .map((e) => e.date.toString().split(' ')[0])
-        .toSet()
-        .length;
-
-    return frequency.type == FrequencyTypeEnum.daily
-        ? dones == 0
-            ? ''
-            : '$dones/'
-        : '';
+  int calcCurrentDones() {
+    int dones = repetitions.where((repetition) {
+      if (repetition.progressList.isEmpty) {
+        return false;
+      }
+      repetition.progressList.sort((a, b) =>
+          b.date.millisecondsSinceEpoch - a.date.millisecondsSinceEpoch);
+      return repetition.progressList.first.percentProgress >= 1;
+    }).length;
+    return dones;
   }
 
-  String calcCurrentFails(DateTime? challengeStartDate) {
-    if (challengeStartDate == null ||
-        challengeStartDate
-            .isAfter(DesignUtil.dateWithoutTime(DateTime.now()))) {
-      return '';
-    }
-    DateTime nowWithoutTime =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
-    int dones = progress
-        .where((element) =>
-            element.percentProgress >= 1 &&
-            !(DateTime(
-                    element.date!.year, element.date!.month, element.date!.day)
-                .isAtSameMomentAs(nowWithoutTime)))
-        .map((e) => e.date.toString().split(' ')[0])
-        .toSet()
-        .length;
+  // String calcCurrentFails(DateTime? challengeStartDate) {
+  //   if (challengeStartDate == null ||
+  //       challengeStartDate
+  //           .isAfter(DesignUtil.dateWithoutTime(DateTime.now()))) {
+  //     return '';
+  //   }
+  //   DateTime nowWithoutTime =
+  //       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  //   int dones = progress
+  //       .where((element) =>
+  //           element.percentProgress >= 1 &&
+  //           !(DateTime(
+  //                   element.date!.year, element.date!.month, element.date!.day)
+  //               .isAtSameMomentAs(nowWithoutTime)))
+  //       .map((e) => e.date.toString().split(' ')[0])
+  //       .toSet()
+  //       .length;
 
-    int fails = DateTime.now().difference(challengeStartDate).inDays - dones;
+  //   int fails = DateTime.now().difference(challengeStartDate).inDays - dones;
 
-    return frequency.type == FrequencyTypeEnum.daily
-        ? fails == 0
-            ? ''
-            : '-$fails'
-        : '';
-  }
+  //   return frequency.type == FrequencyTypeEnum.daily
+  //       ? fails == 0
+  //           ? ''
+  //           : '-$fails'
+  //       : '';
+  // }
 }

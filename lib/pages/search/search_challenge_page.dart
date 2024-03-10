@@ -714,7 +714,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                   amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
               tracking: '',
               currentProgress: 0,
-              progress: []),
+              repetitions: []),
           acceptanceCriteriaIndex: null,
         ),
       ),

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
+import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,8 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       this.isRepetition = false,
       this.initialProgress = 0,
       this.editAcceptanceCriteria,
-      this.isFailed = false}) {
+      this.isFailed = false,
+      this.repetition}) {
     editAcceptanceCriteria ??= AcceptanceCriteriaModel(
         id: 0,
         title: 'title',
@@ -26,7 +28,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
             amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
         tracking: 'camera',
         currentProgress: initialProgress,
-        progress: []);
+        repetitions: []);
   }
 
   final AcceptanceCriteriaModel acceptanceCriteria;
@@ -36,6 +38,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
   final double initialProgress;
   final bool isFailed;
   final bool isRepetition;
+  final RepetitionModel? repetition;
 
   @override
   State<ListItemAcceptanceCriteriaBarComponent> createState() =>
@@ -117,44 +120,44 @@ class _ListItemAcceptanceCriteriaBarComponentState
                       width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
                   borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: themeColor4,
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Text(
-                      widget.isProgress
-                          ? widget.acceptanceCriteria.amount == 0
-                              ? '100%'
-                              : '${(widget.initialProgress / widget.acceptanceCriteria.amount * 100).toInt()}%'
-                          : '${(widget.editAcceptanceCriteria!.calcProgressRatio() * 100).toInt()}%',
-                      style: const TextStyle(fontSize: 12, color: themeColor3),
-                    ),
-                  ),
-                  Container(
-                    constraints: const BoxConstraints(
-                      maxWidth: 150, // Set your desired maximum width
-                    ),
-                    margin: const EdgeInsets.only(right: 10),
-                    padding: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                        color: themeColor4,
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    child: Text(
-                        widget.isProgress
-                            ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
-                            : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.currentProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}',
-                        style:
-                            const TextStyle(fontSize: 12, color: themeColor3),
-                        overflow: TextOverflow.ellipsis),
-                  ),
-                  Expanded(child: Container()),
-                ],
+                children: widget.isRepetition ? repetition() : progress(),
               )),
         )
       ],
+    );
+  }
+
+  List<Widget> progress() {
+    return [
+      box(
+          child: text(widget.isProgress
+              ? widget.acceptanceCriteria.amount == 0
+                  ? '100%'
+                  : '${(widget.initialProgress / widget.acceptanceCriteria.amount * 100).toInt()}%'
+              : '${(widget.editAcceptanceCriteria!.calcProgressRatio() * 100).toInt()}%')),
+      box(
+          child: text(widget.isProgress
+              ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
+              : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.currentProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}')),
+      Expanded(child: Container()),
+    ];
+  }
+
+  Container box({required Widget child}) {
+    return Container(
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.all(10),
+      decoration: const BoxDecoration(
+          color: themeColor4,
+          borderRadius: BorderRadius.all(Radius.circular(12))),
+      child: child,
+    );
+  }
+
+  Text text(String text) {
+    return Text(
+      text,
+      style: const TextStyle(fontSize: 12, color: themeColor3),
     );
   }
 
@@ -168,5 +171,15 @@ class _ListItemAcceptanceCriteriaBarComponentState
         : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
             ? 1
             : widget.editAcceptanceCriteria!.calcProgressRatio();
+  }
+
+  repetition() {
+    FrequencyModel frequency = widget.acceptanceCriteria.frequency;
+    return [
+      box(
+          child: text(
+              '${frequency.currentAmount ?? 0}/${frequency.amount} ${DesignUtil.dayDaysTimeOrTimes(frequency)}')),
+      Expanded(child: Container()),
+    ];
   }
 }

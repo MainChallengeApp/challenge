@@ -1,7 +1,9 @@
+import 'package:challenge/models/repetition_model.dart';
+
 import 'media_model.dart';
 
 class ProgressModel {
-  DateTime? date;
+  DateTime date;
   final int frequencyAmount;
   double progress;
   double percentProgress;
@@ -10,45 +12,62 @@ class ProgressModel {
   ProgressModel(
       {required this.progress,
       required this.mediaIds,
-      this.date,
+      required this.date,
       required this.percentProgress,
-      required this.frequencyAmount}) {
-    date ??= DateTime.now();
-  }
+      required this.frequencyAmount});
 
   static fromJsonList(json) {
-    List<ProgressModel> list = [];
-    json?.forEach((e) => list.add(ProgressModel(
+    List<ProgressModel> progressList = [];
+    json?.forEach((e) => progressList.add(ProgressModel(
         progress: e['progress'],
         mediaIds: List.from(e['mediaIds']),
         percentProgress: e['percentProgress'],
         date: e['date'],
         frequencyAmount: e['frequencyAmount'])));
+    return progressList;
+  }
+
+  static fromJsonListList(json) {
+    List<RepetitionModel> list = [];
+    json?.forEach((e) => list.add(ProgressModel.fromJsonList(e)));
     return list;
   }
 
-  static toJsonList(List<ProgressModel> progress) {
-    return progress
-        .map((p) => {
-              'date': p.date.toString(),
-              'progress': p.progress,
-              'percentProgress': p.percentProgress,
-              'mediaIds': p.mediaIds,
-              'frequencyAmount': p.frequencyAmount
+  static toJsonList(RepetitionModel repetiton) {
+    return repetiton.progressList
+        .map((progress) => {
+              'date': progress.date.toString(),
+              'progress': progress.progress,
+              'percentProgress': progress.percentProgress,
+              'mediaIds': progress.mediaIds,
+              'frequencyAmount': progress.frequencyAmount
             })
         .toList();
   }
 
-  static copyEvidenceList(List<ProgressModel> progress) {
-    List<ProgressModel> progressListCopy = [];
-    for (var e in progressListCopy) {
-      progressListCopy.add(ProgressModel(
+  static toJsonListList(List<RepetitionModel> repetitions) {
+    return repetitions.map((e) => ProgressModel.toJsonList(e));
+  }
+
+  static copyRepetition(RepetitionModel repetition) {
+    RepetitionModel repetitiontCopy = RepetitionModel(
+        repetionNumber: repetition.repetionNumber, progressList: []);
+    for (var e in repetition.progressList) {
+      repetitiontCopy.progressList.add(ProgressModel(
           date: e.date,
           progress: e.progress,
           mediaIds: MediaModel.copyMediaIdList(e.mediaIds),
           percentProgress: e.percentProgress,
           frequencyAmount: e.frequencyAmount));
     }
-    return progressListCopy;
+    return repetitiontCopy;
+  }
+
+  static copyRepetitionList(List<RepetitionModel> repetitionList) {
+    List<RepetitionModel> repetitionListCopy = [];
+    for (var e in repetitionList) {
+      repetitionListCopy.add(ProgressModel.copyRepetition(e));
+    }
+    return repetitionListCopy;
   }
 }
