@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/edit_challenge/description_big_component.dart';
@@ -7,17 +8,12 @@ import 'package:challenge/pages/components/edit_challenge/upload_thumbnail_compo
 import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:flutter/services.dart';
-
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 
 class EditChallengePage extends StatefulWidget {
@@ -64,7 +60,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
             description(),
             startAndEndDate(),
             amountAndUnit(),
-            frequency(widget.editChallenge),
+            frequency(),
             Expanded(child: Container()),
             cancelAndSaveButton()
           ],
@@ -94,96 +90,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  singleAcceptanceCriteria(int index) {
-    return GestureDetector(
-      onTap: () => onTapSingleAcceptanceCriteria(index),
-      child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Row(
-            children: [
-              Container(
-                constraints: const BoxConstraints(
-                  maxWidth: 150, // Set your desired maximum width
-                ),
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(
-                  '${widget.editChallenge.acceptanceCriterias[index].title} ${widget.editChallenge.acceptanceCriterias[index].amount} ${widget.editChallenge.acceptanceCriterias[index].unit}',
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(
-                  widget.editChallenge.acceptanceCriterias[index].frequency.type
-                      .toString(),
-                  style: const TextStyle(fontSize: 12, color: themeColor3),
-                ),
-              ),
-              Expanded(child: Container()),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Icon(getIconData(index), color: themeColor3, size: 14),
-              ),
-            ],
-          )),
-    );
-  }
-
-  // addAcceptanceCriteriaButton() {
-  //   return GestureDetector(
-  //     onTap: onTapAddAcceptanceCriteriaButton,
-  //     child: standardContainer(
-  //       child: Row(
-  //         children: [
-  //           Container(
-  //             width: 30,
-  //             height: 30,
-  //             margin: const EdgeInsets.only(right: 10),
-  //             decoration: const BoxDecoration(
-  //                 color: themeColor4,
-  //                 borderRadius: BorderRadius.all(Radius.circular(12))),
-  //             child: const Center(
-  //                 child: Icon(
-  //               Icons.add_rounded,
-  //               color: themeColor3,
-  //             )),
-  //           ),
-  //           const SizedBox(
-  //             width: 200,
-  //             height: 40,
-  //             child: Align(
-  //                 alignment: Alignment.centerLeft,
-  //                 child: Text('Add Acceptance Criteria')),
-  //           ),
-  //           const Expanded(
-  //             child: SizedBox(),
-  //           ),
-  //           const Icon(
-  //             Icons.chevron_right_outlined,
-  //             color: themeColor3,
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   startAndEndDate() {
     return Column(
       children: [
@@ -202,35 +108,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  storageLocation() {
-    return standardContainer(
-        child: Row(
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          margin: const EdgeInsets.only(right: 12),
-          decoration: const BoxDecoration(
-              color: themeColor4,
-              borderRadius: BorderRadius.all(Radius.circular(12))),
-          child: const Center(
-              child: Icon(
-            Icons.save,
-            color: themeColor3,
-          )),
-        ),
-        const SizedBox(
-          width: 200,
-          height: 40,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text("Storage Location"),
-          ),
-        )
-      ],
-    ));
-  }
-
   thumbnailUploadAndTitle() {
     return Column(
       children: [
@@ -245,108 +122,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
       ],
     );
   }
-
-  standardContainer({required Widget child, double heightFactor = 1}) {
-    return Container(
-      // width: double.infinity,
-      height: 55 * heightFactor,
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
-    );
-  }
-
-  squardedStandardContainer({required Widget child}) {
-    return Container(
-      width: 55,
-      height: 55,
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
-    );
-  }
-
-  acceptanceCriteria() {
-    return Expanded(
-      child: SizedBox(
-        height: 130,
-        child: ListView.separated(
-          itemCount: widget.editChallenge.acceptanceCriterias.length,
-          separatorBuilder: (context, index) => const SizedBox(
-            height: 16,
-          ),
-          itemBuilder: (_, i) {
-            return singleAcceptanceCriteria(i);
-          },
-        ),
-      ),
-    );
-  }
-
-  IconData getIconData(int index) {
-    if (widget.editChallenge.acceptanceCriterias[index].tracking == 'camera') {
-      return Icons.camera_alt_outlined;
-    } else if (widget.editChallenge.acceptanceCriterias[index].tracking ==
-        'gps') {
-      return Icons.gps_not_fixed;
-    } else if (widget.editChallenge.acceptanceCriterias[index].tracking ==
-        'notes') {
-      return Icons.notes;
-    } else if (widget.editChallenge.acceptanceCriterias[index].tracking ==
-        'numbers') {
-      return Icons.numbers;
-    } else {
-      return Icons.not_accessible;
-    }
-  }
-
-  dots() {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-            widget.editChallenge.acceptanceCriterias.length,
-            (index) => Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 10, bottom: 23),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: index == selectedAcceptanceCriteria
-                        ? themeColor3
-                        : themeColor3.withAlpha(100),
-                  ),
-                )));
-  }
-
-  // void onTapAddAcceptanceCriteriaButton() {
-  //   Navigator.push(
-  //     context,
-  //     NoAnimationPageRoute(
-  //       builder: (context) => AddAcceptanceCriteria(
-  //         preTitle:
-  //             '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-  //         challenge: widget.editChallenge,
-  //         acceptanceCriteria: AcceptanceCriteria(
-  //             id: widget.challenge.acceptanceCriteria.length,
-  //             activity: Activity(title: '', amount: 0, unit: ''),
-  //             frequency: '',
-  //             tracking: '',
-  //             progress: 0,
-  //             evidences: []),
-  //         acceptanceCriteriaIndex: null,
-  //       ),
-  //     ),
-  //   ).then((_) => setState(() {}));
-  // }
 
   void onTapCancel() {
     Navigator.pop(context);
@@ -417,91 +192,19 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  void onTapSingleAcceptanceCriteria(int index) {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => AddAcceptanceCriteriaPage(
-          preTitle:
-              '${widget.preTitle}/${widget.challenge.title != '' ? '${widget.challenge.title}/Edit' : 'New Challenge'}',
-          challenge: widget.editChallenge,
-          acceptanceCriteria: widget.editChallenge.acceptanceCriterias[index],
-          acceptanceCriteriaIndex: index,
-        ),
-      ),
-    ).then((_) => setState(() {}));
-  }
-
   amountAndUnit() {
-    AcceptanceCriteriaModel acceptanceCriteria =
-        widget.editChallenge.acceptanceCriterias[0];
-    return Row(
+    return Column(
       children: [
-        Expanded(
-            flex: 1,
-            child: standardContainer(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  style: const TextStyle(fontSize: basicFontSize),
-                  textAlign: TextAlign.end,
-                  controller: TextEditingController()
-                    ..text = acceptanceCriteria.amount == 0
-                        ? ''
-                        : DesignUtil.doubleAsInt(acceptanceCriteria.amount)
-                            .toString(),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                    TextInputFormatter.withFunction(
-                      (oldValue, newValue) => newValue.copyWith(
-                        text: newValue.text.replaceAll(',', '.'),
-                      ),
-                    ),
-                  ],
-                  onChanged: (value) {
-                    if (value.endsWith('.')) {
-                      acceptanceCriteria.amount =
-                          double.parse(value.split('.')[0]);
-                    } else if (value == '') {
-                      acceptanceCriteria.amount = 0;
-                    } else {
-                      acceptanceCriteria.amount = double.parse(value);
-                    }
-                  },
-                  decoration: const InputDecoration.collapsed(hintText: '0'),
-                ),
-              ),
-            )),
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-            flex: 2,
-            child: standardContainer(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  style: const TextStyle(fontSize: basicFontSize),
-                  controller: TextEditingController()
-                    ..text = acceptanceCriteria.unit,
-                  onChanged: (value) {
-                    acceptanceCriteria.unit = value;
-                  },
-                  decoration: const InputDecoration.collapsed(hintText: 'Unit'),
-                ),
-              ),
-            )),
+        AmountAndUnitComponent(challenge: widget.editChallenge),
+        const SpaceComponent()
       ],
     );
   }
 
-  frequency(ChallengeModel challenge) {
+  frequency() {
     return Column(
       children: [
-        FrequencyComponent(challenge: challenge),
+        FrequencyComponent(challenge: widget.editChallenge),
         const SpaceComponent()
       ],
     );

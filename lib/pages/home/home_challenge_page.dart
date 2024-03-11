@@ -118,9 +118,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     description(challenge),
                     startAndEndDate(challenge),
                     acceptanceCriteria(challenge),
-                    isDescriptionExpanded
-                        ? Container()
-                        : Expanded(child: Container()),
+                    expandedSpace(),
                     documentationButtons(context),
                     startEndTryAcceptAgainButton(challenge)
                   ],
@@ -129,6 +127,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             );
           }).toList()),
     );
+  }
+
+  Widget expandedSpace() {
+    return isDescriptionExpanded ? Container() : Expanded(child: Container());
   }
 
   title(String challengeTitle) {

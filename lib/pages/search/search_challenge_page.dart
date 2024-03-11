@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
@@ -7,8 +8,6 @@ import 'package:challenge/pages/components/challenge/thumbnail_max_component.dar
 import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
@@ -17,7 +16,6 @@ import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -97,7 +95,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 (challenge) {
                   return Slidable(
                     closeOnScroll: true,
-                    // The end action pane is the one at the right or the bottom side.
                     endActionPane: ActionPane(
                       extentRatio: 0.25,
                       motion: const ScrollMotion(),
@@ -133,41 +130,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                         const SizedBox(
                           width: 20,
                         ),
-                        // Expanded(
-                        //   child: GestureDetector(
-                        //     onTap: tapOnFavorite,
-                        //     child: Container(
-                        //       decoration: BoxDecoration(
-                        //           color: Colors.white,
-                        //           border: Border.all(
-                        //               width: 1,
-                        //               color: const Color.fromRGBO(
-                        //                   226, 232, 240, 1)),
-                        //           borderRadius: const BorderRadius.all(
-                        //               Radius.circular(24))),
-                        //       child: const Center(
-                        //           child: Column(
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           Icon(
-                        //             Icons.star_border_outlined,
-                        //             color: Colors.yellow,
-                        //           ),
-                        //           SizedBox(
-                        //             height: 5,
-                        //           ),
-                        //           Text(
-                        //             "Favorite",
-                        //             style: TextStyle(color: Colors.yellow),
-                        //           )
-                        //         ],
-                        //       )),
-                        //     ),
-                        //   ),
-                        // ),
-                        // const SizedBox(
-                        //   width: 20,
-                        // ),
                       ],
                     ),
                     child: Builder(builder: (context) {
@@ -185,9 +147,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           startAndEndDate(challenge),
                           amountAndUnit(challenge),
                           frequency(challenge),
-                          isDescriptionExpanded
-                              ? Container()
-                              : Expanded(child: Container()),
+                          expandedSpace(),
                           acceptButton()
                         ],
                       );
@@ -200,66 +160,30 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
+  Widget expandedSpace() {
+    return isDescriptionExpanded ? Container() : Expanded(child: Container());
+  }
+
   acceptButton() {
     return isDescriptionExpanded
         ? Container()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Expanded(
-              //   child: GestureDetector(
-              //     onTap: onTapEditChallenge,
-              //     child: Container(
-              //       height: 55,
-              //       width: double.infinity,
-              //       decoration: BoxDecoration(
-              //           border: Border.all(
-              //               width: 1,
-              //               color:
-              //                   const Color.fromRGBO(
-              //                       226,
-              //                       232,
-              //                       240,
-              //                       1)),
-              //           borderRadius:
-              //               const BorderRadius.all(
-              //                   Radius.circular(16))),
-              //       child: const Center(
-              //           child: Text(
-              //         'Edit',
-              //         style: TextStyle(
-              //             fontWeight: FontWeight.w500,
-              //             color: Colors.black),
-              //       )),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(
-              //   width: 16,
-              // ),
-              Expanded(
-                child: GestureDetector(
-                  onTap: onTapAccept,
-                  child: Container(
-                    height: 55,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: themeColor2,
-                        border: Border.all(
-                            width: 1,
-                            color: const Color.fromRGBO(226, 232, 240, 1)),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16))),
-                    child: const Center(
-                        child: Text(
-                      'Accept',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500, color: Colors.white),
-                    )),
-                  ),
-                ),
-              ),
-            ],
+        : GestureDetector(
+            onTap: onTapAccept,
+            child: Container(
+              height: 55,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: themeColor2,
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+              child: const Center(
+                  child: Text(
+                'Accept',
+                style:
+                    TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+              )),
+            ),
           );
   }
 
@@ -533,142 +457,14 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         }));
   }
 
-  addAcceptanceCriteriaButton() {
-    return GestureDetector(
-      onTap: onTapAddAcceptanceCriteriaButton,
-      child: standardContainer(
-        child: Row(
-          children: [
-            Container(
-              width: 30,
-              height: 30,
-              margin: const EdgeInsets.only(right: 10),
-              decoration: const BoxDecoration(
-                  color: themeColor4,
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              child: const Center(
-                  child: Icon(
-                Icons.add_rounded,
-                color: themeColor3,
-              )),
-            ),
-            const SizedBox(
-              width: 200,
-              height: 40,
-              child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text('Add Acceptance Criteria')),
-            ),
-            const Expanded(
-              child: SizedBox(),
-            ),
-            const Icon(
-              Icons.chevron_right_outlined,
-              color: themeColor3,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  void onTapAddAcceptanceCriteriaButton() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => AddAcceptanceCriteriaPage(
-          preTitle: '${widget.title}/${widget.challenge.title}/',
-          challenge: widget.challenge,
-          acceptanceCriteria: AcceptanceCriteriaModel(
-              id: widget.challenge.acceptanceCriterias.length,
-              title: '',
-              amount: 0,
-              unit: '',
-              frequency: FrequencyModel(
-                  amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
-              tracking: '',
-              currentProgress: 0,
-              repetitions: []),
-          acceptanceCriteriaIndex: null,
-        ),
-      ),
-    ).then((_) => setState(() {
-          selectedAcceptanceCriteria = 0;
-        }));
-  }
-
   amountAndUnit(ChallengeModel challenge) {
-    if (challenge.acceptanceCriterias.isEmpty) return Container();
-    AcceptanceCriteriaModel acceptanceCriteria =
-        challenge.acceptanceCriterias[0];
     return isDescriptionExpanded
         ? Container()
-        : Row(
+        : Column(
             children: [
-              Expanded(
-                  child: standardContainer(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextField(
-                    style: const TextStyle(fontSize: basicFontSize),
-                    textAlign: TextAlign.end,
-                    controller:
-                        amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                      TextInputFormatter.withFunction(
-                        (oldValue, newValue) => newValue.copyWith(
-                          text: newValue.text.replaceAll(',', '.'),
-                        ),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        double number = 0;
-                        if (value.endsWith('.')) {
-                          number = double.parse(value.split('.')[0]);
-                          acceptanceCriteria.amount = number;
-                        } else if (value == '') {
-                          acceptanceCriteria.amount = 0;
-                        } else {
-                          number = double.parse(value);
-                          acceptanceCriteria.amount = number;
-                        }
-                      });
-                    },
-                    onTap: () => setIsKeyboardUp(true),
-                    decoration: const InputDecoration.collapsed(hintText: '0'),
-                  ),
-                ),
-              )),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                  flex: 2,
-                  child: standardContainer(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: TextField(
-                        style: const TextStyle(fontSize: basicFontSize),
-                        controller: unitTextEditingController,
-                        onChanged: (value) {
-                          acceptanceCriteria.unit = value;
-                        },
-                        onTap: () => setIsKeyboardUp(true),
-                        onSubmitted: (_) => setIsKeyboardUp(false),
-                        onEditingComplete: () {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                          setIsKeyboardUp(false);
-                        },
-                        decoration:
-                            const InputDecoration.collapsed(hintText: 'Unit'),
-                      ),
-                    ),
-                  )),
+              AmountAndUnitComponent(
+                  challenge: challenge, setIsKeyboardUp: setIsKeyboardUp),
+              const SpaceComponent()
             ],
           );
   }
