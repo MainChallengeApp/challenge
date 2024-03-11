@@ -2,6 +2,7 @@
 
 import 'package:camera/camera.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
+import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
@@ -288,43 +289,16 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  Widget startAndEndDate(ChallengeModel e) {
+  Widget startAndEndDate(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        : Column(
             children: [
-              Expanded(
-                  child: standardContainer(
-                      child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Start',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    (e.startDate != null ? _dateFormat(e.startDate!) : '-'),
-                    style: const TextStyle(color: themeColor3),
-                  )
-                ],
-              ))),
-              const SizedBox(width: 16),
-              Expanded(
-                  child: standardContainer(
-                      child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'End',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  Text(
-                    (e.endDate != null ? _dateFormat(e.endDate!) : '-'),
-                    style: const TextStyle(color: themeColor3),
-                  )
-                ],
-              ))),
+              StartAndEndDateComponent(
+                editChallenge: challenge,
+                isLocked: true,
+              ),
+              const SpaceComponent()
             ],
           );
   }

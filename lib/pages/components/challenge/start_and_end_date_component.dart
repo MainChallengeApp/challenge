@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 class StartAndEndDateComponent extends StatefulWidget {
   final ChallengeModel editChallenge;
+  final bool isLocked;
 
-  const StartAndEndDateComponent({super.key, required this.editChallenge});
+  const StartAndEndDateComponent(
+      {super.key, required this.editChallenge, this.isLocked = false});
 
   @override
   State<StartAndEndDateComponent> createState() =>
@@ -82,6 +84,8 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   }
 
   void onTapStartOrEndDate(String startOrEnd) async {
+    if (widget.isLocked) return;
+
     DateTime? initialDateTime =
         startOrEnd == 'start' || widget.editChallenge.endDate == null
             ? widget.editChallenge.startDate

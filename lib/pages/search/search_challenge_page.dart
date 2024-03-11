@@ -2,6 +2,7 @@
 
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
+import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
@@ -13,7 +14,6 @@ import 'package:challenge/pages/components/simple_components/snack_bar_component
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/utils/design_util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -309,57 +309,15 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         context, 'The Video Trailer will be added soon');
   }
 
-  Widget startAndEndDate(ChallengeModel e) {
+  Widget startAndEndDate(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        : Column(
             children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => onTapStartOrEndDate('start'),
-                  child: standardContainer(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Start',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        (e.startDate != null ? _dateFormat(e.startDate!) : '-'),
-                        style: const TextStyle(color: themeColor3),
-                      )
-                    ],
-                  )),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => onTapStartOrEndDate('end'),
-                  child: standardContainer(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'End',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        (e.endDate != null ? _dateFormat(e.endDate!) : '-'),
-                        style: const TextStyle(color: themeColor3),
-                      )
-                    ],
-                  )),
-                ),
-              ),
+              StartAndEndDateComponent(editChallenge: challenge),
+              const SpaceComponent()
             ],
           );
-  }
-
-  String _dateFormat(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
   }
 
   documentationButton(IconData iconData) {
@@ -555,90 +513,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
           borderRadius: const BorderRadius.all(Radius.circular(16))),
       child: child,
-    );
-  }
-
-  void onTapStartOrEndDate(String startOrEnd) async {
-    DateTime? initialDateTime =
-        startOrEnd == 'start' || widget.challenge.endDate == null
-            ? widget.challenge.startDate
-            : widget.challenge.endDate;
-    setState(() {
-      if (startOrEnd == 'start') {
-        widget.challenge.startDate = null;
-      } else if (startOrEnd == 'end') {
-        widget.challenge.endDate = null;
-        widget.challenge.setFrequencyAmount();
-      }
-    });
-
-    bool isDateTimeChanged = false;
-
-    await showCupertinoModalPopup(
-      context: context,
-      builder: (c) {
-        var size = MediaQuery.of(context).size;
-        return GestureDetector(
-          onTap: () {
-            if (startOrEnd == 'start') {
-              setState(() {
-                if (!isDateTimeChanged) {
-                  widget.challenge.startDate = initialDateTime ??
-                      DesignUtil.dateWithoutTime(DateTime.now());
-                }
-                widget.challenge.setEndDate();
-              });
-            } else if (startOrEnd == 'end') {
-              setState(() {
-                if (!isDateTimeChanged) {
-                  widget.challenge.endDate = initialDateTime ??
-                      DesignUtil.dateWithoutTime(DateTime.now());
-                }
-                widget.challenge.setFrequencyAmount();
-              });
-            }
-          },
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-            ),
-            height: size.height * 0.27,
-            child: CupertinoDatePicker(
-              maximumDate: startOrEnd == 'start' &&
-                      widget.challenge.acceptanceCriterias.first.frequency
-                              .amount ==
-                          null &&
-                      widget.challenge.startDate != null
-                  ? widget.challenge.endDate
-                  : null,
-              minimumDate: startOrEnd == 'end'
-                  ? initialDateTime != null
-                      ? widget.challenge.startDate
-                      : null
-                  : DesignUtil.dateWithoutTime(DateTime.now()),
-              initialDateTime: initialDateTime,
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (value) {
-                value = DesignUtil.dateWithoutTime(value);
-                isDateTimeChanged = true;
-                setState(() {
-                  if (startOrEnd == 'start') {
-                    widget.challenge.startDate = value;
-                    widget.challenge.setEndDate();
-                  } else if (startOrEnd == 'end') {
-                    widget.challenge.endDate = value;
-                    widget.challenge.setFrequencyAmount();
-                  }
-                });
-              },
-            ),
-          ),
-        );
-      },
     );
   }
 
