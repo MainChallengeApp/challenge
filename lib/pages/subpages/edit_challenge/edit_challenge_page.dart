@@ -1,21 +1,21 @@
 // ignore_for_file: must_be_immutable
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
+import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
+import 'package:challenge/pages/components/edit_challenge/description_big_component.dart';
+import 'package:challenge/pages/components/edit_challenge/expanded_text_field_component.dart';
+import 'package:challenge/pages/components/edit_challenge/upload_thumbnail_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
-import 'package:challenge/services/upload_media_service.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/utils/design_util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
@@ -185,65 +185,21 @@ class _EditChallengePageState extends State<EditChallengePage> {
   // }
 
   startAndEndDate() {
-    // widget.editChallenge.startDate ??= DateTime.now();
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () => onTapStartOrEndDate('start'),
-            child: standardContainer(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Start"),
-                Text(
-                  (widget.editChallenge.startDate != null
-                      ? _dateFormat(widget.editChallenge.startDate!)
-                      : '-'),
-                  style: const TextStyle(color: themeColor3),
-                ) // very bad workaround
-              ],
-            )),
-          ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: GestureDetector(
-            onTap: () => onTapStartOrEndDate('end'),
-            child: standardContainer(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("End"),
-                Text(
-                  (widget.editChallenge.endDate != null
-                      ? _dateFormat(widget.editChallenge.endDate!)
-                      : '-'),
-                  style: const TextStyle(color: themeColor3),
-                )
-              ],
-            )),
-          ),
-        ),
+        StartAndEndDateComponent(editChallenge: widget.editChallenge),
+        const SpaceComponent()
       ],
     );
   }
 
   description() {
-    return CustomContainerComponent(
-        heightFactor: 3,
-        margin: const EdgeInsets.only(bottom: 16),
-        child: TapRegion(
-          child: TextField(
-              maxLines: 999,
-              style: const TextStyle(fontSize: basicFontSize),
-              onChanged: (value) => widget.editChallenge.description = value,
-              controller: TextEditingController()
-                ..text = widget.editChallenge.description,
-              decoration:
-                  const InputDecoration.collapsed(hintText: 'Description')),
-        ));
+    return Column(
+      children: [
+        DescriptionBigComponent(editChallenge: widget.editChallenge),
+        const SpaceComponent()
+      ],
+    );
   }
 
   storageLocation() {
@@ -276,50 +232,16 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   thumbnailUploadAndTitle() {
-    return Row(
+    return Column(
       children: [
-        GestureDetector(
-            onTap: () async {
-              XFile? file = await UploadMediaService.onTapUploadMedia();
-              setState(() {
-                if (file != null) {
-                  widget.editChallenge.thumbnailPath = file.path;
-                }
-              });
-            },
-            child: squardedStandardContainer(
-                child: Center(
-                    child: SizedBox(
-              width: 55,
-              height: 55,
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(13)),
-                  child: widget.editChallenge.thumbnailPath != ''
-                      ? Image.asset(widget.editChallenge.thumbnailPath,
-                          fit: BoxFit.cover)
-                      : const Center(
-                          child: Icon(Icons.file_upload_rounded,
-                              color: themeColor3),
-                        )),
-            )))),
-        const SizedBox(
-          width: 16,
+        Row(
+          children: [
+            UploadThumbnailComponent(editChallenge: widget.editChallenge),
+            const SpaceComponent(),
+            ExpandedTextFieldComponent(editChallenge: widget.editChallenge)
+          ],
         ),
-        Expanded(
-            child: CustomContainerComponent(
-          margin: const EdgeInsets.only(bottom: 16),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextField(
-                style: const TextStyle(fontSize: basicFontSize),
-                onChanged: (value) => widget.editChallenge.title = value,
-                decoration: const InputDecoration.collapsed(hintText: 'Title'),
-                controller: TextEditingController()
-                  ..text = widget.editChallenge.title
-                  ..selection = TextSelection.collapsed(
-                      offset: widget.editChallenge.title.length)),
-          ),
-        ))
+        const SpaceComponent()
       ],
     );
   }
@@ -508,75 +430,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
         ),
       ),
     ).then((_) => setState(() {}));
-  }
-
-  void onTapStartOrEndDate(String startOrEnd) async {
-    DateTime? initialDateTime = startOrEnd == 'start'
-        ? widget.editChallenge.startDate
-        : widget.editChallenge.endDate;
-    setState(() {
-      if (startOrEnd == 'start') {
-        widget.editChallenge.startDate = null;
-      } else {
-        widget.editChallenge.endDate = null;
-      }
-    });
-
-    bool isDateTimeChanged = false;
-
-    await showCupertinoModalPopup(
-      context: context,
-      builder: (_) {
-        final size = MediaQuery.of(context).size;
-        return GestureDetector(
-          onTap: () {
-            if (startOrEnd == 'start') {
-              setState(() {
-                if (!isDateTimeChanged) {
-                  widget.editChallenge.startDate =
-                      initialDateTime ?? DateTime.now();
-                }
-              });
-            } else {
-              setState(() {
-                if (!isDateTimeChanged) {
-                  widget.editChallenge.endDate =
-                      initialDateTime ?? DateTime.now();
-                }
-              });
-            }
-          },
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
-            ),
-            height: size.height * 0.27,
-            child: CupertinoDatePicker(
-              initialDateTime: initialDateTime,
-              mode: CupertinoDatePickerMode.date,
-              onDateTimeChanged: (value) {
-                isDateTimeChanged = true;
-                setState(() {
-                  if (startOrEnd == 'start') {
-                    widget.editChallenge.startDate = value;
-                  } else if (startOrEnd == 'end') {
-                    widget.editChallenge.endDate = value;
-                  }
-                });
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  String _dateFormat(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
   }
 
   amountAndUnit() {

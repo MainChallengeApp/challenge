@@ -170,4 +170,8 @@ class ChallengeModel {
       frequency.amount = null;
     }
   }
+
+  hasThumbnail() {
+    return thumbnailPath != '';
+  }
 }
