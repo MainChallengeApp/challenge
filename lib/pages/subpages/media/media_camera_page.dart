@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:camera/camera.dart';
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
 import 'package:challenge/pages/home/progress/progress_media_list_page.dart';
 import 'package:challenge/globals.dart';
@@ -196,7 +197,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             if (!mounted) return;
             setState(() {
               MediaModel media = MediaModel(
-                  type: 'video',
+                  type: MediaTypeEnum.video,
                   title: DateTime.now().toString().split('.')[0],
                   source: video.path);
               widget.mediaList.add(media);
@@ -227,7 +228,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             if (!mounted) return;
             setState(() {
               MediaModel media = MediaModel(
-                  type: 'image',
+                  type: MediaTypeEnum.image,
                   title: DateTime.now().toString().split('.')[0],
                   source: image.path);
               widget.mediaList.add(media);
@@ -330,7 +331,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
             image: currentMedia.isNotEmpty
-                ? currentMedia.last.type == 'image'
+                ? currentMedia.last.type == MediaTypeEnum.image
                     ? DecorationImage(
                         image: AssetImage(currentMedia.last.source),
                         fit: BoxFit.cover,
@@ -342,7 +343,8 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             borderRadius: const BorderRadius.all(Radius.circular(16))),
         child: Stack(
           children: [
-            currentMedia.isNotEmpty && currentMedia.last.type == 'video'
+            currentMedia.isNotEmpty &&
+                    currentMedia.last.type == MediaTypeEnum.video
                 ? ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(16)),
                     child: VideoThumbnailComponent(

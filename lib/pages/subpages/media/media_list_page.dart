@@ -1,5 +1,7 @@
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
@@ -47,7 +49,7 @@ class _MediaListPageState extends State<MediaListPage> {
         ));
   }
 
-  Widget _buildList() {
+  _buildList() {
     List<MediaModel> mediaList = widget.challenge.media
         .where((element) => element.title.contains(searchBarText))
         .toList();
@@ -64,32 +66,22 @@ class _MediaListPageState extends State<MediaListPage> {
               mediaList.length + 1 + 1, // + 1 for searchbar + 1 for new Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              return Column(
-                children: [
-                  ListItemSearchbarComponent(
-                    changeList: changeList,
-                    textEditingController:
-                        TextEditingController(text: searchBarText),
-                  ),
-                  const SizedBox(
-                    height: 17,
-                  )
-                ],
+              return SpaceColumnComponent(
+                child: ListItemSearchbarComponent(
+                  changeList: changeList,
+                  textEditingController:
+                      TextEditingController(text: searchBarText),
+                ),
               );
             }
 
             if (index == 1) {
-              return Column(
-                children: [
-                  ListItemIconSmallComponent(
-                    icon: Icons.file_upload_rounded,
-                    title: 'Upload Media',
-                    onTap: onTapUploadMedia,
-                  ),
-                  const SizedBox(
-                    height: 17,
-                  )
-                ],
+              return SpaceColumnComponent(
+                child: ListItemIconSmallComponent(
+                  icon: Icons.file_upload_rounded,
+                  title: 'Upload Media',
+                  onTap: onTapUploadMedia,
+                ),
               );
             }
             // if (index == 1) {
@@ -99,16 +91,11 @@ class _MediaListPageState extends State<MediaListPage> {
             //     title: "Upload Media",
             //   );
             // }
-            return Column(
-              children: [
-                ListItemMediaSmallComponent(
-                  onTap: () => ppush(context, index: index - 1 - 1),
-                  media: mediaList[index - 1 - 1],
-                ),
-                const SizedBox(
-                  height: 17,
-                )
-              ],
+            return SpaceColumnComponent(
+              child: ListItemMediaSmallComponent(
+                onTap: () => ppush(context, index: index - 1 - 1),
+                media: mediaList[index - 1 - 1],
+              ),
             );
           }),
     );
@@ -127,7 +114,7 @@ class _MediaListPageState extends State<MediaListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
-          media: widget.challenge.media
+          mediaList: widget.challenge.media
               .where((element) => element.title.contains(searchBarText))
               .toList(),
           preTitle: '${widget.preTitle}/Media',
@@ -143,7 +130,7 @@ class _MediaListPageState extends State<MediaListPage> {
     if (file != null) {
       setState(() {
         widget.challenge.media.add(MediaModel(
-            type: 'image',
+            type: MediaTypeEnum.image,
             title: DateTime.now().toString().split('.')[0],
             source: file.path));
         challengeController.writeFile(context, allChallengesList);

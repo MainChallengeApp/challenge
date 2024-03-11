@@ -10,14 +10,14 @@ import 'package:challenge/models/media_model.dart';
 
 class ImagePage extends StatefulWidget {
   final String preTitle;
-  final List<MediaModel> media;
+  final List<MediaModel> mediaList;
   final int initialMediaIdex;
   final ChallengeModel challenge;
 
   const ImagePage(
       {super.key,
       required this.preTitle,
-      required this.media,
+      required this.mediaList,
       required this.initialMediaIdex,
       required this.challenge});
 
@@ -28,14 +28,8 @@ class ImagePage extends StatefulWidget {
 class _ImagePageState extends State<ImagePage> {
   late PageController controller =
       PageController(initialPage: widget.initialMediaIdex);
-  late String currentTitle = widget.media[widget.initialMediaIdex].title;
-  int currentMediaIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    currentMediaIndex = widget.initialMediaIdex;
-  }
+  late String currentTitle = widget.mediaList[widget.initialMediaIdex].title;
+  late int currentMediaIndex = widget.initialMediaIdex;
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +43,14 @@ class _ImagePageState extends State<ImagePage> {
             onPageChanged: onSwipeMedia,
             scrollDirection: Axis.vertical,
             controller: controller,
-            children: widget.media.map((e) {
+            children: widget.mediaList.map((media) {
               return Center(
                   child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
                 child: Align(
                   alignment: Alignment.topCenter,
-                  child: Image.asset(e.source,
+                  child: Image.asset(media.source,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) =>
                           const Center(
@@ -82,7 +76,7 @@ class _ImagePageState extends State<ImagePage> {
 
   void onSwipeMedia(int value) {
     setState(() {
-      currentTitle = widget.media[value].title;
+      currentTitle = widget.mediaList[value].title;
       currentMediaIndex = value;
     });
   }
@@ -90,7 +84,7 @@ class _ImagePageState extends State<ImagePage> {
   deleteButton() {
     return GestureDetector(
       onTap: () {
-        MediaModel media = widget.media[currentMediaIndex];
+        MediaModel media = widget.mediaList[currentMediaIndex];
 
         File file = File(media.source);
         file.exists().then((value) {
@@ -99,7 +93,7 @@ class _ImagePageState extends State<ImagePage> {
           }
         });
 
-        widget.media.removeWhere((element) => element.id == media.id);
+        widget.mediaList.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
         for (var acceptanceCriteria in widget.challenge.acceptanceCriterias) {
           for (var repetition in acceptanceCriteria.repetitions) {
@@ -118,11 +112,11 @@ class _ImagePageState extends State<ImagePage> {
         challengeController.writeFile(context, allChallengesList);
 
         setState(() {
-          if (currentMediaIndex >= widget.media.length) {
-            currentMediaIndex = widget.media.length - 1;
+          if (currentMediaIndex >= widget.mediaList.length) {
+            currentMediaIndex = widget.mediaList.length - 1;
           }
         });
-        if (widget.media.isEmpty) {
+        if (widget.mediaList.isEmpty) {
           Navigator.pop(context);
         }
       },

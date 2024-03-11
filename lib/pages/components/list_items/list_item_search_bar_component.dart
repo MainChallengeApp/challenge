@@ -11,6 +11,7 @@ class ListItemSearchbarComponent extends StatefulWidget {
   TextEditingController textEditingController;
   final bool isEnabled;
   final bool autoFocus;
+  final Function? onTap;
   ListItemSearchbarComponent(
       {super.key,
       this.changeList,
@@ -18,7 +19,8 @@ class ListItemSearchbarComponent extends StatefulWidget {
       required this.textEditingController,
       this.isEnabled = true,
       this.autoFocus = false,
-      this.hintText = 'Search'});
+      this.hintText = 'Search',
+      this.onTap});
 
   @override
   State<ListItemSearchbarComponent> createState() =>
@@ -32,6 +34,7 @@ class _ListItemSearchbarComponentState
     widget.textEditingController.selection = TextSelection.collapsed(
         offset: widget.textEditingController.text.length);
     return ListItemContainerComponent(
+      onTap: widget.onTap,
       child: Row(
         children: [
           Container(

@@ -1,4 +1,5 @@
 // ignore_for_file: must_be_immutable
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/list_items/list_item_accept_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
@@ -164,7 +165,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
-          media: mediaList,
+          mediaList: mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIdex: index,
           challenge: widget.challenge,
@@ -506,7 +507,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     if (file != null) {
       setState(() {
         MediaModel media = MediaModel(
-            type: 'image',
+            type: MediaTypeEnum.image,
             title: DateTime.now().toString().split('.')[0],
             source: file.path);
 

@@ -146,10 +146,10 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           title: '${widget.preTitle}/${widget.title}',
-          challenge: challenge,
+          initChallenge: challenge,
           selectTab: widget.selectTab,
           challenges: filteredChallenges,
-          initialChalleneIndex: index,
+          initChalleneIndex: index,
         ),
       ),
     ).then((value) => setState(

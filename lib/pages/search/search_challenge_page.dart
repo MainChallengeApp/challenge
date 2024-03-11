@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
@@ -8,35 +6,31 @@ import 'package:challenge/pages/components/challenge/thumbnail_max_component.dar
 import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/pages/subpages/edit_challenge/add_acceptance_criteria_page.dart';
 import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 
 class SearchChallengePage extends StatefulWidget {
-  SearchChallengePage(
+  const SearchChallengePage(
       {super.key,
       required this.title,
-      required this.challenge,
+      required this.initChallenge,
       required this.selectTab,
       required this.challenges,
-      required this.initialChalleneIndex});
+      required this.initChalleneIndex});
   final String title;
-  ChallengeModel challenge;
+  final ChallengeModel initChallenge;
   final Function selectTab;
   final List<ChallengeModel> challenges;
-  int initialChalleneIndex;
+  final int initChalleneIndex;
 
   @override
   State<SearchChallengePage> createState() => _SearchChallengePageState();
@@ -45,39 +39,17 @@ class SearchChallengePage extends StatefulWidget {
 class _SearchChallengePageState extends State<SearchChallengePage> {
   bool isDescriptionExpanded = false;
   late PageController pageController =
-      PageController(initialPage: widget.initialChalleneIndex);
+      PageController(initialPage: widget.initChalleneIndex);
   late BuildContext context2;
-
-  late String currentTitle = widget.challenge.title;
-
-  TextEditingController amountTextEditingController =
-      TextEditingController(text: '');
-
-  TextEditingController unitTextEditingController =
-      TextEditingController(text: '');
-
-  TextEditingController frequencyAmountTextEditingController =
-      TextEditingController(text: '');
 
   bool isKeyboardUp = false;
 
-  @override
-  void initState() {
-    super.initState();
-    amountTextEditingController.text =
-        DesignUtil.doubleAsInt(widget.challenge.acceptanceCriterias[0].amount)
-            .toString();
-
-    unitTextEditingController.text =
-        widget.challenge.acceptanceCriterias[0].unit;
-
-    frequencyAmountTextEditingController.text =
-        widget.challenge.acceptanceCriterias[0].frequency.amount.toString();
-  }
+  late int currentChallengeIndex = widget.initChalleneIndex;
+  late ChallengeModel currentChallenge = widget.initChallenge;
 
   @override
   Widget build(BuildContext context) {
-    widget.challenge = widget.challenges[widget.initialChalleneIndex];
+    currentChallenge = widget.challenges[currentChallengeIndex];
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -95,43 +67,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 (challenge) {
                   return Slidable(
                     closeOnScroll: true,
-                    endActionPane: ActionPane(
-                      extentRatio: 0.25,
-                      motion: const ScrollMotion(),
-                      children: [
-                        Expanded(
-                            child: Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: GestureDetector(
-                            onTap: () => onTapEditChallenge(),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      width: 1,
-                                      color: const Color.fromRGBO(
-                                          226, 232, 240, 1)),
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(24))),
-                              child: const Center(
-                                  child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.edit),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text("Edit")
-                                ],
-                              )),
-                            ),
-                          ),
-                        )),
-                        const SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
+                    endActionPane: endActionPane(),
                     child: Builder(builder: (context) {
                       context2 = context;
                       return CardComponent(
@@ -158,6 +94,47 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         ),
       ),
     );
+  }
+
+  ActionPane endActionPane() {
+    return ActionPane(
+      extentRatio: 0.25,
+      motion: const ScrollMotion(),
+      children: [
+        editSlider(),
+        const SpaceComponent(
+          width: 20,
+        ),
+      ],
+    );
+  }
+
+  Expanded editSlider() {
+    return Expanded(
+        child: Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: GestureDetector(
+        onTap: () => onTapEditChallenge(),
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
+          child: const Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.edit),
+              SizedBox(
+                height: 5,
+              ),
+              Text("Edit")
+            ],
+          )),
+        ),
+      ),
+    ));
   }
 
   Widget expandedSpace() {
@@ -244,127 +221,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           );
   }
 
-  documentationButton(IconData iconData) {
-    return Container(
-      width: 48,
-      height: 48,
-      margin: const EdgeInsets.only(left: 8, right: 8),
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: Center(child: Icon(iconData)),
-    );
-  }
-
-  int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria(List<AcceptanceCriteriaModel> acceptanceCriterias) {
-    return SizedBox(
-        // margin: EdgeInsets.only(top: 10),
-        height: 55,
-        // padding: const EdgeInsets.all(10),
-        child: PageView.builder(
-          itemCount: acceptanceCriterias.length,
-          controller: PageController(viewportFraction: 1),
-          onPageChanged: (int index) =>
-              setState(() => selectedAcceptanceCriteria = index),
-          itemBuilder: (_, i) {
-            return Transform.scale(
-              scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
-              child: singleAcceptanceCriteria(acceptanceCriterias[i]),
-            );
-          },
-        ));
-  }
-
-  singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
-    return GestureDetector(
-      onTap: () => onTapAcceptanceCriteria(acceptanceCriteria),
-      child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: Colors.white.withAlpha(170),
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                constraints: const BoxConstraints(
-                  maxWidth: 160, // Set your desired maximum width
-                ),
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(
-                    '${acceptanceCriteria.title} ${acceptanceCriteria.amount} ${acceptanceCriteria.unit}',
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
-                    overflow: TextOverflow.ellipsis),
-              ),
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Text(acceptanceCriteria.frequency.toString(),
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
-                    overflow: TextOverflow.ellipsis),
-              ),
-              Expanded(child: Container()),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
-                child: Icon(getIconData(acceptanceCriteria),
-                    color: themeColor3, size: 14),
-              ),
-            ],
-          )),
-    );
-  }
-
-  IconData getIconData(AcceptanceCriteriaModel acceptanceCriteria) {
-    if (acceptanceCriteria.tracking == 'camera') {
-      return Icons.camera_alt_outlined;
-    } else if (acceptanceCriteria.tracking == 'gps') {
-      return Icons.gps_not_fixed;
-    } else if (acceptanceCriteria.tracking == 'notes') {
-      return Icons.notes;
-    } else if (acceptanceCriteria.tracking == 'numbers') {
-      return Icons.numbers;
-    } else {
-      return Icons.not_accessible;
-    }
-  }
-
-  dots(List<AcceptanceCriteriaModel> acceptanceCriteria) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-            acceptanceCriteria.length,
-            (index) => Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 10, bottom: 23),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: index == selectedAcceptanceCriteria
-                        ? themeColor3
-                        : themeColor3.withAlpha(100),
-                  ),
-                )));
-  }
-
   void onTapAccept() async {
     ChallengeModel challengeCopy =
-        ChallengeModel.copyChallenge(widget.challenge);
-
-    // modifyChallengeWorkAroundForShowingThumbnailInMediaHehehe(challengeCopy);
+        ChallengeModel.copyChallenge(currentChallenge);
 
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);
@@ -388,7 +247,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           preTitle: 'Home',
-          challenge: challengeCopy,
+          initChallenge: challengeCopy,
           initialChalleneIndex: 0,
         ), // Todo: change initalChallengeIndex when id is known from backend
       ),
@@ -397,17 +256,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   void onPageChanged(int value) {
     setState(() {
-      widget.challenge = widget.challenges[value];
-      currentTitle = widget.challenge.title;
-      widget.initialChalleneIndex = value;
+      currentChallenge = widget.challenges[value];
+      currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
-      selectedAcceptanceCriteria = 0;
       isDescriptionExpanded = false;
-      amountTextEditingController.text =
-          DesignUtil.doubleAsInt(widget.challenge.acceptanceCriterias[0].amount)
-              .toString();
-      unitTextEditingController.text =
-          widget.challenge.acceptanceCriterias[0].unit;
     });
   }
 
@@ -417,44 +269,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: '${widget.title}/${widget.challenge.title}',
-          challenge: widget.challenge,
+          preTitle: '${widget.title}/${currentChallenge.title}',
+          challenge: currentChallenge,
           isSearchEdit: true,
         ),
       ),
     ).then((_) => setState(() {}));
-  }
-
-  standardContainer({required Widget child, double heightFactor = 1}) {
-    return Container(
-      // width: double.infinity,
-      height: 55 * heightFactor,
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
-    );
-  }
-
-  void onTapAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => AddAcceptanceCriteriaPage(
-            preTitle: '${widget.title}/${widget.challenge.title}',
-            challenge: widget.challenge,
-            acceptanceCriteria: acceptanceCriteria,
-            acceptanceCriteriaIndex: widget.challenge.acceptanceCriterias
-                .indexOf(acceptanceCriteria),
-            areButtonsVisible: false),
-      ),
-    ).then((_) => setState(() {
-          selectedAcceptanceCriteria = 0;
-        }));
   }
 
   amountAndUnit(ChallengeModel challenge) {

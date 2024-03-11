@@ -1,5 +1,6 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/frequency_model.dart';
@@ -322,9 +323,15 @@ void main() {
           acceptanceCriterias: [],
           media: [
             MediaModel(
-                id: '1', title: 'media1', source: 'source1', type: 'image'),
+                id: '1',
+                title: 'media1',
+                source: 'source1',
+                type: MediaTypeEnum.image),
             MediaModel(
-                id: '2', title: 'media2', source: 'source2', type: 'image')
+                id: '2',
+                title: 'media2',
+                source: 'source2',
+                type: MediaTypeEnum.image)
           ]);
       // Act
       String thumbnailPath = challenge.getThumbnailPath();

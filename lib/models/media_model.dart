@@ -1,8 +1,9 @@
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:uuid/uuid.dart';
 
 class MediaModel {
   String? id;
-  String type;
+  MediaTypeEnum type;
   String title;
   String source;
 
@@ -19,14 +20,21 @@ class MediaModel {
   static fromJsonList(json) {
     List<MediaModel> list = [];
     json?.forEach((e) => list.add(MediaModel(
-        type: e['type'], title: e['title'], source: e['source'], id: e['id'])));
+        type: MediaTypeEnum.factory(e['type']),
+        title: e['title'],
+        source: e['source'],
+        id: e['id'])));
     return list;
   }
 
   static toJsonList(List<MediaModel> media) {
     return media
-        .map((e) =>
-            {'id': e.id, 'type': e.type, 'title': e.title, 'source': e.source})
+        .map((e) => {
+              'id': e.id,
+              'type': e.type.toString(),
+              'title': e.title,
+              'source': e.source
+            })
         .toList();
   }
 

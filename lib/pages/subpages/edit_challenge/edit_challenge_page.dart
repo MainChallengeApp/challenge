@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
@@ -19,7 +18,7 @@ import 'package:challenge/pages/components/navigation/no_animation_page_route_co
 class EditChallengePage extends StatefulWidget {
   final String preTitle;
   final ChallengeModel challenge;
-  late ChallengeModel editChallenge;
+  late final ChallengeModel editChallenge;
   final bool isNewChallenge;
   final bool isTryAgain;
   final bool isSearchEdit;
@@ -186,7 +185,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
-            challenge: widget.challenge,
+            initChallenge: widget.challenge,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
     );

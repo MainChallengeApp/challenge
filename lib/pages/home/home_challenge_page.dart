@@ -1,11 +1,10 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
-
 import 'package:camera/camera.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
@@ -27,15 +26,13 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 
 class HomeChallengePage extends StatefulWidget {
-  // Function homeListSetState;
-
-  HomeChallengePage(
+  const HomeChallengePage(
       {super.key,
       required this.preTitle,
-      required this.challenge,
+      required this.initChallenge,
       required this.initialChalleneIndex});
   final String preTitle;
-  ChallengeModel challenge;
+  final ChallengeModel initChallenge;
   final int initialChalleneIndex;
 
   @override
@@ -48,7 +45,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   late BuildContext context2;
   late BuildContext context3;
 
-  late String currentTitle = widget.challenge.title;
+  late ChallengeModel currentChallenge = widget.initChallenge;
 
   late PageController pageController =
       PageController(initialPage: widget.initialChalleneIndex);
@@ -69,10 +66,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    widget.challenge = challengeList[
-        currentChallengeIndex]; // dirty workaround - the problem is related to the feature to unvisible the BottomNavBar
-    currentTitle = widget.challenge.title;
-    widget.challenge.checkChallengeStatus();
+    currentChallenge.checkChallengeStatus();
 
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
@@ -198,7 +192,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: GestureDetector(
-                onTap: editChallenge,
+                onTap: onTapEditChallenge,
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -262,32 +256,29 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   Widget documentationButtons(BuildContext context) {
     return isDescriptionExpanded
         ? Container()
-        : Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  documentationButton(
-                      iconData: Icons.numbers_rounded,
-                      onTap: () => SnackBarComponent.showSnackBar(
-                          context, 'The Numbers feature will be added soon.'),
-                      color: Colors.grey[200]),
-                  documentationButton(
-                      iconData: Icons.notes_rounded,
-                      onTap: () => SnackBarComponent.showSnackBar(
-                          context, 'The Notes feature will be added soon.'),
-                      color: Colors.grey[200]),
-                  documentationButton(
-                      iconData: Icons.gps_not_fixed_rounded,
-                      onTap: () => SnackBarComponent.showSnackBar(
-                          context, 'The GPS feature will be added soon.'),
-                      color: Colors.grey[200]),
-                  documentationButton(
-                      iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
-                ],
-              ),
-              const SpaceComponent()
-            ],
+        : SpaceColumnComponent(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                documentationButton(
+                    iconData: Icons.numbers_rounded,
+                    onTap: () => SnackBarComponent.showSnackBar(
+                        context, 'The Numbers feature will be added soon.'),
+                    color: Colors.grey[200]),
+                documentationButton(
+                    iconData: Icons.notes_rounded,
+                    onTap: () => SnackBarComponent.showSnackBar(
+                        context, 'The Notes feature will be added soon.'),
+                    color: Colors.grey[200]),
+                documentationButton(
+                    iconData: Icons.gps_not_fixed_rounded,
+                    onTap: () => SnackBarComponent.showSnackBar(
+                        context, 'The GPS feature will be added soon.'),
+                    color: Colors.grey[200]),
+                documentationButton(
+                    iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+              ],
+            ),
           );
   }
 
@@ -331,47 +322,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  void checkChallengeStatus() {
-    if (widget.challenge.acceptanceCriterias.isNotEmpty) {
-      if (widget.challenge.endDate != null) {
-        // if (widget.challenge.status != ChallengStatus.failed) {
-        if (DateTime.now()
-            .isAfter(widget.challenge.endDate!.add(const Duration(days: 1)))) {
-          if (!checkAcceptanceCriteria()) {
-            widget.challenge.status = ChallengeStatusEnum.failed;
-          }
-        }
-        // else {
-        //   if (checkAcceptanceCriteria()) {
-        //     widget.challenge.status = ChallengeStatus.success;
-        //   } else if (widget.challenge.status != ChallengeStatus.failed) {
-        //     widget.challenge.status = ChallengeStatus.inProgress;
-        //   }
-        // }
-        // } else {
-
-        // }
-      }
-    }
-
-    if (widget.challenge.startDate == null ||
-        DateTime.now().microsecondsSinceEpoch <
-            widget.challenge.startDate!.microsecondsSinceEpoch) {
-      widget.challenge.status = ChallengeStatusEnum.backlog;
-    }
-  }
-
   bool checkAcceptanceCriteria() {
-    for (var acceptanceCriteria in widget.challenge.acceptanceCriterias) {
+    for (var acceptanceCriteria in currentChallenge.acceptanceCriterias) {
       if (acceptanceCriteria.calcProgressRatio() < 1) {
         return false; // Return false if any element doesn't meet the condition.
       }
     }
     return true; // Return true only if all elements meet the condition.
-  }
-
-  String _dateFormat(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
   }
 
   documentationButton(
@@ -439,7 +396,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               // width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: widget.challenge.status == ChallengeStatusEnum.failed
+                  color: currentChallenge.status == ChallengeStatusEnum.failed
                       ? Colors.red
                       : Colors.green,
                   borderRadius: const BorderRadius.all(Radius.circular(16))),
@@ -553,18 +510,18 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  void editChallenge() {
+  void onTapEditChallenge() {
     setState(() {
       Slidable.of(context2)?.close(duration: Duration.zero);
     });
-    if (widget.challenge.status == ChallengeStatusEnum.inProgress ||
-        widget.challenge.status == ChallengeStatusEnum.backlog) {
+    if (currentChallenge.status == ChallengeStatusEnum.inProgress ||
+        currentChallenge.status == ChallengeStatusEnum.backlog) {
       Navigator.push(
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
-            preTitle: '${widget.preTitle}/${widget.challenge.title}',
-            challenge: widget.challenge,
+            preTitle: '${widget.preTitle}/${currentChallenge.title}',
+            challenge: currentChallenge,
           ),
         ),
       ).then((_) => setState(() {
@@ -575,8 +532,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   void deleteChallenge() {
     allChallengesList
-        .removeWhere((element) => element.id == widget.challenge.id);
-    challengeList.removeWhere((element) => element.id == widget.challenge.id);
+        .removeWhere((element) => element.id == currentChallenge.id);
+    challengeList.removeWhere((element) => element.id == currentChallenge.id);
     challengeController.writeFile(context, allChallengesList);
 
     setState(() {
@@ -597,8 +554,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
-          preTitle: '${widget.preTitle}/${widget.challenge.title}',
-          challenge: widget.challenge,
+          preTitle: '${widget.preTitle}/${currentChallenge.title}',
+          challenge: currentChallenge,
         ),
       ),
     ).then((_) => setState(() {
@@ -608,8 +565,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   void onPageChanged(int value) {
     setState(() {
-      currentTitle = challengeList[value].title;
-      widget.challenge = challengeList[value];
+      currentChallenge = challengeList[value];
       currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
       selectedAcceptanceCriteria = 0;
@@ -623,8 +579,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressPage(
-            preTitle: '${widget.preTitle}/${widget.challenge.title}',
-            challenge: widget.challenge,
+            preTitle: '${widget.preTitle}/${currentChallenge.title}',
+            challenge: currentChallenge,
             acceptanceCriteria: acceptanceCriteria),
       ),
     ).then((_) => setState(() {
@@ -646,10 +602,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
           cameras: cameras,
-          preTitle: '${widget.preTitle}/${widget.challenge.title}',
-          mediaList: widget.challenge.media,
-          acceptanceCriteria: widget.challenge.acceptanceCriterias[0],
-          challenge: widget.challenge,
+          preTitle: '${widget.preTitle}/${currentChallenge.title}',
+          mediaList: currentChallenge.media,
+          acceptanceCriteria: currentChallenge.acceptanceCriterias[0],
+          challenge: currentChallenge,
         ),
       ),
     ).then((_) => setState(() {
@@ -662,17 +618,17 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       onTap: () {
         Navigator.pop(context3);
         if (checkAcceptanceCriteria()) {
-          widget.challenge.status = ChallengeStatusEnum.success;
+          currentChallenge.status = ChallengeStatusEnum.success;
         } else {
-          widget.challenge.status = ChallengeStatusEnum.failed;
+          currentChallenge.status = ChallengeStatusEnum.failed;
         }
         context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
-          widget.challenge.endDate = DesignUtil.dateWithoutTime(DateTime.now());
+          currentChallenge.endDate = DesignUtil.dateWithoutTime(DateTime.now());
           challengeList
-              .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+              .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
           allChallengesList
-              .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+              .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
           challengeController.writeFile(context, allChallengesList);
         });
       },
@@ -722,7 +678,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   void onTapStartEndTryAcceptAgainButton(ChallengeModel challenge) {
-    if (widget.challenge.status == ChallengeStatusEnum.inProgress) {
+    if (currentChallenge.status == ChallengeStatusEnum.inProgress) {
       // End button
       showDialog(
         context: context,
@@ -767,8 +723,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
         },
       );
-    } else if (widget.challenge.status == ChallengeStatusEnum.failed ||
-        widget.challenge.status == ChallengeStatusEnum.success) {
+    } else if (currentChallenge.status == ChallengeStatusEnum.failed ||
+        currentChallenge.status == ChallengeStatusEnum.success) {
       // Try Again Button and Accept Again
       Navigator.pop(context);
       Navigator.push(
@@ -776,25 +732,25 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         NoAnimationPageRouteComponent(
           builder: (context) {
             ChallengeModel challenge = ChallengeModel.copyChallenge(
-                widget.challenge,
+                currentChallenge,
                 isTryAgain: true);
             return EditChallengePage(
-              preTitle: '${widget.preTitle}/${widget.challenge.title}',
+              preTitle: '${widget.preTitle}/${currentChallenge.title}',
               challenge: challenge,
               isTryAgain: true,
             );
           },
         ),
       );
-    } else if (widget.challenge.status == ChallengeStatusEnum.backlog) {
+    } else if (currentChallenge.status == ChallengeStatusEnum.backlog) {
       setState(() {
-        widget.challenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
-        widget.challenge.setEndDate();
-        widget.challenge.status = ChallengeStatusEnum.inProgress;
-        widget.challenge.acceptanceCriterias.first.frequency.currentAmount = 1;
+        currentChallenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
+        currentChallenge.setEndDate();
+        currentChallenge.status = ChallengeStatusEnum.inProgress;
+        currentChallenge.acceptanceCriterias.first.frequency.currentAmount = 1;
       });
       allChallengesList
-          .map((e) => e.id == widget.challenge.id ? widget.challenge : e);
+          .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
       challengeController.writeFile(context, allChallengesList);
     }
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:challenge/pages/components/categories/category_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
@@ -63,111 +64,97 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           //     ),
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              return Column(
-                // cloumn instead of seperator
-                children: [
-                  GestureDetector(
-                    onTap: onTapSearchbar,
-                    child: ListItemSearchbarComponent(
-                      changeList: changeList,
-                      isEnabled: false,
-                      textEditingController:
-                          TextEditingController(text: searchBarText),
-                      hintText: 'Search for new Challenges...',
-                    ),
-                  ),
-                  const SpaceComponent()
-                ],
+              return SpaceColumnComponent(
+                child: ListItemSearchbarComponent(
+                  onTap: onTapSearchbar,
+                  changeList: changeList,
+                  isEnabled: false,
+                  textEditingController:
+                      TextEditingController(text: searchBarText),
+                  hintText: 'Search for new Challenges...',
+                ),
               );
             } else if (index == 1) {
-              return Column(
+              return SpaceColumnComponent(
+                  child: Row(
                 children: [
-                  Row(
-                    children: [
-                      const SpaceComponent(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Mental',
-                        imagePath: 'assets/images/categories/mental_health.png',
-                        onTap: onTapMental,
-                      )),
-                      const SpaceComponent(),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Physical',
-                        imagePath:
-                            'assets/images/categories/physical_health.png',
-                        onTap: onTapPhysical,
-                      )),
-                      const SpaceComponent(
-                        width: 20,
-                      ),
-                    ],
+                  const SpaceComponent(
+                    width: 20,
                   ),
-                  const SpaceComponent()
+                  Expanded(
+                      child: CategoryComponent(
+                    text: 'Mental',
+                    imagePath: 'assets/images/categories/mental_health.png',
+                    onTap: () => onTapCategory(
+                        const [ChallengeCategoryEnum.mentalHealth], 'Mental'),
+                  )),
+                  const SpaceComponent(),
+                  Expanded(
+                      child: CategoryComponent(
+                    text: 'Physical',
+                    imagePath: 'assets/images/categories/physical_health.png',
+                    onTap: () => onTapCategory(
+                        const [ChallengeCategoryEnum.physicalHealth],
+                        'Physical'),
+                  )),
+                  const SpaceComponent(
+                    width: 20,
+                  ),
                 ],
-              );
+              ));
             } else if (index == 2) {
-              return Column(
+              return SpaceColumnComponent(
+                  child: Row(
                 children: [
-                  Row(
-                    children: [
-                      const SpaceComponent(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Learning',
-                        imagePath: 'assets/images/categories/knowledge.png',
-                        onTap: onTapLearning,
-                      )),
-                      const SpaceComponent(),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Social',
-                        imagePath: 'assets/images/categories/social.png',
-                        onTap: onTapSocial,
-                      )),
-                      const SpaceComponent(
-                        width: 20,
-                      ),
-                    ],
+                  const SpaceComponent(
+                    width: 20,
                   ),
-                  const SpaceComponent()
+                  Expanded(
+                      child: CategoryComponent(
+                    text: 'Learning',
+                    imagePath: 'assets/images/categories/knowledge.png',
+                    onTap: () => onTapCategory(
+                        const [ChallengeCategoryEnum.knowledge], 'Learning'),
+                  )),
+                  const SpaceComponent(),
+                  Expanded(
+                      child: CategoryComponent(
+                    text: 'Social',
+                    imagePath: 'assets/images/categories/social.png',
+                    onTap: () => onTapCategory(
+                        const [ChallengeCategoryEnum.social], 'Social'),
+                  )),
+                  const SpaceComponent(
+                    width: 20,
+                  ),
                 ],
-              );
+              ));
             } else if (index == 3) {
-              return Column(
+              return SpaceColumnComponent(
+                  child: Row(
                 children: [
-                  Row(
-                    children: [
-                      const SpaceComponent(
-                        width: 20,
-                      ),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Other',
-                        imagePath: 'assets/images/categories/other2.png',
-                        onTap: onTapOther,
-                      )),
-                      const SpaceComponent(),
-                      Expanded(
-                          child: CategoryComponent(
-                        text: 'Random',
-                        imagePath:
-                            'assets/images/categories/recommendation.png',
-                        onTap: onTapRandom,
-                      )),
-                      const SpaceComponent(
-                        width: 20,
-                      ),
-                    ],
+                  const SpaceComponent(
+                    width: 20,
                   ),
-                  const SpaceComponent()
+                  Expanded(
+                      child: CategoryComponent(
+                    text: 'Other',
+                    imagePath: 'assets/images/categories/other2.png',
+                    onTap: () => onTapCategory(
+                        const [ChallengeCategoryEnum.other], 'Other'),
+                  )),
+                  const SpaceComponent(),
+                  Expanded(
+                      child: CategoryComponent(
+                    text: 'Random',
+                    imagePath: 'assets/images/categories/recommendation.png',
+                    onTap: onTapRandom,
+                  )),
+                  const SpaceComponent(
+                    width: 20,
+                  ),
                 ],
-              );
+              ));
             }
             return Container();
           }),
@@ -185,7 +172,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
 
   changeList(String value) {
     setState(() {
-      // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
   }
@@ -206,89 +192,16 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     );
   }
 
-  void onTapAllChallenges() {
+  void onTapCategory(List<ChallengeCategoryEnum> categories, String title) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-          title: 'Search/All Challenges',
-          selectTab: widget.selectTab,
-          isFirstPageInRoute: false,
-        ),
-      ),
-    );
-  }
-
-  void onTapMental() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
-          title: 'Mental',
+          title: title,
           preTitle: 'Search',
           selectTab: widget.selectTab,
           isFirstPageInRoute: false,
-          categories: const [ChallengeCategoryEnum.mentalHealth],
-        ),
-      ),
-    );
-  }
-
-  void onTapPhysical() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
-          title: 'Physical',
-          preTitle: 'Search',
-          selectTab: widget.selectTab,
-          isFirstPageInRoute: false,
-          categories: const [ChallengeCategoryEnum.physicalHealth],
-        ),
-      ),
-    );
-  }
-
-  void onTapLearning() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
-          title: 'Learning',
-          preTitle: 'Search',
-          selectTab: widget.selectTab,
-          isFirstPageInRoute: false,
-          categories: const [ChallengeCategoryEnum.knowledge],
-        ),
-      ),
-    );
-  }
-
-  void onTapSocial() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
-          title: 'Social',
-          preTitle: 'Search',
-          selectTab: widget.selectTab,
-          isFirstPageInRoute: false,
-          categories: const [ChallengeCategoryEnum.social],
-        ),
-      ),
-    );
-  }
-
-  void onTapOther() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
-          title: 'Other',
-          preTitle: 'Search',
-          selectTab: widget.selectTab,
-          isFirstPageInRoute: false,
-          categories: const [ChallengeCategoryEnum.other],
+          categories: categories,
         ),
       ),
     );
@@ -303,9 +216,9 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => SearchChallengePage(
           title: 'Search/Random',
           selectTab: widget.selectTab,
-          challenge: challengesCopy[0],
+          initChallenge: challengesCopy[0],
           challenges: challengesCopy,
-          initialChalleneIndex: 0,
+          initChalleneIndex: 0,
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
               margin: const EdgeInsets.only(right: 12),
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: media.type == 'image'
+                  child: media.type == MediaTypeEnum.image
                       ? Image.asset(media.source,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) =>
@@ -36,7 +37,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
                                 child: Icon(Icons.question_mark,
                                     color: themeColor3),
                               ))
-                      : media.type == 'video'
+                      : media.type == MediaTypeEnum.video
                           ? VideoThumbnailComponent(
                               filePath: media.source,
                             )
