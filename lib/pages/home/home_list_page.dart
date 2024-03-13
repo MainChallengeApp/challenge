@@ -58,7 +58,7 @@ class _HomeListPageState extends State<HomeListPage> {
         future: challengesFutures,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasData) {
             allChallengesList = snapshot.data!;
             challengeList = snapshot.data!
@@ -124,7 +124,7 @@ class _HomeListPageState extends State<HomeListPage> {
                   }),
             );
           } else {
-            return const Text('Error with loading data...');
+            return const Center(child: Text('Error with loading data...'));
           }
         });
   }
