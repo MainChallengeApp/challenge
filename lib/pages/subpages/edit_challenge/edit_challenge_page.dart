@@ -194,7 +194,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
   amountAndUnit() {
     return Column(
       children: [
-        AmountAndUnitComponent(challenge: widget.editChallenge),
+        AmountAndUnitComponent(
+            acceptanceCriteria: widget.editChallenge.acceptanceCriterias.first),
         const SpaceComponent()
       ],
     );
