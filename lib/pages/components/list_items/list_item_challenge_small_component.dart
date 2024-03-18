@@ -24,65 +24,62 @@ class _ListItemChallengeSmallComponentState
     extends State<ListItemChallengeSmallComponent> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ListItemContainerComponent(
       onTap: widget.onTap,
-      child: ListItemContainerComponent(
-        child: Row(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  color: themeColor4,
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              width: 40,
-              height: 40,
-              margin: const EdgeInsets.only(right: 12),
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: widget.challenge.getThumbnailPath() != ''
-                      ? widget.challenge.isThumbnailFromAssetsImage()
-                          ? Transform.scale(
-                              scale: 0.8,
-                              child: Image.asset(
-                                widget.challenge.getThumbnailPath(),
-                                fit: BoxFit.contain,
-                              ),
-                            )
-                          : Image.asset(widget.challenge.getThumbnailPath(),
-                              fit: BoxFit.cover)
-                      : const Center(
-                          child: Icon(Icons.question_mark, color: themeColor3),
-                        )),
+      child: Row(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+                color: themeColor4,
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            width: 40,
+            height: 40,
+            margin: const EdgeInsets.only(right: 12),
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: widget.challenge.getThumbnailPath() != ''
+                    ? widget.challenge.isThumbnailFromAssetsImage()
+                        ? Transform.scale(
+                            scale: 0.8,
+                            child: Image.asset(
+                              widget.challenge.getThumbnailPath(),
+                              fit: BoxFit.contain,
+                            ),
+                          )
+                        : Image.asset(widget.challenge.getThumbnailPath(),
+                            fit: BoxFit.cover)
+                    : const Center(
+                        child: Icon(Icons.question_mark, color: themeColor3),
+                      )),
+          ),
+          Expanded(
+            child: Text(
+              widget.challenge.title,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
-            Expanded(
-              child: Text(
-                widget.challenge.title,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ),
-            progressRecurring(),
-            widget.challenge.status != ChallengeStatusEnum.backlog
-                ? Container(
-                    width: 25,
-                    height: 25,
-                    margin: const EdgeInsets.only(right: 7, left: 10),
-                    child: CircularProgressIndicator(
-                      backgroundColor: themeColor5,
-                      strokeCap: StrokeCap.round,
-                      value: widget.challenge.acceptanceCriterias.isEmpty
-                          ? 1
-                          : widget.challenge.acceptanceCriterias[0].amount <= 0
-                              ? 1
-                              : widget.challenge.acceptanceCriterias[0]
-                                  .calcProgressRatio(),
-                      color:
-                          widget.challenge.status == ChallengeStatusEnum.failed
-                              ? Colors.red[300]
-                              : Colors.green[300],
-                    ))
-                : Container()
-          ],
-        ),
+          ),
+          progressRecurring(),
+          widget.challenge.status != ChallengeStatusEnum.backlog
+              ? Container(
+                  width: 25,
+                  height: 25,
+                  margin: const EdgeInsets.only(right: 7, left: 10),
+                  child: CircularProgressIndicator(
+                    backgroundColor: themeColor5,
+                    strokeCap: StrokeCap.round,
+                    value: widget.challenge.acceptanceCriterias.isEmpty
+                        ? 1
+                        : widget.challenge.acceptanceCriterias[0].amount <= 0
+                            ? 1
+                            : widget.challenge.acceptanceCriterias[0]
+                                .calcProgressRatio(),
+                    color: widget.challenge.status == ChallengeStatusEnum.failed
+                        ? Colors.red[300]
+                        : Colors.green[300],
+                  ))
+              : Container()
+        ],
       ),
     );
   }
