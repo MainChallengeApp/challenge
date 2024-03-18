@@ -19,9 +19,10 @@ class AcceptanceCriteriaModel {
       required this.tracking,
       required this.currentProgress,
       required this.repetitions}) {
-    if (repetitions.isEmpty) {
+    if (repetitions.length != (frequency.amount ?? 0)) {
+      repetitions = [];
       for (var i = 1; i <= (frequency.amount ?? 0); i++) {
-        repetitions.add(RepetitionModel(repetionNumber: i, progressList: []));
+        repetitions.add(RepetitionModel(repetitionNumber: i, progressList: []));
       }
     }
   }
@@ -33,7 +34,7 @@ class AcceptanceCriteriaModel {
         frequency: FrequencyModel.fromJson(json['frequency']),
         tracking: json['tracking'],
         currentProgress: json['currentProgress'],
-        repetitions: ProgressModel.fromJsonListList(json['repetitions']));
+        repetitions: RepetitionModel.fromJsonList(json['repetitions']));
   }
 
   static toJson(AcceptanceCriteriaModel acceptanceCriteria) {
@@ -43,8 +44,7 @@ class AcceptanceCriteriaModel {
       'frequency': FrequencyModel.toJson(acceptanceCriteria.frequency),
       'tracking': acceptanceCriteria.tracking,
       'currentProgress': acceptanceCriteria.currentProgress,
-      'repetitions':
-          ProgressModel.toJsonListList(acceptanceCriteria.repetitions)
+      'repetitions': RepetitionModel.toJsonList(acceptanceCriteria.repetitions)
     };
   }
 

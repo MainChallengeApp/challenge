@@ -173,7 +173,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     }
     // var r = challengeList;
     // challengeList.insert(0, widget.challenge);
-    challengeController.writeFile(context, allChallengesList);
+    challengeController.writeFile(allChallengesList);
 
     Navigator.pop(context);
     if (!widget.isSearchEdit && !widget.isNewChallenge && !widget.isTryAgain) {

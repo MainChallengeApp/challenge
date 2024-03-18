@@ -108,7 +108,7 @@ class _ImagePageState extends State<ImagePage> {
             .removeWhere((element) => element.id == media.id);
 
         ChallengeController challengeController = ChallengeController();
-        challengeController.writeFile(context, allChallengesList);
+        challengeController.writeFile(allChallengesList);
 
         setState(() {
           if (currentMediaIndex >= widget.mediaList.length) {

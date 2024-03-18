@@ -2,8 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:challenge/models/challenge_model.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +11,7 @@ class ChallengeController {
 
   ChallengeController();
 
-  Future<List<ChallengeModel>> readFile(BuildContext context) async {
+  Future<List<ChallengeModel>> readFile() async {
     try {
       final documentsDirectory = await getApplicationDocumentsDirectory();
       final file = File('${documentsDirectory.path}/$filePath');
@@ -25,12 +23,12 @@ class ChallengeController {
       }).toList();
       return c;
     } catch (e) {
+      log(e.toString());
       return [];
     }
   }
 
-  Future<void> writeFile(
-      BuildContext context, List<ChallengeModel> challenges) async {
+  Future<void> writeFile(List<ChallengeModel> challenges) async {
     try {
       // Convert the list of Challenge objects to a list of JSON data.
       final jsonData =

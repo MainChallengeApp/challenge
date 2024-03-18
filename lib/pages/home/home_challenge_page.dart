@@ -92,7 +92,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     title(challenge.title),
                     description(challenge),
                     startAndEndDate(challenge),
-                    singleAcceptanceCriteria(
+                    acceptanceCriteria(
                         challenge.acceptanceCriteria, challenge.startDate),
                     expandedSpace(),
                     documentationButtons(context),
@@ -124,7 +124,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   Widget seperator(ChallengeModel challenge) {
     return (challenge.status == ChallengeStatusEnum.inProgress ||
             challenge.status == ChallengeStatusEnum.backlog)
-        ? const SizedBox(
+        ? const SpaceComponent(
             width: 20,
           )
         : Container();
@@ -347,56 +347,69 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria,
+  acceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria,
       DateTime? challengeStartDate) {
-    return GestureDetector(
-      onTap: () => onTapSingleAcceptanceCriteria(acceptanceCriteria),
-      child: Stack(
-        children: [
-          FractionallySizedBox(
-            widthFactor: acceptanceCriteria.calcProgressRatio() > 1
-                ? 1
-                : acceptanceCriteria.calcProgressRatio(),
-            heightFactor: 1,
-            child: Container(
-              // width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: currentChallenge.status == ChallengeStatusEnum.failed
-                      ? Colors.red
-                      : Colors.green,
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.white,
-                    width: 10,
-                    strokeAlign: BorderSide.strokeAlignOutside),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
-          ),
-          Container(
-              padding: const EdgeInsets.all(10),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(170),
-                  border: Border.all(
-                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+    return isDescriptionExpanded
+        ? Container()
+        : GestureDetector(
+            onTap: () => onTapSingleAcceptanceCriteria(acceptanceCriteria),
+            child: Center(
+              child: SizedBox(
+                height: 55,
+                child: Stack(
                   children: [
-                    // progressPercentage(acceptanceCriteria),
-                    progressAbsolute(acceptanceCriteria),
-                    progressRecurring(acceptanceCriteria, challengeStartDate)
+                    FractionallySizedBox(
+                      widthFactor: acceptanceCriteria.calcProgressRatio() > 1
+                          ? 1
+                          : acceptanceCriteria.calcProgressRatio(),
+                      heightFactor: 1,
+                      child: Container(
+                        // width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: currentChallenge.status ==
+                                    ChallengeStatusEnum.failed
+                                ? Colors.red
+                                : Colors.green,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.white,
+                              width: 10,
+                              strokeAlign: BorderSide.strokeAlignOutside),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16))),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.all(10),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withAlpha(170),
+                            border: Border.all(
+                                width: 1,
+                                color: const Color.fromRGBO(226, 232, 240, 1)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16))),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              // progressPercentage(acceptanceCriteria),
+                              progressAbsolute(acceptanceCriteria),
+                              progressRecurring(
+                                  acceptanceCriteria, challengeStartDate)
+                            ],
+                          ),
+                        ))
                   ],
                 ),
-              ))
-        ],
-      ),
-    );
+              ),
+            ),
+          );
   }
 
   progressAbsolute(AcceptanceCriteriaModel acceptanceCriteria) {
@@ -453,7 +466,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     allChallengesList
         .removeWhere((element) => element.id == currentChallenge.id);
     challengeList.removeWhere((element) => element.id == currentChallenge.id);
-    challengeController.writeFile(context, allChallengesList);
+    challengeController.writeFile(allChallengesList);
 
     setState(() {
       if (currentChallengeIndex >= challengeList.length) {
@@ -550,7 +563,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               challenge.id == currentChallenge.id
                   ? currentChallenge
                   : challenge);
-          challengeController.writeFile(context, allChallengesList);
+          challengeController.writeFile(allChallengesList);
         });
       },
       child: Align(
@@ -672,7 +685,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       });
       allChallengesList
           .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
-      challengeController.writeFile(context, allChallengesList);
+      challengeController.writeFile(allChallengesList);
     }
   }
 

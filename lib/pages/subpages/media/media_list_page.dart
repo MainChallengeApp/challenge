@@ -133,7 +133,7 @@ class _MediaListPageState extends State<MediaListPage> {
             type: MediaTypeEnum.image,
             title: DateTime.now().toString().split('.')[0],
             source: file.path));
-        challengeController.writeFile(context, allChallengesList);
+        challengeController.writeFile(allChallengesList);
       });
     }
   }

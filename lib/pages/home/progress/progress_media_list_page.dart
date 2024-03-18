@@ -252,7 +252,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       });
       // .firstWhere((element) => element.id == widget.challenge.id) = widget.challenge;
 
-      challengeController.writeFile(context, allChallengesList);
+      challengeController.writeFile(allChallengesList);
 
       // List<String> titleList = widget.preTitle.split(
       //     '/'); // propably the worst workaround i ever did...sorry future developer but i am in a hurry to release this app on 01.01.2024 <3

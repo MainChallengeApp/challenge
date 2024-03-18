@@ -25,7 +25,7 @@ class AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    challengeController.readFile(context).then((value) {
+    challengeController.readFile().then((value) {
       allChallengesList = value;
       setState(() {
         _currentTab =
@@ -37,7 +37,7 @@ class AppState extends State<App> {
 
   void setStartPage() {
     Future.delayed(Duration.zero, () async {
-      allChallengesList = await challengeController.readFile(context);
+      allChallengesList = await challengeController.readFile();
       setState(() {
         _currentTab =
             allChallengesList.isEmpty ? TabItemEnum.Search : TabItemEnum.Home;

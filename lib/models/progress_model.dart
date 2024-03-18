@@ -27,14 +27,8 @@ class ProgressModel {
     return progressList;
   }
 
-  static fromJsonListList(json) {
-    List<RepetitionModel> list = [];
-    json?.forEach((e) => list.add(ProgressModel.fromJsonList(e)));
-    return list;
-  }
-
-  static toJsonList(RepetitionModel repetiton) {
-    return repetiton.progressList
+  static toJsonList(List<ProgressModel> progressList) {
+    return progressList
         .map((progress) => {
               'date': progress.date.toString(),
               'progress': progress.progress,
@@ -45,13 +39,9 @@ class ProgressModel {
         .toList();
   }
 
-  static toJsonListList(List<RepetitionModel> repetitions) {
-    return repetitions.map((e) => ProgressModel.toJsonList(e));
-  }
-
   static copyRepetition(RepetitionModel repetition) {
     RepetitionModel repetitiontCopy = RepetitionModel(
-        repetionNumber: repetition.repetionNumber, progressList: []);
+        repetitionNumber: repetition.repetitionNumber, progressList: []);
     for (var e in repetition.progressList) {
       repetitiontCopy.progressList.add(ProgressModel(
           date: e.date,
