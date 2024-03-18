@@ -139,15 +139,15 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                   Expanded(
                       child: CategoryComponent(
                     text: 'Other',
-                    imagePath: 'assets/images/categories/other2.png',
+                    imagePath: 'assets/images/categories/other.png',
                     onTap: () => onTapCategory(
                         const [ChallengeCategoryEnum.other], 'Other'),
                   )),
                   const SpaceComponent(),
                   Expanded(
                       child: CategoryComponent(
-                    text: 'Random',
-                    imagePath: 'assets/images/categories/recommendation.png',
+                    text: 'Shuffle',
+                    imagePath: 'assets/images/categories/shuffle.png',
                     onTap: onTapRandom,
                   )),
                   const SpaceComponent(
@@ -214,7 +214,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
-          title: 'Search/Random',
+          title: 'Search/Shuffle',
           selectTab: widget.selectTab,
           initChallenge: challengesCopy[0],
           challenges: challengesCopy,
