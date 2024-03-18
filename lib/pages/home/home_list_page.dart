@@ -1,5 +1,5 @@
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -76,50 +76,22 @@ class _HomeListPageState extends State<HomeListPage> {
                   itemCount: challengeList.length +
                       1 +
                       1, // +1 for new Challenge listitem + 1 for searchbar
-                  // separatorBuilder: (context, index) => const SizedBox(
-                  //       height: 17,
-                  //     ),
                   itemBuilder: (BuildContext content, int index) {
                     if (index == 0) {
-                      return Column(
-                        children: [
-                          ListItemSearchbarComponent(
-                            changeList: changeList,
-                            textEditingController:
-                                TextEditingController(text: searchBarText),
-                            hintText: 'Search in your Challenges...',
-                          ),
-                          const SpaceComponent()
-                        ],
-                      );
+                      return searchBar();
                     }
                     if (index == 1) {
-                      return Column(
-                        children: [
-                          ListItemIconSmallComponent(
-                            onTap: () => tapOnNewChallenge(),
-                            icon: Icons.add_rounded,
-                            title: "New Challenge",
-                          ),
-                          const SpaceComponent()
-                        ],
-                      );
+                      return newChallenge();
                     }
-                    // if (index == challengeList.length + 1 + 1) {
-                    //   return Container(); // +1 for new Challenge listitem + 1 for searchbar
-                    // }
                     ChallengeModel challenge = challengeList[index -
                         1 -
                         1]; // -1 for new Challenge listitem - 1 for searchbar
-                    return Column(
-                      children: [
-                        ListItemChallengeSmallComponent(
-                          onTap: () => ppush(context,
-                              challenge: challenge, index: index - 1 - 1),
-                          challenge: challenge,
-                        ),
-                        const SpaceComponent()
-                      ],
+                    return SpaceColumnComponent(
+                      child: ListItemChallengeSmallComponent(
+                        onTap: () => ppush(context,
+                            challenge: challenge, index: index - 1 - 1),
+                        challenge: challenge,
+                      ),
                     );
                   }),
             );
@@ -127,6 +99,26 @@ class _HomeListPageState extends State<HomeListPage> {
             return const Center(child: Text('Error with loading data...'));
           }
         });
+  }
+
+  SpaceColumnComponent newChallenge() {
+    return SpaceColumnComponent(
+      child: ListItemIconSmallComponent(
+        onTap: () => tapOnNewChallenge(),
+        icon: Icons.add_rounded,
+        title: "New Challenge",
+      ),
+    );
+  }
+
+  SpaceColumnComponent searchBar() {
+    return SpaceColumnComponent(
+      child: ListItemSearchbarComponent(
+        changeList: changeList,
+        textEditingController: TextEditingController(text: searchBarText),
+        hintText: 'Search in your Challenges...',
+      ),
+    );
   }
 
   changeList(String value) {
@@ -150,16 +142,6 @@ class _HomeListPageState extends State<HomeListPage> {
   }
 
   tapOnNewChallenge() {
-    AcceptanceCriteriaModel acceptanceCriteria = AcceptanceCriteriaModel(
-        id: null,
-        title: '',
-        amount: 0,
-        unit: '',
-        frequency: FrequencyModel(
-            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
-        tracking: 'camera',
-        currentProgress: 0,
-        repetitions: []);
     final ChallengeModel challenge = ChallengeModel(
         status: ChallengeStatusEnum.inProgress,
         title: '',
@@ -167,7 +149,18 @@ class _HomeListPageState extends State<HomeListPage> {
         thumbnailPath: '',
         startDate: null,
         endDate: null,
-        acceptanceCriterias: [acceptanceCriteria],
+        acceptanceCriterias: [
+          AcceptanceCriteriaModel(
+              id: null,
+              title: '',
+              amount: 0,
+              unit: '',
+              frequency: FrequencyModel(
+                  amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
+              tracking: 'camera',
+              currentProgress: 0,
+              repetitions: [])
+        ],
         media: []);
 
     Navigator.push(

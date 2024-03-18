@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:camera/camera.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
@@ -19,7 +21,6 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-
 import 'package:challenge/pages/home/progress/progress_page.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
@@ -79,27 +80,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
-              endActionPane: ActionPane(
-                extentRatio:
-                    (challenge.status == ChallengeStatusEnum.inProgress ||
-                            challenge.status == ChallengeStatusEnum.backlog)
-                        ? 0.5
-                        : 0.25,
-                motion: const ScrollMotion(),
-                children: [
-                  editSlider(challenge),
-                  (challenge.status == ChallengeStatusEnum.inProgress ||
-                          challenge.status == ChallengeStatusEnum.backlog)
-                      ? const SizedBox(
-                          width: 20,
-                        )
-                      : Container(),
-                  deleteSlider(),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                ],
-              ),
+              endActionPane: endActionPane(challenge),
               child: Builder(builder: (context) {
                 context2 = context;
                 return CardComponent(
@@ -121,6 +102,31 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             );
           }).toList()),
     );
+  }
+
+  endActionPane(ChallengeModel challenge) {
+    return ActionPane(
+      extentRatio: (challenge.status == ChallengeStatusEnum.inProgress ||
+              challenge.status == ChallengeStatusEnum.backlog)
+          ? 0.5
+          : 0.25,
+      motion: const ScrollMotion(),
+      children: [
+        editSlider(challenge),
+        seperator(challenge),
+        deleteSlider(),
+        const SpaceComponent(),
+      ],
+    );
+  }
+
+  Widget seperator(ChallengeModel challenge) {
+    return (challenge.status == ChallengeStatusEnum.inProgress ||
+            challenge.status == ChallengeStatusEnum.backlog)
+        ? const SizedBox(
+            width: 20,
+          )
+        : Container();
   }
 
   Widget expandedSpace() {
@@ -322,15 +328,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  bool checkAcceptanceCriteria() {
-    for (var acceptanceCriteria in currentChallenge.acceptanceCriterias) {
-      if (acceptanceCriteria.calcProgressRatio() < 1) {
-        return false; // Return false if any element doesn't meet the condition.
-      }
-    }
-    return true; // Return true only if all elements meet the condition.
-  }
-
   documentationButton(
       {required IconData iconData, required onTap, Color? color}) {
     return GestureDetector(
@@ -463,53 +460,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  IconData getIconData(AcceptanceCriteriaModel acceptanceCriteria) {
-    if (acceptanceCriteria.tracking == 'camera') {
-      return Icons.camera_alt_outlined;
-    } else if (acceptanceCriteria.tracking == 'gps') {
-      return Icons.gps_not_fixed;
-    } else if (acceptanceCriteria.tracking == 'notes') {
-      return Icons.notes;
-    } else if (acceptanceCriteria.tracking == 'numbers') {
-      return Icons.numbers;
-    } else {
-      return Icons.not_accessible;
-    }
-  }
-
-  dots(ChallengeModel challenge) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-            challenge.acceptanceCriterias.length,
-            (index) => Padding(
-                  padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 10, bottom: 23),
-                  child: Icon(
-                    Icons.fiber_manual_record,
-                    size: 6,
-                    color: index == selectedAcceptanceCriteria
-                        ? themeColor3
-                        : themeColor3.withAlpha(100),
-                  ),
-                )));
-  }
-
-  standardContainer({required Widget child, double heightFactor = 1}) {
-    return Container(
-      // width: double.infinity,
-      height: 55 * heightFactor,
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
-    );
-  }
-
   void onTapEditChallenge() {
     setState(() {
       Slidable.of(context2)?.close(duration: Duration.zero);
@@ -617,7 +567,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context3);
-        if (checkAcceptanceCriteria()) {
+        if (currentChallenge.isChallengeCompleted()) {
           currentChallenge.status = ChallengeStatusEnum.success;
         } else {
           currentChallenge.status = ChallengeStatusEnum.failed;
@@ -625,10 +575,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
           currentChallenge.endDate = DesignUtil.dateWithoutTime(DateTime.now());
-          challengeList
-              .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
-          allChallengesList
-              .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
+          challengeList.map((challenge) => challenge.id == currentChallenge.id
+              ? currentChallenge
+              : challenge);
+          allChallengesList.map((challenge) =>
+              challenge.id == currentChallenge.id
+                  ? currentChallenge
+                  : challenge);
           challengeController.writeFile(context, allChallengesList);
         });
       },

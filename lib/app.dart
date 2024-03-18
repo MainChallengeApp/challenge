@@ -9,7 +9,7 @@ import 'package:challenge/pages/search/search_tab_navigator.dart';
 import 'package:challenge/pages/components/navigation/tab_navigator_component.dart';
 import 'package:provider/provider.dart';
 
-import 'globals.dart';
+import 'package:challenge/globals.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
