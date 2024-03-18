@@ -42,7 +42,7 @@ void main() {
           equals([
             {
               'id': '1',
-              'type': 'image',
+              'type': 'MediaTypeEnum.image',
               'title': 'title',
               'source': 'abc/title'
             }
