@@ -20,8 +20,6 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       this.isFailed = false,
       this.repetition}) {
     editAcceptanceCriteria ??= AcceptanceCriteriaModel(
-        id: 0,
-        title: 'title',
         amount: 0,
         unit: 'unit',
         frequency: FrequencyModel(

@@ -33,8 +33,6 @@ class ProgressMediaListPage extends StatefulWidget {
       this.progress,
       this.isSaveInsteadOfEditButtonVisible = true}) {
     editAcceptanceCriteria = AcceptanceCriteriaModel(
-        id: acceptanceCriteria.id,
-        title: acceptanceCriteria.title,
         amount: acceptanceCriteria.amount,
         unit: acceptanceCriteria.unit,
         frequency: acceptanceCriteria.frequency,
@@ -244,9 +242,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           .add(progress);
       allChallengesList
           .firstWhere((element) => element.id == widget.challenge.id)
-          .acceptanceCriterias
-          .where((element) => element.id == widget.acceptanceCriteria.id)
-          .toList()[0] = widget.acceptanceCriteria;
+          .acceptanceCriteria = widget.acceptanceCriteria;
 
       allChallengesList.map((element) {
         if (element.id == widget.challenge.id) {

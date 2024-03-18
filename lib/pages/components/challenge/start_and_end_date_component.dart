@@ -136,7 +136,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
             height: size.height * 0.27,
             child: CupertinoDatePicker(
               maximumDate: startOrEnd == 'start' &&
-                      widget.editChallenge.acceptanceCriterias.first.frequency
+                      widget.editChallenge.acceptanceCriteria.frequency
                               .amount ==
                           null &&
                       widget.editChallenge.startDate != null

@@ -92,7 +92,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     title(challenge.title),
                     description(challenge),
                     startAndEndDate(challenge),
-                    acceptanceCriteria(challenge),
+                    singleAcceptanceCriteria(
+                        challenge.acceptanceCriteria, challenge.startDate),
                     expandedSpace(),
                     documentationButtons(context),
                     startEndTryAcceptAgainButton(challenge)
@@ -346,38 +347,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  int selectedAcceptanceCriteria = 0;
-  acceptanceCriteria(ChallengeModel challenge) {
-    List<AcceptanceCriteriaModel> acceptanceCriterias =
-        challenge.acceptanceCriterias;
-    return isDescriptionExpanded
-        ? Container()
-        : Column(
-            children: [
-              SizedBox(
-                  // margin: EdgeInsets.only(top: 10),
-                  height: 55,
-                  // padding: const EdgeInsets.all(10),
-                  child: PageView.builder(
-                    itemCount: acceptanceCriterias.length,
-                    controller: PageController(viewportFraction: 1),
-                    onPageChanged: (int index) =>
-                        setState(() => selectedAcceptanceCriteria = index),
-                    itemBuilder: (_, i) {
-                      return Transform.scale(
-                        scale: i == selectedAcceptanceCriteria ? 1 : 0.9,
-                        child: singleAcceptanceCriteria(
-                            acceptanceCriterias[i], challenge.startDate),
-                      );
-                    },
-                  )),
-              const SizedBox(
-                height: 16,
-              )
-            ],
-          );
-  }
-
   singleAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria,
       DateTime? challengeStartDate) {
     return GestureDetector(
@@ -518,7 +487,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       currentChallenge = challengeList[value];
       currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
-      selectedAcceptanceCriteria = 0;
       isDescriptionExpanded = false;
     });
   }
@@ -554,7 +522,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           cameras: cameras,
           preTitle: '${widget.preTitle}/${currentChallenge.title}',
           mediaList: currentChallenge.media,
-          acceptanceCriteria: currentChallenge.acceptanceCriterias[0],
+          acceptanceCriteria: currentChallenge.acceptanceCriteria,
           challenge: currentChallenge,
         ),
       ),
@@ -700,7 +668,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         currentChallenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
         currentChallenge.setEndDate();
         currentChallenge.status = ChallengeStatusEnum.inProgress;
-        currentChallenge.acceptanceCriterias.first.frequency.currentAmount = 1;
+        currentChallenge.acceptanceCriteria.frequency.currentAmount = 1;
       });
       allChallengesList
           .map((e) => e.id == currentChallenge.id ? currentChallenge : e);

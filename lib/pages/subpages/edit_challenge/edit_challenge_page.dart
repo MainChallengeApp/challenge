@@ -134,8 +134,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     widget.challenge.description = widget.editChallenge.description;
     widget.challenge.startDate = widget.editChallenge.startDate;
     widget.challenge.endDate = widget.editChallenge.endDate;
-    widget.challenge.acceptanceCriterias =
-        widget.editChallenge.acceptanceCriterias;
+    widget.challenge.acceptanceCriteria =
+        widget.editChallenge.acceptanceCriteria;
 
     if (widget.isSearchEdit) {
       Navigator.pop(context);
@@ -195,7 +195,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return Column(
       children: [
         AmountAndUnitComponent(
-            acceptanceCriteria: widget.editChallenge.acceptanceCriterias.first),
+            acceptanceCriteria: widget.editChallenge.acceptanceCriteria),
         const SpaceComponent()
       ],
     );

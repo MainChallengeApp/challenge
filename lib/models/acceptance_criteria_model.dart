@@ -5,8 +5,6 @@ import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 
 class AcceptanceCriteriaModel {
-  int? id;
-  String title;
   double amount;
   String unit;
   FrequencyModel frequency;
@@ -15,9 +13,7 @@ class AcceptanceCriteriaModel {
   List<RepetitionModel> repetitions;
 
   AcceptanceCriteriaModel(
-      {required this.id,
-      required this.title,
-      required this.amount,
+      {required this.amount,
       required this.unit,
       required this.frequency,
       required this.tracking,
@@ -30,54 +26,43 @@ class AcceptanceCriteriaModel {
     }
   }
 
-  static List<AcceptanceCriteriaModel> fromJsonList(json) {
-    List<AcceptanceCriteriaModel> list = [];
-    json?.forEach((e) => list.add(AcceptanceCriteriaModel(
-        id: e['id'],
-        title: e['title'],
-        amount: e['amount'],
-        unit: e['unit'],
-        frequency: FrequencyModel.fromJson(e['frequency']),
-        tracking: e['tracking'],
-        currentProgress: e['currentProgress'],
-        repetitions: ProgressModel.fromJsonListList(e['repetitions']))));
-    return list;
+  static AcceptanceCriteriaModel fromJson(json) {
+    return AcceptanceCriteriaModel(
+        amount: json['amount'],
+        unit: json['unit'],
+        frequency: FrequencyModel.fromJson(json['frequency']),
+        tracking: json['tracking'],
+        currentProgress: json['currentProgress'],
+        repetitions: ProgressModel.fromJsonListList(json['repetitions']));
   }
 
-  static toJsonList(List<AcceptanceCriteriaModel> acceptanceCriteria) {
-    return acceptanceCriteria
-        .map((e) => {
-              'id': e.id,
-              'title': e.title,
-              'amount': e.amount,
-              'unit': e.unit,
-              'frequency': FrequencyModel.toJson(e.frequency),
-              'tracking': e.tracking,
-              'currentProgress': e.currentProgress,
-              'repetitions': ProgressModel.toJsonListList(e.repetitions)
-            })
-        .toList();
+  static toJson(AcceptanceCriteriaModel acceptanceCriteria) {
+    return {
+      'amount': acceptanceCriteria.amount,
+      'unit': acceptanceCriteria.unit,
+      'frequency': FrequencyModel.toJson(acceptanceCriteria.frequency),
+      'tracking': acceptanceCriteria.tracking,
+      'currentProgress': acceptanceCriteria.currentProgress,
+      'repetitions':
+          ProgressModel.toJsonListList(acceptanceCriteria.repetitions)
+    };
   }
 
-  static List<AcceptanceCriteriaModel> copyAcceptanceCriterias(
-      List<AcceptanceCriteriaModel> acceptanceCriteriaList,
-      {bool isTryAgain = false}) {
-    List<AcceptanceCriteriaModel> acceptanceCriteriaListCopy = [];
-
-    for (var ac in acceptanceCriteriaList) {
-      acceptanceCriteriaListCopy
-          .add(_copyAcceptanceCriteria(ac, isTryAgain: isTryAgain));
-    }
-
-    return acceptanceCriteriaListCopy;
+  static emptyAcceptanceCriteria() {
+    return AcceptanceCriteriaModel(
+        amount: 0,
+        unit: '',
+        frequency: FrequencyModel(
+            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
+        tracking: 'camera',
+        currentProgress: 0,
+        repetitions: []);
   }
 
-  static AcceptanceCriteriaModel _copyAcceptanceCriteria(
+  static AcceptanceCriteriaModel copyAcceptanceCriteria(
       AcceptanceCriteriaModel ac,
       {bool isTryAgain = false}) {
     return AcceptanceCriteriaModel(
-        id: ac.id,
-        title: ac.title,
         amount: ac.amount,
         unit: ac.unit,
         frequency: FrequencyModel.copyFrequency(ac.frequency),

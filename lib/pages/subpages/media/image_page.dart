@@ -95,11 +95,10 @@ class _ImagePageState extends State<ImagePage> {
 
         widget.mediaList.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
-        for (var acceptanceCriteria in widget.challenge.acceptanceCriterias) {
-          for (var repetition in acceptanceCriteria.repetitions) {
-            for (var p in repetition.progressList) {
-              p.mediaIds.removeWhere((mediaId) => mediaId == media.id);
-            }
+        for (var repetition
+            in widget.challenge.acceptanceCriteria.repetitions) {
+          for (var p in repetition.progressList) {
+            p.mediaIds.removeWhere((mediaId) => mediaId == media.id);
           }
         }
 

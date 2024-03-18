@@ -283,7 +283,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         : Column(
             children: [
               AmountAndUnitComponent(
-                  acceptanceCriteria: challenge.acceptanceCriterias.first,
+                  acceptanceCriteria: challenge.acceptanceCriteria,
                   setIsKeyboardUp: setIsKeyboardUp),
               const SpaceComponent()
             ],

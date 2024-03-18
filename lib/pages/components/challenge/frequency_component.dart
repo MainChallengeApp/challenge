@@ -32,7 +32,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
   @override
   Widget build(BuildContext context) {
     AcceptanceCriteriaModel acceptanceCriteria =
-        widget.challenge.acceptanceCriterias[0];
+        widget.challenge.acceptanceCriteria;
     return acceptanceCriteria.frequency.type == FrequencyTypeEnum.time
         ? timeFrequency(acceptanceCriteria)
         : acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily

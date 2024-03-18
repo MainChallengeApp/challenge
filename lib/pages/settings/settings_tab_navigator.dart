@@ -1,3 +1,4 @@
+import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -39,7 +40,7 @@ class SettingsTabNavigator extends TabNavigatorComponent {
         thumbnailPath: '',
         startDate: DateTime.now(),
         endDate: DateTime.now(),
-        acceptanceCriterias: [],
+        acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
         media: []);
     var routeBuilders = prouteBuilders(context, challenge: challenge);
 

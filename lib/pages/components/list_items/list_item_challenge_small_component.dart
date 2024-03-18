@@ -68,12 +68,10 @@ class _ListItemChallengeSmallComponentState
                   child: CircularProgressIndicator(
                     backgroundColor: themeColor5,
                     strokeCap: StrokeCap.round,
-                    value: widget.challenge.acceptanceCriterias.isEmpty
+                    value: widget.challenge.acceptanceCriteria.amount <= 0
                         ? 1
-                        : widget.challenge.acceptanceCriterias[0].amount <= 0
-                            ? 1
-                            : widget.challenge.acceptanceCriterias[0]
-                                .calcProgressRatio(),
+                        : widget.challenge.acceptanceCriteria
+                            .calcProgressRatio(),
                     color: widget.challenge.status == ChallengeStatusEnum.failed
                         ? Colors.red[300]
                         : Colors.green[300],
@@ -86,7 +84,7 @@ class _ListItemChallengeSmallComponentState
 
   progressRecurring() {
     AcceptanceCriteriaModel acceptanceCriteria =
-        widget.challenge.acceptanceCriterias.first;
+        widget.challenge.acceptanceCriteria;
     return Container(
       margin: const EdgeInsets.only(right: 2),
       padding: const EdgeInsets.all(10),

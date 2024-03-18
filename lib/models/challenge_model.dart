@@ -16,7 +16,7 @@ class ChallengeModel {
   String thumbnailPath;
   DateTime? startDate;
   DateTime? endDate;
-  List<AcceptanceCriteriaModel> acceptanceCriterias;
+  AcceptanceCriteriaModel acceptanceCriteria;
   List<MediaModel> media;
   List<ChallengeCategoryEnum> categories;
 
@@ -28,7 +28,7 @@ class ChallengeModel {
       required this.thumbnailPath,
       this.startDate,
       this.endDate,
-      required this.acceptanceCriterias,
+      required this.acceptanceCriteria,
       required this.media,
       this.categories = const []}) {
     if (id == null || id!.isEmpty) {
@@ -49,8 +49,8 @@ class ChallengeModel {
         endDate: json['endDate'] == null || json['endDate'] == 'null'
             ? null
             : DateTime.parse(json['endDate']),
-        acceptanceCriterias:
-            AcceptanceCriteriaModel.fromJsonList(json['acceptanceCriteria']),
+        acceptanceCriteria:
+            AcceptanceCriteriaModel.fromJson(json['acceptanceCriteria']),
         media: MediaModel.fromJsonList(json['media']),
         categories: ChallengeCategoryEnum.fromJsonList(json['categories']));
   }
@@ -64,8 +64,7 @@ class ChallengeModel {
       'thumbnailPath': thumbnailPath,
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
-      'acceptanceCriteria':
-          AcceptanceCriteriaModel.toJsonList(acceptanceCriterias),
+      'acceptanceCriteria': AcceptanceCriteriaModel.toJson(acceptanceCriteria),
       'media': MediaModel.toJsonList(media),
       'categories': ChallengeCategoryEnum.toJsonList(categories)
     };
@@ -80,8 +79,8 @@ class ChallengeModel {
         endDate: isTryAgain ? null : challenge.endDate,
         description: challenge.description,
         thumbnailPath: challenge.thumbnailPath,
-        acceptanceCriterias: AcceptanceCriteriaModel.copyAcceptanceCriterias(
-            challenge.acceptanceCriterias,
+        acceptanceCriteria: AcceptanceCriteriaModel.copyAcceptanceCriteria(
+            challenge.acceptanceCriteria,
             isTryAgain: isTryAgain),
         media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media),
         categories:
@@ -94,10 +93,10 @@ class ChallengeModel {
     if (description.toLowerCase().contains(searchText.toLowerCase())) {
       return true;
     }
-    for (var a in acceptanceCriterias) {
-      if (a.title.toLowerCase().contains(searchText.toLowerCase())) {
-        return true;
-      }
+    if (acceptanceCriteria.unit
+        .toLowerCase()
+        .contains(searchText.toLowerCase())) {
+      return true;
     }
     return false;
   }
@@ -109,10 +108,8 @@ class ChallengeModel {
   }
 
   bool isChallengeCompleted() {
-    for (var ac in acceptanceCriterias) {
-      if (!ac.isCompleted()) {
-        return false;
-      }
+    if (!acceptanceCriteria.isCompleted()) {
+      return false;
     }
     return true;
   }
@@ -144,7 +141,7 @@ class ChallengeModel {
   }
 
   setEndDate() {
-    FrequencyModel frequency = acceptanceCriterias.first.frequency;
+    FrequencyModel frequency = acceptanceCriteria.frequency;
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount != null) {
@@ -156,7 +153,7 @@ class ChallengeModel {
   }
 
   setFrequencyAmount() {
-    FrequencyModel frequency = acceptanceCriterias.first.frequency;
+    FrequencyModel frequency = acceptanceCriteria.frequency;
     if (startDate != null &&
         endDate != null &&
         frequency.type == FrequencyTypeEnum.daily) {

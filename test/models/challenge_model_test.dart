@@ -16,18 +16,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 2,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 2,
+              repetitions: []),
           media: []);
       // Act
       bool isInSearch = challenge.searchInChallenge('title');
@@ -44,18 +40,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 2,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 2,
+              repetitions: []),
           media: []);
       // Act
       bool isInSearch = challenge.searchInChallenge('x');
@@ -71,28 +63,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 2,
-                repetitions: []),
-            AcceptanceCriteriaModel(
-                id: 2,
-                title: 'title',
-                amount: 1,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 2,
+              repetitions: []),
           media: []);
       // Act
       bool isCompleted = challenge.isChallengeCompleted();
@@ -109,28 +87,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: []),
-            AcceptanceCriteriaModel(
-                id: 2,
-                title: 'title',
-                amount: 1,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 1,
+              repetitions: []),
           media: []);
       // Act
       bool isCompleted = challenge.isChallengeCompleted();
@@ -148,28 +112,14 @@ void main() {
           description: 'description',
           thumbnailPath: 'thumbnailPath',
           endDate: DateTime.now().add(const Duration(days: 1)),
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 2,
-                repetitions: []),
-            AcceptanceCriteriaModel(
-                id: 2,
-                title: 'title',
-                amount: 1,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 2,
+              repetitions: []),
           media: []);
       // Act
       challenge.checkChallengeStatus();
@@ -186,28 +136,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: []),
-            AcceptanceCriteriaModel(
-                id: 2,
-                title: 'title',
-                amount: 1,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 1,
+              repetitions: []),
           endDate: DateTime.now().subtract(const Duration(days: 1)),
           media: []);
       // Act
@@ -225,28 +161,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: []),
-            AcceptanceCriteriaModel(
-                id: 2,
-                title: 'title',
-                amount: 1,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 1,
+              repetitions: []),
           startDate: DateTime.now().add(const Duration(days: 1)),
           media: []);
       // Act
@@ -264,28 +186,14 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [
-            AcceptanceCriteriaModel(
-                id: 1,
-                title: 'title',
-                amount: 2,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: []),
-            AcceptanceCriteriaModel(
-                id: 2,
-                title: 'title',
-                amount: 1,
-                unit: 'unit',
-                frequency: FrequencyModel(
-                    type: FrequencyTypeEnum.daily, currentAmount: 0),
-                tracking: 'tracking',
-                currentProgress: 1,
-                repetitions: [])
-          ],
+          acceptanceCriteria: AcceptanceCriteriaModel(
+              amount: 2,
+              unit: 'unit',
+              frequency: FrequencyModel(
+                  type: FrequencyTypeEnum.daily, currentAmount: 0),
+              tracking: 'tracking',
+              currentProgress: 1,
+              repetitions: []),
           startDate: DateTime.now().subtract(const Duration(days: 1)),
           endDate: DateTime.now().add(const Duration(days: 1)),
           media: []);
@@ -304,7 +212,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriterias: [],
+          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
           media: []);
       // Act
       String thumbnailPath = challenge.getThumbnailPath();
@@ -320,7 +228,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: '',
-          acceptanceCriterias: [],
+          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
           media: [
             MediaModel(
                 id: '1',
@@ -348,7 +256,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: '',
-          acceptanceCriterias: [],
+          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
           media: []);
       // Act
       String thumbnailPath = challenge.getThumbnailPath();
@@ -366,7 +274,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'assets/images/image.png',
-          acceptanceCriterias: [],
+          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
           media: []);
       // Act
       bool isThumbnailFromAssetsImage = challenge.isThumbnailFromAssetsImage();
@@ -381,7 +289,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'assets/ima',
-          acceptanceCriterias: [],
+          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
           media: []);
       // Act
       bool isThumbnailFromAssetsImage = challenge.isThumbnailFromAssetsImage();
