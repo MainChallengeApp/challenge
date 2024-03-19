@@ -9,11 +9,14 @@ import 'package:challenge/globals.dart';
 
 class ListItemChallengeSmallComponent extends StatefulWidget {
   const ListItemChallengeSmallComponent(
-      {super.key, required this.onTap, required this.challenge});
+      {super.key,
+      required this.onTap,
+      required this.challenge,
+      this.isSearchChallenge = false});
 
   final dynamic Function() onTap;
-
   final ChallengeModel challenge;
+  final bool isSearchChallenge;
 
   @override
   State<ListItemChallengeSmallComponent> createState() =>
@@ -85,16 +88,18 @@ class _ListItemChallengeSmallComponentState
   progressRecurring() {
     AcceptanceCriteriaModel acceptanceCriteria =
         widget.challenge.acceptanceCriteria;
-    return Container(
-      margin: const EdgeInsets.only(right: 2),
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-          color: themeColor4,
-          borderRadius: BorderRadius.all(Radius.circular(12))),
-      child: Text(
-          '${acceptanceCriteria.getCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
-          style: const TextStyle(fontSize: 10, color: themeColor3),
-          overflow: TextOverflow.ellipsis),
-    );
+    return widget.isSearchChallenge
+        ? Container()
+        : Container(
+            margin: const EdgeInsets.only(right: 2),
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+                color: themeColor4,
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            child: Text(
+                '${acceptanceCriteria.getCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
+                style: const TextStyle(fontSize: 10, color: themeColor3),
+                overflow: TextOverflow.ellipsis),
+          );
   }
 }
