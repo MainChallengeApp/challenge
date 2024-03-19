@@ -1,7 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:camera/camera.dart';
+import 'package:challenge/pages/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
+import 'package:challenge/pages/components/challenge/documentation_button_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
@@ -92,8 +92,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     title(challenge.title),
                     description(challenge),
                     startAndEndDate(challenge),
-                    acceptanceCriteria(
-                        challenge.acceptanceCriteria, challenge.startDate),
+                    acceptanceCriteria(challenge),
                     expandedSpace(),
                     documentationButtons(context),
                     startEndTryAcceptAgainButton(challenge)
@@ -121,7 +120,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  Widget seperator(ChallengeModel challenge) {
+  seperator(ChallengeModel challenge) {
     return (challenge.status == ChallengeStatusEnum.inProgress ||
             challenge.status == ChallengeStatusEnum.backlog)
         ? const SpaceComponent(
@@ -130,7 +129,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         : Container();
   }
 
-  Widget expandedSpace() {
+  expandedSpace() {
     return isDescriptionExpanded ? Container() : Expanded(child: Container());
   }
 
@@ -157,7 +156,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  Expanded deleteSlider() {
+  deleteSlider() {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
@@ -192,7 +191,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  Widget editSlider(ChallengeModel e) {
+  editSlider(ChallengeModel e) {
     return (e.status == ChallengeStatusEnum.inProgress ||
             e.status == ChallengeStatusEnum.backlog)
         ? Expanded(
@@ -226,7 +225,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         : Container();
   }
 
-  StatelessWidget startEndTryAcceptAgainButton(ChallengeModel e) {
+  startEndTryAcceptAgainButton(ChallengeModel e) {
     return isDescriptionExpanded
         ? Container()
         : GestureDetector(
@@ -260,46 +259,46 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
   }
 
-  Widget documentationButtons(BuildContext context) {
+  documentationButtons(BuildContext context) {
     return isDescriptionExpanded
         ? Container()
         : SpaceColumnComponent(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                documentationButton(
-                    iconData: Icons.numbers_rounded,
-                    onTap: () => SnackBarComponent.showSnackBar(
-                        context, 'The Numbers feature will be added soon.'),
-                    color: Colors.grey[200]),
-                documentationButton(
-                    iconData: Icons.notes_rounded,
-                    onTap: () => SnackBarComponent.showSnackBar(
-                        context, 'The Notes feature will be added soon.'),
-                    color: Colors.grey[200]),
-                documentationButton(
-                    iconData: Icons.gps_not_fixed_rounded,
-                    onTap: () => SnackBarComponent.showSnackBar(
-                        context, 'The GPS feature will be added soon.'),
-                    color: Colors.grey[200]),
-                documentationButton(
+                DocumentationButtonComponent(
+                  iconData: Icons.numbers_rounded,
+                  onTap: () => SnackBarComponent.showSnackBar(
+                      context, 'The Numbers feature will be added soon.'),
+                  isGrayedOut: true,
+                ),
+                DocumentationButtonComponent(
+                  iconData: Icons.notes_rounded,
+                  onTap: () => SnackBarComponent.showSnackBar(
+                      context, 'The Notes feature will be added soon.'),
+                  isGrayedOut: true,
+                ),
+                DocumentationButtonComponent(
+                  iconData: Icons.gps_not_fixed_rounded,
+                  onTap: () => SnackBarComponent.showSnackBar(
+                      context, 'The GPS feature will be added soon.'),
+                  isGrayedOut: true,
+                ),
+                DocumentationButtonComponent(
                     iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
               ],
             ),
           );
   }
 
-  Widget startAndEndDate(ChallengeModel challenge) {
+  startAndEndDate(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
-        : Column(
-            children: [
-              StartAndEndDateComponent(
-                editChallenge: challenge,
-                isLocked: true,
-              ),
-              const SpaceComponent()
-            ],
+        : SpaceColumnComponent(
+            child: StartAndEndDateComponent(
+              editChallenge: challenge,
+              isLocked: true,
+            ),
           );
   }
 
@@ -347,99 +346,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  acceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria,
-      DateTime? challengeStartDate) {
+  acceptanceCriteria(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
-        : GestureDetector(
-            onTap: () => onTapSingleAcceptanceCriteria(acceptanceCriteria),
-            child: Center(
-              child: SizedBox(
-                height: 55,
-                child: Stack(
-                  children: [
-                    FractionallySizedBox(
-                      widthFactor: acceptanceCriteria.calcProgressRatio() > 1
-                          ? 1
-                          : acceptanceCriteria.calcProgressRatio(),
-                      heightFactor: 1,
-                      child: Container(
-                        // width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: currentChallenge.status ==
-                                    ChallengeStatusEnum.failed
-                                ? Colors.red
-                                : Colors.green,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.white,
-                              width: 10,
-                              strokeAlign: BorderSide.strokeAlignOutside),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16))),
-                    ),
-                    Container(
-                        padding: const EdgeInsets.all(10),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: Colors.white.withAlpha(170),
-                            border: Border.all(
-                                width: 1,
-                                color: const Color.fromRGBO(226, 232, 240, 1)),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16))),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              // progressPercentage(acceptanceCriteria),
-                              progressAbsolute(acceptanceCriteria),
-                              progressRecurring(
-                                  acceptanceCriteria, challengeStartDate)
-                            ],
-                          ),
-                        ))
-                  ],
-                ),
-              ),
-            ),
-          );
-  }
-
-  progressAbsolute(AcceptanceCriteriaModel acceptanceCriteria) {
-    return acceptanceCriteria.unit != '' || acceptanceCriteria.amount != 0
-        ? Container(
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-                color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            child: Text(
-                '${DesignUtil.doubleAsInt(acceptanceCriteria.currentProgress)}/${DesignUtil.doubleAsInt(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}',
-                style: const TextStyle(fontSize: 10, color: themeColor3),
-                overflow: TextOverflow.ellipsis),
-          )
-        : Container();
-  }
-
-  progressPercentage(AcceptanceCriteriaModel acceptanceCriteria) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      padding: const EdgeInsets.all(10),
-      // width: 59,
-      decoration: const BoxDecoration(
-          color: themeColor4,
-          borderRadius: BorderRadius.all(Radius.circular(12))),
-      child: Text('${(acceptanceCriteria.calcProgressRatio() * 100).toInt()}%',
-          style: const TextStyle(fontSize: 10, color: themeColor3),
-          overflow: TextOverflow.ellipsis),
-    );
+        : AcceptanceCriteriaComponent(
+            onTap: () => onTapAcceptanceCriteria(challenge.acceptanceCriteria),
+            challenge: challenge);
   }
 
   void onTapEditChallenge() {
@@ -504,8 +416,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     });
   }
 
-  onTapSingleAcceptanceCriteria(
-      AcceptanceCriteriaModel acceptanceCriteria) async {
+  onTapAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) async {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -527,7 +438,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     // Obtain a list of the available cameras on the device.
     final cameras = await availableCameras();
 
+    // ignore: use_build_context_synchronously
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+
+    // ignore: use_build_context_synchronously
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -687,20 +601,5 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
       challengeController.writeFile(allChallengesList);
     }
-  }
-
-  progressRecurring(AcceptanceCriteriaModel acceptanceCriteria,
-      DateTime? challengeStartDate) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-          color: themeColor4,
-          borderRadius: BorderRadius.all(Radius.circular(12))),
-      child: Text(
-          '${acceptanceCriteria.getCurrentFrequencyAmount(challengeStartDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${DesignUtil.dayDaysTimeOrTimes(acceptanceCriteria.frequency)}',
-          style: const TextStyle(fontSize: 10, color: themeColor3),
-          overflow: TextOverflow.ellipsis),
-    );
   }
 }
