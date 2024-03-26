@@ -1,7 +1,3 @@
-import 'package:challenge/models/repetition_model.dart';
-
-import 'media_model.dart';
-
 class ProgressModel {
   DateTime date;
   final int frequencyAmount;
@@ -22,7 +18,7 @@ class ProgressModel {
         progress: e['progress'],
         mediaIds: List.from(e['mediaIds']),
         percentProgress: e['percentProgress'],
-        date: e['date'],
+        date: DateTime.parse(e['date']),
         frequencyAmount: e['frequencyAmount'])));
     return progressList;
   }
@@ -37,27 +33,5 @@ class ProgressModel {
               'frequencyAmount': progress.frequencyAmount
             })
         .toList();
-  }
-
-  static copyRepetition(RepetitionModel repetition) {
-    RepetitionModel repetitiontCopy = RepetitionModel(
-        repetitionNumber: repetition.repetitionNumber, progressList: []);
-    for (var e in repetition.progressList) {
-      repetitiontCopy.progressList.add(ProgressModel(
-          date: e.date,
-          progress: e.progress,
-          mediaIds: MediaModel.copyMediaIdList(e.mediaIds),
-          percentProgress: e.percentProgress,
-          frequencyAmount: e.frequencyAmount));
-    }
-    return repetitiontCopy;
-  }
-
-  static copyRepetitionList(List<RepetitionModel> repetitionList) {
-    List<RepetitionModel> repetitionListCopy = [];
-    for (var e in repetitionList) {
-      repetitionListCopy.add(ProgressModel.copyRepetition(e));
-    }
-    return repetitionListCopy;
   }
 }

@@ -70,9 +70,9 @@ class _AcceptanceCriteriaComponentState
                     child: Row(
                       children: [
                         // progressPercentage(widget.challenge.acceptanceCriteria),
+                        repetition(widget.challenge.acceptanceCriteria,
+                            widget.challenge.startDate),
                         progressAbsolute(widget.challenge.acceptanceCriteria),
-                        progressRecurring(widget.challenge.acceptanceCriteria,
-                            widget.challenge.startDate)
                       ],
                     ),
                   ))
@@ -91,7 +91,7 @@ class _AcceptanceCriteriaComponentState
         : Container();
   }
 
-  progressRecurring(AcceptanceCriteriaModel acceptanceCriteria,
+  repetition(AcceptanceCriteriaModel acceptanceCriteria,
       DateTime? challengeStartDate) {
     return ContainerInContainerTextComponent(
         text:

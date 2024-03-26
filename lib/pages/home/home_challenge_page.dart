@@ -21,10 +21,9 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:challenge/pages/home/progress/progress_page.dart';
+import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
 
 class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage(
@@ -350,7 +349,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return isDescriptionExpanded
         ? Container()
         : AcceptanceCriteriaComponent(
-            onTap: () => onTapAcceptanceCriteria(challenge.acceptanceCriteria),
+            onTap: () => onTapAcceptanceCriteria(challenge),
             challenge: challenge);
   }
 
@@ -416,14 +415,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     });
   }
 
-  onTapAcceptanceCriteria(AcceptanceCriteriaModel acceptanceCriteria) async {
+  onTapAcceptanceCriteria(ChallengeModel challenge) async {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => ProgressPage(
-            preTitle: '${widget.preTitle}/${currentChallenge.title}',
-            challenge: currentChallenge,
-            acceptanceCriteria: acceptanceCriteria),
+        builder: (context) => RepetitionPage(
+            preTitle: '${widget.preTitle}/${challenge.title}',
+            challenge: challenge),
       ),
     ).then((_) => setState(() {
           context.read<DesignProvider>().setIsBottomNavBarVisible(true);

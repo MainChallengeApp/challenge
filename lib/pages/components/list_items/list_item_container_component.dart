@@ -5,12 +5,14 @@ class ListItemContainerComponent extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
   final Function? onTap;
+  final EdgeInsetsGeometry? padding;
 
   const ListItemContainerComponent(
       {super.key,
       required this.child,
       this.backgroundColor = Colors.white,
-      this.onTap});
+      this.onTap,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ListItemContainerComponent extends StatelessWidget {
         width: double.infinity,
         height: 64,
         margin: const EdgeInsets.only(left: 20, right: 20),
-        padding: const EdgeInsets.all(12),
+        padding: padding ?? const EdgeInsets.all(12),
         decoration: BoxDecoration(
             color: backgroundColor,
             border: Border.all(width: 1, color: themeColor5),

@@ -1,6 +1,5 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
-import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 
@@ -22,7 +21,8 @@ class AcceptanceCriteriaModel {
     if (repetitions.length != (frequency.amount ?? 0)) {
       repetitions = [];
       for (var i = 1; i <= (frequency.amount ?? 0); i++) {
-        repetitions.add(RepetitionModel(repetitionNumber: i, progressList: []));
+        repetitions.add(RepetitionModel(
+            repetitionNumber: i, goalAmount: amount, progressList: []));
       }
     }
   }
@@ -70,7 +70,7 @@ class AcceptanceCriteriaModel {
         currentProgress: isTryAgain ? 0 : ac.currentProgress,
         repetitions: isTryAgain
             ? null
-            : ProgressModel.copyRepetitionList(ac.repetitions));
+            : RepetitionModel.copyRepetitionList(ac.repetitions));
   }
 
   double calcProgressRatio() {
@@ -91,11 +91,11 @@ class AcceptanceCriteriaModel {
               .isBefore(challengeStartDate)) {
         return 0;
       }
-      return frequency.type == FrequencyTypeEnum.daily
-          ? DateTime.now().difference(challengeStartDate).inDays + 1
-          : 0;
+      var days = DateTime.now().difference(challengeStartDate).inDays + 1;
+      var frequencyAmount = frequency.amount ?? 0;
+      return days > frequencyAmount ? frequencyAmount : days;
     } else if (frequency.type == FrequencyTypeEnum.time) {
-      return frequency.currentAmount ?? 0;
+      return frequency.currentAmount;
     } else {
       return 0;
     }

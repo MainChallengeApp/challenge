@@ -1,9 +1,9 @@
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -15,22 +15,21 @@ import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'progress_media_list_page.dart';
 
-class ProgressPage extends StatefulWidget {
-  const ProgressPage(
-      {super.key,
-      required this.preTitle,
-      required this.challenge,
-      required this.acceptanceCriteria});
+class RepetitionPage extends StatefulWidget {
   final String preTitle;
   final ChallengeModel challenge;
-  final AcceptanceCriteriaModel acceptanceCriteria;
+
+  const RepetitionPage(
+      {super.key, required this.preTitle, required this.challenge});
 
   @override
-  State<ProgressPage> createState() => _ProgressPageState();
+  State<RepetitionPage> createState() => _RepetitionPageState();
 }
 
-class _ProgressPageState extends State<ProgressPage> {
+class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
+  late final AcceptanceCriteriaModel acceptanceCriteria =
+      widget.challenge.acceptanceCriteria;
 
   @override
   void initState() {
@@ -38,7 +37,7 @@ class _ProgressPageState extends State<ProgressPage> {
     setIsBottomNavBarVisibleToFalse();
     Future.delayed(Duration.zero, () {
       List<String> preTitleArray = widget.preTitle.split('/');
-      if (preTitleArray.length >= 3 && preTitleArray.contains('Progress')) {
+      if (preTitleArray.length >= 3 && preTitleArray.contains('Repetitions')) {
         Navigator.pop(context);
       }
     });
@@ -49,7 +48,7 @@ class _ProgressPageState extends State<ProgressPage> {
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.preTitle,
-          titleText: 'Progress',
+          titleText: 'Repetitions',
         ),
         backgroundColor: Colors.white,
         body: Stack(
@@ -68,12 +67,9 @@ class _ProgressPageState extends State<ProgressPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.acceptanceCriteria.repetitions.length,
+          itemCount: acceptanceCriteria.repetitions.length,
           itemBuilder: (BuildContext content, int index) {
-            RepetitionModel repetition =
-                widget.acceptanceCriteria.repetitions[index];
-            repetition.progressList
-                .sort((a, b) => b.date.millisecond - a.date.millisecond);
+            RepetitionModel repetition = acceptanceCriteria.repetitions[index];
             return repetitionListItem(repetition);
           }),
     );
@@ -83,7 +79,7 @@ class _ProgressPageState extends State<ProgressPage> {
     return Column(
       children: [
         ListItemIconSmallComponent(
-            onTap: () => onTapNewEvidence(),
+            onTap: () => onTapNewProgress(),
             icon: Icons.add,
             title: 'New Progress'),
         const SpaceComponent()
@@ -91,24 +87,15 @@ class _ProgressPageState extends State<ProgressPage> {
     );
   }
 
-  Column repetitionListItem(RepetitionModel repetition) {
-    repetition.progressList
-        .sort((a, b) => b.date.millisecond - a.date.microsecond);
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () => onTapRepetition(repetition),
-          child: ListItemAcceptanceCriteriaBarComponent(
-            acceptanceCriteria: widget.acceptanceCriteria,
-            isProgressBarLocked: true,
-            initialProgress: repetition.progressList.first.progress,
-            isRepetition: true,
-            isFailed: widget.challenge.status == ChallengeStatusEnum.failed,
-            repetition: repetition,
-          ),
+  repetitionListItem(RepetitionModel repetition) {
+    return SpaceColumnComponent(
+      child: GestureDetector(
+        onTap: () => onTapRepetition(repetition),
+        child: ListItemRepetitionComponent(
+          repetition: repetition,
+          acceptanceCriteria: acceptanceCriteria,
         ),
-        const SpaceComponent()
-      ],
+      ),
     );
   }
 
@@ -144,7 +131,7 @@ class _ProgressPageState extends State<ProgressPage> {
           initialMediaList: widget.challenge.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
-          acceptanceCriteria: widget.acceptanceCriteria,
+          acceptanceCriteria: acceptanceCriteria,
           challenge: widget.challenge,
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
@@ -174,7 +161,7 @@ class _ProgressPageState extends State<ProgressPage> {
     }
   }
 
-  void onTapNewEvidence() async {
+  void onTapNewProgress() async {
     // // Ensure that plugin services are initialized so that `availableCameras()`
     // // can be called before `runApp()`
     // WidgetsFlutterBinding.ensureInitialized();
@@ -194,7 +181,7 @@ class _ProgressPageState extends State<ProgressPage> {
             preTitle: '${widget.preTitle}/Progress',
             challenge: widget.challenge,
             initialMediaList: const [],
-            acceptanceCriteria: widget.acceptanceCriteria),
+            acceptanceCriteria: acceptanceCriteria),
       ),
     ).then((_) => setState(() {
           // context.read<DesignProvider>().setIsBottomNavBarVisible(true);

@@ -1,4 +1,4 @@
-import 'package:challenge/pages/components/list_items/list_item_accept_button_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_email_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
@@ -42,7 +42,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             const SpaceComponent(),
             ListItemButtonComponent(
-              onTapAccept: onTapAccept,
+              onTap: onTapAccept,
               isMainButton: AccountModel.isValidUsername(username),
               text: 'Accept',
             ),

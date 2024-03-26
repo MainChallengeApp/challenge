@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/pages/components/list_items/list_item_accept_button_component.dart';
+import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
@@ -39,7 +40,7 @@ class ProgressMediaListPage extends StatefulWidget {
         tracking: acceptanceCriteria.tracking,
         currentProgress: acceptanceCriteria.currentProgress,
         repetitions:
-            ProgressModel.copyRepetitionList(acceptanceCriteria.repetitions));
+            RepetitionModel.copyRepetitionList(acceptanceCriteria.repetitions));
   }
   final String preTitle;
   final ChallengeModel challenge;
@@ -71,19 +72,16 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-          appBar: AppBarComponent(
-              preTitle: widget.preTitle,
-              titleText: widget.progress == null
-                  ? 'New Progress'
-                  : '${widget.progress!.frequencyAmount}'),
-          backgroundColor: Colors.white,
-          body: Stack(
-            children: [_buildList(), progressButton()],
-          )),
-    );
+    return Scaffold(
+        appBar: AppBarComponent(
+            preTitle: widget.preTitle,
+            titleText: widget.progress == null
+                ? 'New Progress'
+                : '${widget.progress!.frequencyAmount}'),
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: [_buildList(), progressButton()],
+        ));
   }
 
   Widget _buildList() {
@@ -104,16 +102,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             if (index == 0) {
               return Column(
                 children: [
-                  GestureDetector(
+                  ListItemAcceptanceCriteriaBarComponent(
                     onTap: onTapProgressBar,
-                    child: ListItemAcceptanceCriteriaBarComponent(
-                      acceptanceCriteria: widget.acceptanceCriteria,
-                      initialProgress: widget.progress?.progress ??
-                          widget.acceptanceCriteria.currentProgress,
-                      isProgressBarLocked:
-                          !widget.isSaveInsteadOfEditButtonVisible,
-                      editAcceptanceCriteria: widget.editAcceptanceCriteria,
-                    ),
+                    acceptanceCriteria: widget.acceptanceCriteria,
+                    initialProgress: widget.progress?.progress ??
+                        widget.acceptanceCriteria.currentProgress,
+                    isProgressBarLocked:
+                        !widget.isSaveInsteadOfEditButtonVisible,
+                    editAcceptanceCriteria: widget.editAcceptanceCriteria,
                   ),
                   const SizedBox(
                     height: 17,
@@ -125,13 +121,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               if (index == 1) {
                 return Column(
                   children: [
-                    GestureDetector(
-                      onTap: onTapProgressBar,
-                      child: ListItemIconSmallComponent(
-                          onTap: onTapUploadMedia,
-                          icon: Icons.upload_rounded,
-                          title: 'Upload Media'),
-                    ),
+                    ListItemIconSmallComponent(
+                        onTap: onTapUploadMedia,
+                        icon: Icons.upload_rounded,
+                        title: 'Upload Media'),
                     const SizedBox(
                       height: 17,
                     )
@@ -180,7 +173,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: ListItemButtonComponent(
                 text: 'Progress',
-                onTapAccept: onTapProgressBar,
+                onTap: () => onTapProgressBar(),
                 isMainButton: true,
               ),
             ),

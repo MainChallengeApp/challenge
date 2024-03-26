@@ -2,6 +2,7 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,8 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
       this.initialProgress = 0,
       this.editAcceptanceCriteria,
       this.isFailed = false,
-      this.repetition}) {
+      this.repetition,
+      this.onTap}) {
     editAcceptanceCriteria ??= AcceptanceCriteriaModel(
         amount: 0,
         unit: 'unit',
@@ -37,6 +39,7 @@ class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
   final bool isFailed;
   final bool isRepetition;
   final RepetitionModel? repetition;
+  final void Function()? onTap;
 
   @override
   State<ListItemAcceptanceCriteriaBarComponent> createState() =>
@@ -59,14 +62,9 @@ class _ListItemAcceptanceCriteriaBarComponentState
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        width: double.infinity,
-        height: 64,
-        margin: const EdgeInsets.only(left: 20, right: 20),
-        decoration: BoxDecoration(
-            border: Border.all(
-                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            borderRadius: const BorderRadius.all(Radius.circular(24))),
+      child: ListItemContainerComponent(
+        onTap: widget.onTap,
+        padding: const EdgeInsets.all(0),
         child: singleAcceptanceCriteria(),
       ),
     );
@@ -176,7 +174,7 @@ class _ListItemAcceptanceCriteriaBarComponentState
     return [
       box(
           child: text(
-              '${frequency.currentAmount ?? 0}/${frequency.amount} ${DesignUtil.dayDaysTimeOrTimes(frequency)}')),
+              '${frequency.currentAmount}/${frequency.amount} ${DesignUtil.dayDaysTimeOrTimes(frequency)}')),
       Expanded(child: Container()),
     ];
   }

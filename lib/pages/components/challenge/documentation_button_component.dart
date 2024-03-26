@@ -23,7 +23,7 @@ class DocumentationButtonComponent extends StatelessWidget {
         child: Center(
             child: Icon(
           iconData,
-          color: isGrayedOut ? Colors.grey[700] : Colors.black,
+          color: isGrayedOut ? Colors.grey[600] : Colors.black,
         )),
       ),
     );

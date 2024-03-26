@@ -63,26 +63,29 @@ class _ListItemChallengeSmallComponentState
             ),
           ),
           progressRecurring(),
-          widget.challenge.status != ChallengeStatusEnum.backlog
-              ? Container(
-                  width: 25,
-                  height: 25,
-                  margin: const EdgeInsets.only(right: 7, left: 10),
-                  child: CircularProgressIndicator(
-                    backgroundColor: themeColor5,
-                    strokeCap: StrokeCap.round,
-                    value: widget.challenge.acceptanceCriteria.amount <= 0
-                        ? 1
-                        : widget.challenge.acceptanceCriteria
-                            .calcProgressRatio(),
-                    color: widget.challenge.status == ChallengeStatusEnum.failed
-                        ? Colors.red[300]
-                        : Colors.green[300],
-                  ))
-              : Container()
+          // progressCircle()
         ],
       ),
     );
+  }
+
+  Container progressCircle() {
+    return widget.challenge.status != ChallengeStatusEnum.backlog
+        ? Container(
+            width: 25,
+            height: 25,
+            margin: const EdgeInsets.only(right: 7, left: 10),
+            child: CircularProgressIndicator(
+              backgroundColor: themeColor5,
+              strokeCap: StrokeCap.round,
+              value: widget.challenge.acceptanceCriteria.amount <= 0
+                  ? 1
+                  : widget.challenge.acceptanceCriteria.calcProgressRatio(),
+              color: widget.challenge.status == ChallengeStatusEnum.failed
+                  ? Colors.red[300]
+                  : Colors.green[300],
+            ))
+        : Container();
   }
 
   progressRecurring() {

@@ -9,34 +9,32 @@ class ListItemIconSmallComponent extends StatelessWidget {
       required this.icon,
       required this.title});
 
-  final dynamic Function() onTap;
+  final void Function() onTap;
 
   final IconData icon;
   final String title;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ListItemContainerComponent(
       onTap: onTap,
-      child: ListItemContainerComponent(
-        child: Row(
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                  color: themeColor4,
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              margin: const EdgeInsets.only(right: 12),
-              child: Center(
-                  child: Icon(
-                icon,
-                color: themeColor3,
-              )),
-            ),
-            Text(title)
-          ],
-        ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+                color: themeColor4,
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            margin: const EdgeInsets.only(right: 12),
+            child: Center(
+                child: Icon(
+              icon,
+              color: themeColor3,
+            )),
+          ),
+          Text(title)
+        ],
       ),
     );
   }

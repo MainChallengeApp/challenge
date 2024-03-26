@@ -7,26 +7,24 @@ import 'package:flutter/material.dart';
 class ListItemButtonComponent extends StatelessWidget {
   const ListItemButtonComponent(
       {super.key,
-      required this.onTapAccept,
+      required this.onTap,
       this.isMainButton = true,
       required this.text});
 
-  final VoidCallback onTapAccept;
+  final VoidCallback onTap;
   final bool isMainButton;
   final String text;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTapAccept,
-      child: ListItemContainerComponent(
-        backgroundColor: isMainButton ? themeColor2 : Colors.white,
-        child: Center(
-            child: Text(
-          text,
-          style: TextStyle(color: isMainButton ? Colors.white : Colors.black),
-        )),
-      ),
+    return ListItemContainerComponent(
+      backgroundColor: isMainButton ? themeColor2 : Colors.white,
+      onTap: onTap,
+      child: Center(
+          child: Text(
+        text,
+        style: TextStyle(color: isMainButton ? Colors.white : Colors.black),
+      )),
     );
   }
 }
