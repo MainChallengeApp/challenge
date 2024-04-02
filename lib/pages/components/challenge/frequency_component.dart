@@ -63,8 +63,8 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             acceptanceCriteria.frequency.type =
                 FrequencyTypeEnum.factory(value!);
           });
-          widget.challenge.setEndDate();
           widget.challenge.setFrequencyAmount();
+          widget.challenge.setEndDate();
           widget.reloadSeachChallengePage?.call();
         },
         items: frequencyMap.entries.map((e) {

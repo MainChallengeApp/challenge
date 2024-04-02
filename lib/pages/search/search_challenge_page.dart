@@ -67,7 +67,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 (challenge) {
                   return Slidable(
                     closeOnScroll: true,
-                    endActionPane: endActionPane(),
+                    endActionPane: endActionPane(challenge),
                     child: Builder(builder: (context) {
                       context2 = context;
                       return CardComponent(
@@ -96,12 +96,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  ActionPane endActionPane() {
+  ActionPane endActionPane(ChallengeModel challenge) {
     return ActionPane(
       extentRatio: 0.25,
       motion: const ScrollMotion(),
       children: [
-        editSlider(),
+        editSlider(challenge),
         const SpaceComponent(
           width: 20,
         ),
@@ -109,12 +109,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  Expanded editSlider() {
+  Expanded editSlider(ChallengeModel challenge) {
     return Expanded(
         child: Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: GestureDetector(
-        onTap: () => onTapEditChallenge(),
+        onTap: () => onTapEditChallenge(challenge),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
@@ -223,7 +223,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   void onTapAccept() async {
     ChallengeModel challengeCopy =
-        ChallengeModel.copyChallenge(currentChallenge);
+        ChallengeModel.copyChallenge(challenge: currentChallenge);
 
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);
@@ -263,14 +263,14 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     });
   }
 
-  void onTapEditChallenge() {
+  void onTapEditChallenge(ChallengeModel challenge) {
     Slidable.of(context2)?.close(duration: Duration.zero);
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: '${widget.title}/${currentChallenge.title}',
-          challenge: currentChallenge,
+          preTitle: '${widget.title}/${challenge.title}',
+          challenge: challenge,
           isSearchEdit: true,
         ),
       ),

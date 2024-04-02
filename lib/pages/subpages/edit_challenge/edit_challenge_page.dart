@@ -30,8 +30,8 @@ class EditChallengePage extends StatefulWidget {
       this.isSearchEdit = false,
       this.isNewChallenge = false,
       this.isTryAgain = false}) {
-    editChallenge =
-        ChallengeModel.copyChallenge(challenge, isTryAgain: isTryAgain);
+    editChallenge = ChallengeModel.copyChallenge(
+        challenge: challenge, isTryAgain: isTryAgain);
   }
 
   @override

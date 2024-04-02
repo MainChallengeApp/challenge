@@ -6,11 +6,13 @@ class ListItemFractionComponent extends StatefulWidget {
       {super.key,
       this.isFailed = false,
       required this.initialProgress,
-      this.child});
+      this.child,
+      this.onTap});
 
   final Widget? child;
   final double initialProgress;
   final bool isFailed;
+  final void Function()? onTap;
 
   @override
   State<ListItemFractionComponent> createState() =>
@@ -22,6 +24,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
   Widget build(BuildContext context) {
     return Center(
       child: ListItemContainerComponent(
+        onTap: widget.onTap,
         padding: const EdgeInsets.all(0),
         child: Stack(
           children: [
@@ -33,7 +36,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                 height: 40,
                 decoration: BoxDecoration(
                     color: widget.isFailed ? Colors.red : Colors.green,
-                    borderRadius: const BorderRadius.all(Radius.circular(24))),
+                    borderRadius: const BorderRadius.all(Radius.circular(23))),
               ),
             ),
             Container(
@@ -42,7 +45,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                       color: Colors.white,
                       width: 10,
                       strokeAlign: BorderSide.strokeAlignOutside),
-                  borderRadius: const BorderRadius.all(Radius.circular(24))),
+                  borderRadius: const BorderRadius.all(Radius.circular(23))),
             ),
             Container(
                 padding: const EdgeInsets.all(10),
@@ -52,8 +55,10 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                     color: Colors.white.withAlpha(170),
                     border: Border.all(
                         width: 1,
+                        strokeAlign: BorderSide.strokeAlignOutside,
                         color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(24))),
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        23))), // Somehow Radius.circular(24) is off??
                 child: widget.child)
           ],
         ),

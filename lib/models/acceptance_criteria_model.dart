@@ -17,61 +17,7 @@ class AcceptanceCriteriaModel {
       required this.frequency,
       required this.tracking,
       required this.currentProgress,
-      required this.repetitions}) {
-    if (repetitions.length != (frequency.amount ?? 0)) {
-      repetitions = [];
-      for (var i = 1; i <= (frequency.amount ?? 0); i++) {
-        repetitions.add(RepetitionModel(
-            repetitionNumber: i, goalAmount: amount, progressList: []));
-      }
-    }
-  }
-
-  static AcceptanceCriteriaModel fromJson(json) {
-    return AcceptanceCriteriaModel(
-        amount: json['amount'],
-        unit: json['unit'],
-        frequency: FrequencyModel.fromJson(json['frequency']),
-        tracking: json['tracking'],
-        currentProgress: json['currentProgress'],
-        repetitions: RepetitionModel.fromJsonList(json['repetitions']));
-  }
-
-  static toJson(AcceptanceCriteriaModel acceptanceCriteria) {
-    return {
-      'amount': acceptanceCriteria.amount,
-      'unit': acceptanceCriteria.unit,
-      'frequency': FrequencyModel.toJson(acceptanceCriteria.frequency),
-      'tracking': acceptanceCriteria.tracking,
-      'currentProgress': acceptanceCriteria.currentProgress,
-      'repetitions': RepetitionModel.toJsonList(acceptanceCriteria.repetitions)
-    };
-  }
-
-  static emptyAcceptanceCriteria() {
-    return AcceptanceCriteriaModel(
-        amount: 0,
-        unit: '',
-        frequency: FrequencyModel(
-            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
-        tracking: 'camera',
-        currentProgress: 0,
-        repetitions: []);
-  }
-
-  static AcceptanceCriteriaModel copyAcceptanceCriteria(
-      AcceptanceCriteriaModel ac,
-      {bool isTryAgain = false}) {
-    return AcceptanceCriteriaModel(
-        amount: ac.amount,
-        unit: ac.unit,
-        frequency: FrequencyModel.copyFrequency(ac.frequency),
-        tracking: ac.tracking,
-        currentProgress: isTryAgain ? 0 : ac.currentProgress,
-        repetitions: isTryAgain
-            ? null
-            : RepetitionModel.copyRepetitionList(ac.repetitions));
-  }
+      required this.repetitions});
 
   double calcProgressRatio() {
     if (amount == 0) {
@@ -81,7 +27,16 @@ class AcceptanceCriteriaModel {
   }
 
   bool isCompleted() {
-    return calcProgressRatio() >= 1;
+    if (frequency.amount != null || repetitions.length < frequency.amount!) {
+      return false;
+    }
+
+    for (var repetition in repetitions) {
+      if (!repetition.isComplete()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   int getCurrentFrequencyAmount(DateTime? challengeStartDate) {
@@ -139,4 +94,50 @@ class AcceptanceCriteriaModel {
   //           : '-$fails'
   //       : '';
   // }
+
+  static AcceptanceCriteriaModel fromJson(json) {
+    return AcceptanceCriteriaModel(
+        amount: json['amount'],
+        unit: json['unit'],
+        frequency: FrequencyModel.fromJson(json['frequency']),
+        tracking: json['tracking'],
+        currentProgress: json['currentProgress'],
+        repetitions: RepetitionModel.fromJsonList(json['repetitions']));
+  }
+
+  static toJson(AcceptanceCriteriaModel acceptanceCriteria) {
+    return {
+      'amount': acceptanceCriteria.amount,
+      'unit': acceptanceCriteria.unit,
+      'frequency': FrequencyModel.toJson(acceptanceCriteria.frequency),
+      'tracking': acceptanceCriteria.tracking,
+      'currentProgress': acceptanceCriteria.currentProgress,
+      'repetitions': RepetitionModel.toJsonList(acceptanceCriteria.repetitions)
+    };
+  }
+
+  static emptyAcceptanceCriteria() {
+    return AcceptanceCriteriaModel(
+        amount: 0,
+        unit: '',
+        frequency: FrequencyModel(
+            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
+        tracking: 'camera',
+        currentProgress: 0,
+        repetitions: []);
+  }
+
+  static AcceptanceCriteriaModel copyAcceptanceCriteria(
+      AcceptanceCriteriaModel ac,
+      {bool isTryAgain = false}) {
+    return AcceptanceCriteriaModel(
+        amount: ac.amount,
+        unit: ac.unit,
+        frequency: FrequencyModel.copyFrequency(ac.frequency),
+        tracking: ac.tracking,
+        currentProgress: isTryAgain ? 0 : ac.currentProgress,
+        repetitions: isTryAgain
+            ? null
+            : RepetitionModel.copyRepetitionList(ac.repetitions));
+  }
 }

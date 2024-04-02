@@ -1,5 +1,6 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
             )),
           ),
         ),
-        const SizedBox(width: 16),
+        const SpaceComponent(),
         Expanded(
           child: GestureDetector(
             onTap: () => onTapStartOrEndDate('end'),

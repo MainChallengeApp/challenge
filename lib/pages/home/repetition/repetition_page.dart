@@ -1,5 +1,6 @@
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
@@ -30,6 +31,10 @@ class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
   late final AcceptanceCriteriaModel acceptanceCriteria =
       widget.challenge.acceptanceCriteria;
+
+  late final expandedRepetitionIndexList = [
+    acceptanceCriteria.getCurrentFrequencyAmount(widget.challenge.startDate)
+  ];
 
   @override
   void initState() {
@@ -67,12 +72,32 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: acceptanceCriteria.repetitions.length,
+          itemCount: acceptanceCriteria
+              .getCurrentFrequencyAmount(widget.challenge.startDate),
           itemBuilder: (BuildContext content, int index) {
             RepetitionModel repetition = acceptanceCriteria.repetitions[index];
             return repetitionListItem(repetition);
           }),
     );
+  }
+
+  List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
+    var progressListItems = [
+      SpaceColumnComponent(
+          child: ListItemIconSmallComponent(
+        icon: Icons.add_rounded,
+        title: 'New Progress',
+        onTap: () {},
+      ))
+    ];
+    for (var progress in repetition.progressList) {
+      progressListItems.add(SpaceColumnComponent(
+          child: ListItemProgressComponent(
+        progress: progress,
+        acceptanceCriteria: acceptanceCriteria,
+      )));
+    }
+    return progressListItems;
   }
 
   Column newProgress() {
@@ -88,15 +113,23 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   repetitionListItem(RepetitionModel repetition) {
-    return SpaceColumnComponent(
-      child: GestureDetector(
-        onTap: () => onTapRepetition(repetition),
-        child: ListItemRepetitionComponent(
-          repetition: repetition,
-          acceptanceCriteria: acceptanceCriteria,
-        ),
-      ),
+    Column item = Column(
+      children: <SpaceColumnComponent>[
+        SpaceColumnComponent(
+          child: ListItemRepetitionComponent(
+            onTap: () => onTapRepetition(repetition),
+            repetition: repetition,
+            challenge: widget.challenge,
+          ),
+        )
+      ],
     );
+
+    if (expandedRepetitionIndexList.contains(repetition.repetitionNumber)) {
+      item.children.addAll(progressList(repetition));
+    }
+
+    return item;
   }
 
   button() {
@@ -188,5 +221,15 @@ class _RepetitionPageState extends State<RepetitionPage> {
         }));
   }
 
-  onTapRepetition(RepetitionModel repetition) {}
+  onTapRepetition(RepetitionModel repetition) {
+    setState(() {
+      // expandedRepetitionIndexList.clear();
+      if (expandedRepetitionIndexList.contains(repetition.repetitionNumber)) {
+        expandedRepetitionIndexList
+            .removeWhere((value) => value == repetition.repetitionNumber);
+      } else {
+        expandedRepetitionIndexList.add(repetition.repetitionNumber);
+      }
+    });
+  }
 }

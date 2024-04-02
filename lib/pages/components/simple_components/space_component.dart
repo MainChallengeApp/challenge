@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SpaceComponent extends StatelessWidget {
-  final double height;
-  final double width;
   static const double staticHeight = 16;
   static const double staticWidth = 16;
 
+  final double height;
+  final double width;
   const SpaceComponent(
       {super.key, this.height = staticHeight, this.width = staticWidth});
 

@@ -5,6 +5,7 @@ import 'package:challenge/pages/components/challenge/documentation_button_compon
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
+import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
@@ -224,38 +225,34 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         : Container();
   }
 
-  startEndTryAcceptAgainButton(ChallengeModel e) {
-    return isDescriptionExpanded
-        ? Container()
-        : GestureDetector(
-            onTap: () => onTapStartEndTryAcceptAgainButton(e),
-            child: Container(
-              height: 55,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: e.status == ChallengeStatusEnum.backlog
-                      ? themeColor2
-                      : Colors.white,
-                  border: Border.all(
-                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
-              child: Center(
-                  child: Text(
-                e.status == ChallengeStatusEnum.inProgress
-                    ? 'End'
-                    : e.status == ChallengeStatusEnum.success
-                        ? 'Accept Again'
-                        : e.status == ChallengeStatusEnum.backlog
-                            ? 'Start'
-                            : 'Try Again', // ChallengeStatus.failed
-                style: TextStyle(
-                    color: e.status == ChallengeStatusEnum.backlog
-                        ? Colors.white
-                        : Colors.black,
-                    fontWeight: FontWeight.w500),
-              )),
-            ),
-          );
+  startEndTryAcceptAgainButton(ChallengeModel challenge) {
+    if (isDescriptionExpanded) {
+      return Container();
+    }
+
+    if (challenge.status == ChallengeStatusEnum.backlog) {
+      return CustomButtonComponent(onTap: onTapStart(challenge), text: "Start");
+    }
+
+    if (challenge.acceptanceCriteria.frequency.amount == 1 ||
+        challenge.getCurrentRepetition()!.progressList.isEmpty) {
+      return CustomButtonComponent(
+          onTap: () => onTapEnd(challenge), text: "End");
+    }
+
+    if (challenge.status == ChallengeStatusEnum.success) {
+      return CustomButtonComponent(
+          onTap: () => onTapAgain(challenge), text: "Accept Again");
+    }
+    if (challenge.status == ChallengeStatusEnum.failed) {
+      return CustomButtonComponent(
+          onTap: () => onTapAgain(challenge), text: "Try Again");
+    }
+
+    return CustomButtonComponent(
+        onTap: () => onTapNext(challenge),
+        isPrimaryButton: challenge.getCurrentRepetition()!.isComplete(),
+        text: "Next");
   }
 
   documentationButtons(BuildContext context) {
@@ -523,81 +520,81 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  void onTapStartEndTryAcceptAgainButton(ChallengeModel challenge) {
-    if (currentChallenge.status == ChallengeStatusEnum.inProgress) {
-      // End button
-      showDialog(
-        context: context,
-        builder: (context) {
-          context3 = context;
-          return GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: Dialog(
-              insetPadding: const EdgeInsets.only(
-                  top: 150, bottom: 200, left: 50, right: 50),
-              alignment: Alignment.center,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
-              child: SingleChildScrollView(
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(24))),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Text(
-                          'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
-                          textAlign: TextAlign.center,
-                        ),
+  onTapStart(ChallengeModel challenge) {
+    setState(() {
+      challenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
+      challenge.setEndDate();
+      challenge.status = ChallengeStatusEnum.inProgress;
+      challenge.evaluateRepetition();
+      challenge.addRepetition();
+      challenge.acceptanceCriteria.frequency.currentAmount = 1;
+    });
+    allChallengesList.map((e) => e.id == challenge.id ? challenge : e);
+    challengeController.writeFile(allChallengesList);
+  }
+
+  onTapEnd(ChallengeModel challenge) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        context3 = context;
+        return GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Dialog(
+            insetPadding: const EdgeInsets.only(
+                top: 150, bottom: 200, left: 50, right: 50),
+            alignment: Alignment.center,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(24))),
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(24))),
+                child: Column(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Text(
+                        'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
+                        textAlign: TextAlign.center,
                       ),
-                      Row(
-                        children: [
-                          Expanded(child: dialogYesButton()),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(child: dialogNoButton())
-                        ],
-                      )
-                    ],
-                  ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: dialogYesButton()),
+                        const SpaceComponent(),
+                        Expanded(child: dialogNoButton())
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  onTapAgain(ChallengeModel challenge) {
+    // Try Again Button and Accept Again
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) {
+          ChallengeModel challengeCopy = ChallengeModel.copyChallenge(
+              challenge: challenge, isTryAgain: true);
+          return EditChallengePage(
+            preTitle: '${widget.preTitle}/${challengeCopy.title}',
+            challenge: challengeCopy,
+            isTryAgain: true,
           );
         },
-      );
-    } else if (currentChallenge.status == ChallengeStatusEnum.failed ||
-        currentChallenge.status == ChallengeStatusEnum.success) {
-      // Try Again Button and Accept Again
-      Navigator.pop(context);
-      Navigator.push(
-        context,
-        NoAnimationPageRouteComponent(
-          builder: (context) {
-            ChallengeModel challenge = ChallengeModel.copyChallenge(
-                currentChallenge,
-                isTryAgain: true);
-            return EditChallengePage(
-              preTitle: '${widget.preTitle}/${currentChallenge.title}',
-              challenge: challenge,
-              isTryAgain: true,
-            );
-          },
-        ),
-      );
-    } else if (currentChallenge.status == ChallengeStatusEnum.backlog) {
-      setState(() {
-        currentChallenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
-        currentChallenge.setEndDate();
-        currentChallenge.status = ChallengeStatusEnum.inProgress;
-        currentChallenge.acceptanceCriteria.frequency.currentAmount = 1;
-      });
-      allChallengesList
-          .map((e) => e.id == currentChallenge.id ? currentChallenge : e);
-      challengeController.writeFile(allChallengesList);
-    }
+      ),
+    );
   }
+
+  onTapNext(ChallengeModel challenge) {}
 }

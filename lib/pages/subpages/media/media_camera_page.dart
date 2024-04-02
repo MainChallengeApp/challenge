@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -112,14 +113,14 @@ class _CameraStateMedia extends State<MediaCameraPage> {
                                   Container(
                                     child: flashButton(),
                                   ),
-                                  const SizedBox(
+                                  const SpaceComponent(
                                     width: 50,
                                   ),
                                   Container(
                                     child: documentationButton(
                                         Icons.camera_alt_outlined),
                                   ),
-                                  const SizedBox(
+                                  const SpaceComponent(
                                     width: 50,
                                   ),
                                   Container(

@@ -1,3 +1,5 @@
+import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/models/progress_model.dart';
 
@@ -5,11 +7,23 @@ class RepetitionModel {
   final int repetitionNumber;
   final double goalAmount;
   final List<ProgressModel> progressList;
+  RepetitionStatusEnum repetitionStatus;
 
   RepetitionModel(
       {required this.repetitionNumber,
       required this.goalAmount,
-      required this.progressList});
+      required this.progressList,
+      required this.repetitionStatus});
+
+  bool isComplete() {
+    return progressList.last.progress >= goalAmount;
+  }
+
+  isCurrentRepetition(ChallengeModel challenge) {
+    return challenge.acceptanceCriteria
+            .getCurrentFrequencyAmount(challenge.startDate) ==
+        repetitionNumber;
+  }
 
   double getLastProgressPercentage() {
     if (progressList.isEmpty) {
@@ -25,6 +39,7 @@ class RepetitionModel {
               'repetitionNumber': e.repetitionNumber,
               'goalAmount': e.goalAmount,
               'progressList': ProgressModel.toJsonList(e.progressList),
+              'repetitionStatus': e.repetitionStatus.toString()
             })
         .toList();
   }
@@ -32,11 +47,12 @@ class RepetitionModel {
   static fromJsonList(json) {
     List<RepetitionModel> list = [];
     json?.forEach((e) => list.add(RepetitionModel(
-          repetitionNumber: e['repetitionNumber'],
-          goalAmount: e['goalAmount'] ??
-              0, // ?? 0 can be removed when no more home challenges saved without goalAmount
-          progressList: ProgressModel.fromJsonList(e['progressList']),
-        )));
+        repetitionNumber: e['repetitionNumber'],
+        goalAmount: e['goalAmount'] ??
+            0, // ?? 0 can be removed when no more home challenges saved without goalAmount
+        progressList: ProgressModel.fromJsonList(e['progressList']),
+        repetitionStatus:
+            RepetitionStatusEnum.factory(e['repetitionStatus']))));
     return list;
   }
 
@@ -44,7 +60,8 @@ class RepetitionModel {
     RepetitionModel repetitiontCopy = RepetitionModel(
         repetitionNumber: repetition.repetitionNumber,
         goalAmount: repetition.goalAmount,
-        progressList: []);
+        progressList: [],
+        repetitionStatus: repetition.repetitionStatus);
     for (var e in repetition.progressList) {
       repetitiontCopy.progressList.add(ProgressModel(
           date: e.date,

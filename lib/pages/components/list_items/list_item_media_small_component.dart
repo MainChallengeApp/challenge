@@ -15,40 +15,38 @@ class ListItemMediaSmallComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ListItemContainerComponent(
       onTap: onTap,
-      child: ListItemContainerComponent(
-        child: Row(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                  color: themeColor4,
-                  borderRadius: BorderRadius.all(Radius.circular(12))),
-              width: 40,
-              height: 40,
-              margin: const EdgeInsets.only(right: 12),
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: media.type == MediaTypeEnum.image
-                      ? Image.asset(media.source,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              const Center(
-                                child: Icon(Icons.question_mark,
-                                    color: themeColor3),
-                              ))
-                      : media.type == MediaTypeEnum.video
-                          ? VideoThumbnailComponent(
-                              filePath: media.source,
-                            )
-                          : null),
-            ),
-            Text(
-              media.title,
-              style: const TextStyle(overflow: TextOverflow.ellipsis),
-            )
-          ],
-        ),
+      child: Row(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+                color: themeColor4,
+                borderRadius: BorderRadius.all(Radius.circular(12))),
+            width: 40,
+            height: 40,
+            margin: const EdgeInsets.only(right: 12),
+            child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: media.type == MediaTypeEnum.image
+                    ? Image.asset(media.source,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Center(
+                              child:
+                                  Icon(Icons.question_mark, color: themeColor3),
+                            ))
+                    : media.type == MediaTypeEnum.video
+                        ? VideoThumbnailComponent(
+                            filePath: media.source,
+                          )
+                        : null),
+          ),
+          Text(
+            media.title,
+            style: const TextStyle(overflow: TextOverflow.ellipsis),
+          )
+        ],
       ),
     );
   }

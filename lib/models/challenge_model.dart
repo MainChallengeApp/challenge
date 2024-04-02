@@ -1,6 +1,8 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/frequency_model.dart';
+import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:uuid/uuid.dart';
 
@@ -70,8 +72,8 @@ class ChallengeModel {
     };
   }
 
-  static ChallengeModel copyChallenge(ChallengeModel challenge,
-      {bool isTryAgain = false}) {
+  static ChallengeModel copyChallenge(
+      {required ChallengeModel challenge, bool isTryAgain = false}) {
     ChallengeModel challengeCopy = ChallengeModel(
         status: isTryAgain ? ChallengeStatusEnum.inProgress : challenge.status,
         title: challenge.title,
@@ -108,10 +110,7 @@ class ChallengeModel {
   }
 
   bool isChallengeCompleted() {
-    if (!acceptanceCriteria.isCompleted()) {
-      return false;
-    }
-    return true;
+    return acceptanceCriteria.isCompleted();
   }
 
   ChallengeStatusEnum checkChallengeStatus() {
@@ -170,5 +169,50 @@ class ChallengeModel {
 
   hasThumbnail() {
     return thumbnailPath != '';
+  }
+
+  hasRepetitions() {
+    return acceptanceCriteria.repetitions.length > 1;
+  }
+
+  RepetitionModel? getCurrentRepetition() {
+    if (acceptanceCriteria.repetitions.isEmpty) return null;
+
+    acceptanceCriteria.repetitions
+        .sort((a, b) => b.repetitionNumber - a.repetitionNumber);
+    return acceptanceCriteria.repetitions.last;
+  }
+
+  evaluateRepetition() {
+    if (acceptanceCriteria.repetitions.isEmpty) {
+      return;
+    }
+
+    RepetitionModel repetitionInProgress = acceptanceCriteria.repetitions
+        .firstWhere((repetition) =>
+            repetition.repetitionStatus == RepetitionStatusEnum.inProgress);
+    if (repetitionInProgress.progressList.isEmpty ||
+        repetitionInProgress.progressList.last.percentProgress < 1) {
+      repetitionInProgress.repetitionStatus = RepetitionStatusEnum.failed;
+    } else {
+      repetitionInProgress.repetitionStatus = RepetitionStatusEnum.success;
+    }
+  }
+
+  addRepetition() {
+    RepetitionModel? currentRepetition = getCurrentRepetition();
+    int? frequencyAmount = acceptanceCriteria.frequency.amount;
+    if (currentRepetition == null ||
+        frequencyAmount == null ||
+        currentRepetition.repetitionNumber < frequencyAmount) {
+      int newRepetitionNumber = currentRepetition == null
+          ? 1
+          : currentRepetition.repetitionNumber + 1;
+      acceptanceCriteria.repetitions.add(RepetitionModel(
+          repetitionNumber: newRepetitionNumber,
+          goalAmount: acceptanceCriteria.amount,
+          progressList: [],
+          repetitionStatus: RepetitionStatusEnum.inProgress));
+    }
   }
 }
