@@ -1,4 +1,5 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/utils/design_util.dart';
 
 class FrequencyModel {
   int? amount;
@@ -31,5 +32,17 @@ class FrequencyModel {
         type: frequency.type,
         amount: frequency.amount,
         currentAmount: frequency.currentAmount);
+  }
+
+  nextIn() {
+    if (type == FrequencyTypeEnum.daily) {
+      Duration difference = DesignUtil.dateWithoutTime(
+              DateTime.now().add(const Duration(days: 1)))
+          .difference(DateTime.now());
+      if (difference.inHours <= 0) {
+        return "${difference.inMinutes} min";
+      }
+      return "${difference.inHours.toString()} h";
+    }
   }
 }

@@ -246,7 +246,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
     if (challenge.status == ChallengeStatusEnum.failed) {
       return CustomButtonComponent(
-          onTap: () => onTapAgain(challenge), text: "Try Again");
+    if (challenge.acceptanceCriteria.frequency.type ==
+        FrequencyTypeEnum.daily) {
+      return CustomButtonComponent(
+          onTap: () => onTapNext(challenge),
+          isPrimaryButton: challenge.getCurrentRepetition()!.isComplete(),
+          text: "Next in ${challenge.acceptanceCriteria.frequency.nextIn()}");
     }
 
     return CustomButtonComponent(
