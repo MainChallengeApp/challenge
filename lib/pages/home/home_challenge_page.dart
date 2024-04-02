@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/pages/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/documentation_button_component.dart';
@@ -231,7 +232,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
 
     if (challenge.status == ChallengeStatusEnum.backlog) {
-      return CustomButtonComponent(onTap: onTapStart(challenge), text: "Start");
+      return CustomButtonComponent(
+        onTap: () => onTapStart(challenge),
+        text: "Start",
+        isPrimaryButton: true,
+      );
     }
 
     if (challenge.acceptanceCriteria.frequency.amount == 1 ||
@@ -242,10 +247,19 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
     if (challenge.status == ChallengeStatusEnum.success) {
       return CustomButtonComponent(
-          onTap: () => onTapAgain(challenge), text: "Accept Again");
+        onTap: () => onTapAgain(challenge),
+        text: "Accept Again",
+        isPrimaryButton: true,
+      );
     }
     if (challenge.status == ChallengeStatusEnum.failed) {
       return CustomButtonComponent(
+        onTap: () => onTapAgain(challenge),
+        text: "Try Again",
+        isPrimaryButton: true,
+      );
+    }
+
     if (challenge.acceptanceCriteria.frequency.type ==
         FrequencyTypeEnum.daily) {
       return CustomButtonComponent(
