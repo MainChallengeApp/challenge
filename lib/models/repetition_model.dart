@@ -27,11 +27,30 @@ class RepetitionModel {
     return progressList.last.progress >= goalAmount;
   }
 
-  evaluateRepetitionStatus() {
+  bool isFailed(ChallengeModel challenge) {
+    return evaluateRepetitionStatus(challenge) == RepetitionStatusEnum.failed;
+  }
+
+  evaluateRepetitionStatus(ChallengeModel challenge) {
     if (isComplete()) {
       repetitionStatus = RepetitionStatusEnum.success;
-      return;
+      return repetitionStatus;
     }
+
+    final currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
+
+    if (currentRepetitionNumber == repetitionNumber) {
+      repetitionStatus = RepetitionStatusEnum.inProgress;
+      return repetitionStatus;
+    }
+
+    if (currentRepetitionNumber > repetitionNumber) {
+      repetitionStatus = RepetitionStatusEnum.failed;
+      return repetitionStatus;
+    }
+
+    repetitionStatus = RepetitionStatusEnum.backlog;
+    return repetitionStatus;
   }
 
   isCurrentRepetition(ChallengeModel challenge) {

@@ -1,4 +1,3 @@
-import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
@@ -81,7 +80,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   repetitionNumber: index + 1,
                   goalAmount: widget.challenge.acceptanceCriteria.amount);
             }
-            repetition.evaluateRepetitionStatus();
+            repetition.evaluateRepetitionStatus(widget.challenge);
             return repetitionListItem(repetition);
           }),
     );

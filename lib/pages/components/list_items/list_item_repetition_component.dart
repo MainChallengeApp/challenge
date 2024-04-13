@@ -27,6 +27,7 @@ class _ListItemRepetitionComponentState
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
       initialProgress: widget.repetition.getLastProgressPercentage(),
+      isFailed: widget.repetition.isFailed(widget.challenge),
       onTap: widget.onTap,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
