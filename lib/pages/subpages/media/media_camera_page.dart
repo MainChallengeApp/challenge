@@ -305,10 +305,6 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   }
 
   acceptButton() {
-    if (widget.challenge.getLastRepetition() == null) {
-      widget.challenge.addRepetition();
-    }
-
     return GestureDetector(
       onTap: () {
         flashMode = FlashMode.off;
@@ -320,9 +316,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
               challenge: widget.challenge,
-              progress: widget.challenge
-                  .getOrCreateLastRepetition()
-                  .addProgress(mediaIds: currentMedia),
+              repetition: widget.challenge.getLastRepetition(),
             ),
           ),
         ).then((_) => setState(() {}));

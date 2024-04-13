@@ -9,6 +9,20 @@ class FrequencyModel {
 
   FrequencyModel.empty({this.type = FrequencyTypeEnum.time});
 
+  getMaxAmoutOfRepetitions() {
+    if (amount == null) {
+      return null;
+    }
+
+    if (type == FrequencyTypeEnum.daily) {
+      return amount;
+    } else if (type == FrequencyTypeEnum.time) {
+      return amount;
+    } else {
+      return 0;
+    }
+  }
+
   setAmountByStartAndEndDate(DateTime startDate, DateTime endDate) {
     amount = startDate.difference(endDate).inDays;
   }

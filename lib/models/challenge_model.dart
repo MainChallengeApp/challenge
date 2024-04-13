@@ -106,7 +106,9 @@ class ChallengeModel {
             challenge.acceptanceCriteria,
             isTryAgain: isTryAgain),
         frequency: FrequencyModel.copyFrequency(challenge.frequency),
-        repetitions: RepetitionModel.copyRepetitionList(challenge.repetitions),
+        repetitions: isTryAgain
+            ? []
+            : RepetitionModel.copyRepetitionList(challenge.repetitions),
         media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media),
         categories:
             ChallengeCategoryEnum.copyCategoryList(challenge.categories));
@@ -265,11 +267,14 @@ class ChallengeModel {
       int newRepetitionNumber = currentRepetition == null
           ? 1
           : currentRepetition.repetitionNumber + 1;
-      repetitions.add(RepetitionModel(
+
+      RepetitionModel addingRepetition = RepetitionModel(
           repetitionNumber: newRepetitionNumber,
           goalAmount: acceptanceCriteria.amount,
           progressList: [],
-          repetitionStatus: RepetitionStatusEnum.inProgress));
+          repetitionStatus: RepetitionStatusEnum.inProgress);
+      repetitions.add(addingRepetition);
+      return addingRepetition;
     }
   }
 
@@ -279,7 +284,11 @@ class ChallengeModel {
   }
 
   bool isCompleted() {
-    if (frequency.amount == null || repetitions.length < frequency.amount!) {
+    if (frequency.amount != null &&
+            getCurrentRepetitionNumber() <
+                frequency.getMaxAmoutOfRepetitions() ||
+        endDate == null ||
+        endDate!.isAfter(DateTime.now())) {
       return false;
     }
 
@@ -315,5 +324,18 @@ class ChallengeModel {
     status = ChallengeStatusEnum.inProgress;
     evaluateRepetition();
     addRepetition();
+  }
+
+  end() {
+    endDate = DateTime.now();
+    if (isCompleted()) {
+      status = ChallengeStatusEnum.success;
+    } else {
+      status = ChallengeStatusEnum.failed;
+    }
+  }
+
+  bool isRunning() {
+    return status == ChallengeStatusEnum.inProgress;
   }
 }

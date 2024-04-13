@@ -17,7 +17,6 @@ import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -239,12 +238,16 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       );
     }
 
-    if (challenge.frequency.amount == 1 ||
-        challenge.getLastRepetition()!.progressList.isEmpty) {
+    if ((challenge.frequency.amount == 1 ||
+            challenge.getLastRepetition()!.progressList.isEmpty ||
+            challenge.getCurrentRepetitionNumber() ==
+                challenge.frequency.getMaxAmoutOfRepetitions()) &&
+        challenge.isRunning()) {
       return CustomButtonComponent(
         onTap: () => onTapEnd(challenge),
         text: "End",
-        isPrimaryButton: challenge.status == ChallengeStatusEnum.success,
+        isPrimaryButton:
+            challenge.getCurrentRepetitionProgressPercentageProgess() >= 1,
       );
     }
 
@@ -477,23 +480,18 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context3);
-        if (currentChallenge.isCompleted()) {
-          currentChallenge.status = ChallengeStatusEnum.success;
-        } else {
-          currentChallenge.status = ChallengeStatusEnum.failed;
-        }
         context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
-          currentChallenge.endDate = DesignUtil.dateWithoutTime(DateTime.now());
-          challengeList.map((challenge) => challenge.id == currentChallenge.id
-              ? currentChallenge
-              : challenge);
-          allChallengesList.map((challenge) =>
-              challenge.id == currentChallenge.id
-                  ? currentChallenge
-                  : challenge);
-          challengeController.writeFile(allChallengesList);
+          currentChallenge.end();
         });
+        // challengeList.map((challenge) => challenge.id == currentChallenge.id
+        //     ? currentChallenge
+        //     : challenge);
+        // allChallengesList.map((challenge) =>
+        //     challenge.id == currentChallenge.id
+        //         ? currentChallenge
+        //         : challenge);
+        challengeController.writeFile(allChallengesList);
       },
       child: Align(
         alignment: Alignment.bottomCenter,

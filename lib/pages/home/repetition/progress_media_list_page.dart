@@ -188,8 +188,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       if (widget.challenge.status == ChallengeStatusEnum.backlog &&
           editProgress.progress > 0) {
         widget.challenge.start();
-        widget.repetition = widget.challenge.getOrCreateLastRepetition();
+        widget.repetition = widget.challenge.getLastRepetition();
       }
+
+      widget.repetition ??= widget.challenge.addRepetition();
 
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       widget.repetition!.addProgress(progress: editProgress);
