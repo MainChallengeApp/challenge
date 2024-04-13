@@ -94,6 +94,6 @@ class _AcceptanceCriteriaComponentState
   repetition(AcceptanceCriteriaModel acceptanceCriteria) {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.challenge.getCurrentFrequencyAmount()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
+            '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
   }
 }

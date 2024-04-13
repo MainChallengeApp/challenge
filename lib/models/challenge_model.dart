@@ -282,7 +282,7 @@ class ChallengeModel {
     return true;
   }
 
-  int getCurrentFrequencyAmount() {
+  int getCurrentRepetitionNumber() {
     if (frequency.type == FrequencyTypeEnum.daily) {
       if (startDate == null) {
         return 0;

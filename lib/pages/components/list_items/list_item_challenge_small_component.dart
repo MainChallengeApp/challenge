@@ -97,7 +97,7 @@ class _ListItemChallengeSmallComponentState
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: Text(
-                '${widget.challenge.getCurrentFrequencyAmount()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}',
+                '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}',
                 style: const TextStyle(fontSize: 10, color: themeColor3),
                 overflow: TextOverflow.ellipsis),
           );

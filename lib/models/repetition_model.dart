@@ -18,7 +18,7 @@ class RepetitionModel {
       {required this.repetitionNumber,
       required this.goalAmount,
       this.progressList = const [],
-      required this.repetitionStatus});
+      this.repetitionStatus = RepetitionStatusEnum.backlog});
 
   bool isComplete() {
     if (progressList.isEmpty) {
@@ -27,8 +27,15 @@ class RepetitionModel {
     return progressList.last.progress >= goalAmount;
   }
 
+  evaluateRepetitionStatus() {
+    if (isComplete()) {
+      repetitionStatus = RepetitionStatusEnum.success;
+      return;
+    }
+  }
+
   isCurrentRepetition(ChallengeModel challenge) {
-    return challenge.getCurrentFrequencyAmount() == repetitionNumber;
+    return challenge.getCurrentRepetitionNumber() == repetitionNumber;
   }
 
   double getLastProgressPercentage() {

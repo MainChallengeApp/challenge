@@ -1,3 +1,4 @@
+import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
@@ -31,7 +32,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
       widget.challenge.acceptanceCriteria;
 
   late final expandedRepetitionIndexList = [
-    widget.challenge.getCurrentFrequencyAmount()
+    widget.challenge.getCurrentRepetitionNumber()
   ];
 
   @override
@@ -70,13 +71,17 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.challenge.getCurrentFrequencyAmount(),
+          itemCount: widget.challenge.getCurrentRepetitionNumber(),
           itemBuilder: (BuildContext content, int index) {
-            if(index < widget.challenge.repetitions.length){
-              RepetitionModel repetition = widget.challenge.repetitions[index];
+            RepetitionModel repetition;
+            if (index < widget.challenge.repetitions.length) {
+              repetition = widget.challenge.repetitions[index];
             } else {
-              RepetitionModel repetition = RepetitionModel
+              repetition = RepetitionModel.empty(
+                  repetitionNumber: index + 1,
+                  goalAmount: widget.challenge.acceptanceCriteria.amount);
             }
+            repetition.evaluateRepetitionStatus();
             return repetitionListItem(repetition);
           }),
     );
