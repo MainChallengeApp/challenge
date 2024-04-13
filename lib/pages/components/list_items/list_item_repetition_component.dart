@@ -40,7 +40,7 @@ class _ListItemRepetitionComponentState
   ContainerInContainerTextComponent repetition() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.repetition.repetitionNumber}/${widget.challenge.acceptanceCriteria.frequency.amount} ${DesignUtil.dayDaysTimeOrTimes(widget.challenge.acceptanceCriteria.frequency)}');
+            '${widget.repetition.repetitionNumber}/${widget.challenge.frequency.amount} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
   }
 
   ContainerInContainerTextComponent progress() {

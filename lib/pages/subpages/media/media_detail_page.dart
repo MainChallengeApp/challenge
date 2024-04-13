@@ -109,8 +109,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
 
         widget.mediaList.removeWhere((element) => element.id == media.id);
         widget.challenge.media.removeWhere((element) => element.id == media.id);
-        for (var repetition
-            in widget.challenge.acceptanceCriteria.repetitions) {
+        for (var repetition in widget.challenge.repetitions) {
           for (var progress in repetition.progressList) {
             progress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
           }

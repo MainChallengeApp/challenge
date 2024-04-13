@@ -1,3 +1,4 @@
+import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
@@ -29,13 +30,15 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
 
   bool isKeyboardUp = false;
 
+  late FrequencyModel frequency = widget.challenge.frequency;
+
   @override
   Widget build(BuildContext context) {
     AcceptanceCriteriaModel acceptanceCriteria =
         widget.challenge.acceptanceCriteria;
-    return acceptanceCriteria.frequency.type == FrequencyTypeEnum.time
+    return frequency.type == FrequencyTypeEnum.time
         ? timeFrequency(acceptanceCriteria)
-        : acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily
+        : frequency.type == FrequencyTypeEnum.daily
             ? dayFrequency(acceptanceCriteria)
             : frequencyDropDown(acceptanceCriteria);
   }
@@ -53,15 +56,14 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         borderRadius: BorderRadius.circular(16),
         isExpanded: true,
         underline: Container(),
-        value: acceptanceCriteria.frequency.type.toString().split('.')[1],
+        value: frequency.type.toString().split('.')[1],
         icon: const Icon(Icons.expand_more),
         style: const TextStyle(color: Colors.black),
         hint: const Text('Frequency'),
         onChanged: (String? value) {
           // This is called when the user selects an item.
           setState(() {
-            acceptanceCriteria.frequency.type =
-                FrequencyTypeEnum.factory(value!);
+            frequency.type = FrequencyTypeEnum.factory(value!);
           });
           widget.challenge.setFrequencyAmount();
           widget.challenge.setEndDate();
@@ -70,9 +72,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         items: frequencyMap.entries.map((e) {
           return DropdownMenuItem<String>(
               value: e.key.toString2(),
-              child: Text(acceptanceCriteria.frequency.amount != 1
-                  ? '${e.value}s'
-                  : e.value));
+              child: Text(frequency.amount != 1 ? '${e.value}s' : e.value));
         }).toList(),
       )),
     );
@@ -89,9 +89,8 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
   }
 
   frequencyAmountInput(AcceptanceCriteriaModel acceptanceCriteria) {
-    if (acceptanceCriteria.frequency.amount != null) {
-      frequencyAmountTextEditingController.text =
-          acceptanceCriteria.frequency.amount.toString();
+    if (frequency.amount != null) {
+      frequencyAmountTextEditingController.text = frequency.amount.toString();
     } else {
       frequencyAmountTextEditingController.text = '';
     }
@@ -117,8 +116,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             ],
             onChanged: (value) {
               setState(() {
-                acceptanceCriteria.frequency.amount =
-                    value == '' ? null : int.parse(value);
+                frequency.amount = value == '' ? null : int.parse(value);
               });
               widget.challenge.setEndDate();
               widget.reloadSeachChallengePage?.call();

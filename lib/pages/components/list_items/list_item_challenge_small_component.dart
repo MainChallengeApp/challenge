@@ -1,7 +1,5 @@
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
-import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge_model.dart';
 
@@ -80,7 +78,8 @@ class _ListItemChallengeSmallComponentState
               strokeCap: StrokeCap.round,
               value: widget.challenge.acceptanceCriteria.amount <= 0
                   ? 1
-                  : widget.challenge.acceptanceCriteria.calcProgressRatio(),
+                  : widget.challenge
+                      .getCurrentRepetitionProgressPercentageProgess(),
               color: widget.challenge.status == ChallengeStatusEnum.failed
                   ? Colors.red[300]
                   : Colors.green[300],
@@ -89,8 +88,6 @@ class _ListItemChallengeSmallComponentState
   }
 
   progressRecurring() {
-    AcceptanceCriteriaModel acceptanceCriteria =
-        widget.challenge.acceptanceCriteria;
     return widget.isSearchChallenge
         ? Container()
         : Container(
@@ -100,7 +97,7 @@ class _ListItemChallengeSmallComponentState
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),
             child: Text(
-                '${acceptanceCriteria.getCurrentFrequencyAmount(widget.challenge.startDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${acceptanceCriteria.frequency.type == FrequencyTypeEnum.daily ? acceptanceCriteria.frequency.amount == 1 ? 'Day' : 'Days' : acceptanceCriteria.frequency.type == FrequencyTypeEnum.time ? acceptanceCriteria.frequency.amount == 1 ? 'Time' : 'Times' : ''}',
+                '${widget.challenge.getCurrentFrequencyAmount()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}',
                 style: const TextStyle(fontSize: 10, color: themeColor3),
                 overflow: TextOverflow.ellipsis),
           );

@@ -1,13 +1,12 @@
-// ignore_for_file: must_be_immutable
 import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_acceptance_criteria_bar_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -15,8 +14,6 @@ import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/providers/design_provider.dart';
@@ -24,30 +21,20 @@ import 'package:challenge/pages/components/navigation/no_animation_page_route_co
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/upload_media_service.dart';
 
+// ignore: must_be_immutable
 class ProgressMediaListPage extends StatefulWidget {
   ProgressMediaListPage(
       {super.key,
       required this.preTitle,
       required this.challenge,
       required this.initialMediaList,
-      required this.acceptanceCriteria,
-      this.progress,
-      this.isSaveInsteadOfEditButtonVisible = true}) {
-    editAcceptanceCriteria = AcceptanceCriteriaModel(
-        amount: acceptanceCriteria.amount,
-        unit: acceptanceCriteria.unit,
-        frequency: acceptanceCriteria.frequency,
-        tracking: acceptanceCriteria.tracking,
-        currentProgress: acceptanceCriteria.currentProgress,
-        repetitions:
-            RepetitionModel.copyRepetitionList(acceptanceCriteria.repetitions));
-  }
+      required this.progress,
+      this.isSaveInsteadOfEditButtonVisible = true});
+
   final String preTitle;
   final ChallengeModel challenge;
   final List<MediaModel> initialMediaList;
-  final AcceptanceCriteriaModel acceptanceCriteria;
-  late AcceptanceCriteriaModel editAcceptanceCriteria;
-  final ProgressModel? progress;
+  ProgressModel progress;
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
@@ -60,15 +47,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   TextEditingController amountTextEditingController = TextEditingController();
 
+  late ProgressModel editProgress = ProgressModel.copyProgress(widget.progress);
+
   late BuildContext context2;
 
-  List<MediaModel> mediaList = [];
-
-  @override
-  void initState() {
-    super.initState();
-    mediaList = widget.initialMediaList;
-  }
+  late List<MediaModel> mediaList = widget.initialMediaList;
 
   @override
   Widget build(BuildContext context) {
@@ -100,22 +83,29 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               : mediaList.length + 1,
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              return Column(
-                children: [
-                  ListItemAcceptanceCriteriaBarComponent(
-                    onTap: onTapProgressBar,
-                    acceptanceCriteria: widget.acceptanceCriteria,
-                    initialProgress: widget.progress?.progress ??
-                        widget.acceptanceCriteria.currentProgress,
-                    isProgressBarLocked:
-                        !widget.isSaveInsteadOfEditButtonVisible,
-                    editAcceptanceCriteria: widget.editAcceptanceCriteria,
-                  ),
-                  const SizedBox(
-                    height: 17,
-                  )
-                ],
-              );
+              return SpaceColumnComponent(
+                  child: ListItemProgressComponent(
+                onTap: onTapProgressBar,
+                progress: widget.progress,
+                unit: widget.challenge.acceptanceCriteria.unit,
+              ));
+
+              // Column(
+              //   children: [
+              //     ListItemAcceptanceCriteriaBarComponent(
+              //       onTap: onTapProgressBar,
+              //       acceptanceCriteria: widget.acceptanceCriteria,
+              // initialProgress: widget.progress?.progress ??
+              //     widget.acceptanceCriteria.currentProgress,
+              //       isProgressBarLocked:
+              //           !widget.isSaveInsteadOfEditButtonVisible,
+              //       editAcceptanceCriteria: widget.editAcceptanceCriteria,
+              //     ),
+              //     const SizedBox(
+              //       height: 17,
+              //     )
+              //   ],
+              // );
             }
             if (widget.isSaveInsteadOfEditButtonVisible) {
               if (index == 1) {
@@ -212,34 +202,29 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     if (widget.isSaveInsteadOfEditButtonVisible) {
       Navigator.pop(context2);
 
-      if (widget.challenge.startDate == null &&
-          widget.editAcceptanceCriteria.currentProgress > 0) {
+      if (widget.challenge.startDate == null && editProgress.progress > 0) {
         widget.challenge.startDate = DateTime.now();
         widget.challenge.status = ChallengeStatusEnum.inProgress;
       }
 
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-      widget.acceptanceCriteria.currentProgress =
-          widget.editAcceptanceCriteria.currentProgress;
-      var progress = ProgressModel(
-          date: DateTime.now(),
-          progress: widget.acceptanceCriteria.currentProgress,
-          mediaIds: mediaList.map((e) => e.id!).toList(),
-          percentProgress: widget.acceptanceCriteria.currentProgress /
-              widget.acceptanceCriteria.amount,
-          frequencyAmount: widget.acceptanceCriteria
-              .getCurrentFrequencyAmount(widget.challenge.startDate));
+      widget.progress = editProgress;
+      // var progress = ProgressModel(
+      //     date: DateTime.now(),
+      //     progress: widget.acceptanceCriteria.currentProgress,
+      //     mediaIds: mediaList.map((e) => e.id!).toList(),
+      //     percentProgress: widget.acceptanceCriteria.currentProgress /
+      //         widget.acceptanceCriteria.amount,
+      //     frequencyAmount: widget.acceptanceCriteria
+      //         .getCurrentFrequencyAmount(widget.challenge.startDate));
 
-      widget.acceptanceCriteria.repetitions[progress.frequencyAmount - 1]
-          .progressList
-          .add(progress);
-      allChallengesList
-          .firstWhere((element) => element.id == widget.challenge.id)
-          .acceptanceCriteria = widget.acceptanceCriteria;
+      // widget.acceptanceCriteria.repetitions[progress.frequencyAmount - 1]
+      //     .progressList
+      //     .add(progress);
 
       allChallengesList.map((element) {
         if (element.id == widget.challenge.id) {
-          element = widget.challenge;
+          return widget.challenge;
         }
         return element;
       });
@@ -348,19 +333,16 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             flex: 1,
             child: GestureDetector(
                 onTap: () => setState(() {
-                      if (widget.editAcceptanceCriteria.currentProgress - 1 >=
-                          0) {
-                        widget.editAcceptanceCriteria.currentProgress -= 1;
-                        amountTextEditingController
-                            .text = DesignUtil.doubleAsInt(
-                                widget.editAcceptanceCriteria.currentProgress)
-                            .toString();
+                      if (editProgress.progress - 1 >= 0) {
+                        editProgress.progress -= 1;
+                        amountTextEditingController.text =
+                            DesignUtil.doubleAsInt(editProgress.progress)
+                                .toString();
                       } else {
-                        widget.editAcceptanceCriteria.currentProgress = 0;
-                        amountTextEditingController
-                            .text = DesignUtil.doubleAsInt(
-                                widget.editAcceptanceCriteria.currentProgress)
-                            .toString();
+                        editProgress.progress = 0;
+                        amountTextEditingController.text =
+                            DesignUtil.doubleAsInt(editProgress.progress)
+                                .toString();
                       }
                     }),
                 child: standardContainer(
@@ -374,10 +356,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             flex: 1,
             child: GestureDetector(
                 onTap: () => setState(() {
-                      widget.editAcceptanceCriteria.currentProgress += 1;
-                      amountTextEditingController.text = DesignUtil.doubleAsInt(
-                              widget.editAcceptanceCriteria.currentProgress)
-                          .toString();
+                      editProgress.progress += 1;
+                      amountTextEditingController.text =
+                          DesignUtil.doubleAsInt(editProgress.progress)
+                              .toString();
                     }),
                 child: standardContainer(
                     child: const Center(
@@ -390,11 +372,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             flex: 2,
             child: GestureDetector(
                 onTap: () => setState(() {
-                      widget.editAcceptanceCriteria.currentProgress =
-                          widget.acceptanceCriteria.amount;
-                      amountTextEditingController.text = DesignUtil.doubleAsInt(
-                              widget.editAcceptanceCriteria.currentProgress)
-                          .toString();
+                      editProgress.progress =
+                          widget.challenge.acceptanceCriteria.amount;
+                      amountTextEditingController.text =
+                          DesignUtil.doubleAsInt(editProgress.progress)
+                              .toString();
                     }),
                 child: standardContainer(
                     child: const Center(
@@ -420,8 +402,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   child: TextField(
                     textAlign: TextAlign.end,
                     controller: amountTextEditingController
-                      ..text = DesignUtil.doubleAsInt(
-                              widget.editAcceptanceCriteria.currentProgress)
+                      ..text = DesignUtil.doubleAsInt(editProgress.progress)
                           .toString(),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
@@ -439,14 +420,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                         double number = 0;
                         if (value.endsWith('.')) {
                           number = double.parse(value.split('.')[0]);
-                          widget.editAcceptanceCriteria.currentProgress =
-                              number;
+                          editProgress.progress = number;
                         } else if (value == '') {
-                          widget.editAcceptanceCriteria.currentProgress = 0;
+                          editProgress.progress = 0;
                         } else {
                           number = double.parse(value);
-                          widget.editAcceptanceCriteria.currentProgress =
-                              number;
+                          editProgress.progress = number;
                         }
                       });
                     },
@@ -465,7 +444,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   child: TextField(
                     enabled: false,
                     controller: TextEditingController()
-                      ..text = widget.acceptanceCriteria.unit,
+                      ..text = widget.challenge.acceptanceCriteria.unit,
                     decoration:
                         const InputDecoration.collapsed(hintText: 'Unit'),
                   ),

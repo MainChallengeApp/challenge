@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
@@ -9,8 +8,6 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/media_model.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
@@ -21,14 +18,12 @@ class MediaCameraPage extends StatefulWidget {
     required this.cameras,
     required this.preTitle,
     required this.mediaList,
-    required this.acceptanceCriteria,
     required this.challenge,
   });
 
   final List<CameraDescription> cameras;
   final String preTitle;
   final List<MediaModel> mediaList;
-  final AcceptanceCriteriaModel acceptanceCriteria;
   final ChallengeModel challenge;
 
   @override
@@ -310,6 +305,10 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   }
 
   acceptButton() {
+    if (widget.challenge.getCurrentRepetition() == null) {
+      widget.challenge.addRepetition();
+    }
+
     return GestureDetector(
       onTap: () {
         flashMode = FlashMode.off;
@@ -320,8 +319,8 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             builder: (context) => ProgressMediaListPage(
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
-              acceptanceCriteria: widget.acceptanceCriteria,
               challenge: widget.challenge,
+              progress: widget.challenge.getCurrentRepetition()!.addProgress(),
             ),
           ),
         ).then((_) => setState(() {}));

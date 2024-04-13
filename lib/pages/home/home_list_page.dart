@@ -2,7 +2,6 @@ import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,7 @@ import 'package:challenge/pages/components/list_items/list_item_challenge_small_
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/models/challenge_model.dart';
-
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:provider/provider.dart';
 
 class HomeListPage extends StatefulWidget {
@@ -140,22 +137,12 @@ class _HomeListPageState extends State<HomeListPage> {
   }
 
   tapOnNewChallenge() {
-    final ChallengeModel challenge = ChallengeModel(
-        status: ChallengeStatusEnum.inProgress,
-        title: '',
-        description: '',
-        thumbnailPath: '',
-        startDate: null,
-        endDate: null,
-        acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
-        media: []);
-
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
           preTitle: widget.title,
-          challenge: challenge,
+          challenge: ChallengeModel.empty(),
           isNewChallenge: true,
         ),
       ),

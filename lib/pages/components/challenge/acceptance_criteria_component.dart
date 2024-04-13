@@ -29,11 +29,12 @@ class _AcceptanceCriteriaComponentState
           child: Stack(
             children: [
               FractionallySizedBox(
-                widthFactor:
-                    widget.challenge.acceptanceCriteria.calcProgressRatio() > 1
-                        ? 1
-                        : widget.challenge.acceptanceCriteria
-                            .calcProgressRatio(),
+                widthFactor: widget.challenge
+                            .getCurrentRepetitionProgressPercentageProgess() >
+                        1
+                    ? 1
+                    : widget.challenge
+                        .getCurrentRepetitionProgressPercentageProgess(),
                 heightFactor: 1,
                 child: Container(
                   // width: 40,
@@ -70,8 +71,7 @@ class _AcceptanceCriteriaComponentState
                     child: Row(
                       children: [
                         // progressPercentage(widget.challenge.acceptanceCriteria),
-                        repetition(widget.challenge.acceptanceCriteria,
-                            widget.challenge.startDate),
+                        repetition(widget.challenge.acceptanceCriteria),
                         progressAbsolute(widget.challenge.acceptanceCriteria),
                       ],
                     ),
@@ -87,14 +87,13 @@ class _AcceptanceCriteriaComponentState
     return acceptanceCriteria.unit != '' || acceptanceCriteria.amount != 0
         ? ContainerInContainerTextComponent(
             text:
-                '${DesignUtil.doubleAsInt(acceptanceCriteria.currentProgress)}/${DesignUtil.doubleAsInt(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}')
+                '${DesignUtil.doubleAsInt(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsInt(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}')
         : Container();
   }
 
-  repetition(AcceptanceCriteriaModel acceptanceCriteria,
-      DateTime? challengeStartDate) {
+  repetition(AcceptanceCriteriaModel acceptanceCriteria) {
     return ContainerInContainerTextComponent(
         text:
-            '${acceptanceCriteria.getCurrentFrequencyAmount(challengeStartDate)}/${acceptanceCriteria.frequency.amount ?? '∞'} ${DesignUtil.dayDaysTimeOrTimes(acceptanceCriteria.frequency)}');
+            '${widget.challenge.getCurrentFrequencyAmount()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
   }
 }

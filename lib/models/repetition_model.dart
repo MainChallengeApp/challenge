@@ -1,6 +1,5 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/media_model.dart';
 import 'package:challenge/models/progress_model.dart';
 
 class RepetitionModel {
@@ -16,21 +15,35 @@ class RepetitionModel {
       required this.repetitionStatus});
 
   bool isComplete() {
+    if (progressList.isEmpty) {
+      return false;
+    }
     return progressList.last.progress >= goalAmount;
   }
 
   isCurrentRepetition(ChallengeModel challenge) {
-    return challenge.acceptanceCriteria
-            .getCurrentFrequencyAmount(challenge.startDate) ==
-        repetitionNumber;
+    return challenge.getCurrentFrequencyAmount() == repetitionNumber;
   }
 
   double getLastProgressPercentage() {
     if (progressList.isEmpty) {
       return 0;
     }
-    progressList.sort((a, b) => b.date.millisecond - a.date.millisecond);
     return progressList.last.percentProgress;
+  }
+
+  ProgressModel? getLastProgress() {
+    if (progressList.isEmpty) {
+      return null;
+    }
+    return progressList.last;
+  }
+
+  ProgressModel addProgress() {
+    ProgressModel progress =
+        ProgressModel.empty(frequencyAmount: repetitionNumber);
+    progressList.add(progress);
+    return progress;
   }
 
   static toJsonList(List<RepetitionModel> repetitions) {
@@ -60,16 +73,8 @@ class RepetitionModel {
     RepetitionModel repetitiontCopy = RepetitionModel(
         repetitionNumber: repetition.repetitionNumber,
         goalAmount: repetition.goalAmount,
-        progressList: [],
+        progressList: ProgressModel.copyProgressList(repetition.progressList),
         repetitionStatus: repetition.repetitionStatus);
-    for (var e in repetition.progressList) {
-      repetitiontCopy.progressList.add(ProgressModel(
-          date: e.date,
-          progress: e.progress,
-          mediaIds: MediaModel.copyMediaIdList(e.mediaIds),
-          percentProgress: e.percentProgress,
-          frequencyAmount: e.frequencyAmount));
-    }
     return repetitiontCopy;
   }
 

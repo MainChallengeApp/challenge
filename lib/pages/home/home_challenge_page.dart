@@ -239,10 +239,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       );
     }
 
-    if (challenge.acceptanceCriteria.frequency.amount == 1 ||
+    if (challenge.frequency.amount == 1 ||
         challenge.getCurrentRepetition()!.progressList.isEmpty) {
       return CustomButtonComponent(
-          onTap: () => onTapEnd(challenge), text: "End");
+        onTap: () => onTapEnd(challenge),
+        text: "End",
+        isPrimaryButton: challenge.status == ChallengeStatusEnum.success,
+      );
     }
 
     if (challenge.status == ChallengeStatusEnum.success) {
@@ -260,12 +263,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       );
     }
 
-    if (challenge.acceptanceCriteria.frequency.type ==
-        FrequencyTypeEnum.daily) {
+    if (challenge.frequency.type == FrequencyTypeEnum.daily) {
       return CustomButtonComponent(
           onTap: () => onTapNext(challenge),
           isPrimaryButton: challenge.getCurrentRepetition()!.isComplete(),
-          text: "Next in ${challenge.acceptanceCriteria.frequency.nextIn()}");
+          text: "Next in ${challenge.frequency.nextIn()}");
     }
 
     return CustomButtonComponent(
@@ -463,7 +465,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           cameras: cameras,
           preTitle: '${widget.preTitle}/${currentChallenge.title}',
           mediaList: currentChallenge.media,
-          acceptanceCriteria: currentChallenge.acceptanceCriteria,
           challenge: currentChallenge,
         ),
       ),
@@ -476,7 +477,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context3);
-        if (currentChallenge.isChallengeCompleted()) {
+        if (currentChallenge.isCompleted()) {
           currentChallenge.status = ChallengeStatusEnum.success;
         } else {
           currentChallenge.status = ChallengeStatusEnum.failed;
@@ -546,7 +547,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       challenge.status = ChallengeStatusEnum.inProgress;
       challenge.evaluateRepetition();
       challenge.addRepetition();
-      challenge.acceptanceCriteria.frequency.currentAmount = 1;
     });
     allChallengesList.map((e) => e.id == challenge.id ? challenge : e);
     challengeController.writeFile(allChallengesList);
@@ -615,5 +615,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  onTapNext(ChallengeModel challenge) {}
+  onTapNext(ChallengeModel challenge) {
+    setState(() {
+      challenge.nextRepetition();
+    });
+  }
 }

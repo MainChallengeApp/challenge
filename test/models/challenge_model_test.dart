@@ -73,7 +73,7 @@ void main() {
               repetitions: []),
           media: []);
       // Act
-      bool isCompleted = challenge.isChallengeCompleted();
+      bool isCompleted = challenge.isCompleted();
       // Assert
       expect(isCompleted, equals(true));
     });
@@ -97,7 +97,7 @@ void main() {
               repetitions: []),
           media: []);
       // Act
-      bool isCompleted = challenge.isChallengeCompleted();
+      bool isCompleted = challenge.isCompleted();
       // Assert
       expect(isCompleted, equals(false));
     });
@@ -212,7 +212,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'thumbnailPath',
-          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
+          acceptanceCriteria: AcceptanceCriteriaModel.empty(),
           media: []);
       // Act
       String thumbnailPath = challenge.getThumbnailPath();
@@ -228,7 +228,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: '',
-          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
+          acceptanceCriteria: AcceptanceCriteriaModel.empty(),
           media: [
             MediaModel(
                 id: '1',
@@ -256,7 +256,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: '',
-          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
+          acceptanceCriteria: AcceptanceCriteriaModel.empty(),
           media: []);
       // Act
       String thumbnailPath = challenge.getThumbnailPath();
@@ -274,7 +274,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'assets/images/image.png',
-          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
+          acceptanceCriteria: AcceptanceCriteriaModel.empty(),
           media: []);
       // Act
       bool isThumbnailFromAssetsImage = challenge.isThumbnailFromAssetsImage();
@@ -289,7 +289,7 @@ void main() {
           title: 'title',
           description: 'description',
           thumbnailPath: 'assets/ima',
-          acceptanceCriteria: AcceptanceCriteriaModel.emptyAcceptanceCriteria(),
+          acceptanceCriteria: AcceptanceCriteriaModel.empty(),
           media: []);
       // Act
       bool isThumbnailFromAssetsImage = challenge.isThumbnailFromAssetsImage();

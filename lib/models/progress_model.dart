@@ -1,6 +1,8 @@
+import 'package:challenge/models/media_model.dart';
+
 class ProgressModel {
-  DateTime date;
-  final int frequencyAmount;
+  late DateTime date;
+  int frequencyAmount;
   double progress;
   double percentProgress;
   List<String> mediaIds;
@@ -11,6 +13,14 @@ class ProgressModel {
       required this.date,
       required this.percentProgress,
       required this.frequencyAmount});
+
+  ProgressModel.empty(
+      {required this.frequencyAmount,
+      this.percentProgress = 0,
+      this.progress = 0,
+      this.mediaIds = const []}) {
+    date = DateTime.now();
+  }
 
   static fromJsonList(json) {
     List<ProgressModel> progressList = [];
@@ -33,5 +43,31 @@ class ProgressModel {
               'frequencyAmount': progress.frequencyAmount
             })
         .toList();
+  }
+
+  static copyProgressList(List<ProgressModel> progressList) {
+    List<ProgressModel> list = [];
+    for (var progress in progressList) {
+      list.add(copyProgress(progress));
+    }
+    return list;
+  }
+
+  static copyProgress(ProgressModel progress) {
+    return ProgressModel(
+        date: progress.date,
+        progress: progress.progress,
+        mediaIds: MediaModel.copyMediaIdList(progress.mediaIds),
+        percentProgress: progress.percentProgress,
+        frequencyAmount: progress.frequencyAmount);
+  }
+
+  static emptyProgress(int frequencyAmount) {
+    return ProgressModel(
+        progress: 0,
+        mediaIds: [],
+        date: DateTime.now(),
+        percentProgress: 0,
+        frequencyAmount: frequencyAmount);
   }
 }

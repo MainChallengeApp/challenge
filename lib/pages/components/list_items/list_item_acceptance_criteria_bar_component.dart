@@ -1,181 +1,182 @@
-// ignore_for_file: must_be_immutable
-import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/models/frequency_model.dart';
-import 'package:challenge/models/repetition_model.dart';
-import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
-import 'package:challenge/utils/design_util.dart';
-import 'package:flutter/material.dart';
+// // ignore_for_file: must_be_immutable
+// import 'package:challenge/enums/frequency_type_enum.dart.dart';
+// import 'package:challenge/models/frequency_model.dart';
+// import 'package:challenge/models/repetition_model.dart';
+// import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
+// import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
+// import 'package:challenge/utils/design_util.dart';
+// import 'package:flutter/material.dart';
 
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
+// import 'package:challenge/globals.dart';
+// import 'package:challenge/models/acceptance_criteria_model.dart';
 
-class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
-  ListItemAcceptanceCriteriaBarComponent(
-      {super.key,
-      required this.acceptanceCriteria,
-      this.isProgressBarLocked = false,
-      this.isProgress = false,
-      this.isRepetition = false,
-      this.initialProgress = 0,
-      this.editAcceptanceCriteria,
-      this.isFailed = false,
-      this.repetition,
-      this.onTap}) {
-    editAcceptanceCriteria ??= AcceptanceCriteriaModel(
-        amount: 0,
-        unit: 'unit',
-        frequency: FrequencyModel(
-            amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
-        tracking: 'camera',
-        currentProgress: initialProgress,
-        repetitions: []);
-  }
+// class ListItemAcceptanceCriteriaBarComponent extends StatefulWidget {
+//   ListItemAcceptanceCriteriaBarComponent(
+//       {super.key,
+//       required this.acceptanceCriteria,
+//       this.isProgressBarLocked = false,
+//       this.isProgress = false,
+//       this.isRepetition = false,
+//       this.initialProgress = 0,
+//       this.editAcceptanceCriteria,
+//       this.isFailed = false,
+//       this.repetition,
+//       this.onTap}) {
+//     editAcceptanceCriteria ??= AcceptanceCriteriaModel(
+//         amount: 0,
+//         unit: 'unit',
+//         frequency: FrequencyModel(
+//             amount: 1, type: FrequencyTypeEnum.time, currentAmount: 0),
+//         tracking: 'camera',
+//         currentProgress: initialProgress,
+//         repetitions: []);
+//   }
 
-  final AcceptanceCriteriaModel acceptanceCriteria;
-  late AcceptanceCriteriaModel? editAcceptanceCriteria;
-  final bool isProgressBarLocked;
-  final bool isProgress;
-  final double initialProgress;
-  final bool isFailed;
-  final bool isRepetition;
-  final RepetitionModel? repetition;
-  final void Function()? onTap;
+//   final AcceptanceCriteriaModel acceptanceCriteria;
+//   late AcceptanceCriteriaModel? editAcceptanceCriteria;
+//   final bool isProgressBarLocked;
+//   final bool isProgress;
+//   final double initialProgress;
+//   final bool isFailed;
+//   final bool isRepetition;
+//   final RepetitionModel? repetition;
+//   final void Function()? onTap;
 
-  @override
-  State<ListItemAcceptanceCriteriaBarComponent> createState() =>
-      _ListItemAcceptanceCriteriaBarComponentState();
-}
+//   @override
+//   State<ListItemAcceptanceCriteriaBarComponent> createState() =>
+//       _ListItemAcceptanceCriteriaBarComponentState();
+// }
 
-class _ListItemAcceptanceCriteriaBarComponentState
-    extends State<ListItemAcceptanceCriteriaBarComponent> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.initialProgress != 0) {
-      widget.editAcceptanceCriteria!.currentProgress = widget.initialProgress;
-    } else {
-      widget.editAcceptanceCriteria!.currentProgress =
-          widget.acceptanceCriteria.currentProgress;
-    }
-  }
+// class _ListItemAcceptanceCriteriaBarComponentState
+//     extends State<ListItemAcceptanceCriteriaBarComponent> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     if (widget.initialProgress != 0) {
+//       widget.editAcceptanceCriteria!.currentProgress = widget.initialProgress;
+//     } else {
+//       widget.editAcceptanceCriteria!.currentProgress =
+//           widget.acceptanceCriteria.currentProgress;
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ListItemContainerComponent(
-        onTap: widget.onTap,
-        padding: const EdgeInsets.all(0),
-        child: singleAcceptanceCriteria(),
-      ),
-    );
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: ListItemContainerComponent(
+//         onTap: widget.onTap,
+//         padding: const EdgeInsets.all(0),
+//         child: ListItemFractionComponent(initialProgress: ),
+//       ),
+//     );
+//   }
 
-  singleAcceptanceCriteria() {
-    return Stack(
-      children: [
-        FractionallySizedBox(
-          widthFactor: calcProgressRatio(),
-          heightFactor: 1,
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-                color: widget.isFailed ? Colors.red : Colors.green,
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              border: Border.all(
-                  color: Colors.white,
-                  width: 10,
-                  strokeAlign: BorderSide.strokeAlignOutside),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-        ),
-        GestureDetector(
-          // onHorizontalDragUpdate: (details) {
-          //   if (!widget.isProgressBarLocked) {
-          //     setState(() {
-          //       int newProgress = 0;
-          //       newProgress = (details.localPosition.dx / 350 * 100).round();
-          //       if (newProgress > 100) {
-          //         newProgress = 100;
-          //       } else if (newProgress <= 0) {
-          //         newProgress = 0;
-          //       }
-          //       widget.editAcceptanceCriteria!.progress =
-          //           newProgress.toDouble();
-          //     });
-          //   }
-          // },
-          child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(170),
-                  border: Border.all(
-                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(24))),
-              child: Row(
-                children: widget.isRepetition ? repetition() : progress(),
-              )),
-        )
-      ],
-    );
-  }
+//   singleAcceptanceCriteria() {
+//     return Stack(
+//       children: [
+//         FractionallySizedBox(
+//           widthFactor: calcProgressRatio(),
+//           heightFactor: 1,
+//           child: Container(
+//             width: 40,
+//             height: 40,
+//             decoration: BoxDecoration(
+//                 color: widget.isFailed ? Colors.red : Colors.green,
+//                 borderRadius: const BorderRadius.all(Radius.circular(24))),
+//           ),
+//         ),
+//         Container(
+//           decoration: BoxDecoration(
+//               border: Border.all(
+//                   color: Colors.white,
+//                   width: 10,
+//                   strokeAlign: BorderSide.strokeAlignOutside),
+//               borderRadius: const BorderRadius.all(Radius.circular(24))),
+//         ),
+//         GestureDetector(
+//           // onHorizontalDragUpdate: (details) {
+//           //   if (!widget.isProgressBarLocked) {
+//           //     setState(() {
+//           //       int newProgress = 0;
+//           //       newProgress = (details.localPosition.dx / 350 * 100).round();
+//           //       if (newProgress > 100) {
+//           //         newProgress = 100;
+//           //       } else if (newProgress <= 0) {
+//           //         newProgress = 0;
+//           //       }
+//           //       widget.editAcceptanceCriteria!.progress =
+//           //           newProgress.toDouble();
+//           //     });
+//           //   }
+//           // },
+//           child: Container(
+//               padding: const EdgeInsets.all(10),
+//               decoration: BoxDecoration(
+//                   color: Colors.white.withAlpha(170),
+//                   border: Border.all(
+//                       width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+//                   borderRadius: const BorderRadius.all(Radius.circular(24))),
+//               child: Row(
+//                 children: widget.isRepetition ? repetition() : progress(),
+//               )),
+//         )
+//       ],
+//     );
+//   }
 
-  List<Widget> progress() {
-    return [
-      box(
-          child: text(widget.isProgress
-              ? widget.acceptanceCriteria.amount == 0
-                  ? '100%'
-                  : '${(widget.initialProgress / widget.acceptanceCriteria.amount * 100).toInt()}%'
-              : '${(widget.editAcceptanceCriteria!.calcProgressRatio() * 100).toInt()}%')),
-      box(
-          child: text(widget.isProgress
-              ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
-              : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.currentProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}')),
-      Expanded(child: Container()),
-    ];
-  }
+//   List<Widget> progress() {
+//     return [
+//       box(
+//           child: text(widget.isProgress
+//               ? widget.acceptanceCriteria.amount == 0
+//                   ? '100%'
+//                   : '${(widget.initialProgress / widget.acceptanceCriteria.amount * 100).toInt()}%'
+//               : '${(widget.editAcceptanceCriteria!.calcProgressRatio() * 100).toInt()}%')),
+//       box(
+//           child: text(widget.isProgress
+//               ? '${DesignUtil.doubleAsInt(widget.initialProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}'
+//               : '${DesignUtil.doubleAsInt(widget.editAcceptanceCriteria!.currentProgress)}/${DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount)} ${widget.acceptanceCriteria.unit}')),
+//       Expanded(child: Container()),
+//     ];
+//   }
 
-  Container box({required Widget child}) {
-    return Container(
-      margin: const EdgeInsets.only(right: 10),
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-          color: themeColor4,
-          borderRadius: BorderRadius.all(Radius.circular(12))),
-      child: child,
-    );
-  }
+//   Container box({required Widget child}) {
+//     return Container(
+//       margin: const EdgeInsets.only(right: 10),
+//       padding: const EdgeInsets.all(10),
+//       decoration: const BoxDecoration(
+//           color: themeColor4,
+//           borderRadius: BorderRadius.all(Radius.circular(12))),
+//       child: child,
+//     );
+//   }
 
-  Text text(String text) {
-    return Text(
-      text,
-      style: const TextStyle(fontSize: 12, color: themeColor3),
-    );
-  }
+//   Text text(String text) {
+//     return Text(
+//       text,
+//       style: const TextStyle(fontSize: 12, color: themeColor3),
+//     );
+//   }
 
-  double calcProgressRatio() {
-    return widget.isProgress
-        ? widget.acceptanceCriteria.amount == 0
-            ? 1
-            : widget.initialProgress / widget.acceptanceCriteria.amount > 1
-                ? 1
-                : widget.initialProgress / widget.acceptanceCriteria.amount
-        : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
-            ? 1
-            : widget.editAcceptanceCriteria!.calcProgressRatio();
-  }
+//   double calcProgressRatio() {
+//     return widget.isProgress
+//         ? widget.acceptanceCriteria.amount == 0
+//             ? 1
+//             : widget.initialProgress / widget.acceptanceCriteria.amount > 1
+//                 ? 1
+//                 : widget.initialProgress / widget.acceptanceCriteria.amount
+//         : widget.editAcceptanceCriteria!.calcProgressRatio() > 1
+//             ? 1
+//             : widget.editAcceptanceCriteria!.calcProgressRatio();
+//   }
 
-  repetition() {
-    FrequencyModel frequency = widget.acceptanceCriteria.frequency;
-    return [
-      box(
-          child: text(
-              '${frequency.currentAmount}/${frequency.amount} ${DesignUtil.dayDaysTimeOrTimes(frequency)}')),
-      Expanded(child: Container()),
-    ];
-  }
-}
+//   repetition() {
+//     FrequencyModel frequency = widget.acceptanceCriteria.frequency;
+//     return [
+//       box(
+//           child: text(
+//               '${widget.acceptanceCriteria.getCurrentFrequencyAmount(widget.)}/${frequency.amount} ${DesignUtil.dayDaysTimeOrTimes(frequency)}')),
+//       Expanded(child: Container()),
+//     ];
+//   }
+// }

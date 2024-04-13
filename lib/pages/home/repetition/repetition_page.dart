@@ -4,12 +4,10 @@ import 'package:challenge/pages/components/list_items/list_item_progress_compone
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:provider/provider.dart';
-
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/providers/design_provider.dart';
@@ -33,7 +31,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
       widget.challenge.acceptanceCriteria;
 
   late final expandedRepetitionIndexList = [
-    acceptanceCriteria.getCurrentFrequencyAmount(widget.challenge.startDate)
+    widget.challenge.getCurrentFrequencyAmount()
   ];
 
   @override
@@ -72,10 +70,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: acceptanceCriteria
-              .getCurrentFrequencyAmount(widget.challenge.startDate),
+          itemCount: widget.challenge.getCurrentFrequencyAmount(),
           itemBuilder: (BuildContext content, int index) {
-            RepetitionModel repetition = acceptanceCriteria.repetitions[index];
+            RepetitionModel repetition = widget.challenge.repetitions[index];
             return repetitionListItem(repetition);
           }),
     );
@@ -87,29 +84,17 @@ class _RepetitionPageState extends State<RepetitionPage> {
           child: ListItemIconSmallComponent(
         icon: Icons.add_rounded,
         title: 'New Progress',
-        onTap: () {},
+        onTap: () => onTapNewProgress(repetition),
       ))
     ];
     for (var progress in repetition.progressList) {
       progressListItems.add(SpaceColumnComponent(
           child: ListItemProgressComponent(
         progress: progress,
-        acceptanceCriteria: acceptanceCriteria,
+        unit: acceptanceCriteria.unit,
       )));
     }
     return progressListItems;
-  }
-
-  Column newProgress() {
-    return Column(
-      children: [
-        ListItemIconSmallComponent(
-            onTap: () => onTapNewProgress(),
-            icon: Icons.add,
-            title: 'New Progress'),
-        const SpaceComponent()
-      ],
-    );
   }
 
   repetitionListItem(RepetitionModel repetition) {
@@ -164,7 +149,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
           initialMediaList: widget.challenge.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
-          acceptanceCriteria: acceptanceCriteria,
           challenge: widget.challenge,
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
@@ -194,16 +178,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     }
   }
 
-  void onTapNewProgress() async {
-    // // Ensure that plugin services are initialized so that `availableCameras()`
-    // // can be called before `runApp()`
-    // WidgetsFlutterBinding.ensureInitialized();
-
-    // // Obtain a list of the available cameras on the device.
-    // final cameras = await availableCameras();
-
-    // Get a specific camera from the list of available cameras.
-
+  void onTapNewProgress(RepetitionModel repetition) async {
     // ignore: use_build_context_synchronously
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     // ignore: use_build_context_synchronously
@@ -211,10 +186,11 @@ class _RepetitionPageState extends State<RepetitionPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-            preTitle: '${widget.preTitle}/Progress',
-            challenge: widget.challenge,
-            initialMediaList: const [],
-            acceptanceCriteria: acceptanceCriteria),
+          preTitle: '${widget.preTitle}/Progress',
+          challenge: widget.challenge,
+          initialMediaList: const [],
+          progress: repetition.addProgress(),
+        ),
       ),
     ).then((_) => setState(() {
           // context.read<DesignProvider>().setIsBottomNavBarVisible(true);
