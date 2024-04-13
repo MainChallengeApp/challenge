@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 
 class ListItemProgressComponent extends StatefulWidget {
   const ListItemProgressComponent(
-      {super.key, required this.progress, required this.unit, this.onTap});
+      {super.key,
+      required this.progress,
+      required this.unit,
+      this.onTap,
+      required this.isFailed});
 
   final ProgressModel progress;
   final String unit;
   final void Function()? onTap;
+  final bool isFailed;
 
   @override
   State<ListItemProgressComponent> createState() =>
@@ -22,6 +27,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
     return ListItemFractionComponent(
       onTap: widget.onTap,
       initialProgress: widget.progress.percentProgress,
+      isFailed: widget.isFailed,
       child: Row(
         children: [
           ContainerInContainerTextComponent(

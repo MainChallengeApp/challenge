@@ -1,4 +1,5 @@
 import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
@@ -99,6 +100,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   child: ListItemProgressComponent(
                 onTap: onTapProgressBar,
                 progress: editProgress,
+                isFailed: widget.repetition != null
+                    ? widget.repetition!.repetitionStatus ==
+                        RepetitionStatusEnum.failed
+                    : false,
                 unit: widget.challenge.acceptanceCriteria.unit,
               ));
             }

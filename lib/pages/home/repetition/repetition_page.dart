@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
@@ -113,6 +114,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     for (var progress in repetition.progressList.reversed) {
       progressListItems.add(SpaceColumnComponent(
           child: ListItemProgressComponent(
+        isFailed: repetition.repetitionStatus == RepetitionStatusEnum.failed,
         progress: progress,
         unit: acceptanceCriteria.unit,
       )));
