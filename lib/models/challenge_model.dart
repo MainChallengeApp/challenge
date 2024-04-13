@@ -231,14 +231,14 @@ class ChallengeModel {
       return 0;
     }
 
-    var currentRepetitionProgress = currentRepetition.getLastProgress();
-    if (currentRepetitionProgress == null) {
+    var lastRepetitionProgress = currentRepetition.getLastProgress();
+    if (lastRepetitionProgress == null) {
       return 0;
     }
 
-    currentRepetitionProgress.setProgress(
-        acceptanceCriteria, currentRepetitionProgress.progress);
-    return currentRepetitionProgress.percentProgress;
+    lastRepetitionProgress.setProgress(
+        acceptanceCriteria, lastRepetitionProgress.progress);
+    return lastRepetitionProgress.percentProgress;
   }
 
   evaluateRepetition() {

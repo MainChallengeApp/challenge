@@ -19,11 +19,6 @@ class AcceptanceCriteriaComponent extends StatefulWidget {
 
 class _AcceptanceCriteriaComponentState
     extends State<AcceptanceCriteriaComponent> {
-  late double currentRepetitionProgress =
-      widget.challenge.getCurrentRepetitionProgressProgess();
-  late double currentRepetitionProgressPercentage =
-      widget.challenge.getCurrentRepetitionProgressPercentageProgess();
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,9 +29,12 @@ class _AcceptanceCriteriaComponentState
           child: Stack(
             children: [
               FractionallySizedBox(
-                widthFactor: currentRepetitionProgressPercentage > 1
+                widthFactor: widget.challenge
+                            .getCurrentRepetitionProgressPercentageProgess() >
+                        1
                     ? 1
-                    : currentRepetitionProgressPercentage,
+                    : widget.challenge
+                        .getCurrentRepetitionProgressPercentageProgess(),
                 heightFactor: 1,
                 child: Container(
                   // width: 40,
