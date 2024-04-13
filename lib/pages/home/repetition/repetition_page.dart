@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
@@ -36,6 +37,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late final expandedRepetitionIndexList = [
     widget.challenge.getCurrentRepetitionNumber()
   ];
+
+  ChallengeController challengeController = ChallengeController();
 
   @override
   void initState() {
@@ -85,7 +88,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
             RepetitionModel repetition;
             if (index < widget.challenge.repetitions.length) {
-              repetition = widget.challenge.repetitions[index];
+              repetition = widget.challenge
+                  .repetitions[widget.challenge.repetitions.length - 1 - index];
             } else {
               repetition = RepetitionModel.empty(
                   repetitionNumber: index + 1,
@@ -106,7 +110,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         onTap: () => onTapNewProgress(repetition),
       ))
     ];
-    for (var progress in repetition.progressList) {
+    for (var progress in repetition.progressList.reversed) {
       progressListItems.add(SpaceColumnComponent(
           child: ListItemProgressComponent(
         progress: progress,
@@ -164,11 +168,14 @@ class _RepetitionPageState extends State<RepetitionPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle: '${widget.preTitle}/Progress',
+          preTitle:
+              '${widget.preTitle}/Repetitions/${progress.repetitionNumber}',
           initialMediaList: widget.challenge.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
           challenge: widget.challenge,
+          repetition:
+              widget.challenge.repetitions[progress.repetitionNumber - 1],
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
         ),
@@ -205,11 +212,10 @@ class _RepetitionPageState extends State<RepetitionPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle: '${widget.preTitle}/Progress',
-          challenge: widget.challenge,
-          initialMediaList: const [],
-          progress: repetition.addProgress(),
-        ),
+            preTitle:
+                '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
+            repetition: repetition,
+            challenge: widget.challenge),
       ),
     ).then((_) => setState(() {
           // context.read<DesignProvider>().setIsBottomNavBarVisible(true);
@@ -232,5 +238,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
     setState(() {
       widget.challenge.start();
     });
+    challengeController.writeFile(allChallengesList);
   }
 }

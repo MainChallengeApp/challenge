@@ -71,9 +71,14 @@ class RepetitionModel {
     return progressList.last;
   }
 
-  ProgressModel addProgress({mediaIds = const <String>[]}) {
-    ProgressModel progress = ProgressModel.empty(
-        repetitionNumber: repetitionNumber, mediaIds: mediaIds);
+  ProgressModel addProgress(
+      {ProgressModel? progress, mediaIds = const <String>[]}) {
+    if (progress == null) {
+      ProgressModel emptyProgress = ProgressModel.empty(
+          repetitionNumber: repetitionNumber, mediaIds: mediaIds);
+      progressList.add(emptyProgress);
+      return emptyProgress;
+    }
     progressList.add(progress);
     return progress;
   }

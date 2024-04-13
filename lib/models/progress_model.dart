@@ -74,12 +74,15 @@ class ProgressModel {
         repetitionNumber: progress.repetitionNumber);
   }
 
-  static copyOrCreateProgress(
-      ProgressModel? progress, int repetitionNumber, List<String> mediaIds) {
+  static copyOrCreateProgress(ProgressModel? progress, int repetitionNumber,
+      List<String> mediaIds, double progressProgress) {
     if (progress == null) {
       return ProgressModel.empty(
-          repetitionNumber: repetitionNumber, mediaIds: mediaIds);
+          repetitionNumber: repetitionNumber,
+          mediaIds: mediaIds,
+          progress: progressProgress);
     }
+    return copyProgress(progress);
   }
 
   static emptyProgress(int frequencyAmount) {
