@@ -236,6 +236,8 @@ class ChallengeModel {
       return 0;
     }
 
+    currentRepetitionProgress.setProgress(
+        acceptanceCriteria, currentRepetitionProgress.progress);
     return currentRepetitionProgress.percentProgress;
   }
 
@@ -305,5 +307,13 @@ class ChallengeModel {
     } else {
       return 0;
     }
+  }
+
+  void start() {
+    startDate = DesignUtil.dateWithoutTime(DateTime.now());
+    setEndDate();
+    status = ChallengeStatusEnum.inProgress;
+    evaluateRepetition();
+    addRepetition();
   }
 }

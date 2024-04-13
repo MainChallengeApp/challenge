@@ -23,7 +23,7 @@ class ProgressModel {
     date = DateTime.now();
   }
 
-  setProgress(AcceptanceCriteriaModel acceptanceCriteria, progress) {
+  setProgress(AcceptanceCriteriaModel acceptanceCriteria, double progress) {
     if (acceptanceCriteria.amount == 0) {
       this.progress = progress;
       percentProgress = 1;

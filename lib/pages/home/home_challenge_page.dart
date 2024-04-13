@@ -542,11 +542,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   onTapStart(ChallengeModel challenge) {
     setState(() {
-      challenge.startDate = DesignUtil.dateWithoutTime(DateTime.now());
-      challenge.setEndDate();
-      challenge.status = ChallengeStatusEnum.inProgress;
-      challenge.evaluateRepetition();
-      challenge.addRepetition();
+      challenge.start();
     });
     allChallengesList.map((e) => e.id == challenge.id ? challenge : e);
     challengeController.writeFile(allChallengesList);

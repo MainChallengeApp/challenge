@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
@@ -70,8 +73,16 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.challenge.getCurrentRepetitionNumber(),
+          itemCount: max(1, widget.challenge.getCurrentRepetitionNumber()),
           itemBuilder: (BuildContext content, int index) {
+            if (widget.challenge.getCurrentRepetitionNumber() == 0) {
+              return ListItemButtonComponent(
+                onTap: onTapStartChallenge,
+                text: "Start Challenge",
+                isMainButton: true,
+              );
+            }
+
             RepetitionModel repetition;
             if (index < widget.challenge.repetitions.length) {
               repetition = widget.challenge.repetitions[index];
@@ -214,6 +225,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
       } else {
         expandedRepetitionIndexList.add(repetition.repetitionNumber);
       }
+    });
+  }
+
+  void onTapStartChallenge() {
+    setState(() {
+      widget.challenge.start();
     });
   }
 }
