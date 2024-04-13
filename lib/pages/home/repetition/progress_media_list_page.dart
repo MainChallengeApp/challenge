@@ -47,7 +47,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   TextEditingController amountTextEditingController = TextEditingController();
 
-  late ProgressModel editProgress = ProgressModel.copyProgress(widget.progress);
+  late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
+      widget.progress,
+      widget.challenge.getCurrentRepetitionNumber(),
+      widget.initialMediaList.map((e) => e.id!).toList());
 
   late BuildContext context2;
 
