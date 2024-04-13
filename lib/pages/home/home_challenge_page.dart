@@ -240,7 +240,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
 
     if (challenge.frequency.amount == 1 ||
-        challenge.getCurrentRepetition()!.progressList.isEmpty) {
+        challenge.getLastRepetition()!.progressList.isEmpty) {
       return CustomButtonComponent(
         onTap: () => onTapEnd(challenge),
         text: "End",
@@ -266,13 +266,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     if (challenge.frequency.type == FrequencyTypeEnum.daily) {
       return CustomButtonComponent(
           onTap: () => onTapNext(challenge),
-          isPrimaryButton: challenge.getCurrentRepetition()!.isComplete(),
+          isPrimaryButton: challenge.getLastRepetition()!.isComplete(),
           text: "Next in ${challenge.frequency.nextIn()}");
     }
 
     return CustomButtonComponent(
         onTap: () => onTapNext(challenge),
-        isPrimaryButton: challenge.getCurrentRepetition()!.isComplete(),
+        isPrimaryButton: challenge.getLastRepetition()!.isComplete(),
         text: "Next");
   }
 

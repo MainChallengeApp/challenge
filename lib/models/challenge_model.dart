@@ -192,20 +192,20 @@ class ChallengeModel {
     return repetitions.length > 1;
   }
 
-  RepetitionModel? getCurrentRepetition() {
+  RepetitionModel? getLastRepetition() {
     if (repetitions.isEmpty) return null;
     return repetitions.last;
   }
 
   ProgressModel? getCurrentRepetitionProgress() {
-    if (getCurrentRepetition() != null) {
-      return getCurrentRepetition()!.getLastProgress();
+    if (getLastRepetition() != null) {
+      return getLastRepetition()!.getLastProgress();
     }
     return null;
   }
 
   double getCurrentRepetitionProgressProgess() {
-    var currentRepetition = getCurrentRepetition();
+    var currentRepetition = getLastRepetition();
     if (currentRepetition == null) {
       return 0;
     }
@@ -219,7 +219,7 @@ class ChallengeModel {
   }
 
   double getCurrentRepetitionProgressPercentageProgess() {
-    var currentRepetition = getCurrentRepetition();
+    var currentRepetition = getLastRepetition();
     if (currentRepetition == null) {
       return 0;
     }
@@ -249,7 +249,7 @@ class ChallengeModel {
   }
 
   addRepetition() {
-    RepetitionModel? currentRepetition = getCurrentRepetition();
+    RepetitionModel? currentRepetition = getLastRepetition();
     if (currentRepetition == null ||
         frequency.amount == null ||
         currentRepetition.repetitionNumber < frequency.amount!) {

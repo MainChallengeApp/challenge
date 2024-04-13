@@ -305,7 +305,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   }
 
   acceptButton() {
-    if (widget.challenge.getCurrentRepetition() == null) {
+    if (widget.challenge.getLastRepetition() == null) {
       widget.challenge.addRepetition();
     }
 
@@ -320,7 +320,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
               challenge: widget.challenge,
-              progress: widget.challenge.getCurrentRepetition()!.addProgress(),
+              progress: widget.challenge.getLastRepetition()!.addProgress(),
             ),
           ),
         ).then((_) => setState(() {}));

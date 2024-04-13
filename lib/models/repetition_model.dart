@@ -14,6 +14,12 @@ class RepetitionModel {
       required this.progressList,
       required this.repetitionStatus});
 
+  RepetitionModel.empty(
+      {required this.repetitionNumber,
+      required this.goalAmount,
+      this.progressList = const [],
+      required this.repetitionStatus});
+
   bool isComplete() {
     if (progressList.isEmpty) {
       return false;

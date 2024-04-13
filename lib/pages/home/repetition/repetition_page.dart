@@ -72,7 +72,11 @@ class _RepetitionPageState extends State<RepetitionPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: widget.challenge.getCurrentFrequencyAmount(),
           itemBuilder: (BuildContext content, int index) {
-            RepetitionModel repetition = widget.challenge.repetitions[index];
+            if(index < widget.challenge.repetitions.length){
+              RepetitionModel repetition = widget.challenge.repetitions[index];
+            } else {
+              RepetitionModel repetition = RepetitionModel
+            }
             return repetitionListItem(repetition);
           }),
     );
