@@ -1,8 +1,9 @@
+import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/media_model.dart';
 
 class ProgressModel {
   late DateTime date;
-  int frequencyAmount;
+  int repetitionNumber;
   double progress;
   double percentProgress;
   List<String> mediaIds;
@@ -12,14 +13,25 @@ class ProgressModel {
       required this.mediaIds,
       required this.date,
       required this.percentProgress,
-      required this.frequencyAmount});
+      required this.repetitionNumber});
 
   ProgressModel.empty(
-      {required this.frequencyAmount,
+      {required this.repetitionNumber,
       this.percentProgress = 0,
       this.progress = 0,
       this.mediaIds = const []}) {
     date = DateTime.now();
+  }
+
+  setProgress(AcceptanceCriteriaModel acceptanceCriteria, progress) {
+    if (acceptanceCriteria.amount == 0) {
+      this.progress = progress;
+      percentProgress = 1;
+      return;
+    }
+
+    this.progress = progress;
+    percentProgress = progress / acceptanceCriteria.amount;
   }
 
   static fromJsonList(json) {
@@ -29,7 +41,7 @@ class ProgressModel {
         mediaIds: List.from(e['mediaIds']),
         percentProgress: e['percentProgress'],
         date: DateTime.parse(e['date']),
-        frequencyAmount: e['frequencyAmount'])));
+        repetitionNumber: e['frequencyAmount'])));
     return progressList;
   }
 
@@ -40,7 +52,7 @@ class ProgressModel {
               'progress': progress.progress,
               'percentProgress': progress.percentProgress,
               'mediaIds': progress.mediaIds,
-              'frequencyAmount': progress.frequencyAmount
+              'frequencyAmount': progress.repetitionNumber
             })
         .toList();
   }
@@ -59,7 +71,7 @@ class ProgressModel {
         progress: progress.progress,
         mediaIds: MediaModel.copyMediaIdList(progress.mediaIds),
         percentProgress: progress.percentProgress,
-        frequencyAmount: progress.frequencyAmount);
+        repetitionNumber: progress.repetitionNumber);
   }
 
   static emptyProgress(int frequencyAmount) {
@@ -68,6 +80,6 @@ class ProgressModel {
         mediaIds: [],
         date: DateTime.now(),
         percentProgress: 0,
-        frequencyAmount: frequencyAmount);
+        repetitionNumber: frequencyAmount);
   }
 }

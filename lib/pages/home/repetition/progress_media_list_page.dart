@@ -34,7 +34,7 @@ class ProgressMediaListPage extends StatefulWidget {
   final String preTitle;
   final ChallengeModel challenge;
   final List<MediaModel> initialMediaList;
-  ProgressModel progress;
+  ProgressModel? progress;
   bool isSaveInsteadOfEditButtonVisible;
 
   @override
@@ -55,12 +55,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   @override
   Widget build(BuildContext context) {
+    editProgress.setProgress(
+        widget.challenge.acceptanceCriteria, editProgress.progress);
     return Scaffold(
         appBar: AppBarComponent(
             preTitle: widget.preTitle,
             titleText: widget.progress == null
                 ? 'New Progress'
-                : '${widget.progress!.frequencyAmount}'),
+                : '${widget.progress!.repetitionNumber}'),
         backgroundColor: Colors.white,
         body: Stack(
           children: [_buildList(), progressButton()],
@@ -86,7 +88,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               return SpaceColumnComponent(
                   child: ListItemProgressComponent(
                 onTap: onTapProgressBar,
-                progress: widget.progress,
+                progress: editProgress,
                 unit: widget.challenge.acceptanceCriteria.unit,
               ));
 

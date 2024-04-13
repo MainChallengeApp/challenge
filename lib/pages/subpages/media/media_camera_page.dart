@@ -320,7 +320,9 @@ class _CameraStateMedia extends State<MediaCameraPage> {
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
               challenge: widget.challenge,
-              progress: widget.challenge.getLastRepetition()!.addProgress(),
+              progress: widget.challenge
+                  .getOrCreateLastRepetition()
+                  .addProgress(mediaIds: currentMedia),
             ),
           ),
         ).then((_) => setState(() {}));

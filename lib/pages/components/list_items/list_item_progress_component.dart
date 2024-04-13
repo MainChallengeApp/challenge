@@ -25,7 +25,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       child: Row(
         children: [
           ContainerInContainerTextComponent(
-              text: '${widget.progress.progress} ${widget.unit}')
+              text: '${widget.progress.percentProgress} ${widget.unit}')
         ],
       ),
     );

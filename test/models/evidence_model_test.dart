@@ -22,7 +22,7 @@ void main() {
       expect(progress[0].mediaIds, equals(['1', '2', '3']));
       expect(progress[0].percentProgress, equals(1.0));
       expect(progress[0].date, equals(date));
-      expect(progress[0].frequencyAmount, equals(1));
+      expect(progress[0].repetitionNumber, equals(1));
     });
   });
 }

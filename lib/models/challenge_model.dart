@@ -197,6 +197,13 @@ class ChallengeModel {
     return repetitions.last;
   }
 
+  RepetitionModel getOrCreateLastRepetition() {
+    return getLastRepetition() ??
+        RepetitionModel.empty(
+            repetitionNumber: getCurrentRepetitionNumber(),
+            goalAmount: acceptanceCriteria.amount);
+  }
+
   ProgressModel? getCurrentRepetitionProgress() {
     if (getLastRepetition() != null) {
       return getLastRepetition()!.getLastProgress();
