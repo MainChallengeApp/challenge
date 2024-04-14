@@ -114,7 +114,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       children: [
         editSlider(challenge),
         seperator(challenge),
-        deleteSlider(),
+        deleteSlider(challenge),
         const SpaceComponent(),
       ],
     );
@@ -156,12 +156,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  deleteSlider() {
+  deleteSlider(ChallengeModel challenge) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
         child: GestureDetector(
-          onTap: deleteChallenge,
+          onTap: () => deleteChallenge(challenge),
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
@@ -394,10 +394,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
   }
 
-  void deleteChallenge() {
-    allChallengesList
-        .removeWhere((element) => element.id == currentChallenge.id);
-    challengeList.removeWhere((element) => element.id == currentChallenge.id);
+  void deleteChallenge(ChallengeModel challenge) {
+    allChallengesList.removeWhere((element) => element.id == challenge.id);
+    challengeList.removeWhere((element) => element.id == challenge.id);
     challengeController.writeFile(allChallengesList);
 
     setState(() {
