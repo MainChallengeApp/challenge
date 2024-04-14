@@ -230,7 +230,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       return Container();
     }
 
-    if (challenge.status == ChallengeStatusEnum.backlog) {
+    if (challenge.status == ChallengeStatusEnum.backlog ||
+        challenge.getLastRepetition() == null) {
       return CustomButtonComponent(
         onTap: () => onTapStart(challenge),
         text: "Start",

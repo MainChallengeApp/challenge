@@ -47,6 +47,6 @@ class _ListItemRepetitionComponentState
   ContainerInContainerTextComponent progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsInt(widget.repetition.getLastProgressPercentage())} ${widget.challenge.acceptanceCriteria.unit}');
+            '${DesignUtil.doubleAsInt(widget.repetition.getLastProgressProgress())}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
   }
 }

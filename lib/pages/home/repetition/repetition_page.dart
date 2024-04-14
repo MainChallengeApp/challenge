@@ -88,13 +88,15 @@ class _RepetitionPageState extends State<RepetitionPage> {
             }
 
             RepetitionModel repetition;
-            if (index < widget.challenge.repetitions.length) {
-              repetition = widget.challenge
-                  .repetitions[widget.challenge.repetitions.length - 1 - index];
+            if ((widget.challenge.getCurrentRepetitionNumber() - 1 - index) <
+                widget.challenge.repetitions.length) {
+              repetition = widget.challenge.repetitions[
+                  widget.challenge.getCurrentRepetitionNumber() - 1 - index];
               repetition.evaluateRepetitionStatus(widget.challenge);
             } else {
               repetition = RepetitionModel.empty(
-                  repetitionNumber: index + 1,
+                  repetitionNumber:
+                      widget.challenge.getCurrentRepetitionNumber() - index,
                   goalAmount: widget.challenge.acceptanceCriteria.amount);
             }
             return repetitionListItem(repetition);
@@ -116,6 +118,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           child: ListItemProgressComponent(
         isFailed: repetition.repetitionStatus == RepetitionStatusEnum.failed,
         progress: progress,
+        challenge: widget.challenge,
         unit: acceptanceCriteria.unit,
       )));
     }

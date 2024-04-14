@@ -100,6 +100,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   child: ListItemProgressComponent(
                 onTap: onTapProgressBar,
                 progress: editProgress,
+                challenge: widget.challenge,
                 isFailed: widget.repetition != null
                     ? widget.repetition!.repetitionStatus ==
                         RepetitionStatusEnum.failed

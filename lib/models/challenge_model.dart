@@ -135,7 +135,7 @@ class ChallengeModel {
   }
 
   ChallengeStatusEnum checkChallengeStatus() {
-    if (isCompleted()) {
+    if (isCompleted() && endDate != null) {
       status = ChallengeStatusEnum.success;
     } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
       status = ChallengeStatusEnum.failed;
@@ -199,6 +199,17 @@ class ChallengeModel {
     return repetitions.last;
   }
 
+  RepetitionModel? getCurrentRepetition() {
+    RepetitionModel? lastRepetition = getLastRepetition();
+    if (lastRepetition == null) {
+      return null;
+    }
+    if (!lastRepetition.isCurrentRepetition(this)) {
+      return null;
+    }
+    return lastRepetition;
+  }
+
   RepetitionModel getOrCreateLastRepetition() {
     return getLastRepetition() ??
         RepetitionModel.empty(
@@ -207,14 +218,14 @@ class ChallengeModel {
   }
 
   ProgressModel? getCurrentRepetitionProgress() {
-    if (getLastRepetition() != null) {
+    if (getCurrentRepetition() != null) {
       return getLastRepetition()!.getLastProgress();
     }
     return null;
   }
 
   double getCurrentRepetitionProgressProgess() {
-    var currentRepetition = getLastRepetition();
+    var currentRepetition = getCurrentRepetition();
     if (currentRepetition == null) {
       return 0;
     }
@@ -228,7 +239,7 @@ class ChallengeModel {
   }
 
   double getCurrentRepetitionProgressPercentageProgess() {
-    var currentRepetition = getLastRepetition();
+    var currentRepetition = getCurrentRepetition();
     if (currentRepetition == null) {
       return 0;
     }
@@ -285,10 +296,7 @@ class ChallengeModel {
 
   bool isCompleted() {
     if (frequency.amount != null &&
-            getCurrentRepetitionNumber() <
-                frequency.getMaxAmoutOfRepetitions() ||
-        endDate == null ||
-        endDate!.isAfter(DateTime.now())) {
+        getCurrentRepetitionNumber() < frequency.getMaxAmoutOfRepetitions()!) {
       return false;
     }
 

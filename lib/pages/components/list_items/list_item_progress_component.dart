@@ -1,6 +1,8 @@
+import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
 class ListItemProgressComponent extends StatefulWidget {
@@ -8,11 +10,13 @@ class ListItemProgressComponent extends StatefulWidget {
       {super.key,
       required this.progress,
       required this.unit,
+      required this.challenge,
       this.onTap,
       required this.isFailed});
 
   final ProgressModel progress;
   final String unit;
+  final ChallengeModel challenge;
   final void Function()? onTap;
   final bool isFailed;
 
@@ -26,12 +30,15 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
       onTap: widget.onTap,
-      initialProgress: widget.progress.percentProgress,
+      initialProgress: widget.progress.percentProgress <= 1
+          ? widget.progress.percentProgress
+          : 1,
       isFailed: widget.isFailed,
       child: Row(
         children: [
           ContainerInContainerTextComponent(
-              text: '${widget.progress.percentProgress} ${widget.unit}')
+              text:
+                  '${DesignUtil.doubleAsInt(widget.progress.progress)}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}')
         ],
       ),
     );

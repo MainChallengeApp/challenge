@@ -64,6 +64,13 @@ class RepetitionModel {
     return progressList.last.percentProgress;
   }
 
+  double getLastProgressProgress() {
+    if (progressList.isEmpty) {
+      return 0;
+    }
+    return progressList.last.progress;
+  }
+
   ProgressModel? getLastProgress() {
     if (progressList.isEmpty) {
       return null;
