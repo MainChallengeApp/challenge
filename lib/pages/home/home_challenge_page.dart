@@ -240,7 +240,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
 
     if ((challenge.frequency.amount == 1 ||
-            challenge.getLastRepetition()!.progressList.isEmpty ||
+            challenge.getCurrentRepetition() == null ||
+            challenge.getCurrentRepetition()!.progressList.isEmpty ||
             challenge.getCurrentRepetitionNumber() ==
                 challenge.frequency.getMaxAmoutOfRepetitions()) &&
         challenge.isRunning()) {

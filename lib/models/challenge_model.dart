@@ -137,7 +137,8 @@ class ChallengeModel {
   ChallengeStatusEnum checkChallengeStatus() {
     if (isCompleted() && endDate != null) {
       status = ChallengeStatusEnum.success;
-    } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
+    } else if (endDate != null &&
+        endDate!.isBefore(DesignUtil.dateWithoutTime(DateTime.now()))) {
       status = ChallengeStatusEnum.failed;
     } else if (startDate == null || startDate!.isAfter(DateTime.now())) {
       status = ChallengeStatusEnum.backlog;
@@ -164,7 +165,7 @@ class ChallengeModel {
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount != null) {
-      endDate = startDate!.add(Duration(days: frequency.amount!));
+      endDate = startDate!.add(Duration(days: frequency.amount! - 1));
     } else if (frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount == null) {
       endDate = null;
@@ -296,7 +297,9 @@ class ChallengeModel {
 
   bool isCompleted() {
     if (frequency.amount != null &&
-        getCurrentRepetitionNumber() < frequency.getMaxAmoutOfRepetitions()!) {
+            getCurrentRepetitionNumber() <
+                frequency.getMaxAmoutOfRepetitions()! ||
+        repetitions.length < getCurrentRepetitionNumber()) {
       return false;
     }
 
