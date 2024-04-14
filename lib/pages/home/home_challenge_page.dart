@@ -269,7 +269,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     if (challenge.frequency.type == FrequencyTypeEnum.daily) {
       return CustomButtonComponent(
           onTap: () => onTapNext(challenge),
-          isPrimaryButton: challenge.getLastRepetition()!.isComplete(),
           text: "Next in ${challenge.frequency.nextIn()}");
     }
 
