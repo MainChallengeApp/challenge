@@ -248,9 +248,7 @@ class ChallengeModel {
       return;
     }
 
-    RepetitionModel repetitionInProgress = repetitions.firstWhere(
-        (repetition) =>
-            repetition.repetitionStatus == RepetitionStatusEnum.inProgress);
+    RepetitionModel repetitionInProgress = getLastRepetition()!;
     if (repetitionInProgress.progressList.isEmpty ||
         repetitionInProgress.progressList.last.percentProgress < 1) {
       repetitionInProgress.repetitionStatus = RepetitionStatusEnum.failed;
@@ -279,8 +277,10 @@ class ChallengeModel {
   }
 
   void nextRepetition() {
-    evaluateRepetition();
-    addRepetition();
+    if (frequency.type == FrequencyTypeEnum.time) {
+      evaluateRepetition();
+      addRepetition();
+    }
   }
 
   bool isCompleted() {

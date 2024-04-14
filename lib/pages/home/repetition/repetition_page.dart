@@ -91,12 +91,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
             if (index < widget.challenge.repetitions.length) {
               repetition = widget.challenge
                   .repetitions[widget.challenge.repetitions.length - 1 - index];
+              repetition.evaluateRepetitionStatus(widget.challenge);
             } else {
               repetition = RepetitionModel.empty(
                   repetitionNumber: index + 1,
                   goalAmount: widget.challenge.acceptanceCriteria.amount);
             }
-            repetition.evaluateRepetitionStatus(widget.challenge);
             return repetitionListItem(repetition);
           }),
     );
