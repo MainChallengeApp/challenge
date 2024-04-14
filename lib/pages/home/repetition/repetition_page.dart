@@ -94,10 +94,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   widget.challenge.getCurrentRepetitionNumber() - 1 - index];
               repetition.evaluateRepetitionStatus(widget.challenge);
             } else {
-              repetition = RepetitionModel.empty(
-                  repetitionNumber:
-                      widget.challenge.getCurrentRepetitionNumber() - index,
-                  goalAmount: widget.challenge.acceptanceCriteria.amount);
+              repetition = widget.challenge.addRepetition();
             }
             return repetitionListItem(repetition);
           }),
