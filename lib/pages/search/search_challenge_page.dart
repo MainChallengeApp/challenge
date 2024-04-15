@@ -229,8 +229,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     allChallengesList.insert(0, challengeCopy);
     challengeList.insert(0, challengeCopy);
     await challengeController.writeFile(allChallengesList);
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
 
     widget.selectTab(TabItemEnum.Home);
 
