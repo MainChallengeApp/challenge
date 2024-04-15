@@ -8,6 +8,8 @@ const Color themeColor2 = Color.fromRGBO(51, 65, 85, 1);
 const Color themeColor3 = Color.fromRGBO(100, 116, 139, 1);
 const Color themeColor4 = Color.fromRGBO(241, 245, 249, 1);
 const Color themeColor5 = Color.fromRGBO(226, 232, 240, 1);
+Color green = Colors.green.withAlpha(90);
+Color red = Colors.red.withAlpha(90);
 
 const double basicFontSize = 14;
 

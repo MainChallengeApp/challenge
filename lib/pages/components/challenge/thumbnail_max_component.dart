@@ -3,13 +3,13 @@ import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
 
 class ThumbnailMaxComponent extends StatelessWidget {
-  final ChallengeModel challengeModel;
+  final ChallengeModel challenge;
   final dynamic Function() onTapOpenMediaPage;
   final bool isMediaListVisible;
 
   const ThumbnailMaxComponent(
       {super.key,
-      required this.challengeModel,
+      required this.challenge,
       required this.onTapOpenMediaPage,
       this.isMediaListVisible = true});
 
@@ -28,15 +28,14 @@ class ThumbnailMaxComponent extends StatelessWidget {
             Center(
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: challengeModel.getThumbnailPath() != ''
-                      ? challengeModel.isThumbnailFromAssetsImage()
+                  child: challenge.getThumbnailPath() != ''
+                      ? challenge.isThumbnailFromAssetsImage()
                           ? Transform.scale(
                               scale: 0.8,
-                              child: Image.asset(
-                                  challengeModel.getThumbnailPath(),
+                              child: Image.asset(challenge.getThumbnailPath(),
                                   fit: BoxFit.contain),
                             )
-                          : Image.asset(challengeModel.getThumbnailPath(),
+                          : Image.asset(challenge.getThumbnailPath(),
                               fit: BoxFit.cover)
                       : const Icon(Icons.question_mark, color: themeColor3)),
             ),
@@ -56,7 +55,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            challengeModel.media.length.toString(),
+                            challenge.media.length.toString(),
                             textAlign: TextAlign.end,
                             style:
                                 const TextStyle(fontWeight: FontWeight.normal),

@@ -46,8 +46,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   late BuildContext context2;
   late BuildContext context3;
 
-  late ChallengeModel currentChallenge = widget.initChallenge;
-
   late PageController pageController =
       PageController(initialPage: widget.initialChalleneIndex);
 
@@ -67,8 +65,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    currentChallenge.checkChallengeStatus();
-
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
@@ -83,18 +79,19 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               endActionPane: endActionPane(challenge),
               child: Builder(builder: (context) {
                 context2 = context;
+                challenge.checkChallengeStatus();
                 return CardComponent(
                   scrollPhysics: challengeList.length == 1
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
                     thumbnail(challenge),
-                    title(challenge.title),
+                    title(challenge),
                     description(challenge),
                     startAndEndDate(challenge),
                     acceptanceCriteria(challenge),
                     expandedSpace(),
-                    documentationButtons(context),
+                    documentationButtons(context, challenge),
                     startEndTryAcceptAgainButton(challenge)
                   ],
                 );
@@ -106,10 +103,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   endActionPane(ChallengeModel challenge) {
     return ActionPane(
-      extentRatio: (challenge.status == ChallengeStatusEnum.inProgress ||
-              challenge.status == ChallengeStatusEnum.backlog)
-          ? 0.5
-          : 0.25,
+      extentRatio: (challenge.isEditable()) ? 0.5 : 0.25,
       motion: const ScrollMotion(),
       children: [
         editSlider(challenge),
@@ -121,8 +115,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   seperator(ChallengeModel challenge) {
-    return (challenge.status == ChallengeStatusEnum.inProgress ||
-            challenge.status == ChallengeStatusEnum.backlog)
+    return (challenge.isEditable())
         ? const SpaceComponent(
             width: 20,
           )
@@ -133,10 +126,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return isDescriptionExpanded ? Container() : Expanded(child: Container());
   }
 
-  title(String challengeTitle) {
+  title(ChallengeModel challenge) {
     return Column(
       children: [
-        TitleComponent(challengeTitle: challengeTitle),
+        TitleComponent(challenge: challenge),
         const SpaceComponent(
           height: 11,
         )
@@ -144,11 +137,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  thumbnail(ChallengeModel e) {
+  thumbnail(ChallengeModel challenge) {
     return Column(
       children: [
         ThumbnailMaxComponent(
-            challengeModel: e, onTapOpenMediaPage: onTapOpenMediaPage),
+            challenge: challenge,
+            onTapOpenMediaPage: () => onTapOpenMediaPage(challenge)),
         const SpaceComponent(
           height: 11,
         )
@@ -191,14 +185,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  editSlider(ChallengeModel e) {
-    return (e.status == ChallengeStatusEnum.inProgress ||
-            e.status == ChallengeStatusEnum.backlog)
+  editSlider(ChallengeModel challenge) {
+    return (challenge.isEditable())
         ? Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: GestureDetector(
-                onTap: onTapEditChallenge,
+                onTap: () => onTapEditChallenge(challenge),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -230,8 +223,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       return Container();
     }
 
-    if (challenge.status == ChallengeStatusEnum.backlog ||
-        challenge.getLastRepetition() == null) {
+    if (challenge.status == ChallengeStatusEnum.backlog) {
       return CustomButtonComponent(
         onTap: () => onTapStart(challenge),
         text: "Start",
@@ -244,7 +236,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             challenge.getCurrentRepetition()!.progressList.isEmpty ||
             challenge.getCurrentRepetitionNumber() ==
                 challenge.frequency.getMaxAmoutOfRepetitions()) &&
-        challenge.isRunning()) {
+        challenge.isInProgress()) {
       return CustomButtonComponent(
         onTap: () => onTapEnd(challenge),
         text: "End",
@@ -280,7 +272,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         text: "Next");
   }
 
-  documentationButtons(BuildContext context) {
+  documentationButtons(BuildContext context, ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
         : SpaceColumnComponent(
@@ -306,7 +298,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                   isGrayedOut: true,
                 ),
                 DocumentationButtonComponent(
-                    iconData: Icons.camera_alt_outlined, onTap: onTapCamera),
+                    iconData: Icons.camera_alt_outlined,
+                    onTap: () => onTapCamera(challenge)),
               ],
             ),
           );
@@ -375,18 +368,18 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             challenge: challenge);
   }
 
-  void onTapEditChallenge() {
+  void onTapEditChallenge(ChallengeModel challenge) {
     setState(() {
       Slidable.of(context2)?.close(duration: Duration.zero);
     });
-    if (currentChallenge.status == ChallengeStatusEnum.inProgress ||
-        currentChallenge.status == ChallengeStatusEnum.backlog) {
+    if (challenge.status == ChallengeStatusEnum.inProgress ||
+        challenge.status == ChallengeStatusEnum.backlog) {
       Navigator.push(
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
-            preTitle: '${widget.preTitle}/${currentChallenge.title}',
-            challenge: currentChallenge,
+            preTitle: '${widget.preTitle}/${challenge.title}',
+            challenge: challenge,
           ),
         ),
       ).then((_) => setState(() {
@@ -412,14 +405,14 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
   }
 
-  void onTapOpenMediaPage() {
+  void onTapOpenMediaPage(ChallengeModel challenge) {
     context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
-          preTitle: '${widget.preTitle}/${currentChallenge.title}',
-          challenge: currentChallenge,
+          preTitle: '${widget.preTitle}/${challenge.title}',
+          challenge: challenge,
         ),
       ),
     ).then((_) => setState(() {
@@ -429,7 +422,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   void onPageChanged(int value) {
     setState(() {
-      currentChallenge = challengeList[value];
       currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
       isDescriptionExpanded = false;
@@ -449,7 +441,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         }));
   }
 
-  onTapCamera() async {
+  onTapCamera(ChallengeModel challenge) async {
     // Ensure that plugin services are initialized so that `availableCameras()`
     // can be called before `runApp()`
     WidgetsFlutterBinding.ensureInitialized();
@@ -466,9 +458,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
           cameras: cameras,
-          preTitle: '${widget.preTitle}/${currentChallenge.title}',
-          mediaList: currentChallenge.media,
-          challenge: currentChallenge,
+          preTitle: '${widget.preTitle}/${challenge.title}',
+          mediaList: challenge.media,
+          challenge: challenge,
         ),
       ),
     ).then((_) => setState(() {
@@ -476,13 +468,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         }));
   }
 
-  dialogYesButton() {
+  dialogYesButton(ChallengeModel challenge) {
     return GestureDetector(
       onTap: () {
         Navigator.pop(context3);
         context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
-          currentChallenge.end();
+          challenge.end();
         });
         // challengeList.map((challenge) => challenge.id == currentChallenge.id
         //     ? currentChallenge
@@ -575,7 +567,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     ),
                     Row(
                       children: [
-                        Expanded(child: dialogYesButton()),
+                        Expanded(child: dialogYesButton(challenge)),
                         const SpaceComponent(),
                         Expanded(child: dialogNoButton())
                       ],
@@ -592,7 +584,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   onTapAgain(ChallengeModel challenge) {
     // Try Again Button and Accept Again
-    Navigator.pop(context);
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -606,7 +597,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           );
         },
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   onTapNext(ChallengeModel challenge) {

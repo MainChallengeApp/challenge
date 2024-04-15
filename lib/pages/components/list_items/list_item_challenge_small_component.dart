@@ -1,5 +1,7 @@
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge_model.dart';
 
@@ -60,7 +62,8 @@ class _ListItemChallengeSmallComponentState
               maxLines: 1,
             ),
           ),
-          progressRecurring(),
+          // progressRecurring(),
+          percentageDone()
           // progressCircle()
         ],
       ),
@@ -81,8 +84,8 @@ class _ListItemChallengeSmallComponentState
                   : widget.challenge
                       .getCurrentRepetitionProgressPercentageProgess(),
               color: widget.challenge.status == ChallengeStatusEnum.failed
-                  ? Colors.red[300]
-                  : Colors.green[300],
+                  ? red
+                  : green,
             ))
         : Container();
   }
@@ -101,5 +104,16 @@ class _ListItemChallengeSmallComponentState
                 style: const TextStyle(fontSize: 10, color: themeColor3),
                 overflow: TextOverflow.ellipsis),
           );
+  }
+
+  percentageDone() {
+    return widget.isSearchChallenge
+        ? Container()
+        : ContainerInContainerTextComponent(
+            margin: const EdgeInsets.all(0),
+            color: widget.challenge.isFailed() ? red : green,
+            // textColor: Colors.black,
+            text:
+                '${DesignUtil.doubleAsInt((widget.challenge.getCurrentPercentage() * 100).roundToDouble())} %');
   }
 }

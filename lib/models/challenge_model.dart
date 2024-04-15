@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
@@ -96,7 +98,7 @@ class ChallengeModel {
   static ChallengeModel copyChallenge(
       {required ChallengeModel challenge, bool isTryAgain = false}) {
     ChallengeModel challengeCopy = ChallengeModel(
-        status: isTryAgain ? ChallengeStatusEnum.inProgress : challenge.status,
+        status: isTryAgain ? ChallengeStatusEnum.backlog : challenge.status,
         title: challenge.title,
         startDate: isTryAgain ? null : challenge.startDate,
         endDate: isTryAgain ? null : challenge.endDate,
@@ -135,10 +137,9 @@ class ChallengeModel {
   }
 
   ChallengeStatusEnum checkChallengeStatus() {
-    if (isCompleted() && endDate != null) {
+    if (isCompleted() && endDate != null && endDate!.isBefore(DateTime.now())) {
       status = ChallengeStatusEnum.success;
-    } else if (endDate != null &&
-        endDate!.isBefore(DesignUtil.dateWithoutTime(DateTime.now()))) {
+    } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
       status = ChallengeStatusEnum.failed;
     } else if (startDate == null || startDate!.isAfter(DateTime.now())) {
       status = ChallengeStatusEnum.backlog;
@@ -165,7 +166,7 @@ class ChallengeModel {
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount != null) {
-      endDate = startDate!.add(Duration(days: frequency.amount! - 1));
+      endDate = startDate!.add(Duration(days: frequency.amount!));
     } else if (frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount == null) {
       endDate = null;
@@ -299,11 +300,21 @@ class ChallengeModel {
     if (frequency.amount != null &&
             getCurrentRepetitionNumber() <
                 frequency.getMaxAmoutOfRepetitions()! ||
-        repetitions.length < getCurrentRepetitionNumber()) {
+        frequency.amount != null &&
+            repetitions.length < getCurrentRepetitionNumber()) {
       return false;
     }
 
-    for (var repetition in repetitions) {
+    List<RepetitionModel> relevantRepetitions =
+        RepetitionModel.copyRepetitionList(repetitions);
+
+    if (frequency.amount == null &&
+        relevantRepetitions.isNotEmpty &&
+        relevantRepetitions.last.progressList.isEmpty) {
+      relevantRepetitions.removeLast();
+    }
+
+    for (var repetition in relevantRepetitions) {
       if (!repetition.isComplete()) {
         return false;
       }
@@ -315,13 +326,14 @@ class ChallengeModel {
     if (frequency.type == FrequencyTypeEnum.daily) {
       if (startDate == null) {
         return 0;
-      } else if (DesignUtil.dateWithoutTime(DateTime.now())
-          .isBefore(startDate!)) {
+      } else if (DateTime.now().isBefore(startDate!)) {
         return 0;
       }
       var days = DateTime.now().difference(startDate!).inDays + 1;
-      var frequencyAmount = frequency.amount ?? 0;
-      return days > frequencyAmount ? frequencyAmount : days;
+      if (frequency.amount == null) {
+        return days;
+      }
+      return min(days, frequency.amount!);
     } else if (frequency.type == FrequencyTypeEnum.time) {
       return repetitions.length;
     } else {
@@ -330,7 +342,7 @@ class ChallengeModel {
   }
 
   void start() {
-    startDate = DesignUtil.dateWithoutTime(DateTime.now());
+    startDate = DateTime.now();
     setEndDate();
     status = ChallengeStatusEnum.inProgress;
     evaluateRepetition();
@@ -346,7 +358,43 @@ class ChallengeModel {
     }
   }
 
-  bool isRunning() {
+  bool isInProgress() {
     return status == ChallengeStatusEnum.inProgress;
+  }
+
+  bool isSucceeded() {
+    return status == ChallengeStatusEnum.success;
+  }
+
+  bool isFailed() {
+    return status == ChallengeStatusEnum.failed;
+  }
+
+  bool isEditable() {
+    return status == ChallengeStatusEnum.backlog;
+  }
+
+  double getCurrentPercentage() {
+    if (getCurrentRepetitionNumber() == 0) {
+      return 0;
+    }
+
+    if (frequency.amount != null && frequency.amount! < 2) {
+      return getCurrentRepetitionProgressPercentageProgess();
+    }
+
+    double percentage = 0;
+
+    for (RepetitionModel repetition in repetitions) {
+      percentage += min(1, repetition.getLastProgressPercentage());
+    }
+
+    if (frequency.amount == null) {
+      return percentage / getCurrentRepetitionNumber();
+    }
+
+    double currentPercentage =
+        percentage / frequency.getMaxAmoutOfRepetitions()!;
+    return currentPercentage;
   }
 }

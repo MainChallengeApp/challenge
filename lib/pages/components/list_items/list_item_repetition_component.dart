@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
@@ -26,7 +28,7 @@ class _ListItemRepetitionComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
-      initialProgress: widget.repetition.getLastProgressPercentage(),
+      initialProgress: min(1, widget.repetition.getLastProgressPercentage()),
       isFailed: widget.repetition.isFailed(widget.challenge),
       onTap: widget.onTap,
       child: SingleChildScrollView(
@@ -41,7 +43,7 @@ class _ListItemRepetitionComponentState
   ContainerInContainerTextComponent repetition() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.repetition.repetitionNumber}/${widget.challenge.frequency.amount} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
+            '${widget.repetition.repetitionNumber}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
   }
 
   ContainerInContainerTextComponent progress() {

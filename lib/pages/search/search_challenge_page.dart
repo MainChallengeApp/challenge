@@ -45,11 +45,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   bool isKeyboardUp = false;
 
   late int currentChallengeIndex = widget.initChalleneIndex;
-  late ChallengeModel currentChallenge = widget.initChallenge;
 
   @override
   Widget build(BuildContext context) {
-    currentChallenge = widget.challenges[currentChallengeIndex];
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -78,13 +76,13 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                                 : const NeverScrollableScrollPhysics(),
                         children: [
                           thumbnail(challenge, context),
-                          title(challenge.title),
+                          title(challenge),
                           description(challenge),
                           startAndEndDate(challenge),
                           amountAndUnit(challenge),
                           frequency(challenge),
                           expandedSpace(),
-                          acceptButton()
+                          acceptButton(challenge)
                         ],
                       );
                     }),
@@ -141,11 +139,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     return isDescriptionExpanded ? Container() : Expanded(child: Container());
   }
 
-  acceptButton() {
+  acceptButton(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
         : GestureDetector(
-            onTap: onTapAccept,
+            onTap: () => onTapAccept(challenge),
             child: Container(
               height: 55,
               width: double.infinity,
@@ -168,7 +166,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     return Column(
       children: [
         ThumbnailMaxComponent(
-          challengeModel: challenge,
+          challenge: challenge,
           isMediaListVisible: false,
           onTapOpenMediaPage: () => onTapOpenMediaPage(context),
         ),
@@ -221,9 +219,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           );
   }
 
-  void onTapAccept() async {
+  void onTapAccept(ChallengeModel challenge) async {
     ChallengeModel challengeCopy =
-        ChallengeModel.copyChallenge(challenge: currentChallenge);
+        ChallengeModel.copyChallenge(challenge: challenge);
 
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);
@@ -254,7 +252,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   void onPageChanged(int value) {
     setState(() {
-      currentChallenge = widget.challenges[value];
       currentChallengeIndex = value;
       pageController = PageController(initialPage: value);
       isDescriptionExpanded = false;
@@ -302,10 +299,13 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           );
   }
 
-  title(String challengeTitle) {
+  title(ChallengeModel challenge) {
     return Column(
       children: [
-        TitleComponent(challengeTitle: challengeTitle),
+        TitleComponent(
+          challenge: challenge,
+          isSearch: true,
+        ),
         const SpaceComponent(
           height: 11,
         )

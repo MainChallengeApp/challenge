@@ -129,13 +129,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void onTapSave() async {
     // check inputs e.g. endDate > startDate
 
-    widget.challenge.title = widget.editChallenge.title;
-    widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
-    widget.challenge.description = widget.editChallenge.description;
-    widget.challenge.startDate = widget.editChallenge.startDate;
-    widget.challenge.endDate = widget.editChallenge.endDate;
-    widget.challenge.acceptanceCriteria =
-        widget.editChallenge.acceptanceCriteria;
+    ChallengeModel newChallenge =
+        ChallengeModel.copyChallenge(challenge: widget.editChallenge);
 
     if (widget.isSearchEdit) {
       Navigator.pop(context);
@@ -152,24 +147,24 @@ class _EditChallengePageState extends State<EditChallengePage> {
       //         .status = ChallengStatus.factory('Success');
       //     challengeController.writeFile(context, allChallengesList);
 
-      allChallengesList.map((e) {
+      allChallengesList = allChallengesList.map((e) {
         if (e.id == widget.challenge.id) {
-          return widget.challenge;
+          return newChallenge;
         }
         return e;
       }).toList(); //[widget.challenge.id!] = widget.challenge;
     } else {
-      allChallengesList.insert(0, widget.challenge);
+      allChallengesList.insert(0, newChallenge);
     }
     if (challengeList.contains(widget.challenge)) {
-      challengeList.map((e) {
+      challengeList = challengeList.map((e) {
         if (e.id == widget.challenge.id) {
-          return widget.challenge;
+          return newChallenge;
         }
         return e;
       }).toList(); //[widget.challenge.id!] = widget.challenge;
     } else {
-      challengeList.insert(0, widget.challenge);
+      challengeList.insert(0, newChallenge);
     }
     // var r = challengeList;
     // challengeList.insert(0, widget.challenge);

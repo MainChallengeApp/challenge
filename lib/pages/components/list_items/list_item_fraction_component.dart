@@ -1,3 +1,4 @@
+import 'package:challenge/globals.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                    color: widget.isFailed ? Colors.red : Colors.green,
+                    color: widget.isFailed ? red : green,
                     borderRadius: const BorderRadius.all(Radius.circular(23))),
               ),
             ),
@@ -52,7 +53,6 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                    color: Colors.white.withAlpha(170),
                     border: Border.all(
                         width: 1,
                         strokeAlign: BorderSide.strokeAlignOutside,

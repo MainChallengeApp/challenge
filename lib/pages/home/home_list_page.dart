@@ -81,6 +81,8 @@ class _HomeListPageState extends State<HomeListPage> {
                     ChallengeModel challenge = challengeList[index -
                         1 -
                         1]; // -1 for new Challenge listitem - 1 for searchbar
+
+                    challenge.checkChallengeStatus();
                     return SpaceColumnComponent(
                       child: ListItemChallengeSmallComponent(
                         onTap: () => ppush(context,

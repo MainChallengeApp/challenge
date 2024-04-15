@@ -39,12 +39,13 @@ class RepetitionModel {
 
     final currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
 
-    if (currentRepetitionNumber == repetitionNumber) {
+    if (currentRepetitionNumber == repetitionNumber &&
+        challenge.isInProgress()) {
       repetitionStatus = RepetitionStatusEnum.inProgress;
       return repetitionStatus;
     }
 
-    if (currentRepetitionNumber > repetitionNumber) {
+    if (currentRepetitionNumber >= repetitionNumber) {
       repetitionStatus = RepetitionStatusEnum.failed;
       return repetitionStatus;
     }

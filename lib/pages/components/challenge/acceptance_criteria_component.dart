@@ -1,5 +1,5 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -42,8 +42,8 @@ class _AcceptanceCriteriaComponentState
                   decoration: BoxDecoration(
                       color:
                           widget.challenge.status == ChallengeStatusEnum.failed
-                              ? Colors.red
-                              : Colors.green,
+                              ? red
+                              : green,
                       borderRadius:
                           const BorderRadius.all(Radius.circular(16))),
                 ),
@@ -60,7 +60,7 @@ class _AcceptanceCriteriaComponentState
                   padding: const EdgeInsets.all(10),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: Colors.white.withAlpha(170),
+                      // color: Colors.white.withAlpha(170),
                       border: Border.all(
                           width: 1,
                           color: const Color.fromRGBO(226, 232, 240, 1)),
@@ -71,8 +71,9 @@ class _AcceptanceCriteriaComponentState
                     child: Row(
                       children: [
                         // progressPercentage(widget.challenge.acceptanceCriteria),
-                        repetition(widget.challenge.acceptanceCriteria),
-                        progressAbsolute(widget.challenge.acceptanceCriteria),
+                        repetition(),
+                        repetitionPercentage(),
+                        progressAbsolute(),
                       ],
                     ),
                   ))
@@ -83,17 +84,32 @@ class _AcceptanceCriteriaComponentState
     );
   }
 
-  progressAbsolute(AcceptanceCriteriaModel acceptanceCriteria) {
-    return acceptanceCriteria.unit != '' || acceptanceCriteria.amount != 0
+  repetition() {
+    return widget.challenge.frequency.amount != 1
         ? ContainerInContainerTextComponent(
             text:
-                '${DesignUtil.doubleAsInt(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsInt(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}')
+                '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
         : Container();
   }
 
-  repetition(AcceptanceCriteriaModel acceptanceCriteria) {
+  progressAbsolute() {
+    return widget.challenge.acceptanceCriteria.unit != '' ||
+            widget.challenge.acceptanceCriteria.amount != 0
+        ? ContainerInContainerTextComponent(
+            text:
+                '${DesignUtil.doubleAsInt(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+        : Container();
+  }
+
+  percentageDone() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
+            '${DesignUtil.doubleAsInt((widget.challenge.getCurrentPercentage() * 100).roundToDouble())} %');
+  }
+
+  repetitionPercentage() {
+    return ContainerInContainerTextComponent(
+        text:
+            '${DesignUtil.doubleAsInt((widget.challenge.getCurrentRepetitionProgressPercentageProgess() * 100).roundToDouble())} %');
   }
 }
