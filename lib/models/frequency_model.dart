@@ -7,7 +7,7 @@ class FrequencyModel {
 
   FrequencyModel({this.amount, required this.type});
 
-  FrequencyModel.empty({this.type = FrequencyTypeEnum.time});
+  FrequencyModel.empty({this.amount = 1, this.type = FrequencyTypeEnum.time});
 
   int? getMaxAmoutOfRepetitions() {
     if (amount == null) {
