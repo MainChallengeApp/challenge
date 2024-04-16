@@ -30,7 +30,9 @@ class TitleComponent extends StatelessWidget {
           ),
         ),
         ChallengeTotalPercentageComponent(
-            challenge: challenge, isVisible: !isSearch)
+            challenge: challenge,
+            isVisible: !isSearch,
+            padding: const EdgeInsets.all(8))
       ],
     );
   }

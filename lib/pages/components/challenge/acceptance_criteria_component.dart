@@ -72,8 +72,8 @@ class _AcceptanceCriteriaComponentState
                       children: [
                         // progressPercentage(widget.challenge.acceptanceCriteria),
                         repetition(),
+                        repetitionProgressAbsolute(),
                         repetitionPercentage(),
-                        progressAbsolute(),
                       ],
                     ),
                   ))
@@ -92,7 +92,7 @@ class _AcceptanceCriteriaComponentState
         : Container();
   }
 
-  progressAbsolute() {
+  repetitionProgressAbsolute() {
     return widget.challenge.acceptanceCriteria.unit != '' ||
             widget.challenge.acceptanceCriteria.amount != 0
         ? ContainerInContainerTextComponent(

@@ -57,8 +57,8 @@ class ThumbnailMaxComponent extends StatelessWidget {
                           Text(
                             challenge.media.length.toString(),
                             textAlign: TextAlign.end,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.normal),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.normal, fontSize: 12),
                           ),
                           const Icon(
                             Icons.image_outlined,

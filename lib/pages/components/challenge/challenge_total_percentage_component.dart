@@ -7,14 +7,19 @@ import 'package:flutter/material.dart';
 class ChallengeTotalPercentageComponent extends StatelessWidget {
   final ChallengeModel challenge;
   final bool isVisible;
+  final EdgeInsets? padding;
 
   const ChallengeTotalPercentageComponent(
-      {super.key, required this.challenge, this.isVisible = true});
+      {super.key,
+      required this.challenge,
+      this.isVisible = true,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.all(0),
+        padding: padding,
         color: isVisible
             ? (challenge.isFailed()
                 ? red
