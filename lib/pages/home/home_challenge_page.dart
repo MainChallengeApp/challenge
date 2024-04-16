@@ -170,14 +170,14 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               children: [
                 Icon(
                   Icons.delete,
-                  color: Colors.red.withAlpha(150),
+                  color: red,
                 ),
                 const SizedBox(
                   height: 5,
                 ),
                 Text(
                   "Delete",
-                  style: TextStyle(color: Colors.red.withAlpha(150)),
+                  style: TextStyle(color: red),
                 )
               ],
             )),
