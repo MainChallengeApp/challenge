@@ -103,15 +103,17 @@ class _ListItemChallengeSmallComponentState
   }
 
   endActionPane() {
-    return ActionPane(
-        extentRatio: 0.22,
-        motion: const ScrollMotion(),
-        children: [
-          deleteSlider(),
-          const SpaceComponent(
-            width: 20,
-          )
-        ]);
+    return widget.isSearch
+        ? null
+        : ActionPane(
+            extentRatio: 0.22,
+            motion: const ScrollMotion(),
+            children: [
+                deleteSlider(),
+                const SpaceComponent(
+                  width: 20,
+                )
+              ]);
   }
 
   deleteSlider() {
