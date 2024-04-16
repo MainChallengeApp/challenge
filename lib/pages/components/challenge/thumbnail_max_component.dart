@@ -48,7 +48,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
+                              const BorderRadius.all(Radius.circular(8)),
                           color: themeColor2.withAlpha(120)),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,

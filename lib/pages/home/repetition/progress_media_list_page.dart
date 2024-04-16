@@ -214,9 +214,17 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       //     .progressList
       //     .add(progress);
 
-      allChallengesList.map((element) {
-        element.id == widget.challenge.id ? widget.challenge : element;
-      });
+      allChallengesList = allChallengesList
+          .map((oldChallenge) => oldChallenge.id == widget.challenge.id
+              ? widget.challenge
+              : oldChallenge)
+          .toList();
+
+      challengeList = challengeList
+          .map((oldChallenge) => oldChallenge.id == widget.challenge.id
+              ? widget.challenge
+              : oldChallenge)
+          .toList();
       // .firstWhere((element) => element.id == widget.challenge.id) = widget.challenge;
 
       challengeController.writeFile(allChallengesList);

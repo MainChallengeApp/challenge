@@ -50,7 +50,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
   Widget _buildList() {
     return FutureBuilder(
-        future: challengesFutures,
+        future: challengeController.readFile(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -132,7 +132,7 @@ class _HomeListPageState extends State<HomeListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: widget.title,
-            initChallenge: challenge,
+            challenges: challengeList,
             initialChalleneIndex: index),
       ),
     ).then((_) => setState(() {}));

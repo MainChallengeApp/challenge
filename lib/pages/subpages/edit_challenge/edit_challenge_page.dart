@@ -39,8 +39,6 @@ class EditChallengePage extends StatefulWidget {
 }
 
 class _EditChallengePageState extends State<EditChallengePage> {
-  int selectedAcceptanceCriteria = 0;
-
   ChallengeController challengeController = ChallengeController();
 
   @override
@@ -127,17 +125,22 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void onTapSave() async {
-    // check inputs e.g. endDate > startDate
-
-    ChallengeModel newChallenge =
-        ChallengeModel.copyChallenge(challenge: widget.editChallenge);
+    widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
+    widget.challenge.title = widget.editChallenge.title;
+    widget.challenge.description = widget.editChallenge.description;
+    widget.challenge.acceptanceCriteria =
+        widget.editChallenge.acceptanceCriteria;
+    widget.challenge.frequency = widget.editChallenge.frequency;
+    widget.challenge.startDate = widget.editChallenge.startDate;
+    widget.challenge.endDate = widget.editChallenge.endDate;
+    widget.challenge.categories = widget.editChallenge.categories;
 
     if (widget.isSearchEdit) {
       Navigator.pop(context);
       return;
     }
 
-    if (allChallengesList.contains(widget.challenge)) {
+    if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
       // wip
       // challengeList.firstWhere((element) => element == widget.challenge).status =
       //         ChallengStatus.factory('Success');
@@ -149,22 +152,22 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
       allChallengesList = allChallengesList.map((e) {
         if (e.id == widget.challenge.id) {
-          return newChallenge;
+          return widget.challenge;
         }
         return e;
       }).toList(); //[widget.challenge.id!] = widget.challenge;
     } else {
-      allChallengesList.insert(0, newChallenge);
+      allChallengesList.insert(0, widget.challenge);
     }
-    if (challengeList.contains(widget.challenge)) {
+    if (challengeList.map((e) => e.id).contains(widget.challenge.id)) {
       challengeList = challengeList.map((e) {
         if (e.id == widget.challenge.id) {
-          return newChallenge;
+          return widget.challenge;
         }
         return e;
       }).toList(); //[widget.challenge.id!] = widget.challenge;
     } else {
-      challengeList.insert(0, newChallenge);
+      challengeList.insert(0, widget.challenge);
     }
     // var r = challengeList;
     // challengeList.insert(0, widget.challenge);
@@ -180,7 +183,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
-            initChallenge: widget.challenge,
+            challenges: challengeList,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
     );

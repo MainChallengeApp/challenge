@@ -20,6 +20,7 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.all(0),
         padding: padding,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isVisible
             ? (challenge.isFailed()
                 ? red

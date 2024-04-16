@@ -40,7 +40,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   bool isDescriptionExpanded = false;
   late PageController pageController =
       PageController(initialPage: widget.initChalleneIndex);
-  late BuildContext context2;
+  Map<ChallengeModel, BuildContext> challengeSlidableContextMap = {};
 
   bool isKeyboardUp = false;
 
@@ -67,7 +67,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                     closeOnScroll: true,
                     endActionPane: endActionPane(challenge),
                     child: Builder(builder: (context) {
-                      context2 = context;
+                      challengeSlidableContextMap[challenge] = context;
                       return CardComponent(
                         scrollPhysics: isKeyboardUp
                             ? const AlwaysScrollableScrollPhysics()
@@ -243,7 +243,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           preTitle: 'Home',
-          initChallenge: challengeCopy,
+          challenges: challengeList,
           initialChalleneIndex: 0,
         ), // Todo: change initalChallengeIndex when id is known from backend
       ),
@@ -259,7 +259,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   void onTapEditChallenge(ChallengeModel challenge) {
-    Slidable.of(context2)?.close(duration: Duration.zero);
+    setState(() {
+      if (challengeSlidableContextMap[challenge] != null) {
+        Slidable.of(challengeSlidableContextMap[challenge]!)!
+            .close(duration: Duration.zero);
+      }
+    });
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

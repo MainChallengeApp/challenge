@@ -30,11 +30,11 @@ class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage(
       {super.key,
       required this.preTitle,
-      required this.initChallenge,
-      required this.initialChalleneIndex});
+      required this.initialChalleneIndex,
+      required this.challenges});
   final String preTitle;
-  final ChallengeModel initChallenge;
   final int initialChalleneIndex;
+  final List<ChallengeModel> challenges;
 
   @override
   State<HomeChallengePage> createState() => _HomeChallengePageState();
@@ -43,7 +43,7 @@ class HomeChallengePage extends StatefulWidget {
 class _HomeChallengePageState extends State<HomeChallengePage> {
   bool isDescriptionExpanded = false;
 
-  late BuildContext context2;
+  Map<ChallengeModel, BuildContext> challengeSlidableContextMap = {};
   late BuildContext context3;
 
   late PageController pageController =
@@ -72,16 +72,17 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
-          children: challengeList.map((challenge) {
+          children: widget.challenges.map((challenge) {
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
+              key: ObjectKey(challenge),
               endActionPane: endActionPane(challenge),
               child: Builder(builder: (context) {
-                context2 = context;
+                challengeSlidableContextMap[challenge] = context;
                 challenge.checkChallengeStatus();
                 return CardComponent(
-                  scrollPhysics: challengeList.length == 1
+                  scrollPhysics: widget.challenges.length == 1
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
@@ -102,11 +103,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   endActionPane(ChallengeModel challenge) {
+    BuildContext? slidableContext = challengeSlidableContextMap[challenge];
     return ActionPane(
       extentRatio: (challenge.isEditable()) ? 0.5 : 0.25,
       motion: const ScrollMotion(),
       children: [
-        editSlider(challenge),
+        editSlider(challenge, slidableContext),
         seperator(challenge),
         deleteSlider(challenge),
         const SpaceComponent(),
@@ -185,13 +187,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  editSlider(ChallengeModel challenge) {
+  editSlider(ChallengeModel challenge, BuildContext? slidableContext) {
     return (challenge.isEditable())
         ? Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: GestureDetector(
-                onTap: () => onTapEditChallenge(challenge),
+                onTap: () => onTapEditChallenge(challenge, slidableContext),
                 child: Container(
                   decoration: BoxDecoration(
                       color: Colors.white,
@@ -368,12 +370,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             challenge: challenge);
   }
 
-  void onTapEditChallenge(ChallengeModel challenge) {
+  void onTapEditChallenge(
+      ChallengeModel challenge, BuildContext? slidableContext) {
     setState(() {
-      Slidable.of(context2)?.close(duration: Duration.zero);
+      if (slidableContext != null) {
+        Slidable.of(slidableContext)!.close(duration: Duration.zero);
+      }
     });
-    if (challenge.status == ChallengeStatusEnum.inProgress ||
-        challenge.status == ChallengeStatusEnum.backlog) {
+    if (challenge.isEditable()) {
+      // currentChallengeIndex = widget.challenges.indexOf(challenge);
       Navigator.push(
         context,
         NoAnimationPageRouteComponent(
@@ -382,24 +387,26 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             challenge: challenge,
           ),
         ),
-      ).then((_) => setState(() {
-            context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-          }));
+      ).then((_) => {setState(() {})});
     }
   }
 
   void deleteChallenge(ChallengeModel challenge) {
+    // if (slidableContext != null) {
+    Slidable.of(context)?.close(duration: Duration.zero);
+    // }
+
     allChallengesList.removeWhere((element) => element.id == challenge.id);
+    widget.challenges.removeWhere((element) => element.id == challenge.id);
     challengeList.removeWhere((element) => element.id == challenge.id);
     challengeController.writeFile(allChallengesList);
 
     setState(() {
-      if (currentChallengeIndex >= challengeList.length) {
-        currentChallengeIndex = challengeList.length - 1;
+      if (currentChallengeIndex >= widget.challenges.length) {
+        currentChallengeIndex = widget.challenges.length - 1;
       }
-      Slidable.of(context2)?.close(duration: Duration.zero);
     });
-    if (challengeList.isEmpty) {
+    if (widget.challenges.isEmpty) {
       context.read<DesignProvider>().triggerSetStateHomeList();
       Navigator.pop(context);
     }
@@ -476,13 +483,22 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         setState(() {
           challenge.end();
         });
-        // challengeList.map((challenge) => challenge.id == currentChallenge.id
-        //     ? currentChallenge
-        //     : challenge);
-        // allChallengesList.map((challenge) =>
-        //     challenge.id == currentChallenge.id
-        //         ? currentChallenge
-        //         : challenge);
+
+        allChallengesList = allChallengesList
+            .map((oldChallenge) =>
+                oldChallenge.id == challenge.id ? challenge : oldChallenge)
+            .toList();
+
+        challengeList = challengeList
+            .map((oldChallenge) =>
+                oldChallenge.id == challenge.id ? challenge : oldChallenge)
+            .toList();
+
+        widget.challenges
+            .map((oldChallenge) =>
+                oldChallenge.id == challenge.id ? challenge : oldChallenge)
+            .toList();
+
         challengeController.writeFile(allChallengesList);
       },
       child: Align(
@@ -533,9 +549,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   onTapStart(ChallengeModel challenge) {
     setState(() {
       challenge.start();
+      allChallengesList = allChallengesList.map((e) {
+        return e.id == challenge.id ? challenge : e;
+      }).toList();
+      challengeList = challengeList
+          .map((e) => e.id == challenge.id ? challenge : e)
+          .toList();
+      widget.challenges.map((e) => e.id == challenge.id ? challenge : e);
+      challengeController.writeFile(allChallengesList);
     });
-    allChallengesList.map((e) => e.id == challenge.id ? challenge : e);
-    challengeController.writeFile(allChallengesList);
   }
 
   onTapEnd(ChallengeModel challenge) {
@@ -603,6 +625,14 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   onTapNext(ChallengeModel challenge) {
     setState(() {
       challenge.nextRepetition();
+      allChallengesList = allChallengesList.map((e) {
+        return e.id == challenge.id ? challenge : e;
+      }).toList();
+      challengeList = challengeList
+          .map((e) => e.id == challenge.id ? challenge : e)
+          .toList();
+      widget.challenges.map((e) => e.id == challenge.id ? challenge : e);
+      challengeController.writeFile(allChallengesList);
     });
   }
 }

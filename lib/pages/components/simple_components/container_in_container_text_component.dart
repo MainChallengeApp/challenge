@@ -9,6 +9,7 @@ class ContainerInContainerTextComponent extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Border? border;
   final EdgeInsets? padding;
+  final BorderRadius? borderRadius;
 
   const ContainerInContainerTextComponent(
       {super.key,
@@ -17,7 +18,8 @@ class ContainerInContainerTextComponent extends StatelessWidget {
       this.textColor,
       this.margin,
       this.border,
-      this.padding});
+      this.padding,
+      this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class ContainerInContainerTextComponent extends StatelessWidget {
         padding: padding,
         color: color,
         border: border,
+        borderRadius: borderRadius,
         child: Text(text,
             style: TextStyle(fontSize: 10, color: textColor ?? themeColor3),
             overflow: TextOverflow.ellipsis));
