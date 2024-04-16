@@ -30,7 +30,7 @@ class TitleComponent extends StatelessWidget {
           ),
         ),
         ChallengeTotalPercentageComponent(
-            challenge: challenge, isSearch: isSearch)
+            challenge: challenge, isVisible: !isSearch)
       ],
     );
   }

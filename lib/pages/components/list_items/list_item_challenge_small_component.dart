@@ -1,7 +1,6 @@
+import 'package:challenge/pages/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
-import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge_model.dart';
 
@@ -12,11 +11,11 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
       {super.key,
       required this.onTap,
       required this.challenge,
-      this.isSearchChallenge = false});
+      this.isSearch = false});
 
   final dynamic Function() onTap;
   final ChallengeModel challenge;
-  final bool isSearchChallenge;
+  final bool isSearch;
 
   @override
   State<ListItemChallengeSmallComponent> createState() =>
@@ -90,30 +89,10 @@ class _ListItemChallengeSmallComponentState
         : Container();
   }
 
-  progressRecurring() {
-    return widget.isSearchChallenge
-        ? Container()
-        : Container(
-            margin: const EdgeInsets.only(right: 2),
-            padding: const EdgeInsets.all(10),
-            decoration: const BoxDecoration(
-                color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            child: Text(
-                '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}',
-                style: const TextStyle(fontSize: 10, color: themeColor3),
-                overflow: TextOverflow.ellipsis),
-          );
-  }
-
   percentageDone() {
-    return widget.isSearchChallenge
-        ? Container()
-        : ContainerInContainerTextComponent(
-            margin: const EdgeInsets.all(0),
-            color: widget.challenge.isFailed() ? red : green,
-            // textColor: Colors.black,
-            text:
-                '${DesignUtil.doubleAsInt((widget.challenge.getCurrentPercentage() * 100).roundToDouble())} %');
+    return ChallengeTotalPercentageComponent(
+      challenge: widget.challenge,
+      isVisible: !widget.isSearch,
+    );
   }
 }

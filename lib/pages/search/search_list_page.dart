@@ -112,7 +112,7 @@ class _SearchListPageState extends State<SearchListPage> {
                               index:
                                   index - 1), // widget.onPush?.call(challenge),
                           challenge: challenge,
-                          isSearchChallenge: true,
+                          isSearch: true,
                         ),
                         const SpaceComponent()
                       ],

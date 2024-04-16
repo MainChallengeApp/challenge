@@ -6,21 +6,27 @@ import 'package:flutter/material.dart';
 
 class ChallengeTotalPercentageComponent extends StatelessWidget {
   final ChallengeModel challenge;
-  final bool isSearch;
+  final bool isVisible;
 
   const ChallengeTotalPercentageComponent(
-      {super.key, required this.challenge, this.isSearch = false});
+      {super.key, required this.challenge, this.isVisible = true});
 
   @override
   Widget build(BuildContext context) {
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.all(0),
-        color: isSearch
-            ? Colors.transparent
-            : (challenge.isFailed() ? red : green),
-        // textColor: Colors.black,
-        text: isSearch
-            ? ''
-            : '${DesignUtil.doubleAsInt((challenge.getCurrentPercentage() * 100).roundToDouble())} %');
+        color: isVisible
+            ? (challenge.isFailed()
+                ? red
+                : challenge.isCompleted()
+                    ? green
+                    : null)
+            : Colors.transparent,
+        textColor: challenge.isFailed() || challenge.isCompleted()
+            ? Colors.white
+            : null,
+        text: isVisible
+            ? '${DesignUtil.doubleAsInt((challenge.getCurrentPercentage() * 100).roundToDouble())} %'
+            : '');
   }
 }

@@ -5,9 +5,10 @@ class ContainerInContainerComponent extends StatelessWidget {
   final Widget child;
   final Color? color;
   final EdgeInsetsGeometry? margin;
+  final Border? border;
 
   const ContainerInContainerComponent(
-      {super.key, required this.child, this.color, this.margin});
+      {super.key, required this.child, this.color, this.margin, this.border});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class ContainerInContainerComponent extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: color ?? themeColor4,
+          border: border,
           borderRadius: const BorderRadius.all(Radius.circular(12))),
       child: child,
     );

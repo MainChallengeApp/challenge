@@ -7,15 +7,22 @@ class ContainerInContainerTextComponent extends StatelessWidget {
   final Color? color;
   final Color? textColor;
   final EdgeInsetsGeometry? margin;
+  final Border? border;
 
   const ContainerInContainerTextComponent(
-      {super.key, required this.text, this.color, this.textColor, this.margin});
+      {super.key,
+      required this.text,
+      this.color,
+      this.textColor,
+      this.margin,
+      this.border});
 
   @override
   Widget build(BuildContext context) {
     return ContainerInContainerComponent(
         margin: margin,
         color: color,
+        border: border,
         child: Text(text,
             style: TextStyle(fontSize: 10, color: textColor ?? themeColor3),
             overflow: TextOverflow.ellipsis));
