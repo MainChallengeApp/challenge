@@ -60,6 +60,8 @@ class _HomeListPageState extends State<HomeListPage> {
                 .where((element) => element.searchInChallenge(searchBarText))
                 .toList();
 
+            sortChallengeList();
+
             return RawScrollbar(
               controller: scrollController,
               radius: const Radius.circular(4),
@@ -96,6 +98,11 @@ class _HomeListPageState extends State<HomeListPage> {
             return const Center(child: Text('Error with loading data...'));
           }
         });
+  }
+
+  void sortChallengeList() {
+    challengeList.sort(
+        (a, b) => a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
   }
 
   SpaceColumnComponent newChallenge() {
