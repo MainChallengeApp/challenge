@@ -1,21 +1,26 @@
 import 'package:challenge/pages/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/models/challenge_model.dart';
 
 import 'package:challenge/globals.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemChallengeSmallComponent extends StatefulWidget {
-  const ListItemChallengeSmallComponent(
-      {super.key,
-      required this.onTap,
-      required this.challenge,
-      this.isSearch = false});
+  const ListItemChallengeSmallComponent({
+    super.key,
+    required this.onTap,
+    required this.challenge,
+    this.isSearch = false,
+    this.onTapDeleteChallenge,
+  });
 
   final dynamic Function() onTap;
   final ChallengeModel challenge;
   final bool isSearch;
+  final void Function()? onTapDeleteChallenge;
 
   @override
   State<ListItemChallengeSmallComponent> createState() =>
@@ -27,6 +32,7 @@ class _ListItemChallengeSmallComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
+      endActionPane: endActionPane(),
       onTap: widget.onTap,
       child: Row(
         children: [
@@ -93,6 +99,38 @@ class _ListItemChallengeSmallComponentState
     return ChallengeTotalPercentageComponent(
       challenge: widget.challenge,
       isVisible: !widget.isSearch,
+    );
+  }
+
+  endActionPane() {
+    return ActionPane(
+        extentRatio: 0.22,
+        motion: const ScrollMotion(),
+        children: [
+          deleteSlider(),
+          const SpaceComponent(
+            width: 20,
+          )
+        ]);
+  }
+
+  deleteSlider() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: widget.onTapDeleteChallenge,
+        child: Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(24))),
+          child: Center(
+              child: Icon(
+            Icons.delete,
+            color: red,
+          )),
+        ),
+      ),
     );
   }
 }

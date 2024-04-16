@@ -90,6 +90,7 @@ class _HomeListPageState extends State<HomeListPage> {
                         onTap: () => ppush(context,
                             challenge: challenge, index: index - 1 - 1),
                         challenge: challenge,
+                        onTapDeleteChallenge: () => deleteChallenge(challenge),
                       ),
                     );
                   }),
@@ -156,5 +157,13 @@ class _HomeListPageState extends State<HomeListPage> {
         ),
       ),
     ).then((_) => setState(() {}));
+  }
+
+  void deleteChallenge(ChallengeModel challenge) {
+    allChallengesList.removeWhere((element) => element.id == challenge.id);
+    challengeList.removeWhere((element) => element.id == challenge.id);
+    challengeController.writeFile(allChallengesList);
+
+    setState(() {});
   }
 }
