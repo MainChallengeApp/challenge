@@ -24,11 +24,11 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
         color: isVisible
             ? (challenge.isFailed()
                 ? red
-                : challenge.isCompleted()
+                : challenge.isSucceeded()
                     ? green
                     : null)
             : Colors.transparent,
-        textColor: challenge.isFailed() || challenge.isCompleted()
+        textColor: challenge.isFailed() || challenge.isSucceeded()
             ? Colors.white
             : null,
         text: isVisible

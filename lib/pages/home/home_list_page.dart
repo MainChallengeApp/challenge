@@ -33,7 +33,8 @@ class _HomeListPageState extends State<HomeListPage> {
   @override
   void initState() {
     super.initState();
-    challengesFutures = challengeController.readFile();
+    challengeController.readFile().then((value) => allChallengesList =
+        value); //.catchError((error) => const Center(child: CircularProgressIndicator());
   }
 
   @override
@@ -49,61 +50,63 @@ class _HomeListPageState extends State<HomeListPage> {
   }
 
   Widget _buildList() {
-    return FutureBuilder(
-        future: challengeController.readFile(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            allChallengesList = snapshot.data!;
-            challengeList = snapshot.data!
-                .where((element) => element.searchInChallenge(searchBarText))
-                .toList();
+    challengeList = allChallengesList
+        .where((element) => element.searchInChallenge(searchBarText))
+        .toList();
 
-            sortChallengeList();
+    sortChallengeList();
 
-            return RawScrollbar(
-              controller: scrollController,
-              radius: const Radius.circular(4),
-              thumbColor: themeColor3,
-              padding: const EdgeInsets.only(right: 4),
-              child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  controller: scrollController,
-                  itemCount: challengeList.length +
-                      1 +
-                      1, // +1 for new Challenge listitem + 1 for searchbar
-                  itemBuilder: (BuildContext content, int index) {
-                    if (index == 0) {
-                      return searchBar();
-                    }
-                    if (index == 1) {
-                      return newChallenge();
-                    }
-                    ChallengeModel challenge = challengeList[index -
-                        1 -
-                        1]; // -1 for new Challenge listitem - 1 for searchbar
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          itemCount: challengeList.length +
+              1 +
+              1, // +1 for new Challenge listitem + 1 for searchbar
+          itemBuilder: (BuildContext content, int index) {
+            if (index == 0) {
+              return searchBar();
+            }
+            if (index == 1) {
+              return newChallenge();
+            }
+            ChallengeModel challenge = challengeList[index -
+                1 -
+                1]; // -1 for new Challenge listitem - 1 for searchbar
 
-                    challenge.checkChallengeStatus();
-                    return SpaceColumnComponent(
-                      child: ListItemChallengeSmallComponent(
-                        onTap: () => ppush(context,
-                            challenge: challenge, index: index - 1 - 1),
-                        challenge: challenge,
-                        onTapDeleteChallenge: () => deleteChallenge(challenge),
-                      ),
-                    );
-                  }),
+            challenge.checkChallengeStatus();
+            return SpaceColumnComponent(
+              child: ListItemChallengeSmallComponent(
+                onTap: () =>
+                    ppush(context, challenge: challenge, index: index - 1 - 1),
+                challenge: challenge,
+                onTapDeleteChallenge: () => deleteChallenge(challenge),
+              ),
             );
-          } else {
-            return const Center(child: Text('Error with loading data...'));
-          }
-        });
+          }),
+    );
   }
 
   void sortChallengeList() {
-    challengeList.sort(
-        (a, b) => a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
+    for (ChallengeModel challenge in challengeList) {
+      challenge.checkChallengeStatus();
+    }
+    // challengeList.sort((a, b) => a.isSucceeded() && !b.isSucceeded()
+    //     ? -1
+    //     : b.isSucceeded() && !a.isSucceeded()
+    //         ? 1
+    //         : 0);
+    challengeList.sort((a, b) =>
+        (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
+            ? 1
+            : (b.isSucceeded() || b.isFailed()) &&
+                    !(a.isSucceeded() || a.isFailed())
+                ? -1
+                : a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
   }
 
   SpaceColumnComponent newChallenge() {

@@ -79,8 +79,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           title(challenge),
                           description(challenge),
                           startAndEndDate(challenge),
-                          amountAndUnit(challenge),
                           frequency(challenge),
+                          amountAndUnit(challenge),
                           expandedSpace(),
                           acceptButton(challenge)
                         ],
@@ -213,7 +213,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         ? Container()
         : Column(
             children: [
-              StartAndEndDateComponent(editChallenge: challenge),
+              StartAndEndDateComponent(
+                editChallenge: challenge,
+                reloadSearchChallengePage: () => setState2(),
+              ),
               const SpaceComponent()
             ],
           );

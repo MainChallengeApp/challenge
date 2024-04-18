@@ -26,18 +26,21 @@ class ThumbnailMaxComponent extends StatelessWidget {
         child: Stack(
           children: [
             Center(
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  child: challenge.getThumbnailPath() != ''
-                      ? challenge.isThumbnailFromAssetsImage()
-                          ? Transform.scale(
-                              scale: 0.8,
-                              child: Image.asset(challenge.getThumbnailPath(),
-                                  fit: BoxFit.contain),
-                            )
-                          : Image.asset(challenge.getThumbnailPath(),
-                              fit: BoxFit.cover)
-                      : const Icon(Icons.question_mark, color: themeColor3)),
+              child: Container(
+                width: double.infinity,
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    child: challenge.getThumbnailPath() != ''
+                        ? challenge.isThumbnailFromAssetsImage()
+                            ? Transform.scale(
+                                scale: 0.8,
+                                child: Image.asset(challenge.getThumbnailPath(),
+                                    fit: BoxFit.contain),
+                              )
+                            : Image.asset(challenge.getThumbnailPath(),
+                                fit: BoxFit.cover)
+                        : const Icon(Icons.question_mark, color: themeColor3)),
+              ),
             ),
             isMediaListVisible
                 ? Align(
@@ -45,24 +48,27 @@ class ThumbnailMaxComponent extends StatelessWidget {
                     child: Container(
                       clipBehavior: Clip.none,
                       margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8)),
-                          color: themeColor2.withAlpha(120)),
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: themeColor4),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            challenge.media.length.toString(),
+                            '${challenge.media.length}',
                             textAlign: TextAlign.end,
                             style: const TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 12),
+                                color: themeColor3,
+                                fontWeight: FontWeight.w100,
+                                fontSize: 10),
                           ),
+                          const SizedBox(width: 2),
                           const Icon(
                             Icons.image_outlined,
-                            size: 15,
+                            color: themeColor3,
+                            size: 10,
                           )
                         ],
                       ),

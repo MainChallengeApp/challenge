@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 class StartAndEndDateComponent extends StatefulWidget {
   final ChallengeModel editChallenge;
   final bool isLocked;
+  final Function? reloadSearchChallengePage;
 
   const StartAndEndDateComponent(
-      {super.key, required this.editChallenge, this.isLocked = false});
+      {super.key,
+      required this.editChallenge,
+      this.isLocked = false,
+      this.reloadSearchChallengePage});
 
   @override
   State<StartAndEndDateComponent> createState() =>
@@ -97,6 +101,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
       } else if (startOrEnd == 'end') {
         widget.editChallenge.endDate = null;
         widget.editChallenge.setFrequencyAmount();
+        widget.reloadSearchChallengePage?.call();
       }
     });
 
@@ -113,16 +118,21 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 if (!isDateTimeChanged) {
                   widget.editChallenge.startDate = initialDateTime ??
                       DesignUtil.dateWithoutTime(DateTime.now());
+                  if (widget.editChallenge.endDate == null) {
+                    widget.editChallenge.setEndDate();
+                  }
+                  widget.editChallenge.setFrequencyAmount();
+                  widget.reloadSearchChallengePage?.call();
                 }
-                widget.editChallenge.setEndDate();
               });
             } else if (startOrEnd == 'end') {
               setState(() {
                 if (!isDateTimeChanged) {
                   widget.editChallenge.endDate = initialDateTime ??
                       DesignUtil.dateWithoutTime(DateTime.now());
+                  widget.editChallenge.setFrequencyAmount();
+                  widget.reloadSearchChallengePage?.call();
                 }
-                widget.editChallenge.setFrequencyAmount();
               });
             }
           },
@@ -158,6 +168,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                   } else if (startOrEnd == 'end') {
                     widget.editChallenge.endDate = value;
                     widget.editChallenge.setFrequencyAmount();
+                    widget.reloadSearchChallengePage?.call();
                   }
                 });
               },

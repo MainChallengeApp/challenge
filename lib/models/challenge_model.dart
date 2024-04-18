@@ -55,6 +55,8 @@ class ChallengeModel {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();
     frequency = FrequencyModel.empty();
+    repetitions = [];
+    media = [];
   }
 
   static ChallengeModel fromJson(Map json) {
@@ -150,10 +152,8 @@ class ChallengeModel {
   }
 
   String getThumbnailPath() {
-    if (thumbnailPath.isNotEmpty) {
-      return thumbnailPath;
-    } else if (media.isNotEmpty) {
-      thumbnailPath = media.last.source;
+    if (thumbnailPath.isEmpty && media.isNotEmpty) {
+      return media.last.source;
     }
     return thumbnailPath;
   }
@@ -174,6 +174,8 @@ class ChallengeModel {
   }
 
   setFrequencyAmount() {
+    if (startDate == null && endDate == null) return;
+
     if (startDate != null &&
         endDate != null &&
         frequency.type == FrequencyTypeEnum.daily) {
@@ -274,7 +276,8 @@ class ChallengeModel {
     RepetitionModel? currentRepetition = getLastRepetition();
     if (currentRepetition == null ||
         frequency.amount == null ||
-        currentRepetition.repetitionNumber < frequency.amount!) {
+        currentRepetition.repetitionNumber <
+            frequency.getMaxAmoutOfRepetitions()!) {
       int newRepetitionNumber = currentRepetition == null
           ? 1
           : currentRepetition.repetitionNumber + 1;
@@ -343,7 +346,11 @@ class ChallengeModel {
 
   void start() {
     startDate = DateTime.now();
-    setEndDate();
+    if (endDate == null) {
+      setEndDate();
+    } else {
+      setFrequencyAmount();
+    }
     status = ChallengeStatusEnum.inProgress;
     evaluateRepetition();
     addRepetition();
@@ -356,6 +363,10 @@ class ChallengeModel {
     } else {
       status = ChallengeStatusEnum.failed;
     }
+  }
+
+  bool isInBacklog() {
+    return status == ChallengeStatusEnum.backlog;
   }
 
   bool isInProgress() {

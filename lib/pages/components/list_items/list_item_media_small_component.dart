@@ -1,21 +1,27 @@
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media_model.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemMediaSmallComponent extends StatelessWidget {
   const ListItemMediaSmallComponent(
-      {super.key, required this.onTap, required this.media});
+      {super.key,
+      required this.onTap,
+      required this.media,
+      this.onTapDeleteMedia});
 
   final dynamic Function() onTap;
-
+  final Function()? onTapDeleteMedia;
   final MediaModel media;
 
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
+      endActionPane: endActionPane,
       onTap: onTap,
       child: Row(
         children: [
@@ -48,6 +54,38 @@ class ListItemMediaSmallComponent extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  ActionPane endActionPane(Function closeSlideable) {
+    return ActionPane(
+      extentRatio: 0.22,
+      motion: const ScrollMotion(),
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              closeSlideable();
+              onTapDeleteMedia?.call();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(24))),
+              child: Center(
+                  child: Icon(
+                Icons.delete,
+                color: red,
+              )),
+            ),
+          ),
+        ),
+        const SpaceComponent(
+          width: 20,
+        )
+      ],
     );
   }
 }

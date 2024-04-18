@@ -34,12 +34,15 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
           ? widget.progress.percentProgress
           : 1,
       isFailed: widget.isFailed,
-      child: Row(
-        children: [
-          ContainerInContainerTextComponent(
-              text:
-                  '${DesignUtil.doubleAsInt(widget.progress.progress)}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}')
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            ContainerInContainerTextComponent(
+                text:
+                    '${DesignUtil.doubleAsInt(widget.progress.progress)}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}')
+          ],
+        ),
       ),
     );
   }

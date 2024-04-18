@@ -2,6 +2,8 @@ import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainerComponent extends StatelessWidget {
+  static const double height = 55;
+
   final double heightFactor;
   final Color backgroundColor;
   final Widget child;
@@ -22,7 +24,7 @@ class CustomContainerComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: isQuadratic ? 55 : double.infinity,
-      height: 55 * heightFactor,
+      height: height * heightFactor,
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(

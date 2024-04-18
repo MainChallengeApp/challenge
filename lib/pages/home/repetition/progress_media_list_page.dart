@@ -430,8 +430,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   ),
                 ),
               )),
-          const SizedBox(
+          Container(
             width: 16,
+            margin: const EdgeInsets.only(bottom: 16),
+            child: const Center(
+              child: Text('/'),
+            ),
           ),
           Expanded(
               flex: 2,
@@ -441,7 +445,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   child: TextField(
                     enabled: false,
                     controller: TextEditingController()
-                      ..text = widget.challenge.acceptanceCriteria.unit,
+                      ..text =
+                          '${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
                     decoration:
                         const InputDecoration.collapsed(hintText: 'Unit'),
                   ),

@@ -122,9 +122,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
               widget.reloadSeachChallengePage?.call();
             },
             onTap: () => setState(() {
-              if (widget.setIsKeyboardUp != null) {
-                widget.setIsKeyboardUp!(true);
-              }
+              widget.setIsKeyboardUp?.call(true);
             }),
             decoration: const InputDecoration.collapsed(hintText: '∞'),
           ),

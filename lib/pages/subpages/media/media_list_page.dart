@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
@@ -51,7 +53,8 @@ class _MediaListPageState extends State<MediaListPage> {
 
   _buildList() {
     List<MediaModel> mediaList = widget.challenge.media
-        .where((element) => element.title.contains(searchBarText))
+        .where((element) =>
+            element.title.toLowerCase().contains(searchBarText.toLowerCase()))
         .toList();
 
     return RawScrollbar(
@@ -93,8 +96,11 @@ class _MediaListPageState extends State<MediaListPage> {
             // }
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
-                onTap: () => ppush(context, index: index - 1 - 1),
-                media: mediaList[index - 1 - 1],
+                onTap: () => ppush(context,
+                    index: (mediaList.length - 1) - (index - 1 - 1)),
+                media: mediaList[(mediaList.length - 1) - (index - 1 - 1)],
+                onTapDeleteMedia: () => onTapDeleteMedia(
+                    mediaList[(mediaList.length - 1) - (index - 1 - 1)]),
               ),
             );
           }),
@@ -135,6 +141,35 @@ class _MediaListPageState extends State<MediaListPage> {
             source: file.path));
         challengeController.writeFile(allChallengesList);
       });
+    }
+  }
+
+  onTapDeleteMedia(MediaModel media) {
+    {
+      File file = File(media.source);
+      file.exists().then((value) {
+        if (value) {
+          file.delete();
+        }
+      });
+
+      widget.challenge.media.removeWhere((element) => element.id == media.id);
+      for (var repetition in widget.challenge.repetitions) {
+        for (var progress in repetition.progressList) {
+          progress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
+        }
+      }
+
+      allChallengesList
+          .map((challenge) => challenge.id == widget.challenge.id
+              ? widget.challenge
+              : challenge)
+          .toList();
+
+      ChallengeController challengeController = ChallengeController();
+      challengeController.writeFile(allChallengesList);
+
+      setState(() {});
     }
   }
 }

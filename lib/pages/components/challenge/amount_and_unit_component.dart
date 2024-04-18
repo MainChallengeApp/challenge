@@ -9,9 +9,13 @@ import 'package:flutter/services.dart';
 class AmountAndUnitComponent extends StatefulWidget {
   final AcceptanceCriteriaModel acceptanceCriteria;
   final Function(bool)? setIsKeyboardUp;
+  final Function()? onReloadSearchListPage;
 
   const AmountAndUnitComponent(
-      {super.key, required this.acceptanceCriteria, this.setIsKeyboardUp});
+      {super.key,
+      required this.acceptanceCriteria,
+      this.setIsKeyboardUp,
+      this.onReloadSearchListPage});
 
   @override
   State<AmountAndUnitComponent> createState() => _AmountAndUnitComponentState();
@@ -47,11 +51,11 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
               onChanged: (value) {
                 widget.acceptanceCriteria.unit = value;
               },
-              onTap: () => widget.setIsKeyboardUp ?? (true),
-              onSubmitted: (_) => widget.setIsKeyboardUp ?? (false),
+              onTap: () => widget.setIsKeyboardUp?.call(true),
+              onSubmitted: (_) => widget.setIsKeyboardUp?.call(false),
               onEditingComplete: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-                widget.setIsKeyboardUp ?? (false);
+                widget.setIsKeyboardUp?.call(false);
               },
               decoration: const InputDecoration.collapsed(hintText: 'Unit'),
             ),
@@ -92,7 +96,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
               }
             });
           },
-          onTap: () => widget.setIsKeyboardUp ?? (true),
+          onTap: () => widget.setIsKeyboardUp?.call(true),
           decoration: const InputDecoration.collapsed(hintText: '0'),
         ),
       ),

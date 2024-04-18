@@ -79,7 +79,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: max(1, widget.challenge.getCurrentRepetitionNumber()),
           itemBuilder: (BuildContext content, int index) {
-            if (widget.challenge.getCurrentRepetitionNumber() == 0) {
+            if (widget.challenge.isInBacklog()) {
               return ListItemButtonComponent(
                 onTap: onTapStartChallenge,
                 text: "Start Challenge",
@@ -89,7 +89,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
             RepetitionModel repetition;
             if ((widget.challenge.getCurrentRepetitionNumber() - 1 - index) <
-                widget.challenge.repetitions.length) {
+                    widget.challenge.repetitions.length &&
+                (widget.challenge.getCurrentRepetitionNumber() - 1 - index) >=
+                    0) {
               repetition = widget.challenge.repetitions[
                   widget.challenge.getCurrentRepetitionNumber() - 1 - index];
               repetition.evaluateRepetitionStatus(widget.challenge);

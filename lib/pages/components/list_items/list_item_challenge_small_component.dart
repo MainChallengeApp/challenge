@@ -29,10 +29,11 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
 
 class _ListItemChallengeSmallComponentState
     extends State<ListItemChallengeSmallComponent> {
+  late BuildContext context2;
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
-      endActionPane: endActionPane(),
+      endActionPane: endActionPane,
       onTap: widget.onTap,
       child: Row(
         children: [
@@ -102,24 +103,27 @@ class _ListItemChallengeSmallComponentState
     );
   }
 
-  endActionPane() {
+  ActionPane? endActionPane(Function closeSlideable) {
     return widget.isSearch
         ? null
         : ActionPane(
             extentRatio: 0.22,
             motion: const ScrollMotion(),
             children: [
-                deleteSlider(),
+                deleteSlider(closeSlideable),
                 const SpaceComponent(
                   width: 20,
                 )
               ]);
   }
 
-  deleteSlider() {
+  deleteSlider(Function closeSlideable) {
     return Expanded(
       child: GestureDetector(
-        onTap: widget.onTapDeleteChallenge,
+        onTap: () {
+          closeSlideable();
+          widget.onTapDeleteChallenge?.call();
+        },
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
