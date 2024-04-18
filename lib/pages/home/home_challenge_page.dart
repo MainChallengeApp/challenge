@@ -111,7 +111,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         editSlider(challenge, slidableContext),
         seperator(challenge),
         deleteSlider(challenge),
-        const SpaceComponent(),
+        const SpaceComponent(
+          width: 20,
+        ),
       ],
     );
   }
