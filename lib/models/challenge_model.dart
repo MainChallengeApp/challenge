@@ -209,7 +209,8 @@ class ChallengeModel {
       return null;
     }
     if (!lastRepetition.isCurrentRepetition(this)) {
-      return null;
+      return repetitions.firstWhere((repetition) =>
+          repetition.repetitionNumber == getCurrentRepetitionNumber());
     }
     return lastRepetition;
   }
