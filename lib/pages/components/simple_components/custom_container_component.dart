@@ -2,7 +2,7 @@ import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainerComponent extends StatelessWidget {
-  static const double height = 55;
+  static const double standardHeight = 55;
 
   final double heightFactor;
   final Color backgroundColor;
@@ -10,6 +10,8 @@ class CustomContainerComponent extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final bool isQuadratic;
   final EdgeInsetsGeometry? padding;
+  final double? height;
+  final double? borderRadius;
 
   const CustomContainerComponent(
       {super.key,
@@ -18,19 +20,21 @@ class CustomContainerComponent extends StatelessWidget {
       this.backgroundColor = Colors.white,
       this.margin,
       this.isQuadratic = false,
-      this.padding = const EdgeInsets.all(10)});
+      this.padding = const EdgeInsets.all(10),
+      this.height,
+      this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: isQuadratic ? 55 : double.infinity,
-      height: height * heightFactor,
+      width: isQuadratic ? standardHeight : double.infinity,
+      height: height ?? standardHeight * heightFactor,
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(width: 1, color: themeColor5),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 16))),
       child: child,
     );
   }
