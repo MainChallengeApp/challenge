@@ -1,9 +1,9 @@
 import 'dart:math';
-
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/pages/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -34,21 +34,27 @@ class _ListItemRepetitionComponentState
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: [repetition(), progress()],
+          children: [repetitionIcon(), repetition(), progress()],
         ),
       ),
     );
   }
 
-  ContainerInContainerTextComponent repetition() {
+  repetition() {
     return ContainerInContainerTextComponent(
         text:
             '${widget.repetition.repetitionNumber}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
   }
 
-  ContainerInContainerTextComponent progress() {
+  progress() {
     return ContainerInContainerTextComponent(
         text:
             '${DesignUtil.doubleAsInt(widget.repetition.getLastProgressProgress())}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
+  }
+
+  repetitionIcon() {
+    return const IconContainerInListItemComponent(
+      icon: Icons.repeat_rounded,
+    );
   }
 }

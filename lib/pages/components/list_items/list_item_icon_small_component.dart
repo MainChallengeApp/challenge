@@ -1,6 +1,6 @@
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
+import 'package:challenge/pages/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
 
 class ListItemIconSmallComponent extends StatelessWidget {
   static const double iconContainerSize = 40;
@@ -22,18 +22,8 @@ class ListItemIconSmallComponent extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Container(
-            width: iconContainerSize,
-            height: iconContainerSize,
-            decoration: const BoxDecoration(
-                color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
-            margin: const EdgeInsets.only(right: 12),
-            child: Center(
-                child: Icon(
-              icon,
-              color: themeColor3,
-            )),
+          IconContainerInListItemComponent(
+            icon: icon,
           ),
           Text(title)
         ],

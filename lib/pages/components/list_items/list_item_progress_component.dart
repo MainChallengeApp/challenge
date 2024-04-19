@@ -2,6 +2,7 @@ import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/pages/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -37,13 +38,21 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: [
-            ContainerInContainerTextComponent(
-                text:
-                    '${DesignUtil.doubleAsInt(widget.progress.progress)}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}')
-          ],
+          children: [progressIcon(), progress()],
         ),
       ),
+    );
+  }
+
+  progress() {
+    return ContainerInContainerTextComponent(
+        text:
+            '${DesignUtil.doubleAsInt(widget.progress.progress)}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
+  }
+
+  progressIcon() {
+    return const IconContainerInListItemComponent(
+      icon: Icons.north_rounded,
     );
   }
 }
