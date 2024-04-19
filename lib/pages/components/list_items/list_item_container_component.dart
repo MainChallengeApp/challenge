@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemContainerComponent extends StatefulWidget {
+  static const double standardPadding = 12;
+  static const double standardBorderRadius = 24;
+
   final Widget child;
   final Color? backgroundColor;
   final Function? onTap;
@@ -39,11 +42,14 @@ class _ListItemContainerComponentState
             width: double.infinity,
             height: 64,
             margin: const EdgeInsets.only(left: 20, right: 20),
-            padding: widget.padding ?? const EdgeInsets.all(12),
+            padding: widget.padding ??
+                const EdgeInsets.all(
+                    ListItemContainerComponent.standardPadding),
             decoration: BoxDecoration(
                 color: widget.backgroundColor,
                 border: Border.all(width: 1, color: themeColor5),
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
+                borderRadius: const BorderRadius.all(Radius.circular(
+                    ListItemContainerComponent.standardBorderRadius))),
             child: widget.child,
           ),
         );

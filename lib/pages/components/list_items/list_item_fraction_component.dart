@@ -37,7 +37,8 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                 height: 40,
                 decoration: BoxDecoration(
                     color: widget.isFailed ? red : green,
-                    borderRadius: const BorderRadius.all(Radius.circular(23))),
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        ListItemContainerComponent.standardBorderRadius))),
               ),
             ),
             Container(
@@ -46,10 +47,12 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                       color: Colors.white,
                       width: 10,
                       strokeAlign: BorderSide.strokeAlignOutside),
-                  borderRadius: const BorderRadius.all(Radius.circular(23))),
+                  borderRadius: const BorderRadius.all(Radius.circular(
+                      ListItemContainerComponent.standardBorderRadius))),
             ),
             Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(
+                    ListItemContainerComponent.standardPadding),
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -58,7 +61,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
                         strokeAlign: BorderSide.strokeAlignOutside,
                         color: const Color.fromRGBO(226, 232, 240, 1)),
                     borderRadius: const BorderRadius.all(Radius.circular(
-                        23))), // Somehow Radius.circular(24) is off??
+                        ListItemContainerComponent.standardBorderRadius))),
                 child: widget.child)
           ],
         ),

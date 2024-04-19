@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
 class ListItemIconSmallComponent extends StatelessWidget {
+  static const double iconContainerSize = 40;
+
   const ListItemIconSmallComponent(
       {super.key,
       required this.onTap,
@@ -21,8 +23,8 @@ class ListItemIconSmallComponent extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: iconContainerSize,
+            height: iconContainerSize,
             decoration: const BoxDecoration(
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(12))),

@@ -8,6 +8,8 @@ class ContainerInContainerComponent extends StatelessWidget {
   final Border? border;
   final BorderRadius? borderRadius;
   final EdgeInsets? padding;
+  final double? height;
+  final double? width;
 
   const ContainerInContainerComponent(
       {super.key,
@@ -16,13 +18,17 @@ class ContainerInContainerComponent extends StatelessWidget {
       this.margin,
       this.border,
       this.padding,
-      this.borderRadius});
+      this.borderRadius,
+      this.height,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: margin ?? const EdgeInsets.only(right: 10),
       padding: padding ?? const EdgeInsets.all(10),
+      height: height,
+      width: width,
       decoration: BoxDecoration(
           color: color ?? themeColor4,
           border: border,
