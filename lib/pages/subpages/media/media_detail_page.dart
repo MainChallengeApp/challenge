@@ -45,7 +45,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
             onPageChanged: onSwipeMedia,
             scrollDirection: Axis.vertical,
             controller: controller,
-            children: widget.mediaList.map((media) {
+            children: widget.mediaList.reversed.map((media) {
               return media.type == MediaTypeEnum.image
                   ? Center(
                       child: SizedBox(

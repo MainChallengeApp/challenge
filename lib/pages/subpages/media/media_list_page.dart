@@ -96,11 +96,10 @@ class _MediaListPageState extends State<MediaListPage> {
             // }
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
-                onTap: () => ppush(context,
-                    index: (mediaList.length - 1) - (index - 1 - 1)),
-                media: mediaList[(mediaList.length - 1) - (index - 1 - 1)],
+                onTap: () => ppush(context, index: index - 1 - 1),
+                media: mediaList.reversed.elementAt(index - 1 - 1),
                 onTapDeleteMedia: () => onTapDeleteMedia(
-                    mediaList[(mediaList.length - 1) - (index - 1 - 1)]),
+                    mediaList.reversed.elementAt(index - 1 - 1)),
               ),
             );
           }),
