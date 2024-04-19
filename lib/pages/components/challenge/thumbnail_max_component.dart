@@ -66,7 +66,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                           ),
                           const SizedBox(width: 2),
                           const Icon(
-                            Icons.image_outlined,
+                            Icons.inventory_2_outlined,
                             color: themeColor3,
                             size: 10,
                           )
