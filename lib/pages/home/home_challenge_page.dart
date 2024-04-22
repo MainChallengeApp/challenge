@@ -51,6 +51,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   late int currentChallengeIndex = widget.initialChalleneIndex;
 
+  List<ChallengeModel> allChallengesList =
+      ChallengeModel.copyChallengeListWithId(challenges: challengeList);
+
   ChallengeController challengeController = ChallengeController();
 
   @override
@@ -72,7 +75,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
-          children: widget.challenges.map((challenge) {
+          children: allChallengesList.map((challenge) {
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.

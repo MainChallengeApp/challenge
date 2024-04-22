@@ -98,8 +98,11 @@ class ChallengeModel {
   }
 
   static ChallengeModel copyChallenge(
-      {required ChallengeModel challenge, bool isTryAgain = false}) {
+      {required ChallengeModel challenge,
+      bool isTryAgain = false,
+      bool withId = false}) {
     ChallengeModel challengeCopy = ChallengeModel(
+        id: withId ? challenge.id : null,
         status: isTryAgain ? ChallengeStatusEnum.backlog : challenge.status,
         title: challenge.title,
         startDate: isTryAgain ? null : challenge.startDate,
@@ -408,5 +411,14 @@ class ChallengeModel {
     double currentPercentage =
         percentage / frequency.getMaxAmoutOfRepetitions()!;
     return currentPercentage;
+  }
+
+  static List<ChallengeModel> copyChallengeListWithId(
+      {required List<ChallengeModel> challenges}) {
+    List<ChallengeModel> challengeCopies = [];
+    for (var challenge in challenges) {
+      challengeCopies.add(copyChallenge(challenge: challenge, withId: true));
+    }
+    return challengeCopies;
   }
 }
