@@ -9,6 +9,7 @@ import 'package:challenge/pages/components/list_items/list_item_progress_compone
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
+import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -106,20 +107,27 @@ class _RepetitionPageState extends State<RepetitionPage> {
   List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
     var progressListItems = [
       SpaceColumnComponent(
+          height: repetition.progressList.isEmpty
+              ? SpaceComponent.staticHeight * 3
+              : null,
           child: ListItemIconSmallComponent(
-        icon: Icons.add_rounded,
-        title: 'New Progress',
-        onTap: () => onTapNewProgress(repetition),
-      ))
+            icon: Icons.add_rounded,
+            title: 'New Progress',
+            onTap: () => onTapNewProgress(repetition),
+          ))
     ];
     for (var progress in repetition.progressList.reversed) {
       progressListItems.add(SpaceColumnComponent(
+          height: progress == repetition.progressList.first
+              ? SpaceComponent.staticHeight * 4
+              : null,
           child: ListItemProgressComponent(
-        isFailed: repetition.repetitionStatus == RepetitionStatusEnum.failed,
-        progress: progress,
-        challenge: widget.challenge,
-        unit: acceptanceCriteria.unit,
-      )));
+            isFailed:
+                repetition.repetitionStatus == RepetitionStatusEnum.failed,
+            progress: progress,
+            challenge: widget.challenge,
+            unit: acceptanceCriteria.unit,
+          )));
     }
     return progressListItems;
   }
