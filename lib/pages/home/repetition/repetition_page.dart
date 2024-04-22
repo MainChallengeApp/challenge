@@ -108,7 +108,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     var progressListItems = [
       SpaceColumnComponent(
           height: repetition.progressList.isEmpty
-              ? SpaceComponent.staticHeight * 3
+              ? SpaceComponent.staticHeight * 4
               : null,
           child: ListItemIconSmallComponent(
             icon: Icons.add_rounded,
