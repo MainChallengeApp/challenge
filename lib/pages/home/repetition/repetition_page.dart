@@ -133,9 +133,13 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   repetitionListItem(RepetitionModel repetition) {
+    bool isRepetitionExpanded =
+        expandedRepetitionIndexList.contains(repetition.repetitionNumber);
+
     Column item = Column(
       children: <SpaceColumnComponent>[
         SpaceColumnComponent(
+          height: isRepetitionExpanded ? null : 10,
           child: ListItemRepetitionComponent(
             onTap: () => onTapRepetition(repetition),
             repetition: repetition,
@@ -145,7 +149,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
       ],
     );
 
-    if (expandedRepetitionIndexList.contains(repetition.repetitionNumber)) {
+    if (isRepetitionExpanded) {
       item.children.addAll(progressList(repetition));
     }
 

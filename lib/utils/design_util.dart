@@ -9,4 +9,13 @@ class DesignUtil {
   static DateTime dateWithoutTime(DateTime date) {
     return DateTime(date.year, date.month, date.day);
   }
+
+  static String getDateAndTimeFormated(DateTime? date) {
+    if (date == null) {
+      return '';
+    }
+    String formattedDate =
+        '${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}';
+    return formattedDate;
+  }
 }

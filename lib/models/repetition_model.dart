@@ -6,18 +6,24 @@ class RepetitionModel {
   final int repetitionNumber;
   final double goalAmount;
   final List<ProgressModel> progressList;
+  DateTime? startDate;
+  DateTime? endDate;
   RepetitionStatusEnum repetitionStatus;
 
   RepetitionModel(
       {required this.repetitionNumber,
       required this.goalAmount,
       required this.progressList,
+      this.startDate,
+      this.endDate,
       required this.repetitionStatus});
 
   RepetitionModel.empty(
       {required this.repetitionNumber,
       required this.goalAmount,
       this.progressList = const [],
+      this.startDate,
+      this.endDate,
       this.repetitionStatus = RepetitionStatusEnum.backlog});
 
   bool isComplete() {

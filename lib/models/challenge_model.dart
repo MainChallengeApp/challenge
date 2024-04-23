@@ -263,20 +263,6 @@ class ChallengeModel {
     return lastRepetitionProgress.percentProgress;
   }
 
-  evaluateRepetition() {
-    if (repetitions.isEmpty) {
-      return;
-    }
-
-    RepetitionModel repetitionInProgress = getLastRepetition()!;
-    if (repetitionInProgress.progressList.isEmpty ||
-        repetitionInProgress.progressList.last.percentProgress < 1) {
-      repetitionInProgress.repetitionStatus = RepetitionStatusEnum.failed;
-    } else {
-      repetitionInProgress.repetitionStatus = RepetitionStatusEnum.success;
-    }
-  }
-
   addRepetition() {
     RepetitionModel? currentRepetition = getLastRepetition();
     if (currentRepetition == null ||
@@ -288,6 +274,7 @@ class ChallengeModel {
           : currentRepetition.repetitionNumber + 1;
 
       RepetitionModel addingRepetition = RepetitionModel(
+          startDate: DateTime.now(),
           repetitionNumber: newRepetitionNumber,
           goalAmount: acceptanceCriteria.amount,
           progressList: [],
@@ -299,7 +286,8 @@ class ChallengeModel {
 
   void nextRepetition() {
     if (frequency.type == FrequencyTypeEnum.time) {
-      evaluateRepetition();
+      RepetitionModel? currentRepetition = getCurrentRepetition();
+      currentRepetition?.evaluateRepetitionStatus(this);
       addRepetition();
     }
   }

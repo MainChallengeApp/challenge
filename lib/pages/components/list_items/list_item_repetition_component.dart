@@ -27,16 +27,31 @@ class _ListItemRepetitionComponentState
     extends State<ListItemRepetitionComponent> {
   @override
   Widget build(BuildContext context) {
-    return ListItemFractionComponent(
-      initialProgress: min(1, widget.repetition.getLastProgressPercentage()),
-      isFailed: widget.repetition.isFailed(widget.challenge),
-      onTap: widget.onTap,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [repetitionIcon(), repetition(), progress()],
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: ContainerInContainerTextComponent(
+              padding: const EdgeInsets.all(0),
+              margin: const EdgeInsets.only(
+                  left: 30, right: 10, top: 10, bottom: 10),
+              color: Colors.transparent,
+              text: DesignUtil.getDateAndTimeFormated(
+                  widget.repetition.startDate)),
         ),
-      ),
+        ListItemFractionComponent(
+          initialProgress:
+              min(1, widget.repetition.getLastProgressPercentage()),
+          isFailed: widget.repetition.isFailed(widget.challenge),
+          onTap: widget.onTap,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [repetitionIcon(), repetition(), progress()],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
