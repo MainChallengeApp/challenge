@@ -28,13 +28,9 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 
 class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage(
-      {super.key,
-      required this.preTitle,
-      required this.initialChalleneIndex,
-      required this.challenges});
+      {super.key, required this.preTitle, required this.initialChalleneIndex});
   final String preTitle;
   final int initialChalleneIndex;
-  final List<ChallengeModel> challenges;
 
   @override
   State<HomeChallengePage> createState() => _HomeChallengePageState();
@@ -82,7 +78,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 challengeSlidableContextMap[challenge] = context;
                 challenge.checkChallengeStatus();
                 return CardComponent(
-                  scrollPhysics: widget.challenges.length == 1
+                  scrollPhysics: challengeList.length == 1
                       ? const AlwaysScrollableScrollPhysics()
                       : const NeverScrollableScrollPhysics(),
                   children: [
@@ -399,16 +395,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     // }
 
     allChallengesList.removeWhere((element) => element.id == challenge.id);
-    widget.challenges.removeWhere((element) => element.id == challenge.id);
     challengeList.removeWhere((element) => element.id == challenge.id);
     challengeController.writeFile(allChallengesList);
 
     setState(() {
-      if (currentChallengeIndex >= widget.challenges.length) {
-        currentChallengeIndex = widget.challenges.length - 1;
+      if (currentChallengeIndex >= challengeList.length) {
+        currentChallengeIndex = challengeList.length - 1;
       }
     });
-    if (widget.challenges.isEmpty) {
+    if (challengeList.isEmpty) {
       context.read<DesignProvider>().triggerSetStateHomeList();
       Navigator.pop(context);
     }
@@ -496,11 +491,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 oldChallenge.id == challenge.id ? challenge : oldChallenge)
             .toList();
 
-        widget.challenges
-            .map((oldChallenge) =>
-                oldChallenge.id == challenge.id ? challenge : oldChallenge)
-            .toList();
-
         challengeController.writeFile(allChallengesList);
       },
       child: Align(
@@ -557,7 +547,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       challengeList = challengeList
           .map((e) => e.id == challenge.id ? challenge : e)
           .toList();
-      widget.challenges.map((e) => e.id == challenge.id ? challenge : e);
       challengeController.writeFile(allChallengesList);
     });
   }
@@ -635,7 +624,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       challengeList = challengeList
           .map((e) => e.id == challenge.id ? challenge : e)
           .toList();
-      widget.challenges.map((e) => e.id == challenge.id ? challenge : e);
       challengeController.writeFile(allChallengesList);
     });
   }

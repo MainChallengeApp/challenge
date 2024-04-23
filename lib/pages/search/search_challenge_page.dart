@@ -251,9 +251,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     homeNavigator
         .push(
       NoAnimationPageRouteComponent(
-        builder: (context) => HomeChallengePage(
+        builder: (context) => const HomeChallengePage(
           preTitle: 'Home',
-          challenges: challengeList,
           initialChalleneIndex: 0,
         ), // Todo: change initalChallengeIndex when id is known from backend
       ),

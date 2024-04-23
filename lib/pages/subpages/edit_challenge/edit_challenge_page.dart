@@ -183,7 +183,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
-            challenges: challengeList,
             initialChalleneIndex: challengeList.indexOf(widget.challenge)),
       ),
     );
