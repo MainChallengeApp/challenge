@@ -207,15 +207,16 @@ class ChallengeModel {
   }
 
   RepetitionModel? getCurrentRepetition() {
-    RepetitionModel? lastRepetition = getLastRepetition();
-    if (lastRepetition == null) {
+    if (getCurrentRepetitionNumber() == 0) {
       return null;
     }
-    if (!lastRepetition.isCurrentRepetition(this)) {
-      return repetitions.firstWhere((repetition) =>
-          repetition.repetitionNumber == getCurrentRepetitionNumber());
-    }
-    return lastRepetition;
+    RepetitionModel currentRepetition = repetitions.firstWhere(
+        (repetition) =>
+            repetition.repetitionNumber == getCurrentRepetitionNumber(),
+        orElse: () => RepetitionModel.empty(
+            repetitionNumber: getCurrentRepetitionNumber(),
+            goalAmount: acceptanceCriteria.amount));
+    return currentRepetition;
   }
 
   RepetitionModel getOrCreateLastRepetition() {
@@ -360,7 +361,6 @@ class ChallengeModel {
       return;
     }
     status = ChallengeStatusEnum.inProgress;
-    evaluateRepetition();
     addRepetition();
   }
 
