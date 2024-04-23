@@ -51,7 +51,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   late int currentChallengeIndex = widget.initialChalleneIndex;
 
-  List<ChallengeModel> allChallengesList =
+  List<ChallengeModel> visibleChallenge =
       ChallengeModel.copyChallengeListWithId(challenges: challengeList);
 
   ChallengeController challengeController = ChallengeController();
@@ -75,7 +75,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
-          children: allChallengesList.map((challenge) {
+          children: visibleChallenge.map((challenge) {
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
@@ -402,9 +402,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     // }
 
     allChallengesList.removeWhere((element) => element.id == challenge.id);
+    visibleChallenge.removeWhere((element) => element.id == challenge.id);
     widget.challenges.removeWhere((element) => element.id == challenge.id);
     challengeList.removeWhere((element) => element.id == challenge.id);
-    challengeController.writeFile(allChallengesList);
+    challengeController.writeFile(visibleChallenge);
 
     setState(() {
       if (currentChallengeIndex >= widget.challenges.length) {
@@ -489,7 +490,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           challenge.end();
         });
 
-        allChallengesList = allChallengesList
+        visibleChallenge = visibleChallenge
             .map((oldChallenge) =>
                 oldChallenge.id == challenge.id ? challenge : oldChallenge)
             .toList();
@@ -504,7 +505,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 oldChallenge.id == challenge.id ? challenge : oldChallenge)
             .toList();
 
-        challengeController.writeFile(allChallengesList);
+        challengeController.writeFile(visibleChallenge);
       },
       child: Align(
         alignment: Alignment.bottomCenter,
@@ -558,6 +559,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         return e.id == challenge.id ? challenge : e;
       }).toList();
       challengeList = challengeList
+          .map((e) => e.id == challenge.id ? challenge : e)
+          .toList();
+      visibleChallenge = visibleChallenge
           .map((e) => e.id == challenge.id ? challenge : e)
           .toList();
       widget.challenges.map((e) => e.id == challenge.id ? challenge : e);
@@ -630,9 +634,14 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   onTapNext(ChallengeModel challenge) {
     setState(() {
       challenge.nextRepetition();
+      visibleChallenge = visibleChallenge.map((e) {
+        return e.id == challenge.id ? challenge : e;
+      }).toList();
+
       allChallengesList = allChallengesList.map((e) {
         return e.id == challenge.id ? challenge : e;
       }).toList();
+
       challengeList = challengeList
           .map((e) => e.id == challenge.id ? challenge : e)
           .toList();

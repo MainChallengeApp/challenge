@@ -242,7 +242,14 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     //   // ignore: use_build_context_synchronously
     //   homeNavigator.pop(context);
     // }
-    homeNavigator.push(
+
+    /**
+     * somehow does the home list page not refresh
+     * when completing a challenge
+     * with frequency.amount = 0
+     */
+    homeNavigator
+        .push(
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           preTitle: 'Home',
@@ -250,7 +257,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           initialChalleneIndex: 0,
         ), // Todo: change initalChallengeIndex when id is known from backend
       ),
-    );
+    )
+        .then((value) {
+      homeNavigator.setState(() {});
+    });
   }
 
   void onPageChanged(int value) {

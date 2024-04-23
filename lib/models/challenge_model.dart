@@ -355,6 +355,10 @@ class ChallengeModel {
     } else {
       setFrequencyAmount();
     }
+    if (frequency.amount == 0) {
+      end();
+      return;
+    }
     status = ChallengeStatusEnum.inProgress;
     evaluateRepetition();
     addRepetition();
