@@ -103,6 +103,8 @@ class RepetitionModel {
               'repetitionNumber': e.repetitionNumber,
               'goalAmount': e.goalAmount,
               'progressList': ProgressModel.toJsonList(e.progressList),
+              'startDate': e.startDate.toString(),
+              'endDate': e.endDate.toString(),
               'repetitionStatus': e.repetitionStatus.toString()
             })
         .toList();
@@ -110,13 +112,23 @@ class RepetitionModel {
 
   static fromJsonList(json) {
     List<RepetitionModel> list = [];
-    json?.forEach((e) => list.add(RepetitionModel(
-        repetitionNumber: e['repetitionNumber'],
-        goalAmount: e['goalAmount'] ??
+    json?.forEach((json) => list.add(RepetitionModel(
+        repetitionNumber: json['repetitionNumber'],
+        goalAmount: json['goalAmount'] ??
             0, // ?? 0 can be removed when no more home challenges saved without goalAmount
-        progressList: ProgressModel.fromJsonList(e['progressList']),
+        progressList: ProgressModel.fromJsonList(json['progressList']),
+        startDate: json['startDate'] == null ||
+                json['startDate'] == 'null' ||
+                json['startDate'] == ''
+            ? null
+            : DateTime.parse(json['startDate']),
+        endDate: json['endDate'] == null ||
+                json['endDate'] == 'null' ||
+                json['endDate'] == ''
+            ? null
+            : DateTime.parse(json['endDate']),
         repetitionStatus:
-            RepetitionStatusEnum.factory(e['repetitionStatus']))));
+            RepetitionStatusEnum.factory(json['repetitionStatus']))));
     return list;
   }
 

@@ -34,7 +34,7 @@ class _ListItemRepetitionComponentState
           child: ContainerInContainerTextComponent(
               padding: const EdgeInsets.all(0),
               margin: const EdgeInsets.only(
-                  left: 30, right: 10, top: 10, bottom: 10),
+                  left: 35, right: 10, top: 10, bottom: 10),
               color: Colors.transparent,
               text: DesignUtil.getDateAndTimeFormated(
                   widget.repetition.startDate)),

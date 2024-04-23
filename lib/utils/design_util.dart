@@ -12,10 +12,10 @@ class DesignUtil {
 
   static String getDateAndTimeFormated(DateTime? date) {
     if (date == null) {
-      return '';
+      return '-';
     }
-    String formattedDate =
-        '${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}';
-    return formattedDate;
+    String formatDate =
+        '${date.year}-${date.month.toString().length == 1 ? '0' : ''}${date.month}-${date.day.toString().length == 1 ? '0' : ''}${date.day} ${date.hour.toString().length == 1 ? '0' : ''}${date.hour}:${date.minute.toString().length == 1 ? '0' : ''}${date.minute}';
+    return formatDate;
   }
 }

@@ -433,7 +433,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             width: 16,
             margin: const EdgeInsets.only(bottom: 16),
             child: const Center(
-              child: Text('/'),
+              child: Text(
+                '/',
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           ),
           Expanded(
@@ -443,6 +446,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   alignment: Alignment.centerLeft,
                   child: TextField(
                     enabled: false,
+                    style: const TextStyle(color: Colors.grey),
                     controller: TextEditingController()
                       ..text =
                           '${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
