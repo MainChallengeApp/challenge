@@ -29,16 +29,6 @@ class _ListItemRepetitionComponentState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: ContainerInContainerTextComponent(
-              padding: const EdgeInsets.all(0),
-              margin: const EdgeInsets.only(
-                  left: 35, right: 10, top: 10, bottom: 10),
-              color: Colors.transparent,
-              text: DesignUtil.getDateAndTimeFormated(
-                  widget.repetition.startDate)),
-        ),
         ListItemFractionComponent(
           initialProgress:
               min(1, widget.repetition.getLastProgressPercentage()),

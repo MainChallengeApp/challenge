@@ -1,7 +1,7 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
-import 'package:challenge/services/upload_media_service.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,7 +20,7 @@ class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () async {
-          XFile? file = await UploadMediaService.onTapUploadMedia();
+          XFile? file = await MediaService.onTapUploadMedia();
           setState(() {
             if (file != null) {
               widget.editChallenge.thumbnailPath = file.path;

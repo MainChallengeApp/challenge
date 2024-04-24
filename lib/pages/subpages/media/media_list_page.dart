@@ -5,7 +5,7 @@ import 'package:challenge/pages/components/list_items/list_item_icon_small_compo
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
-import 'package:challenge/services/upload_media_service.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/material.dart';
@@ -98,8 +98,18 @@ class _MediaListPageState extends State<MediaListPage> {
               child: ListItemMediaSmallComponent(
                 onTap: () => ppush(context, index: index - 1 - 1),
                 media: mediaList.reversed.elementAt(index - 1 - 1),
-                onTapDeleteMedia: () => onTapDeleteMedia(
-                    mediaList.reversed.elementAt(index - 1 - 1)),
+                onTapDeleteMedia: () {
+                  MediaModel media =
+                      mediaList.reversed.elementAt(index - 1 - 1);
+
+                  MediaService.deleteMedia(media, widget.challenge);
+
+                  setState(() {
+                    mediaList.removeWhere((element) => element.id == media.id);
+                  });
+
+                  return;
+                },
               ),
             );
           }),
@@ -131,7 +141,7 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   onTapUploadMedia() async {
-    XFile? file = await UploadMediaService.onTapUploadMedia();
+    XFile? file = await MediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
         widget.challenge.media.add(MediaModel(

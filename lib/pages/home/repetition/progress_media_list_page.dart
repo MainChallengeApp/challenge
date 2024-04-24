@@ -21,7 +21,7 @@ import 'package:challenge/models/media_model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
-import 'package:challenge/services/upload_media_service.dart';
+import 'package:challenge/services/media_service.dart';
 
 // ignore: must_be_immutable
 class ProgressMediaListPage extends StatefulWidget {
@@ -122,6 +122,17 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               child: ListItemMediaSmallComponent(
                 onTap: () => ppush(context, index: index - 1 - 1),
                 media: mediaList.reversed.elementAt(index - 1 - 1),
+                onTapDeleteMedia: () {
+                  setState(() {
+                    MediaService.deleteMedia(
+                        mediaList.reversed.elementAt(index - 1 - 1),
+                        widget.challenge);
+                    mediaList.removeWhere((media) =>
+                        media.id ==
+                        mediaList.reversed.elementAt(index - 1 - 1).id);
+                    editProgress.mediaIds.removeAt(index - 1 - 1);
+                  });
+                },
               ),
             );
           }),
@@ -476,7 +487,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   onTapUploadMedia() async {
-    XFile? file = await UploadMediaService.onTapUploadMedia();
+    XFile? file = await MediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
         MediaModel media = MediaModel(

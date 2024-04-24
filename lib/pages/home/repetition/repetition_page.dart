@@ -8,8 +8,10 @@ import 'package:challenge/pages/components/list_items/list_item_icon_small_compo
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -119,7 +121,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     for (var progress in repetition.progressList.reversed) {
       progressListItems.add(SpaceColumnComponent(
           height: progress == repetition.progressList.first
-              ? SpaceComponent.staticHeight * 4
+              ? SpaceComponent.staticHeight * 5
               : null,
           child: ListItemProgressComponent(
             isFailed:
@@ -139,11 +141,27 @@ class _RepetitionPageState extends State<RepetitionPage> {
     Column item = Column(
       children: <SpaceColumnComponent>[
         SpaceColumnComponent(
-          height: isRepetitionExpanded ? null : 10,
-          child: ListItemRepetitionComponent(
-            onTap: () => onTapRepetition(repetition),
-            repetition: repetition,
-            challenge: widget.challenge,
+          height: isRepetitionExpanded ? null : 16,
+          child: Column(
+            children: [
+              isRepetitionExpanded
+                  ? Align(
+                      alignment: Alignment.topLeft,
+                      child: ContainerInContainerTextComponent(
+                          padding: const EdgeInsets.all(0),
+                          margin: const EdgeInsets.only(
+                              left: 35, right: 10, top: 10, bottom: 10),
+                          color: Colors.transparent,
+                          text: DesignUtil.getDateAndTimeFormated(
+                              repetition.startDate)),
+                    )
+                  : Container(),
+              ListItemRepetitionComponent(
+                onTap: () => onTapRepetition(repetition),
+                repetition: repetition,
+                challenge: widget.challenge,
+              ),
+            ],
           ),
         )
       ],
