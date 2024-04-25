@@ -5,12 +5,15 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 class ListItemContainerComponent extends StatefulWidget {
   static const double standardPadding = 12;
   static const double standardBorderRadius = 24;
+  static const double standardHeight = 64;
 
   final Widget child;
   final Color? backgroundColor;
   final Function? onTap;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final ActionPane? Function(Function)? endActionPane;
+  final double? height;
 
   const ListItemContainerComponent(
       {super.key,
@@ -18,7 +21,9 @@ class ListItemContainerComponent extends StatefulWidget {
       this.backgroundColor = Colors.white,
       this.onTap,
       this.padding,
-      this.endActionPane});
+      this.endActionPane,
+      this.height,
+      this.margin});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -40,8 +45,8 @@ class _ListItemContainerComponentState
           },
           child: Container(
             width: double.infinity,
-            height: 64,
-            margin: const EdgeInsets.only(left: 20, right: 20),
+            height: widget.height ?? ListItemContainerComponent.standardHeight,
+            margin: widget.margin ?? const EdgeInsets.only(left: 20, right: 20),
             padding: widget.padding ??
                 const EdgeInsets.all(
                     ListItemContainerComponent.standardPadding),

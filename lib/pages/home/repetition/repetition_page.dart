@@ -7,6 +7,7 @@ import 'package:challenge/pages/components/list_items/list_item_button_component
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_repetition_expanded_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
@@ -145,22 +146,15 @@ class _RepetitionPageState extends State<RepetitionPage> {
           child: Column(
             children: [
               isRepetitionExpanded
-                  ? Align(
-                      alignment: Alignment.topLeft,
-                      child: ContainerInContainerTextComponent(
-                          padding: const EdgeInsets.all(0),
-                          margin: const EdgeInsets.only(
-                              left: 35, right: 10, top: 10, bottom: 10),
-                          color: Colors.transparent,
-                          text: DesignUtil.getDateAndTimeFormated(
-                              repetition.startDate)),
-                    )
-                  : Container(),
-              ListItemRepetitionComponent(
-                onTap: () => onTapRepetition(repetition),
-                repetition: repetition,
-                challenge: widget.challenge,
-              ),
+                  ? ListItemRepetitionExpandedComponent(
+                      onTap: () => onTapRepetition(repetition),
+                      repetition: repetition,
+                      challenge: widget.challenge)
+                  : ListItemRepetitionComponent(
+                      onTap: () => onTapRepetition(repetition),
+                      repetition: repetition,
+                      challenge: widget.challenge,
+                    ),
             ],
           ),
         )

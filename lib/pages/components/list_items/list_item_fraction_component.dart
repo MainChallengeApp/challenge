@@ -8,12 +8,14 @@ class ListItemFractionComponent extends StatefulWidget {
       this.isFailed = false,
       required this.initialProgress,
       this.child,
-      this.onTap});
+      this.onTap,
+      this.margin});
 
   final Widget? child;
   final double initialProgress;
   final bool isFailed;
   final void Function()? onTap;
+  final EdgeInsetsGeometry? margin;
 
   @override
   State<ListItemFractionComponent> createState() =>
@@ -23,48 +25,47 @@ class ListItemFractionComponent extends StatefulWidget {
 class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListItemContainerComponent(
-        onTap: widget.onTap,
-        padding: const EdgeInsets.all(0),
-        child: Stack(
-          children: [
-            FractionallySizedBox(
-              widthFactor: widget.initialProgress,
-              heightFactor: 1,
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                    color: widget.isFailed ? red : green,
-                    borderRadius: const BorderRadius.all(Radius.circular(
-                        ListItemContainerComponent.standardBorderRadius))),
-              ),
-            ),
-            Container(
+    return ListItemContainerComponent(
+      onTap: widget.onTap,
+      padding: const EdgeInsets.all(0),
+      margin: widget.margin,
+      child: Stack(
+        children: [
+          FractionallySizedBox(
+            widthFactor: widget.initialProgress,
+            heightFactor: 1,
+            child: Container(
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Colors.white,
-                      width: 10,
-                      strokeAlign: BorderSide.strokeAlignOutside),
+                  color: widget.isFailed ? red : green,
                   borderRadius: const BorderRadius.all(Radius.circular(
                       ListItemContainerComponent.standardBorderRadius))),
             ),
-            Container(
-                padding: const EdgeInsets.all(
-                    ListItemContainerComponent.standardPadding),
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        width: 1,
-                        strokeAlign: BorderSide.strokeAlignOutside,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(
-                        ListItemContainerComponent.standardBorderRadius))),
-                child: widget.child)
-          ],
-        ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.white,
+                    width: 10,
+                    strokeAlign: BorderSide.strokeAlignOutside),
+                borderRadius: const BorderRadius.all(Radius.circular(
+                    ListItemContainerComponent.standardBorderRadius))),
+          ),
+          Container(
+              padding: const EdgeInsets.all(
+                  ListItemContainerComponent.standardPadding),
+              height: double.infinity,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                      color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(
+                      ListItemContainerComponent.standardBorderRadius))),
+              child: widget.child)
+        ],
       ),
     );
   }
