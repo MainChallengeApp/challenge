@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
-import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
@@ -48,6 +47,7 @@ class _ListItemRepetitionExpandedComponentState
         ),
         ListItemContainerComponent(
           height: 140,
+          onTap: widget.onTap,
           backgroundColor: Colors.transparent,
           padding: const EdgeInsets.all(0),
           child: Column(
@@ -71,17 +71,15 @@ class _ListItemRepetitionExpandedComponentState
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            child: const Text(
-                              "Start:",
-                              style: TextStyle(fontSize: 13),
-                            ),
+                          const Text(
+                            "Start:",
+                            style: TextStyle(fontSize: 13),
                           ),
-                          Container(
-                            child: Text(
-                              "${DesignUtil.getDateAndTimeFormated(widget.repetition.startDate).split(' ')[0]}",
-                              style: TextStyle(fontSize: 13),
-                            ),
+                          Text(
+                            DesignUtil.getDateAndTimeFormated(
+                                    widget.repetition.startDate)
+                                .split(' ')[0],
+                            style: const TextStyle(fontSize: 13),
                           ),
                         ],
                       ),
