@@ -274,20 +274,20 @@ class ChallengeModel {
           : currentRepetition.repetitionNumber + 1;
 
       RepetitionModel addingRepetition = RepetitionModel(
-          startDate: DateTime.now(),
           repetitionNumber: newRepetitionNumber,
           goalAmount: acceptanceCriteria.amount,
           progressList: [],
-          repetitionStatus: RepetitionStatusEnum.inProgress);
+          repetitionStatus: RepetitionStatusEnum.backlog);
       repetitions.add(addingRepetition);
       return addingRepetition;
     }
   }
 
-  void nextRepetition() {
+  void endRepetition() {
     if (frequency.type == FrequencyTypeEnum.time) {
       RepetitionModel? currentRepetition = getCurrentRepetition();
-      currentRepetition?.evaluateRepetitionStatus(this);
+      currentRepetition?.end();
+      currentRepetition?.evaluateRepetitionStatus();
       addRepetition();
     }
   }
@@ -349,7 +349,10 @@ class ChallengeModel {
       return;
     }
     status = ChallengeStatusEnum.inProgress;
-    addRepetition();
+    RepetitionModel addingRepetition = addRepetition();
+    if (frequency.type == FrequencyTypeEnum.time && frequency.amount == 1) {
+      addingRepetition.start();
+    }
   }
 
   end() {

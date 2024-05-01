@@ -9,10 +9,8 @@ import 'package:challenge/pages/components/list_items/list_item_progress_compone
 import 'package:challenge/pages/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_repetition_expanded_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -98,7 +96,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                     0) {
               repetition = widget.challenge.repetitions[
                   widget.challenge.getCurrentRepetitionNumber() - 1 - index];
-              repetition.evaluateRepetitionStatus(widget.challenge);
+              repetition.evaluateRepetitionStatus();
             } else {
               repetition = widget.challenge.addRepetition();
             }

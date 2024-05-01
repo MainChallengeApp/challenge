@@ -14,6 +14,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final EdgeInsetsGeometry? margin;
   final ActionPane? Function(Function)? endActionPane;
   final double? height;
+  final double? borderRadius;
 
   const ListItemContainerComponent(
       {super.key,
@@ -23,7 +24,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.padding,
       this.endActionPane,
       this.height,
-      this.margin});
+      this.margin,
+      this.borderRadius});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -53,8 +55,9 @@ class _ListItemContainerComponentState
             decoration: BoxDecoration(
                 color: widget.backgroundColor,
                 border: Border.all(width: 1, color: themeColor5),
-                borderRadius: const BorderRadius.all(Radius.circular(
-                    ListItemContainerComponent.standardBorderRadius))),
+                borderRadius: BorderRadius.all(Radius.circular(
+                    widget.borderRadius ??
+                        ListItemContainerComponent.standardBorderRadius))),
             child: widget.child,
           ),
         );

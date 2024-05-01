@@ -34,25 +34,43 @@ class RepetitionModel {
   }
 
   bool isFailed(ChallengeModel challenge) {
-    return evaluateRepetitionStatus(challenge) == RepetitionStatusEnum.failed;
+    return repetitionStatus == RepetitionStatusEnum.failed;
   }
 
-  evaluateRepetitionStatus(ChallengeModel challenge) {
-    if (isComplete()) {
-      repetitionStatus = RepetitionStatusEnum.success;
-      return repetitionStatus;
+  isInProgress() {
+    return repetitionStatus == RepetitionStatusEnum.inProgress &&
+        startDate != null;
+  }
+
+  bool isInBacklog() {
+    return repetitionStatus == RepetitionStatusEnum.backlog ||
+        startDate == null;
+  }
+
+  void start() {
+    startDate = DateTime.now();
+    repetitionStatus = RepetitionStatusEnum.inProgress;
+  }
+
+  void end() {
+    endDate = DateTime.now();
+    repetitionStatus = isComplete()
+        ? RepetitionStatusEnum.success
+        : RepetitionStatusEnum.failed;
+  }
+
+  evaluateRepetitionStatus() {
+    if (!isInProgress() && !isInBacklog()) {
+      if (isComplete()) {
+        repetitionStatus = RepetitionStatusEnum.success;
+        return repetitionStatus;
+      } else {
+        repetitionStatus = RepetitionStatusEnum.failed;
+        return repetitionStatus;
+      }
     }
-
-    final currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
-
-    if (currentRepetitionNumber == repetitionNumber &&
-        challenge.isInProgress()) {
+    if (startDate != null) {
       repetitionStatus = RepetitionStatusEnum.inProgress;
-      return repetitionStatus;
-    }
-
-    if (currentRepetitionNumber >= repetitionNumber) {
-      repetitionStatus = RepetitionStatusEnum.failed;
       return repetitionStatus;
     }
 

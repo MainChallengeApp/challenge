@@ -223,7 +223,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       return Container();
     }
 
-    if (challenge.status == ChallengeStatusEnum.backlog) {
+    if (challenge.getCurrentRepetition() == null ||
+        challenge.getCurrentRepetition()!.isInBacklog() &&
+            challenge.frequency.type == FrequencyTypeEnum.time) {
       return CustomButtonComponent(
         onTap: () => onTapStart(challenge),
         text: "Start",
@@ -232,16 +234,26 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
 
     if ((challenge.frequency.amount == 1 ||
-            challenge.getCurrentRepetition() == null ||
-            challenge.getCurrentRepetition()!.progressList.isEmpty ||
-            challenge.getCurrentRepetitionNumber() ==
-                challenge.frequency.getMaxAmoutOfRepetitions()) &&
-        challenge.isInProgress()) {
+                // challenge.getCurrentRepetition() == null ||
+                // challenge.getCurrentRepetition()!.progressList.isEmpty ||
+                challenge.getCurrentRepetitionNumber() ==
+                    challenge.frequency.getMaxAmoutOfRepetitions()) &&
+            challenge.isInProgress() ||
+        challenge.getCurrentRepetition() != null &&
+            challenge.getCurrentRepetition()!.isInProgress()) {
       return CustomButtonComponent(
         onTap: () => onTapEnd(challenge),
         text: "End",
+        subText: challenge.frequency.type == FrequencyTypeEnum.daily &&
+                challenge.frequency.amount != null &&
+                challenge.getCurrentRepetitionNumber() <
+                    challenge.frequency.getMaxAmoutOfRepetitions()!
+            ? "Next in ${challenge.frequency.nextIn()}"
+            : null,
         isPrimaryButton:
-            challenge.getCurrentRepetitionProgressPercentageProgess() >= 1,
+            challenge.getCurrentRepetitionProgressPercentageProgess() >= 1 &&
+                challenge.frequency.type == FrequencyTypeEnum.time,
+        padding: const EdgeInsets.all(5),
       );
     }
 
@@ -540,7 +552,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   onTapStart(ChallengeModel challenge) {
     setState(() {
-      challenge.start();
+      if (challenge.isInBacklog()) {
+        challenge.start();
+      }
+      if (challenge.getCurrentRepetition() != null &&
+          challenge.getCurrentRepetition()!.isInBacklog()) {
+        challenge.getCurrentRepetition()!.start();
+      }
       allChallengesList = allChallengesList.map((e) {
         return e.id == challenge.id ? challenge : e;
       }).toList();
@@ -552,6 +570,20 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   onTapEnd(ChallengeModel challenge) {
+    if (challenge.getCurrentRepetition()!.isInProgress() &&
+        challenge.getCurrentRepetition()!.progressList.isNotEmpty) {
+      setState(() {
+        challenge.endRepetition();
+        allChallengesList = allChallengesList.map((e) {
+          return e.id == challenge.id ? challenge : e;
+        }).toList();
+        challengeList = challengeList
+            .map((e) => e.id == challenge.id ? challenge : e)
+            .toList();
+        challengeController.writeFile(allChallengesList);
+      });
+      return;
+    }
     showDialog(
       context: context,
       builder: (context) {
@@ -615,7 +647,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   onTapNext(ChallengeModel challenge) {
     setState(() {
-      challenge.nextRepetition();
+      challenge.endRepetition();
 
       allChallengesList = allChallengesList.map((e) {
         return e.id == challenge.id ? challenge : e;
