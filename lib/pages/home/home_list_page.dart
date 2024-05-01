@@ -54,7 +54,7 @@ class _HomeListPageState extends State<HomeListPage> {
         .where((element) => element.searchInChallenge(searchBarText))
         .toList();
 
-    sortChallengeList();
+    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
 
     return RawScrollbar(
       controller: scrollController,

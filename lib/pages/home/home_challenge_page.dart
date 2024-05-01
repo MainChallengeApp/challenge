@@ -452,9 +452,17 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             preTitle: '${widget.preTitle}/${challenge.title}',
             challenge: challenge),
       ),
-    ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-        }));
+    ).then((_) {
+      setState(() {
+        context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        challengeList =
+            ChallengeModel.sortChallengeList(challenges: challengeList);
+
+        int index = challengeList.indexWhere((c) => c.id == challenge.id);
+
+        pageController.jumpToPage(index);
+      });
+    });
   }
 
   onTapCamera(ChallengeModel challenge) async {
@@ -481,6 +489,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       ),
     ).then((_) => setState(() {
           context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+
+          challengeList =
+              ChallengeModel.sortChallengeList(challenges: challengeList);
+
+          int index = challengeList.indexWhere((c) => c.id == challenge.id);
+
+          pageController.jumpToPage(index);
         }));
   }
 
@@ -491,6 +506,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         context.read<DesignProvider>().triggerSetStateHomeList();
         setState(() {
           challenge.end();
+
+          challengeList =
+              ChallengeModel.sortChallengeList(challenges: challengeList);
+
+          int index = challengeList.indexWhere((c) => c.id == challenge.id);
+
+          pageController.jumpToPage(index);
         });
 
         allChallengesList = allChallengesList

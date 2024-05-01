@@ -416,4 +416,24 @@ class ChallengeModel {
     }
     return challengeCopies;
   }
+
+  static List<ChallengeModel> sortChallengeList(
+      {required List<ChallengeModel> challenges}) {
+    for (ChallengeModel challenge in challenges) {
+      challenge.checkChallengeStatus();
+    }
+    // challengeList.sort((a, b) => a.isSucceeded() && !b.isSucceeded()
+    //     ? -1
+    //     : b.isSucceeded() && !a.isSucceeded()
+    //         ? 1
+    //         : 0);
+    challenges.sort((a, b) =>
+        (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
+            ? 1
+            : (b.isSucceeded() || b.isFailed()) &&
+                    !(a.isSucceeded() || a.isFailed())
+                ? -1
+                : a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
+    return challenges;
+  }
 }
