@@ -52,7 +52,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
 
   progressIcon() {
     return const IconContainerInListItemComponent(
-      icon: Icons.north_rounded,
+      icon: Icons.bolt_rounded,
     );
   }
 }
