@@ -350,13 +350,16 @@ class ChallengeModel {
     }
     status = ChallengeStatusEnum.inProgress;
     RepetitionModel addingRepetition = addRepetition();
-    if (frequency.type == FrequencyTypeEnum.time && frequency.amount == 1) {
-      addingRepetition.start();
-    }
+    addingRepetition.start();
   }
 
   end() {
     endDate = DateTime.now();
+
+    if (getCurrentRepetition()?.isInProgress()) {
+      getCurrentRepetition()!.end();
+    }
+
     if (isCompleted()) {
       status = ChallengeStatusEnum.success;
     } else {
