@@ -5,7 +5,7 @@ import 'package:challenge/models/progress_model.dart';
 class RepetitionModel {
   final int repetitionNumber;
   final double goalAmount;
-  final List<ProgressModel> progressList;
+  late final List<ProgressModel> progressList;
   DateTime? startDate;
   DateTime? endDate;
   RepetitionStatusEnum repetitionStatus;
@@ -21,10 +21,11 @@ class RepetitionModel {
   RepetitionModel.empty(
       {required this.repetitionNumber,
       required this.goalAmount,
-      this.progressList = const [],
       this.startDate,
       this.endDate,
-      this.repetitionStatus = RepetitionStatusEnum.backlog});
+      this.repetitionStatus = RepetitionStatusEnum.backlog}) {
+    progressList = [];
+  }
 
   bool isComplete() {
     if (progressList.isEmpty) {
