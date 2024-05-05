@@ -210,13 +210,47 @@ class ChallengeModel {
     if (getCurrentRepetitionNumber() == 0) {
       return null;
     }
-    RepetitionModel currentRepetition = repetitions.firstWhere(
+    RepetitionModel currentRepetition = getAllRepetitions().firstWhere(
         (repetition) =>
             repetition.repetitionNumber == getCurrentRepetitionNumber(),
         orElse: () => RepetitionModel.empty(
+            // shouldnt be called
             repetitionNumber: getCurrentRepetitionNumber(),
-            goalAmount: acceptanceCriteria.amount));
+            goalAmount: acceptanceCriteria.amount,
+            repetitionStatus: RepetitionStatusEnum.backlog));
     return currentRepetition;
+  }
+
+  List<RepetitionModel> getAllRepetitions() {
+    repetitions
+        .sort((a, b) => a.repetitionNumber.compareTo(b.repetitionNumber));
+
+    List<RepetitionModel> allRepetitions = [...repetitions];
+
+    for (int repetitionNumber = repetitions.length + 1;
+        repetitionNumber <= getCurrentRepetitionNumber();
+        repetitionNumber++) {
+      allRepetitions.insert(
+          repetitionNumber - 1,
+          RepetitionModel.empty(
+              startDate: frequency.type == FrequencyTypeEnum.time &&
+                      isInProgress() &&
+                      repetitionNumber == getCurrentRepetitionNumber()
+                  ? startDate
+                  : null,
+              repetitionNumber: repetitionNumber,
+              goalAmount: acceptanceCriteria.amount,
+              repetitionStatus: repetitionNumber < getCurrentRepetitionNumber()
+                  ? RepetitionStatusEnum.failed
+                  : frequency.type == FrequencyTypeEnum.time &&
+                          isInProgress() &&
+                          repetitionNumber == getCurrentRepetitionNumber()
+                      ? RepetitionStatusEnum.inProgress
+                      : RepetitionStatusEnum.backlog));
+    }
+
+    repetitions = allRepetitions;
+    return allRepetitions;
   }
 
   RepetitionModel getOrCreateLastRepetition() {
@@ -331,7 +365,11 @@ class ChallengeModel {
       }
       return min(days, frequency.amount!);
     } else if (frequency.type == FrequencyTypeEnum.time) {
-      return repetitions.length;
+      return repetitions.isEmpty &&
+              startDate != null &&
+              startDate!.isBefore(DateTime.now())
+          ? 1
+          : repetitions.length;
     } else {
       return 0;
     }

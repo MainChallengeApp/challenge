@@ -6,7 +6,6 @@ import 'package:challenge/pages/components/list_items/list_item_icon_small_compo
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -201,8 +200,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     if (widget.isSaveInsteadOfEditButtonVisible) {
       Navigator.pop(context2);
 
-      if (widget.challenge.status == ChallengeStatusEnum.backlog &&
-          editProgress.progress > 0) {
+      if (widget.challenge.isInBacklog() && editProgress.progress > 0) {
         widget.challenge.start();
         widget.repetition = widget.challenge.getLastRepetition();
       }

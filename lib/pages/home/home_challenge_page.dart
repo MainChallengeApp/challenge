@@ -71,6 +71,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
           children: challengeList.map((challenge) {
+            challenge.checkChallengeStatus();
             return Slidable(
               closeOnScroll: true,
               // The end action pane is the one at the right or the bottom side.
@@ -78,7 +79,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               endActionPane: endActionPane(challenge),
               child: Builder(builder: (context) {
                 challengeSlidableContextMap[challenge] = context;
-                challenge.checkChallengeStatus();
                 return CardComponent(
                   scrollPhysics: challengeList.length == 1
                       ? const AlwaysScrollableScrollPhysics()
