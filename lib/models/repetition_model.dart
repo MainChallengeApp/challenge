@@ -61,11 +61,11 @@ class RepetitionModel {
   }
 
   evaluateRepetitionStatus() {
-    if (!isInProgress() && !isInBacklog()) {
+    if (isInProgress()) {
       if (isComplete()) {
         repetitionStatus = RepetitionStatusEnum.success;
         return repetitionStatus;
-      } else {
+      } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
         repetitionStatus = RepetitionStatusEnum.failed;
         return repetitionStatus;
       }

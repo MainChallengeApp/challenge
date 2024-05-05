@@ -89,12 +89,13 @@ class _RepetitionPageState extends State<RepetitionPage> {
               );
             }
 
+            widget.challenge.setRepetitionsEndDate();
             RepetitionModel repetition;
             if ((widget.challenge.getCurrentRepetitionNumber() - 1 - index) <
                     widget.challenge.repetitions.length &&
                 (widget.challenge.getCurrentRepetitionNumber() - 1 - index) >=
                     0) {
-              repetition = widget.challenge.repetitions[
+              repetition = widget.challenge.getAllRepetitions()[
                   widget.challenge.getCurrentRepetitionNumber() - 1 - index];
               repetition.evaluateRepetitionStatus();
             } else {

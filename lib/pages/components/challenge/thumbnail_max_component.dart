@@ -26,7 +26,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
         child: Stack(
           children: [
             Center(
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),

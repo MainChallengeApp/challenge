@@ -227,16 +227,22 @@ class ChallengeModel {
 
     List<RepetitionModel> allRepetitions = [...repetitions];
 
+    if (repetitions.length == getCurrentRepetitionNumber()) {
+      return allRepetitions;
+    }
+
     for (int repetitionNumber = repetitions.length + 1;
         repetitionNumber <= getCurrentRepetitionNumber();
         repetitionNumber++) {
       allRepetitions.insert(
           repetitionNumber - 1,
           RepetitionModel.empty(
-              startDate: frequency.type == FrequencyTypeEnum.time &&
-                      isInProgress() &&
-                      repetitionNumber == getCurrentRepetitionNumber()
-                  ? startDate
+              startDate: frequency.type == FrequencyTypeEnum.daily
+                  ? startDate?.add(Duration(days: repetitionNumber - 1))
+                  : null,
+              endDate: frequency.type == FrequencyTypeEnum.daily &&
+                      repetitionNumber < getCurrentRepetitionNumber()
+                  ? startDate?.add(Duration(days: repetitionNumber - 1))
                   : null,
               repetitionNumber: repetitionNumber,
               goalAmount: acceptanceCriteria.amount,
@@ -251,6 +257,21 @@ class ChallengeModel {
 
     repetitions = allRepetitions;
     return allRepetitions;
+  }
+
+  setRepetitionsEndDate() {
+    if (frequency.type != FrequencyTypeEnum.daily) {
+      return;
+    }
+
+    List<RepetitionModel> allRepetitions = getAllRepetitions();
+    for (var repetition in allRepetitions) {
+      if (startDate != null &&
+          repetition.repetitionNumber != getCurrentRepetitionNumber()) {
+        repetition.endDate =
+            startDate!.add(Duration(days: repetition.repetitionNumber));
+      }
+    }
   }
 
   RepetitionModel getOrCreateLastRepetition() {
@@ -482,5 +503,20 @@ class ChallengeModel {
     return getCurrentRepetition()?.isInProgress() &&
         getCurrentRepetition()!.progressList.isNotEmpty &&
         getCurrentRepetitionNumber() != frequency.getMaxAmoutOfRepetitions();
+  }
+
+  nextIn() {
+    if (frequency.type == FrequencyTypeEnum.daily) {
+      RepetitionModel? currentRepetition = getCurrentRepetition();
+      Duration difference = currentRepetition?.startDate
+              ?.add(const Duration(days: 1))
+              .difference(DateTime.now()) ??
+          Duration.zero;
+      if (difference.inHours <= 0) {
+        return '${difference.inMinutes} min';
+      }
+      return '${difference.inHours} h';
+    }
+    return 0;
   }
 }

@@ -37,65 +37,113 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.challenge.getCurrentRepetition() == null ||
-        widget.challenge.getCurrentRepetition()!.isInBacklog() &&
-            widget.challenge.frequency.type == FrequencyTypeEnum.time) {
-      return CustomButtonComponent(
-        onTap: () => widget.onTapStart(widget.challenge),
-        text: "Start",
-        isPrimaryButton: true,
-      );
+    if (_shouldShowStartButton()) {
+      return _buildStartButton();
+    } else if (_shouldShowNextButton()) {
+      return _buildNextButton();
+    } else if (_shouldShowEndButton()) {
+      return _buildEndButton();
+    } else if (_shouldShowAcceptAgainButton()) {
+      return _buildAcceptAgainButton();
+    } else if (_shouldShowTryAgainButton()) {
+      return _buildTryAgainButton();
+    } else {
+      return _buildNextButton();
     }
+  }
 
-    if ((widget.challenge.frequency.amount == 1 ||
-                // widget.challenge.getCurrentRepetition() == null ||
-                // widget.challenge.getCurrentRepetition()!.progressList.isEmpty ||
+  bool _shouldShowStartButton() {
+    return widget.challenge.getCurrentRepetition() == null ||
+        widget.challenge.getCurrentRepetition()!.isInBacklog() &&
+            frequency.type == FrequencyTypeEnum.time;
+  }
+
+  Widget _buildStartButton() {
+    return CustomButtonComponent(
+      onTap: () => widget.onTapStart(widget.challenge),
+      text: "Start",
+      isPrimaryButton: true,
+    );
+  }
+
+  bool _shouldShowEndButton() {
+    return (frequency.amount == 1 ||
+                widget.challenge.getCurrentRepetition() != null &&
+                    widget.challenge
+                        .getCurrentRepetition()!
+                        .progressList
+                        .isEmpty ||
                 widget.challenge.getCurrentRepetitionNumber() ==
-                    widget.challenge.frequency.getMaxAmoutOfRepetitions()) &&
+                    frequency.getMaxAmoutOfRepetitions()) &&
             widget.challenge.isInProgress() ||
         widget.challenge.getCurrentRepetition() != null &&
-            widget.challenge.getCurrentRepetition()!.isInProgress()) {
-      return CustomButtonComponent(
-        onTap: () => widget.onTapEnd(widget.challenge),
-        text: "End",
-        subText: widget.challenge.frequency.type == FrequencyTypeEnum.daily &&
-                widget.challenge.frequency.amount != null &&
-                widget.challenge.getCurrentRepetitionNumber() <
-                    widget.challenge.frequency.getMaxAmoutOfRepetitions()!
-            ? "Next in ${widget.challenge.frequency.nextIn()}"
-            : null,
-        isPrimaryButton:
-            widget.challenge.getCurrentRepetitionProgressPercentageProgess() >=
-                    1 &&
-                widget.challenge.frequency.type == FrequencyTypeEnum.time,
-        padding: const EdgeInsets.all(5),
-      );
+            widget.challenge.getCurrentRepetition()!.isInProgress();
+  }
+
+  bool _shouldShowNextButton() {
+    if (widget.challenge.getCurrentRepetitionNumber() ==
+        widget.challenge.frequency.getMaxAmoutOfRepetitions()) {
+      return false;
     }
 
-    if (widget.challenge.isSucceeded()) {
-      return CustomButtonComponent(
-        onTap: () => widget.onTapAgain(widget.challenge),
-        text: "Accept Again",
-        isPrimaryButton: true,
-      );
-    }
-    if (widget.challenge.isFailed()) {
-      return CustomButtonComponent(
-        onTap: () => widget.onTapAgain(widget.challenge),
-        text: "Try Again",
-        isPrimaryButton: true,
-      );
-    }
+    return widget.challenge.getCurrentRepetition()?.progressList.isNotEmpty ??
+        false;
+  }
 
-    if (widget.challenge.frequency.type == FrequencyTypeEnum.daily) {
-      return CustomButtonComponent(
-          onTap: () => widget.onTapNext(widget.challenge),
-          text: "Next in ${widget.challenge.frequency.nextIn()}");
-    }
-
+  Widget _buildNextButton() {
     return CustomButtonComponent(
-        onTap: () => widget.onTapNext(widget.challenge),
-        isPrimaryButton: widget.challenge.getLastRepetition()!.isComplete(),
-        text: "Next");
+      onTap: () => widget.onTapNext(widget.challenge),
+      isPrimaryButton:
+          (widget.challenge.getCurrentRepetition()?.isComplete() ?? false) &&
+              frequency.type == FrequencyTypeEnum.time,
+      text: frequency.type == FrequencyTypeEnum.time
+          ? "Next"
+          : "Next in ${widget.challenge.nextIn()}",
+    );
+  }
+
+  Widget _buildEndButton() {
+    return CustomButtonComponent(
+      onTap: () => widget.onTapEnd(widget.challenge),
+      text: frequency.type != FrequencyTypeEnum.time &&
+              widget.challenge.getCurrentRepetitionNumber() ==
+                  frequency.getMaxAmoutOfRepetitions()
+          ? "Ends in ${widget.challenge.nextIn()}"
+          : "End",
+      subText: frequency.type == FrequencyTypeEnum.daily &&
+              widget.challenge.getCurrentRepetitionNumber() <
+                  frequency.getMaxAmoutOfRepetitions()!
+          ? "Next in ${widget.challenge.nextIn()}"
+          : null,
+      isPrimaryButton:
+          widget.challenge.getCurrentRepetitionProgressPercentageProgess() >=
+                  1 &&
+              frequency.type == FrequencyTypeEnum.time,
+      padding: const EdgeInsets.all(5),
+    );
+  }
+
+  bool _shouldShowAcceptAgainButton() {
+    return widget.challenge.isSucceeded();
+  }
+
+  Widget _buildAcceptAgainButton() {
+    return CustomButtonComponent(
+      onTap: () => widget.onTapAgain(widget.challenge),
+      text: "Accept Again",
+      isPrimaryButton: true,
+    );
+  }
+
+  bool _shouldShowTryAgainButton() {
+    return widget.challenge.isFailed();
+  }
+
+  Widget _buildTryAgainButton() {
+    return CustomButtonComponent(
+      onTap: () => widget.onTapAgain(widget.challenge),
+      text: "Try Again",
+      isPrimaryButton: true,
+    );
   }
 }
