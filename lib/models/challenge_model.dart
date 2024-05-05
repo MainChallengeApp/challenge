@@ -146,7 +146,7 @@ class ChallengeModel {
       status = ChallengeStatusEnum.success;
     } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
       status = ChallengeStatusEnum.failed;
-    } else if (startDate == null || startDate!.isAfter(DateTime.now())) {
+    } else if (startDate == null || DateTime.now().isBefore(startDate!)) {
       status = ChallengeStatusEnum.backlog;
     } else {
       status = ChallengeStatusEnum.inProgress;
@@ -438,5 +438,11 @@ class ChallengeModel {
                 ? -1
                 : a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
     return challenges;
+  }
+
+  bool canEndRepetition() {
+    return getCurrentRepetition()?.isInProgress() &&
+        getCurrentRepetition()!.progressList.isNotEmpty &&
+        getCurrentRepetitionNumber() != frequency.getMaxAmoutOfRepetitions();
   }
 }

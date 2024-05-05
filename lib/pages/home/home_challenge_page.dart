@@ -1,12 +1,11 @@
 import 'package:camera/camera.dart';
-import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/pages/components/challenge/acceptance_criteria_component.dart';
+import 'package:challenge/pages/components/challenge/action_button_component.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
 import 'package:challenge/pages/components/challenge/documentation_button_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
@@ -17,6 +16,7 @@ import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -24,7 +24,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/enums/challenge_status_enum.dart';
 
 class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage(
@@ -49,6 +48,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   ChallengeController challengeController = ChallengeController();
 
+  ChallengeService challengeService = ChallengeService();
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +62,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
@@ -222,66 +224,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     if (isDescriptionExpanded) {
       return Container();
     }
-
-    if (challenge.getCurrentRepetition() == null ||
-        challenge.getCurrentRepetition()!.isInBacklog() &&
-            challenge.frequency.type == FrequencyTypeEnum.time) {
-      return CustomButtonComponent(
-        onTap: () => onTapStart(challenge),
-        text: "Start",
-        isPrimaryButton: true,
-      );
-    }
-
-    if ((challenge.frequency.amount == 1 ||
-                // challenge.getCurrentRepetition() == null ||
-                // challenge.getCurrentRepetition()!.progressList.isEmpty ||
-                challenge.getCurrentRepetitionNumber() ==
-                    challenge.frequency.getMaxAmoutOfRepetitions()) &&
-            challenge.isInProgress() ||
-        challenge.getCurrentRepetition() != null &&
-            challenge.getCurrentRepetition()!.isInProgress()) {
-      return CustomButtonComponent(
-        onTap: () => onTapEnd(challenge),
-        text: "End",
-        subText: challenge.frequency.type == FrequencyTypeEnum.daily &&
-                challenge.frequency.amount != null &&
-                challenge.getCurrentRepetitionNumber() <
-                    challenge.frequency.getMaxAmoutOfRepetitions()!
-            ? "Next in ${challenge.frequency.nextIn()}"
-            : null,
-        isPrimaryButton:
-            challenge.getCurrentRepetitionProgressPercentageProgess() >= 1 &&
-                challenge.frequency.type == FrequencyTypeEnum.time,
-        padding: const EdgeInsets.all(5),
-      );
-    }
-
-    if (challenge.status == ChallengeStatusEnum.success) {
-      return CustomButtonComponent(
-        onTap: () => onTapAgain(challenge),
-        text: "Accept Again",
-        isPrimaryButton: true,
-      );
-    }
-    if (challenge.status == ChallengeStatusEnum.failed) {
-      return CustomButtonComponent(
-        onTap: () => onTapAgain(challenge),
-        text: "Try Again",
-        isPrimaryButton: true,
-      );
-    }
-
-    if (challenge.frequency.type == FrequencyTypeEnum.daily) {
-      return CustomButtonComponent(
-          onTap: () => onTapNext(challenge),
-          text: "Next in ${challenge.frequency.nextIn()}");
-    }
-
-    return CustomButtonComponent(
-        onTap: () => onTapNext(challenge),
-        isPrimaryButton: challenge.getLastRepetition()!.isComplete(),
-        text: "Next");
+    return ActionButtonComponent(
+      challenge: challenge,
+      onTapStart: onTapStart,
+      onTapEnd: onTapEnd,
+      onTapAgain: onTapAgain,
+      onTapNext: onTapNext,
+    );
   }
 
   documentationButtons(BuildContext context, ChallengeModel challenge) {
@@ -507,6 +456,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         setState(() {
           challenge.end();
 
+          challengeList = challengeList
+              .map((oldChallenge) =>
+                  oldChallenge.id == challenge.id ? challenge : oldChallenge)
+              .toList();
+
           challengeList =
               ChallengeModel.sortChallengeList(challenges: challengeList);
 
@@ -574,38 +528,18 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   onTapStart(ChallengeModel challenge) {
     setState(() {
-      if (challenge.isInBacklog()) {
-        challenge.start();
-      }
-      if (challenge.getCurrentRepetition() != null &&
-          challenge.getCurrentRepetition()!.isInBacklog()) {
-        challenge.getCurrentRepetition()!.start();
-      }
-      allChallengesList = allChallengesList.map((e) {
-        return e.id == challenge.id ? challenge : e;
-      }).toList();
-      challengeList = challengeList
-          .map((e) => e.id == challenge.id ? challenge : e)
-          .toList();
-      challengeController.writeFile(allChallengesList);
+      challengeService.startChallenge(challenge);
     });
   }
 
   onTapEnd(ChallengeModel challenge) {
-    if (challenge.getCurrentRepetition()!.isInProgress() &&
-        challenge.getCurrentRepetition()!.progressList.isNotEmpty) {
+    if (challenge.canEndRepetition()) {
       setState(() {
-        challenge.endRepetition();
-        allChallengesList = allChallengesList.map((e) {
-          return e.id == challenge.id ? challenge : e;
-        }).toList();
-        challengeList = challengeList
-            .map((e) => e.id == challenge.id ? challenge : e)
-            .toList();
-        challengeController.writeFile(allChallengesList);
+        challengeService.endRepetition(challenge);
       });
       return;
     }
+
     showDialog(
       context: context,
       builder: (context) {

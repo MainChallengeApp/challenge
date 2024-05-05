@@ -1,12 +1,14 @@
 import 'dart:math';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/pages/components/challenge/action_button_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
 import 'package:challenge/pages/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -28,6 +30,8 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
 
 class _ListItemRepetitionExpandedComponentState
     extends State<ListItemRepetitionExpandedComponent> {
+  final ChallengeService challengeService = ChallengeService();
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -88,28 +92,41 @@ class _ListItemRepetitionExpandedComponentState
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomRight,
-                      child: CustomContainerComponent(
-                        margin: const EdgeInsets.only(
-                            left: 5, bottom: 10, right: 10),
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "End:",
-                              style: TextStyle(fontSize: 13),
+                      child: widget.repetition.endDate == null &&
+                              widget.repetition.startDate != null
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 5, bottom: 10, right: 10),
+                              child: ActionButtonComponent(
+                                  challenge: widget.challenge,
+                                  onTapStart: onTapStart,
+                                  onTapEnd: onTapEnd,
+                                  onTapAgain: onTapAgain,
+                                  onTapNext: onTapNext),
+                            )
+                          : CustomContainerComponent(
+                              margin: const EdgeInsets.only(
+                                  left: 5, bottom: 10, right: 10),
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
+                                    "End:",
+                                    style: TextStyle(fontSize: 13),
+                                  ),
+                                  Text(
+                                    widget.repetition.endDate != null
+                                        ? DesignUtil.getDateAndTimeFormated(
+                                                widget.repetition.endDate)
+                                            .split(' ')[0]
+                                        : '-',
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
+                                ],
+                              ),
                             ),
-                            Text(
-                              widget.repetition.endDate != null
-                                  ? DesignUtil.getDateAndTimeFormated(
-                                          widget.repetition.endDate)
-                                      .split(' ')[0]
-                                  : '-',
-                              style: const TextStyle(fontSize: 13),
-                            ),
-                          ],
-                        ),
-                      ),
                     ),
                   ),
                 ],
@@ -120,6 +137,18 @@ class _ListItemRepetitionExpandedComponentState
         const SpaceComponent(),
       ],
     );
+  }
+
+  onTapNext(challenge) => {};
+
+  onTapAgain(challenge) => {};
+
+  onTapEnd(challenge) => {};
+
+  onTapStart(challenge) {
+    setState(() {
+      challengeService.startChallenge(challenge);
+    });
   }
 
   repetition() {
