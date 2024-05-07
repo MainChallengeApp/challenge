@@ -78,9 +78,7 @@ class _ListItemRepetitionExpandedComponentState
                   Expanded(
                       child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: widget.repetition.isInBacklog() &&
-                            widget.challenge.frequency.type ==
-                                FrequencyTypeEnum.time
+                    child: widget.repetition.startDate == null
                         ? Padding(
                             padding: const EdgeInsets.only(
                                 left: 10, bottom: 10, right: 5),

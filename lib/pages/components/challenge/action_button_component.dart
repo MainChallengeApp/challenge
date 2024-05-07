@@ -53,8 +53,8 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowStartButton() {
-    if (!widget.challenge.isInBacklog()) {
-      return false;
+    if (widget.challenge.isInBacklog()) {
+      return true;
     }
     if (widget.challenge.getCurrentRepetition() == null) {
       return true;

@@ -156,6 +156,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       setStateRepetitionPage: () => setState(() {}),
                       addToExpandedRepetition: (int repetitionNumber) {
                         setState(() {
+                          expandedRepetitionIndexList.clear();
                           expandedRepetitionIndexList.add(repetitionNumber);
                         });
                       },
