@@ -44,22 +44,25 @@ class _ListItemChallengeSmallComponentState
             width: 40,
             height: 40,
             margin: const EdgeInsets.only(right: 12),
-            child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                child: widget.challenge.getThumbnailPath() != ''
-                    ? widget.challenge.isThumbnailFromAssetsImage()
-                        ? Transform.scale(
-                            scale: 0.8,
-                            child: Image.asset(
-                              widget.challenge.getThumbnailPath(),
-                              fit: BoxFit.contain,
-                            ),
-                          )
-                        : Image.asset(widget.challenge.getThumbnailPath(),
-                            fit: BoxFit.cover)
-                    : const Center(
-                        child: Icon(Icons.question_mark, color: themeColor3),
-                      )),
+            child: Hero(
+              tag: widget.challenge.id.toString(),
+              child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: widget.challenge.getThumbnailPath() != ''
+                      ? widget.challenge.isThumbnailFromAssetsImage()
+                          ? Transform.scale(
+                              scale: 0.8,
+                              child: Image.asset(
+                                widget.challenge.getThumbnailPath(),
+                                fit: BoxFit.contain,
+                              ),
+                            )
+                          : Image.asset(widget.challenge.getThumbnailPath(),
+                              fit: BoxFit.cover)
+                      : const Center(
+                          child: Icon(Icons.question_mark, color: themeColor3),
+                        )),
+            ),
           ),
           Expanded(
             child: Text(

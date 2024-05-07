@@ -73,7 +73,7 @@ class _AcceptanceCriteriaComponentState
                         // progressPercentage(widget.challenge.acceptanceCriteria),
                         repetition(),
                         repetitionProgressAbsolute(),
-                        repetitionPercentage(),
+                        // repetitionPercentage(),
                       ],
                     ),
                   ))

@@ -27,6 +27,7 @@ class _ListItemRepetitionComponentState
     extends State<ListItemRepetitionComponent> {
   @override
   Widget build(BuildContext context) {
+    widget.repetition.evaluateRepetitionStatus();
     return Column(
       children: [
         ListItemFractionComponent(

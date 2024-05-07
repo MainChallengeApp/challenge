@@ -9,6 +9,7 @@ import 'package:challenge/pages/components/challenge/title_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/pages/subpages/media/media_list_page.dart';
@@ -394,6 +395,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   onTapAcceptanceCriteria(ChallengeModel challenge) async {
+    if (challenge.frequency.amount != null &&
+        challenge.frequency.amount! <= 0) {
+      return;
+    }
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -535,52 +540,61 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   onTapEnd(ChallengeModel challenge) {
     if (challenge.canEndRepetition()) {
       setState(() {
-        challengeService.endRepetition(challenge);
+        challengeService.nextRepetition(challenge);
       });
       return;
     }
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        context3 = context;
-        return GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Dialog(
-            insetPadding: const EdgeInsets.only(
-                top: 150, bottom: 200, left: 50, right: 50),
-            alignment: Alignment.center,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(24))),
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(24))),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(child: dialogYesButton(challenge)),
-                        const SpaceComponent(),
-                        Expanded(child: dialogNoButton())
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
+    EndChallengeDialog.show(context, challenge,
+        onTapNo: () => Navigator.pop(context),
+        onTapYes: (challenge) {
+          Navigator.pop(EndChallengeDialog.context3);
+          setState(() {
+            challengeService.endChallenge(challenge);
+          });
+        });
+
+    // showDialog(
+    //   context: context,
+    //   builder: (context) {
+    //     context3 = context;
+    //     return GestureDetector(
+    //       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+    //       child: Dialog(
+    //         insetPadding: const EdgeInsets.only(
+    //             top: 150, bottom: 200, left: 50, right: 50),
+    //         alignment: Alignment.center,
+    //         shape: const RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.all(Radius.circular(24))),
+    //         child: SingleChildScrollView(
+    //           child: Container(
+    //             decoration: const BoxDecoration(
+    //                 color: Colors.white,
+    //                 borderRadius: BorderRadius.all(Radius.circular(24))),
+    //             child: Column(
+    //               children: [
+    //                 const Padding(
+    //                   padding: EdgeInsets.all(16.0),
+    //                   child: Text(
+    //                     'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
+    //                     textAlign: TextAlign.center,
+    //                   ),
+    //                 ),
+    //                 Row(
+    //                   children: [
+    //                     Expanded(child: dialogYesButton(challenge)),
+    //                     const SpaceComponent(),
+    //                     Expanded(child: dialogNoButton())
+    //                   ],
+    //                 )
+    //               ],
+    //             ),
+    //           ),
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   onTapAgain(ChallengeModel challenge) {
@@ -603,16 +617,17 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   onTapNext(ChallengeModel challenge) {
     setState(() {
-      challenge.endRepetition();
+      challengeService.nextRepetition(challenge);
+      // challenge.endRepetition();
 
-      allChallengesList = allChallengesList.map((e) {
-        return e.id == challenge.id ? challenge : e;
-      }).toList();
+      // allChallengesList = allChallengesList.map((e) {
+      //   return e.id == challenge.id ? challenge : e;
+      // }).toList();
 
-      challengeList = challengeList
-          .map((e) => e.id == challenge.id ? challenge : e)
-          .toList();
-      challengeController.writeFile(allChallengesList);
+      // challengeList = challengeList
+      //     .map((e) => e.id == challenge.id ? challenge : e)
+      //     .toList();
+      // challengeController.writeFile(allChallengesList);
     });
   }
 }

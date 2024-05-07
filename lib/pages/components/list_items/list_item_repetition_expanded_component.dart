@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/challenge/action_button_component.dart';
@@ -8,6 +9,7 @@ import 'package:challenge/pages/components/simple_components/container_in_contai
 import 'package:challenge/pages/components/simple_components/custom_container_component.dart';
 import 'package:challenge/pages/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -17,11 +19,15 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
       {super.key,
       required this.repetition,
       this.onTap,
-      required this.challenge});
+      required this.challenge,
+      required this.setStateRepetitionPage,
+      required this.addToExpandedRepetition});
 
   final RepetitionModel repetition;
   final ChallengeModel challenge;
   final void Function()? onTap;
+  final void Function() setStateRepetitionPage;
+  final void Function(int repetitionNumber) addToExpandedRepetition;
 
   @override
   State<ListItemRepetitionExpandedComponent> createState() =>
@@ -32,8 +38,12 @@ class _ListItemRepetitionExpandedComponentState
     extends State<ListItemRepetitionExpandedComponent> {
   final ChallengeService challengeService = ChallengeService();
 
+  late BuildContext dialogContext;
+
   @override
   Widget build(BuildContext context) {
+    dialogContext = context;
+    widget.repetition.evaluateRepetitionStatus();
     return Stack(
       children: [
         ListItemFractionComponent(
@@ -68,26 +78,46 @@ class _ListItemRepetitionExpandedComponentState
                   Expanded(
                       child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: CustomContainerComponent(
-                      margin:
-                          const EdgeInsets.only(left: 10, bottom: 10, right: 5),
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            "Start:",
-                            style: TextStyle(fontSize: 13),
+                    child: widget.repetition.isInBacklog() &&
+                            widget.challenge.frequency.type ==
+                                FrequencyTypeEnum.time
+                        ? Padding(
+                            padding: const EdgeInsets.only(
+                                left: 10, bottom: 10, right: 5),
+                            child: ActionButtonComponent(
+                              challenge: widget.challenge,
+                              onTapAgain: (_) => {},
+                              onTapEnd: (_) => {},
+                              onTapNext: (_) => {},
+                              onTapStart: (challenge) {
+                                setState(() {
+                                  challengeService.startChallenge(challenge);
+                                });
+
+                                return;
+                              },
+                            ),
+                          )
+                        : CustomContainerComponent(
+                            margin: const EdgeInsets.only(
+                                left: 10, bottom: 10, right: 5),
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  "Start:",
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                                Text(
+                                  DesignUtil.getDateAndTimeFormated(
+                                          widget.repetition.startDate)
+                                      .split(' ')[0],
+                                  style: const TextStyle(fontSize: 13),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text(
-                            DesignUtil.getDateAndTimeFormated(
-                                    widget.repetition.startDate)
-                                .split(' ')[0],
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
                   )),
                   Expanded(
                     child: Align(
@@ -139,11 +169,27 @@ class _ListItemRepetitionExpandedComponentState
     );
   }
 
-  onTapNext(challenge) => {};
+  onTapNext(challenge) {
+    setState(() {
+      challengeService.nextRepetition(challenge);
+      widget.addToExpandedRepetition
+          .call(challenge.getLastRepetition()!.repetitionNumber);
+    });
+    widget.setStateRepetitionPage.call();
+  }
 
   onTapAgain(challenge) => {};
 
-  onTapEnd(challenge) => {};
+  onTapEnd(challenge) {
+    EndChallengeDialog.show(context, challenge, onTapYes: (challenge) {
+      Navigator.pop(EndChallengeDialog.context3);
+      setState(() {
+        challengeService.endChallenge(challenge);
+      });
+    }, onTapNo: () {
+      Navigator.pop(context);
+    });
+  }
 
   onTapStart(challenge) {
     setState(() {

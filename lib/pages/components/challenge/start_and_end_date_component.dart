@@ -24,6 +24,111 @@ class StartAndEndDateComponent extends StatefulWidget {
 class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   @override
   Widget build(BuildContext context) {
+    // return CustomContainerComponent(
+    //     padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+    //         Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             Align(
+    //               alignment: Alignment.topLeft,
+    //               child: Text(
+    //                 'Start',
+    //                 style: TextStyle(fontSize: 12, color: themeColor3),
+    //               ),
+    //             ),
+    //             Align(
+    //               alignment: Alignment.topCenter,
+    //               child: Text(
+    //                 'Now',
+    //                 style: TextStyle(fontSize: 12, color: themeColor3),
+    //               ),
+    //             ),
+    //             Align(
+    //               alignment: Alignment.topRight,
+    //               child: Text(
+    //                 'End',
+    //                 style: TextStyle(fontSize: 12, color: themeColor3),
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //         Stack(
+    //           children: [
+    //             Center(
+    //               child: timeline(),
+    //             ),
+    //             // Positioned(
+    //             //     // left: 0,
+    //             //     child: Container(
+    //             //   width: double.infinity,
+    //             //   height: double.infinity,
+    //             //   child: Align(
+    //             //     alignment: Alignment.centerLeft,
+    //             //     child: start(),
+    //             //   ),
+    //             // )),
+    //             // Positioned(
+    //             //     // left: 0,
+    //             //     child: Container(
+    //             //   width: double.infinity,
+    //             //   height: double.infinity,
+    //             //   child: Align(
+    //             //     alignment: Alignment.centerRight,
+    //             //     child: end(),
+    //             //   ),
+    //             // )),
+    //             // Positioned(
+    //             //     left: 50,
+    //             //     child: Container(
+    //             //       width: double.infinity,
+    //             //       height: double.infinity,
+    //             //       child: Align(
+    //             //         alignment: Alignment.centerLeft,
+    //             //         child: now(),
+    //             //       ),
+    //             //     )),
+    //           ],
+    //         ),
+    //         Row(
+    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //           children: [
+    //             Align(
+    //               alignment: Alignment.topLeft,
+    //               child: Text(
+    //                 DesignUtil.getDateAndTimeFormated(
+    //                         widget.editChallenge.startDate,
+    //                         isYearVisible: false)
+    //                     .split(' ')[0],
+    //                 style: const TextStyle(fontSize: 12, color: themeColor3),
+    //               ),
+    //             ),
+    //             Align(
+    //               alignment: Alignment.topCenter,
+    //               child: Text(
+    //                 DesignUtil.getDateAndTimeFormated(DateTime.now(),
+    //                         isYearVisible: false)
+    //                     .split(' ')[0],
+    //                 style: TextStyle(fontSize: 12, color: themeColor3),
+    //               ),
+    //             ),
+    //             Align(
+    //               alignment: Alignment.topRight,
+    //               child: Text(
+    //                 DesignUtil.getDateAndTimeFormated(
+    //                         widget.editChallenge.endDate,
+    //                         isYearVisible: false)
+    //                     .split(' ')[0],
+    //                 style: const TextStyle(fontSize: 12, color: themeColor3),
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //       ],
+    //     ));
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -91,9 +196,12 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   void onTapStartOrEndDate(String startOrEnd) async {
     if (widget.isLocked) return;
 
-    DateTime? initialDateTime =
-        startOrEnd == 'start' || widget.editChallenge.endDate == null
-            ? widget.editChallenge.startDate
+    DateTime? initialDateTime = startOrEnd == 'start'
+        ? widget.editChallenge.startDate
+        : widget.editChallenge.endDate != null &&
+                widget.editChallenge.startDate != null
+            ? DesignUtil.dateWithoutTime(widget.editChallenge.startDate!)
+                .add(const Duration(hours: 23, minutes: 59, seconds: 59))
             : widget.editChallenge.endDate;
     setState(() {
       if (startOrEnd == 'start') {
@@ -129,7 +237,8 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
               setState(() {
                 if (!isDateTimeChanged) {
                   widget.editChallenge.endDate = initialDateTime ??
-                      DesignUtil.dateWithoutTime(DateTime.now());
+                      DesignUtil.dateWithoutTime(DateTime.now()).add(
+                          const Duration(hours: 23, minutes: 59, seconds: 59));
                   widget.editChallenge.setFrequencyAmount();
                   widget.reloadSearchChallengePage?.call();
                 }
@@ -159,7 +268,10 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
               initialDateTime: initialDateTime,
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: (value) {
-                value = DesignUtil.dateWithoutTime(value);
+                value = DesignUtil.dateWithoutTime(value).add(
+                    startOrEnd == 'end'
+                        ? const Duration(hours: 23, minutes: 59, seconds: 59)
+                        : Duration.zero);
                 isDateTimeChanged = true;
                 setState(() {
                   if (startOrEnd == 'start') {
@@ -179,7 +291,150 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     );
   }
 
+  Container timeline() {
+    return Container(width: double.infinity, height: 1.5, color: themeColor5);
+  }
+
   String _dateFormat(DateTime date) {
     return '${date.day}.${date.month}.${date.year}';
+  }
+
+  // start() {
+  //   return Container(
+  //     color: Colors.red,
+  //     padding: EdgeInsets.only(left: 16.0), // Adjust left padding as needed
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Expanded(child: Container()), // Placeholder above
+  //         const Text(
+  //           'Start',
+  //           style: TextStyle(fontSize: 12, color: themeColor3),
+  //         ),
+  //         const SizedBox(height: 4),
+  //         Row(
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           children: [
+  //             Expanded(
+  //               child: Container(
+  //                 height: 10,
+  //                 decoration: BoxDecoration(
+  //                   color: themeColor3,
+  //                   borderRadius: BorderRadius.circular(1),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(height: 4),
+  //         const Text(
+  //           'Start',
+  //           style: TextStyle(fontSize: 12, color: themeColor3),
+  //         ),
+  //         Expanded(child: Container()), // Placeholder below
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  start() {
+    return Wrap(
+      direction: Axis.vertical,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Expanded(child: Container()), // Platzhalter oben
+        const Text(
+          'Start',
+          style: TextStyle(fontSize: 12, color: themeColor3),
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Container(
+          width: 3,
+          height: 10,
+          decoration: BoxDecoration(
+            color: themeColor3,
+            borderRadius: BorderRadius.circular(1),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          DesignUtil.getDateAndTimeFormated(widget.editChallenge.startDate,
+                  isYearVisible: false)
+              .split(' ')[0],
+          style: const TextStyle(fontSize: 12, color: themeColor3),
+        ),
+        Expanded(child: Container()), // Platzhalter unten
+      ],
+    );
+  }
+
+  end() {
+    return Wrap(
+      direction: Axis.vertical,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        Expanded(child: Container()), // Platzhalter oben
+        const Text(
+          'End',
+          style: TextStyle(fontSize: 12, color: themeColor3),
+        ),
+        const SizedBox(
+          height: 4,
+        ),
+        Container(
+          width: 3,
+          height: 10,
+          decoration: BoxDecoration(
+            color: themeColor3,
+            borderRadius: BorderRadius.circular(1),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          DesignUtil.getDateAndTimeFormated(widget.editChallenge.endDate,
+                  isYearVisible: false)
+              .split(' ')[0],
+          style: const TextStyle(fontSize: 12, color: themeColor3),
+        ),
+        Expanded(child: Container()), // Platzhalter unten
+      ],
+    );
+  }
+
+  now() {
+    {
+      return Wrap(
+        direction: Axis.vertical,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Expanded(child: Container()), // Platzhalter oben
+          const Text(
+            'Now',
+            style: TextStyle(fontSize: 12, color: themeColor3),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          Container(
+            width: 3,
+            height: 10,
+            decoration: BoxDecoration(
+              color: themeColor3,
+              borderRadius: BorderRadius.circular(1),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            DesignUtil.getDateAndTimeFormated(DateTime.now(),
+                    isYearVisible: false)
+                .split(' ')[0],
+            style: const TextStyle(fontSize: 12, color: themeColor3),
+          ),
+          Expanded(child: Container()), // Platzhalter unten
+        ],
+      );
+    }
   }
 }

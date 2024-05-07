@@ -1,6 +1,7 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemFractionComponent extends StatefulWidget {
   const ListItemFractionComponent(
@@ -9,13 +10,15 @@ class ListItemFractionComponent extends StatefulWidget {
       required this.initialProgress,
       this.child,
       this.onTap,
-      this.margin});
+      this.margin,
+      this.endActionPane});
 
   final Widget? child;
   final double initialProgress;
   final bool isFailed;
   final void Function()? onTap;
   final EdgeInsetsGeometry? margin;
+  final ActionPane? Function(Function)? endActionPane;
 
   @override
   State<ListItemFractionComponent> createState() =>
@@ -29,6 +32,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
       onTap: widget.onTap,
       padding: const EdgeInsets.all(0),
       margin: widget.margin,
+      endActionPane: widget.endActionPane,
       child: Stack(
         children: [
           FractionallySizedBox(

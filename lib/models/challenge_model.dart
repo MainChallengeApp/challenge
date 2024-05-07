@@ -13,7 +13,7 @@ import 'acceptance_criteria_model.dart';
 import 'media_model.dart';
 
 class ChallengeModel {
-  late String? id; // set id automatically
+  late String? id;
   ChallengeStatusEnum status;
   String title;
   String description;
@@ -202,8 +202,10 @@ class ChallengeModel {
   }
 
   RepetitionModel? getLastRepetition() {
-    if (repetitions.isEmpty) return null;
-    return repetitions.last;
+    if (getAllRepetitions().isEmpty) {
+      return null;
+    }
+    return getAllRepetitions().last;
   }
 
   RepetitionModel? getCurrentRepetition() {
@@ -239,9 +241,14 @@ class ChallengeModel {
           RepetitionModel.empty(
               startDate: frequency.type == FrequencyTypeEnum.daily
                   ? startDate?.add(Duration(days: repetitionNumber - 1))
-                  : null,
+                  : frequency.type == FrequencyTypeEnum.time &&
+                          startDate != null &&
+                          repetitionNumber == 1
+                      ? startDate
+                      : null,
               endDate: frequency.type == FrequencyTypeEnum.daily &&
-                      repetitionNumber < getCurrentRepetitionNumber()
+                      (repetitionNumber < getCurrentRepetitionNumber() ||
+                          !isInProgress())
                   ? startDate?.add(Duration(days: repetitionNumber - 1))
                   : null,
               repetitionNumber: repetitionNumber,
@@ -267,7 +274,10 @@ class ChallengeModel {
     List<RepetitionModel> allRepetitions = getAllRepetitions();
     for (var repetition in allRepetitions) {
       if (startDate != null &&
-          repetition.repetitionNumber != getCurrentRepetitionNumber()) {
+          (repetition.repetitionNumber != getCurrentRepetitionNumber() ||
+              startDate!
+                  .add(const Duration(days: 1))
+                  .isBefore(DateTime.now()))) {
         repetition.endDate =
             startDate!.add(Duration(days: repetition.repetitionNumber));
       }
@@ -386,6 +396,9 @@ class ChallengeModel {
       }
       return min(days, frequency.amount!);
     } else if (frequency.type == FrequencyTypeEnum.time) {
+      if (frequency.amount == 0) {
+        return 0;
+      }
       return repetitions.isEmpty &&
               startDate != null &&
               startDate!.isBefore(DateTime.now())
@@ -408,14 +421,22 @@ class ChallengeModel {
       return;
     }
     status = ChallengeStatusEnum.inProgress;
-    RepetitionModel addingRepetition = addRepetition();
-    addingRepetition.start();
+    if (getAllRepetitions().isEmpty &&
+        (frequency.amount == null || frequency.amount! > 0)) {
+      RepetitionModel addingRepetition = addRepetition();
+      addingRepetition.start();
+    } else {
+      RepetitionModel? currentRepetition = getCurrentRepetition();
+      if (currentRepetition != null) {
+        currentRepetition.start();
+      }
+    }
   }
 
   end() {
     endDate = DateTime.now();
 
-    if (getCurrentRepetition()?.isInProgress()) {
+    if (getCurrentRepetition()?.isInProgress() ?? false) {
       getCurrentRepetition()!.end();
     }
 
@@ -500,7 +521,8 @@ class ChallengeModel {
   }
 
   bool canEndRepetition() {
-    return getCurrentRepetition()?.isInProgress() &&
+    return frequency.type == FrequencyTypeEnum.time &&
+        getCurrentRepetition()?.isInProgress() &&
         getCurrentRepetition()!.progressList.isNotEmpty &&
         getCurrentRepetitionNumber() != frequency.getMaxAmoutOfRepetitions();
   }

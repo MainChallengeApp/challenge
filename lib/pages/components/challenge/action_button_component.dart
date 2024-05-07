@@ -53,9 +53,16 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowStartButton() {
-    return widget.challenge.getCurrentRepetition() == null ||
-        widget.challenge.getCurrentRepetition()!.isInBacklog() &&
-            frequency.type == FrequencyTypeEnum.time;
+    if (!widget.challenge.isInBacklog()) {
+      return false;
+    }
+    if (widget.challenge.getCurrentRepetition() == null) {
+      return true;
+    } else {
+      widget.challenge.getCurrentRepetition()!.evaluateRepetitionStatus();
+      return widget.challenge.getCurrentRepetition()!.isInBacklog() &&
+          frequency.type == FrequencyTypeEnum.time;
+    }
   }
 
   Widget _buildStartButton() {
@@ -67,8 +74,11 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowEndButton() {
-    return (frequency.amount == 1 ||
-                widget.challenge.getCurrentRepetition() != null &&
+    if (!widget.challenge.isInProgress()) {
+      return false;
+    }
+
+    return (widget.challenge.getCurrentRepetition() != null &&
                     widget.challenge
                         .getCurrentRepetition()!
                         .progressList
@@ -83,6 +93,11 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   bool _shouldShowNextButton() {
     if (widget.challenge.getCurrentRepetitionNumber() ==
         widget.challenge.frequency.getMaxAmoutOfRepetitions()) {
+      return false;
+    }
+
+    if (widget.challenge.frequency.type == FrequencyTypeEnum.daily ||
+        widget.challenge.frequency.type == FrequencyTypeEnum.weekday) {
       return false;
     }
 

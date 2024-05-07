@@ -61,14 +61,12 @@ class RepetitionModel {
   }
 
   evaluateRepetitionStatus() {
-    if (isInProgress()) {
-      if (isComplete()) {
-        repetitionStatus = RepetitionStatusEnum.success;
-        return repetitionStatus;
-      } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
-        repetitionStatus = RepetitionStatusEnum.failed;
-        return repetitionStatus;
-      }
+    if (isComplete() && endDate != null) {
+      repetitionStatus = RepetitionStatusEnum.success;
+      return repetitionStatus;
+    } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
+      repetitionStatus = RepetitionStatusEnum.failed;
+      return repetitionStatus;
     }
     if (startDate != null) {
       repetitionStatus = RepetitionStatusEnum.inProgress;
@@ -166,5 +164,9 @@ class RepetitionModel {
       repetitionListCopy.add(RepetitionModel.copyRepetition(e));
     }
     return repetitionListCopy;
+  }
+
+  void deleteProgress(int progressIndex) {
+    progressList.removeAt(progressIndex);
   }
 }

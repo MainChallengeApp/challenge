@@ -28,18 +28,23 @@ class ThumbnailMaxComponent extends StatelessWidget {
             Center(
               child: SizedBox(
                 width: double.infinity,
-                child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    child: challenge.getThumbnailPath() != ''
-                        ? challenge.isThumbnailFromAssetsImage()
-                            ? Transform.scale(
-                                scale: 0.8,
-                                child: Image.asset(challenge.getThumbnailPath(),
-                                    fit: BoxFit.contain),
-                              )
-                            : Image.asset(challenge.getThumbnailPath(),
-                                fit: BoxFit.cover)
-                        : const Icon(Icons.question_mark, color: themeColor3)),
+                child: Hero(
+                  tag: challenge.id.toString(),
+                  child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
+                      child: challenge.getThumbnailPath() != ''
+                          ? challenge.isThumbnailFromAssetsImage()
+                              ? Transform.scale(
+                                  scale: 0.8,
+                                  child: Image.asset(
+                                      challenge.getThumbnailPath(),
+                                      fit: BoxFit.contain),
+                                )
+                              : Image.asset(challenge.getThumbnailPath(),
+                                  fit: BoxFit.cover)
+                          : const Icon(Icons.question_mark,
+                              color: themeColor3)),
+                ),
               ),
             ),
             isMediaListVisible

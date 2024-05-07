@@ -74,7 +74,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             preTitle: widget.preTitle,
             titleText: widget.progress == null
                 ? 'New Progress'
-                : '${widget.progress!.repetitionNumber}'),
+                : '${widget.repetition != null ? widget.repetition!.progressList.indexWhere((element) => element == widget.progress) + 1 : 1}'),
         backgroundColor: Colors.white,
         body: Stack(
           children: [_buildList(), progressButton()],
