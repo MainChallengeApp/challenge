@@ -251,10 +251,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-            preTitle:
-                '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
-            repetition: repetition,
-            challenge: widget.challenge),
+          preTitle:
+              '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
+          repetition: repetition,
+          challenge: widget.challenge,
+          isSaveInsteadOfEditButtonVisible: true,
+        ),
       ),
     ).then((_) => setState(() {
           // context.read<DesignProvider>().setIsBottomNavBarVisible(true);

@@ -5,9 +5,11 @@ import 'package:challenge/pages/components/list_items/list_item_button_component
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
+import 'package:challenge/pages/components/list_items/list_item_progress_controller_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
+import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -65,7 +67,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               : 0)
           : 0);
 
-  late BuildContext context2;
+  BuildContext? context2;
+
+  ChallengeService challengeService = ChallengeService();
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +82,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 ? 'New Progress'
                 : '${widget.repetition != null ? widget.repetition!.progressList.indexWhere((element) => element == widget.progress) + 1 : 1}'),
         backgroundColor: Colors.white,
-        body: Stack(
-          children: [_buildList(), progressButton()],
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: Stack(
+            children: [_buildList(), mainSaveButton()],
+          ),
         ));
   }
 
@@ -94,6 +101,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           controller: scrollController,
           itemCount: mediaList.length +
               1 +
+              (widget.isSaveInsteadOfEditButtonVisible
+                  ? 1
+                  : 0) + // +1 for progress controller list item
               1, // +1 for progress bar +1 for upload Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
@@ -102,6 +112,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 onTap: onTapProgressBar,
                 progress: editProgress,
                 challenge: widget.challenge,
+                isEditable: widget.isSaveInsteadOfEditButtonVisible,
                 isFailed: widget.repetition != null
                     ? widget.repetition!.repetitionStatus ==
                         RepetitionStatusEnum.failed
@@ -110,7 +121,17 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               ));
             }
 
-            if (index == 1) {
+            if (index == 1 && widget.isSaveInsteadOfEditButtonVisible) {
+              return SpaceColumnComponent(
+                child: ListItemProgressControllerComponent(
+                  challenge: widget.challenge,
+                  editProgress: editProgress,
+                  progressListSetState: () => setState(() {}),
+                ),
+              );
+            }
+
+            if (index == (widget.isSaveInsteadOfEditButtonVisible ? 2 : 1)) {
               return SpaceColumnComponent(
                 child: ListItemIconSmallComponent(
                     onTap: onTapUploadMedia,
@@ -118,20 +139,22 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     title: 'Upload Media'),
               );
             }
-
+            int newIndex = index -
+                1 -
+                1 -
+                (widget.isSaveInsteadOfEditButtonVisible ? 1 : 0);
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
-                onTap: () => ppush(context, index: index - 1 - 1),
-                media: mediaList.reversed.elementAt(index - 1 - 1),
+                onTap: () => ppush(context, index: newIndex),
+                media: mediaList.reversed.elementAt(newIndex),
                 onTapDeleteMedia: () {
                   setState(() {
                     MediaService.deleteMedia(
-                        mediaList.reversed.elementAt(index - 1 - 1),
+                        mediaList.reversed.elementAt(newIndex),
                         widget.challenge);
                     mediaList.removeWhere((media) =>
-                        media.id ==
-                        mediaList.reversed.elementAt(index - 1 - 1).id);
-                    editProgress.mediaIds.removeAt(index - 1 - 1);
+                        media.id == mediaList.reversed.elementAt(newIndex).id);
+                    editProgress.mediaIds.removeAt(newIndex);
                   });
                 },
               ),
@@ -155,15 +178,15 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     ).then((_) => setState(() {}));
   }
 
-  progressButton() {
+  mainSaveButton() {
     return widget.isSaveInsteadOfEditButtonVisible
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: ListItemButtonComponent(
-                text: 'Progress',
-                onTap: () => onTapProgressBar(),
+                text: 'Save',
+                onTap: () => onTapSave(),
                 isMainButton: true,
               ),
             ),
@@ -200,10 +223,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   void onTapSave() {
     if (widget.isSaveInsteadOfEditButtonVisible) {
-      Navigator.pop(context2);
+      if (context2 != null) {
+        Navigator.pop(context2!);
+      }
 
       if (widget.challenge.isInBacklog() && editProgress.progress > 0) {
-        widget.challenge.start();
+        challengeService.startChallenge(widget.challenge);
         widget.repetition = widget.challenge.getLastRepetition();
       }
 
@@ -247,7 +272,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       //   Navigator.pop(context);
       // } else {
       Navigator.pop(context);
-      Navigator.pop(context);
+      // Navigator.pop(context);
       // }
 
       // Navigator.removeRoute(context, ModalRoute.of(context)!);
@@ -405,7 +430,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               flex: 1,
               child: standardContainer(
                 child: Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerRight,
                   child: TextField(
                     textAlign: TextAlign.end,
                     controller: amountTextEditingController
