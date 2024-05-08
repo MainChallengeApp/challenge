@@ -484,7 +484,8 @@ class ChallengeModel {
   }
 
   bool isEditable() {
-    return status == ChallengeStatusEnum.backlog;
+    return status == ChallengeStatusEnum.backlog ||
+        status == ChallengeStatusEnum.inProgress;
   }
 
   double getCurrentPercentage() {
