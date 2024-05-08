@@ -1,14 +1,11 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_fraction_component.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/pages/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -22,7 +19,8 @@ class ListItemProgressComponent extends StatefulWidget {
       this.onTap,
       required this.isFailed,
       this.isSlidable = false,
-      this.onTapDeleteProgress});
+      this.onTapDeleteProgress,
+      this.isEditable = false});
 
   final ProgressModel progress;
   final String unit;
@@ -31,6 +29,7 @@ class ListItemProgressComponent extends StatefulWidget {
   final bool isFailed;
   final bool isSlidable;
   final void Function()? onTapDeleteProgress;
+  final bool isEditable;
 
   @override
   State<ListItemProgressComponent> createState() =>
@@ -43,6 +42,32 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
     return ListItemFractionComponent(
       endActionPane: widget.isSlidable ? endActionPane : null,
       onTap: widget.onTap,
+      onHorizontalDragUpdate: widget.isEditable
+          ? (details) {
+              setState(() {
+                int newProgress = 0;
+                newProgress = widget.progress.progress.toInt() +
+                    ((widget.challenge.acceptanceCriteria.amount *
+                                details.delta.dx.round() /
+                                100) +
+                            (details.delta.dx > 0
+                                ? 0.5
+                                : details.delta.dx < 0
+                                    ? -0.5
+                                    : 0))
+                        .round();
+                if (newProgress > widget.challenge.acceptanceCriteria.amount) {
+                  newProgress =
+                      widget.challenge.acceptanceCriteria.amount.toInt();
+                } else if (newProgress <= 0) {
+                  newProgress = 0;
+                }
+                widget.progress.progress = newProgress.toDouble();
+                widget.progress.setProgress(widget.challenge.acceptanceCriteria,
+                    widget.progress.progress);
+              });
+            }
+          : null,
       initialProgress: widget.progress.percentProgress <= 1
           ? widget.progress.percentProgress
           : 1,

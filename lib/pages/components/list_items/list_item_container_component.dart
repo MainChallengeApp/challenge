@@ -10,6 +10,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final Widget child;
   final Color? backgroundColor;
   final Function? onTap;
+  final Function(DragUpdateDetails)? onHorizontalDragUpdate;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final ActionPane? Function(Function)? endActionPane;
@@ -25,7 +26,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.endActionPane,
       this.height,
       this.margin,
-      this.borderRadius});
+      this.borderRadius,
+      this.onHorizontalDragUpdate});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -45,6 +47,7 @@ class _ListItemContainerComponentState
           onTap: () {
             widget.onTap?.call();
           },
+          onHorizontalDragUpdate: widget.onHorizontalDragUpdate,
           child: Container(
             width: double.infinity,
             height: widget.height ?? ListItemContainerComponent.standardHeight,

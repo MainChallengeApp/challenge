@@ -11,12 +11,14 @@ class ListItemFractionComponent extends StatefulWidget {
       this.child,
       this.onTap,
       this.margin,
-      this.endActionPane});
+      this.endActionPane,
+      this.onHorizontalDragUpdate});
 
   final Widget? child;
   final double initialProgress;
   final bool isFailed;
   final void Function()? onTap;
+  final void Function(DragUpdateDetails)? onHorizontalDragUpdate;
   final EdgeInsetsGeometry? margin;
   final ActionPane? Function(Function)? endActionPane;
 
@@ -30,6 +32,7 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
       onTap: widget.onTap,
+      onHorizontalDragUpdate: widget.onHorizontalDragUpdate,
       padding: const EdgeInsets.all(0),
       margin: widget.margin,
       endActionPane: widget.endActionPane,
