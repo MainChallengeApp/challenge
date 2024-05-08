@@ -6,6 +6,7 @@ import 'package:challenge/pages/components/edit_challenge/expanded_text_field_co
 import 'package:challenge/pages/components/edit_challenge/upload_thumbnail_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -189,21 +190,15 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   amountAndUnit() {
-    return Column(
-      children: [
-        AmountAndUnitComponent(
-            acceptanceCriteria: widget.editChallenge.acceptanceCriteria),
-        const SpaceComponent()
-      ],
+    return SpaceColumnComponent(
+      child: AmountAndUnitComponent(
+          acceptanceCriteria: widget.editChallenge.acceptanceCriteria),
     );
   }
 
   frequency() {
-    return Column(
-      children: [
-        FrequencyComponent(challenge: widget.editChallenge),
-        const SpaceComponent()
-      ],
+    return SpaceColumnComponent(
+      child: FrequencyComponent(challenge: widget.editChallenge),
     );
   }
 }
