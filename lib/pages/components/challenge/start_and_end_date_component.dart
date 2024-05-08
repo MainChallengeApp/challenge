@@ -198,11 +198,13 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
     DateTime? initialDateTime = startOrEnd == 'start'
         ? widget.editChallenge.startDate
-        : widget.editChallenge.endDate != null &&
-                widget.editChallenge.startDate != null
-            ? DesignUtil.dateWithoutTime(widget.editChallenge.startDate!)
+        : widget.editChallenge.endDate != null
+            ? DesignUtil.dateWithoutTime(widget.editChallenge.endDate!)
                 .add(const Duration(hours: 23, minutes: 59, seconds: 59))
-            : widget.editChallenge.endDate;
+            : widget.editChallenge.startDate != null
+                ? DesignUtil.dateWithoutTime(widget.editChallenge.startDate!)
+                    .add(const Duration(hours: 23, minutes: 59, seconds: 59))
+                : null;
     setState(() {
       if (startOrEnd == 'start') {
         widget.editChallenge.startDate = null;

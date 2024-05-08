@@ -31,6 +31,7 @@ class RepetitionModel {
     if (progressList.isEmpty) {
       return false;
     }
+
     return progressList.last.progress >= goalAmount;
   }
 
@@ -61,10 +62,12 @@ class RepetitionModel {
   }
 
   evaluateRepetitionStatus() {
-    if (isComplete() && endDate != null) {
+    if (isComplete() && endDate != null && endDate!.isBefore(DateTime.now())) {
       repetitionStatus = RepetitionStatusEnum.success;
       return repetitionStatus;
-    } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
+    } else if (!isComplete() &&
+        endDate != null &&
+        endDate!.isBefore(DateTime.now())) {
       repetitionStatus = RepetitionStatusEnum.failed;
       return repetitionStatus;
     }

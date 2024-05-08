@@ -120,8 +120,8 @@ class _ListItemRepetitionExpandedComponentState
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomRight,
-                      child: widget.repetition.endDate == null &&
-                              widget.repetition.startDate != null
+                      child: widget.repetition.startDate != null &&
+                              widget.repetition.isInProgress()
                           ? Padding(
                               padding: const EdgeInsets.only(
                                   left: 5, bottom: 10, right: 10),

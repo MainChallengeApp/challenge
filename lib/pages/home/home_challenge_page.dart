@@ -552,6 +552,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           setState(() {
             challengeService.endChallenge(challenge);
           });
+          challengeList =
+              ChallengeModel.sortChallengeList(challenges: challengeList);
+          pageController.jumpToPage(challengeList
+              .indexWhere(((element) => element.id == challenge.id)));
         });
 
     // showDialog(

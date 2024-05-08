@@ -348,6 +348,26 @@ class ChallengeModel {
     }
   }
 
+  evaluateRepetitionStatus(RepetitionModel repetition) {
+    if (repetition.isComplete() &&
+        repetition.endDate != null &&
+        repetition.endDate!.isBefore(DateTime.now())) {
+      repetition.repetitionStatus = RepetitionStatusEnum.success;
+      return repetition.repetitionStatus;
+    } else if (repetition.endDate != null &&
+        repetition.endDate!.isBefore(DateTime.now())) {
+      repetition.repetitionStatus = RepetitionStatusEnum.failed;
+      return repetition.repetitionStatus;
+    }
+    if (repetition.startDate != null) {
+      repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+      return repetition.repetitionStatus;
+    }
+
+    repetition.repetitionStatus = RepetitionStatusEnum.backlog;
+    return repetition.repetitionStatus;
+  }
+
   void endRepetition() {
     if (frequency.type == FrequencyTypeEnum.time) {
       RepetitionModel? currentRepetition = getCurrentRepetition();
