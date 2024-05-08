@@ -1,5 +1,5 @@
 class DesignUtil {
-  static String doubleAsInt(double number) {
+  static String doubleAsIntString(double number) {
     if (number.toString().endsWith('.0')) {
       return number.toString().split('.')[0];
     }

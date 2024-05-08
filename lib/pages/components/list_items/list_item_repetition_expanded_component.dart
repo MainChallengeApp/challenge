@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/challenge/action_button_component.dart';
@@ -204,7 +203,7 @@ class _ListItemRepetitionExpandedComponentState
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsInt(widget.repetition.getLastProgressProgress())}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
+            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressProgress())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
   }
 
   repetitionIcon() {

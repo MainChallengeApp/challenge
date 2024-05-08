@@ -32,7 +32,7 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
             ? Colors.white
             : null,
         text: isVisible
-            ? '${DesignUtil.doubleAsInt((challenge.getCurrentPercentage() * 100).roundToDouble())} %'
+            ? '${DesignUtil.doubleAsIntString((challenge.getCurrentPercentage() * 100).roundToDouble())} %'
             : '');
   }
 }

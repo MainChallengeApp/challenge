@@ -7,7 +7,7 @@ void main() {
       // Arrange
       double number = 1.0;
       // Act
-      String result = DesignUtil.doubleAsInt(number);
+      String result = DesignUtil.doubleAsIntString(number);
       // Assert
       expect(result, equals('1'));
     });
@@ -16,7 +16,7 @@ void main() {
       // Arrange
       double number = 1.1;
       // Act
-      String result = DesignUtil.doubleAsInt(number);
+      String result = DesignUtil.doubleAsIntString(number);
       // Assert
       expect(result, equals('1.1'));
     });

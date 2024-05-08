@@ -343,12 +343,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                       if (editProgress.progress - 1 >= 0) {
                         editProgress.progress -= 1;
                         amountTextEditingController.text =
-                            DesignUtil.doubleAsInt(editProgress.progress)
+                            DesignUtil.doubleAsIntString(editProgress.progress)
                                 .toString();
                       } else {
                         editProgress.progress = 0;
                         amountTextEditingController.text =
-                            DesignUtil.doubleAsInt(editProgress.progress)
+                            DesignUtil.doubleAsIntString(editProgress.progress)
                                 .toString();
                       }
                     }),
@@ -365,7 +365,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 onTap: () => setState(() {
                       editProgress.progress += 1;
                       amountTextEditingController.text =
-                          DesignUtil.doubleAsInt(editProgress.progress)
+                          DesignUtil.doubleAsIntString(editProgress.progress)
                               .toString();
                     }),
                 child: standardContainer(
@@ -382,7 +382,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                       editProgress.progress =
                           widget.challenge.acceptanceCriteria.amount;
                       amountTextEditingController.text =
-                          DesignUtil.doubleAsInt(editProgress.progress)
+                          DesignUtil.doubleAsIntString(editProgress.progress)
                               .toString();
                     }),
                 child: standardContainer(
@@ -409,8 +409,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   child: TextField(
                     textAlign: TextAlign.end,
                     controller: amountTextEditingController
-                      ..text = DesignUtil.doubleAsInt(editProgress.progress)
-                          .toString(),
+                      ..text =
+                          DesignUtil.doubleAsIntString(editProgress.progress)
+                              .toString(),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: <TextInputFormatter>[
@@ -460,7 +461,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     style: const TextStyle(color: Colors.grey),
                     controller: TextEditingController()
                       ..text =
-                          '${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
+                          '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
                     decoration:
                         const InputDecoration.collapsed(hintText: 'Unit'),
                   ),

@@ -97,19 +97,19 @@ class _AcceptanceCriteriaComponentState
             widget.challenge.acceptanceCriteria.amount != 0
         ? ContainerInContainerTextComponent(
             text:
-                '${DesignUtil.doubleAsInt(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+                '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
         : Container();
   }
 
   percentageDone() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsInt((widget.challenge.getCurrentPercentage() * 100).roundToDouble())} %');
+            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentPercentage() * 100).roundToDouble())} %');
   }
 
   repetitionPercentage() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsInt((widget.challenge.getCurrentRepetitionProgressPercentageProgess() * 100).roundToDouble())} %');
+            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentageProgess() * 100).roundToDouble())} %');
   }
 }

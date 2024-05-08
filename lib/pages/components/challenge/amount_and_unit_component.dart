@@ -24,7 +24,7 @@ class AmountAndUnitComponent extends StatefulWidget {
 class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
   late TextEditingController amountTextEditingController =
       TextEditingController(
-          text: DesignUtil.doubleAsInt(widget.acceptanceCriteria.amount));
+          text: DesignUtil.doubleAsIntString(widget.acceptanceCriteria.amount));
   late TextEditingController unitTextEditingController =
       TextEditingController(text: widget.acceptanceCriteria.unit.toString());
 

@@ -59,7 +59,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsInt(widget.progress.progress)}/${DesignUtil.doubleAsInt(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
+            '${DesignUtil.doubleAsIntString(widget.progress.progress)}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
   }
 
   progressIcon() {
