@@ -44,6 +44,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
               selectedIcon: Text(
                 String.fromCharCode(TabItemEnum.Search.icon.codePoint),
                 style: TextStyle(
+                  color: Colors.white,
                   inherit: false,
                   fontSize: 26,
                   fontWeight: FontWeight.w600,
@@ -53,6 +54,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
               icon: Text(
                 String.fromCharCode(TabItemEnum.Search.icon.codePoint),
                 style: TextStyle(
+                  color: Colors.white,
                   inherit: false,
                   fontSize: 26,
                   fontWeight: FontWeight.w600,
