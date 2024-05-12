@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
@@ -41,7 +42,9 @@ class _ListItemProgressControllerComponentState
       width: double.infinity,
       height: ListItemContainerComponent.standardHeight,
       margin: const EdgeInsets.only(left: 20, right: 20),
-      padding: const EdgeInsets.all(ListItemContainerComponent.standardPadding),
+      padding: const EdgeInsets.only(
+          left: ListItemContainerComponent.standardPadding,
+          right: ListItemContainerComponent.standardPadding),
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(width: 1, color: themeColor5),
@@ -67,7 +70,9 @@ class _ListItemProgressControllerComponentState
               }
               timer = Timer.periodic(
                   Duration(
-                      milliseconds: ((2000 ~/
+                      milliseconds: (((200 *
+                              log(widget
+                                  .challenge.acceptanceCriteria.amount)) ~/
                           widget.challenge.acceptanceCriteria.amount))), (t) {
                 setState(() {
                   subOneFromProgress();
@@ -102,6 +107,7 @@ class _ListItemProgressControllerComponentState
               subOneFromProgress();
             }),
             child: Container(
+              color: Colors.transparent,
               child: const Center(
                 child: Text('-1'),
               ),
@@ -117,10 +123,18 @@ class _ListItemProgressControllerComponentState
             onLongPress: () {
               timer = Timer.periodic(
                   Duration(
-                      milliseconds: (2000 ~/
-                          widget.challenge.acceptanceCriteria.amount)), (t) {
+                      milliseconds: (200 *
+                              log(widget
+                                  .challenge.acceptanceCriteria.amount)) ~/
+                          widget.challenge.acceptanceCriteria.amount), (t) {
                 setState(() {
-                  addOneToProgress();
+                  if (widget.editProgress.progress + 1 <=
+                      widget.challenge.acceptanceCriteria.amount) {
+                    addOneToProgress();
+                  } else {
+                    widget.editProgress.progress =
+                        widget.challenge.acceptanceCriteria.amount;
+                  }
                 });
               });
             },
@@ -134,6 +148,7 @@ class _ListItemProgressControllerComponentState
               addOneToProgress();
             }),
             child: Container(
+              color: Colors.transparent,
               child: const Center(
                 child: Text('+1'),
               ),
@@ -155,6 +170,7 @@ class _ListItemProgressControllerComponentState
                               widget.editProgress.progress);
                     }),
                 child: Container(
+                  color: Colors.transparent,
                   child: const Center(
                     child: Text('100%'),
                   ),
@@ -164,12 +180,7 @@ class _ListItemProgressControllerComponentState
   }
 
   void addOneToProgress() {
-    double newProgress = widget.editProgress.progress + 1;
-    if (newProgress <= widget.challenge.acceptanceCriteria.amount) {
-      widget.editProgress.progress = newProgress;
-    } else {
-      widget.editProgress.progress = widget.challenge.acceptanceCriteria.amount;
-    }
+    widget.editProgress.progress += 1;
     widget.progressListSetState();
     progressTextEditingController.text =
         DesignUtil.doubleAsIntString(widget.editProgress.progress);

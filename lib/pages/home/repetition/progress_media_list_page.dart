@@ -85,7 +85,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Stack(
-            children: [_buildList(), mainSaveButton()],
+            children: [
+              _buildList(),
+              widget.isSaveInsteadOfEditButtonVisible
+                  ? mainCancelAndSaveButton()
+                  : mainCancelAndEditButton()
+            ],
           ),
         ));
   }
@@ -178,16 +183,64 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     ).then((_) => setState(() {}));
   }
 
-  mainSaveButton() {
+  mainCancelAndSaveButton() {
     return widget.isSaveInsteadOfEditButtonVisible
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: ListItemButtonComponent(
-                text: 'Save',
-                onTap: () => onTapSave(),
-                isMainButton: true,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      text: 'Cancel',
+                      onTap: onTapCanel,
+                      isMainButton: false,
+                      margin: const EdgeInsets.only(left: 20, right: 10),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      text: 'Save',
+                      onTap: onTapSave,
+                      isMainButton: true,
+                      margin: const EdgeInsets.only(left: 10, right: 20),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Container();
+  }
+
+  mainCancelAndEditButton() {
+    return !widget.isSaveInsteadOfEditButtonVisible
+        ? Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      text: 'Cancel',
+                      onTap: onTapCanel,
+                      isMainButton: false,
+                      margin: const EdgeInsets.only(left: 20, right: 10),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      text: 'Edit',
+                      onTap: () => setState(() {
+                        widget.isSaveInsteadOfEditButtonVisible = true;
+                      }),
+                      isMainButton: true,
+                      margin: const EdgeInsets.only(left: 10, right: 20),
+                    ),
+                  ),
+                ],
               ),
             ),
           )
@@ -221,7 +274,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  void onTapSave() {
+  void onTapSave() async {
     if (widget.isSaveInsteadOfEditButtonVisible) {
       if (context2 != null) {
         Navigator.pop(context2!);
@@ -235,7 +288,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       widget.repetition ??= widget.challenge.addRepetition();
 
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-      widget.repetition!.addProgress(progress: editProgress);
+      if (widget.progress == null) {
+        widget.repetition!.addProgress(progress: editProgress);
+      } else {
+        widget.progress!.updateProgress(editProgress);
+      }
       // var progress = ProgressModel(
       //     date: DateTime.now(),
       //     progress: widget.acceptanceCriteria.currentProgress,
@@ -271,15 +328,32 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       //   Navigator.pop(context);
       //   Navigator.pop(context);
       // } else {
-      Navigator.pop(context);
-      // Navigator.pop(context);
+
+      // int max = countCharOccurrences(widget.preTitle, '/') - 1;
+      // // int max = Navigator.of(context)._history.length;
+
+      // for (int i = 0; i <= max; i++) {
+      //   if (Navigator.canPop(context)) {
+      //     Navigator.pop(context);
+      //   }
       // }
+      // Route secondRoute = Navigator.of(context). currentRoute!;
+      // Navigator.popUntil(context, (route) {
+      //   if(Navigator.canPop(context)){
+      //     secondRoute = route;
+      //     return false;
+      //   } else {
+      //     return true;}
+      // });
+      // if(secondRoute != null){
 
+      // }
+      // Navigator.push(context, secondRoute)
       // Navigator.removeRoute(context, ModalRoute.of(context)!);
       // Navigator.removeRoute(context, ModalRoute.of(context)!);
 
-      // Navigator.pop(context);
-      // Navigator.pop(context);
+      Navigator.pop(context);
+      Navigator.pop(context);
 
       // setIsBottomNavBarVisibleToTrue();
 
@@ -351,7 +425,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             ),
           );
         },
-      );
+      ).whenComplete(() => context2 = null);
     }
   }
 
@@ -526,5 +600,19 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         mediaList.add(media);
       });
     }
+  }
+
+  void onTapCanel() {
+    Navigator.pop(context);
+  }
+
+  int countCharOccurrences(String text, String charToCount) {
+    int count = 0;
+    for (int i = 0; i < text.length; i++) {
+      if (text[i] == charToCount) {
+        count++;
+      }
+    }
+    return count;
   }
 }

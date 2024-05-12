@@ -45,20 +45,21 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       onHorizontalDragUpdate: widget.isEditable
           ? (details) {
               setState(() {
-                int newProgress = 0;
-                newProgress = widget.progress.progress.toInt() +
-                    ((widget.challenge.acceptanceCriteria.amount *
-                                details.delta.dx.round() /
-                                100) +
+                double newProgress = 0;
+                newProgress = widget.progress.progress +
+                    (((widget.challenge.acceptanceCriteria.amount +
+                                    3) * // +3 to make it easier to swipe with widget.challenge.acceptanceCriteria.amount = 1
+                                details.delta.dx /
+                                MediaQuery.of(context).size.width) +
                             (details.delta.dx > 0
-                                ? 0.5
+                                ? 0.4
                                 : details.delta.dx < 0
-                                    ? -0.5
+                                    ? -0.4
                                     : 0))
                         .round();
+
                 if (newProgress > widget.challenge.acceptanceCriteria.amount) {
-                  newProgress =
-                      widget.challenge.acceptanceCriteria.amount.toInt();
+                  newProgress = widget.challenge.acceptanceCriteria.amount;
                 } else if (newProgress <= 0) {
                   newProgress = 0;
                 }

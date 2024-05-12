@@ -34,6 +34,12 @@ class ProgressModel {
     percentProgress = progress / acceptanceCriteria.amount;
   }
 
+  updateProgress(ProgressModel newProgress) {
+    progress = newProgress.progress;
+    percentProgress = newProgress.percentProgress;
+    mediaIds = newProgress.mediaIds;
+  }
+
   static fromJsonList(json) {
     List<ProgressModel> progressList = [];
     json?.forEach((e) => progressList.add(ProgressModel(
