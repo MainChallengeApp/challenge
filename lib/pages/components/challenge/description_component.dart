@@ -38,6 +38,11 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
     return widget.challenge.description.isNotEmpty
         ? widget.isDescriptionExpanded
             ? CustomContainerComponent(
+                padding: const EdgeInsets.only(
+                    left: CustomContainerComponent.standardPadding,
+                    right: CustomContainerComponent.standardPadding,
+                    top: CustomContainerComponent.standardPadding - 2,
+                    bottom: CustomContainerComponent.standardPadding - 2),
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
@@ -49,7 +54,8 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
                         const LinkifyOptions(removeWww: true, humanize: true),
                     text: widget.challenge.description,
                     textAlign: TextAlign.justify,
-                    style: const TextStyle(fontSize: 12, color: themeColor3),
+                    style: const TextStyle(
+                        fontSize: basicFontSize, color: themeColor3),
                     linkStyle: TextStyle(
                         decorationColor: Colors.blue[500],
                         color: Colors.blue[500]),
@@ -57,20 +63,28 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
                 ),
               )
             : CustomContainerComponent(
+                padding: const EdgeInsets.only(
+                    left: CustomContainerComponent.standardPadding,
+                    right: CustomContainerComponent.standardPadding,
+                    top: CustomContainerComponent.standardPadding - 2,
+                    bottom: CustomContainerComponent.standardPadding - 2),
                 child: Linkify(
-                onOpen: (link) {
-                  _launchURL(link.url);
-                },
-                options: const LinkifyOptions(removeWww: true, humanize: true),
-                text: widget.challenge.description,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                textDirection: TextDirection.ltr,
-                textAlign: TextAlign.justify,
-                style: const TextStyle(fontSize: 12, color: themeColor3),
-                linkStyle: TextStyle(
-                    decorationColor: Colors.blue[500], color: Colors.blue[500]),
-              ))
+                  onOpen: (link) {
+                    _launchURL(link.url);
+                  },
+                  options:
+                      const LinkifyOptions(removeWww: true, humanize: true),
+                  text: widget.challenge.description,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textDirection: TextDirection.ltr,
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                      fontSize: basicFontSize, color: themeColor3),
+                  linkStyle: TextStyle(
+                      decorationColor: Colors.blue[500],
+                      color: Colors.blue[500]),
+                ))
         : Container();
   }
 

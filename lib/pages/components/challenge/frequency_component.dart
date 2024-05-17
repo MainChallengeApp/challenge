@@ -58,7 +58,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         underline: Container(),
         value: frequency.type.toString().split('.')[1],
         icon: const Icon(Icons.expand_more),
-        style: const TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black, fontSize: basicFontSize),
         hint: const Text('Frequency'),
         onChanged: (String? value) {
           // This is called when the user selects an item.

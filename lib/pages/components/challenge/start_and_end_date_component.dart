@@ -141,13 +141,15 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
               children: [
                 const Text(
                   'Start',
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: basicFontSize),
                 ),
                 Text(
                   (widget.editChallenge.startDate != null
                       ? _dateFormat(widget.editChallenge.startDate!)
                       : '-'),
-                  style: const TextStyle(color: themeColor3),
+                  style: const TextStyle(
+                      color: themeColor3, fontSize: basicFontSize),
                 )
               ],
             )),
@@ -163,13 +165,15 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
               children: [
                 const Text(
                   'End',
-                  style: TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: basicFontSize),
                 ),
                 Text(
                   (widget.editChallenge.endDate != null
                       ? _dateFormat(widget.editChallenge.endDate!)
                       : '-'),
-                  style: const TextStyle(color: themeColor3),
+                  style: const TextStyle(
+                      color: themeColor3, fontSize: basicFontSize),
                 )
               ],
             )),

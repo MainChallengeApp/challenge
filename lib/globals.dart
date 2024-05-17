@@ -11,7 +11,7 @@ const Color themeColor5 = Color.fromRGBO(226, 232, 240, 1);
 Color green = Colors.green.withAlpha(100);
 Color red = Colors.red.withAlpha(100);
 
-const double basicFontSize = 14;
+const double basicFontSize = 13;
 
 List<ChallengeModel> challengeList = [];
 List<ChallengeModel> allChallengesList = [];

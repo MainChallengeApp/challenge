@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomContainerComponent extends StatelessWidget {
   static const double standardHeight = 55;
+  static const double standardPadding = 10;
 
   final double heightFactor;
   final Color backgroundColor;
@@ -20,7 +21,7 @@ class CustomContainerComponent extends StatelessWidget {
       this.backgroundColor = Colors.white,
       this.margin,
       this.isQuadratic = false,
-      this.padding = const EdgeInsets.all(10),
+      this.padding = const EdgeInsets.all(standardPadding),
       this.height,
       this.borderRadius});
 
