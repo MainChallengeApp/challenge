@@ -9,6 +9,7 @@ import 'package:challenge/pages/components/simple_components/space_component.dar
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+// import 'dart:math';
 
 class ListItemProgressComponent extends StatefulWidget {
   const ListItemProgressComponent(
@@ -46,17 +47,25 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
           ? (details) {
               setState(() {
                 double newProgress = 0;
-                newProgress = widget.progress.progress +
-                    (((widget.challenge.acceptanceCriteria.amount +
-                                    3) * // +3 to make it easier to swipe with widget.challenge.acceptanceCriteria.amount = 1
-                                details.delta.dx /
-                                MediaQuery.of(context).size.width) +
-                            (details.delta.dx > 0
-                                ? 0.4
-                                : details.delta.dx < 0
-                                    ? -0.4
-                                    : 0))
-                        .round();
+                // newProgress = widget.progress.progress +
+                //     (((widget.challenge.acceptanceCriteria.amount +
+                //                     3) * // +3 to make it easier to swipe with widget.challenge.acceptanceCriteria.amount = 1
+                //                 details.delta.dx /
+                //                 MediaQuery.of(context).size.width) +
+                //             (details.delta.dx > 0
+                //                 ? 0.4
+                //                 : details.delta.dx < 0
+                //                     ? -0.4
+                //                     : 0))
+                //         .round();
+
+                newProgress = (widget.challenge.acceptanceCriteria.amount *
+                        ((details.localPosition.dx - 50) /
+                            MediaQuery.of(context).size.width) *
+                        (0.5 +
+                            ((details.localPosition.dx - 50) /
+                                MediaQuery.of(context).size.width)))
+                    .roundToDouble();
 
                 if (newProgress > widget.challenge.acceptanceCriteria.amount) {
                   newProgress = widget.challenge.acceptanceCriteria.amount;
