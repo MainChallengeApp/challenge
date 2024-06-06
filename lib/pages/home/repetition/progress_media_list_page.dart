@@ -107,9 +107,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           itemCount: mediaList.length +
               1 +
               (widget.isSaveInsteadOfEditButtonVisible
-                  ? 1
-                  : 0) + // +1 for progress controller list item
-              1, // +1 for progress bar +1 for upload Media
+                  ? 2
+                  : 0) // +1 for progress controller list item
+          , // +1 for progress bar +1 for upload Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return SpaceColumnComponent(
@@ -136,7 +136,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               );
             }
 
-            if (index == (widget.isSaveInsteadOfEditButtonVisible ? 2 : 1)) {
+            if (index == 2 && widget.isSaveInsteadOfEditButtonVisible) {
               return SpaceColumnComponent(
                 child: ListItemIconSmallComponent(
                     onTap: onTapUploadMedia,
@@ -144,10 +144,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     title: 'Upload Media'),
               );
             }
-            int newIndex = index -
-                1 -
-                1 -
-                (widget.isSaveInsteadOfEditButtonVisible ? 1 : 0);
+            int newIndex =
+                index - (widget.isSaveInsteadOfEditButtonVisible ? 3 : 1);
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
                 onTap: () => ppush(context, index: newIndex),
