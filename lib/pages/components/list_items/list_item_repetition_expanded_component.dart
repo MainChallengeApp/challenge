@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/challenge/action_button_component.dart';
@@ -104,7 +105,7 @@ class _ListItemRepetitionExpandedComponentState
                               children: [
                                 const Text(
                                   "Start:",
-                                  style: TextStyle(fontSize: 13),
+                                  style: TextStyle(fontSize: basicFontSize),
                                 ),
                                 Text(
                                   DesignUtil.getDateAndTimeFormated(
