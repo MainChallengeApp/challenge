@@ -50,7 +50,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
     };
 
     return Expanded(
-      flex: 3,
+      flex: 2,
       child: CustomContainerComponent(
           child: DropdownButton<String>(
         borderRadius: BorderRadius.circular(16),
@@ -72,7 +72,10 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         items: frequencyMap.entries.map((e) {
           return DropdownMenuItem<String>(
               value: e.key.toString2(),
-              child: Text(frequency.amount != 1 ? '${e.value}s' : e.value));
+              child: Text(
+                frequency.amount != 1 ? '${e.value}s' : e.value,
+                style: const TextStyle(fontSize: basicFontSize),
+              ));
         }).toList(),
       )),
     );
@@ -95,6 +98,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
       frequencyAmountTextEditingController.text = '';
     }
     return Expanded(
+      flex: 1,
       child: CustomContainerComponent(
         // isQuadratic: true,
         child: Align(
@@ -136,8 +140,23 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
       children: [
         frequencyAmountInput(acceptanceCriteria),
         const SpaceComponent(),
-        frequencyDropDown(acceptanceCriteria)
+        frequencyDropDown(acceptanceCriteria),
+        const SpaceComponent(),
+        frequencyFrequencyDropDown(acceptanceCriteria),
       ],
     );
+  }
+
+  frequencyFrequencyDropDown(AcceptanceCriteriaModel acceptanceCriteria) {
+    return const Expanded(
+        flex: 2,
+        child: CustomContainerComponent(
+            child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'Every Day',
+            style: TextStyle(fontSize: basicFontSize),
+          ),
+        )));
   }
 }
