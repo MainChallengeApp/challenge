@@ -1,6 +1,8 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/pages/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +75,7 @@ class _AcceptanceCriteriaComponentState
                         // progressPercentage(widget.challenge.acceptanceCriteria),
                         repetition(),
                         repetitionProgressAbsolute(),
-                        // repetitionPercentage(),
+                        amountOfProgress(),
                       ],
                     ),
                   ))
@@ -111,5 +113,20 @@ class _AcceptanceCriteriaComponentState
     return ContainerInContainerTextComponent(
         text:
             '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentageProgess() * 100).roundToDouble())} %');
+  }
+
+  amountOfProgress() {
+    return ContainerInContainerComponent(
+        child: Row(children: [
+      Text(
+        '${widget.challenge.getCurrentRepetition()?.progressList.length ?? 0} ',
+        style: const TextStyle(fontSize: 10, color: themeColor3),
+      ),
+      Icon(
+        IconEnum.progress.icon,
+        size: 10,
+        color: themeColor3,
+      )
+    ]));
   }
 }
