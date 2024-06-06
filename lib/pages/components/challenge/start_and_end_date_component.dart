@@ -136,21 +136,36 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
           child: GestureDetector(
             onTap: () => onTapStartOrEndDate('start'),
             child: standardContainer(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
               children: [
-                const Text(
-                  'Start',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: basicFontSize),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Start',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: basicFontSize),
+                      ),
+                      Text(
+                        (widget.editChallenge.startDate != null
+                            ? _dateFormat(widget.editChallenge.startDate!)
+                            : '-'),
+                        style: const TextStyle(
+                            color: themeColor3, fontSize: basicFontSize),
+                      )
+                    ],
+                  ),
                 ),
-                Text(
-                  (widget.editChallenge.startDate != null
-                      ? _dateFormat(widget.editChallenge.startDate!)
-                      : '-'),
-                  style: const TextStyle(
-                      color: themeColor3, fontSize: basicFontSize),
-                )
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      color: Colors.red,
+                    ))
               ],
             )),
           ),
@@ -270,7 +285,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                   ? initialDateTime != null
                       ? widget.editChallenge.startDate
                       : null
-                  : DesignUtil.dateWithoutTime(DateTime.now()),
+                  : null,
               initialDateTime: initialDateTime,
               mode: CupertinoDatePickerMode.date,
               onDateTimeChanged: (value) {
