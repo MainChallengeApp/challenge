@@ -126,8 +126,9 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
           ? "Ends in ${widget.challenge.nextIn()}"
           : "End",
       subText: frequency.type == FrequencyTypeEnum.daily &&
-              widget.challenge.getCurrentRepetitionNumber() <
-                  frequency.getMaxAmoutOfRepetitions()!
+              (frequency.amount == null ||
+                  widget.challenge.getCurrentRepetitionNumber() <
+                      frequency.getMaxAmoutOfRepetitions()!)
           ? "Next in ${widget.challenge.nextIn()}"
           : null,
       isPrimaryButton:
