@@ -162,9 +162,12 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 Align(
                     alignment: Alignment.bottomRight,
                     child: Container(
-                      width: 10,
-                      height: 10,
-                      color: Colors.red,
+                      child: Text(
+                        widget.editChallenge.startDate != null
+                            ? _timeFormat(widget.editChallenge.startDate!)
+                            : '',
+                        style: const TextStyle(fontSize: 8, color: themeColor3),
+                      ),
                     ))
               ],
             )),
@@ -175,21 +178,39 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
           child: GestureDetector(
             onTap: () => onTapStartOrEndDate('end'),
             child: standardContainer(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
               children: [
-                const Text(
-                  'End',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: basicFontSize),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'End',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: basicFontSize),
+                      ),
+                      Text(
+                        (widget.editChallenge.endDate != null
+                            ? _dateFormat(widget.editChallenge.endDate!)
+                            : '-'),
+                        style: const TextStyle(
+                            color: themeColor3, fontSize: basicFontSize),
+                      )
+                    ],
+                  ),
                 ),
-                Text(
-                  (widget.editChallenge.endDate != null
-                      ? _dateFormat(widget.editChallenge.endDate!)
-                      : '-'),
-                  style: const TextStyle(
-                      color: themeColor3, fontSize: basicFontSize),
-                )
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      child: Text(
+                        widget.editChallenge.endDate != null
+                            ? _timeFormat(widget.editChallenge.endDate!)
+                            : '',
+                        style: const TextStyle(fontSize: 8, color: themeColor3),
+                      ),
+                    ))
               ],
             )),
           ),
@@ -202,7 +223,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     return Container(
       // width: double.infinity,
       height: 55 * heightFactor,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
@@ -318,6 +339,10 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   String _dateFormat(DateTime date) {
     return '${date.day}.${date.month}.${date.year}';
+  }
+
+  String _timeFormat(DateTime date) {
+    return '${date.hour <= 9 ? '0' : ''}${date.hour}:${date.minute <= 9 ? '0' : ''}${date.minute}';
   }
 
   // start() {
