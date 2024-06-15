@@ -56,11 +56,13 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
     if (widget.challenge.isInBacklog()) {
       return true;
     }
-    if (widget.challenge.getCurrentRepetition() == null) {
+    if (widget.challenge.getCurrentRepetition() == null &&
+        widget.challenge.isInProgress()) {
       return true;
     } else {
-      widget.challenge.getCurrentRepetition()!.evaluateRepetitionStatus();
-      return widget.challenge.getCurrentRepetition()!.isInBacklog() &&
+      widget.challenge.getCurrentRepetition()?.evaluateRepetitionStatus();
+      return (widget.challenge.getCurrentRepetition()?.isInBacklog() ??
+              false) &&
           frequency.type == FrequencyTypeEnum.time;
     }
   }
