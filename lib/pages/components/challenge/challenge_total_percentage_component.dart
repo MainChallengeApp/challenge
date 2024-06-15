@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/components/simple_components/container_in_container_text_component.dart';
@@ -32,7 +34,7 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
             ? Colors.white
             : null,
         text: isVisible
-            ? '${DesignUtil.doubleAsIntString((challenge.getCurrentPercentage() * 100).roundToDouble())} %'
+            ? '${DesignUtil.doubleAsIntString((min(challenge.getCurrentPercentage(), 1) * 100).roundToDouble())} %'
             : '');
   }
 }
