@@ -79,8 +79,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                           title(challenge),
                           description(challenge),
                           startAndEndDate(challenge),
-                          frequency(challenge),
                           amountAndUnit(challenge),
+                          frequency(challenge),
                           expandedSpace(),
                           acceptButton(challenge)
                         ],

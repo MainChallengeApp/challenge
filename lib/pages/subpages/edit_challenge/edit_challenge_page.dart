@@ -57,8 +57,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
             thumbnailUploadAndTitle(),
             description(),
             startAndEndDate(),
-            frequency(),
             amountAndUnit(),
+            frequency(),
             Expanded(child: Container()),
             cancelAndSaveButton()
           ],
