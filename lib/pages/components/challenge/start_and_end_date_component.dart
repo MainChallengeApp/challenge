@@ -161,13 +161,11 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 ),
                 Align(
                     alignment: Alignment.bottomRight,
-                    child: Container(
-                      child: Text(
-                        widget.editChallenge.startDate != null
-                            ? _timeFormat(widget.editChallenge.startDate!)
-                            : '',
-                        style: const TextStyle(fontSize: 8, color: themeColor3),
-                      ),
+                    child: Text(
+                      widget.editChallenge.startDate != null
+                          ? _timeFormat(widget.editChallenge.startDate!)
+                          : '',
+                      style: const TextStyle(fontSize: 8, color: themeColor3),
                     ))
               ],
             )),
@@ -203,13 +201,11 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 ),
                 Align(
                     alignment: Alignment.bottomRight,
-                    child: Container(
-                      child: Text(
-                        widget.editChallenge.endDate != null
-                            ? _timeFormat(widget.editChallenge.endDate!)
-                            : '',
-                        style: const TextStyle(fontSize: 8, color: themeColor3),
-                      ),
+                    child: Text(
+                      widget.editChallenge.endDate != null
+                          ? _timeFormat(widget.editChallenge.endDate!)
+                          : '',
+                      style: const TextStyle(fontSize: 8, color: themeColor3),
                     ))
               ],
             )),

@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:ui';
-
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -44,21 +42,19 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
             )),
           ),
           Expanded(
-            child: Container(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: TextField(
-                  controller: widget.textEditingController,
-                  onChanged: widget.onChangeTextField ?? (value) {},
-                  textAlignVertical: TextAlignVertical.center,
-                  textAlign: TextAlign.start,
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.only(
-                          bottom: 12.0), // TODO: not accurate
-                      hintText: 'Username',
-                      errorText: widget.errorText),
-                ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: TextField(
+                controller: widget.textEditingController,
+                onChanged: widget.onChangeTextField ?? (value) {},
+                textAlignVertical: TextAlignVertical.center,
+                textAlign: TextAlign.start,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.only(
+                        bottom: 12.0), // TODO: not accurate
+                    hintText: 'Username',
+                    errorText: widget.errorText),
               ),
             ),
           )
