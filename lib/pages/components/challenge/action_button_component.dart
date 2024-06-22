@@ -122,17 +122,17 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   Widget _buildEndButton() {
     return CustomButtonComponent(
       onTap: () => widget.onTapEnd(widget.challenge),
-      text: frequency.type != FrequencyTypeEnum.time &&
-              widget.challenge.getCurrentRepetitionNumber() ==
-                  frequency.getMaxAmoutOfRepetitions()
-          ? "Ends in ${widget.challenge.nextIn()}"
-          : "End",
+      text: "End",
       subText: frequency.type == FrequencyTypeEnum.daily &&
               (frequency.amount == null ||
                   widget.challenge.getCurrentRepetitionNumber() <
                       frequency.getMaxAmoutOfRepetitions()!)
           ? "Next in ${widget.challenge.nextIn()}"
-          : null,
+          : frequency.type != FrequencyTypeEnum.time &&
+                  widget.challenge.getCurrentRepetitionNumber() ==
+                      frequency.getMaxAmoutOfRepetitions()
+              ? "Ends in ${widget.challenge.nextIn()}"
+              : null,
       isPrimaryButton:
           widget.challenge.getCurrentRepetitionProgressPercentageProgess() >=
                   1 &&
