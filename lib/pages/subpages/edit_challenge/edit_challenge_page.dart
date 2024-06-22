@@ -56,9 +56,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
           children: [
             thumbnailUploadAndTitle(),
             description(),
-            startAndEndDate(),
             amountAndUnit(),
             frequency(),
+            startAndEndDate(),
             Expanded(child: Container()),
             cancelAndSaveButton()
           ],
@@ -91,7 +91,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
   startAndEndDate() {
     return Column(
       children: [
-        StartAndEndDateComponent(editChallenge: widget.editChallenge),
+        StartAndEndDateComponent(
+          editChallenge: widget.editChallenge,
+          reloadSearchChallengePage: () => setState(
+            () {},
+          ),
+        ),
         const SpaceComponent()
       ],
     );
@@ -198,7 +203,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   frequency() {
     return SpaceColumnComponent(
-      child: FrequencyComponent(challenge: widget.editChallenge),
+      child: FrequencyComponent(
+        challenge: widget.editChallenge,
+        reloadSeachChallengePage: () => setState(
+          () {},
+        ),
+      ),
     );
   }
 }
