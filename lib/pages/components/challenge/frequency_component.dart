@@ -111,7 +111,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             keyboardType: const TextInputType.numberWithOptions(),
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
-                  RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                  RegExp(r'[1-9]+[,.]{0,1}[0-9]*')),
               TextInputFormatter.withFunction(
                 (oldValue, newValue) => newValue.copyWith(
                   text: newValue.text.replaceAll(',', '.'),
