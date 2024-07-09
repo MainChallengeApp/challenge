@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/pages/components/list_items/list_item_challenge_small_component.dart';
@@ -85,8 +88,9 @@ class _SearchListPageState extends State<SearchListPage> {
               child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: scrollController,
-                  itemCount:
-                      filteredChallenges.length + 1, //  + 1 for searchbar
+                  itemCount: filteredChallenges.length +
+                      1 +
+                      1, //  + 1 for searchbar + 1 for new Challenge
                   itemBuilder: (BuildContext content, int index) {
                     if (index == 0) {
                       return Column(
@@ -102,20 +106,27 @@ class _SearchListPageState extends State<SearchListPage> {
                         ],
                       );
                     }
+
+                    if (index == filteredChallenges.length + 1) {
+                      return SpaceColumnComponent(
+                          child: ListItemIconSmallComponent(
+                        onTap: onTapNewChallenge,
+                        icon: Icons.add,
+                        title: searchBarText,
+                      ));
+                    }
+
                     ChallengeModel challenge =
                         filteredChallenges[index - 1]; // - 1 for searchbar
-                    return Column(
-                      children: [
-                        ListItemChallengeSmallComponent(
-                          onTap: () => onTapChallenge(
-                              challenge: challenge,
-                              index:
-                                  index - 1), // widget.onPush?.call(challenge),
-                          challenge: challenge,
-                          isSearch: true,
-                        ),
-                        const SpaceComponent()
-                      ],
+                    return SpaceColumnComponent(
+                      child: ListItemChallengeSmallComponent(
+                        onTap: () => onTapChallenge(
+                            challenge: challenge,
+                            index:
+                                index - 1), // widget.onPush?.call(challenge),
+                        challenge: challenge,
+                        isSearch: true,
+                      ),
                     );
                   }),
             );
@@ -156,5 +167,20 @@ class _SearchListPageState extends State<SearchListPage> {
     ).then((value) => setState(
           () {},
         ));
+  }
+
+  onTapNewChallenge() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditChallengePage(
+          preTitle: '${widget.preTitle}/${widget.title}',
+          challenge: ChallengeModel.empty(title: searchBarText),
+          isNewChallenge: true,
+          isSearchNewChallenge: true,
+          selectTab: widget.selectTab,
+        ),
+      ),
+    ).then((_) => setState(() {}));
   }
 }
