@@ -1,5 +1,4 @@
 enum ChallengeCategoryEnum {
-  knowledge,
   physicalHealth,
   mentalHealth,
   social,
@@ -9,9 +8,7 @@ enum ChallengeCategoryEnum {
   // const ChallengeStatus(String status);
 
   static ChallengeCategoryEnum factory(String status) {
-    if (status == 'knowledge') {
-      return ChallengeCategoryEnum.knowledge;
-    } else if (status == 'physicalHealth') {
+    if (status == 'physicalHealth') {
       return ChallengeCategoryEnum.physicalHealth;
     } else if (status == 'mentalHealth') {
       return ChallengeCategoryEnum.mentalHealth;

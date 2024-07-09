@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/pages/components/categories/category_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
@@ -81,22 +83,9 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                   const SpaceComponent(
                     width: 20,
                   ),
-                  Expanded(
-                      child: CategoryComponent(
-                    text: 'Mental',
-                    imagePath: 'assets/images/categories/mental_health.png',
-                    onTap: () => onTapCategory(
-                        const [ChallengeCategoryEnum.mentalHealth], 'Mental'),
-                  )),
+                  mental(),
                   const SpaceComponent(),
-                  Expanded(
-                      child: CategoryComponent(
-                    text: 'Physical',
-                    imagePath: 'assets/images/categories/physical_health.png',
-                    onTap: () => onTapCategory(
-                        const [ChallengeCategoryEnum.physicalHealth],
-                        'Physical'),
-                  )),
+                  physical(),
                   const SpaceComponent(
                     width: 20,
                   ),
@@ -109,21 +98,9 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                   const SpaceComponent(
                     width: 20,
                   ),
-                  Expanded(
-                      child: CategoryComponent(
-                    text: 'Learning',
-                    imagePath: 'assets/images/categories/knowledge.png',
-                    onTap: () => onTapCategory(
-                        const [ChallengeCategoryEnum.knowledge], 'Learning'),
-                  )),
+                  social(),
                   const SpaceComponent(),
-                  Expanded(
-                      child: CategoryComponent(
-                    text: 'Social',
-                    imagePath: 'assets/images/categories/social.png',
-                    onTap: () => onTapCategory(
-                        const [ChallengeCategoryEnum.social], 'Social'),
-                  )),
+                  other(),
                   const SpaceComponent(
                     width: 20,
                   ),
@@ -136,20 +113,9 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                   const SpaceComponent(
                     width: 20,
                   ),
-                  Expanded(
-                      child: CategoryComponent(
-                    text: 'Other',
-                    imagePath: 'assets/images/categories/other.png',
-                    onTap: () => onTapCategory(
-                        const [ChallengeCategoryEnum.other], 'Other'),
-                  )),
+                  newChallenge(),
                   const SpaceComponent(),
-                  Expanded(
-                      child: CategoryComponent(
-                    text: 'Shuffle',
-                    imagePath: 'assets/images/categories/shuffle.png',
-                    onTap: onTapRandom,
-                  )),
+                  shuffle(),
                   const SpaceComponent(
                     width: 20,
                   ),
@@ -159,6 +125,63 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
             return Container();
           }),
     );
+  }
+
+  Expanded shuffle() {
+    return Expanded(
+        child: CategoryComponent(
+      text: 'Shuffle',
+      icon: IconEnum.shuffle.icon,
+      onTap: onTapRandom,
+    ));
+  }
+
+  Expanded newChallenge() {
+    return Expanded(
+        child: CategoryComponent(
+      text: 'New\nChallenge',
+      icon: IconEnum.newChallenge.icon,
+      onTap: () => onTapNewChallenge(),
+    ));
+  }
+
+  Expanded other() {
+    return Expanded(
+        child: CategoryComponent(
+      text: 'Other',
+      imagePath: 'assets/images/categories/other.png',
+      onTap: () => onTapCategory(const [ChallengeCategoryEnum.other], 'Other'),
+    ));
+  }
+
+  Expanded social() {
+    return Expanded(
+        child: CategoryComponent(
+      text: 'Social',
+      imagePath: 'assets/images/categories/social.png',
+      onTap: () =>
+          onTapCategory(const [ChallengeCategoryEnum.social], 'Social'),
+    ));
+  }
+
+  Expanded physical() {
+    return Expanded(
+        child: CategoryComponent(
+      text: 'Physical',
+      imagePath: 'assets/images/categories/physical_health.png',
+      onTap: () => onTapCategory(
+          const [ChallengeCategoryEnum.physicalHealth], 'Physical'),
+    ));
+  }
+
+  Expanded mental() {
+    return Expanded(
+        child: CategoryComponent(
+      text: 'Mental',
+      imagePath: 'assets/images/categories/mental_health.png',
+      onTap: () =>
+          onTapCategory(const [ChallengeCategoryEnum.mentalHealth], 'Mental'),
+    ));
   }
 
   static Future<List<ChallengeModel>> getChallenges(
@@ -222,5 +245,20 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         ),
       ),
     );
+  }
+
+  onTapNewChallenge() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditChallengePage(
+          preTitle: widget.title,
+          challenge: ChallengeModel.empty(),
+          isNewChallenge: true,
+          isSearchNewChallenge: true,
+          selectTab: widget.selectTab,
+        ),
+      ),
+    ).then((_) => setState(() {}));
   }
 }

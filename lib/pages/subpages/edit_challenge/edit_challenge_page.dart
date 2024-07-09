@@ -1,3 +1,4 @@
+import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/pages/components/challenge/frequency_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
@@ -23,6 +24,8 @@ class EditChallengePage extends StatefulWidget {
   final bool isNewChallenge;
   final bool isTryAgain;
   final bool isSearchEdit;
+  final bool isSearchNewChallenge;
+  final Function? selectTab;
 
   EditChallengePage(
       {super.key,
@@ -30,7 +33,9 @@ class EditChallengePage extends StatefulWidget {
       required this.challenge,
       this.isSearchEdit = false,
       this.isNewChallenge = false,
-      this.isTryAgain = false}) {
+      this.isTryAgain = false,
+      this.isSearchNewChallenge = false,
+      this.selectTab}) {
     editChallenge = ChallengeModel.copyChallenge(
         challenge: challenge, isTryAgain: isTryAgain);
   }
@@ -178,6 +183,43 @@ class _EditChallengePageState extends State<EditChallengePage> {
     // var r = challengeList;
     // challengeList.insert(0, widget.challenge);
     challengeController.writeFile(allChallengesList);
+
+    if (widget.isSearchNewChallenge) {
+      Navigator.pop(context);
+      if (widget.selectTab != null) {
+        widget.selectTab!(TabItemEnum.Home);
+      } else {
+        throw Exception('could not switch to home tab');
+      }
+      // ignore: use_build_context_synchronously
+      var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
+
+      homeNavigator.popUntil((route) => route.isFirst);
+      // // ignore: use_build_context_synchronously
+      // while (await homeNavigator.maybePop(context)) {
+      //   // ignore: use_build_context_synchronously
+      //   homeNavigator.pop(context);
+      // }
+
+      /**
+     * somehow does the home list page not refresh
+     * when completing a challenge
+     * with frequency.amount = 0
+     */
+      homeNavigator
+          .push(
+        NoAnimationPageRouteComponent(
+          builder: (context) => const HomeChallengePage(
+            preTitle: 'Home',
+            initialChalleneIndex: 0,
+          ), // Todo: change initalChallengeIndex when id is known from backend
+        ),
+      )
+          .then((value) {
+        homeNavigator.setState(() {});
+      });
+      return;
+    }
 
     Navigator.pop(context);
     if (!widget.isSearchEdit && !widget.isNewChallenge && !widget.isTryAgain) {
