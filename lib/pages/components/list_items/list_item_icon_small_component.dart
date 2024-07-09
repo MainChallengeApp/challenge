@@ -25,7 +25,12 @@ class ListItemIconSmallComponent extends StatelessWidget {
           IconContainerInListItemComponent(
             icon: icon,
           ),
-          Text(title)
+          Expanded(
+            child: Text(
+              title,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
         ],
       ),
     );
