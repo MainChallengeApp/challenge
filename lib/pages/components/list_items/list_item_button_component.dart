@@ -10,13 +10,15 @@ class ListItemButtonComponent extends StatelessWidget {
       this.isMainButton = true,
       required this.text,
       this.margin,
-      this.padding});
+      this.padding,
+      this.textColor});
 
   final VoidCallback onTap;
   final bool isMainButton;
   final String text;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class ListItemButtonComponent extends StatelessWidget {
       child: Center(
           child: Text(
         text,
-        style: TextStyle(color: isMainButton ? Colors.white : Colors.black),
+        style: TextStyle(
+            color: textColor ?? (isMainButton ? Colors.white : Colors.black)),
       )),
     );
   }

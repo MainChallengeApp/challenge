@@ -88,8 +88,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             children: [
               _buildList(),
               widget.isSaveInsteadOfEditButtonVisible
-                  ? mainCancelAndSaveButton()
-                  : mainCancelAndEditButton()
+                  ? cancelAndSaveButton()
+                  : deleteAndEditButton()
             ],
           ),
         ));
@@ -181,7 +181,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     ).then((_) => setState(() {}));
   }
 
-  mainCancelAndSaveButton() {
+  cancelAndSaveButton() {
     return widget.isSaveInsteadOfEditButtonVisible
         ? Align(
             alignment: Alignment.bottomCenter,
@@ -189,22 +189,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Row(
                 children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      text: 'Cancel',
-                      onTap: onTapCanel,
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(left: 20, right: 10),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      text: 'Save',
-                      onTap: onTapSave,
-                      isMainButton: true,
-                      margin: const EdgeInsets.only(left: 10, right: 20),
-                    ),
-                  ),
+                  cancelButton(),
+                  saveButton(),
                 ],
               ),
             ),
@@ -212,7 +198,29 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         : Container();
   }
 
-  mainCancelAndEditButton() {
+  Expanded saveButton() {
+    return Expanded(
+      child: ListItemButtonComponent(
+        text: 'Save',
+        onTap: onTapSave,
+        isMainButton: true,
+        margin: const EdgeInsets.only(left: 10, right: 20),
+      ),
+    );
+  }
+
+  Expanded cancelButton() {
+    return Expanded(
+      child: ListItemButtonComponent(
+        text: 'Cancel',
+        onTap: onTapCanel,
+        isMainButton: false,
+        margin: const EdgeInsets.only(left: 20, right: 10),
+      ),
+    );
+  }
+
+  deleteAndEditButton() {
     return !widget.isSaveInsteadOfEditButtonVisible
         ? Align(
             alignment: Alignment.bottomCenter,
@@ -220,24 +228,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: Row(
                 children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      text: 'Cancel',
-                      onTap: onTapCanel,
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(left: 20, right: 10),
-                    ),
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      text: 'Edit',
-                      onTap: () => setState(() {
-                        widget.isSaveInsteadOfEditButtonVisible = true;
-                      }),
-                      isMainButton: true,
-                      margin: const EdgeInsets.only(left: 10, right: 20),
-                    ),
-                  ),
+                  deleteButton(),
+                  editButton(),
                 ],
               ),
             ),
@@ -245,7 +237,32 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         : Container();
   }
 
-  saveButton() {
+  Expanded editButton() {
+    return Expanded(
+      child: ListItemButtonComponent(
+        text: 'Edit',
+        onTap: () => setState(() {
+          widget.isSaveInsteadOfEditButtonVisible = true;
+        }),
+        isMainButton: true,
+        margin: const EdgeInsets.only(left: 10, right: 20),
+      ),
+    );
+  }
+
+  Expanded deleteButton() {
+    return Expanded(
+      child: ListItemButtonComponent(
+        text: 'Delete',
+        textColor: red.withAlpha(200),
+        onTap: onTapDelete,
+        isMainButton: false,
+        margin: const EdgeInsets.only(left: 20, right: 10),
+      ),
+    );
+  }
+
+  dialogSaveButton() {
     return GestureDetector(
       onTap: onTapSave,
       child: widget.isSaveInsteadOfEditButtonVisible
@@ -415,7 +432,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     children: [
                       amountAndUnit(),
                       setProgressButtons(),
-                      saveButton()
+                      dialogSaveButton()
                     ],
                   ),
                 ),
@@ -601,7 +618,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   void onTapCanel() {
-    Navigator.pop(context);
+    if (widget.progress == null) {
+      Navigator.pop(context);
+      return;
+    } else {
+      setState(() {
+        widget.isSaveInsteadOfEditButtonVisible = false;
+      });
+    }
   }
 
   int countCharOccurrences(String text, String charToCount) {
@@ -612,5 +636,17 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       }
     }
     return count;
+  }
+
+  void onTapDelete() {
+    if (widget.repetition == null || widget.progress == null) {
+      return;
+    }
+
+    setState(() {
+      challengeService.deleteProgress(widget.challenge, widget.repetition!,
+          widget.repetition!.progressList.indexOf(widget.progress!));
+    });
+    Navigator.pop(context);
   }
 }
