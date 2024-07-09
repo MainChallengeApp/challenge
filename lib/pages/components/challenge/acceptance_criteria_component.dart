@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
@@ -31,12 +33,12 @@ class _AcceptanceCriteriaComponentState
           child: Stack(
             children: [
               FractionallySizedBox(
-                widthFactor: widget.challenge
-                            .getCurrentRepetitionProgressPercentageProgess() >
-                        1
-                    ? 1
-                    : widget.challenge
-                        .getCurrentRepetitionProgressPercentageProgess(),
+                widthFactor: !widget.challenge.isInProgress()
+                    ? min(widget.challenge.getCurrentPercentage(), 1)
+                    : min(
+                        widget.challenge
+                            .getCurrentRepetitionProgressPercentageProgess(),
+                        1),
                 heightFactor: 1,
                 child: Container(
                   // width: 40,
@@ -88,18 +90,28 @@ class _AcceptanceCriteriaComponentState
 
   repetition() {
     return widget.challenge.frequency.amount != 1
-        ? ContainerInContainerTextComponent(
-            text:
-                '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
+        ? widget.challenge.isInBacklog()
+            ? ContainerInContainerTextComponent(
+                text:
+                    '${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
+            : ContainerInContainerTextComponent(
+                text:
+                    '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
         : Container();
   }
 
   repetitionProgressAbsolute() {
     return widget.challenge.acceptanceCriteria.unit != '' ||
             widget.challenge.acceptanceCriteria.amount != 0
-        ? ContainerInContainerTextComponent(
-            text:
-                '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+        ? widget.challenge.isInProgress() ||
+                widget.challenge.frequency.amount! == 1 &&
+                    !widget.challenge.isInBacklog()
+            ? ContainerInContainerTextComponent(
+                text:
+                    '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+            : ContainerInContainerTextComponent(
+                text:
+                    '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
         : Container();
   }
 
@@ -116,17 +128,19 @@ class _AcceptanceCriteriaComponentState
   }
 
   amountOfProgress() {
-    return ContainerInContainerComponent(
-        child: Row(children: [
-      Text(
-        '${widget.challenge.getCurrentRepetition()?.progressList.length ?? 0} ',
-        style: const TextStyle(fontSize: 10, color: themeColor3),
-      ),
-      Icon(
-        IconEnum.progress.icon,
-        size: 10,
-        color: themeColor3,
-      )
-    ]));
+    return widget.challenge.isInProgress()
+        ? ContainerInContainerComponent(
+            child: Row(children: [
+            Text(
+              '${widget.challenge.getCurrentRepetition()?.progressList.length ?? 0} ',
+              style: const TextStyle(fontSize: 10, color: themeColor3),
+            ),
+            Icon(
+              IconEnum.progress.icon,
+              size: 10,
+              color: themeColor3,
+            )
+          ]))
+        : Container();
   }
 }
