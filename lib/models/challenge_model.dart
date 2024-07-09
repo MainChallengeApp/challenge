@@ -410,6 +410,12 @@ class ChallengeModel {
       } else if (DateTime.now().isBefore(startDate!)) {
         return 0;
       }
+
+      if (endDate != null && endDate!.isBefore(DateTime.now())) {
+        var days = endDate!.difference(startDate!).inDays + 1;
+        return days;
+      }
+
       var days = DateTime.now().difference(startDate!).inDays + 1;
       if (frequency.amount == null) {
         return days;
