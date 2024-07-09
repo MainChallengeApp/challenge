@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/pages/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/pages/components/challenge/action_button_component.dart';
 import 'package:challenge/pages/components/challenge/description_component.dart';
@@ -170,7 +171,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.delete,
+                  IconEnum.delete.icon,
                   color: red,
                 ),
                 const SizedBox(

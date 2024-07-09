@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
@@ -76,7 +77,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: Center(
                   child: Icon(
-                Icons.delete,
+                IconEnum.delete.icon,
                 color: red,
               )),
             ),

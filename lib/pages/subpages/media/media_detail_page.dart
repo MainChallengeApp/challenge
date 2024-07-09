@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -141,7 +142,11 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
             border: Border.all(
                 width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: const Center(child: Icon(Icons.delete)),
+        child: Center(
+            child: Icon(
+          IconEnum.delete.icon,
+          color: red,
+        )),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
@@ -137,7 +138,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                   borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: Center(
                   child: Icon(
-                Icons.delete,
+                IconEnum.delete.icon,
                 color: red,
               )),
             ),

@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/pages/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/pages/components/list_items/list_item_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
@@ -135,7 +136,7 @@ class _ListItemChallengeSmallComponentState
               borderRadius: const BorderRadius.all(Radius.circular(24))),
           child: Center(
               child: Icon(
-            Icons.delete,
+            IconEnum.delete.icon,
             color: red,
           )),
         ),
