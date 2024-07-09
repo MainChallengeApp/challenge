@@ -73,6 +73,7 @@ class CategoryComponent extends StatelessWidget {
                           topRight: Radius.circular(12))),
                   child: Text(
                     text,
+                    textAlign: TextAlign.end,
                     style: const TextStyle(
                         color: themeColor1,
                         fontSize: 11,
