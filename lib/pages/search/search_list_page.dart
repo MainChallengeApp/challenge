@@ -112,7 +112,9 @@ class _SearchListPageState extends State<SearchListPage> {
                           child: ListItemIconSmallComponent(
                         onTap: onTapNewChallenge,
                         icon: Icons.add,
-                        title: searchBarText,
+                        title: searchBarText == ""
+                            ? "New Challenge"
+                            : searchBarText,
                       ));
                     }
 
