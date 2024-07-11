@@ -50,49 +50,40 @@ class _ListItemSearchbarComponentState
               color: themeColor3,
             )),
           ),
-          SizedBox(
-            width: 270,
-            height: 40,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                        autofocus: widget.autoFocus,
-                        controller: widget.textEditingController,
-                        enabled: widget.isEnabled,
-                        onChanged: (value) {
-                          setState(() {
-                            widget.searchBarText = value;
-                            widget.changeList?.call(value);
-                          });
-                        },
-                        decoration: InputDecoration.collapsed(
-                          hintText: widget.hintText,
-                          hintStyle: const TextStyle(
-                            fontSize: basicFontSize,
-                            color: themeColor3,
-                          ),
-                        )),
+          Expanded(
+            child: TextField(
+                autofocus: widget.autoFocus,
+                controller: widget.textEditingController,
+                enabled: widget.isEnabled,
+                onChanged: (value) {
+                  setState(() {
+                    widget.searchBarText = value;
+                    widget.changeList?.call(value);
+                  });
+                },
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  border: InputBorder.none,
+                  hintText: widget.hintText,
+                  hintStyle: const TextStyle(
+                    fontSize: basicFontSize,
+                    color: themeColor3,
                   ),
-                  widget.textEditingController.text == ''
-                      ? Container()
-                      : GestureDetector(
-                          onTap: () {
-                            widget.textEditingController.clear();
-                            widget.changeList?.call('');
-                            widget.searchBarText = '';
-                          },
-                          child: const Icon(
-                            Icons.highlight_remove_rounded,
-                            color: themeColor3,
-                          ),
-                        )
-                ],
-              ),
-            ),
-          )
+                )),
+          ),
+          widget.textEditingController.text == ''
+              ? Container()
+              : GestureDetector(
+                  onTap: () {
+                    widget.textEditingController.clear();
+                    widget.changeList?.call('');
+                    widget.searchBarText = '';
+                  },
+                  child: const Icon(
+                    Icons.highlight_remove_rounded,
+                    color: themeColor3,
+                  ),
+                )
           // Text(title)
         ],
       ),

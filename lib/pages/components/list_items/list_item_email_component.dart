@@ -24,9 +24,6 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
             width: 40,
@@ -42,20 +39,17 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
             )),
           ),
           Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextField(
-                controller: widget.textEditingController,
-                onChanged: widget.onChangeTextField ?? (value) {},
-                textAlignVertical: TextAlignVertical.center,
-                textAlign: TextAlign.start,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.only(
-                        bottom: 12.0), // TODO: not accurate
-                    hintText: 'Username',
-                    errorText: widget.errorText),
-              ),
+            child: TextField(
+              controller: widget.textEditingController,
+              onChanged: widget.onChangeTextField ?? (value) {},
+              textAlignVertical: TextAlignVertical.center,
+              textAlign: TextAlign.start,
+              decoration: InputDecoration(
+                  isCollapsed:
+                      true, // somehow needed to vertically center the text
+                  border: InputBorder.none,
+                  hintText: 'Username',
+                  errorText: widget.errorText),
             ),
           )
         ],
