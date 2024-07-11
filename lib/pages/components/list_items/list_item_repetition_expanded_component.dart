@@ -184,6 +184,7 @@ class _ListItemRepetitionExpandedComponentState
       setState(() {
         challengeService.endChallenge(challenge);
       });
+      widget.setStateRepetitionPage.call();
     }, onTapNo: () {
       Navigator.pop(context);
     });
