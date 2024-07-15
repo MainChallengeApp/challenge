@@ -437,7 +437,7 @@ class ChallengeModel {
 
   void start() {
     startDate = DateTime.now();
-    if (endDate == null) {
+    if (endDate == null || frequency.amount != null) {
       setEndDate();
     } else {
       setFrequencyAmount();
