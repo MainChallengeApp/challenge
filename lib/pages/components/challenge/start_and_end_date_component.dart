@@ -304,12 +304,9 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                       : null
                   : null,
               initialDateTime: initialDateTime,
-              mode: CupertinoDatePickerMode.date,
+              mode: CupertinoDatePickerMode.dateAndTime,
+              use24hFormat: true,
               onDateTimeChanged: (value) {
-                value = DesignUtil.dateWithoutTime(value).add(
-                    startOrEnd == 'end'
-                        ? const Duration(hours: 23, minutes: 59, seconds: 59)
-                        : Duration.zero);
                 isDateTimeChanged = true;
                 setState(() {
                   if (startOrEnd == 'start') {
