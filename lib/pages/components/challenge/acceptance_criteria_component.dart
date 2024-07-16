@@ -104,7 +104,8 @@ class _AcceptanceCriteriaComponentState
     return widget.challenge.acceptanceCriteria.unit != '' ||
             widget.challenge.acceptanceCriteria.amount != 0
         ? widget.challenge.isInProgress() ||
-                widget.challenge.frequency.amount! == 1 &&
+                (widget.challenge.frequency.amount != null &&
+                        widget.challenge.frequency.amount! == 1) &&
                     !widget.challenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
