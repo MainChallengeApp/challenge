@@ -6,13 +6,20 @@ class SpaceComponent extends StatelessWidget {
 
   final double? height;
   final double? width;
-  const SpaceComponent({super.key, this.height, this.width});
+  final double? heightMultiplier;
+  final double? widthMultiplier;
+  const SpaceComponent(
+      {super.key,
+      this.height,
+      this.width,
+      this.heightMultiplier,
+      this.widthMultiplier});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? staticHeight,
-      width: width ?? staticWidth,
+      height: (heightMultiplier ?? 1) * (height ?? staticHeight),
+      width: (widthMultiplier ?? 1) * (width ?? staticWidth),
     );
   }
 }

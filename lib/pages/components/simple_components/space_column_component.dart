@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class SpaceColumnComponent extends StatelessWidget {
   final Widget child;
   final double? height;
-  const SpaceColumnComponent({super.key, required this.child, this.height});
+  final double? heightMultiplier;
+  const SpaceColumnComponent(
+      {super.key, required this.child, this.height, this.heightMultiplier});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,7 @@ class SpaceColumnComponent extends StatelessWidget {
       child,
       SpaceComponent(
         height: height,
+        heightMultiplier: heightMultiplier,
       )
     ]);
   }
