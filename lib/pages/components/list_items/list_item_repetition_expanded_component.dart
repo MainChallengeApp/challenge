@@ -49,7 +49,7 @@ class _ListItemRepetitionExpandedComponentState
         ListItemFractionComponent(
           initialProgress:
               min(1, widget.repetition.getLastProgressPercentage()),
-          isFailed: widget.repetition.isFailed(widget.challenge),
+          isFailed: widget.challenge.isFailed(),
           onTap: widget.onTap,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,

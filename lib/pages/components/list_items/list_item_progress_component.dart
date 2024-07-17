@@ -82,7 +82,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       initialProgress: widget.progress.percentProgress <= 1
           ? widget.progress.percentProgress
           : 1,
-      isFailed: widget.isFailed,
+      isFailed: widget.challenge.isFailed(),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(

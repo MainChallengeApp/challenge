@@ -388,6 +388,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             .context2 // TODO: WORKAROUND to be able to always show repetition page after saving progress
             .read<DesignProvider>()
             .setIsBottomNavBarVisible(true);
+
+        challengeList =
+            ChallengeModel.sortChallengeList(challenges: challengeList);
+
+        // int index = challengeList.indexWhere((c) => c.id == widget.challenge.id);
+
+        // pageController.jumpToPage(index); some how need to jump to the right page and setState
       });
 
       // setIsBottomNavBarVisibleToTrue();
