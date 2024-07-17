@@ -8,6 +8,7 @@ import 'package:challenge/pages/components/list_items/list_item_repetition_expan
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
@@ -278,10 +279,14 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   void onTapEndChallenge() {
-    // TODO: add dialog...
-    setState(() {
-      challengeService.endChallenge(widget.challenge);
-    });
+    EndChallengeDialog.show(context, widget.challenge,
+        onTapNo: () => Navigator.pop(context),
+        onTapYes: (challenge) {
+          Navigator.pop(EndChallengeDialog.context3);
+          setState(() {
+            challengeService.endChallenge(challenge);
+          });
+        });
   }
 
   onTapDeleteProgress(RepetitionModel repetition, int progressIndex) {
