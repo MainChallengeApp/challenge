@@ -9,6 +9,8 @@ import 'package:challenge/pages/components/list_items/list_item_progress_control
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
+import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -375,6 +377,18 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
       Navigator.pop(context);
       Navigator.pop(context);
+      Navigator.push(
+          context,
+          NoAnimationPageRouteComponent(
+            builder: (context) => RepetitionPage(
+                preTitle: 'Home/${widget.challenge.title}',
+                challenge: widget.challenge),
+          )).then((_) {
+        HomeChallengePage
+            .context2 // TODO: WORKAROUND to be able to always show repetition page after saving progress
+            .read<DesignProvider>()
+            .setIsBottomNavBarVisible(true);
+      });
 
       // setIsBottomNavBarVisibleToTrue();
 

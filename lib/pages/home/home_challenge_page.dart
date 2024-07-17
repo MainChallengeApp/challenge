@@ -32,6 +32,8 @@ class HomeChallengePage extends StatefulWidget {
       {super.key, required this.preTitle, required this.initialChalleneIndex});
   final String preTitle;
   final int initialChalleneIndex;
+  static late BuildContext
+      context2; // TODO: WORKAROUND to be able to always show repetition page after saving progress
 
   @override
   State<HomeChallengePage> createState() => _HomeChallengePageState();
@@ -64,6 +66,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    HomeChallengePage.context2 =
+        context; // TODO: WORKAROUND to be able to always show repetition page after saving progress
     challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
