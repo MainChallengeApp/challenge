@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
@@ -65,6 +64,11 @@ class _RepetitionPageState extends State<RepetitionPage> {
         body: Stack(
           children: [
             _buildList(),
+            !(widget.challenge.isFailed() ||
+                    widget.challenge
+                        .isSucceeded()) // TODO: Workaround - should be able to try/accept again
+                ? actionButton()
+                : Container()
           ],
         ));
   }
@@ -78,16 +82,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: max(1, widget.challenge.getCurrentRepetitionNumber()),
+          itemCount: widget.challenge.getCurrentRepetitionNumber(),
           itemBuilder: (BuildContext content, int index) {
-            if (widget.challenge.isInBacklog()) {
-              return ListItemButtonComponent(
-                onTap: onTapStartChallenge,
-                text: "Start Challenge",
-                isMainButton: true,
-              );
-            }
-
             widget.challenge.setRepetitionsEndDate();
             RepetitionModel repetition;
             if ((widget.challenge.getCurrentRepetitionNumber() - 1 - index) <
@@ -145,7 +141,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     Column item = Column(
       children: <SpaceColumnComponent>[
         SpaceColumnComponent(
-          height: isRepetitionExpanded ? null : 16,
+          height: isRepetitionExpanded ? null : SpaceComponent.staticHeight,
           child: Column(
             children: [
               isRepetitionExpanded
@@ -281,10 +277,36 @@ class _RepetitionPageState extends State<RepetitionPage> {
     });
   }
 
+  void onTapEndChallenge() {
+    // TODO: add dialog...
+    setState(() {
+      challengeService.endChallenge(widget.challenge);
+    });
+  }
+
   onTapDeleteProgress(RepetitionModel repetition, int progressIndex) {
     setState(() {
       challengeService.deleteProgress(
           widget.challenge, repetition, progressIndex);
     });
+  }
+
+  actionButton() {
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: widget.challenge.isInBacklog()
+              ? ListItemButtonComponent(
+                  onTap: onTapStartChallenge,
+                  text: "Start Challenge",
+                  isMainButton: true,
+                )
+              : ListItemButtonComponent(
+                  onTap: onTapEndChallenge,
+                  text: "End Challenge",
+                  isMainButton: widget.challenge.isCompleted(),
+                ),
+        ));
   }
 }
