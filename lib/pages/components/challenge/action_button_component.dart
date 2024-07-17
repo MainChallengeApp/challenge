@@ -93,6 +93,10 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowNextButton() {
+    if (!widget.challenge.isInProgress()) {
+      return false;
+    }
+
     if (widget.challenge.getCurrentRepetitionNumber() ==
         widget.challenge.frequency.getMaxAmoutOfRepetitions()) {
       return false;
