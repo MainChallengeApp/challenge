@@ -4,7 +4,7 @@ class AcceptanceCriteriaModel {
 
   AcceptanceCriteriaModel({required this.amount, required this.unit});
 
-  AcceptanceCriteriaModel.empty({this.amount = 0, this.unit = ""});
+  AcceptanceCriteriaModel.empty({this.amount = 1, this.unit = ""});
 
   static AcceptanceCriteriaModel fromJson(json) {
     return AcceptanceCriteriaModel(amount: json['amount'], unit: json['unit']);

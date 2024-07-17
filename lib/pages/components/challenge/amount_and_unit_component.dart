@@ -84,12 +84,12 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
           ],
           onChanged: (value) {
             setState(() {
-              double number = 0;
+              double number = 1;
               if (value.endsWith('.')) {
                 number = double.parse(value.split('.')[0]);
                 widget.acceptanceCriteria.amount = number;
               } else if (value == '') {
-                widget.acceptanceCriteria.amount = 0;
+                widget.acceptanceCriteria.amount = 1;
               } else {
                 number = double.parse(value);
                 widget.acceptanceCriteria.amount = number;
@@ -97,7 +97,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
             });
           },
           onTap: () => widget.setIsKeyboardUp?.call(true),
-          decoration: const InputDecoration.collapsed(hintText: '0'),
+          decoration: const InputDecoration.collapsed(hintText: '1'),
         ),
       ),
     ));
