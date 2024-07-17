@@ -460,16 +460,18 @@ class ChallengeModel {
   }
 
   end() {
-    endDate = DateTime.now();
+    if (isInProgress()) {
+      endDate = DateTime.now();
 
-    if (getCurrentRepetition()?.isInProgress() ?? false) {
-      getCurrentRepetition()!.end();
-    }
+      if (getCurrentRepetition()?.isInProgress() ?? false) {
+        getCurrentRepetition()!.end();
+      }
 
-    if (isCompleted()) {
-      status = ChallengeStatusEnum.success;
-    } else {
-      status = ChallengeStatusEnum.failed;
+      if (isCompleted()) {
+        status = ChallengeStatusEnum.success;
+      } else {
+        status = ChallengeStatusEnum.failed;
+      }
     }
   }
 
