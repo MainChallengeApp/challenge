@@ -129,7 +129,9 @@ class _AcceptanceCriteriaComponentState
   }
 
   amountOfProgress() {
-    return widget.challenge.isInProgress()
+    return widget.challenge.isInProgress() ||
+            !widget.challenge.isInBacklog() &&
+                widget.challenge.frequency.amount == 1
         ? ContainerInContainerComponent(
             child: Row(children: [
             Text(
