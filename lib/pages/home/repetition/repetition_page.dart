@@ -62,9 +62,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         body: Stack(
           children: [
             _buildList(),
-            !(widget.challenge.isFailed() ||
-                    widget.challenge
-                        .isSucceeded()) // TODO: Workaround - should be able to try/accept again
+            !(widget.challenge.isFailed() || widget.challenge.isSucceeded())
                 ? actionButton()
                 : Container()
           ],

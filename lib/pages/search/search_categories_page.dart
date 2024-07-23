@@ -238,7 +238,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           title: 'Search/Shuffle',
           initChallenge: challengesCopy[0],
           challenges: challengesCopy,
-          initChalleneIndex: 0,
+          initChallengeIndex: 0,
         ),
       ),
     );

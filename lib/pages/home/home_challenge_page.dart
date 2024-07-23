@@ -101,7 +101,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       motion: const ScrollMotion(),
       children: [
         editSlider(challenge, slidableContext),
-        seperator(challenge),
+        separator(challenge),
         deleteSlider(challenge),
         const SpaceComponent(
           width: 20,
@@ -110,7 +110,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  seperator(ChallengeModel challenge) {
+  separator(ChallengeModel challenge) {
     return (challenge.isEditable())
         ? const SpaceComponent(
             width: 20,
@@ -418,6 +418,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
     // ignore: use_build_context_synchronously
     Navigator.push(
+      // ignore: use_build_context_synchronously
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(

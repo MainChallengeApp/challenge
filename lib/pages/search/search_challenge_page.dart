@@ -27,11 +27,11 @@ class SearchChallengePage extends StatefulWidget {
       required this.title,
       required this.initChallenge,
       required this.challenges,
-      required this.initChalleneIndex});
+      required this.initChallengeIndex});
   final String title;
   final ChallengeModel initChallenge;
   final List<ChallengeModel> challenges;
-  final int initChalleneIndex;
+  final int initChallengeIndex;
 
   @override
   State<SearchChallengePage> createState() => _SearchChallengePageState();
@@ -40,12 +40,12 @@ class SearchChallengePage extends StatefulWidget {
 class _SearchChallengePageState extends State<SearchChallengePage> {
   bool isDescriptionExpanded = false;
   late PageController pageController =
-      PageController(initialPage: widget.initChalleneIndex);
+      PageController(initialPage: widget.initChallengeIndex);
   Map<ChallengeModel, BuildContext> challengeSlidableContextMap = {};
 
   bool isKeyboardUp = false;
 
-  late int currentChallengeIndex = widget.initChalleneIndex;
+  late int currentChallengeIndex = widget.initChallengeIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +233,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     challengeList.insert(0, challengeCopy);
     await challengeController.writeFile(allChallengesList);
 
+    // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
     // ignore: use_build_context_synchronously
@@ -256,7 +257,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         builder: (context) => const HomeChallengePage(
           preTitle: 'Home',
           initialChallengeIndex: 0,
-        ), // Todo: change initalChallengeIndex when id is known from backend
+        ),
       ),
     )
         .then((value) {
@@ -312,7 +313,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               FrequencyComponent(
                   challenge: challenge,
                   setIsKeyboardUp: setIsKeyboardUp,
-                  reloadSeachChallengePage: setState2),
+                  reloadSearchChallengePage: setState2),
               const SpaceComponent()
             ],
           );

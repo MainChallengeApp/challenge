@@ -11,13 +11,13 @@ import 'package:flutter/services.dart';
 class FrequencyComponent extends StatefulWidget {
   final ChallengeModel challenge;
   final Function? setIsKeyboardUp;
-  final Function? reloadSeachChallengePage;
+  final Function? reloadSearchChallengePage;
 
   const FrequencyComponent({
     super.key,
     required this.challenge,
     this.setIsKeyboardUp,
-    this.reloadSeachChallengePage,
+    this.reloadSearchChallengePage,
   });
 
   @override
@@ -67,7 +67,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
           });
           widget.challenge.setFrequencyAmount();
           widget.challenge.setEndDate();
-          widget.reloadSeachChallengePage?.call();
+          widget.reloadSearchChallengePage?.call();
         },
         items: frequencyMap.entries.map((e) {
           return DropdownMenuItem<String>(
@@ -107,7 +107,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             style: const TextStyle(fontSize: basicFontSize),
             textAlign: TextAlign.end,
             controller:
-                frequencyAmountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+                frequencyAmountTextEditingController, // somehow TextEditingController()..text = does not work anymore!?
             keyboardType: const TextInputType.numberWithOptions(),
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
@@ -123,7 +123,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
                 frequency.amount = value == '' ? null : int.parse(value);
               });
               widget.challenge.setEndDate();
-              widget.reloadSeachChallengePage?.call();
+              widget.reloadSearchChallengePage?.call();
             },
             onTap: () => setState(() {
               widget.setIsKeyboardUp?.call(true);

@@ -162,7 +162,7 @@ class _SearchListPageState extends State<SearchListPage> {
           title: '${widget.preTitle}/${widget.title}',
           initChallenge: challenge,
           challenges: filteredChallenges,
-          initChalleneIndex: index,
+          initChallengeIndex: index,
         ),
       ),
     ).then((value) => setState(

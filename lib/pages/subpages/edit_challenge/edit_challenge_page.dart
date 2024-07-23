@@ -246,7 +246,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return SpaceColumnComponent(
       child: FrequencyComponent(
         challenge: widget.editChallenge,
-        reloadSeachChallengePage: () => setState(
+        reloadSearchChallengePage: () => setState(
           () {},
         ),
       ),
