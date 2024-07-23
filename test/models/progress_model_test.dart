@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('fromJsonList()', () {
-    test('should create Evidence when json is passed correctly', () {
+    test('should create progress when json is passed correctly', () {
       // Arrange
       DateTime date = DateTime.now();
       List<Map<String, dynamic>> json = [
@@ -11,7 +11,7 @@ void main() {
           'progress': 1.0,
           'mediaIds': ['1', '2', '3'],
           'percentProgress': 1.0,
-          'date': date,
+          'date': date.toString(),
           'frequencyAmount': 1
         }
       ];
