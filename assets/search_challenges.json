@@ -11,7 +11,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -39,7 +39,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -81,7 +81,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["mentalHealth"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -151,7 +151,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -165,7 +165,7 @@
     "frequency": { "amount": 30, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
+    "categories": ["physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -179,7 +179,7 @@
     "frequency": { "amount": 100, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -193,7 +193,7 @@
     "frequency": { "amount": 365, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -207,7 +207,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -221,7 +221,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -235,7 +235,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -249,7 +249,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -277,7 +277,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["physicalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -319,7 +319,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["other"]
+    "categories": ["social"]
   },
   {
     "status": "backlog",
@@ -361,7 +361,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -375,7 +375,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -389,7 +389,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -403,7 +403,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -417,7 +417,7 @@
     "frequency": { "amount": 100, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -431,7 +431,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -445,7 +445,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -459,7 +459,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -473,7 +473,7 @@
     "frequency": { "amount": 30, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "social"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -487,7 +487,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -501,7 +501,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -543,7 +543,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -557,7 +557,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -571,7 +571,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -585,7 +585,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -613,7 +613,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "social"]
+    "categories": ["physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -627,7 +627,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -669,7 +669,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -683,7 +683,7 @@
     "frequency": { "amount": 30, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -697,7 +697,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -711,7 +711,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -725,7 +725,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -739,7 +739,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -767,7 +767,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -781,7 +781,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -795,7 +795,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["mentalHealth"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -823,7 +823,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["social"]
   },
   {
     "status": "backlog",
@@ -837,7 +837,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["social"]
   },
   {
     "status": "backlog",
@@ -851,7 +851,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["other"]
   },
   {
     "status": "backlog",
@@ -865,21 +865,21 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["social"]
   },
   {
     "status": "backlog",
-    "title": "Push-ups",
+    "title": "Pushups",
     "description": "Strengthen your upper body and core with the classic push-up challenge. Progress from standard to advanced variations, sculpting your chest, shoulders, and triceps. Embrace the burn, and watch your strength soar! 💪\n\nAds:\n - Push Up Rack Board ( https://amzn.to/421OtF6 )\n",
     "thumbnailPath": "assets/images/pushups.png",
     "acceptanceCriteria": {
       "amount": 100.0,
-      "unit": "Push-ups"
+      "unit": "Pushups"
     },
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -893,7 +893,7 @@
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth"]
+    "categories": ["mentalHealth"]
   },
   {
     "status": "backlog",
@@ -907,7 +907,7 @@
     "frequency": { "amount": null, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["physicalHealth", "mentalHealth", "social"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -935,7 +935,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -991,7 +991,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1019,7 +1019,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -1047,7 +1047,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -1061,7 +1061,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth"]
   },
   {
     "status": "backlog",
@@ -1075,7 +1075,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -1089,7 +1089,7 @@
     "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "mentalHealth", "social"]
+    "categories": ["mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1103,7 +1103,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
+    "categories": ["physicalHealth", "mentalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1131,7 +1131,7 @@
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth", "social"]
+    "categories": ["physicalHealth", "social"]
   },
   {
     "status": "backlog",
@@ -1145,7 +1145,7 @@
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   },
   {
     "status": "backlog",
@@ -1159,6 +1159,6 @@
     "frequency": { "amount": 10, "type": "daily" },
     "media": [],
     "repetitions": [],
-    "categories": ["knowledge", "physicalHealth", "mentalHealth"]
+    "categories": ["physicalHealth", "mentalHealth"]
   }
 ]
