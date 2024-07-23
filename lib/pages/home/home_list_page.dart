@@ -85,7 +85,7 @@ class _HomeListPageState extends State<HomeListPage> {
             return SpaceColumnComponent(
               child: ListItemChallengeSmallComponent(
                 onTap: () =>
-                    ppush(context, challenge: challenge, index: index - 1 - 1),
+                    push(context, challenge: challenge, index: index - 1 - 1),
                 challenge: challenge,
                 onTapDeleteChallenge: () => deleteChallenge(challenge),
               ),
@@ -139,7 +139,7 @@ class _HomeListPageState extends State<HomeListPage> {
     });
   }
 
-  void ppush(BuildContext context,
+  void push(BuildContext context,
       {required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,

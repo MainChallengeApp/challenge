@@ -16,31 +16,26 @@ class SettingsTabNavigator extends TabNavigatorComponent {
       {super.key, required super.navigatorKey, required super.tabItem});
 
   @override
-  void ppush(BuildContext context,
+  void push(BuildContext context,
       {int challengeId = 0, ChallengeModel? challenge}) {
-    var routeBuilders = prouteBuilders(context, challenge: challenge!);
+    var buildRoutes = routeBuilders(context, challenge: challenge!);
 
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            routeBuilders[TabNavigatorRoutes.detail]!(context),
+        builder: (context) => buildRoutes[TabNavigatorRoutes.detail]!(context),
       ),
     );
   }
 
   @override
-  Map<String, WidgetBuilder> prouteBuilders(BuildContext context,
+  Map<String, WidgetBuilder> routeBuilders(BuildContext context,
       {int challengeId = 0, ChallengeModel? challenge}) {
     return {
       SettingsTabNavigatorRoutes.root: (context) => SettingsListPage(
             title: tabItem.name,
-            onPush: (c) => ppush(context, challenge: c),
+            onPush: (c) => push(context, challenge: c),
           ),
-      // SettingsTabNavigatorRoutes.detail: (context) => HomeChallenge(
-      //       preTitle: tabItem.name,
-      //       challenge: challenge!,
-      //     ),
     };
   }
 }

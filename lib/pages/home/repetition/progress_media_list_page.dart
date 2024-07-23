@@ -146,7 +146,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 index - (widget.isSaveInsteadOfEditButtonVisible ? 3 : 1);
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
-                onTap: () => ppush(context, index: newIndex),
+                onTap: () => push(context, index: newIndex),
                 media: mediaList.reversed.elementAt(newIndex),
                 onTapDeleteMedia: () {
                   setState(() {
@@ -164,14 +164,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  void ppush(BuildContext context, {required int index}) {
+  void push(BuildContext context, {required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
           mediaList: mediaList,
           preTitle: '${widget.preTitle}/Media',
-          initialMediaIdex: index,
+          initialMediaIndex: index,
           challenge: widget.challenge,
         ),
       ),
@@ -210,7 +210,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Cancel',
-        onTap: onTapCanel,
+        onTap: onTapCancel,
         isMainButton: false,
         margin: const EdgeInsets.only(left: 20, right: 10),
       ),
@@ -571,7 +571,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
   }
 
-  void onTapCanel() {
+  void onTapCancel() {
     if (widget.progress == null) {
       Navigator.pop(context);
       return;

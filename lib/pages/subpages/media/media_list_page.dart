@@ -93,7 +93,7 @@ class _MediaListPageState extends State<MediaListPage> {
             // }
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
-                onTap: () => ppush(context, index: index - 1 - 1),
+                onTap: () => push(context, index: index - 1 - 1),
                 media: mediaList.reversed.elementAt(index - 1 - 1),
                 onTapDeleteMedia: () {
                   MediaModel media =
@@ -120,7 +120,7 @@ class _MediaListPageState extends State<MediaListPage> {
     });
   }
 
-  void ppush(BuildContext context, {required int index}) {
+  void push(BuildContext context, {required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -129,7 +129,7 @@ class _MediaListPageState extends State<MediaListPage> {
               .where((element) => element.title.contains(searchBarText))
               .toList(),
           preTitle: '${widget.preTitle}/Media',
-          initialMediaIdex: index,
+          initialMediaIndex: index,
           challenge: widget.challenge,
         ),
       ),

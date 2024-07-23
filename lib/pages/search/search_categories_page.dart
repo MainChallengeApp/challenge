@@ -61,7 +61,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemCount: categories.length + 1, //  + 1 for searchBar
-          // separatorBuilder: (context, index) => const SizedBox( // doesnt work properly with scrollbar (scrollbar jumps around)
+          // separatorBuilder: (context, index) => const SizedBox( // does not work properly with scrollbar (scrollbar jumps around)
           //       height: 17,
           //     ),
           itemBuilder: (BuildContext content, int index) {

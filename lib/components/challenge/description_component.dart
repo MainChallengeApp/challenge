@@ -18,23 +18,6 @@ class DescriptionComponent extends StatefulWidget {
 class _DescriptionComponentState extends State<DescriptionComponent> {
   @override
   Widget build(BuildContext context) {
-    // return CustomContainerComponent(
-    //   child: SingleChildScrollView(
-    //     scrollDirection: Axis.vertical,
-    //     child: Linkify(
-    //       onOpen: (link) {
-    //         _launchURL(link.url);
-    //       },
-    //       options: const LinkifyOptions(removeWww: true, humanize: true),
-    //       text: widget.challenge.description,
-    //       textAlign: TextAlign.justify,
-    //       style: const TextStyle(fontSize: 12, color: themeColor3),
-    //       linkStyle: TextStyle(
-    //           decorationColor: Colors.blue[500], color: Colors.blue[500]),
-    //     ),
-    //   ),
-    // );
-
     return widget.challenge.description.isNotEmpty
         ? widget.isDescriptionExpanded
             ? CustomContainerComponent(

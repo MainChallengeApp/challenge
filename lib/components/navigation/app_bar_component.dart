@@ -22,7 +22,8 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    String titletext = titleText == null ? preTitle : '$preTitle/$titleText';
+    String visibleTitleText =
+        titleText == null ? preTitle : '$preTitle/$titleText';
 
     ScrollController scrollController = ScrollController();
 
@@ -50,7 +51,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
             scrollDirection: Axis.horizontal,
             controller: scrollController,
             child: Text(
-              titletext,
+              visibleTitleText,
               textAlign: TextAlign.right,
               style: TextStyle(color: textColor, fontSize: appBarFontSize),
             ),

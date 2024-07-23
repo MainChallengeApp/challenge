@@ -153,15 +153,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
     }
 
     if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
-      // wip
-      // challengeList.firstWhere((element) => element == widget.challenge).status =
-      //         ChallengStatus.factory('Success');
-      //     allChallengesList
-      //         .where((element) => element == widget.challenge)
-      //         .first
-      //         .status = ChallengStatus.factory('Success');
-      //     challengeController.writeFile(context, allChallengesList);
-
       allChallengesList = allChallengesList.map((e) {
         if (e.id == widget.challenge.id) {
           return widget.challenge;

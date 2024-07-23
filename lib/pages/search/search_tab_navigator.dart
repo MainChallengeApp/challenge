@@ -15,30 +15,23 @@ class SearchTabNavigator extends TabNavigatorComponent {
       {super.key, required super.navigatorKey, required super.tabItem});
 
   @override
-  void ppush(BuildContext context) {
-    var routeBuilders = prouteBuilders(context);
+  void push(BuildContext context) {
+    var buildRoutes = routeBuilders(context);
 
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            routeBuilders[TabNavigatorRoutes.detail]!(context),
+        builder: (context) => buildRoutes[TabNavigatorRoutes.detail]!(context),
       ),
     );
   }
 
   @override
-  Map<String, WidgetBuilder> prouteBuilders(BuildContext context) {
+  Map<String, WidgetBuilder> routeBuilders(BuildContext context) {
     return {
       SearchTabNavigatorRoutes.root: (context) => SearchCategoriesPage(
             title: tabItem.name,
           ),
-      // SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
-      //       title: tabItem.name,
-      //       challenge: challenge!,
-      //       selectTab: selectTab,
-      //       challenges: const [],
-      //     )
     };
   }
 }

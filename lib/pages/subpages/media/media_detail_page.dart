@@ -14,14 +14,14 @@ import 'package:challenge/models/media_model.dart';
 class MediaDetailPage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
-  final int initialMediaIdex;
+  final int initialMediaIndex;
   final ChallengeModel challenge;
 
   const MediaDetailPage(
       {super.key,
       required this.preTitle,
       required this.mediaList,
-      required this.initialMediaIdex,
+      required this.initialMediaIndex,
       required this.challenge});
 
   @override
@@ -30,9 +30,9 @@ class MediaDetailPage extends StatefulWidget {
 
 class _MediaDetailPageState extends State<MediaDetailPage> {
   late PageController controller =
-      PageController(initialPage: widget.initialMediaIdex);
-  late String currentTitle = widget.mediaList[widget.initialMediaIdex].title;
-  late int currentMediaIndex = widget.initialMediaIdex;
+      PageController(initialPage: widget.initialMediaIndex);
+  late String currentTitle = widget.mediaList[widget.initialMediaIndex].title;
+  late int currentMediaIndex = widget.initialMediaIndex;
 
   @override
   Widget build(BuildContext context) {
