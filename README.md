@@ -9,7 +9,13 @@ The app for finding new challenges, tracking and completing them!
 
 ## Testing
 
-1. run `flutter test`
+### Run all test
+
+run `flutter test`
+
+### Run all tests in watch mode (workaround)
+
+run `scripts/test_watch.sh`
 
 ## Updating Version
 
