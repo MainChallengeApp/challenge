@@ -1,4 +1,5 @@
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -41,12 +42,14 @@ class _HomeListPageState extends State<HomeListPage> {
   Widget build(BuildContext context) {
     context.watch<DesignProvider>().triggeredSetStateHomeList();
     return Scaffold(
-        appBar: AppBarComponent(
-          preTitle: widget.title,
-          isFirstPageInRoute: true,
-        ),
-        backgroundColor: Colors.white,
-        body: _buildList());
+      appBar: AppBarComponent(
+        preTitle: widget.title,
+        isFirstPageInRoute: true,
+      ),
+      backgroundColor: Colors.white,
+      body: _buildList(),
+      bottomNavigationBar: const BottomNavigationComponent(),
+    );
   }
 
   Widget _buildList() {

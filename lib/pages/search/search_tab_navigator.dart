@@ -12,12 +12,7 @@ class SearchTabNavigatorRoutes {
 
 class SearchTabNavigator extends TabNavigatorComponent {
   const SearchTabNavigator(
-      {super.key,
-      required super.navigatorKey,
-      required super.tabItem,
-      required this.selectTab});
-
-  final Function selectTab;
+      {super.key, required super.navigatorKey, required super.tabItem});
 
   @override
   void ppush(BuildContext context) {
@@ -37,7 +32,6 @@ class SearchTabNavigator extends TabNavigatorComponent {
     return {
       SearchTabNavigatorRoutes.root: (context) => SearchCategoriesPage(
             title: tabItem.name,
-            selectTab: selectTab,
           ),
       // SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
       //       title: tabItem.name,

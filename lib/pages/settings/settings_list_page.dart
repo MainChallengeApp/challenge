@@ -1,4 +1,5 @@
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
@@ -44,7 +45,8 @@ class _SettingsListPageState extends State<SettingsListPage> {
         body: Container(
           color: Colors.white,
           child: _buildList(),
-        ));
+        ),
+        bottomNavigationBar: const BottomNavigationComponent());
   }
 
   Widget _buildList() {
