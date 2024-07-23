@@ -92,7 +92,7 @@ class _ListItemChallengeSmallComponentState
               value: widget.challenge.acceptanceCriteria.amount <= 0
                   ? 1
                   : widget.challenge
-                      .getCurrentRepetitionProgressPercentageProgess(),
+                      .getCurrentRepetitionProgressPercentageProgress(),
               color: widget.challenge.status == ChallengeStatusEnum.failed
                   ? red
                   : green,
@@ -107,25 +107,25 @@ class _ListItemChallengeSmallComponentState
     );
   }
 
-  ActionPane? endActionPane(Function closeSlideable) {
+  ActionPane? endActionPane(Function closeSlidable) {
     return widget.isSearch
         ? null
         : ActionPane(
             extentRatio: 0.22,
             motion: const ScrollMotion(),
             children: [
-                deleteSlider(closeSlideable),
+                deleteSlider(closeSlidable),
                 const SpaceComponent(
                   width: 20,
                 )
               ]);
   }
 
-  deleteSlider(Function closeSlideable) {
+  deleteSlider(Function closeSlidable) {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          closeSlideable();
+          closeSlidable();
           widget.onTapDeleteChallenge?.call();
         },
         child: Container(

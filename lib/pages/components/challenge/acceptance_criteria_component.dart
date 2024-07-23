@@ -37,7 +37,7 @@ class _AcceptanceCriteriaComponentState
                     ? min(widget.challenge.getCurrentPercentage(), 1)
                     : min(
                         widget.challenge
-                            .getCurrentRepetitionProgressPercentageProgess(),
+                            .getCurrentRepetitionProgressPercentageProgress(),
                         1),
                 heightFactor: 1,
                 child: Container(
@@ -109,7 +109,7 @@ class _AcceptanceCriteriaComponentState
                     !widget.challenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressProgess())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+                    '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressProgress())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
             : ContainerInContainerTextComponent(
                 text:
                     '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
@@ -125,7 +125,7 @@ class _AcceptanceCriteriaComponentState
   repetitionPercentage() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentageProgess() * 100).roundToDouble())} %');
+            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentageProgress() * 100).roundToDouble())} %');
   }
 
   amountOfProgress() {

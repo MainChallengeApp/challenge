@@ -216,7 +216,7 @@ class ChallengeModel {
         (repetition) =>
             repetition.repetitionNumber == getCurrentRepetitionNumber(),
         orElse: () => RepetitionModel.empty(
-            // shouldnt be called
+            // should not be called
             repetitionNumber: getCurrentRepetitionNumber(),
             goalAmount: acceptanceCriteria.amount,
             repetitionStatus: RepetitionStatusEnum.backlog));
@@ -298,7 +298,7 @@ class ChallengeModel {
     return null;
   }
 
-  double getCurrentRepetitionProgressProgess() {
+  double getCurrentRepetitionProgressProgress() {
     var currentRepetition = getCurrentRepetition();
     if (currentRepetition == null) {
       return 0;
@@ -312,7 +312,7 @@ class ChallengeModel {
     return currentRepetitionProgress.progress;
   }
 
-  double getCurrentRepetitionProgressPercentageProgess() {
+  double getCurrentRepetitionProgressPercentageProgress() {
     var currentRepetition = getCurrentRepetition();
     if (currentRepetition == null) {
       return 0;
@@ -333,7 +333,7 @@ class ChallengeModel {
     if (currentRepetition == null ||
         frequency.amount == null ||
         currentRepetition.repetitionNumber <
-            frequency.getMaxAmoutOfRepetitions()!) {
+            frequency.getMaxAmountOfRepetitions()!) {
       int newRepetitionNumber = currentRepetition == null
           ? 1
           : currentRepetition.repetitionNumber + 1;
@@ -380,7 +380,7 @@ class ChallengeModel {
   bool isCompleted() {
     if (frequency.amount != null &&
             getCurrentRepetitionNumber() <
-                frequency.getMaxAmoutOfRepetitions()! ||
+                frequency.getMaxAmountOfRepetitions()! ||
         frequency.amount != null &&
             repetitions.length < getCurrentRepetitionNumber()) {
       return false;
@@ -502,7 +502,7 @@ class ChallengeModel {
     }
 
     if (frequency.amount != null && frequency.amount! < 2) {
-      return getCurrentRepetitionProgressPercentageProgess();
+      return getCurrentRepetitionProgressPercentageProgress();
     }
 
     double percentage = 0;
@@ -516,7 +516,7 @@ class ChallengeModel {
     }
 
     double currentPercentage =
-        percentage / frequency.getMaxAmoutOfRepetitions()!;
+        percentage / frequency.getMaxAmountOfRepetitions()!;
     return currentPercentage;
   }
 
@@ -553,7 +553,7 @@ class ChallengeModel {
     return frequency.type == FrequencyTypeEnum.time &&
         getCurrentRepetition()?.isInProgress() &&
         getCurrentRepetition()!.progressList.isNotEmpty &&
-        getCurrentRepetitionNumber() != frequency.getMaxAmoutOfRepetitions();
+        getCurrentRepetitionNumber() != frequency.getMaxAmountOfRepetitions();
   }
 
   nextIn() {

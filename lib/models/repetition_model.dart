@@ -153,12 +153,12 @@ class RepetitionModel {
   }
 
   static copyRepetition(RepetitionModel repetition) {
-    RepetitionModel repetitiontCopy = RepetitionModel(
+    RepetitionModel repetitionCopy = RepetitionModel(
         repetitionNumber: repetition.repetitionNumber,
         goalAmount: repetition.goalAmount,
         progressList: ProgressModel.copyProgressList(repetition.progressList),
         repetitionStatus: repetition.repetitionStatus);
-    return repetitiontCopy;
+    return repetitionCopy;
   }
 
   static copyRepetitionList(List<RepetitionModel> repetitionList) {

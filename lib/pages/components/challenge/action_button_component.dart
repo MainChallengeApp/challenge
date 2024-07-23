@@ -86,7 +86,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
                         .progressList
                         .isEmpty ||
                 widget.challenge.getCurrentRepetitionNumber() ==
-                    frequency.getMaxAmoutOfRepetitions()) &&
+                    frequency.getMaxAmountOfRepetitions()) &&
             widget.challenge.isInProgress() ||
         widget.challenge.getCurrentRepetition() != null &&
             widget.challenge.getCurrentRepetition()!.isInProgress();
@@ -98,7 +98,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
     }
 
     if (widget.challenge.getCurrentRepetitionNumber() ==
-        widget.challenge.frequency.getMaxAmoutOfRepetitions()) {
+        widget.challenge.frequency.getMaxAmountOfRepetitions()) {
       return false;
     }
 
@@ -130,15 +130,15 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       subText: frequency.type == FrequencyTypeEnum.daily &&
               (frequency.amount == null ||
                   widget.challenge.getCurrentRepetitionNumber() <
-                      frequency.getMaxAmoutOfRepetitions()!)
+                      frequency.getMaxAmountOfRepetitions()!)
           ? "Next in ${widget.challenge.nextIn()}"
           : frequency.type != FrequencyTypeEnum.time &&
                   widget.challenge.getCurrentRepetitionNumber() ==
-                      frequency.getMaxAmoutOfRepetitions()
+                      frequency.getMaxAmountOfRepetitions()
               ? "Ends in ${widget.challenge.nextIn()}"
               : null,
       isPrimaryButton:
-          widget.challenge.getCurrentRepetitionProgressPercentageProgess() >=
+          widget.challenge.getCurrentRepetitionProgressPercentageProgress() >=
                   1 &&
               frequency.type == FrequencyTypeEnum.time,
       padding: const EdgeInsets.all(5),
