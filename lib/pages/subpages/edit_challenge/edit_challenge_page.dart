@@ -188,7 +188,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     if (widget.isSearchNewChallenge) {
       Navigator.pop(context);
 
-      context.read()<TabProvider>().selectTab(TabItemEnum.Home);
+      context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
       // ignore: use_build_context_synchronously
       var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
@@ -211,7 +211,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
           builder: (context) => const HomeChallengePage(
             preTitle: 'Home',
             initialChallengeIndex: 0,
-          ), // Todo: change initalChallengeIndex when id is known from backend
+          ), // Todo: change initialChallengeIndex when id is known from backend
         ),
       )
           .then((value) {
