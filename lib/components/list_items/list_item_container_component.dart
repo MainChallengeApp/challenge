@@ -40,7 +40,7 @@ class _ListItemContainerComponentState
   @override
   Widget build(BuildContext context) {
     return Slidable(
-      endActionPane: widget.endActionPane?.call(closeSlideable),
+      endActionPane: widget.endActionPane?.call(closeSlidable),
       child: Builder(builder: (context) {
         context2 = context;
         return GestureDetector(
@@ -68,7 +68,7 @@ class _ListItemContainerComponentState
     );
   }
 
-  closeSlideable() {
+  closeSlidable() {
     Slidable.of(context2)?.close();
   }
 }

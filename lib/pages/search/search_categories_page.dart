@@ -60,15 +60,15 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: categories.length + 1, //  + 1 for searchbar
+          itemCount: categories.length + 1, //  + 1 for searchBar
           // separatorBuilder: (context, index) => const SizedBox( // doesnt work properly with scrollbar (scrollbar jumps around)
           //       height: 17,
           //     ),
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return SpaceColumnComponent(
-                child: ListItemSearchbarComponent(
-                  onTap: onTapSearchbar,
+                child: ListItemSearchBarComponent(
+                  onTap: onTapSearchBar,
                   changeList: changeList,
                   isEnabled: false,
                   textEditingController:
@@ -199,7 +199,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     });
   }
 
-  void onTapSearchbar() {
+  void onTapSearchBar() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

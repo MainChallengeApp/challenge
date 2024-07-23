@@ -72,7 +72,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
           style: const TextStyle(fontSize: basicFontSize),
           textAlign: TextAlign.end,
           controller:
-              amountTextEditingController, // somehow TextEditingController()..text = doesnt work anymore!?
+              amountTextEditingController, // somehow TextEditingController()..text = does not work anymore!?
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: <TextInputFormatter>[
             FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),

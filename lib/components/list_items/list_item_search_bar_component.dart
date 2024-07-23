@@ -4,7 +4,7 @@ import 'package:challenge/components/list_items/list_item_container_component.da
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 
-class ListItemSearchbarComponent extends StatefulWidget {
+class ListItemSearchBarComponent extends StatefulWidget {
   final String hintText;
   Function(String)? changeList;
   String searchBarText;
@@ -12,7 +12,7 @@ class ListItemSearchbarComponent extends StatefulWidget {
   final bool isEnabled;
   final bool autoFocus;
   final Function? onTap;
-  ListItemSearchbarComponent(
+  ListItemSearchBarComponent(
       {super.key,
       this.changeList,
       this.searchBarText = "",
@@ -23,12 +23,12 @@ class ListItemSearchbarComponent extends StatefulWidget {
       this.onTap});
 
   @override
-  State<ListItemSearchbarComponent> createState() =>
-      _ListItemSearchbarComponentState();
+  State<ListItemSearchBarComponent> createState() =>
+      _ListItemSearchBarComponentState();
 }
 
-class _ListItemSearchbarComponentState
-    extends State<ListItemSearchbarComponent> {
+class _ListItemSearchBarComponentState
+    extends State<ListItemSearchBarComponent> {
   @override
   Widget build(BuildContext context) {
     widget.textEditingController.selection = TextSelection.collapsed(

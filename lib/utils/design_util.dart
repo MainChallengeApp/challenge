@@ -10,7 +10,7 @@ class DesignUtil {
     return DateTime(date.year, date.month, date.day);
   }
 
-  static String getDateAndTimeFormated(DateTime? date,
+  static String getDateAndTimeFormatted(DateTime? date,
       {bool isYearVisible = true}) {
     if (date == null) {
       return '-';

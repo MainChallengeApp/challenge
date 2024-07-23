@@ -69,7 +69,7 @@ class _HomeListPageState extends State<HomeListPage> {
           controller: scrollController,
           itemCount: challengeList.length +
               1 +
-              1, // +1 for new Challenge listitem + 1 for searchbar
+              1, // +1 for new Challenge listItem + 1 for searchBar
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return searchBar();
@@ -79,7 +79,7 @@ class _HomeListPageState extends State<HomeListPage> {
             }
             ChallengeModel challenge = challengeList[index -
                 1 -
-                1]; // -1 for new Challenge listitem - 1 for searchbar
+                1]; // -1 for new Challenge listItem - 1 for searchBar
 
             challenge.checkChallengeStatus();
             return SpaceColumnComponent(
@@ -124,7 +124,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
   SpaceColumnComponent searchBar() {
     return SpaceColumnComponent(
-      child: ListItemSearchbarComponent(
+      child: ListItemSearchBarComponent(
         changeList: changeList,
         textEditingController: TextEditingController(text: searchBarText),
         hintText: 'Search in your Challenges...',

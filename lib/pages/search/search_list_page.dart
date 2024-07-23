@@ -90,12 +90,12 @@ class _SearchListPageState extends State<SearchListPage> {
                   controller: scrollController,
                   itemCount: filteredChallenges.length +
                       1 +
-                      1, //  + 1 for searchbar + 1 for new Challenge
+                      1, //  + 1 for searchBar + 1 for new Challenge
                   itemBuilder: (BuildContext content, int index) {
                     if (index == 0) {
                       return Column(
                         children: [
-                          ListItemSearchbarComponent(
+                          ListItemSearchBarComponent(
                             autoFocus: widget.isSearchBarAutoFocus,
                             changeList: changeList,
                             textEditingController:
@@ -119,7 +119,7 @@ class _SearchListPageState extends State<SearchListPage> {
                     }
 
                     ChallengeModel challenge =
-                        filteredChallenges[index - 1]; // - 1 for searchbar
+                        filteredChallenges[index - 1]; // - 1 for searchBar
                     return SpaceColumnComponent(
                       child: ListItemChallengeSmallComponent(
                         onTap: () => onTapChallenge(

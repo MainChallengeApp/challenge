@@ -63,11 +63,11 @@ class _MediaListPageState extends State<MediaListPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemCount:
-              mediaList.length + 1 + 1, // + 1 for searchbar + 1 for new Media
+              mediaList.length + 1 + 1, // + 1 for searchBar + 1 for new Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return SpaceColumnComponent(
-                child: ListItemSearchbarComponent(
+                child: ListItemSearchBarComponent(
                   changeList: changeList,
                   textEditingController:
                       TextEditingController(text: searchBarText),

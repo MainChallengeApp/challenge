@@ -119,7 +119,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
     ]));
   }
 
-  ActionPane endActionPane(Function closeSlideable) {
+  ActionPane endActionPane(Function closeSlidable) {
     return ActionPane(
       extentRatio: 0.22,
       motion: const ScrollMotion(),
@@ -127,7 +127,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              closeSlideable();
+              closeSlidable();
               widget.onTapDeleteProgress?.call();
             },
             child: Container(

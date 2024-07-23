@@ -58,7 +58,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
     );
   }
 
-  ActionPane endActionPane(Function closeSlideable) {
+  ActionPane endActionPane(Function closeSlidable) {
     return ActionPane(
       extentRatio: 0.22,
       motion: const ScrollMotion(),
@@ -66,7 +66,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              closeSlideable();
+              closeSlidable();
               onTapDeleteMedia?.call();
             },
             child: Container(
