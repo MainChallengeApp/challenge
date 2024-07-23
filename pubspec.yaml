@@ -45,6 +45,7 @@ dependencies:
   flutter_linkify: ^6.0.0
   image_picker: ^1.0.5
   video_player: ^2.8.2
+  flutter_keyboard_visibility: ^6.0.0
 
 dev_dependencies:
   flutter_test:

@@ -4,11 +4,13 @@ import 'package:challenge/pages/components/challenge/frequency_component.dart';
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -17,18 +19,17 @@ import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:provider/provider.dart';
 
 class SearchChallengePage extends StatefulWidget {
   const SearchChallengePage(
       {super.key,
       required this.title,
       required this.initChallenge,
-      required this.selectTab,
       required this.challenges,
       required this.initChalleneIndex});
   final String title;
   final ChallengeModel initChallenge;
-  final Function selectTab;
   final List<ChallengeModel> challenges;
   final int initChalleneIndex;
 
@@ -90,6 +91,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                 },
               ).toList()),
         ),
+        bottomNavigationBar: const BottomNavigationComponent(),
       ),
     );
   }
@@ -231,7 +233,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     challengeList.insert(0, challengeCopy);
     await challengeController.writeFile(allChallengesList);
 
-    widget.selectTab(TabItemEnum.Home);
+    context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
     // ignore: use_build_context_synchronously
     var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;

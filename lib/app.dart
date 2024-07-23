@@ -1,7 +1,6 @@
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/settings/settings_tab_navigator.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/pages/home/home_tab_navigator.dart';
@@ -19,7 +18,6 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  TabItemEnum _currentTab = TabItemEnum.Search;
   ChallengeController challengeController = ChallengeController();
 
   @override
@@ -27,35 +25,12 @@ class AppState extends State<App> {
     super.initState();
     challengeController.readFile().then((value) {
       allChallengesList = value;
-      setState(() {
-        _currentTab =
-            allChallengesList.isEmpty ? TabItemEnum.Search : TabItemEnum.Home;
-      });
-      return allChallengesList = value;
+      if (allChallengesList.isEmpty) {
+        context.read<TabProvider>().selectTab(TabItemEnum.Search);
+      } else {
+        context.read<TabProvider>().selectTab(TabItemEnum.Home);
+      }
     });
-  }
-
-  void setStartPage() {
-    Future.delayed(Duration.zero, () async {
-      allChallengesList = await challengeController.readFile();
-      setState(() {
-        _currentTab =
-            allChallengesList.isEmpty ? TabItemEnum.Search : TabItemEnum.Home;
-      });
-    });
-  }
-
-  void _selectTab(TabItemEnum tabItem) {
-    if (tabItem == _currentTab) {
-      // pop to first route
-      setState(() {
-        navigatorKeys[tabItem]!
-            .currentState!
-            .popUntil((route) => route.isFirst);
-      });
-    } else {
-      setState(() => _currentTab = tabItem);
-    }
   }
 
   @override
@@ -69,48 +44,23 @@ class AppState extends State<App> {
         ],
       ),
       backgroundColor: Colors.white,
-      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 
-  bottomNavigationBar() {
-    return context.watch<DesignProvider>().isBottomNavBarVisible()
-        ? Padding(
-            padding: const EdgeInsets.only(
-                left: 20.0, right: 20.0, bottom: 20, top: 0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(
-                  24.0), // Hier können Sie den Radius nach Bedarf ändern
-              child: Container(
-                height: 81,
-                // width: 450,
-                decoration: const BoxDecoration(
-                  color: themeColor1,
-                ),
-                child: BottomNavigationComponent(
-                  currentTab: _currentTab,
-                  onSelectTab: _selectTab,
-                ),
-              ),
-            ),
-          )
-        : null;
-  }
-
   Widget _buildOffstageNavigator(TabItemEnum tabItem) {
+    final currentTab = context.watch<TabProvider>().currentTab;
     switch (tabItem) {
       case TabItemEnum.Search:
         return Offstage(
-          offstage: _currentTab != tabItem,
+          offstage: currentTab != tabItem,
           child: SearchTabNavigator(
             navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
-            selectTab: _selectTab,
           ),
         );
       case TabItemEnum.Home:
         return Offstage(
-          offstage: _currentTab != tabItem,
+          offstage: currentTab != tabItem,
           child: HomeTabNavigator(
             navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
@@ -118,7 +68,7 @@ class AppState extends State<App> {
         );
       case TabItemEnum.Settings:
         return Offstage(
-          offstage: _currentTab != tabItem,
+          offstage: currentTab != tabItem,
           child: SettingsTabNavigator(
             navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
@@ -127,7 +77,7 @@ class AppState extends State<App> {
 
       default:
         return Offstage(
-          offstage: _currentTab != tabItem,
+          offstage: currentTab != tabItem,
           child: TabNavigatorComponent(
             navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,

@@ -9,7 +9,6 @@ import 'package:challenge/pages/components/list_items/list_item_progress_control
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -18,10 +17,8 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/media_model.dart';
-import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/media_service.dart';
@@ -169,7 +166,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   void ppush(BuildContext context, {required int index}) {
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -384,11 +380,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 preTitle: 'Home/${widget.challenge.title}',
                 challenge: widget.challenge),
           )).then((_) {
-        HomeChallengePage
-            .context2 // TODO: WORKAROUND to be able to always show repetition page after saving progress
-            .read<DesignProvider>()
-            .setIsBottomNavBarVisible(true);
-
         challengeList =
             ChallengeModel.sortChallengeList(challenges: challengeList);
 

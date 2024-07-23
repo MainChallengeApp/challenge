@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/pages/components/categories/category_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
@@ -17,10 +18,8 @@ import 'package:challenge/pages/components/navigation/no_animation_page_route_co
 import 'search_challenge_page.dart';
 
 class SearchCategoriesPage extends StatefulWidget {
-  const SearchCategoriesPage(
-      {super.key, required this.title, required this.selectTab});
+  const SearchCategoriesPage({super.key, required this.title});
   final String title;
-  final Function selectTab;
 
   @override
   State<SearchCategoriesPage> createState() => _SearchCategoriesPageState();
@@ -42,12 +41,13 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            AppBarComponent(preTitle: widget.title, isFirstPageInRoute: true),
-        body: Container(
-          color: Colors.white,
-          child: _buildList(),
-        ));
+      appBar: AppBarComponent(preTitle: widget.title, isFirstPageInRoute: true),
+      body: Container(
+        color: Colors.white,
+        child: _buildList(),
+      ),
+      bottomNavigationBar: const BottomNavigationComponent(),
+    );
   }
 
   Widget _buildList() {
@@ -206,7 +206,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => SearchListPage(
           title: 'All Challenges',
           preTitle: 'Search',
-          selectTab: widget.selectTab,
           isFirstPageInRoute: false,
           initialSearchText: searchBarText,
           isSearchBarAutoFocus: true,
@@ -222,7 +221,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => SearchListPage(
           title: title,
           preTitle: 'Search',
-          selectTab: widget.selectTab,
           isFirstPageInRoute: false,
           categories: categories,
         ),
@@ -238,7 +236,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           title: 'Search/Shuffle',
-          selectTab: widget.selectTab,
           initChallenge: challengesCopy[0],
           challenges: challengesCopy,
           initChalleneIndex: 0,
@@ -256,7 +253,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           challenge: ChallengeModel.empty(),
           isNewChallenge: true,
           isSearchNewChallenge: true,
-          selectTab: widget.selectTab,
         ),
       ),
     ).then((_) => setState(() {}));

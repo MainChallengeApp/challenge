@@ -7,6 +7,7 @@ import 'package:challenge/pages/components/challenge/documentation_button_compon
 import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/pages/components/challenge/title_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
@@ -55,16 +56,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   ChallengeService challengeService = ChallengeService();
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      setState(() {
-        context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     HomeChallengePage.context2 =
         context; // TODO: WORKAROUND to be able to always show repetition page after saving progress
@@ -103,6 +94,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               }),
             );
           }).toList()),
+      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 
@@ -377,7 +369,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   void onTapOpenMediaPage(ChallengeModel challenge) {
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -386,9 +377,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           challenge: challenge,
         ),
       ),
-    ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-        }));
+    ).then((_) => setState(() {}));
   }
 
   void onPageChanged(int value) {
@@ -413,7 +402,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       ),
     ).then((_) {
       setState(() {
-        context.read<DesignProvider>().setIsBottomNavBarVisible(true);
         challengeList =
             ChallengeModel.sortChallengeList(challenges: challengeList);
 
@@ -433,9 +421,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     final cameras = await availableCameras();
 
     // ignore: use_build_context_synchronously
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-
-    // ignore: use_build_context_synchronously
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -447,8 +432,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         ),
       ),
     ).then((_) => setState(() {
-          context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-
           challengeList =
               ChallengeModel.sortChallengeList(challenges: challengeList);
 
@@ -562,48 +545,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           pageController.jumpToPage(challengeList
               .indexWhere(((element) => element.id == challenge.id)));
         });
-
-    // showDialog(
-    //   context: context,
-    //   builder: (context) {
-    //     context3 = context;
-    //     return GestureDetector(
-    //       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-    //       child: Dialog(
-    //         insetPadding: const EdgeInsets.only(
-    //             top: 150, bottom: 200, left: 50, right: 50),
-    //         alignment: Alignment.center,
-    //         shape: const RoundedRectangleBorder(
-    //             borderRadius: BorderRadius.all(Radius.circular(24))),
-    //         child: SingleChildScrollView(
-    //           child: Container(
-    //             decoration: const BoxDecoration(
-    //                 color: Colors.white,
-    //                 borderRadius: BorderRadius.all(Radius.circular(24))),
-    //             child: Column(
-    //               children: [
-    //                 const Padding(
-    //                   padding: EdgeInsets.all(16.0),
-    //                   child: Text(
-    //                     'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
-    //                     textAlign: TextAlign.center,
-    //                   ),
-    //                 ),
-    //                 Row(
-    //                   children: [
-    //                     Expanded(child: dialogYesButton(challenge)),
-    //                     const SpaceComponent(),
-    //                     Expanded(child: dialogNoButton())
-    //                   ],
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   onTapAgain(ChallengeModel challenge) {
@@ -627,16 +568,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   onTapNext(ChallengeModel challenge) {
     setState(() {
       challengeService.nextRepetition(challenge);
-      // challenge.endRepetition();
-
-      // allChallengesList = allChallengesList.map((e) {
-      //   return e.id == challenge.id ? challenge : e;
-      // }).toList();
-
-      // challengeList = challengeList
-      //     .map((e) => e.id == challenge.id ? challenge : e)
-      //     .toList();
-      // challengeController.writeFile(allChallengesList);
     });
   }
 }

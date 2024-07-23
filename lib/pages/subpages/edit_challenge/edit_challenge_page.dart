@@ -5,6 +5,7 @@ import 'package:challenge/pages/components/challenge/start_and_end_date_componen
 import 'package:challenge/pages/components/edit_challenge/description_big_component.dart';
 import 'package:challenge/pages/components/edit_challenge/expanded_text_field_component.dart';
 import 'package:challenge/pages/components/edit_challenge/upload_thumbnail_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
 import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
@@ -12,10 +13,12 @@ import 'package:challenge/pages/components/simple_components/space_component.dar
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:provider/provider.dart';
 
 class EditChallengePage extends StatefulWidget {
   final String preTitle;
@@ -25,7 +28,6 @@ class EditChallengePage extends StatefulWidget {
   final bool isTryAgain;
   final bool isSearchEdit;
   final bool isSearchNewChallenge;
-  final Function? selectTab;
 
   EditChallengePage(
       {super.key,
@@ -34,8 +36,7 @@ class EditChallengePage extends StatefulWidget {
       this.isSearchEdit = false,
       this.isNewChallenge = false,
       this.isTryAgain = false,
-      this.isSearchNewChallenge = false,
-      this.selectTab}) {
+      this.isSearchNewChallenge = false}) {
     editChallenge = ChallengeModel.copyChallenge(
         challenge: challenge, isTryAgain: isTryAgain);
   }
@@ -52,23 +53,23 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        appBar: AppBarComponent(
-            preTitle: widget.preTitle,
-            titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
-        backgroundColor: Colors.white,
-        body: CardComponent(
-          scrollPhysics: const AlwaysScrollableScrollPhysics(),
-          children: [
-            thumbnailUploadAndTitle(),
-            description(),
-            amountAndUnit(),
-            frequency(),
-            startAndEndDate(),
-            Expanded(child: Container()),
-            cancelAndSaveButton()
-          ],
-        ),
-      ),
+          appBar: AppBarComponent(
+              preTitle: widget.preTitle,
+              titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
+          backgroundColor: Colors.white,
+          body: CardComponent(
+            scrollPhysics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              thumbnailUploadAndTitle(),
+              description(),
+              amountAndUnit(),
+              frequency(),
+              startAndEndDate(),
+              Expanded(child: Container()),
+              cancelAndSaveButton()
+            ],
+          ),
+          bottomNavigationBar: const BottomNavigationComponent()),
     );
   }
 
@@ -186,11 +187,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
     if (widget.isSearchNewChallenge) {
       Navigator.pop(context);
-      if (widget.selectTab != null) {
-        widget.selectTab!(TabItemEnum.Home);
-      } else {
-        throw Exception('could not switch to home tab');
-      }
+
+      context.read()<TabProvider>().selectTab(TabItemEnum.Home);
+
       // ignore: use_build_context_synchronously
       var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
 

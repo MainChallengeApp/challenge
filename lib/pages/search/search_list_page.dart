@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
@@ -21,7 +22,6 @@ class SearchListPage extends StatefulWidget {
       this.preTitle = "",
       required this.title,
       this.onPush,
-      required this.selectTab,
       this.isFirstPageInRoute = true,
       this.initialSearchText = "",
       this.isSearchBarAutoFocus = false,
@@ -29,7 +29,6 @@ class SearchListPage extends StatefulWidget {
   final String preTitle;
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
-  final Function selectTab;
   final bool isFirstPageInRoute;
   final String initialSearchText;
   final bool isSearchBarAutoFocus;
@@ -63,7 +62,8 @@ class _SearchListPageState extends State<SearchListPage> {
         body: Container(
           color: Colors.white,
           child: _buildList(),
-        ));
+        ),
+        bottomNavigationBar: const BottomNavigationComponent());
   }
 
   Widget _buildList() {
@@ -161,7 +161,6 @@ class _SearchListPageState extends State<SearchListPage> {
         builder: (context) => SearchChallengePage(
           title: '${widget.preTitle}/${widget.title}',
           initChallenge: challenge,
-          selectTab: widget.selectTab,
           challenges: filteredChallenges,
           initChalleneIndex: index,
         ),
@@ -180,7 +179,6 @@ class _SearchListPageState extends State<SearchListPage> {
           challenge: ChallengeModel.empty(title: searchBarText),
           isNewChallenge: true,
           isSearchNewChallenge: true,
-          selectTab: widget.selectTab,
         ),
       ),
     ).then((_) => setState(() {}));

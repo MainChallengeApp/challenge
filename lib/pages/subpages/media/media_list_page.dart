@@ -12,11 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media_model.dart';
-import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 
 class MediaListPage extends StatefulWidget {
@@ -124,7 +121,6 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   void ppush(BuildContext context, {required int index}) {
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

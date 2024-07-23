@@ -1,5 +1,6 @@
 import 'package:challenge/pages/registration/registration_page.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/account_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/app.dart';
@@ -10,6 +11,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => DesignProvider()),
+      ChangeNotifierProvider(create: (_) => TabProvider()),
     ],
     child: const MyApp(),
   ));
@@ -28,7 +30,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    setOrientationToPortaitUp();
+    setOrientationToPortraitUp();
     accountService.loadAccount(context);
   }
 
@@ -47,7 +49,7 @@ class _MyAppState extends State<MyApp> {
             : const RegistrationPage());
   }
 
-  void setOrientationToPortaitUp() {
+  void setOrientationToPortraitUp() {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,

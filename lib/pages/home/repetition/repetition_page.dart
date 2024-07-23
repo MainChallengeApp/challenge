@@ -13,10 +13,8 @@ import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:provider/provider.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
 import 'progress_media_list_page.dart';
 
@@ -45,7 +43,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
   @override
   void initState() {
     super.initState();
-    setIsBottomNavBarVisibleToFalse();
     Future.delayed(Duration.zero, () {
       List<String> preTitleArray = widget.preTitle.split('/');
       if (preTitleArray.length >= 3 && preTitleArray.contains('Repetitions')) {
@@ -219,14 +216,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
     ).then((_) => setState(() {}));
   }
 
-  void setIsBottomNavBarVisibleToFalse() {
-    Future.delayed(Duration.zero, () {
-      setState(() {
-        context.read<DesignProvider>().setIsBottomNavBarVisible(false);
-      });
-    });
-  }
-
   String splitTitle(String title) {
     // Find the index of the last '/' in the string
     int lastIndex = title.lastIndexOf('/');
@@ -241,8 +230,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   void onTapNewProgress(RepetitionModel repetition) async {
-    // ignore: use_build_context_synchronously
-    context.read<DesignProvider>().setIsBottomNavBarVisible(false);
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
