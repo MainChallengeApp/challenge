@@ -1,16 +1,16 @@
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/models/account_model.dart';
 import 'package:challenge/pages/settings/credits/credits_page.dart';
 

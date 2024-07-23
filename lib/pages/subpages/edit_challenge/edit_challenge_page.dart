@@ -1,23 +1,23 @@
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
-import 'package:challenge/pages/components/challenge/frequency_component.dart';
-import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/pages/components/edit_challenge/description_big_component.dart';
-import 'package:challenge/pages/components/edit_challenge/expanded_text_field_component.dart';
-import 'package:challenge/pages/components/edit_challenge/upload_thumbnail_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
-import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/challenge/amount_and_unit_component.dart';
+import 'package:challenge/components/challenge/frequency_component.dart';
+import 'package:challenge/components/challenge/start_and_end_date_component.dart';
+import 'package:challenge/components/edit_challenge/description_big_component.dart';
+import 'package:challenge/components/edit_challenge/expanded_text_field_component.dart';
+import 'package:challenge/components/edit_challenge/upload_thumbnail_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/custom_button_component.dart';
+import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:provider/provider.dart';
 
 class EditChallengePage extends StatefulWidget {

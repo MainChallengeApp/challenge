@@ -1,16 +1,16 @@
 import 'dart:developer';
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/pages/components/media/video_thumbnail_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/components/media/video_thumbnail_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:challenge/models/media_model.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 
 class MediaCameraPage extends StatefulWidget {
   const MediaCameraPage({
