@@ -1,5 +1,5 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/pages/components/challenge/date_component.dart';
 import 'package:challenge/pages/components/simple_components/space_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,208 +24,36 @@ class StartAndEndDateComponent extends StatefulWidget {
 class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   @override
   Widget build(BuildContext context) {
-    // return CustomContainerComponent(
-    //     padding: const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Align(
-    //               alignment: Alignment.topLeft,
-    //               child: Text(
-    //                 'Start',
-    //                 style: TextStyle(fontSize: 12, color: themeColor3),
-    //               ),
-    //             ),
-    //             Align(
-    //               alignment: Alignment.topCenter,
-    //               child: Text(
-    //                 'Now',
-    //                 style: TextStyle(fontSize: 12, color: themeColor3),
-    //               ),
-    //             ),
-    //             Align(
-    //               alignment: Alignment.topRight,
-    //               child: Text(
-    //                 'End',
-    //                 style: TextStyle(fontSize: 12, color: themeColor3),
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //         Stack(
-    //           children: [
-    //             Center(
-    //               child: timeline(),
-    //             ),
-    //             // Positioned(
-    //             //     // left: 0,
-    //             //     child: Container(
-    //             //   width: double.infinity,
-    //             //   height: double.infinity,
-    //             //   child: Align(
-    //             //     alignment: Alignment.centerLeft,
-    //             //     child: start(),
-    //             //   ),
-    //             // )),
-    //             // Positioned(
-    //             //     // left: 0,
-    //             //     child: Container(
-    //             //   width: double.infinity,
-    //             //   height: double.infinity,
-    //             //   child: Align(
-    //             //     alignment: Alignment.centerRight,
-    //             //     child: end(),
-    //             //   ),
-    //             // )),
-    //             // Positioned(
-    //             //     left: 50,
-    //             //     child: Container(
-    //             //       width: double.infinity,
-    //             //       height: double.infinity,
-    //             //       child: Align(
-    //             //         alignment: Alignment.centerLeft,
-    //             //         child: now(),
-    //             //       ),
-    //             //     )),
-    //           ],
-    //         ),
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: [
-    //             Align(
-    //               alignment: Alignment.topLeft,
-    //               child: Text(
-    //                 DesignUtil.getDateAndTimeFormated(
-    //                         widget.editChallenge.startDate,
-    //                         isYearVisible: false)
-    //                     .split(' ')[0],
-    //                 style: const TextStyle(fontSize: 12, color: themeColor3),
-    //               ),
-    //             ),
-    //             Align(
-    //               alignment: Alignment.topCenter,
-    //               child: Text(
-    //                 DesignUtil.getDateAndTimeFormated(DateTime.now(),
-    //                         isYearVisible: false)
-    //                     .split(' ')[0],
-    //                 style: TextStyle(fontSize: 12, color: themeColor3),
-    //               ),
-    //             ),
-    //             Align(
-    //               alignment: Alignment.topRight,
-    //               child: Text(
-    //                 DesignUtil.getDateAndTimeFormated(
-    //                         widget.editChallenge.endDate,
-    //                         isYearVisible: false)
-    //                     .split(' ')[0],
-    //                 style: const TextStyle(fontSize: 12, color: themeColor3),
-    //               ),
-    //             )
-    //           ],
-    //         ),
-    //       ],
-    //     ));
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () => onTapStartOrEndDate('start'),
-            child: standardContainer(
-                child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Start',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: basicFontSize),
-                      ),
-                      Text(
-                        (widget.editChallenge.startDate != null
-                            ? _dateFormat(widget.editChallenge.startDate!)
-                            : '-'),
-                        style: const TextStyle(
-                            color: themeColor3, fontSize: basicFontSize),
-                      )
-                    ],
-                  ),
-                ),
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      widget.editChallenge.startDate != null
-                          ? _timeFormat(widget.editChallenge.startDate!)
-                          : '',
-                      style: const TextStyle(fontSize: 8, color: themeColor3),
-                    ))
-              ],
-            )),
-          ),
-        ),
+        startDate(),
         const SpaceComponent(),
-        Expanded(
-          child: GestureDetector(
-            onTap: () => onTapStartOrEndDate('end'),
-            child: standardContainer(
-                child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'End',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: basicFontSize),
-                      ),
-                      Text(
-                        (widget.editChallenge.endDate != null
-                            ? _dateFormat(widget.editChallenge.endDate!)
-                            : '-'),
-                        style: const TextStyle(
-                            color: themeColor3, fontSize: basicFontSize),
-                      )
-                    ],
-                  ),
-                ),
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      widget.editChallenge.endDate != null
-                          ? _timeFormat(widget.editChallenge.endDate!)
-                          : '',
-                      style: const TextStyle(fontSize: 8, color: themeColor3),
-                    ))
-              ],
-            )),
-          ),
-        ),
+        endDate(),
       ],
     );
   }
 
-  standardContainer({required Widget child, double heightFactor = 1}) {
-    return Container(
-      // width: double.infinity,
-      height: 55 * heightFactor,
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 8, bottom: 8),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
+  Expanded endDate() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onTapStartOrEndDate('end'),
+        child: DateComponent(
+          date: widget.editChallenge.endDate,
+          text: "End",
+        ),
+      ),
+    );
+  }
+
+  Expanded startDate() {
+    return Expanded(
+      child: GestureDetector(
+          onTap: () => onTapStartOrEndDate('start'),
+          child: DateComponent(
+            date: widget.editChallenge.startDate,
+            text: "Start",
+          )),
     );
   }
 
@@ -324,156 +152,5 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         );
       },
     );
-  }
-
-  Container timeline() {
-    return Container(width: double.infinity, height: 1.5, color: themeColor5);
-  }
-
-  String _dateFormat(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
-  }
-
-  String _timeFormat(DateTime date) {
-    return '${date.hour <= 9 ? '0' : ''}${date.hour}:${date.minute <= 9 ? '0' : ''}${date.minute}';
-  }
-
-  // start() {
-  //   return Container(
-  //     color: Colors.red,
-  //     padding: EdgeInsets.only(left: 16.0), // Adjust left padding as needed
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Expanded(child: Container()), // Placeholder above
-  //         const Text(
-  //           'Start',
-  //           style: TextStyle(fontSize: 12, color: themeColor3),
-  //         ),
-  //         const SizedBox(height: 4),
-  //         Row(
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           children: [
-  //             Expanded(
-  //               child: Container(
-  //                 height: 10,
-  //                 decoration: BoxDecoration(
-  //                   color: themeColor3,
-  //                   borderRadius: BorderRadius.circular(1),
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         const SizedBox(height: 4),
-  //         const Text(
-  //           'Start',
-  //           style: TextStyle(fontSize: 12, color: themeColor3),
-  //         ),
-  //         Expanded(child: Container()), // Placeholder below
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  start() {
-    return Wrap(
-      direction: Axis.vertical,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        Expanded(child: Container()), // Platzhalter oben
-        const Text(
-          'Start',
-          style: TextStyle(fontSize: 12, color: themeColor3),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        Container(
-          width: 3,
-          height: 10,
-          decoration: BoxDecoration(
-            color: themeColor3,
-            borderRadius: BorderRadius.circular(1),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          DesignUtil.getDateAndTimeFormated(widget.editChallenge.startDate,
-                  isYearVisible: false)
-              .split(' ')[0],
-          style: const TextStyle(fontSize: 12, color: themeColor3),
-        ),
-        Expanded(child: Container()), // Platzhalter unten
-      ],
-    );
-  }
-
-  end() {
-    return Wrap(
-      direction: Axis.vertical,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        Expanded(child: Container()), // Platzhalter oben
-        const Text(
-          'End',
-          style: TextStyle(fontSize: 12, color: themeColor3),
-        ),
-        const SizedBox(
-          height: 4,
-        ),
-        Container(
-          width: 3,
-          height: 10,
-          decoration: BoxDecoration(
-            color: themeColor3,
-            borderRadius: BorderRadius.circular(1),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          DesignUtil.getDateAndTimeFormated(widget.editChallenge.endDate,
-                  isYearVisible: false)
-              .split(' ')[0],
-          style: const TextStyle(fontSize: 12, color: themeColor3),
-        ),
-        Expanded(child: Container()), // Platzhalter unten
-      ],
-    );
-  }
-
-  now() {
-    {
-      return Wrap(
-        direction: Axis.vertical,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: [
-          Expanded(child: Container()), // Platzhalter oben
-          const Text(
-            'Now',
-            style: TextStyle(fontSize: 12, color: themeColor3),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Container(
-            width: 3,
-            height: 10,
-            decoration: BoxDecoration(
-              color: themeColor3,
-              borderRadius: BorderRadius.circular(1),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            DesignUtil.getDateAndTimeFormated(DateTime.now(),
-                    isYearVisible: false)
-                .split(' ')[0],
-            style: const TextStyle(fontSize: 12, color: themeColor3),
-          ),
-          Expanded(child: Container()), // Platzhalter unten
-        ],
-      );
-    }
   }
 }
