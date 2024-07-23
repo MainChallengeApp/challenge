@@ -146,7 +146,7 @@ class _HomeListPageState extends State<HomeListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: widget.title,
-            initialChalleneIndex: challengeList.indexOf(challenge)),
+            initialChallengeIndex: challengeList.indexOf(challenge)),
       ),
     ).then((_) => setState(() {}));
   }

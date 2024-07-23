@@ -255,7 +255,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const HomeChallengePage(
           preTitle: 'Home',
-          initialChalleneIndex: 0,
+          initialChallengeIndex: 0,
         ), // Todo: change initalChallengeIndex when id is known from backend
       ),
     )

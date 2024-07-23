@@ -210,7 +210,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
         NoAnimationPageRouteComponent(
           builder: (context) => const HomeChallengePage(
             preTitle: 'Home',
-            initialChalleneIndex: 0,
+            initialChallengeIndex: 0,
           ), // Todo: change initalChallengeIndex when id is known from backend
         ),
       )
@@ -230,7 +230,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
-            initialChalleneIndex: challengeList.indexOf(widget.challenge)),
+            initialChallengeIndex: challengeList.indexOf(widget.challenge)),
       ),
     );
   }

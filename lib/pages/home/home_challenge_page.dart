@@ -30,11 +30,9 @@ import 'package:challenge/pages/components/navigation/no_animation_page_route_co
 
 class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage(
-      {super.key, required this.preTitle, required this.initialChalleneIndex});
+      {super.key, required this.preTitle, required this.initialChallengeIndex});
   final String preTitle;
-  final int initialChalleneIndex;
-  static late BuildContext
-      context2; // TODO: WORKAROUND to be able to always show repetition page after saving progress
+  final int initialChallengeIndex;
 
   @override
   State<HomeChallengePage> createState() => _HomeChallengePageState();
@@ -47,9 +45,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   late BuildContext context3;
 
   late PageController pageController =
-      PageController(initialPage: widget.initialChalleneIndex);
+      PageController(initialPage: widget.initialChallengeIndex);
 
-  late int currentChallengeIndex = widget.initialChalleneIndex;
+  late int currentChallengeIndex = widget.initialChallengeIndex;
 
   ChallengeController challengeController = ChallengeController();
 
@@ -57,8 +55,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    HomeChallengePage.context2 =
-        context; // TODO: WORKAROUND to be able to always show repetition page after saving progress
     challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),

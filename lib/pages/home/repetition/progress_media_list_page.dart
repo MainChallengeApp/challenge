@@ -9,7 +9,6 @@ import 'package:challenge/pages/components/list_items/list_item_progress_control
 import 'package:challenge/pages/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -312,18 +311,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       } else {
         widget.progress!.updateProgress(editProgress);
       }
-      // var progress = ProgressModel(
-      //     date: DateTime.now(),
-      //     progress: widget.acceptanceCriteria.currentProgress,
-      //     mediaIds: mediaList.map((e) => e.id!).toList(),
-      //     percentProgress: widget.acceptanceCriteria.currentProgress /
-      //         widget.acceptanceCriteria.amount,
-      //     frequencyAmount: widget.acceptanceCriteria
-      //         .getCurrentFrequencyAmount(widget.challenge.startDate));
-
-      // widget.acceptanceCriteria.repetitions[progress.frequencyAmount - 1]
-      //     .progressList
-      //     .add(progress);
 
       allChallengesList = allChallengesList
           .map((oldChallenge) => oldChallenge.id == widget.challenge.id
@@ -336,82 +323,31 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               ? widget.challenge
               : oldChallenge)
           .toList();
-      // .firstWhere((element) => element.id == widget.challenge.id) = widget.challenge;
 
       challengeController.writeFile(allChallengesList);
 
-      // List<String> titleList = widget.preTitle.split(
-      //     '/'); // propably the worst workaround i ever did...sorry future developer but i am in a hurry to release this app on 01.01.2024 <3
-      // if (titleList[2] == 'Evidence') {
-      //   Navigator.pop(context);
-      //   Navigator.pop(context);
-      //   Navigator.pop(context);
-      // } else {
-
-      // int max = countCharOccurrences(widget.preTitle, '/') - 1;
-      // // int max = Navigator.of(context)._history.length;
-
-      // for (int i = 0; i <= max; i++) {
-      //   if (Navigator.canPop(context)) {
-      //     Navigator.pop(context);
-      //   }
-      // }
-      // Route secondRoute = Navigator.of(context). currentRoute!;
-      // Navigator.popUntil(context, (route) {
-      //   if(Navigator.canPop(context)){
-      //     secondRoute = route;
-      //     return false;
-      //   } else {
-      //     return true;}
-      // });
-      // if(secondRoute != null){
-
-      // }
-      // Navigator.push(context, secondRoute)
-      // Navigator.removeRoute(context, ModalRoute.of(context)!);
-      // Navigator.removeRoute(context, ModalRoute.of(context)!);
-
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.push(
-          context,
-          NoAnimationPageRouteComponent(
-            builder: (context) => RepetitionPage(
-                preTitle: 'Home/${widget.challenge.title}',
-                challenge: widget.challenge),
-          )).then((_) {
-        challengeList =
-            ChallengeModel.sortChallengeList(challenges: challengeList);
-
-        // int index = challengeList.indexWhere((c) => c.id == widget.challenge.id);
-
-        // pageController.jumpToPage(index); some how need to jump to the right page and setState
-      });
-
-      // setIsBottomNavBarVisibleToTrue();
-
-      // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+      // only show Repetition Page, when its in the navigation stack
       // Navigator.push(
-      //   context,
-      //   NoAnimationPageRoute(
-      //     builder: (context) => AcceptanceCriteriaEvidenceList(
-      //       preTitle: splitTitle(widget.preTitle),
-      //       acceptanceCriteria: widget.acceptanceCriteria,
-      //       challenge: widget.challenge,
-      //     ),
-      //   ),
-      // ).then((_) {
-      //   navigatorKeys[TabItem.Home]!.currentState!.pop(context);
-      //   navigatorKeys[TabItem.Home]!.currentState!.pop(context);
+      //     context,
+      //     NoAnimationPageRouteComponent(
+      //       builder: (context) => RepetitionPage(
+      //           preTitle: 'Home/${widget.challenge.title}',
+      //           challenge: widget.challenge),
+      //     )).then((_) {
+      //   challengeList =
+      //       ChallengeModel.sortChallengeList(challenges: challengeList);
+
+      //   // int index = challengeList.indexWhere((c) => c.id == widget.challenge.id);
+
+      //   // pageController.jumpToPage(index); some how need to jump to the right page and setState
       // });
-      // setIsBottomNavBarVisibleToTrue();
     } else {
       setState(() {
         widget.isSaveInsteadOfEditButtonVisible = true;
       });
     }
-
-    // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
   }
 
   String splitTitle(String title) {
