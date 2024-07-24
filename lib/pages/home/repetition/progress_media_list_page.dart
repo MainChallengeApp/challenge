@@ -1,26 +1,27 @@
-import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_controller_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/challenge_service.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/models/media_model.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/pages/subpages/media/media_detail_page.dart';
-import 'package:challenge/services/media_service.dart';
 
 // ignore: must_be_immutable
 class ProgressMediaListPage extends StatefulWidget {
@@ -420,8 +421,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                                 .toString();
                       }
                     }),
-                child: standardContainer(
-                    child: const Center(
+                child: const CustomContainerComponent(
+                    child: Center(
                   child: Text('-1'),
                 )))),
         const SizedBox(
@@ -436,8 +437,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                           DesignUtil.doubleAsIntString(editProgress.progress)
                               .toString();
                     }),
-                child: standardContainer(
-                    child: const Center(
+                child: const CustomContainerComponent(
+                    child: Center(
                   child: Text('+1'),
                 )))),
         const SizedBox(
@@ -453,8 +454,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                           DesignUtil.doubleAsIntString(editProgress.progress)
                               .toString();
                     }),
-                child: standardContainer(
-                    child: const Center(
+                child: const CustomContainerComponent(
+                    child: Center(
                   child: Text('100%'),
                 )))),
         const SizedBox(
@@ -471,7 +472,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         children: [
           Expanded(
               flex: 1,
-              child: standardContainer(
+              child: CustomContainerComponent(
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: TextField(
@@ -521,7 +522,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           ),
           Expanded(
               flex: 2,
-              child: standardContainer(
+              child: CustomContainerComponent(
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: TextField(
@@ -540,20 +541,20 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  standardContainer({required Widget child, double heightFactor = 1}) {
-    return Container(
-      // width: double.infinity,
-      height: 55 * heightFactor,
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
-    );
-  }
+  // CustomContainerComponent({required Widget child, double heightFactor = 1}) {
+  //   return Container(
+  //     // width: double.infinity,
+  //     height: 55 * heightFactor,
+  //     padding: const EdgeInsets.all(10),
+  //     margin: const EdgeInsets.only(bottom: 16),
+  //     decoration: BoxDecoration(
+  //         color: Colors.white,
+  //         border: Border.all(
+  //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+  //         borderRadius: const BorderRadius.all(Radius.circular(16))),
+  //     child: child,
+  //   );
+  // }
 
   onTapUploadMedia() async {
     XFile? file = await MediaService.onTapUploadMedia();

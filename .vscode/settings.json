@@ -22,5 +22,9 @@
         "subpages",
         "unfocus",
         "uuid"
-    ]
+    ],
+    "editor.codeActionsOnSave": [
+        "source.organizeImports",
+        "source.fixAll"
+    ],
 }
