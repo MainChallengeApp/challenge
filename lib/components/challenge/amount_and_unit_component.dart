@@ -1,7 +1,7 @@
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,33 +34,75 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
       children: [
         amount(),
         const SpaceComponent(),
-        unit(),
+        unitDropDown(),
       ],
     );
   }
 
-  Expanded unit() {
+  Expanded unitDropDown() {
+    List<String> unitsDropDown = [
+      // '',
+      'kg',
+      'g',
+      'l',
+      'ml',
+      'm',
+      'cm',
+      'km',
+      'pcs'
+    ];
+
+    // if (!unitsDropDown.contains(widget.acceptanceCriteria.unit)) {
+    //   unitsDropDown.insert(0, widget.acceptanceCriteria.unit);
+    // }
+
     return Expanded(
         flex: 2,
         child: CustomContainerComponent(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: TextField(
-              style: const TextStyle(fontSize: basicFontSize),
-              controller: unitTextEditingController,
-              onChanged: (value) {
-                widget.acceptanceCriteria.unit = value;
-              },
-              onTap: () => widget.setIsKeyboardUp?.call(true),
-              onSubmitted: (_) => widget.setIsKeyboardUp?.call(false),
-              onEditingComplete: () {
-                FocusManager.instance.primaryFocus?.unfocus();
-                widget.setIsKeyboardUp?.call(false);
-              },
-              decoration: const InputDecoration.collapsed(hintText: 'Unit'),
-            ),
+          child: DropdownButton<String>(
+            borderRadius: BorderRadius.circular(16),
+            isExpanded: true,
+            underline: Container(),
+            value: '',
+            icon: const Icon(Icons.expand_more),
+            style:
+                const TextStyle(color: Colors.black, fontSize: basicFontSize),
+            hint: const Text('Unit'),
+            onChanged: (String? value) {
+              // This is called when the user selects an item.
+              setState(() {
+                widget.acceptanceCriteria.unit = value ?? '';
+              });
+              widget.onReloadSearchListPage?.call();
+            },
+            items: createUnitDropDownMenu(unitsDropDown),
           ),
         ));
+  }
+
+  List<DropdownMenuItem<String>> createUnitDropDownMenu(
+      List<String> unitsDropDown) {
+    List<DropdownMenuItem<String>> unitDropDownMenu = [
+      DropdownMenuItem<String>(
+          value: '',
+          child: TextField(
+            style: const TextStyle(fontSize: basicFontSize),
+            decoration: const InputDecoration.collapsed(hintText: 'Unit'),
+            controller: TextEditingController()
+              ..text = widget.acceptanceCriteria.unit,
+            onChanged: (value) => widget.acceptanceCriteria.unit = value,
+          ))
+    ];
+
+    unitDropDownMenu.addAll(unitsDropDown.map((e) {
+      return DropdownMenuItem<String>(
+          value: e,
+          child: Text(
+            e,
+            style: const TextStyle(fontSize: basicFontSize),
+          ));
+    }).toList());
+    return unitDropDownMenu;
   }
 
   Expanded amount() {
