@@ -13,6 +13,7 @@ import 'package:challenge/components/simple_components/custom_card_component.dar
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -150,32 +151,27 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
-        child: GestureDetector(
+        child: TapContainerComponent(
           onTap: () => deleteChallenge(challenge),
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                    width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
-            child: Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  IconEnum.delete.icon,
-                  color: red,
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "Delete",
-                  style: TextStyle(color: red),
-                )
-              ],
-            )),
-          ),
+          borderRadius: 24,
+          height: double.infinity,
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                IconEnum.delete.icon,
+                color: red,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Delete",
+                style: TextStyle(color: red),
+              )
+            ],
+          )),
         ),
       ),
     );
@@ -186,28 +182,21 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         ? Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: GestureDetector(
+              child: TapContainerComponent(
                 onTap: () => onTapEditChallenge(challenge, slidableContext),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(24))),
-                  child: const Center(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.edit),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text("Edit")
-                    ],
-                  )),
-                ),
+                borderRadius: 24,
+                height: double.infinity,
+                child: const Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.edit),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text("Edit")
+                  ],
+                )),
               ),
             ),
           )

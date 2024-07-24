@@ -11,6 +11,7 @@ import 'package:challenge/components/simple_components/custom_button_component.d
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
@@ -118,12 +119,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       padding: const EdgeInsets.only(bottom: 16),
       child: GestureDetector(
         onTap: () => onTapEditChallenge(challenge),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
+        child: TapContainerComponent(
+          onTap: () => onTapEditChallenge(challenge),
+          borderRadius: 24,
+          height: double.infinity,
           child: const Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
