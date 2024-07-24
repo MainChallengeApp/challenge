@@ -41,15 +41,16 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
 
   Expanded unitDropDown() {
     List<String> unitsDropDown = [
-      // '',
-      'kg',
-      'g',
-      'l',
-      'ml',
-      'm',
-      'cm',
-      'km',
-      'pcs'
+      'Piece',
+      'Hour',
+      'Minute',
+      'Kilogram',
+      'Gram',
+      'Liter',
+      'Milliliter',
+      'Kilometer',
+      'Meter',
+      'Centimeter',
     ];
 
     // if (!unitsDropDown.contains(widget.acceptanceCriteria.unit)) {
