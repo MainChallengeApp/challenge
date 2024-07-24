@@ -207,7 +207,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
         ),
       )
           .then((_) {
-        context.read<DesignProvider>().triggerSetStateHomeList();
+        homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
       });
       return;
     }
