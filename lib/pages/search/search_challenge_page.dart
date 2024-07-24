@@ -4,21 +4,21 @@ import 'package:challenge/components/challenge/frequency_component.dart';
 import 'package:challenge/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/challenge/title_component.dart';
-import 'package:challenge/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/components/simple_components/custom_card_component.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/tab_item_enum.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:provider/provider.dart';
 
 class SearchChallengePage extends StatefulWidget {
@@ -55,6 +55,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         setIsKeyboardUp(false);
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBarComponent(preTitle: widget.title),
         backgroundColor: Colors.white,
         body: Center(

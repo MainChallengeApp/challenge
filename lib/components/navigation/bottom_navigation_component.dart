@@ -1,8 +1,8 @@
+import 'package:challenge/enums/tab_item_enum.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:challenge/globals.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationComponent extends StatefulWidget {
@@ -18,53 +18,48 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
   Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
       builder: (context, bool isKeyboardVisible) {
-        return Visibility(
-          maintainState: true,
-          maintainAnimation: true,
-          visible: !isKeyboardVisible,
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 20.0, right: 20.0, bottom: 20, top: 0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24.0),
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 20.0, right: 20.0, bottom: 20, top: 0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24.0),
+              child: Container(
+                height: 81,
+                // width: 450,
+                decoration: const BoxDecoration(
+                  color: themeColor1,
+                ),
                 child: Container(
                   height: 81,
-                  // width: 450,
                   decoration: const BoxDecoration(
                     color: themeColor1,
+                    borderRadius: BorderRadius.all(Radius.circular(24)),
                   ),
                   child: Container(
-                    height: 81,
-                    decoration: const BoxDecoration(
-                      color: themeColor1,
-                      borderRadius: BorderRadius.all(Radius.circular(24)),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 12),
-                      child: SingleChildScrollView(
-                        physics: const ScrollPhysics(
-                            parent: NeverScrollableScrollPhysics()),
-                        child: NavigationBar(
-                          onDestinationSelected: onTapIcon,
-                          indicatorColor: themeColor2,
-                          indicatorShape: const RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 0,
-                              ),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16))),
-                          backgroundColor: themeColor1,
-                          selectedIndex:
-                              context.watch<TabProvider>().currentTab.index,
-                          elevation: 0,
-                          destinations: <Widget>[
-                            search(),
-                            home(),
-                            settings(),
-                          ],
-                        ),
+                    padding: const EdgeInsets.only(top: 12),
+                    child: SingleChildScrollView(
+                      physics: const ScrollPhysics(
+                          parent: NeverScrollableScrollPhysics()),
+                      child: NavigationBar(
+                        onDestinationSelected: onTapIcon,
+                        indicatorColor: themeColor2,
+                        indicatorShape: const RoundedRectangleBorder(
+                            side: BorderSide(
+                              width: 0,
+                            ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(16))),
+                        backgroundColor: themeColor1,
+                        selectedIndex:
+                            context.watch<TabProvider>().currentTab.index,
+                        elevation: 0,
+                        destinations: <Widget>[
+                          search(),
+                          home(),
+                          settings(),
+                        ],
                       ),
                     ),
                   ),
