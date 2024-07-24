@@ -400,143 +400,149 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   Widget setProgressButtons() {
-    return Row(
-      children: [
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-            flex: 1,
-            child: GestureDetector(
-                onTap: () => setState(() {
-                      if (editProgress.progress - 1 >= 0) {
-                        editProgress.progress -= 1;
+    return SpaceColumnComponent(
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 16,
+          ),
+          Expanded(
+              flex: 1,
+              child: GestureDetector(
+                  onTap: () => setState(() {
+                        if (editProgress.progress - 1 >= 0) {
+                          editProgress.progress -= 1;
+                          amountTextEditingController.text =
+                              DesignUtil.doubleAsIntString(
+                                      editProgress.progress)
+                                  .toString();
+                        } else {
+                          editProgress.progress = 0;
+                          amountTextEditingController.text =
+                              DesignUtil.doubleAsIntString(
+                                      editProgress.progress)
+                                  .toString();
+                        }
+                      }),
+                  child: const CustomContainerComponent(
+                      child: Center(
+                    child: Text('-1'),
+                  )))),
+          const SizedBox(
+            width: 16,
+          ),
+          Expanded(
+              flex: 1,
+              child: GestureDetector(
+                  onTap: () => setState(() {
+                        editProgress.progress += 1;
                         amountTextEditingController.text =
                             DesignUtil.doubleAsIntString(editProgress.progress)
                                 .toString();
-                      } else {
-                        editProgress.progress = 0;
+                      }),
+                  child: const CustomContainerComponent(
+                      child: Center(
+                    child: Text('+1'),
+                  )))),
+          const SizedBox(
+            width: 16,
+          ),
+          Expanded(
+              flex: 2,
+              child: GestureDetector(
+                  onTap: () => setState(() {
+                        editProgress.progress =
+                            widget.challenge.acceptanceCriteria.amount;
                         amountTextEditingController.text =
                             DesignUtil.doubleAsIntString(editProgress.progress)
                                 .toString();
-                      }
-                    }),
-                child: const CustomContainerComponent(
-                    child: Center(
-                  child: Text('-1'),
-                )))),
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-            flex: 1,
-            child: GestureDetector(
-                onTap: () => setState(() {
-                      editProgress.progress += 1;
-                      amountTextEditingController.text =
-                          DesignUtil.doubleAsIntString(editProgress.progress)
-                              .toString();
-                    }),
-                child: const CustomContainerComponent(
-                    child: Center(
-                  child: Text('+1'),
-                )))),
-        const SizedBox(
-          width: 16,
-        ),
-        Expanded(
-            flex: 2,
-            child: GestureDetector(
-                onTap: () => setState(() {
-                      editProgress.progress =
-                          widget.challenge.acceptanceCriteria.amount;
-                      amountTextEditingController.text =
-                          DesignUtil.doubleAsIntString(editProgress.progress)
-                              .toString();
-                    }),
-                child: const CustomContainerComponent(
-                    child: Center(
-                  child: Text('100%'),
-                )))),
-        const SizedBox(
-          width: 16,
-        ),
-      ],
+                      }),
+                  child: const CustomContainerComponent(
+                      child: Center(
+                    child: Text('100%'),
+                  )))),
+          const SizedBox(
+            width: 16,
+          ),
+        ],
+      ),
     );
   }
 
   amountAndUnit() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 1,
-              child: CustomContainerComponent(
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: TextField(
-                    textAlign: TextAlign.end,
-                    controller: amountTextEditingController
-                      ..text =
-                          DesignUtil.doubleAsIntString(editProgress.progress)
-                              .toString(),
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(
-                          RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                      TextInputFormatter.withFunction(
-                        (oldValue, newValue) => newValue.copyWith(
-                          text: newValue.text.replaceAll(',', '.'),
+    return SpaceColumnComponent(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: CustomContainerComponent(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: TextField(
+                      textAlign: TextAlign.end,
+                      controller: amountTextEditingController
+                        ..text =
+                            DesignUtil.doubleAsIntString(editProgress.progress)
+                                .toString(),
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
+                        TextInputFormatter.withFunction(
+                          (oldValue, newValue) => newValue.copyWith(
+                            text: newValue.text.replaceAll(',', '.'),
+                          ),
                         ),
-                      ),
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        double number = 0;
-                        if (value.endsWith('.')) {
-                          number = double.parse(value.split('.')[0]);
-                          editProgress.progress = number;
-                        } else if (value == '') {
-                          editProgress.progress = 0;
-                        } else {
-                          number = double.parse(value);
-                          editProgress.progress = number;
-                        }
-                      });
-                    },
-                    decoration: const InputDecoration.collapsed(hintText: '0'),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          double number = 0;
+                          if (value.endsWith('.')) {
+                            number = double.parse(value.split('.')[0]);
+                            editProgress.progress = number;
+                          } else if (value == '') {
+                            editProgress.progress = 0;
+                          } else {
+                            number = double.parse(value);
+                            editProgress.progress = number;
+                          }
+                        });
+                      },
+                      decoration:
+                          const InputDecoration.collapsed(hintText: '0'),
+                    ),
                   ),
+                )),
+            const SizedBox(
+              width: 16,
+              child: Center(
+                child: Text(
+                  '/',
+                  style: TextStyle(color: Colors.grey),
                 ),
-              )),
-          Container(
-            width: 16,
-            margin: const EdgeInsets.only(bottom: 16),
-            child: const Center(
-              child: Text(
-                '/',
-                style: TextStyle(color: Colors.grey),
               ),
             ),
-          ),
-          Expanded(
-              flex: 2,
-              child: CustomContainerComponent(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextField(
-                    enabled: false,
-                    style: const TextStyle(color: Colors.grey),
-                    controller: TextEditingController()
-                      ..text =
-                          '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
-                    decoration:
-                        const InputDecoration.collapsed(hintText: 'Unit'),
+            Expanded(
+                flex: 2,
+                child: CustomContainerComponent(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextField(
+                      enabled: false,
+                      style: const TextStyle(color: Colors.grey),
+                      controller: TextEditingController()
+                        ..text =
+                            '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
+                      decoration:
+                          const InputDecoration.collapsed(hintText: 'Unit'),
+                    ),
                   ),
-                ),
-              )),
-        ],
+                )),
+          ],
+        ),
       ),
     );
   }
