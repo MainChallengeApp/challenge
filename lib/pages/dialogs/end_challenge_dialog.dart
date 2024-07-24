@@ -1,6 +1,6 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class EndChallengeDialog {

@@ -1,23 +1,23 @@
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
-import 'package:challenge/pages/components/challenge/frequency_component.dart';
-import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/pages/components/edit_challenge/description_big_component.dart';
-import 'package:challenge/pages/components/edit_challenge/expanded_text_field_component.dart';
-import 'package:challenge/pages/components/edit_challenge/upload_thumbnail_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_button_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
-import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/challenge/amount_and_unit_component.dart';
+import 'package:challenge/components/challenge/frequency_component.dart';
+import 'package:challenge/components/challenge/start_and_end_date_component.dart';
+import 'package:challenge/components/edit_challenge/description_big_component.dart';
+import 'package:challenge/components/edit_challenge/expanded_text_field_component.dart';
+import 'package:challenge/components/edit_challenge/upload_thumbnail_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/custom_button_component.dart';
+import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:provider/provider.dart';
 
 class EditChallengePage extends StatefulWidget {
@@ -153,15 +153,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
     }
 
     if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
-      // wip
-      // challengeList.firstWhere((element) => element == widget.challenge).status =
-      //         ChallengStatus.factory('Success');
-      //     allChallengesList
-      //         .where((element) => element == widget.challenge)
-      //         .first
-      //         .status = ChallengStatus.factory('Success');
-      //     challengeController.writeFile(context, allChallengesList);
-
       allChallengesList = allChallengesList.map((e) {
         if (e.id == widget.challenge.id) {
           return widget.challenge;
@@ -188,7 +179,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     if (widget.isSearchNewChallenge) {
       Navigator.pop(context);
 
-      context.read()<TabProvider>().selectTab(TabItemEnum.Home);
+      context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
       // ignore: use_build_context_synchronously
       var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
@@ -210,8 +201,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
         NoAnimationPageRouteComponent(
           builder: (context) => const HomeChallengePage(
             preTitle: 'Home',
-            initialChalleneIndex: 0,
-          ), // Todo: change initalChallengeIndex when id is known from backend
+            initialChallengeIndex: 0,
+          ), // Todo: change initialChallengeIndex when id is known from backend
         ),
       )
           .then((value) {
@@ -230,7 +221,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: 'Home', // very bad workaround
-            initialChalleneIndex: challengeList.indexOf(widget.challenge)),
+            initialChallengeIndex: challengeList.indexOf(widget.challenge)),
       ),
     );
   }
@@ -246,7 +237,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return SpaceColumnComponent(
       child: FrequencyComponent(
         challenge: widget.editChallenge,
-        reloadSeachChallengePage: () => setState(
+        reloadSearchChallengePage: () => setState(
           () {},
         ),
       ),

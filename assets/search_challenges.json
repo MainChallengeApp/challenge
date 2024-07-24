@@ -15,7 +15,7 @@
   },
   {
     "status": "backlog",
-    "title": "Affirmationen",
+    "title": "Affirmation",
     "description": "Elevate your mindset with the 'Affirmations' challenge. Embrace daily positive affirmations to cultivate self-confidence and resilience. Speak words of encouragement to yourself, fostering a powerful, optimistic mindset. Join to build a habit of self-love, overcome challenges, and manifest a brighter, more fulfilling life. 💭\n\nAds:\n - Mindfulness Impulse ( https://amzn.to/3tVgiCh )\n",
     "thumbnailPath": "assets/images/affirmation.png",
     "acceptanceCriteria": {
@@ -58,7 +58,7 @@
   {
     "status": "backlog",
     "title": "Bouldering",
-    "description": "Elevate your physical and mental strength with the 'Bouldering' challenge. Conquer intricate climbing problems, pushing your agility and problem-solving skills to new heights. Embrace the thrill of scaling boulders, sculpting both your physique and determination. Climb, cling, and celebrate the triumphs of each ascent. 🧗‍♂️\n\nAds:\n - Boulder Tape ( https://amzn.to/3HhO08e )\n - Boulder Chalkbag ( https://amzn.to/48wQE67 )\n - Boulder Shoes ( https://amzn.to/3O0eDlW )\n",
+    "description": "Elevate your physical and mental strength with the 'Bouldering' challenge. Conquer intricate climbing problems, pushing your agility and problem-solving skills to new heights. Embrace the thrill of scaling boulders, sculpting both your physique and determination. Climb, cling, and celebrate the triumphs of each ascent. 🧗‍♂️\n\nAds:\n - Boulder Tape ( https://amzn.to/3HhO08e )\n - Boulder Chalk Bag ( https://amzn.to/48wQE67 )\n - Boulder Shoes ( https://amzn.to/3O0eDlW )\n",
     "thumbnailPath": "assets/images/bouldering.png",
     "acceptanceCriteria": {
       "amount": 1.0,
@@ -199,7 +199,7 @@
     "status": "backlog",
     "title": "Digital Organization",
     "description": "Declutter your digital space and boost your productivity with the 'Digital Organization' challenge. Tame the chaos of files, emails, and apps. Create a streamlined digital environment that enhances focus and efficiency. Unleash the potential of an organized digital life and witness the clarity it brings to your daily tasks! 💻\n\nAds:\n - 'Digital Cleaning' ( https://amzn.to/3O02EV9 )\n",
-    "thumbnailPath": "assets/images/digital_organisation.png",
+    "thumbnailPath": "assets/images/digital_organization.png",
     "acceptanceCriteria": {
       "amount": 1.0,
       "unit": "Optimization"
@@ -310,7 +310,7 @@
   {
     "status": "backlog",
     "title": "Elevator Pitch",
-    "description": "Engage in the 'Elevator Pitch' Challenge and craft a succinct narrative that captivates hearts and minds. Whether it's selling an idea or presenting yourself, refine the art of persuasion in a short elevator ride. Elevate your communication skills and leave a lasting impression with every floor. 🚀\n\nAds:\n - 'Die 2BEKNOWN Elevator Pitch' ( https://amzn.to/3O4iLRI )\n",
+    "description": "Engage in the 'Elevator Pitch' Challenge and craft a succinct narrative that captivates hearts and minds. Whether it's selling an idea or presenting yourself, refine the art of persuasion in a short elevator ride. Elevate your communication skills and leave a lasting impression with every floor. 🚀\n\nAds:\n - 'Elevator Pitch' ( https://amzn.to/3O4iLRI )\n",
     "thumbnailPath": "assets/images/elevator.png",
     "acceptanceCriteria": {
       "amount": 1.0,
@@ -437,7 +437,7 @@
     "status": "backlog",
     "title": "Gratitude Journaling",
     "description": "Embark on a 'Gratitude Journaling' and discover the transformative power of appreciation. Each day, reflect on the positive aspects of your life, cultivating a mindset of thankfulness. Small moments can have a big impact – join this challenge to unlock a more fulfilling and positive existence. 🙏🏼\n\nAds:\n - 'Dankbarkeitstagebuch' ( https://amzn.to/48DuZJw )\n",
-    "thumbnailPath": "assets/images/thankfull.png",
+    "thumbnailPath": "assets/images/thankful.png",
     "acceptanceCriteria": {
       "amount": 100.0,
       "unit": "Entries"
@@ -786,7 +786,7 @@
   {
     "status": "backlog",
     "title": "Photography",
-    "description": "Capture moments that tell stories. Explore the world through your lens, framing beauty in everyday scenes. From portraits to landscapes, ignite your creativity. Freeze time and share your visual narratives. 📷\n\nAds:\n - Iphone Camera Lens ( https://amzn.to/4b4qDwk )\n",
+    "description": "Capture moments that tell stories. Explore the world through your lens, framing beauty in everyday scenes. From portraits to landscapes, ignite your creativity. Freeze time and share your visual narratives. 📷\n\nAds:\n - iPhone Camera Lens ( https://amzn.to/4b4qDwk )\n",
     "thumbnailPath": "assets/images/photography.png",
     "acceptanceCriteria": {
       "amount": 10.0,
@@ -925,9 +925,9 @@
   },
   {
     "status": "backlog",
-    "title": "Selfcare",
+    "title": "Self care",
     "description": "Dive into the bliss of self-nurturing moments. Embrace tranquility through spa sessions, mindful practices, and soulful escapes. Prioritize your well-being and recharge for life's journey. Elevate your self-care game, one rejuvenating step at a time. 💆‍♀️\n\nAds:\n - Nurture by Nature Relax & Calm ( https://amzn.to/425G8QT )\n",
-    "thumbnailPath": "assets/images/selfcare.png",
+    "thumbnailPath": "assets/images/self_care.png",
     "acceptanceCriteria": {
       "amount": 1.0,
       "unit": "Session"
@@ -1150,7 +1150,7 @@
   {
     "status": "backlog",
     "title": "Wim Hof Breathing",
-    "description": "Explore the 'Wim Hof Breathing' Challenge and unlock the potential of controlled breathwork. Elevate your mental clarity and physical well-being through this transformative practice. Immerse yourself in the benefits, fostering increased energy, focus, and inner strength. 🌬️\n\nAds:\n - 'NIE WIEDER KRANK' ( https://amzn.to/48zxpc1 ) \n - 'Die Wim-Hof-Methode' ( https://amzn.to/422aK5N )\n",
+    "description": "Explore the 'Wim Hof Breathing' Challenge and unlock the potential of controlled breath work. Elevate your mental clarity and physical well-being through this transformative practice. Immerse yourself in the benefits, fostering increased energy, focus, and inner strength. 🌬️\n\nAds:\n - 'NIE WIEDER KRANK' ( https://amzn.to/48zxpc1 ) \n - 'Die Wim-Hof-Methode' ( https://amzn.to/422aK5N )\n",
     "thumbnailPath": "assets/images/deep-breathing.png",
     "acceptanceCriteria": {
       "amount": 1.0,

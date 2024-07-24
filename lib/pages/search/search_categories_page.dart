@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/pages/components/categories/category_component.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/components/categories/category_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'search_challenge_page.dart';
 
 class SearchCategoriesPage extends StatefulWidget {
@@ -60,15 +60,15 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: categories.length + 1, //  + 1 for searchbar
-          // separatorBuilder: (context, index) => const SizedBox( // doesnt work properly with scrollbar (scrollbar jumps around)
+          itemCount: categories.length + 1, //  + 1 for searchBar
+          // separatorBuilder: (context, index) => const SizedBox( // does not work properly with scrollbar (scrollbar jumps around)
           //       height: 17,
           //     ),
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return SpaceColumnComponent(
-                child: ListItemSearchbarComponent(
-                  onTap: onTapSearchbar,
+                child: ListItemSearchBarComponent(
+                  onTap: onTapSearchBar,
                   changeList: changeList,
                   isEnabled: false,
                   textEditingController:
@@ -199,7 +199,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     });
   }
 
-  void onTapSearchbar() {
+  void onTapSearchBar() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -238,7 +238,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           title: 'Search/Shuffle',
           initChallenge: challengesCopy[0],
           challenges: challengesCopy,
-          initChalleneIndex: 0,
+          initChallengeIndex: 0,
         ),
       ),
     );

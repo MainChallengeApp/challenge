@@ -1,9 +1,9 @@
 import 'package:challenge/pages/search/search_categories_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:challenge/pages/components/navigation/tab_navigator_component.dart';
+import 'package:challenge/components/navigation/tab_navigator_component.dart';
 
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 
 class SearchTabNavigatorRoutes {
   static const String root = '/';
@@ -15,30 +15,23 @@ class SearchTabNavigator extends TabNavigatorComponent {
       {super.key, required super.navigatorKey, required super.tabItem});
 
   @override
-  void ppush(BuildContext context) {
-    var routeBuilders = prouteBuilders(context);
+  void push(BuildContext context) {
+    var buildRoutes = routeBuilders(context);
 
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            routeBuilders[TabNavigatorRoutes.detail]!(context),
+        builder: (context) => buildRoutes[TabNavigatorRoutes.detail]!(context),
       ),
     );
   }
 
   @override
-  Map<String, WidgetBuilder> prouteBuilders(BuildContext context) {
+  Map<String, WidgetBuilder> routeBuilders(BuildContext context) {
     return {
       SearchTabNavigatorRoutes.root: (context) => SearchCategoriesPage(
             title: tabItem.name,
           ),
-      // SearchTabNavigatorRoutes.detail: (context) => SearchChallenge(
-      //       title: tabItem.name,
-      //       challenge: challenge!,
-      //       selectTab: selectTab,
-      //       challenges: const [],
-      //     )
     };
   }
 }

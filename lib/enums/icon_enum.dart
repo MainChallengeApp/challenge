@@ -1,18 +1,12 @@
 import 'package:flutter/material.dart';
 
-enum IconEnum { progress, delete, newChallenge, shuffle }
+enum IconEnum {
+  progress(Icons.bolt_rounded),
+  delete(Icons.delete),
+  newChallenge(Icons.add_rounded),
+  shuffle(Icons.shuffle_rounded);
 
-extension IconEnumExtension on IconEnum {
-  IconData get icon {
-    switch (this) {
-      case IconEnum.progress:
-        return Icons.bolt_rounded;
-      case IconEnum.delete:
-        return Icons.delete;
-      case IconEnum.newChallenge:
-        return Icons.add_rounded;
-      case IconEnum.shuffle:
-        return Icons.shuffle_rounded;
-    }
-  }
+  const IconEnum(this.icon);
+
+  final IconData icon;
 }

@@ -5,7 +5,6 @@ import 'package:challenge/pages/settings/settings_tab_navigator.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/pages/home/home_tab_navigator.dart';
 import 'package:challenge/pages/search/search_tab_navigator.dart';
-import 'package:challenge/pages/components/navigation/tab_navigator_component.dart';
 import 'package:provider/provider.dart';
 
 import 'package:challenge/globals.dart';
@@ -76,13 +75,7 @@ class AppState extends State<App> {
         );
 
       default:
-        return Offstage(
-          offstage: currentTab != tabItem,
-          child: TabNavigatorComponent(
-            navigatorKey: navigatorKeys[tabItem],
-            tabItem: tabItem,
-          ),
-        );
+        throw Exception("TabItem not found");
     }
   }
 }

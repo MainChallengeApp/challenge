@@ -1,4 +1,4 @@
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:flutter/material.dart';
 
 class CreditsPage extends StatelessWidget {

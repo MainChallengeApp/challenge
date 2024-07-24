@@ -1,27 +1,27 @@
+import 'package:challenge/components/list_items/list_item_button_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/components/list_items/list_item_progress_component.dart';
+import 'package:challenge/components/list_items/list_item_progress_controller_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/models/repetition_model.dart';
-import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_media_small_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_progress_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_progress_controller_component.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/home/repetition/repetition_page.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/challenge_service.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/models/media_model.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/pages/subpages/media/media_detail_page.dart';
-import 'package:challenge/services/media_service.dart';
 
 // ignore: must_be_immutable
 class ProgressMediaListPage extends StatefulWidget {
@@ -147,7 +147,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 index - (widget.isSaveInsteadOfEditButtonVisible ? 3 : 1);
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
-                onTap: () => ppush(context, index: newIndex),
+                onTap: () => push(context, index: newIndex),
                 media: mediaList.reversed.elementAt(newIndex),
                 onTapDeleteMedia: () {
                   setState(() {
@@ -165,14 +165,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  void ppush(BuildContext context, {required int index}) {
+  void push(BuildContext context, {required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
           mediaList: mediaList,
           preTitle: '${widget.preTitle}/Media',
-          initialMediaIdex: index,
+          initialMediaIndex: index,
           challenge: widget.challenge,
         ),
       ),
@@ -211,7 +211,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Cancel',
-        onTap: onTapCanel,
+        onTap: onTapCancel,
         isMainButton: false,
         margin: const EdgeInsets.only(left: 20, right: 10),
       ),
@@ -312,18 +312,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       } else {
         widget.progress!.updateProgress(editProgress);
       }
-      // var progress = ProgressModel(
-      //     date: DateTime.now(),
-      //     progress: widget.acceptanceCriteria.currentProgress,
-      //     mediaIds: mediaList.map((e) => e.id!).toList(),
-      //     percentProgress: widget.acceptanceCriteria.currentProgress /
-      //         widget.acceptanceCriteria.amount,
-      //     frequencyAmount: widget.acceptanceCriteria
-      //         .getCurrentFrequencyAmount(widget.challenge.startDate));
-
-      // widget.acceptanceCriteria.repetitions[progress.frequencyAmount - 1]
-      //     .progressList
-      //     .add(progress);
 
       allChallengesList = allChallengesList
           .map((oldChallenge) => oldChallenge.id == widget.challenge.id
@@ -336,82 +324,31 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               ? widget.challenge
               : oldChallenge)
           .toList();
-      // .firstWhere((element) => element.id == widget.challenge.id) = widget.challenge;
 
       challengeController.writeFile(allChallengesList);
 
-      // List<String> titleList = widget.preTitle.split(
-      //     '/'); // propably the worst workaround i ever did...sorry future developer but i am in a hurry to release this app on 01.01.2024 <3
-      // if (titleList[2] == 'Evidence') {
-      //   Navigator.pop(context);
-      //   Navigator.pop(context);
-      //   Navigator.pop(context);
-      // } else {
-
-      // int max = countCharOccurrences(widget.preTitle, '/') - 1;
-      // // int max = Navigator.of(context)._history.length;
-
-      // for (int i = 0; i <= max; i++) {
-      //   if (Navigator.canPop(context)) {
-      //     Navigator.pop(context);
-      //   }
-      // }
-      // Route secondRoute = Navigator.of(context). currentRoute!;
-      // Navigator.popUntil(context, (route) {
-      //   if(Navigator.canPop(context)){
-      //     secondRoute = route;
-      //     return false;
-      //   } else {
-      //     return true;}
-      // });
-      // if(secondRoute != null){
-
-      // }
-      // Navigator.push(context, secondRoute)
-      // Navigator.removeRoute(context, ModalRoute.of(context)!);
-      // Navigator.removeRoute(context, ModalRoute.of(context)!);
-
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.push(
-          context,
-          NoAnimationPageRouteComponent(
-            builder: (context) => RepetitionPage(
-                preTitle: 'Home/${widget.challenge.title}',
-                challenge: widget.challenge),
-          )).then((_) {
-        challengeList =
-            ChallengeModel.sortChallengeList(challenges: challengeList);
-
-        // int index = challengeList.indexWhere((c) => c.id == widget.challenge.id);
-
-        // pageController.jumpToPage(index); some how need to jump to the right page and setState
-      });
-
-      // setIsBottomNavBarVisibleToTrue();
-
-      // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
+      // only show Repetition Page, when its in the navigation stack
       // Navigator.push(
-      //   context,
-      //   NoAnimationPageRoute(
-      //     builder: (context) => AcceptanceCriteriaEvidenceList(
-      //       preTitle: splitTitle(widget.preTitle),
-      //       acceptanceCriteria: widget.acceptanceCriteria,
-      //       challenge: widget.challenge,
-      //     ),
-      //   ),
-      // ).then((_) {
-      //   navigatorKeys[TabItem.Home]!.currentState!.pop(context);
-      //   navigatorKeys[TabItem.Home]!.currentState!.pop(context);
+      //     context,
+      //     NoAnimationPageRouteComponent(
+      //       builder: (context) => RepetitionPage(
+      //           preTitle: 'Home/${widget.challenge.title}',
+      //           challenge: widget.challenge),
+      //     )).then((_) {
+      //   challengeList =
+      //       ChallengeModel.sortChallengeList(challenges: challengeList);
+
+      //   // int index = challengeList.indexWhere((c) => c.id == widget.challenge.id);
+
+      //   // pageController.jumpToPage(index); some how need to jump to the right page and setState
       // });
-      // setIsBottomNavBarVisibleToTrue();
     } else {
       setState(() {
         widget.isSaveInsteadOfEditButtonVisible = true;
       });
     }
-
-    // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
   }
 
   String splitTitle(String title) {
@@ -484,8 +421,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                                 .toString();
                       }
                     }),
-                child: standardContainer(
-                    child: const Center(
+                child: const CustomContainerComponent(
+                    child: Center(
                   child: Text('-1'),
                 )))),
         const SizedBox(
@@ -500,8 +437,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                           DesignUtil.doubleAsIntString(editProgress.progress)
                               .toString();
                     }),
-                child: standardContainer(
-                    child: const Center(
+                child: const CustomContainerComponent(
+                    child: Center(
                   child: Text('+1'),
                 )))),
         const SizedBox(
@@ -517,8 +454,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                           DesignUtil.doubleAsIntString(editProgress.progress)
                               .toString();
                     }),
-                child: standardContainer(
-                    child: const Center(
+                child: const CustomContainerComponent(
+                    child: Center(
                   child: Text('100%'),
                 )))),
         const SizedBox(
@@ -535,7 +472,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         children: [
           Expanded(
               flex: 1,
-              child: standardContainer(
+              child: CustomContainerComponent(
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: TextField(
@@ -585,7 +522,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           ),
           Expanded(
               flex: 2,
-              child: standardContainer(
+              child: CustomContainerComponent(
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: TextField(
@@ -604,20 +541,20 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  standardContainer({required Widget child, double heightFactor = 1}) {
-    return Container(
-      // width: double.infinity,
-      height: 55 * heightFactor,
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 16),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-              width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-          borderRadius: const BorderRadius.all(Radius.circular(16))),
-      child: child,
-    );
-  }
+  // CustomContainerComponent({required Widget child, double heightFactor = 1}) {
+  //   return Container(
+  //     // width: double.infinity,
+  //     height: 55 * heightFactor,
+  //     padding: const EdgeInsets.all(10),
+  //     margin: const EdgeInsets.only(bottom: 16),
+  //     decoration: BoxDecoration(
+  //         color: Colors.white,
+  //         border: Border.all(
+  //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+  //         borderRadius: const BorderRadius.all(Radius.circular(16))),
+  //     child: child,
+  //   );
+  // }
 
   onTapUploadMedia() async {
     XFile? file = await MediaService.onTapUploadMedia();
@@ -635,7 +572,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
   }
 
-  void onTapCanel() {
+  void onTapCancel() {
     if (widget.progress == null) {
       Navigator.pop(context);
       return;

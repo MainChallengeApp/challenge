@@ -1,22 +1,22 @@
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/pages/components/challenge/acceptance_criteria_component.dart';
-import 'package:challenge/pages/components/challenge/action_button_component.dart';
-import 'package:challenge/pages/components/challenge/description_component.dart';
-import 'package:challenge/pages/components/challenge/documentation_button_component.dart';
-import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/pages/components/challenge/title_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
-import 'package:challenge/pages/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/components/challenge/acceptance_criteria_component.dart';
+import 'package:challenge/components/challenge/action_button_component.dart';
+import 'package:challenge/components/challenge/description_component.dart';
+import 'package:challenge/components/challenge/documentation_button_component.dart';
+import 'package:challenge/components/challenge/start_and_end_date_component.dart';
+import 'package:challenge/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/components/challenge/title_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/pages/subpages/media/media_list_page.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/services/challenge_service.dart';
@@ -26,15 +26,13 @@ import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:challenge/pages/home/repetition/repetition_page.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 
 class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage(
-      {super.key, required this.preTitle, required this.initialChalleneIndex});
+      {super.key, required this.preTitle, required this.initialChallengeIndex});
   final String preTitle;
-  final int initialChalleneIndex;
-  static late BuildContext
-      context2; // TODO: WORKAROUND to be able to always show repetition page after saving progress
+  final int initialChallengeIndex;
 
   @override
   State<HomeChallengePage> createState() => _HomeChallengePageState();
@@ -47,9 +45,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   late BuildContext context3;
 
   late PageController pageController =
-      PageController(initialPage: widget.initialChalleneIndex);
+      PageController(initialPage: widget.initialChallengeIndex);
 
-  late int currentChallengeIndex = widget.initialChalleneIndex;
+  late int currentChallengeIndex = widget.initialChallengeIndex;
 
   ChallengeController challengeController = ChallengeController();
 
@@ -57,8 +55,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    HomeChallengePage.context2 =
-        context; // TODO: WORKAROUND to be able to always show repetition page after saving progress
     challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
@@ -105,7 +101,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       motion: const ScrollMotion(),
       children: [
         editSlider(challenge, slidableContext),
-        seperator(challenge),
+        separator(challenge),
         deleteSlider(challenge),
         const SpaceComponent(
           width: 20,
@@ -114,7 +110,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  seperator(ChallengeModel challenge) {
+  separator(ChallengeModel challenge) {
     return (challenge.isEditable())
         ? const SpaceComponent(
             width: 20,
@@ -422,6 +418,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
     // ignore: use_build_context_synchronously
     Navigator.push(
+      // ignore: use_build_context_synchronously
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(

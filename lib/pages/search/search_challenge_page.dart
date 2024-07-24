@@ -1,14 +1,14 @@
-import 'package:challenge/pages/components/challenge/amount_and_unit_component.dart';
-import 'package:challenge/pages/components/challenge/description_component.dart';
-import 'package:challenge/pages/components/challenge/frequency_component.dart';
-import 'package:challenge/pages/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/pages/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/pages/components/challenge/title_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/custom_card_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
-import 'package:challenge/pages/components/simple_components/snack_bar_component.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/challenge/amount_and_unit_component.dart';
+import 'package:challenge/components/challenge/description_component.dart';
+import 'package:challenge/components/challenge/frequency_component.dart';
+import 'package:challenge/components/challenge/start_and_end_date_component.dart';
+import 'package:challenge/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/components/challenge/title_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:provider/provider.dart';
@@ -27,11 +27,11 @@ class SearchChallengePage extends StatefulWidget {
       required this.title,
       required this.initChallenge,
       required this.challenges,
-      required this.initChalleneIndex});
+      required this.initChallengeIndex});
   final String title;
   final ChallengeModel initChallenge;
   final List<ChallengeModel> challenges;
-  final int initChalleneIndex;
+  final int initChallengeIndex;
 
   @override
   State<SearchChallengePage> createState() => _SearchChallengePageState();
@@ -40,12 +40,12 @@ class SearchChallengePage extends StatefulWidget {
 class _SearchChallengePageState extends State<SearchChallengePage> {
   bool isDescriptionExpanded = false;
   late PageController pageController =
-      PageController(initialPage: widget.initChalleneIndex);
+      PageController(initialPage: widget.initChallengeIndex);
   Map<ChallengeModel, BuildContext> challengeSlidableContextMap = {};
 
   bool isKeyboardUp = false;
 
-  late int currentChallengeIndex = widget.initChalleneIndex;
+  late int currentChallengeIndex = widget.initChallengeIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +233,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     challengeList.insert(0, challengeCopy);
     await challengeController.writeFile(allChallengesList);
 
+    // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
     // ignore: use_build_context_synchronously
@@ -255,8 +256,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const HomeChallengePage(
           preTitle: 'Home',
-          initialChalleneIndex: 0,
-        ), // Todo: change initalChallengeIndex when id is known from backend
+          initialChallengeIndex: 0,
+        ),
       ),
     )
         .then((value) {
@@ -312,7 +313,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               FrequencyComponent(
                   challenge: challenge,
                   setIsKeyboardUp: setIsKeyboardUp,
-                  reloadSeachChallengePage: setState2),
+                  reloadSearchChallengePage: setState2),
               const SpaceComponent()
             ],
           );

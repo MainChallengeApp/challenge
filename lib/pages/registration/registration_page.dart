@@ -1,7 +1,7 @@
-import 'package:challenge/pages/components/list_items/list_item_button_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_email_component.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/simple_components/space_component.dart';
+import 'package:challenge/components/list_items/list_item_button_component.dart';
+import 'package:challenge/components/list_items/list_item_email_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/models/account_model.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/services/account_service.dart';

@@ -1,17 +1,17 @@
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
-import 'package:challenge/pages/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/pages/components/simple_components/space_column_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/pages/components/list_items/list_item_challenge_small_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_icon_small_component.dart';
-import 'package:challenge/pages/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/pages/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:provider/provider.dart';
 
 class HomeListPage extends StatefulWidget {
@@ -69,7 +69,7 @@ class _HomeListPageState extends State<HomeListPage> {
           controller: scrollController,
           itemCount: challengeList.length +
               1 +
-              1, // +1 for new Challenge listitem + 1 for searchbar
+              1, // +1 for new Challenge listItem + 1 for searchBar
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return searchBar();
@@ -79,13 +79,13 @@ class _HomeListPageState extends State<HomeListPage> {
             }
             ChallengeModel challenge = challengeList[index -
                 1 -
-                1]; // -1 for new Challenge listitem - 1 for searchbar
+                1]; // -1 for new Challenge listItem - 1 for searchBar
 
             challenge.checkChallengeStatus();
             return SpaceColumnComponent(
               child: ListItemChallengeSmallComponent(
                 onTap: () =>
-                    ppush(context, challenge: challenge, index: index - 1 - 1),
+                    push(context, challenge: challenge, index: index - 1 - 1),
                 challenge: challenge,
                 onTapDeleteChallenge: () => deleteChallenge(challenge),
               ),
@@ -124,7 +124,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
   SpaceColumnComponent searchBar() {
     return SpaceColumnComponent(
-      child: ListItemSearchbarComponent(
+      child: ListItemSearchBarComponent(
         changeList: changeList,
         textEditingController: TextEditingController(text: searchBarText),
         hintText: 'Search in your Challenges...',
@@ -139,14 +139,14 @@ class _HomeListPageState extends State<HomeListPage> {
     });
   }
 
-  void ppush(BuildContext context,
+  void push(BuildContext context,
       {required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: widget.title,
-            initialChalleneIndex: challengeList.indexOf(challenge)),
+            initialChallengeIndex: challengeList.indexOf(challenge)),
       ),
     ).then((_) => setState(() {}));
   }

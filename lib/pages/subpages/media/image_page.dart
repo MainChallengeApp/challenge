@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/pages/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +12,14 @@ import 'package:challenge/models/media_model.dart';
 class ImagePage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
-  final int initialMediaIdex;
+  final int initialMediaIndex;
   final ChallengeModel challenge;
 
   const ImagePage(
       {super.key,
       required this.preTitle,
       required this.mediaList,
-      required this.initialMediaIdex,
+      required this.initialMediaIndex,
       required this.challenge});
 
   @override
@@ -28,9 +28,9 @@ class ImagePage extends StatefulWidget {
 
 class _ImagePageState extends State<ImagePage> {
   late PageController controller =
-      PageController(initialPage: widget.initialMediaIdex);
-  late String currentTitle = widget.mediaList[widget.initialMediaIdex].title;
-  late int currentMediaIndex = widget.initialMediaIdex;
+      PageController(initialPage: widget.initialMediaIndex);
+  late String currentTitle = widget.mediaList[widget.initialMediaIndex].title;
+  late int currentMediaIndex = widget.initialMediaIndex;
 
   @override
   Widget build(BuildContext context) {
