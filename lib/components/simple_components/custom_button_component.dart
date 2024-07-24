@@ -1,4 +1,4 @@
-import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
@@ -19,35 +19,33 @@ class CustomButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapContainerComponent(
       onTap: onTap,
-      child: CustomContainerComponent(
-        backgroundColor: isPrimaryButton ? themeColor2 : Colors.white,
-        padding: padding,
-        child: Stack(
-          children: [
-            Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: isPrimaryButton ? Colors.white : Colors.black),
-              ),
+      backgroundColor: isPrimaryButton ? themeColor2 : Colors.white,
+      padding: padding,
+      child: Stack(
+        children: [
+          Center(
+            child: Text(
+              text,
+              style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: isPrimaryButton ? Colors.white : Colors.black),
             ),
-            subText != null
-                ? Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      subText!,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 9,
-                          color: isPrimaryButton ? Colors.white : Colors.black),
-                    ),
-                  )
-                : Container(),
-          ],
-        ),
+          ),
+          subText != null
+              ? Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    subText!,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 9,
+                        color: isPrimaryButton ? Colors.white : Colors.black),
+                  ),
+                )
+              : Container(),
+        ],
       ),
     );
   }

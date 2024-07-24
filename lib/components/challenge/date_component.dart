@@ -1,16 +1,19 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
+import 'package:challenge/globals.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DateComponent extends StatefulWidget {
   final DateTime? date;
   final String text;
+  final Function()? onTap;
 
   const DateComponent({
     super.key,
     required this.date,
     required this.text,
+    this.onTap,
   });
 
   @override
@@ -20,7 +23,8 @@ class DateComponent extends StatefulWidget {
 class _DateComponentState extends State<DateComponent> {
   @override
   Widget build(BuildContext context) {
-    return CustomContainerComponent(
+    return TapContainerComponent(
+        onTap: widget.onTap,
         padding: const EdgeInsets.only(
             left: CustomContainerComponent.standardPadding,
             right: CustomContainerComponent.standardPadding,

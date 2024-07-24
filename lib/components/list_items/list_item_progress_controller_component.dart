@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
-import 'package:challenge/globals.dart';
+
+import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -38,20 +38,8 @@ class _ListItemProgressControllerComponentState
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: ListItemContainerComponent.standardHeight,
-      margin: const EdgeInsets.only(left: 20, right: 20),
-      padding: const EdgeInsets.only(
-          left: ListItemContainerComponent.standardPadding,
-          right: ListItemContainerComponent.standardPadding),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(width: 1, color: themeColor5),
-          borderRadius: const BorderRadius.all(Radius.circular(
-              ListItemContainerComponent.standardBorderRadius))),
-      child: setProgressButtons(),
-    );
+    return ListItemContainerComponent(
+        onTap: () {}, child: setProgressButtons());
   }
 
   Widget setProgressButtons() {

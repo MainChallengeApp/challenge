@@ -113,7 +113,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             if (index == 0) {
               return SpaceColumnComponent(
                   child: ListItemProgressComponent(
-                onTap: onTapProgressBar,
+                onTap: !widget.isSaveInsteadOfEditButtonVisible
+                    ? null
+                    : onTapProgressBar,
                 progress: editProgress,
                 challenge: widget.challenge,
                 isEditable: widget.isSaveInsteadOfEditButtonVisible,

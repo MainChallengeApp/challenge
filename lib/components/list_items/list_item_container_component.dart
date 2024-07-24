@@ -37,6 +37,9 @@ class ListItemContainerComponent extends StatefulWidget {
 class _ListItemContainerComponentState
     extends State<ListItemContainerComponent> {
   late BuildContext context2;
+
+  bool isTapVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -47,21 +50,61 @@ class _ListItemContainerComponentState
           onTap: () {
             widget.onTap?.call();
           },
+          onTapDown: (details) {
+            setState(() {
+              isTapVisible = true;
+            });
+          },
+          onTapUp: (details) {
+            setState(() {
+              isTapVisible = false;
+            });
+          },
+          onTapCancel: () {
+            setState(() {
+              isTapVisible = false;
+            });
+          },
           onHorizontalDragUpdate: widget.onHorizontalDragUpdate,
-          child: Container(
-            width: double.infinity,
-            height: widget.height ?? ListItemContainerComponent.standardHeight,
-            margin: widget.margin ?? const EdgeInsets.only(left: 20, right: 20),
-            padding: widget.padding ??
-                const EdgeInsets.all(
-                    ListItemContainerComponent.standardPadding),
-            decoration: BoxDecoration(
-                color: widget.backgroundColor,
-                border: Border.all(width: 1, color: themeColor5),
-                borderRadius: BorderRadius.all(Radius.circular(
-                    widget.borderRadius ??
-                        ListItemContainerComponent.standardBorderRadius))),
-            child: widget.child,
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height:
+                    widget.height ?? ListItemContainerComponent.standardHeight,
+                margin:
+                    widget.margin ?? const EdgeInsets.only(left: 20, right: 20),
+                padding: widget.padding ??
+                    const EdgeInsets.all(
+                        ListItemContainerComponent.standardPadding),
+                decoration: BoxDecoration(
+                    color: widget.backgroundColor,
+                    border: Border.all(width: 1, color: themeColor5),
+                    borderRadius: BorderRadius.all(Radius.circular(
+                        widget.borderRadius ??
+                            ListItemContainerComponent.standardBorderRadius))),
+                child: widget.child,
+              ),
+              Visibility(
+                visible: widget.onTap != null && isTapVisible,
+                child: Container(
+                  width: double.infinity,
+                  height: widget.height ??
+                      ListItemContainerComponent.standardHeight,
+                  margin: widget.margin ??
+                      const EdgeInsets.only(left: 20, right: 20),
+                  padding: widget.padding ??
+                      const EdgeInsets.all(
+                          ListItemContainerComponent.standardPadding),
+                  decoration: BoxDecoration(
+                      color: themeColor1.withAlpha(15),
+                      border: Border.all(width: 1, color: themeColor5),
+                      borderRadius: BorderRadius.all(Radius.circular(widget
+                              .borderRadius ??
+                          ListItemContainerComponent.standardBorderRadius))),
+                ),
+              )
+            ],
           ),
         );
       }),

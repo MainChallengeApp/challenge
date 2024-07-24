@@ -7,23 +7,25 @@ class CustomContainerComponent extends StatelessWidget {
 
   final double heightFactor;
   final Color backgroundColor;
-  final Widget child;
+  final Widget? child;
   final EdgeInsetsGeometry? margin;
   final bool isQuadratic;
   final EdgeInsetsGeometry? padding;
   final double? height;
   final double? borderRadius;
+  final double? borderWith;
 
   const CustomContainerComponent(
       {super.key,
-      required this.child,
+      this.child,
       this.heightFactor = 1,
       this.backgroundColor = Colors.white,
       this.margin,
       this.isQuadratic = false,
       this.padding = const EdgeInsets.all(standardPadding),
       this.height,
-      this.borderRadius});
+      this.borderRadius,
+      this.borderWith});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class CustomContainerComponent extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
           color: backgroundColor,
-          border: Border.all(width: 1, color: themeColor5),
+          border: Border.all(width: borderWith ?? 1, color: themeColor5),
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 16))),
       child: child,
     );

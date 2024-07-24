@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
@@ -26,65 +27,51 @@ class _AcceptanceCriteriaComponentState
     extends State<AcceptanceCriteriaComponent> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: Center(
-        child: SizedBox(
-          height: 55,
-          child: Stack(
-            children: [
-              FractionallySizedBox(
-                widthFactor: !widget.challenge.isInProgress()
-                    ? min(widget.challenge.getCurrentPercentage(), 1)
-                    : min(
-                        widget.challenge
-                            .getCurrentRepetitionProgressPercentageProgress(),
-                        1),
-                heightFactor: 1,
-                child: Container(
-                  // width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color:
-                          widget.challenge.status == ChallengeStatusEnum.failed
-                              ? red
-                              : green,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(16))),
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.white,
-                        width: 10,
-                        strokeAlign: BorderSide.strokeAlignOutside),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-              ),
-              Container(
-                  padding: const EdgeInsets.all(10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      // color: Colors.white.withAlpha(170),
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(16))),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        // progressPercentage(widget.challenge.acceptanceCriteria),
-                        repetition(),
-                        repetitionProgressAbsolute(),
-                        amountOfProgress(),
-                      ],
-                    ),
-                  ))
-            ],
+    return SizedBox(
+      height: 55,
+      child: Stack(
+        children: [
+          FractionallySizedBox(
+            widthFactor: !widget.challenge.isInProgress()
+                ? min(widget.challenge.getCurrentPercentage(), 1)
+                : min(
+                    widget.challenge
+                        .getCurrentRepetitionProgressPercentageProgress(),
+                    1),
+            heightFactor: 1,
+            child: Container(
+              // width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: widget.challenge.status == ChallengeStatusEnum.failed
+                      ? red
+                      : green,
+                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+            ),
           ),
-        ),
+          Container(
+            decoration: BoxDecoration(
+                border: Border.all(
+                    color: Colors.white,
+                    width: 10,
+                    strokeAlign: BorderSide.strokeAlignOutside),
+                borderRadius: const BorderRadius.all(Radius.circular(16))),
+          ),
+          TapContainerComponent(
+              onTap: widget.onTap,
+              backgroundColor: Colors.transparent,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    // progressPercentage(widget.challenge.acceptanceCriteria),
+                    repetition(),
+                    repetitionProgressAbsolute(),
+                    amountOfProgress(),
+                  ],
+                ),
+              ))
+        ],
       ),
     );
   }

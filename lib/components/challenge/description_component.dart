@@ -6,10 +6,11 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DescriptionComponent extends StatefulWidget {
-  const DescriptionComponent(
-      {super.key, required this.challenge, this.isDescriptionExpanded = false});
   final ChallengeModel challenge;
   final bool isDescriptionExpanded;
+
+  const DescriptionComponent(
+      {super.key, required this.challenge, this.isDescriptionExpanded = false});
 
   @override
   State<DescriptionComponent> createState() => _DescriptionComponentState();

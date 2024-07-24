@@ -1,4 +1,4 @@
-import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 
 class DocumentationButtonComponent extends StatelessWidget {
@@ -14,18 +14,16 @@ class DocumentationButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapContainerComponent(
       onTap: onTap,
-      child: CustomContainerComponent(
-        isQuadratic: true,
-        margin: const EdgeInsets.only(left: 8, right: 8),
-        backgroundColor: isGrayedOut ? Colors.grey[200]! : Colors.white,
-        child: Center(
-            child: Icon(
-          iconData,
-          color: isGrayedOut ? Colors.grey[600] : Colors.black,
-        )),
-      ),
+      isQuadratic: true,
+      margin: const EdgeInsets.only(left: 8, right: 8),
+      backgroundColor: isGrayedOut ? Colors.grey[200]! : Colors.white,
+      child: Center(
+          child: Icon(
+        iconData,
+        color: isGrayedOut ? Colors.grey[600] : Colors.black,
+      )),
     );
   }
 }

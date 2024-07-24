@@ -1,6 +1,7 @@
+import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class EndChallengeDialog {
@@ -60,49 +61,34 @@ class EndChallengeDialog {
 
   static _dialogYesButton(BuildContext context, ChallengeModel challenge,
       void Function(ChallengeModel) onTapYes) {
-    return GestureDetector(
-      onTap: () => onTapYes(challenge),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: 55,
-          margin: const EdgeInsets.only(bottom: 16, left: 16),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: const Center(
-              child: Text(
-            'Yes',
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-          )),
-        ),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: TapContainerComponent(
+        onTap: () => onTapYes(challenge),
+        margin: const EdgeInsets.only(bottom: 16, left: 16),
+        child: const Center(
+            child: Text(
+          'Yes',
+          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
+        )),
       ),
     );
   }
 
   static _dialogNoButton() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context3);
-      },
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: 55,
-          margin: const EdgeInsets.only(bottom: 16, right: 16),
-          decoration: BoxDecoration(
-              color: themeColor2,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: const Center(
-              child: Text(
-            'No',
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-          )),
-        ),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: TapContainerComponent(
+        onTap: () {
+          Navigator.pop(context3);
+        },
+        margin: const EdgeInsets.only(bottom: 16, right: 16),
+        backgroundColor: themeColor2,
+        child: const Center(
+            child: Text(
+          'No',
+          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
+        )),
       ),
     );
   }

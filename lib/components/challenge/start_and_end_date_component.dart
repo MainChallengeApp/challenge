@@ -1,6 +1,6 @@
-import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/components/challenge/date_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,24 +36,21 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   Expanded endDate() {
     return Expanded(
-      child: GestureDetector(
-        onTap: () => onTapStartOrEndDate('end'),
-        child: DateComponent(
-          date: widget.editChallenge.endDate,
-          text: "End",
-        ),
+      child: DateComponent(
+        onTap: widget.isLocked ? null : () => onTapStartOrEndDate('end'),
+        date: widget.editChallenge.endDate,
+        text: "End",
       ),
     );
   }
 
   Expanded startDate() {
     return Expanded(
-      child: GestureDetector(
-          onTap: () => onTapStartOrEndDate('start'),
-          child: DateComponent(
-            date: widget.editChallenge.startDate,
-            text: "Start",
-          )),
+      child: DateComponent(
+        onTap: widget.isLocked ? null : () => onTapStartOrEndDate('start'),
+        date: widget.editChallenge.startDate,
+        text: "Start",
+      ),
     );
   }
 
