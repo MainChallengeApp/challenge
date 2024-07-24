@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:challenge/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -89,13 +90,16 @@ class _AcceptanceCriteriaComponentState
   }
 
   repetition() {
-    return widget.challenge.isInBacklog()
-        ? ContainerInContainerTextComponent(
-            text:
-                '${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
-        : ContainerInContainerTextComponent(
-            text:
-                '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
+    return (widget.challenge.frequency.amount == 1 &&
+            widget.challenge.frequency.type == FrequencyTypeEnum.time)
+        ? Container()
+        : widget.challenge.isInBacklog()
+            ? ContainerInContainerTextComponent(
+                text:
+                    '${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
+            : ContainerInContainerTextComponent(
+                text:
+                    '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
   }
 
   repetitionProgressAbsolute() {
