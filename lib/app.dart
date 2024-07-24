@@ -1,13 +1,12 @@
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/providers/tab_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:challenge/pages/settings/settings_tab_navigator.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/pages/home/home_tab_navigator.dart';
 import 'package:challenge/pages/search/search_tab_navigator.dart';
+import 'package:challenge/pages/settings/settings_tab_navigator.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'package:challenge/globals.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -34,15 +33,18 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          _buildOffstageNavigator(TabItemEnum.Search),
-          _buildOffstageNavigator(TabItemEnum.Home),
-          _buildOffstageNavigator(TabItemEnum.Settings),
-        ],
+    return ScaffoldMessenger(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(
+          children: <Widget>[
+            _buildOffstageNavigator(TabItemEnum.Search),
+            _buildOffstageNavigator(TabItemEnum.Home),
+            _buildOffstageNavigator(TabItemEnum.Settings),
+          ],
+        ),
+        backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.white,
     );
   }
 
