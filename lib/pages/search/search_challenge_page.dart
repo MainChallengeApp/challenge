@@ -16,6 +16,7 @@ import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -262,7 +263,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       ),
     )
         .then((value) {
-      homeNavigator.setState(() {});
+      context.read<DesignProvider>().triggerSetStateHomeList();
     });
   }
 

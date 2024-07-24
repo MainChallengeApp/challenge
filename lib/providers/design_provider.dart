@@ -12,7 +12,7 @@ class DesignProvider with ChangeNotifier {
   bool triggeredSetStateHomeList() => _triggeredSetStateHomeList;
   triggerSetStateHomeList() {
     _triggeredSetStateHomeList = true;
-    notifyListeners();
     _triggeredSetStateHomeList = false;
+    notifyListeners();
   }
 }

@@ -16,6 +16,7 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -205,8 +206,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
           ), // Todo: change initialChallengeIndex when id is known from backend
         ),
       )
-          .then((value) {
-        homeNavigator.setState(() {});
+          .then((_) {
+        context.read<DesignProvider>().triggerSetStateHomeList();
       });
       return;
     }
