@@ -165,7 +165,7 @@
     "frequency": { "amount": 30, "type": "time" },
     "media": [],
     "repetitions": [],
-    "categories": ["physicalHealth", "mentalHealth", "social"]
+    "categories": ["physicalHealth", "social"]
   },
   {
     "status": "backlog",
