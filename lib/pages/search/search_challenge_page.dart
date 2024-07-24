@@ -7,6 +7,7 @@ import 'package:challenge/components/challenge/title_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
@@ -146,23 +147,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   acceptButton(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
-        : GestureDetector(
+        : CustomButtonComponent(
             onTap: () => onTapAccept(challenge),
-            child: Container(
-              height: 55,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: themeColor2,
-                  border: Border.all(
-                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
-              child: const Center(
-                  child: Text(
-                'Accept',
-                style:
-                    TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-              )),
-            ),
+            isPrimaryButton: true,
+            text: 'Accept',
           );
   }
 
@@ -238,21 +226,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
-    // ignore: use_build_context_synchronously
     var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
 
     homeNavigator.popUntil((route) => route.isFirst);
-    // // ignore: use_build_context_synchronously
-    // while (await homeNavigator.maybePop(context)) {
-    //   // ignore: use_build_context_synchronously
-    //   homeNavigator.pop(context);
-    // }
 
-    /**
-     * somehow does the home list page not refresh
-     * when completing a challenge
-     * with frequency.amount = 0
-     */
     homeNavigator
         .push(
       NoAnimationPageRouteComponent(
