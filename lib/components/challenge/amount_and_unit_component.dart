@@ -40,18 +40,23 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
   }
 
   Expanded unitDropDown() {
-    List<String> unitsDropDown = [
-      'Piece',
-      'Hour',
-      'Minute',
-      'Kilogram',
-      'Gram',
-      'Liter',
-      'Milliliter',
-      'Kilometer',
-      'Meter',
-      'Centimeter',
+    List<List<String>> unitsSingularPlural = [
+      ['Piece', 'Pieces'],
+      ['Point', 'Points'],
+      ['Hour', 'Hours'],
+      ['Minute', 'Minutes'],
+      ['Kilogram', 'Kilograms'],
+      ['Gram', 'Grams'],
+      ['Liter', 'Liters'],
+      ['Milliliter', 'Milliliters'],
+      ['Kilometer', 'Kilometers'],
+      ['Meter', 'Meters'],
+      ['Centimeter', 'Centimeters'],
     ];
+
+    List<String> unitsDropDown = unitsSingularPlural
+        .map((e) => e[int.parse(amountTextEditingController.text) == 1 ? 0 : 1])
+        .toList();
 
     // if (!unitsDropDown.contains(widget.acceptanceCriteria.unit)) {
     //   unitsDropDown.insert(0, widget.acceptanceCriteria.unit);
