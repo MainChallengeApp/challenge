@@ -1,5 +1,4 @@
 import 'package:challenge/components/simple_components/custom_container_component.dart';
-import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
 class TapContainerComponent extends StatefulWidget {
@@ -15,6 +14,7 @@ class TapContainerComponent extends StatefulWidget {
   final double? height;
   final double? borderRadius;
   final Function()? onTap;
+  final Color? onTapColor;
   final double? borderWith;
 
   const TapContainerComponent(
@@ -28,7 +28,8 @@ class TapContainerComponent extends StatefulWidget {
       this.height,
       this.borderRadius,
       this.onTap,
-      this.borderWith});
+      this.borderWith,
+      this.onTapColor});
 
   @override
   State<TapContainerComponent> createState() => _TapContainerComponentState();
@@ -77,7 +78,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
               padding: widget.padding,
               margin: widget.margin,
               borderRadius: widget.borderRadius,
-              backgroundColor: themeColor1.withAlpha(10),
+              backgroundColor: widget.onTapColor ?? Colors.black.withAlpha(10),
               borderWith: widget.borderWith,
               isQuadratic: widget.isQuadratic,
             ),

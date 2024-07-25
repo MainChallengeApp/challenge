@@ -25,6 +25,7 @@ class ListItemButtonComponent extends StatelessWidget {
     return ListItemContainerComponent(
       backgroundColor: isMainButton ? themeColor2 : Colors.white,
       onTap: onTap,
+      onTapColor: isMainButton ? Colors.white.withAlpha(20) : null,
       margin: margin,
       padding: padding,
       child: Center(

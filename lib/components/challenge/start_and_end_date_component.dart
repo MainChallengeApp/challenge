@@ -87,8 +87,8 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
             if (startOrEnd == 'start') {
               setState(() {
                 if (!isDateTimeChanged) {
-                  widget.editChallenge.startDate = initialDateTime ??
-                      DesignUtil.dateWithoutTime(DateTime.now());
+                  widget.editChallenge.startDate =
+                      initialDateTime ?? DateTime.now();
                   if (widget.editChallenge.endDate == null) {
                     widget.editChallenge.setEndDate();
                   }

@@ -8,6 +8,7 @@ class CustomButtonComponent extends StatelessWidget {
   final String text;
   final String? subText;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
 
   const CustomButtonComponent(
       {super.key,
@@ -15,14 +16,17 @@ class CustomButtonComponent extends StatelessWidget {
       this.isPrimaryButton = false,
       required this.text,
       this.subText,
-      this.padding});
+      this.padding,
+      this.margin});
 
   @override
   Widget build(BuildContext context) {
     return TapContainerComponent(
       onTap: onTap,
       backgroundColor: isPrimaryButton ? themeColor2 : Colors.white,
+      onTapColor: isPrimaryButton ? Colors.white.withAlpha(20) : null,
       padding: padding,
+      margin: margin,
       child: Stack(
         children: [
           Center(

@@ -16,6 +16,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final ActionPane? Function(Function)? endActionPane;
   final double? height;
   final double? borderRadius;
+  final Color? onTapColor;
 
   const ListItemContainerComponent(
       {super.key,
@@ -27,7 +28,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.height,
       this.margin,
       this.borderRadius,
-      this.onHorizontalDragUpdate});
+      this.onHorizontalDragUpdate,
+      this.onTapColor});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -97,7 +99,7 @@ class _ListItemContainerComponentState
                       const EdgeInsets.all(
                           ListItemContainerComponent.standardPadding),
                   decoration: BoxDecoration(
-                      color: themeColor1.withAlpha(15),
+                      color: widget.onTapColor ?? themeColor1.withAlpha(15),
                       border: Border.all(width: 1, color: themeColor5),
                       borderRadius: BorderRadius.all(Radius.circular(widget
                               .borderRadius ??

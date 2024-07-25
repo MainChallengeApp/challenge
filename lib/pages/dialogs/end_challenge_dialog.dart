@@ -1,6 +1,5 @@
+import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/components/simple_components/tap_container_component.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
 
@@ -63,14 +62,10 @@ class EndChallengeDialog {
       void Function(ChallengeModel) onTapYes) {
     return Align(
       alignment: Alignment.bottomCenter,
-      child: TapContainerComponent(
+      child: CustomButtonComponent(
         onTap: () => onTapYes(challenge),
+        text: 'Yes',
         margin: const EdgeInsets.only(bottom: 16, left: 16),
-        child: const Center(
-            child: Text(
-          'Yes',
-          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-        )),
       ),
     );
   }
@@ -78,17 +73,13 @@ class EndChallengeDialog {
   static _dialogNoButton() {
     return Align(
       alignment: Alignment.bottomCenter,
-      child: TapContainerComponent(
+      child: CustomButtonComponent(
         onTap: () {
           Navigator.pop(context3);
         },
         margin: const EdgeInsets.only(bottom: 16, right: 16),
-        backgroundColor: themeColor2,
-        child: const Center(
-            child: Text(
-          'No',
-          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-        )),
+        text: 'No',
+        isPrimaryButton: true,
       ),
     );
   }
