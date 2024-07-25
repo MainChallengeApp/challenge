@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:challenge/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/components/challenge/action_button_component.dart';
@@ -53,6 +55,21 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   ChallengeController challengeController = ChallengeController();
 
   ChallengeService challengeService = ChallengeService();
+
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(
+        const Duration(seconds: 1), (Timer t) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel(); // Step 4: Cancel the timer
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

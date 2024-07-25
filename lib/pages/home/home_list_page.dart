@@ -1,17 +1,19 @@
-import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/components/simple_components/space_column_component.dart';
-import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/pages/home/home_challenge_page.dart';
-import 'package:challenge/providers/design_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
+import 'dart:async';
+
 import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/pages/home/home_challenge_page.dart';
+import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:challenge/providers/design_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeListPage extends StatefulWidget {
@@ -31,11 +33,22 @@ class _HomeListPageState extends State<HomeListPage> {
 
   String searchBarText = "";
 
+  Timer? timer;
+
   @override
   void initState() {
     super.initState();
     challengeController.readFile().then((value) => allChallengesList =
         value); //.catchError((error) => const Center(child: CircularProgressIndicator());
+
+    timer = Timer.periodic(
+        const Duration(seconds: 1), (Timer t) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
