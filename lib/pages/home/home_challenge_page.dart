@@ -281,21 +281,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     DescriptionComponent descriptionComponent = DescriptionComponent(
       challenge: challenge,
       isDescriptionExpanded: isDescriptionExpanded,
+      onTap: () => setState(() {
+        isDescriptionExpanded = !isDescriptionExpanded;
+      }),
     );
     return isDescriptionExpanded
-        ? Expanded(
-            child: GestureDetector(
-                onTap: () => setState(() {
-                      isDescriptionExpanded = !isDescriptionExpanded;
-                    }),
-                child: descriptionComponent))
+        ? Expanded(child: descriptionComponent)
         : Column(
             children: [
-              GestureDetector(
-                  onTap: () => setState(() {
-                        isDescriptionExpanded = !isDescriptionExpanded;
-                      }),
-                  child: descriptionComponent),
+              descriptionComponent,
               challenge.description.isNotEmpty
                   ? const SpaceComponent()
                   : Container()

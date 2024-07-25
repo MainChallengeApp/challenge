@@ -1,4 +1,5 @@
 import 'package:challenge/components/simple_components/custom_container_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,13 @@ import 'package:url_launcher/url_launcher.dart';
 class DescriptionComponent extends StatefulWidget {
   final ChallengeModel challenge;
   final bool isDescriptionExpanded;
+  final void Function()? onTap;
 
   const DescriptionComponent(
-      {super.key, required this.challenge, this.isDescriptionExpanded = false});
+      {super.key,
+      required this.challenge,
+      this.isDescriptionExpanded = false,
+      this.onTap});
 
   @override
   State<DescriptionComponent> createState() => _DescriptionComponentState();
@@ -21,7 +26,9 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
   Widget build(BuildContext context) {
     return widget.challenge.description.isNotEmpty
         ? widget.isDescriptionExpanded
-            ? CustomContainerComponent(
+            ? TapContainerComponent(
+                height: double.infinity,
+                onTap: widget.onTap,
                 padding: const EdgeInsets.only(
                     left: CustomContainerComponent.standardPadding,
                     right: CustomContainerComponent.standardPadding,
@@ -46,7 +53,8 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
                   ),
                 ),
               )
-            : CustomContainerComponent(
+            : TapContainerComponent(
+                onTap: widget.onTap,
                 padding: const EdgeInsets.only(
                     left: CustomContainerComponent.standardPadding,
                     right: CustomContainerComponent.standardPadding,
