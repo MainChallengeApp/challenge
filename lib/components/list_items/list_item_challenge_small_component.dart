@@ -1,12 +1,12 @@
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/components/list_items/list_item_container_component.dart';
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:flutter/material.dart';
-import 'package:challenge/models/challenge_model.dart';
-
+import 'package:challenge/components/simple_components/tap_container_component.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemChallengeSmallComponent extends StatefulWidget {
@@ -113,6 +113,11 @@ class _ListItemChallengeSmallComponentState
         : ActionPane(
             extentRatio: 0.22,
             motion: const ScrollMotion(),
+            // dismissible: DismissiblePane(
+            //   onDismissed: () {
+            //     print("delete");
+            //   },
+            // ),
             children: [
                 deleteSlider(closeSlidable),
                 const SpaceComponent(
@@ -123,23 +128,18 @@ class _ListItemChallengeSmallComponentState
 
   deleteSlider(Function closeSlidable) {
     return Expanded(
-      child: GestureDetector(
+      child: TapContainerComponent(
+        height: double.infinity,
+        borderRadius: 24,
         onTap: () {
           closeSlidable();
           widget.onTapDeleteChallenge?.call();
         },
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
-          child: Center(
-              child: Icon(
-            IconEnum.delete.icon,
-            color: red,
-          )),
-        ),
+        child: Center(
+            child: Icon(
+          IconEnum.delete.icon,
+          color: red,
+        )),
       ),
     );
   }

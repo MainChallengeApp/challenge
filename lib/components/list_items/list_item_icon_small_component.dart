@@ -6,12 +6,9 @@ class ListItemIconSmallComponent extends StatelessWidget {
   static const double iconContainerSize = 40;
 
   const ListItemIconSmallComponent(
-      {super.key,
-      required this.onTap,
-      required this.icon,
-      required this.title});
+      {super.key, this.onTap, required this.icon, required this.title});
 
-  final void Function() onTap;
+  final void Function()? onTap;
 
   final IconData icon;
   final String title;
