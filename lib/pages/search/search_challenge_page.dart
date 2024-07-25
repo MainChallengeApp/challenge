@@ -233,7 +233,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       ),
     )
         .then((value) {
-      context.read<DesignProvider>().triggerSetStateHomeList();
+      homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
     });
   }
 
