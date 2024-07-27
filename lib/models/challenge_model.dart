@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/frequency_model.dart';
@@ -8,7 +9,7 @@ import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:uuid/uuid.dart';
-import 'package:challenge/enums/challenge_status_enum.dart';
+
 import 'acceptance_criteria_model.dart';
 import 'media_model.dart';
 
@@ -195,10 +196,6 @@ class ChallengeModel {
 
   hasThumbnail() {
     return thumbnailPath != '';
-  }
-
-  hasRepetitions() {
-    return repetitions.length > 1;
   }
 
   RepetitionModel? getLastRepetition() {

@@ -2,6 +2,7 @@ import 'package:challenge/components/simple_components/custom_container_componen
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/utility_models/unit_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,22 +41,23 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
   }
 
   Expanded unitDropDown() {
-    List<List<String>> unitsSingularPlural = [
-      ['Piece', 'Pieces'],
-      ['Point', 'Points'],
-      ['Hour', 'Hours'],
-      ['Minute', 'Minutes'],
-      ['Kilogram', 'Kilograms'],
-      ['Gram', 'Grams'],
-      ['Liter', 'Liters'],
-      ['Milliliter', 'Milliliters'],
-      ['Kilometer', 'Kilometers'],
-      ['Meter', 'Meters'],
-      ['Centimeter', 'Centimeters'],
+    List<Unit> unitsSingularPlural = [
+      Unit(singular: 'Piece', plural: 'Pieces'),
+      Unit(singular: 'Point', plural: 'Points'),
+      Unit(singular: 'Hour', plural: 'Hours'),
+      Unit(singular: 'Minute', plural: 'Minutes'),
+      Unit(singular: 'Kilogram', plural: 'Kilograms'),
+      Unit(singular: 'Gram', plural: 'Grams'),
+      Unit(singular: 'Liter', plural: 'Liters'),
+      Unit(singular: 'Milliliter', plural: 'Milliliters'),
+      Unit(singular: 'Kilometer', plural: 'Kilometers'),
+      Unit(singular: 'Meter', plural: 'Meters'),
+      Unit(singular: 'Centimeter', plural: 'Centimeters'),
     ];
 
     List<String> unitsDropDown = unitsSingularPlural
-        .map((e) => e[int.parse(amountTextEditingController.text) == 1 ? 0 : 1])
+        .map((e) =>
+            widget.acceptanceCriteria.amount == 1 ? e.singular : e.plural)
         .toList();
 
     // if (!unitsDropDown.contains(widget.acceptanceCriteria.unit)) {
@@ -77,7 +79,9 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
             onChanged: (String? value) {
               // This is called when the user selects an item.
               setState(() {
-                widget.acceptanceCriteria.unit = value ?? '';
+                if (value != null && value != '') {
+                  widget.acceptanceCriteria.unit = value;
+                }
               });
               widget.onReloadSearchListPage?.call();
             },
