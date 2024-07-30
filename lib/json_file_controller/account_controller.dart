@@ -20,7 +20,7 @@ class AccountController {
       return AccountModel.fromJson(
           jsonData); // body.map<Account>(Account.fromJson);
     } catch (e) {
-      return AccountModel();
+      return AccountModel(username: '');
     }
   }
 

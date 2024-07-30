@@ -64,7 +64,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
               return Column(
                 children: [
                   ListItemIconSmallComponent(
-                      icon: Icons.person_outlined, title: account.username!),
+                      icon: Icons.person_outlined, title: account.username),
                   const SpaceComponent()
                 ],
               );
@@ -118,7 +118,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
   }
 
   onTapLogout() {
-    accountController.writeFile(AccountModel());
+    accountController.writeFile(AccountModel(username: ''));
     context.read<DesignProvider>().setIsRegistered(false);
   }
 

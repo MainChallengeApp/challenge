@@ -1,7 +1,7 @@
 class AccountModel {
-  String? username;
+  String username;
 
-  AccountModel({this.username});
+  AccountModel({required this.username});
 
   static AccountModel fromJson(json) => AccountModel(username: json['email']);
 

@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 
 class AccountService {
   AccountController accountController = AccountController();
-  AccountModel account = AccountModel();
+  AccountModel account = AccountModel(username: '');
 
   Future<void> loadAccount(BuildContext context) async {
     // ignore: use_build_context_synchronously
     account = await accountController.readFile();
-    if (account.username == null || account.username!.isEmpty) {
+    if (account.username.isEmpty) {
       // ignore: use_build_context_synchronously
       await accountController.writeFile(account);
     } else {
