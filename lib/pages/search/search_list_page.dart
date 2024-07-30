@@ -1,22 +1,29 @@
 import 'dart:convert';
 
+import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
-import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
-import 'package:challenge/models/challenge_model.dart';
 
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'search_challenge_page.dart';
 
 class SearchListPage extends StatefulWidget {
+  final String preTitle;
+  final String title;
+  final ValueChanged<ChallengeModel>? onPush;
+  final bool isFirstPageInRoute;
+  final String initialSearchText;
+  final bool isSearchBarAutoFocus;
+  final List<ChallengeModel> challenges;
+
   const SearchListPage(
       {super.key,
       this.preTitle = "",
@@ -25,14 +32,7 @@ class SearchListPage extends StatefulWidget {
       this.isFirstPageInRoute = true,
       this.initialSearchText = "",
       this.isSearchBarAutoFocus = false,
-      this.categories = const []});
-  final String preTitle;
-  final String title;
-  final ValueChanged<ChallengeModel>? onPush;
-  final bool isFirstPageInRoute;
-  final String initialSearchText;
-  final bool isSearchBarAutoFocus;
-  final List<ChallengeCategoryEnum> categories;
+      required this.challenges});
 
   @override
   State<SearchListPage> createState() => _SearchListPageState();
@@ -67,75 +67,60 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Widget _buildList() {
-    return FutureBuilder(
-        future: challengesFutures,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasData) {
-            filteredChallenges = snapshot.data!
-                .where((element) => element.isInCategories(widget.categories))
-                .where((element) => element.searchInChallenge(searchBarText))
-                .toList();
-            filteredChallenges.sort((a, b) =>
-                a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+    filteredChallenges = widget.challenges
+        .where((element) => element.searchInChallenge(searchBarText))
+        .toList();
+    filteredChallenges
+        .sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          itemCount: filteredChallenges.length +
+              1 +
+              1, //  + 1 for searchBar + 1 for new Challenge
+          itemBuilder: (BuildContext content, int index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  ListItemSearchBarComponent(
+                    autoFocus: widget.isSearchBarAutoFocus,
+                    changeList: changeList,
+                    textEditingController:
+                        TextEditingController(text: searchBarText),
+                    hintText: 'Search for new Challenges...',
+                  ),
+                  const SpaceComponent()
+                ],
+              );
+            }
 
-            return RawScrollbar(
-              controller: scrollController,
-              radius: const Radius.circular(4),
-              thumbColor: themeColor3,
-              padding: const EdgeInsets.only(right: 4),
-              child: ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  controller: scrollController,
-                  itemCount: filteredChallenges.length +
-                      1 +
-                      1, //  + 1 for searchBar + 1 for new Challenge
-                  itemBuilder: (BuildContext content, int index) {
-                    if (index == 0) {
-                      return Column(
-                        children: [
-                          ListItemSearchBarComponent(
-                            autoFocus: widget.isSearchBarAutoFocus,
-                            changeList: changeList,
-                            textEditingController:
-                                TextEditingController(text: searchBarText),
-                            hintText: 'Search for new Challenges...',
-                          ),
-                          const SpaceComponent()
-                        ],
-                      );
-                    }
+            if (index == filteredChallenges.length + 1) {
+              return SpaceColumnComponent(
+                  child: ListItemIconSmallComponent(
+                onTap: onTapNewChallenge,
+                icon: Icons.add,
+                title: searchBarText == "" ? "New Challenge" : searchBarText,
+              ));
+            }
 
-                    if (index == filteredChallenges.length + 1) {
-                      return SpaceColumnComponent(
-                          child: ListItemIconSmallComponent(
-                        onTap: onTapNewChallenge,
-                        icon: Icons.add,
-                        title: searchBarText == ""
-                            ? "New Challenge"
-                            : searchBarText,
-                      ));
-                    }
-
-                    ChallengeModel challenge =
-                        filteredChallenges[index - 1]; // - 1 for searchBar
-                    return SpaceColumnComponent(
-                      child: ListItemChallengeSmallComponent(
-                        onTap: () => onTapChallenge(
-                            challenge: challenge,
-                            index:
-                                index - 1), // widget.onPush?.call(challenge),
-                        challenge: challenge,
-                        isSearch: true,
-                      ),
-                    );
-                  }),
+            ChallengeModel challenge =
+                filteredChallenges[index - 1]; // - 1 for searchBar
+            return SpaceColumnComponent(
+              child: ListItemChallengeSmallComponent(
+                onTap: () => onTapChallenge(
+                    challenge: challenge,
+                    index: index - 1), // widget.onPush?.call(challenge),
+                challenge: challenge,
+                isSearch: true,
+              ),
             );
-          } else {
-            return const Center(child: Text('Error with loading data...'));
-          }
-        });
+          }),
+    );
   }
 
   static Future<List<ChallengeModel>> getChallenges(

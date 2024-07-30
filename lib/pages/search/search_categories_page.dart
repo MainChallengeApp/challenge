@@ -27,7 +27,6 @@ class SearchCategoriesPage extends StatefulWidget {
 
 class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   late List<ChallengeModel> challenges;
-  late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
 
   String searchBarText = "";
@@ -204,17 +203,21 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-          title: 'All Challenges',
-          preTitle: 'Search',
-          isFirstPageInRoute: false,
-          initialSearchText: searchBarText,
-          isSearchBarAutoFocus: true,
-        ),
+            title: 'All Challenges',
+            preTitle: 'Search',
+            isFirstPageInRoute: false,
+            initialSearchText: searchBarText,
+            isSearchBarAutoFocus: true,
+            challenges: challenges),
       ),
     );
   }
 
   void onTapCategory(List<ChallengeCategoryEnum> categories, String title) {
+    List<ChallengeModel> filteredChallenges = challenges
+        .where((challenge) => challenge.isInCategories(categories))
+        .toList();
+
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -222,7 +225,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           title: title,
           preTitle: 'Search',
           isFirstPageInRoute: false,
-          categories: categories,
+          challenges: filteredChallenges,
         ),
       ),
     );
