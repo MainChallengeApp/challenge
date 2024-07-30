@@ -1,20 +1,14 @@
 enum ChallengeStatusEnum {
-  success,
-  failed,
-  inProgress,
-  backlog;
+  success('success'),
+  failed('failed'),
+  inProgress('inProgress'),
+  backlog('backlog');
 
-  // const ChallengeStatus(String status);
+  const ChallengeStatusEnum(this.status);
+
+  final String status;
 
   static ChallengeStatusEnum factory(String status) {
-    if (status == 'success') {
-      return ChallengeStatusEnum.success;
-    } else if (status == 'failed') {
-      return ChallengeStatusEnum.failed;
-    } else if (status == 'backlog') {
-      return ChallengeStatusEnum.backlog;
-    } else {
-      return ChallengeStatusEnum.inProgress;
-    }
+    return ChallengeStatusEnum.values.firstWhere((e) => e.status == status);
   }
 }
