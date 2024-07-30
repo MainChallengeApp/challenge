@@ -1,24 +1,17 @@
 enum ChallengeCategoryEnum {
-  physicalHealth,
-  mentalHealth,
-  social,
-  work,
-  other;
+  physicalHealth('physicalHealth'),
+  mentalHealth('mentalHealth'),
+  social('social'),
+  other('other');
 
-  // const ChallengeStatus(String status);
+  const ChallengeCategoryEnum(this.value);
+
+  final String value;
 
   static ChallengeCategoryEnum factory(String status) {
-    if (status == 'physicalHealth') {
-      return ChallengeCategoryEnum.physicalHealth;
-    } else if (status == 'mentalHealth') {
-      return ChallengeCategoryEnum.mentalHealth;
-    } else if (status == 'social') {
-      return ChallengeCategoryEnum.social;
-    } else if (status == 'work') {
-      return ChallengeCategoryEnum.work;
-    } else {
-      return ChallengeCategoryEnum.other;
-    }
+    return ChallengeCategoryEnum.values.firstWhere((e) => e.value == status,
+        orElse: () =>
+            throw Exception('Invalid ChallengeCategoryEnum value: $status'));
   }
 
   static List<ChallengeCategoryEnum> fromJsonList(List json) {
@@ -32,7 +25,7 @@ enum ChallengeCategoryEnum {
   static List<String> toJsonList(List<ChallengeCategoryEnum> list) {
     List<String> jsonList = [];
     for (var item in list) {
-      jsonList.add(item.toString());
+      jsonList.add(item.value);
     }
     return jsonList;
   }
