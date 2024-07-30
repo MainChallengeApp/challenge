@@ -208,12 +208,7 @@ class ChallengeModel {
     }
     RepetitionModel currentRepetition = getAllRepetitions().firstWhere(
         (repetition) =>
-            repetition.repetitionNumber == getCurrentRepetitionNumber(),
-        orElse: () => RepetitionModel.empty(
-            // should not be called
-            repetitionNumber: getCurrentRepetitionNumber(),
-            goalAmount: acceptanceCriteria.amount,
-            repetitionStatus: RepetitionStatusEnum.backlog));
+            repetition.repetitionNumber == getCurrentRepetitionNumber());
     return currentRepetition;
   }
 

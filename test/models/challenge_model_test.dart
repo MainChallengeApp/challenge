@@ -16,7 +16,7 @@ void main() {
     ChallengeModel createMockChallengeModel() {
       return ChallengeModel(
         id: '1',
-        status: ChallengeStatusEnum.backlog,
+        status: ChallengeStatusEnum.inProgress,
         title: 'Challenge Title',
         description: 'Challenge Description',
         thumbnailPath: 'assets/images/test.png',
@@ -36,11 +36,12 @@ void main() {
         RepetitionStatusEnum? repetitionStatus = RepetitionStatusEnum.success,
         List<ProgressModel>? progressList = const [],
         DateTime? startDate,
-        DateTime? endDate}) {
+        DateTime? endDate,
+        int repetitionNumber = 1}) {
       return RepetitionModel(
           startDate: DateTime.now(),
           endDate: DateTime.now().add(const Duration(days: 1)),
-          repetitionNumber: 1,
+          repetitionNumber: repetitionNumber,
           goalAmount: goalAmount,
           progressList: [
             ProgressModel(
@@ -48,7 +49,7 @@ void main() {
                 mediaIds: [],
                 date: DateTime.now(),
                 percentProgress: 1,
-                repetitionNumber: 1)
+                repetitionNumber: repetitionNumber)
           ],
           repetitionStatus: RepetitionStatusEnum.success);
     }
@@ -113,7 +114,7 @@ void main() {
         ChallengeModel challenge = createMockChallengeModel();
         Map<String, dynamic> json = {
           'id': '1',
-          'status': 'backlog',
+          'status': 'inProgress',
           'title': 'Challenge Title',
           'description': 'Challenge Description',
           'thumbnailPath': 'assets/images/test.png',
@@ -589,7 +590,7 @@ void main() {
 
         // Assert
         expect(lastRepetition.startDate, equals(challenge.startDate));
-        expect(lastRepetition.endDate, equals(challenge.startDate));
+        expect(lastRepetition.endDate, equals(null));
         expect(lastRepetition.progressList, equals([]));
         expect(lastRepetition.repetitionStatus,
             equals(RepetitionStatusEnum.backlog));
@@ -616,15 +617,79 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        RepetitionModel repetition = createMockRepetitionModel();
-        challenge.repetitions.add(repetition);
+        RepetitionModel repetition1 =
+            createMockRepetitionModel(repetitionNumber: 1);
+        RepetitionModel repetition2 =
+            createMockRepetitionModel(repetitionNumber: 2);
+        challenge.repetitions.add(repetition1);
+        challenge.repetitions.add(repetition2);
         challenge.frequency.type = FrequencyTypeEnum.time;
 
         // Act
         RepetitionModel? currentRepetition = challenge.getCurrentRepetition();
 
         // Assert
-        expect(currentRepetition, equals(repetition));
+        expect(currentRepetition, equals(repetition2));
+      });
+    });
+
+    group('getAllRepetitions()', () {
+      test(
+          'should return all repetitions when repetitions is not empty and frequency type is time',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition1 =
+            createMockRepetitionModel(repetitionNumber: 1);
+        RepetitionModel repetition2 =
+            createMockRepetitionModel(repetitionNumber: 2);
+        challenge.frequency.type = FrequencyTypeEnum.time;
+        challenge.repetitions.add(repetition1);
+        challenge.repetitions.add(repetition2);
+
+        // Act
+        List<RepetitionModel> allRepetitions = challenge.getAllRepetitions();
+
+        // Assert
+        expect(allRepetitions, equals([repetition1, repetition2]));
+      });
+
+      test(
+          'should return empty list when repetitions is empty and start date is null',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.time;
+        challenge.startDate = null;
+        challenge.repetitions = [];
+
+        // Act
+        List<RepetitionModel> allRepetitions = challenge.getAllRepetitions();
+
+        // Assert
+        expect(allRepetitions, equals([]));
+      });
+
+      test(
+          'should return one repetition when frequency type is time and repetitions is empty and start date is not null',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.time;
+        challenge.startDate = DateTime.now().subtract(const Duration(days: 1));
+        challenge.repetitions = [];
+
+        // Act
+        List<RepetitionModel> allRepetitions = challenge.getAllRepetitions();
+
+        // Assert
+        expect(allRepetitions.first.startDate, equals(challenge.startDate));
+        expect(allRepetitions.first.endDate, equals(null));
+        expect(allRepetitions.first.repetitionNumber, equals(1));
+        expect(allRepetitions.first.goalAmount,
+            equals(challenge.acceptanceCriteria.amount));
+        expect(allRepetitions.first.repetitionStatus,
+            equals(RepetitionStatusEnum.inProgress));
       });
     });
 
