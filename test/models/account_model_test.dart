@@ -13,6 +13,17 @@ void main() {
     });
   });
 
+  group('toJson()', () {
+    test('should return json when Account is passed correctly', () {
+      // Arrange
+      AccountModel account = AccountModel(username: 'email');
+      // Act
+      Map<String, dynamic> json = account.toJson();
+      // Assert
+      expect(json['email'], equals(account.username));
+    });
+  });
+
   group('isValidUsername()', () {
     test('should be valide when not empty', () {
       // Arrange
