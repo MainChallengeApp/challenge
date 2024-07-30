@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:challenge/components/list_items/list_item_container_component.dart';
+import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -39,116 +40,182 @@ class _ListItemProgressControllerComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
-        onTap: () {}, child: setProgressButtons());
+        padding: const EdgeInsets.all(0), child: setProgressButtons());
   }
 
   Widget setProgressButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        const SizedBox(
-          width: 10,
-        ),
+        // const SizedBox(
+        //   width: 10,
+        // ),
         Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onLongPress: () {
-              if (widget.challenge.acceptanceCriteria.amount == 0) {
-                return;
-              }
-              timer = Timer.periodic(
-                  Duration(
-                      milliseconds: (((200 *
-                              log(widget
-                                  .challenge.acceptanceCriteria.amount)) ~/
-                          widget.challenge.acceptanceCriteria.amount))), (t) {
-                setState(() {
-                  subOneFromProgress();
-                });
-              });
-            },
-            // onLongPressDown: (details) {
-            //   isSubOnePressed = true;
-            //   if (isSubOnePressed) {
+            flex: 1,
+            child: TapContainerComponent(
+                onLongPress: () {
+                  if (widget.challenge.acceptanceCriteria.amount == 0) {
+                    return;
+                  }
+                  timer = Timer.periodic(
+                      Duration(
+                          milliseconds: (((200 *
+                                  log(widget
+                                      .challenge.acceptanceCriteria.amount)) ~/
+                              widget.challenge.acceptanceCriteria.amount))),
+                      (t) {
+                    setState(() {
+                      subOneFromProgress();
+                    });
+                  });
+                },
+                onLongPressUp: () {
+                  timer?.cancel();
+                },
+                onLongPressCancel: () {
+                  timer?.cancel();
+                },
+                onTap: () => setState(() {
+                      subOneFromProgress();
+                    }),
+                borderWith: 0,
+                borderColor: Colors.transparent,
+                borderRadius: 23,
+                margin: const EdgeInsets.all(0),
+                height: double.infinity,
+                child: const Center(
+                  child: Text('-1'),
+                ))
+
+            // GestureDetector(
+            //   onLongPress: () {
             //     if (widget.challenge.acceptanceCriteria.amount == 0) {
             //       return;
             //     }
-            //     int amount = 1 ~/ widget.challenge.acceptanceCriteria.amount;
-            //     if (amount == 0) {
-            //       amount = 1;
-            //     }
             //     timer = Timer.periodic(
-            //         Duration(milliseconds: (200 * log(amount).toInt())), (t) {
+            //         Duration(
+            //             milliseconds: (((200 *
+            //                     log(widget
+            //                         .challenge.acceptanceCriteria.amount)) ~/
+            //                 widget.challenge.acceptanceCriteria.amount))), (t) {
             //       setState(() {
             //         subOneFromProgress();
             //       });
             //     });
-            //   }
-            // },
-            onLongPressUp: () {
-              timer?.cancel();
-            },
-            onLongPressCancel: () {
-              timer?.cancel();
-            },
-            onTap: () => setState(() {
-              subOneFromProgress();
-            }),
-            child: Container(
-              color: Colors.transparent,
-              child: const Center(
-                child: Text('-1'),
-              ),
+            //   },
+            //   // onLongPressDown: (details) {
+            //   //   isSubOnePressed = true;
+            //   //   if (isSubOnePressed) {
+            //   //     if (widget.challenge.acceptanceCriteria.amount == 0) {
+            //   //       return;
+            //   //     }
+            //   //     int amount = 1 ~/ widget.challenge.acceptanceCriteria.amount;
+            //   //     if (amount == 0) {
+            //   //       amount = 1;
+            //   //     }
+            //   //     timer = Timer.periodic(
+            //   //         Duration(milliseconds: (200 * log(amount).toInt())), (t) {
+            //   //       setState(() {
+            //   //         subOneFromProgress();
+            //   //       });
+            //   //     });
+            //   //   }
+            //   // },
+            //   onLongPressUp: () {
+            //     timer?.cancel();
+            //   },
+            //   onLongPressCancel: () {
+            //     timer?.cancel();
+            //   },
+            //   onTap: () => setState(() {
+            //     subOneFromProgress();
+            //   }),
+            //   child: Container(
+            //     color: Colors.transparent,
+            //     child: const Center(
+            //       child: Text('-1'),
+            //     ),
+            //   ),
+            // ),
             ),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          flex: 1,
-          child: GestureDetector(
-            onLongPress: () {
-              timer = Timer.periodic(
-                  Duration(
-                      milliseconds: (200 *
-                              log(widget
-                                  .challenge.acceptanceCriteria.amount)) ~/
-                          widget.challenge.acceptanceCriteria.amount), (t) {
-                setState(() {
-                  if (widget.editProgress.progress + 1 <=
-                      widget.challenge.acceptanceCriteria.amount) {
-                    addOneToProgress();
-                  } else {
-                    widget.editProgress.progress =
-                        widget.challenge.acceptanceCriteria.amount;
-                  }
-                });
-              });
-            },
-            onLongPressUp: () {
-              timer?.cancel();
-            },
-            onLongPressCancel: () {
-              timer?.cancel();
-            },
-            onTap: () => setState(() {
-              addOneToProgress();
-            }),
-            child: Container(
-              color: Colors.transparent,
-              child: const Center(
-                child: Text('+1'),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
         Expanded(
             flex: 1,
-            child: GestureDetector(
+            child: TapContainerComponent(
+                onLongPress: () {
+                  timer = Timer.periodic(
+                      Duration(
+                          milliseconds: (200 *
+                                  log(widget
+                                      .challenge.acceptanceCriteria.amount)) ~/
+                              widget.challenge.acceptanceCriteria.amount), (t) {
+                    setState(() {
+                      if (widget.editProgress.progress + 1 <=
+                          widget.challenge.acceptanceCriteria.amount) {
+                        addOneToProgress();
+                      } else {
+                        widget.editProgress.progress =
+                            widget.challenge.acceptanceCriteria.amount;
+                      }
+                    });
+                  });
+                },
+                onLongPressUp: () {
+                  timer?.cancel();
+                },
+                onLongPressCancel: () {
+                  timer?.cancel();
+                },
+                onTap: () => setState(() {
+                      addOneToProgress();
+                    }),
+                borderWith: 0,
+                borderColor: Colors.transparent,
+                borderRadius: 23,
+                margin: const EdgeInsets.all(0),
+                height: double.infinity,
+                child: const Center(
+                  child: Text('+1'),
+                ))
+
+            // GestureDetector(
+            //   onLongPress: () {
+            //     timer = Timer.periodic(
+            //         Duration(
+            //             milliseconds: (200 *
+            //                     log(widget
+            //                         .challenge.acceptanceCriteria.amount)) ~/
+            //                 widget.challenge.acceptanceCriteria.amount), (t) {
+            //       setState(() {
+            //         if (widget.editProgress.progress + 1 <=
+            //             widget.challenge.acceptanceCriteria.amount) {
+            //           addOneToProgress();
+            //         } else {
+            //           widget.editProgress.progress =
+            //               widget.challenge.acceptanceCriteria.amount;
+            //         }
+            //       });
+            //     });
+            //   },
+            //   onLongPressUp: () {
+            //     timer?.cancel();
+            //   },
+            //   onLongPressCancel: () {
+            //     timer?.cancel();
+            //   },
+            //   onTap: () => setState(() {
+            //     addOneToProgress();
+            //   }),
+            //   child: Container(
+            //     color: Colors.transparent,
+            //     child: const Center(
+            //       child: Text('+1'),
+            //     ),
+            //   ),
+            // ),
+            ),
+        Expanded(
+            flex: 1,
+            child: TapContainerComponent(
                 onTap: () => setState(() {
                       widget.editProgress.progress =
                           widget.challenge.acceptanceCriteria.amount;
@@ -157,12 +224,30 @@ class _ListItemProgressControllerComponentState
                           DesignUtil.doubleAsIntString(
                               widget.editProgress.progress);
                     }),
-                child: Container(
-                  color: Colors.transparent,
-                  child: const Center(
-                    child: Text('100%'),
-                  ),
-                ))),
+                borderWith: 0,
+                borderColor: Colors.transparent,
+                borderRadius: 23,
+                margin: const EdgeInsets.all(0),
+                height: double.infinity,
+                child: const Center(
+                  child: Text('100%'),
+                )))
+
+        // GestureDetector(
+        //     onTap: () => setState(() {
+        //           widget.editProgress.progress =
+        //               widget.challenge.acceptanceCriteria.amount;
+        //           widget.progressListSetState();
+        //           progressTextEditingController.text =
+        //               DesignUtil.doubleAsIntString(
+        //                   widget.editProgress.progress);
+        //         }),
+        //     child: Container(
+        //       color: Colors.red,
+        //       child: const Center(
+        //         child: Text('100%'),
+        //       ),
+        //     ))),
       ],
     );
   }

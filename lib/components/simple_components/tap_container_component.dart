@@ -14,8 +14,12 @@ class TapContainerComponent extends StatefulWidget {
   final double? height;
   final double? borderRadius;
   final Function()? onTap;
+  final Function()? onLongPress;
+  final Function()? onLongPressUp;
+  final Function()? onLongPressCancel;
   final Color? onTapColor;
   final double? borderWith;
+  final Color? borderColor;
 
   const TapContainerComponent(
       {super.key,
@@ -29,7 +33,11 @@ class TapContainerComponent extends StatefulWidget {
       this.borderRadius,
       this.onTap,
       this.borderWith,
-      this.onTapColor});
+      this.onTapColor,
+      this.onLongPress,
+      this.onLongPressUp,
+      this.onLongPressCancel,
+      this.borderColor});
 
   @override
   State<TapContainerComponent> createState() => _TapContainerComponentState();
@@ -57,6 +65,9 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
           isTapVisible = false;
         });
       },
+      onLongPress: widget.onLongPress,
+      onLongPressUp: widget.onLongPressUp,
+      onLongPressCancel: widget.onLongPressCancel,
       child: Stack(
         children: [
           CustomContainerComponent(
@@ -66,7 +77,8 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
             margin: widget.margin,
             borderRadius: widget.borderRadius,
             backgroundColor: widget.backgroundColor,
-            borderWith: widget.borderWith,
+            borderWidth: widget.borderWith,
+            borderColor: widget.borderColor,
             isQuadratic: widget.isQuadratic,
             child: widget.child,
           ),
@@ -79,7 +91,8 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
               margin: widget.margin,
               borderRadius: widget.borderRadius,
               backgroundColor: widget.onTapColor ?? Colors.black.withAlpha(10),
-              borderWith: widget.borderWith,
+              borderWidth: widget.borderWith,
+              borderColor: widget.borderColor,
               isQuadratic: widget.isQuadratic,
             ),
           ),
