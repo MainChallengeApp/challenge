@@ -2,7 +2,7 @@ import 'package:challenge/components/simple_components/custom_container_componen
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/utility_models/unit_model.dart';
+import 'package:challenge/models/unit_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
