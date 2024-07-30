@@ -1,21 +1,22 @@
-import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/components/list_items/list_item_repetition_expanded_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
+
 import 'progress_media_list_page.dart';
 
 class RepetitionPage extends StatefulWidget {
@@ -146,7 +147,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       repetition: repetition,
                       challenge: widget.challenge,
                       setStateRepetitionPage: () => setState(() {}),
-                      addToExpandedRepetition: (int repetitionNumber) {
+                      onTapNextRepetition: (int repetitionNumber) {
                         setState(() {
                           expandedRepetitionIndexList.clear();
                           expandedRepetitionIndexList.add(repetitionNumber);

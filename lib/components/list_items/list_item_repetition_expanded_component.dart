@@ -20,13 +20,13 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
       this.onTap,
       required this.challenge,
       required this.setStateRepetitionPage,
-      required this.addToExpandedRepetition});
+      required this.onTapNextRepetition});
 
   final RepetitionModel repetition;
   final ChallengeModel challenge;
   final void Function()? onTap;
   final void Function() setStateRepetitionPage;
-  final void Function(int repetitionNumber) addToExpandedRepetition;
+  final void Function(int repetitionNumber) onTapNextRepetition;
 
   @override
   State<ListItemRepetitionExpandedComponent> createState() =>
@@ -139,7 +139,7 @@ class _ListItemRepetitionExpandedComponentState
   onTapNext(challenge) {
     setState(() {
       challengeService.nextRepetition(challenge);
-      widget.addToExpandedRepetition
+      widget.onTapNextRepetition
           .call(challenge.getLastRepetition()!.repetitionNumber);
     });
     widget.setStateRepetitionPage.call();

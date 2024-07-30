@@ -1,9 +1,9 @@
+import 'package:challenge/app.dart';
 import 'package:challenge/pages/registration/registration_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/account_service.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/app.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
