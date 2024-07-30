@@ -208,8 +208,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   void onTapAccept(ChallengeModel challenge) async {
-    ChallengeModel challengeCopy =
-        ChallengeModel.copyChallenge(challenge: challenge);
+    ChallengeModel challengeCopy = challenge.copyChallenge();
 
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);

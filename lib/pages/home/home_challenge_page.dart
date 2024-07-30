@@ -169,7 +169,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 16),
         child: TapContainerComponent(
-          onTap: () => deleteChallenge(challenge),
+          onTap: () => onTapDeleteChallenge(challenge),
           borderRadius: 24,
           height: double.infinity,
           child: Center(
@@ -344,7 +344,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
   }
 
-  void deleteChallenge(ChallengeModel challenge) {
+  void onTapDeleteChallenge(ChallengeModel challenge) {
     // if (slidableContext != null) {
     Slidable.of(context)?.close(duration: Duration.zero);
     // }
@@ -550,8 +550,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) {
-          ChallengeModel challengeCopy = ChallengeModel.copyChallenge(
-              challenge: challenge, isTryAgain: true);
+          ChallengeModel challengeCopy =
+              challenge.copyChallenge(isTryAgain: true);
           return EditChallengePage(
             preTitle: '${widget.preTitle}/${challengeCopy.title}',
             challenge: challengeCopy,

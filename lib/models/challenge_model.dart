@@ -7,7 +7,6 @@ import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/repetition_model.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:uuid/uuid.dart';
 
 import 'acceptance_criteria_model.dart';
@@ -61,24 +60,29 @@ class ChallengeModel {
   }
 
   static ChallengeModel fromJson(Map json) {
-    return ChallengeModel(
-        id: json.containsKey('id') ? json['id'] : null,
-        status: ChallengeStatusEnum.factory(json['status']),
-        title: json['title'],
-        description: json['description'],
-        thumbnailPath: json['thumbnailPath'],
-        startDate: json['startDate'] == null || json['startDate'] == 'null'
-            ? null
-            : DateTime.parse(json['startDate']),
-        endDate: json['endDate'] == null || json['endDate'] == 'null'
-            ? null
-            : DateTime.parse(json['endDate']),
-        acceptanceCriteria:
-            AcceptanceCriteriaModel.fromJson(json['acceptanceCriteria']),
-        frequency: FrequencyModel.fromJson(json['frequency']),
-        repetitions: RepetitionModel.fromJsonList(json['repetitions']),
-        media: MediaModel.fromJsonList(json['media']),
-        categories: ChallengeCategoryEnum.fromJsonList(json['categories']));
+    try {
+      ChallengeModel challenge = ChallengeModel(
+          id: json.containsKey('id') ? json['id'] : null,
+          status: ChallengeStatusEnum.factory(json['status']),
+          title: json['title'],
+          description: json['description'],
+          thumbnailPath: json['thumbnailPath'],
+          startDate: json['startDate'] == null || json['startDate'] == 'null'
+              ? null
+              : DateTime.parse(json['startDate']),
+          endDate: json['endDate'] == null || json['endDate'] == 'null'
+              ? null
+              : DateTime.parse(json['endDate']),
+          acceptanceCriteria:
+              AcceptanceCriteriaModel.fromJson(json['acceptanceCriteria']),
+          frequency: FrequencyModel.fromJson(json['frequency']),
+          repetitions: RepetitionModel.fromJsonList(json['repetitions']),
+          media: MediaModel.fromJsonList(json['media']),
+          categories: ChallengeCategoryEnum.fromJsonList(json['categories']));
+      return challenge;
+    } on Exception {
+      throw Exception();
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -98,28 +102,23 @@ class ChallengeModel {
     };
   }
 
-  static ChallengeModel copyChallenge(
-      {required ChallengeModel challenge,
-      bool isTryAgain = false,
-      bool withId = false}) {
+  ChallengeModel copyChallenge({bool isTryAgain = false, bool withId = false}) {
     ChallengeModel challengeCopy = ChallengeModel(
-        id: withId ? challenge.id : null,
-        status: isTryAgain ? ChallengeStatusEnum.backlog : challenge.status,
-        title: challenge.title,
-        startDate: isTryAgain ? null : challenge.startDate,
-        endDate: isTryAgain ? null : challenge.endDate,
-        description: challenge.description,
-        thumbnailPath: challenge.thumbnailPath,
+        id: withId ? id : null,
+        status: isTryAgain ? ChallengeStatusEnum.backlog : status,
+        title: title,
+        startDate: isTryAgain ? null : startDate,
+        endDate: isTryAgain ? null : endDate,
+        description: description,
+        thumbnailPath: thumbnailPath,
         acceptanceCriteria: AcceptanceCriteriaModel.copyAcceptanceCriteria(
-            challenge.acceptanceCriteria,
+            acceptanceCriteria,
             isTryAgain: isTryAgain),
-        frequency: FrequencyModel.copyFrequency(challenge.frequency),
-        repetitions: isTryAgain
-            ? []
-            : RepetitionModel.copyRepetitionList(challenge.repetitions),
-        media: isTryAgain ? [] : MediaModel.copyMediaList(challenge.media),
-        categories:
-            ChallengeCategoryEnum.copyCategoryList(challenge.categories));
+        frequency: FrequencyModel.copyFrequency(frequency),
+        repetitions:
+            isTryAgain ? [] : RepetitionModel.copyRepetitionList(repetitions),
+        media: isTryAgain ? [] : MediaModel.copyMediaList(media),
+        categories: ChallengeCategoryEnum.copyCategoryList(categories));
     return challengeCopy;
   }
 
@@ -183,9 +182,7 @@ class ChallengeModel {
     if (startDate != null &&
         endDate != null &&
         frequency.type == FrequencyTypeEnum.daily) {
-      int amount = DesignUtil.dateWithoutTime(endDate!)
-          .difference(DesignUtil.dateWithoutTime(startDate!))
-          .inDays;
+      int amount = endDate!.difference(startDate!).inDays;
       if (amount >= 0) {
         frequency.amount = amount;
       }
@@ -521,7 +518,7 @@ class ChallengeModel {
       {required List<ChallengeModel> challenges}) {
     List<ChallengeModel> challengeCopies = [];
     for (var challenge in challenges) {
-      challengeCopies.add(copyChallenge(challenge: challenge, withId: true));
+      challengeCopies.add(challenge.copyChallenge(withId: true));
     }
     return challengeCopies;
   }
