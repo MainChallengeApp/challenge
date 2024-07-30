@@ -1,20 +1,20 @@
 import 'dart:io';
 
-import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
+import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
+import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/media_model.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/media_service.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
-import 'package:challenge/models/challenge_model.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/media_model.dart';
-import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 
 class MediaListPage extends StatefulWidget {
   const MediaListPage(
@@ -36,6 +36,8 @@ class _MediaListPageState extends State<MediaListPage> {
   ScrollController scrollController = ScrollController();
 
   ChallengeController challengeController = ChallengeController();
+
+  MediaService mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class _MediaListPageState extends State<MediaListPage> {
                   MediaModel media =
                       mediaList.reversed.elementAt(index - 1 - 1);
 
-                  MediaService.deleteMedia(media, widget.challenge);
+                  mediaService.deleteMedia(media, widget.challenge);
 
                   setState(() {
                     mediaList.removeWhere((element) => element.id == media.id);
@@ -124,20 +126,20 @@ class _MediaListPageState extends State<MediaListPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => MediaDetailPage(
-          mediaList: widget.challenge.media
-              .where((element) => element.title.contains(searchBarText))
-              .toList(),
-          preTitle: '${widget.preTitle}/Media',
-          initialMediaIndex: index,
-          challenge: widget.challenge,
-        ),
-      ),
+          builder: (context) => MediaDetailPage(
+                mediaList: widget.challenge.media
+                    .where((element) => element.title.contains(searchBarText))
+                    .toList(),
+                preTitle: '${widget.preTitle}/Media',
+                initialMediaIndex: index,
+                challenge: widget.challenge,
+                onTap: onTapDeleteMedia,
+              )),
     ).then((_) => setState(() {}));
   }
 
   onTapUploadMedia() async {
-    XFile? file = await MediaService.onTapUploadMedia();
+    XFile? file = await mediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
         widget.challenge.media.add(MediaModel(
@@ -171,7 +173,6 @@ class _MediaListPageState extends State<MediaListPage> {
               : challenge)
           .toList();
 
-      ChallengeController challengeController = ChallengeController();
       challengeController.writeFile(allChallengesList);
 
       setState(() {});

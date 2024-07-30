@@ -70,6 +70,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   ChallengeService challengeService = ChallengeService();
 
+  MediaService mediaService = MediaService();
+
   @override
   Widget build(BuildContext context) {
     editProgress.setProgress(
@@ -153,7 +155,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 media: mediaList.reversed.elementAt(newIndex),
                 onTapDeleteMedia: () {
                   setState(() {
-                    MediaService.deleteMedia(
+                    mediaService.deleteMedia(
                         mediaList.reversed.elementAt(newIndex),
                         widget.challenge);
                     mediaList.removeWhere((media) =>
@@ -176,6 +178,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           preTitle: '${widget.preTitle}/Media',
           initialMediaIndex: index,
           challenge: widget.challenge,
+          onTap: onTapDeleteMedia,
         ),
       ),
     ).then((_) => setState(() {}));
@@ -565,7 +568,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   // }
 
   onTapUploadMedia() async {
-    XFile? file = await MediaService.onTapUploadMedia();
+    XFile? file = await mediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
         MediaModel media = MediaModel(
@@ -611,5 +614,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           widget.repetition!.progressList.indexOf(widget.progress!));
     });
     Navigator.pop(context);
+  }
+
+  void onTapDeleteMedia(MediaModel media) {
+    mediaService.deleteMedia(media, widget.challenge);
+
+    setState(() {
+      mediaList.removeWhere((element) => element.id == media.id);
+      editProgress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
+    });
   }
 }

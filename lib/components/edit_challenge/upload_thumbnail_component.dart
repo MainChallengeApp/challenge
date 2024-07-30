@@ -16,11 +16,13 @@ class UploadThumbnailComponent extends StatefulWidget {
 }
 
 class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
+  MediaService mediaService = MediaService();
+
   @override
   Widget build(BuildContext context) {
     return TapContainerComponent(
       onTap: () async {
-        XFile? file = await MediaService.onTapUploadMedia();
+        XFile? file = await mediaService.onTapUploadMedia();
         setState(() {
           if (file != null) {
             widget.editChallenge.thumbnailPath = file.path;

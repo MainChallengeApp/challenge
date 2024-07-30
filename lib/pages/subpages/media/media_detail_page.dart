@@ -1,28 +1,27 @@
-import 'dart:io';
-
+import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/pages/subpages/media/video_component.dart';
-import 'package:flutter/material.dart';
-
 import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/media_model.dart';
+import 'package:challenge/pages/subpages/media/video_component.dart';
+import 'package:challenge/services/media_service.dart';
+import 'package:flutter/material.dart';
 
 class MediaDetailPage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
   final ChallengeModel challenge;
+  final void Function(MediaModel)? onTap;
 
   const MediaDetailPage(
       {super.key,
       required this.preTitle,
       required this.mediaList,
       required this.initialMediaIndex,
-      required this.challenge});
+      required this.challenge,
+      this.onTap});
 
   @override
   State<MediaDetailPage> createState() => _MediaDetailPageState();
@@ -33,6 +32,8 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
       PageController(initialPage: widget.initialMediaIndex);
   late String currentTitle = widget.mediaList[widget.initialMediaIndex].title;
   late int currentMediaIndex = widget.initialMediaIndex;
+
+  MediaService mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -98,41 +99,19 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
 
   deleteButton() {
     return GestureDetector(
-      onTap: () {
+      onTap: () => setState(() {
         MediaModel media = widget.mediaList[currentMediaIndex];
-
-        File file = File(media.source);
-        file.exists().then((value) {
-          if (value) {
-            file.delete();
-          }
-        });
-
         widget.mediaList.removeWhere((element) => element.id == media.id);
-        widget.challenge.media.removeWhere((element) => element.id == media.id);
-        for (var repetition in widget.challenge.repetitions) {
-          for (var progress in repetition.progressList) {
-            progress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
-          }
+
+        widget.onTap?.call(media);
+
+        if (currentMediaIndex >= widget.mediaList.length) {
+          currentMediaIndex = widget.mediaList.length - 1;
         }
-
-        allChallengesList
-            .firstWhere((element) => element.id == widget.challenge.id)
-            .media
-            .removeWhere((element) => element.id == media.id);
-
-        ChallengeController challengeController = ChallengeController();
-        challengeController.writeFile(allChallengesList);
-
-        setState(() {
-          if (currentMediaIndex >= widget.mediaList.length) {
-            currentMediaIndex = widget.mediaList.length - 1;
-          }
-        });
         if (widget.mediaList.isEmpty) {
           Navigator.pop(context);
         }
-      },
+      }),
       child: Container(
         width: 55,
         height: 55,

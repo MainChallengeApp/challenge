@@ -567,4 +567,13 @@ class ChallengeModel {
     }
     return 0;
   }
+
+  removeMedia(MediaModel media) {
+    this.media.removeWhere((element) => element.id == media.id);
+    for (var repetition in repetitions) {
+      for (var progress in repetition.progressList) {
+        progress.mediaIds.remove(media.id);
+      }
+    }
+  }
 }
