@@ -88,7 +88,7 @@ class ChallengeModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'status': status.toString(),
+      'status': status.status,
       'title': title,
       'description': description,
       'thumbnailPath': thumbnailPath,
