@@ -46,9 +46,9 @@ class ChallengeModel {
 
   ChallengeModel.empty(
       {this.status = ChallengeStatusEnum.backlog,
-      this.title = "",
-      this.description = "",
-      this.thumbnailPath = "",
+      this.title = '',
+      this.description = '',
+      this.thumbnailPath = '',
       this.repetitions = const [],
       this.media = const [],
       this.categories = const []}) {

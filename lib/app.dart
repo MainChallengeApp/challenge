@@ -77,7 +77,7 @@ class AppState extends State<App> {
         );
 
       default:
-        throw Exception("TabItem not found");
+        throw Exception('TabItem not found');
     }
   }
 }

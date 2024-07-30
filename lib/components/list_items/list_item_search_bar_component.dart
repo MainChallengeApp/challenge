@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/components/list_items/list_item_container_component.dart';
-import 'package:flutter/material.dart';
 import 'package:challenge/globals.dart';
+import 'package:flutter/material.dart';
 
 class ListItemSearchBarComponent extends StatefulWidget {
   final String hintText;
@@ -15,7 +15,7 @@ class ListItemSearchBarComponent extends StatefulWidget {
   ListItemSearchBarComponent(
       {super.key,
       this.changeList,
-      this.searchBarText = "",
+      this.searchBarText = '',
       required this.textEditingController,
       this.isEnabled = true,
       this.autoFocus = false,

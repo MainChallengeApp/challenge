@@ -61,9 +61,9 @@ class FrequencyModel {
               DateTime.now().add(const Duration(days: 1)))
           .difference(DateTime.now());
       if (difference.inHours <= 0) {
-        return "${difference.inMinutes} min";
+        return '${difference.inMinutes} min';
       }
-      return "${difference.inHours.toString()} h";
+      return '${difference.inHours.toString()} h';
     }
   }
 }

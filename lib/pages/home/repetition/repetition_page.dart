@@ -290,12 +290,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
           child: widget.challenge.isInBacklog()
               ? ListItemButtonComponent(
                   onTap: onTapStartChallenge,
-                  text: "Start Challenge",
+                  text: 'Start Challenge',
                   isMainButton: true,
                 )
               : ListItemButtonComponent(
                   onTap: onTapEndChallenge,
-                  text: "End Challenge",
+                  text: 'End Challenge',
                   isMainButton: widget.challenge.isCompleted(),
                 ),
         ));

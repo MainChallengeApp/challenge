@@ -31,7 +31,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
   ScrollController scrollController = ScrollController();
 
-  String searchBarText = "";
+  String searchBarText = '';
 
   Timer? timer;
 
@@ -130,7 +130,7 @@ class _HomeListPageState extends State<HomeListPage> {
       child: ListItemIconSmallComponent(
         onTap: () => tapOnNewChallenge(),
         icon: Icons.add_rounded,
-        title: "New Challenge",
+        title: 'New Challenge',
       ),
     );
   }

@@ -12,15 +12,15 @@ import 'package:challenge/models/repetition_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group("ChallengeModel", () {
+  group('ChallengeModel', () {
     ChallengeModel createMockChallengeModel() {
       return ChallengeModel(
-        id: "1",
+        id: '1',
         status: ChallengeStatusEnum.backlog,
-        title: "Challenge Title",
-        description: "Challenge Description",
-        thumbnailPath: "assets/images/test.png",
-        acceptanceCriteria: AcceptanceCriteriaModel(amount: 1, unit: "Unit"),
+        title: 'Challenge Title',
+        description: 'Challenge Description',
+        thumbnailPath: 'assets/images/test.png',
+        acceptanceCriteria: AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
         frequency: FrequencyModel(type: FrequencyTypeEnum.time, amount: 1),
         repetitions: [],
         media: [],
@@ -53,23 +53,23 @@ void main() {
           repetitionStatus: RepetitionStatusEnum.success);
     }
 
-    group("fromJson()", () {
-      test("should create ChallengeModel object when json is passed correctly",
+    group('fromJson()', () {
+      test('should create ChallengeModel object when json is passed correctly',
           () {
         // Arrange
         Map<String, dynamic> json = {
-          "id": "1",
-          "status": "backlog",
-          "title": "Challenge Title",
-          "description": "Challenge Description",
-          "thumbnailPath": "assets/images/test.png",
-          "acceptanceCriteria": {"amount": 1.0, "unit": "Unit"},
-          "frequency": {"type": "time", "amount": 1},
-          "repetitions": [],
-          "media": [],
-          "categories": ['social', 'physicalHealth'],
-          "startDate": DateTime.now().toIso8601String(),
-          "endDate":
+          'id': '1',
+          'status': 'backlog',
+          'title': 'Challenge Title',
+          'description': 'Challenge Description',
+          'thumbnailPath': 'assets/images/test.png',
+          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
+          'frequency': {'type': 'time', 'amount': 1},
+          'repetitions': [],
+          'media': [],
+          'categories': ['social', 'physicalHealth'],
+          'startDate': DateTime.now().toIso8601String(),
+          'endDate':
               DateTime.now().add(const Duration(days: 1)).toIso8601String()
         };
 
@@ -77,13 +77,13 @@ void main() {
         ChallengeModel challenge = ChallengeModel.fromJson(json);
 
         // Assert
-        expect(challenge.id, equals(json["id"]));
+        expect(challenge.id, equals(json['id']));
         expect(challenge.status, equals(ChallengeStatusEnum.backlog));
-        expect(challenge.title, equals(json["title"]));
-        expect(challenge.description, equals(json["description"]));
-        expect(challenge.thumbnailPath, equals(json["thumbnailPath"]));
+        expect(challenge.title, equals(json['title']));
+        expect(challenge.description, equals(json['description']));
+        expect(challenge.thumbnailPath, equals(json['thumbnailPath']));
         expect(challenge.acceptanceCriteria.amount, equals(1));
-        expect(challenge.acceptanceCriteria.unit, equals("Unit"));
+        expect(challenge.acceptanceCriteria.unit, equals('Unit'));
         expect(challenge.frequency.type, equals(FrequencyTypeEnum.time));
         expect(challenge.frequency.amount, equals(1));
         expect(challenge.repetitions, equals([]));
@@ -94,11 +94,11 @@ void main() {
               ChallengeCategoryEnum.social,
               ChallengeCategoryEnum.physicalHealth
             ]));
-        expect(challenge.startDate, equals(DateTime.parse(json["startDate"])));
-        expect(challenge.endDate, equals(DateTime.parse(json["endDate"])));
+        expect(challenge.startDate, equals(DateTime.parse(json['startDate'])));
+        expect(challenge.endDate, equals(DateTime.parse(json['endDate'])));
       });
 
-      test("should throw error when json is passed incorrectly", () {
+      test('should throw error when json is passed incorrectly', () {
         // Arrange
         Map<String, dynamic> json = {};
 
@@ -107,23 +107,23 @@ void main() {
       });
     });
 
-    group("toJson()", () {
-      test("should return json when ChallengeModel is passed", () {
+    group('toJson()', () {
+      test('should return json when ChallengeModel is passed', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         Map<String, dynamic> json = {
-          "id": "1",
-          "status": "backlog",
-          "title": "Challenge Title",
-          "description": "Challenge Description",
-          "thumbnailPath": "assets/images/test.png",
-          "acceptanceCriteria": {"amount": 1.0, "unit": "Unit"},
-          "frequency": {"type": "time", "amount": 1},
-          "repetitions": [],
-          "media": [],
-          "categories": ["mentalHealth"],
-          "startDate": challenge.startDate?.toString(),
-          "endDate": challenge.endDate?.toString()
+          'id': '1',
+          'status': 'backlog',
+          'title': 'Challenge Title',
+          'description': 'Challenge Description',
+          'thumbnailPath': 'assets/images/test.png',
+          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
+          'frequency': {'type': 'time', 'amount': 1},
+          'repetitions': [],
+          'media': [],
+          'categories': ['mentalHealth'],
+          'startDate': challenge.startDate?.toString(),
+          'endDate': challenge.endDate?.toString()
         };
 
         // Act
@@ -134,8 +134,8 @@ void main() {
       });
     });
 
-    group("copyChallenge()", () {
-      test("should copy challenge with id when challenge is passed", () {
+    group('copyChallenge()', () {
+      test('should copy challenge with id when challenge is passed', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
 
@@ -163,7 +163,7 @@ void main() {
         expect(copiedChallenge.endDate, equals(challenge.endDate));
       });
 
-      test("should copy challenge without id when challenge is passed", () {
+      test('should copy challenge without id when challenge is passed', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
 
@@ -191,7 +191,7 @@ void main() {
         expect(copiedChallenge.endDate, equals(challenge.endDate));
       });
 
-      test("should copy challenge with try again when challenge is passed", () {
+      test('should copy challenge with try again when challenge is passed', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
 
@@ -249,7 +249,7 @@ void main() {
       });
     });
 
-    group("isInCategories()", () {
+    group('isInCategories()', () {
       test('should be in categories when all categories are passed to function',
           () {
         // Arrange
@@ -382,8 +382,8 @@ void main() {
       });
     });
 
-    group("isThumbnailFromAssetsImage()", () {
-      test("should return true when thumbnailPath starts with 'assets/images/'",
+    group('isThumbnailFromAssetsImage()', () {
+      test('should return true when thumbnailPath starts with "assets/images/"',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -398,7 +398,7 @@ void main() {
       });
 
       test(
-          "should return false when thumbnailPath does not start with 'assets/images/'",
+          'should return false when thumbnailPath does not start with "assets/images/"',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -413,8 +413,8 @@ void main() {
       });
     });
 
-    group("setEndDate()", () {
-      test("should not change end date when start date is null", () {
+    group('setEndDate()', () {
+      test('should not change end date when start date is null', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         challenge.startDate = null;
@@ -427,7 +427,7 @@ void main() {
       });
 
       test(
-          "should calculate end date when start date is set and frequency type is daily and amount is not null",
+          'should calculate end date when start date is set and frequency type is daily and amount is not null',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -447,7 +447,7 @@ void main() {
       });
 
       test(
-          "should set end date to null when frequency type is daily and amount is null",
+          'should set end date to null when frequency type is daily and amount is null',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -464,9 +464,9 @@ void main() {
       });
     });
 
-    group("setFrequencyAmount()", () {
+    group('setFrequencyAmount()', () {
       test(
-          "should  not set frequencyAmount when start date and end date are null",
+          'should  not set frequencyAmount when start date and end date are null',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -484,7 +484,7 @@ void main() {
       });
 
       test(
-          "should set frequency amount when start date is not null, end date is not null and frequency type is daily",
+          'should set frequency amount when start date is not null, end date is not null and frequency type is daily',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -503,7 +503,7 @@ void main() {
       });
 
       test(
-          "should set frequency amount to null when frequency type is daily and end date is null",
+          'should set frequency amount to null when frequency type is daily and end date is null',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -519,8 +519,8 @@ void main() {
       });
     });
 
-    group("hasThumbnail()", () {
-      test("should return true when thumbnailPath is not empty", () {
+    group('hasThumbnail()', () {
+      test('should return true when thumbnailPath is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         challenge.thumbnailPath = 'thumbnailPath';
@@ -532,7 +532,7 @@ void main() {
         expect(hasThumbnail, equals(true));
       });
 
-      test("should return false when thumbnailPath is empty", () {
+      test('should return false when thumbnailPath is empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         challenge.thumbnailPath = '';
@@ -545,8 +545,8 @@ void main() {
       });
     });
 
-    group("getLastRepetition()", () {
-      test("should return last repetition when repetitions is not empty", () {
+    group('getLastRepetition()', () {
+      test('should return last repetition when repetitions is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         RepetitionModel repetition = createMockRepetitionModel();
@@ -560,7 +560,7 @@ void main() {
       });
 
       test(
-          "should return null when repetitions is empty and frequency type is time and start date is null",
+          'should return null when repetitions is empty and frequency type is time and start date is null',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -576,7 +576,7 @@ void main() {
       });
 
       test(
-          "should return empty repetition when repetitions is empty and frequency type is daily and start date is before now",
+          'should return empty repetition when repetitions is empty and frequency type is daily and start date is before now',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -596,8 +596,8 @@ void main() {
       });
     });
 
-    group("getCurrentRepetition()", () {
-      test("should return null when there is no current repetition", () {
+    group('getCurrentRepetition()', () {
+      test('should return null when there is no current repetition', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         challenge.repetitions = [];
@@ -612,7 +612,7 @@ void main() {
       });
 
       test(
-          "should return last repetition when there is a current repetition and frequency type is time",
+          'should return last repetition when there is a current repetition and frequency type is time',
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();

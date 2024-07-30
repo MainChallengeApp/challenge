@@ -29,7 +29,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   late List<ChallengeModel> challenges;
   final ScrollController scrollController = ScrollController();
 
-  String searchBarText = "";
+  String searchBarText = '';
 
   @override
   void initState() {

@@ -1,8 +1,8 @@
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/frequency_model.dart';
 import 'package:flutter/material.dart';
 
 class ActionButtonComponent extends StatefulWidget {
@@ -70,7 +70,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   Widget _buildStartButton() {
     return CustomButtonComponent(
       onTap: () => widget.onTapStart(widget.challenge),
-      text: "Start",
+      text: 'Start',
       isPrimaryButton: true,
     );
   }
@@ -118,24 +118,24 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
           (widget.challenge.getCurrentRepetition()?.isComplete() ?? false) &&
               frequency.type == FrequencyTypeEnum.time,
       text: frequency.type == FrequencyTypeEnum.time
-          ? "Next"
-          : "Next in ${widget.challenge.nextIn()}",
+          ? 'Next'
+          : 'Next in ${widget.challenge.nextIn()}',
     );
   }
 
   Widget _buildEndButton() {
     return CustomButtonComponent(
       onTap: () => widget.onTapEnd(widget.challenge),
-      text: "End",
+      text: 'End',
       subText: frequency.type == FrequencyTypeEnum.daily &&
               (frequency.amount == null ||
                   widget.challenge.getCurrentRepetitionNumber() <
                       frequency.getMaxAmountOfRepetitions()!)
-          ? "Next in ${widget.challenge.nextIn()}"
+          ? 'Next in ${widget.challenge.nextIn()}'
           : frequency.type != FrequencyTypeEnum.time &&
                   widget.challenge.getCurrentRepetitionNumber() ==
                       frequency.getMaxAmountOfRepetitions()
-              ? "Ends in ${widget.challenge.nextIn()}"
+              ? 'Ends in ${widget.challenge.nextIn()}'
               : null,
       isPrimaryButton:
           widget.challenge.getCurrentRepetitionProgressPercentageProgress() >=
@@ -152,7 +152,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   Widget _buildAcceptAgainButton() {
     return CustomButtonComponent(
       onTap: () => widget.onTapAgain(widget.challenge),
-      text: "Accept Again",
+      text: 'Accept Again',
       isPrimaryButton: true,
     );
   }
@@ -164,7 +164,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   Widget _buildTryAgainButton() {
     return CustomButtonComponent(
       onTap: () => widget.onTapAgain(widget.challenge),
-      text: "Try Again",
+      text: 'Try Again',
       isPrimaryButton: true,
     );
   }

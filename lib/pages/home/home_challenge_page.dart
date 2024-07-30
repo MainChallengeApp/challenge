@@ -184,7 +184,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                 height: 5,
               ),
               Text(
-                "Delete",
+                'Delete',
                 style: TextStyle(color: red),
               )
             ],
@@ -211,7 +211,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
                     SizedBox(
                       height: 5,
                     ),
-                    Text("Edit")
+                    Text('Edit')
                   ],
                 )),
               ),

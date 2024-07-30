@@ -39,7 +39,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
       child: DateComponent(
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('end'),
         date: widget.editChallenge.endDate,
-        text: "End",
+        text: 'End',
       ),
     );
   }
@@ -49,7 +49,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
       child: DateComponent(
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('start'),
         date: widget.editChallenge.startDate,
-        text: "Start",
+        text: 'Start',
       ),
     );
   }

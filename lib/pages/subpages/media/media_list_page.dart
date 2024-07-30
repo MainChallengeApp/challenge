@@ -31,7 +31,7 @@ class MediaListPage extends StatefulWidget {
 }
 
 class _MediaListPageState extends State<MediaListPage> {
-  String searchBarText = "";
+  String searchBarText = '';
 
   ScrollController scrollController = ScrollController();
 
@@ -90,7 +90,7 @@ class _MediaListPageState extends State<MediaListPage> {
             //   return ListItemIconSmall(
             //     onTap: () => 0, // not yet implemented
             //     icon: Icons.add_rounded,
-            //     title: "Upload Media",
+            //     title: 'Upload Media',
             //   );
             // }
             return SpaceColumnComponent(

@@ -131,7 +131,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
               SizedBox(
                 height: 5,
               ),
-              Text("Edit")
+              Text('Edit')
             ],
           )),
         ),

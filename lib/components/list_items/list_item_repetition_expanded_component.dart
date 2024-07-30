@@ -101,7 +101,7 @@ class _ListItemRepetitionExpandedComponentState
                                 left: 10, bottom: 10, right: 5),
                             child: DateComponent(
                                 date: widget.repetition.startDate,
-                                text: "Start"),
+                                text: 'Start'),
                           ),
                   )),
                   Expanded(
@@ -123,7 +123,7 @@ class _ListItemRepetitionExpandedComponentState
                               padding: const EdgeInsets.only(
                                   left: 5, bottom: 10, right: 10),
                               child: DateComponent(
-                                  date: widget.repetition.endDate, text: "End"),
+                                  date: widget.repetition.endDate, text: 'End'),
                             ),
                     ),
                   ),

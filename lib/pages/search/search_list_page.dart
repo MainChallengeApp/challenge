@@ -26,11 +26,11 @@ class SearchListPage extends StatefulWidget {
 
   const SearchListPage(
       {super.key,
-      this.preTitle = "",
+      this.preTitle = '',
       required this.title,
       this.onPush,
       this.isFirstPageInRoute = true,
-      this.initialSearchText = "",
+      this.initialSearchText = '',
       this.isSearchBarAutoFocus = false,
       required this.challenges});
 
@@ -43,7 +43,7 @@ class _SearchListPageState extends State<SearchListPage> {
   late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
 
-  String searchBarText = "";
+  String searchBarText = '';
 
   @override
   void initState() {
@@ -104,7 +104,7 @@ class _SearchListPageState extends State<SearchListPage> {
                   child: ListItemIconSmallComponent(
                 onTap: onTapNewChallenge,
                 icon: Icons.add,
-                title: searchBarText == "" ? "New Challenge" : searchBarText,
+                title: searchBarText == '' ? 'New Challenge' : searchBarText,
               ));
             }
 

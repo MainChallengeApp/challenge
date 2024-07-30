@@ -22,9 +22,9 @@ class CategoryComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (imagePath != null && icon != null) {
-      throw Exception("Only one of imagePath or icon can be used");
+      throw Exception('Only one of imagePath or icon can be used');
     } else if (imagePath == null && icon == null) {
-      throw Exception("One of imagePath or icon must be used");
+      throw Exception('One of imagePath or icon must be used');
     }
 
     return TapContainerComponent(
