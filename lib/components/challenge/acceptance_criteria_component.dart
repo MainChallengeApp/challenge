@@ -34,9 +34,7 @@ class _AcceptanceCriteriaComponentState
           FractionallySizedBox(
             widthFactor: !widget.challenge.isInProgress()
                 ? min(widget.challenge.getCurrentPercentage(), 1)
-                : min(
-                    widget.challenge
-                        .getCurrentRepetitionProgressPercentageProgress(),
+                : min(widget.challenge.getCurrentRepetitionProgressPercentage(),
                     1),
             heightFactor: 1,
             child: Container(
@@ -98,7 +96,7 @@ class _AcceptanceCriteriaComponentState
                     !widget.challenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressProgress())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+                    '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
             : ContainerInContainerTextComponent(
                 text:
                     '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
@@ -114,7 +112,7 @@ class _AcceptanceCriteriaComponentState
   repetitionPercentage() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentageProgress() * 100).roundToDouble())} %');
+            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentage() * 100).roundToDouble())} %');
   }
 
   amountOfProgress() {

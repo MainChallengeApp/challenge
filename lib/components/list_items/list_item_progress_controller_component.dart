@@ -47,9 +47,6 @@ class _ListItemProgressControllerComponentState
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        // const SizedBox(
-        //   width: 10,
-        // ),
         Expanded(
             flex: 1,
             child: TapContainerComponent(
@@ -85,59 +82,7 @@ class _ListItemProgressControllerComponentState
                 height: double.infinity,
                 child: const Center(
                   child: Text('-1'),
-                ))
-
-            // GestureDetector(
-            //   onLongPress: () {
-            //     if (widget.challenge.acceptanceCriteria.amount == 0) {
-            //       return;
-            //     }
-            //     timer = Timer.periodic(
-            //         Duration(
-            //             milliseconds: (((200 *
-            //                     log(widget
-            //                         .challenge.acceptanceCriteria.amount)) ~/
-            //                 widget.challenge.acceptanceCriteria.amount))), (t) {
-            //       setState(() {
-            //         subOneFromProgress();
-            //       });
-            //     });
-            //   },
-            //   // onLongPressDown: (details) {
-            //   //   isSubOnePressed = true;
-            //   //   if (isSubOnePressed) {
-            //   //     if (widget.challenge.acceptanceCriteria.amount == 0) {
-            //   //       return;
-            //   //     }
-            //   //     int amount = 1 ~/ widget.challenge.acceptanceCriteria.amount;
-            //   //     if (amount == 0) {
-            //   //       amount = 1;
-            //   //     }
-            //   //     timer = Timer.periodic(
-            //   //         Duration(milliseconds: (200 * log(amount).toInt())), (t) {
-            //   //       setState(() {
-            //   //         subOneFromProgress();
-            //   //       });
-            //   //     });
-            //   //   }
-            //   // },
-            //   onLongPressUp: () {
-            //     timer?.cancel();
-            //   },
-            //   onLongPressCancel: () {
-            //     timer?.cancel();
-            //   },
-            //   onTap: () => setState(() {
-            //     subOneFromProgress();
-            //   }),
-            //   child: Container(
-            //     color: Colors.transparent,
-            //     child: const Center(
-            //       child: Text('-1'),
-            //     ),
-            //   ),
-            // ),
-            ),
+                ))),
         Expanded(
             flex: 1,
             child: TapContainerComponent(
@@ -175,44 +120,7 @@ class _ListItemProgressControllerComponentState
                 height: double.infinity,
                 child: const Center(
                   child: Text('+1'),
-                ))
-
-            // GestureDetector(
-            //   onLongPress: () {
-            //     timer = Timer.periodic(
-            //         Duration(
-            //             milliseconds: (200 *
-            //                     log(widget
-            //                         .challenge.acceptanceCriteria.amount)) ~/
-            //                 widget.challenge.acceptanceCriteria.amount), (t) {
-            //       setState(() {
-            //         if (widget.editProgress.progress + 1 <=
-            //             widget.challenge.acceptanceCriteria.amount) {
-            //           addOneToProgress();
-            //         } else {
-            //           widget.editProgress.progress =
-            //               widget.challenge.acceptanceCriteria.amount;
-            //         }
-            //       });
-            //     });
-            //   },
-            //   onLongPressUp: () {
-            //     timer?.cancel();
-            //   },
-            //   onLongPressCancel: () {
-            //     timer?.cancel();
-            //   },
-            //   onTap: () => setState(() {
-            //     addOneToProgress();
-            //   }),
-            //   child: Container(
-            //     color: Colors.transparent,
-            //     child: const Center(
-            //       child: Text('+1'),
-            //     ),
-            //   ),
-            // ),
-            ),
+                ))),
         Expanded(
             flex: 1,
             child: TapContainerComponent(
@@ -232,22 +140,6 @@ class _ListItemProgressControllerComponentState
                 child: const Center(
                   child: Text('100%'),
                 )))
-
-        // GestureDetector(
-        //     onTap: () => setState(() {
-        //           widget.editProgress.progress =
-        //               widget.challenge.acceptanceCriteria.amount;
-        //           widget.progressListSetState();
-        //           progressTextEditingController.text =
-        //               DesignUtil.doubleAsIntString(
-        //                   widget.editProgress.progress);
-        //         }),
-        //     child: Container(
-        //       color: Colors.red,
-        //       child: const Center(
-        //         child: Text('100%'),
-        //       ),
-        //     ))),
       ],
     );
   }

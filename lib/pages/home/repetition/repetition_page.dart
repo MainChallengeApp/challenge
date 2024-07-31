@@ -81,7 +81,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: widget.challenge.getCurrentRepetitionNumber(),
           itemBuilder: (BuildContext content, int index) {
-            widget.challenge.setRepetitionsEndDate();
             RepetitionModel repetition;
             if ((widget.challenge.getCurrentRepetitionNumber() - 1 - index) <
                     widget.challenge.repetitions.length &&

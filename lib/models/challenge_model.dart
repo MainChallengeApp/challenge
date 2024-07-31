@@ -5,7 +5,6 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/frequency_model.dart';
-import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 import 'package:uuid/uuid.dart';
 
@@ -182,7 +181,12 @@ class ChallengeModel {
     if (startDate != null &&
         endDate != null &&
         frequency.type == FrequencyTypeEnum.daily) {
-      int amount = endDate!.difference(startDate!).inDays;
+      int amount = endDate!.difference(startDate!).inDays +
+          (endDate!.difference(startDate!).inSeconds -
+                      endDate!.difference(startDate!).inDays * 24 * 60 * 60 >
+                  0
+              ? 1
+              : 0); // if there is not a whole day difference, add one day
       if (amount >= 0) {
         frequency.amount = amount;
       }
@@ -236,16 +240,14 @@ class ChallengeModel {
                       ? startDate
                       : null,
               endDate: frequency.type == FrequencyTypeEnum.daily &&
-                      (repetitionNumber < getCurrentRepetitionNumber() ||
-                          !isInProgress())
-                  ? startDate?.add(Duration(days: repetitionNumber - 1))
+                      repetitionNumber <= getCurrentRepetitionNumber()
+                  ? startDate?.add(Duration(days: repetitionNumber))
                   : null,
               repetitionNumber: repetitionNumber,
               goalAmount: acceptanceCriteria.amount,
               repetitionStatus: repetitionNumber < getCurrentRepetitionNumber()
                   ? RepetitionStatusEnum.failed
-                  : frequency.type == FrequencyTypeEnum.time &&
-                          isInProgress() &&
+                  : isInProgress() &&
                           repetitionNumber == getCurrentRepetitionNumber()
                       ? RepetitionStatusEnum.inProgress
                       : RepetitionStatusEnum.backlog));
@@ -255,106 +257,40 @@ class ChallengeModel {
     return allRepetitions;
   }
 
-  setRepetitionsEndDate() {
-    if (frequency.type != FrequencyTypeEnum.daily) {
-      return;
+  double getCurrentRepetitionProgressAbsolute() {
+    var currentRepetition = getCurrentRepetition();
+
+    if (currentRepetition == null) {
+      return 0;
     }
 
-    List<RepetitionModel> allRepetitions = getAllRepetitions();
-    for (var repetition in allRepetitions) {
-      if (startDate != null &&
-          (repetition.repetitionNumber != getCurrentRepetitionNumber() ||
-              startDate!
-                  .add(const Duration(days: 1))
-                  .isBefore(DateTime.now()))) {
-        repetition.endDate =
-            startDate!.add(Duration(days: repetition.repetitionNumber));
-      }
-    }
+    return currentRepetition.getLastProgressAbsolute();
   }
 
-  RepetitionModel getOrCreateLastRepetition() {
-    return getLastRepetition() ??
-        RepetitionModel.empty(
-            repetitionNumber: getCurrentRepetitionNumber(),
-            goalAmount: acceptanceCriteria.amount);
-  }
-
-  ProgressModel? getCurrentRepetitionProgress() {
-    if (getCurrentRepetition() != null) {
-      return getLastRepetition()!.getLastProgress();
-    }
-    return null;
-  }
-
-  double getCurrentRepetitionProgressProgress() {
+  double getCurrentRepetitionProgressPercentage() {
     var currentRepetition = getCurrentRepetition();
     if (currentRepetition == null) {
       return 0;
     }
 
-    var currentRepetitionProgress = currentRepetition.getLastProgress();
-    if (currentRepetitionProgress == null) {
-      return 0;
-    }
-
-    return currentRepetitionProgress.progress;
-  }
-
-  double getCurrentRepetitionProgressPercentageProgress() {
-    var currentRepetition = getCurrentRepetition();
-    if (currentRepetition == null) {
-      return 0;
-    }
-
-    var lastRepetitionProgress = currentRepetition.getLastProgress();
-    if (lastRepetitionProgress == null) {
-      return 0;
-    }
-
-    lastRepetitionProgress.setProgress(
-        acceptanceCriteria, lastRepetitionProgress.progress);
-    return lastRepetitionProgress.percentProgress;
+    return currentRepetition.getLastProgressPercentage();
   }
 
   addRepetition() {
-    RepetitionModel? currentRepetition = getLastRepetition();
-    if (currentRepetition == null ||
+    RepetitionModel? lastRepetition = getLastRepetition();
+    if (lastRepetition == null ||
         frequency.amount == null ||
-        currentRepetition.repetitionNumber <
+        lastRepetition.repetitionNumber <
             frequency.getMaxAmountOfRepetitions()!) {
-      int newRepetitionNumber = currentRepetition == null
-          ? 1
-          : currentRepetition.repetitionNumber + 1;
+      int newRepetitionNumber =
+          lastRepetition == null ? 1 : lastRepetition.repetitionNumber + 1;
 
-      RepetitionModel addingRepetition = RepetitionModel(
+      RepetitionModel addingRepetition = RepetitionModel.empty(
           repetitionNumber: newRepetitionNumber,
-          goalAmount: acceptanceCriteria.amount,
-          progressList: [],
-          repetitionStatus: RepetitionStatusEnum.backlog);
+          goalAmount: acceptanceCriteria.amount);
       repetitions.add(addingRepetition);
       return addingRepetition;
     }
-  }
-
-  evaluateRepetitionStatus(RepetitionModel repetition) {
-    if (repetition.isComplete() &&
-        repetition.endDate != null &&
-        repetition.endDate!.isBefore(DateTime.now())) {
-      repetition.repetitionStatus = RepetitionStatusEnum.success;
-      return repetition.repetitionStatus;
-    } else if (repetition.endDate != null &&
-        repetition.endDate!.isBefore(DateTime.now())) {
-      repetition.repetitionStatus = RepetitionStatusEnum.failed;
-      return repetition.repetitionStatus;
-    }
-    if (repetition.startDate != null) {
-      repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
-      return repetition.repetitionStatus;
-    }
-
-    repetition.repetitionStatus = RepetitionStatusEnum.backlog;
-    return repetition.repetitionStatus;
   }
 
   void endRepetition() {
@@ -375,16 +311,7 @@ class ChallengeModel {
       return false;
     }
 
-    List<RepetitionModel> relevantRepetitions =
-        RepetitionModel.copyRepetitionList(repetitions);
-
-    if (frequency.amount == null &&
-        relevantRepetitions.isNotEmpty &&
-        relevantRepetitions.last.progressList.isEmpty) {
-      relevantRepetitions.removeLast();
-    }
-
-    for (var repetition in relevantRepetitions) {
+    for (var repetition in repetitions) {
       if (!repetition.isComplete()) {
         return false;
       }
@@ -401,7 +328,7 @@ class ChallengeModel {
       }
 
       if (endDate != null && endDate!.isBefore(DateTime.now())) {
-        var days = endDate!.difference(startDate!).inDays + 1;
+        var days = endDate!.difference(startDate!).inDays;
         return days;
       }
 
@@ -432,20 +359,12 @@ class ChallengeModel {
       setFrequencyAmount();
     }
     if (frequency.amount == 0) {
-      end();
       return;
     }
     status = ChallengeStatusEnum.inProgress;
-    if (getAllRepetitions().isEmpty &&
-        (frequency.amount == null || frequency.amount! > 0)) {
-      RepetitionModel addingRepetition = addRepetition();
-      addingRepetition.start();
-    } else {
-      RepetitionModel? currentRepetition = getCurrentRepetition();
-      if (currentRepetition != null) {
-        currentRepetition.start();
-      }
-    }
+    RepetitionModel currentRepetition =
+        getCurrentRepetition()!; // not null because start date is set above
+    currentRepetition.start();
   }
 
   end() {
@@ -490,10 +409,6 @@ class ChallengeModel {
       return 0;
     }
 
-    if (frequency.amount != null && frequency.amount! < 2) {
-      return getCurrentRepetitionProgressPercentageProgress();
-    }
-
     double percentage = 0;
 
     for (RepetitionModel repetition in repetitions) {
@@ -523,11 +438,6 @@ class ChallengeModel {
     for (ChallengeModel challenge in challenges) {
       challenge.checkChallengeStatus();
     }
-    // challengeList.sort((a, b) => a.isSucceeded() && !b.isSucceeded()
-    //     ? -1
-    //     : b.isSucceeded() && !a.isSucceeded()
-    //         ? 1
-    //         : 0);
     challenges.sort((a, b) =>
         (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
             ? 1
@@ -557,7 +467,7 @@ class ChallengeModel {
       }
       return '${difference.inHours} h';
     }
-    return 0;
+    return '';
   }
 
   removeMedia(MediaModel media) {

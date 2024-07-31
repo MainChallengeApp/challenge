@@ -41,6 +41,10 @@ class ChallengeService {
     challengeController.writeFile(allChallengesList);
   }
 
+  void addProgress() {
+    // TODO: implement addProgress
+  }
+
   void deleteProgress(
       ChallengeModel challenge, RepetitionModel repetition, int progressIndex) {
     repetition.deleteProgress(progressIndex);

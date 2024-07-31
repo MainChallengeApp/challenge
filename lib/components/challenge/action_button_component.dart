@@ -138,8 +138,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
               ? 'Ends in ${widget.challenge.nextIn()}'
               : null,
       isPrimaryButton:
-          widget.challenge.getCurrentRepetitionProgressPercentageProgress() >=
-                  1 &&
+          widget.challenge.getCurrentRepetitionProgressPercentage() >= 1 &&
               frequency.type == FrequencyTypeEnum.time,
       padding: const EdgeInsets.all(5),
     );

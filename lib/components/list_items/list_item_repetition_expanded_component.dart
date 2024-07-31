@@ -173,7 +173,7 @@ class _ListItemRepetitionExpandedComponentState
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressProgress())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
+            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
   }
 
   repetitionIcon() {

@@ -91,7 +91,7 @@ class RepetitionModel {
     return progressList.last.percentProgress;
   }
 
-  double getLastProgressProgress() {
+  double getLastProgressAbsolute() {
     if (progressList.isEmpty) {
       return 0;
     }

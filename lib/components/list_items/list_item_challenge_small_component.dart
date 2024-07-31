@@ -91,8 +91,7 @@ class _ListItemChallengeSmallComponentState
               strokeCap: StrokeCap.round,
               value: widget.challenge.acceptanceCriteria.amount <= 0
                   ? 1
-                  : widget.challenge
-                      .getCurrentRepetitionProgressPercentageProgress(),
+                  : widget.challenge.getCurrentRepetitionProgressPercentage(),
               color: widget.challenge.status == ChallengeStatusEnum.failed
                   ? red
                   : green,

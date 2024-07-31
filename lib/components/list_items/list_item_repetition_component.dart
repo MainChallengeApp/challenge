@@ -1,9 +1,10 @@
 import 'dart:math';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/repetition_model.dart';
+
 import 'package:challenge/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/components/simple_components/icon_container_in_list_item_component.dart';
+import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/repetition_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class _ListItemRepetitionComponentState
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressProgress())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
+            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
   }
 
   repetitionIcon() {

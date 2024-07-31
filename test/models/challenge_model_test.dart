@@ -54,6 +54,27 @@ void main() {
           repetitionStatus: RepetitionStatusEnum.success);
     }
 
+    group('empty()', () {
+      test('should return empty challenge', () {
+        // Act
+        ChallengeModel emptyChallenge = ChallengeModel.empty();
+
+        // Assert
+        expect(emptyChallenge.acceptanceCriteria.amount, equals(1));
+        expect(emptyChallenge.acceptanceCriteria.unit, equals(''));
+        expect(emptyChallenge.frequency.type, equals(FrequencyTypeEnum.time));
+        expect(emptyChallenge.frequency.amount, equals(1));
+        expect(emptyChallenge.categories, equals([]));
+        expect(emptyChallenge.description, equals(''));
+        expect(emptyChallenge.title, equals(''));
+        expect(emptyChallenge.startDate, equals(null));
+        expect(emptyChallenge.endDate, equals(null));
+        expect(emptyChallenge.status, equals(ChallengeStatusEnum.backlog));
+        expect(emptyChallenge.repetitions, equals([]));
+        expect(emptyChallenge.media, equals([]));
+      });
+    });
+
     group('fromJson()', () {
       test('should create ChallengeModel object when json is passed correctly',
           () {
@@ -582,7 +603,10 @@ void main() {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         challenge.frequency.type = FrequencyTypeEnum.daily;
-        challenge.startDate = DateTime.now().subtract(const Duration(days: 1));
+        challenge.frequency.amount = 1;
+        challenge.status = ChallengeStatusEnum.inProgress;
+        challenge.startDate =
+            DateTime.now().subtract(const Duration(hours: 23));
         challenge.repetitions = [];
 
         // Act
@@ -590,10 +614,11 @@ void main() {
 
         // Assert
         expect(lastRepetition.startDate, equals(challenge.startDate));
-        expect(lastRepetition.endDate, equals(null));
+        expect(lastRepetition.endDate,
+            equals(challenge.startDate!.add(const Duration(days: 1))));
         expect(lastRepetition.progressList, equals([]));
         expect(lastRepetition.repetitionStatus,
-            equals(RepetitionStatusEnum.backlog));
+            equals(RepetitionStatusEnum.inProgress));
       });
     });
 
@@ -691,19 +716,205 @@ void main() {
         expect(allRepetitions.first.repetitionStatus,
             equals(RepetitionStatusEnum.inProgress));
       });
+
+      test(
+          'should return all repetition when frequency type is daily and no repetitions are saved',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency =
+            FrequencyModel(type: FrequencyTypeEnum.daily, amount: 2);
+        challenge.startDate = DateTime.now().subtract(const Duration(days: 1));
+        challenge.status = ChallengeStatusEnum.inProgress;
+        challenge.repetitions = [];
+
+        // Act
+        List<RepetitionModel> allRepetitions = challenge.getAllRepetitions();
+
+        // Assert
+        expect(allRepetitions.length, equals(2));
+        expect(allRepetitions.first.startDate, equals(challenge.startDate));
+        expect(allRepetitions.first.endDate,
+            equals(challenge.startDate?.add(const Duration(days: 1))));
+        expect(allRepetitions.first.repetitionNumber, equals(1));
+        expect(allRepetitions.first.goalAmount,
+            equals(challenge.acceptanceCriteria.amount));
+        expect(allRepetitions.first.repetitionStatus,
+            equals(RepetitionStatusEnum.failed));
+        expect(allRepetitions.last.startDate,
+            equals(challenge.startDate?.add(const Duration(days: 1))));
+        expect(allRepetitions.last.endDate,
+            equals(challenge.startDate?.add(const Duration(days: 2))));
+        expect(allRepetitions.last.repetitionNumber, equals(2));
+        expect(allRepetitions.last.goalAmount,
+            equals(challenge.acceptanceCriteria.amount));
+        expect(allRepetitions.last.repetitionStatus,
+            equals(RepetitionStatusEnum.inProgress));
+      });
+
+      test(
+          'should return frequency amount of repetitions when challenge is over',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency =
+            FrequencyModel(type: FrequencyTypeEnum.daily, amount: 2);
+        challenge.startDate = DateTime.now().subtract(const Duration(days: 4));
+        challenge.endDate = challenge.startDate!
+            .add(Duration(days: challenge.frequency.amount!));
+        challenge.status = ChallengeStatusEnum.failed;
+        challenge.repetitions = [];
+
+        // Act
+        List<RepetitionModel> allRepetitions = challenge.getAllRepetitions();
+
+        // Assert
+        expect(allRepetitions.length, equals(challenge.frequency.amount));
+      });
     });
 
-    /**
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     * 
-     */
+    group('getCurrentRepetitionProgressAbsolute()', () {
+      test('should return absolute progress of last progress in repetition',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        challenge.acceptanceCriteria.amount = 2;
+        repetition.progressList.add(ProgressModel(
+            progress: 1,
+            mediaIds: [],
+            date: DateTime.now(),
+            percentProgress: 0.5,
+            repetitionNumber: 1));
+        challenge.repetitions.add(repetition);
+
+        // Act
+        double progress = challenge.getCurrentRepetitionProgressAbsolute();
+
+        // Assert
+        expect(progress, equals(1));
+      });
+
+      test('should return 0 when there is no repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        challenge.repetitions = [];
+
+        // Act
+        double progress = challenge.getCurrentRepetitionProgressAbsolute();
+
+        // Assert
+        expect(progress, equals(0));
+      });
+    });
+
+    group('getCurrentRepetitionProgressPercentage()', () {
+      test('should return percentage progress of last progress in repetition',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        challenge.acceptanceCriteria.amount = 2;
+        repetition.progressList.add(ProgressModel(
+            progress: 1,
+            mediaIds: [],
+            date: DateTime.now(),
+            percentProgress: 0.5,
+            repetitionNumber: 1));
+        challenge.repetitions.add(repetition);
+
+        // Act
+        double progress = challenge.getCurrentRepetitionProgressPercentage();
+
+        // Assert
+        expect(progress, equals(0.5));
+      });
+
+      test('should return 0 when there is no repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        challenge.repetitions = [];
+
+        // Act
+        double progress = challenge.getCurrentRepetitionProgressPercentage();
+
+        // Assert
+        expect(progress, equals(0));
+      });
+    });
+
+    group('addRepetition()', () {
+      test(
+          'should add first repetition when repetitions is empty and challenge is in backlog',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        RepetitionModel repetition = challenge.addRepetition();
+
+        // Assert
+        expect(challenge.repetitions, equals([repetition]));
+      });
+
+      test('should add last repetition when repetitions is not empty', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.amount = 2;
+
+        // Act
+        RepetitionModel repetition = challenge.addRepetition();
+
+        // Assert
+        expect(challenge.repetitions.last, equals(repetition));
+      });
+    });
+
+    group('endRepetition()', () {
+      test('should end repetition when repetition is in progress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.time;
+        challenge.frequency.amount = 2;
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+        challenge.repetitions.add(repetition);
+
+        // Act
+        challenge.endRepetition();
+
+        // Assert
+        expect(
+            repetition.repetitionStatus, equals(RepetitionStatusEnum.success));
+        expect(challenge.repetitions.length, equals(2));
+      });
+
+      test(
+          'should not be able to end repetition when frequency type is not time',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.daily;
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+        challenge.repetitions.add(repetition);
+
+        // Act
+        challenge.endRepetition();
+
+        // Assert
+        expect(repetition.repetitionStatus,
+            equals(RepetitionStatusEnum.inProgress));
+      });
+    });
 
     group('isCompleted()', () {
       test('should be completed when all repetitions are completed', () {
@@ -728,6 +939,528 @@ void main() {
 
         // Assert
         expect(isCompleted, equals(false));
+      });
+    });
+
+    group('getCurrentRepetitionNumber()', () {
+      test('should return repetition.length when frequency type is time', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.time;
+        challenge.repetitions
+            .add(createMockRepetitionModel(repetitionNumber: 1));
+        challenge.repetitions
+            .add(createMockRepetitionModel(repetitionNumber: 2));
+
+        // Act
+        int currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
+
+        // Assert
+        expect(currentRepetitionNumber, equals(challenge.repetitions.length));
+      });
+
+      test(
+          'should return days difference between start and now when frequency type is daily',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.daily;
+        challenge.startDate = DateTime.now().subtract(const Duration(days: 2));
+        challenge.endDate = null;
+        challenge.frequency.amount = 2;
+
+        // Act
+        int currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
+
+        // Assert
+        expect(currentRepetitionNumber, equals(2));
+      });
+    });
+
+    group('start()', () {
+      test('should set start date to now and status to inProgress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        challenge.start();
+
+        // Assert
+        expect(challenge.startDate, isNotNull);
+        expect(challenge.status, equals(ChallengeStatusEnum.inProgress));
+      });
+
+      test(
+          'should set the frequency amount when end date is set and frequency amount is not null and type is daily',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+        const int daysDifferenceBetweenStartAndEnd = 2;
+        challenge.endDate = DateTime.now()
+            .add(const Duration(days: daysDifferenceBetweenStartAndEnd));
+        challenge.frequency.amount = null;
+        challenge.frequency.type = FrequencyTypeEnum.daily;
+
+        // Act
+        challenge.start();
+
+        // Assert
+        expect(challenge.frequency.amount,
+            equals(daysDifferenceBetweenStartAndEnd));
+        expect(challenge.startDate, isNotNull);
+        expect(challenge.status, equals(ChallengeStatusEnum.inProgress));
+      });
+
+      test('should return nothing when frequency amount is 0', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+        challenge.frequency.amount = 0;
+        challenge.endDate = DateTime.now().add(const Duration(days: 1));
+
+        // Act
+        challenge.start(); // actually skipping in the end function
+
+        // Assert
+        expect(challenge.status, equals(ChallengeStatusEnum.backlog));
+      });
+
+      test('should add and start new repetition when there are no repetitions',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+        challenge.frequency.amount = null;
+        challenge.repetitions = [];
+
+        // Act
+        challenge.start();
+
+        // Assert
+        expect(challenge.repetitions.length, equals(1));
+        expect(challenge.repetitions.first.startDate, isNotNull);
+        expect(challenge.repetitions.first.repetitionStatus,
+            equals(RepetitionStatusEnum.inProgress));
+      });
+    });
+
+    group('end()', () {
+      test(
+          'should set end date to now and status to success when challenge is completed',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.repetitions.add(createMockRepetitionModel());
+        challenge.status = ChallengeStatusEnum.inProgress;
+
+        // Act
+        challenge.end();
+
+        // Assert
+        expect(challenge.endDate, isNotNull);
+        expect(challenge.status, equals(ChallengeStatusEnum.success));
+      });
+
+      test(
+          'should set end date to now and status to failed when challenge is not completed',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.repetitions.add(createMockRepetitionModel(goalAmount: 2));
+        challenge.status = ChallengeStatusEnum.inProgress;
+
+        // Act
+        challenge.end();
+
+        // Assert
+        expect(challenge.endDate, isNotNull);
+        expect(challenge.status, equals(ChallengeStatusEnum.failed));
+      });
+
+      test('should change nothing when status is backlog', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.backlog;
+        challenge.endDate = null;
+
+        // Act
+        challenge.end();
+
+        // Assert
+        expect(challenge.endDate, isNull);
+        expect(challenge.status, equals(ChallengeStatusEnum.backlog));
+      });
+
+      test('should end current repetition when its in progress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+        challenge.repetitions.add(repetition);
+
+        // Act
+        challenge.end();
+
+        // Assert
+        expect(
+            repetition.repetitionStatus, equals(RepetitionStatusEnum.success));
+      });
+    });
+
+    group('isInBacklog()', () {
+      test('should return true when status is backlog', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        bool isInBacklog = challenge.isInBacklog();
+
+        // Assert
+        expect(isInBacklog, equals(true));
+      });
+
+      test('should return false when status is not backlog', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.inProgress;
+
+        // Act
+        bool isInBacklog = challenge.isInBacklog();
+
+        // Assert
+        expect(isInBacklog, equals(false));
+      });
+    });
+
+    group('isInProgress()', () {
+      test('should return true when status is inProgress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.inProgress;
+
+        // Act
+        bool isInProgress = challenge.isInProgress();
+
+        // Assert
+        expect(isInProgress, equals(true));
+      });
+
+      test('should return false when status is not inProgress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        bool isInProgress = challenge.isInProgress();
+
+        // Assert
+        expect(isInProgress, equals(false));
+      });
+    });
+
+    group('isSucceeded()', () {
+      test('should return true when status is success', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.success;
+
+        // Act
+        bool isSucceeded = challenge.isSucceeded();
+
+        // Assert
+        expect(isSucceeded, equals(true));
+      });
+
+      test('should return false when status is not success', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        bool isSucceeded = challenge.isSucceeded();
+
+        // Assert
+        expect(isSucceeded, equals(false));
+      });
+    });
+
+    group('isFailed()', () {
+      test('should return true when status is failed', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.failed;
+
+        // Act
+        bool isFailed = challenge.isFailed();
+
+        // Assert
+        expect(isFailed, equals(true));
+      });
+
+      test('should return false when status is not failed', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        bool isFailed = challenge.isFailed();
+
+        // Assert
+        expect(isFailed, equals(false));
+      });
+    });
+
+    group('isEditable()', () {
+      test('should return true when status is backlog', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        bool isEditable = challenge.isEditable();
+
+        // Assert
+        expect(isEditable, equals(true));
+      });
+
+      test('should return true when status is inProgress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.inProgress;
+
+        // Act
+        bool isEditable = challenge.isEditable();
+
+        // Assert
+        expect(isEditable, equals(true));
+      });
+
+      test('should return false when status is not backlog or inProgress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.status = ChallengeStatusEnum.failed;
+
+        // Act
+        bool isEditable = challenge.isEditable();
+
+        // Assert
+        expect(isEditable, equals(false));
+      });
+    });
+
+    group('getCurrentPercentage()', () {
+      test('should return 0 when there is no repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.repetitions = [];
+
+        // Act
+        double currentPercentage = challenge.getCurrentPercentage();
+
+        // Assert
+        expect(currentPercentage, equals(0));
+      });
+
+      test('should return 0 when there is no progress in repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.progressList.clear();
+        challenge.repetitions.add(repetition);
+
+        // Act
+        double currentPercentage = challenge.getCurrentPercentage();
+
+        // Assert
+        expect(currentPercentage, equals(0));
+      });
+
+      test('should return 0 when current repetition number is 0', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.startDate = null;
+        challenge.status = ChallengeStatusEnum.backlog;
+
+        // Act
+        double currentPercentage = challenge.getCurrentPercentage();
+
+        // Assert
+        expect(currentPercentage, equals(0));
+      });
+
+      test('should return 0.5 when there is 1 progress in repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.progressList.add(ProgressModel(
+            progress: 0.5,
+            mediaIds: [],
+            date: DateTime.now(),
+            percentProgress: 0.5,
+            repetitionNumber: 1));
+        challenge.repetitions.add(repetition);
+
+        // Act
+        double currentPercentage = challenge.getCurrentPercentage();
+
+        // Assert
+        expect(currentPercentage, equals(0.5));
+      });
+
+      test(
+          'should return 1 when there is 1 progress in repetition and progress is 1',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.progressList.add(ProgressModel(
+            progress: 1,
+            mediaIds: [],
+            date: DateTime.now(),
+            percentProgress: 1,
+            repetitionNumber: 1));
+        challenge.repetitions.add(repetition);
+
+        // Act
+        double currentPercentage = challenge.getCurrentPercentage();
+
+        // Assert
+        expect(currentPercentage, equals(1));
+      });
+
+      test('should return current percentage when frequency amount is null',
+          () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.amount = null;
+        RepetitionModel repetition1 = createMockRepetitionModel();
+        repetition1.progressList.add(ProgressModel(
+            progress: 1,
+            mediaIds: [],
+            date: DateTime.now(),
+            percentProgress: 1,
+            repetitionNumber: 1));
+
+        RepetitionModel repetition2 = createMockRepetitionModel();
+        repetition2.progressList.clear();
+
+        challenge.repetitions.add(repetition1);
+        challenge.repetitions.add(repetition2);
+
+        // Act
+        double currentPercentage = challenge.getCurrentPercentage();
+
+        // Assert
+        expect(currentPercentage, equals(0.5));
+      });
+    });
+
+    group('canEndRepetition()', () {
+      test('should return true when repetition is in progress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.time;
+        challenge.frequency.amount = 2;
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+        challenge.repetitions.add(repetition);
+
+        // Act
+        bool canEndRepetition = challenge.canEndRepetition();
+
+        // Assert
+        expect(canEndRepetition, equals(true));
+      });
+
+      test('should return false when repetition is not in progress', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.repetitionStatus = RepetitionStatusEnum.failed;
+        challenge.repetitions.add(repetition);
+
+        // Act
+        bool canEndRepetition = challenge.canEndRepetition();
+
+        // Assert
+        expect(canEndRepetition, equals(false));
+      });
+    });
+
+    group('nextIn()', () {
+      test('should return "" when frequency type is time', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.time;
+
+        // Act
+        String nextIn = challenge.nextIn();
+
+        // Assert
+        expect(nextIn, equals(''));
+      });
+
+      test('should return "0 min" when there is no current repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.daily;
+        challenge.startDate = null;
+        challenge.repetitions = [];
+
+        // Act
+        String nextIn = challenge.nextIn();
+
+        // Assert
+        expect(nextIn, equals('0 min'));
+      });
+
+      test('should return next in h when there is a current repetition', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        challenge.frequency.type = FrequencyTypeEnum.daily;
+        challenge.startDate =
+            DateTime.now().subtract(const Duration(minutes: 59));
+        challenge.repetitions = [];
+
+        // Act
+        String nextIn = challenge.nextIn();
+
+        // Assert
+        expect(nextIn, equals('23 h'));
+      });
+    });
+
+    group('removeMedia()', () {
+      test('should remove media from media list', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        MediaModel media = MediaModel(
+            source: 'source', type: MediaTypeEnum.image, title: 'title');
+        RepetitionModel repetition = createMockRepetitionModel();
+        repetition.progressList.clear();
+        repetition.progressList.add(ProgressModel(
+            progress: 1,
+            mediaIds: [media.id!],
+            date: DateTime.now(),
+            percentProgress: 1,
+            repetitionNumber: 1));
+
+        challenge.media.add(media);
+        challenge.repetitions.add(repetition);
+
+        // Act
+        challenge.removeMedia(media);
+
+        // Assert
+        expect(challenge.media, equals([]));
+        expect(repetition.progressList.first.mediaIds, equals([]));
       });
     });
   });
