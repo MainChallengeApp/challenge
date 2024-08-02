@@ -103,7 +103,7 @@
     "description": "Turn your space into a sanctuary with the 'Cleaning Up' challenge. Clear the clutter, organize chaos, and rediscover the joy of a tidy environment. It's not just about cleaning; it's a transformative journey to create a space that nurtures peace and productivity. Embrace the clean slate! 🧹\n\nAds:\n - Vacuum Cleaner Robot ( https://amzn.to/420iKE6 )\n",
     "thumbnailPath": "assets/images/dusting.png",
     "acceptanceCriteria": {
-      "amount": 2.0,
+      "amount": 1.0,
       "unit": "Hours"
     },
     "frequency": { "amount": 1, "type": "time" },
@@ -271,8 +271,8 @@
     "description": "Embark on the 'Drinking Water' Challenge to elevate your well-being. Hydrate your body and mind, savoring the refreshing benefits of water. Track your daily intake, building a habit that revitalizes your vitality. Dive into this challenge, and let the flow of hydration cascade into a healthier, more invigorated you! 🚰\n\nAds:\n - Bottle with Timer ( https://amzn.to/3U2KHct )\n",
     "thumbnailPath": "assets/images/water.png",
     "acceptanceCriteria": {
-      "amount": 1.0,
-      "unit": "Day"
+      "amount": 2.0,
+      "unit": "Liters"
     },
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
@@ -439,10 +439,10 @@
     "description": "Embark on a 'Gratitude Journaling' and discover the transformative power of appreciation. Each day, reflect on the positive aspects of your life, cultivating a mindset of thankfulness. Small moments can have a big impact – join this challenge to unlock a more fulfilling and positive existence. 🙏🏼\n\nAds:\n - 'Dankbarkeitstagebuch' ( https://amzn.to/48DuZJw )\n",
     "thumbnailPath": "assets/images/thankful.png",
     "acceptanceCriteria": {
-      "amount": 100.0,
+      "amount": 3.0,
       "unit": "Entries"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 100, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["mentalHealth", "social"]
@@ -496,7 +496,7 @@
     "thumbnailPath": "assets/images/high-jump.png",
     "acceptanceCriteria": {
       "amount": 1.0,
-      "unit": "Meters"
+      "unit": "Meter"
     },
     "frequency": { "amount": 1, "type": "daily" },
     "media": [],
@@ -510,7 +510,7 @@
     "thumbnailPath": "assets/images/hiker.png",
     "acceptanceCriteria": {
       "amount": 10.0,
-      "unit": "Km"
+      "unit": "Kilometers"
     },
     "frequency": { "amount": 1, "type": "time" },
     "media": [],
@@ -540,7 +540,7 @@
       "amount": 3.0,
       "unit": "Min"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth", "mentalHealth"]
@@ -568,7 +568,7 @@
       "amount": 1.0,
       "unit": "Session"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth"]
@@ -621,8 +621,8 @@
     "description": "Immerse yourself in tranquility with the 'Meditation' Challenge. Dedicate a daily session to finding inner peace and enhancing mental well-being. Harness the power of mindfulness, and let each moment guide you to a calmer, more centered self. 🧘‍♂️\n\nAds:\n - Meditation Pillow ( https://amzn.to/3UbdSdH )\n",
     "thumbnailPath": "assets/images/meditation.png",
     "acceptanceCriteria": {
-      "amount": 1.0,
-      "unit": "Meditation"
+      "amount": 10.0,
+      "unit": "Minutes"
     },
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
@@ -691,10 +691,10 @@
     "description": "Dive into a linguistic odyssey with the 'New Language' Challenge. Explore the beauty of communication as you learn the intricacies of a foreign tongue. From greetings to fluency, embrace the richness of diverse expressions and broaden your global horizons. 🌐\n\nAds:\n - 'Wie man jede Sprache in nur 7 Wochen lernt' ( https://amzn.to/4b1l41O )\n",
     "thumbnailPath": "assets/images/languages.png",
     "acceptanceCriteria": {
-      "amount": 100.0,
+      "amount": 1.0,
       "unit": "Session"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 100, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["mentalHealth", "social"]
@@ -736,7 +736,7 @@
       "amount": 1.0,
       "unit": "Night"
     },
-    "frequency": { "amount": 1, "type": "time" },
+    "frequency": { "amount": 1, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["other"]
@@ -792,7 +792,7 @@
       "amount": 10.0,
       "unit": "Photos"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
     "categories": ["other"]
@@ -817,10 +817,10 @@
     "description": "Dive into the world of podcasting! Share your insights, stories, or passions. Craft engaging narratives, explore intriguing topics, and connect with your audience through the power of your voice. Unleash your creativity and make waves in the podcasting realm. 🎙️\n\nAds:\n - Microphone ( https://amzn.to/3vODLFJ )\n",
     "thumbnailPath": "assets/images/podcast.png",
     "acceptanceCriteria": {
-      "amount": 10.0,
+      "amount": 1.0,
       "unit": "Episodes"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 10, "type": "time" },
     "media": [],
     "repetitions": [],
     "categories": ["social"]
@@ -848,7 +848,7 @@
       "amount": 1.0,
       "unit": "Work of art"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
     "categories": ["other"]
@@ -890,7 +890,7 @@
       "amount": 1.0,
       "unit": "Book"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
     "categories": ["mentalHealth"]
@@ -915,10 +915,10 @@
     "description": "Hit the pavement, feel the rhythm, and conquer each stride. Whether a beginner or a seasoned runner, set new goals, surpass limits, and savor the runner's high. Ready, set, run your path to victory! 🏃‍♂️\n\nAds:\n - Drinking Bag ( https://amzn.to/3O7CMXM )\n",
     "thumbnailPath": "assets/images/runner.png",
     "acceptanceCriteria": {
-      "amount": 10.0,
+      "amount": 2.0,
       "unit": "Km"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth"]
@@ -946,7 +946,7 @@
       "amount": 15.0,
       "unit": "Min"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth"]
@@ -1002,7 +1002,7 @@
       "amount": 10000.0,
       "unit": "Steps"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth"]
@@ -1013,8 +1013,8 @@
     "description": "Embrace flexibility and enhance your well-being with our Stretching Challenge. Dedicate time each day to stretch your muscles, improve posture, and find balance. Feel the tension melt away as you embark on a journey to a more flexible and rejuvenated you. 🤸‍♂️\n\nAds:\n - Gym Mat ( https://amzn.to/3U6bftp )\n",
     "thumbnailPath": "assets/images/stretching.png",
     "acceptanceCriteria": {
-      "amount": 1.0,
-      "unit": "Day"
+      "amount": 15.0,
+      "unit": "Minutes"
     },
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
@@ -1097,10 +1097,10 @@
     "description": "Journey through diverse landscapes and cultures. Immerse yourself in new experiences, savor local flavors, and uncover the beauty of different places. Whether it's vibrant cities or serene nature, let every destination tell a unique story. Travel to broaden your horizons, create lasting memories, and let the world become your teacher. 🌍\n\nAds:\n - Suitcase ( https://amzn.to/3U6Mxcg )\n",
     "thumbnailPath": "assets/images/travel.png",
     "acceptanceCriteria": {
-      "amount": 14.0,
-      "unit": "Days"
+      "amount": 1.0,
+      "unit": "Day"
     },
-    "frequency": { "amount": 1, "type": "time" },
+    "frequency": { "amount": 14, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth", "mentalHealth", "social"]
@@ -1112,7 +1112,7 @@
     "thumbnailPath": "assets/images/walking.png",
     "acceptanceCriteria": {
       "amount": 1.0,
-      "unit": "Day"
+      "unit": "Walk"
     },
     "frequency": { "amount": 30, "type": "daily" },
     "media": [],
@@ -1142,7 +1142,7 @@
       "amount": 80.0,
       "unit": "Kg"
     },
-    "frequency": { "amount": 30, "type": "daily" },
+    "frequency": { "amount": 1, "type": "time" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth", "mentalHealth"]
@@ -1156,7 +1156,7 @@
       "amount": 1.0,
       "unit": "Session"
     },
-    "frequency": { "amount": 10, "type": "daily" },
+    "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth", "mentalHealth"]
