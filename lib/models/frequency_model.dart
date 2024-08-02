@@ -1,5 +1,5 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/utils/design_util.dart';
+import 'package:challenge/exceptions/frequency_type_is_not_supported_exception.dart';
 
 class FrequencyModel {
   int? amount;
@@ -19,15 +19,11 @@ class FrequencyModel {
     } else if (type == FrequencyTypeEnum.time) {
       return amount;
     } else {
-      return 0;
+      throw FrequencyTypeIsNotSupportedException(type.text);
     }
   }
 
-  setAmountByStartAndEndDate(DateTime startDate, DateTime endDate) {
-    amount = startDate.difference(endDate).inDays;
-  }
-
-  String dayDaysTimeOrTimes() {
+  String typeToString() {
     return type == FrequencyTypeEnum.daily
         ? amount == 1
             ? 'Day'
@@ -36,34 +32,27 @@ class FrequencyModel {
             ? amount == 1
                 ? 'Time'
                 : 'Times'
-            : '';
+            : throw FrequencyTypeIsNotSupportedException(type.text);
   }
 
-  static fromJson(json) {
-    return FrequencyModel(
-        amount: json['amount'], type: FrequencyTypeEnum.factory(json['type']));
+  static FrequencyModel fromJson(json) {
+    try {
+      return FrequencyModel(
+          amount: json['amount'],
+          type: FrequencyTypeEnum.factory(json['type']));
+    } on Exception {
+      rethrow;
+    }
   }
 
-  static Map<String, dynamic> toJson(FrequencyModel frequency) {
+  Map<String, dynamic> toJson() {
     return {
-      'amount': frequency.amount,
-      'type': frequency.type.toString2(),
+      'amount': amount,
+      'type': type.text,
     };
   }
 
-  static copyFrequency(FrequencyModel frequency) {
-    return FrequencyModel(type: frequency.type, amount: frequency.amount);
-  }
-
-  nextIn() {
-    if (type == FrequencyTypeEnum.daily) {
-      Duration difference = DesignUtil.dateWithoutTime(
-              DateTime.now().add(const Duration(days: 1)))
-          .difference(DateTime.now());
-      if (difference.inHours <= 0) {
-        return '${difference.inMinutes} min';
-      }
-      return '${difference.inHours.toString()} h';
-    }
+  FrequencyModel copy() {
+    return FrequencyModel(type: type, amount: amount);
   }
 }

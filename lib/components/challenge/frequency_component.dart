@@ -1,10 +1,10 @@
-import 'package:challenge/models/frequency_model.dart';
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/frequency_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -71,7 +71,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         },
         items: frequencyMap.entries.map((e) {
           return DropdownMenuItem<String>(
-              value: e.key.toString2(),
+              value: e.key.text,
               child: Text(
                 frequency.amount != 1 ? '${e.value}s' : e.value,
                 style: const TextStyle(fontSize: basicFontSize),

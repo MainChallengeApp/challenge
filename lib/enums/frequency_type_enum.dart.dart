@@ -1,21 +1,16 @@
+import 'package:challenge/exceptions/frequency_type_is_not_supported_exception.dart';
+
 enum FrequencyTypeEnum {
-  time,
-  daily,
-  weekday;
+  time('time'),
+  daily('daily'),
+  weekday('weekday');
 
-  // const ChallengeStatus(String status);
+  final String text;
 
-  static FrequencyTypeEnum factory(String frequencyType) {
-    if (frequencyType == 'daily') {
-      return FrequencyTypeEnum.daily;
-    } else if (frequencyType == 'weekday') {
-      return FrequencyTypeEnum.weekday;
-    } else {
-      return FrequencyTypeEnum.time;
-    }
-  }
+  const FrequencyTypeEnum(this.text);
 
-  String toString2() {
-    return toString().split('.')[1];
+  static FrequencyTypeEnum factory(String text) {
+    return FrequencyTypeEnum.values.firstWhere((e) => e.text == text,
+        orElse: () => throw FrequencyTypeIsNotSupportedException(text));
   }
 }

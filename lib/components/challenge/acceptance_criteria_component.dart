@@ -81,10 +81,10 @@ class _AcceptanceCriteriaComponentState
         : widget.challenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}')
+                    '${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.typeToString()}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.dayDaysTimeOrTimes()}');
+                    '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.typeToString()}');
   }
 
   repetitionProgressAbsolute() {
