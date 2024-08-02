@@ -80,7 +80,7 @@ class ChallengeModel {
           categories: ChallengeCategoryEnum.fromJsonList(json['categories']));
       return challenge;
     } on Exception {
-      throw Exception();
+      rethrow;
     }
   }
 
@@ -93,8 +93,8 @@ class ChallengeModel {
       'thumbnailPath': thumbnailPath,
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
-      'acceptanceCriteria': AcceptanceCriteriaModel.toJson(acceptanceCriteria),
-      'frequency': FrequencyModel.toJson(frequency),
+      'acceptanceCriteria': acceptanceCriteria.toJson(),
+      'frequency': frequency.toJson(),
       'repetitions': RepetitionModel.toJsonList(repetitions),
       'media': MediaModel.toJsonList(media),
       'categories': ChallengeCategoryEnum.toJsonList(categories)
@@ -113,7 +113,7 @@ class ChallengeModel {
         acceptanceCriteria: AcceptanceCriteriaModel.copyAcceptanceCriteria(
             acceptanceCriteria,
             isTryAgain: isTryAgain),
-        frequency: FrequencyModel.copyFrequency(frequency),
+        frequency: frequency.copy(),
         repetitions:
             isTryAgain ? [] : RepetitionModel.copyRepetitionList(repetitions),
         media: isTryAgain ? [] : MediaModel.copyMediaList(media),
@@ -424,30 +424,6 @@ class ChallengeModel {
     return currentPercentage;
   }
 
-  static List<ChallengeModel> copyChallengeListWithId(
-      {required List<ChallengeModel> challenges}) {
-    List<ChallengeModel> challengeCopies = [];
-    for (var challenge in challenges) {
-      challengeCopies.add(challenge.copyChallenge(withId: true));
-    }
-    return challengeCopies;
-  }
-
-  static List<ChallengeModel> sortChallengeList(
-      {required List<ChallengeModel> challenges}) {
-    for (ChallengeModel challenge in challenges) {
-      challenge.checkChallengeStatus();
-    }
-    challenges.sort((a, b) =>
-        (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
-            ? 1
-            : (b.isSucceeded() || b.isFailed()) &&
-                    !(a.isSucceeded() || a.isFailed())
-                ? -1
-                : a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
-    return challenges;
-  }
-
   bool canEndRepetition() {
     return frequency.type == FrequencyTypeEnum.time &&
         getCurrentRepetition()?.isInProgress() &&
@@ -477,5 +453,28 @@ class ChallengeModel {
         progress.mediaIds.remove(media.id);
       }
     }
+  }
+
+  // Challenge List Functions
+
+  static List<ChallengeModel> sortChallengeList(
+      {required List<ChallengeModel> challenges}) {
+    for (ChallengeModel challenge in challenges) {
+      challenge.checkChallengeStatus();
+    }
+    challenges.sort((a, b) =>
+        (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
+            ? 1
+            : (b.isSucceeded() || b.isFailed()) &&
+                    !(a.isSucceeded() || a.isFailed())
+                ? -1
+                : a.isInProgress() && b.isInBacklog()
+                    ? 1
+                    : b.isInProgress() && a.isInBacklog()
+                        ? -1
+                        : a
+                            .getCurrentPercentage()
+                            .compareTo(b.getCurrentPercentage()));
+    return challenges;
   }
 }

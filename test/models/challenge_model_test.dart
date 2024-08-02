@@ -13,10 +13,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ChallengeModel', () {
-    ChallengeModel createMockChallengeModel() {
+    ChallengeModel createMockChallengeModel(
+        {ChallengeStatusEnum status = ChallengeStatusEnum.inProgress,
+        DateTime? startDate,
+        DateTime? endDate}) {
       return ChallengeModel(
         id: '1',
-        status: ChallengeStatusEnum.inProgress,
+        status: status,
         title: 'Challenge Title',
         description: 'Challenge Description',
         thumbnailPath: 'assets/images/test.png',
@@ -25,8 +28,8 @@ void main() {
         repetitions: [],
         media: [],
         categories: [ChallengeCategoryEnum.mentalHealth],
-        startDate: DateTime.now(),
-        endDate: DateTime.now().add(const Duration(days: 1)),
+        startDate: startDate ?? DateTime.now(),
+        endDate: endDate ?? DateTime.now().add(const Duration(days: 1)),
       );
     }
 
@@ -1461,6 +1464,83 @@ void main() {
         // Assert
         expect(challenge.media, equals([]));
         expect(repetition.progressList.first.mediaIds, equals([]));
+      });
+    });
+
+    group('sortChallenges()', () {
+      test('should sort Challenges by status and percentage', () {
+        // Arrange
+        ChallengeModel challengeInBacklog = createMockChallengeModel(
+            status: ChallengeStatusEnum.backlog,
+            startDate: DateTime.now().add(const Duration(days: 1)));
+
+        ChallengeModel challengeInProgress = createMockChallengeModel(
+            status: ChallengeStatusEnum.inProgress,
+            startDate: DateTime.now().subtract(const Duration(days: 1)));
+
+        ChallengeModel challengeSuccess = createMockChallengeModel(
+            status: ChallengeStatusEnum.success,
+            startDate: DateTime.now().subtract(const Duration(days: 2)),
+            endDate: DateTime.now().subtract(const Duration(days: 1)));
+        challengeSuccess.repetitions.add(createMockRepetitionModel());
+
+        ChallengeModel challengeFailed = createMockChallengeModel(
+            status: ChallengeStatusEnum.failed,
+            startDate: DateTime.now().subtract(const Duration(days: 2)),
+            endDate: DateTime.now().subtract(const Duration(days: 1)));
+
+        List<ChallengeModel> challenges = [
+          challengeFailed,
+          challengeSuccess,
+          challengeInProgress,
+          challengeInBacklog
+        ];
+
+        // Act
+        List<ChallengeModel> sortedChallenges =
+            ChallengeModel.sortChallengeList(challenges: challenges);
+
+        // Assert
+        expect(sortedChallenges[0].status, equals(ChallengeStatusEnum.backlog));
+        expect(
+            sortedChallenges[1].status, equals(ChallengeStatusEnum.inProgress));
+        expect(sortedChallenges[2].status, equals(ChallengeStatusEnum.failed));
+        expect(sortedChallenges[3].status, equals(ChallengeStatusEnum.success));
+      });
+
+      test('should sort Challenges by status and percentage', () {
+        // Arrange
+        ChallengeModel challengeInBacklog = createMockChallengeModel(
+            status: ChallengeStatusEnum.backlog,
+            startDate: DateTime.now().add(const Duration(days: 1)));
+
+        ChallengeModel challengeInProgress = createMockChallengeModel(
+            status: ChallengeStatusEnum.inProgress,
+            startDate: DateTime.now().subtract(const Duration(days: 1)));
+
+        ChallengeModel challengeSuccess = createMockChallengeModel(
+            status: ChallengeStatusEnum.success,
+            startDate: DateTime.now().subtract(const Duration(days: 2)),
+            endDate: DateTime.now().subtract(const Duration(days: 1)));
+        challengeSuccess.repetitions.add(createMockRepetitionModel());
+
+        List<ChallengeModel> challenges = [
+          challengeInBacklog,
+          challengeSuccess,
+          challengeInProgress,
+          challengeInBacklog
+        ];
+
+        // Act
+        List<ChallengeModel> sortedChallenges =
+            ChallengeModel.sortChallengeList(challenges: challenges);
+
+        // Assert
+        expect(sortedChallenges[0].status, equals(ChallengeStatusEnum.backlog));
+        expect(sortedChallenges[1].status, equals(ChallengeStatusEnum.backlog));
+        expect(
+            sortedChallenges[2].status, equals(ChallengeStatusEnum.inProgress));
+        expect(sortedChallenges[3].status, equals(ChallengeStatusEnum.success));
       });
     });
   });
