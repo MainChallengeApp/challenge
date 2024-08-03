@@ -120,7 +120,7 @@
       "amount": 1000.0,
       "unit": "Stairs"
     },
-    "frequency": { "amount": 1, "type": "daily" },
+    "frequency": { "amount": 30, "type": "daily" },
     "media": [],
     "repetitions": [],
     "categories": ["physicalHealth"]
