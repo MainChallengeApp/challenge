@@ -1,7 +1,7 @@
 import 'package:challenge/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/components/challenge/frequency_component.dart';
 import 'package:challenge/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/components/edit_challenge/description_big_component.dart';
+import 'package:challenge/components/edit_challenge/edit_description_component.dart';
 import 'package:challenge/components/edit_challenge/expanded_text_field_component.dart';
 import 'package:challenge/components/edit_challenge/upload_thumbnail_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -9,6 +9,7 @@ import 'package:challenge/components/navigation/bottom_navigation_component.dart
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
@@ -48,6 +49,8 @@ class EditChallengePage extends StatefulWidget {
 class _EditChallengePageState extends State<EditChallengePage> {
   ChallengeController challengeController = ChallengeController();
 
+  bool isDescriptionExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -65,56 +68,82 @@ class _EditChallengePageState extends State<EditChallengePage> {
               amountAndUnit(),
               frequency(),
               startAndEndDate(),
-              Expanded(child: Container()),
-              cancelAndSaveButton()
+              // member(),
+              Visibility(
+                  visible: !isDescriptionExpanded,
+                  child: Expanded(child: Container())),
+              cancelAndSaveOrAcceptButton()
             ],
           ),
           bottomNavigationBar: const BottomNavigationComponent()),
     );
   }
 
-  cancelAndSaveButton() {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomButtonComponent(
-            onTap: onTapCancel,
-            text: 'Cancel',
+  cancelAndSaveOrAcceptButton() {
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomButtonComponent(
+              onTap: onTapCancel,
+              text: 'Cancel',
+            ),
           ),
-        ),
-        const SpaceComponent(),
-        Expanded(
-          child: CustomButtonComponent(
-            onTap: onTapSave,
-            text: 'Save',
-            isPrimaryButton: true,
-          ),
-        ),
-      ],
+          const SpaceComponent(),
+          widget.isSearchEdit || widget.isSearchNewChallenge
+              ? Expanded(
+                  child: CustomButtonComponent(
+                    onTap: onTapAccept,
+                    text: 'Accept',
+                    isPrimaryButton: true,
+                  ),
+                )
+              : Expanded(
+                  child: CustomButtonComponent(
+                    onTap: onTapSave,
+                    text: 'Save',
+                    isPrimaryButton: true,
+                  ),
+                ),
+        ],
+      ),
     );
   }
 
   startAndEndDate() {
-    return Column(
-      children: [
-        StartAndEndDateComponent(
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: SpaceColumnComponent(
+        heightMultiplier: 2,
+        child: StartAndEndDateComponent(
           editChallenge: widget.editChallenge,
           reloadSearchChallengePage: () => setState(
             () {},
           ),
         ),
-        const SpaceComponent()
-      ],
+      ),
     );
   }
 
   description() {
-    return Column(
-      children: [
-        DescriptionBigComponent(editChallenge: widget.editChallenge),
-        const SpaceComponent()
-      ],
+    EditDescriptionComponent descriptionComponent = EditDescriptionComponent(
+      challenge: widget.editChallenge,
+      isDescriptionExpanded: isDescriptionExpanded,
+      onTap: () => setState(() {
+        isDescriptionExpanded = !isDescriptionExpanded;
+      }),
     );
+    return isDescriptionExpanded
+        ? Expanded(child: descriptionComponent)
+        : Column(
+            children: [
+              descriptionComponent,
+              const SpaceComponent(
+                heightMultiplier: 2,
+              )
+            ],
+          );
   }
 
   thumbnailUploadAndTitle() {
@@ -134,6 +163,35 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   void onTapCancel() {
     Navigator.pop(context);
+  }
+
+  void onTapAccept() async {
+    ChallengeModel challengeCopy = widget.editChallenge.copyChallenge();
+
+    ChallengeController challengeController = ChallengeController();
+    allChallengesList.insert(0, challengeCopy);
+    challengeList.insert(0, challengeCopy);
+    await challengeController.writeFile(allChallengesList);
+
+    // ignore: use_build_context_synchronously
+    context.read<TabProvider>().selectTab(TabItemEnum.Home);
+
+    var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
+
+    homeNavigator.popUntil((route) => route.isFirst);
+
+    homeNavigator
+        .push(
+      NoAnimationPageRouteComponent(
+        builder: (context) => const HomeChallengePage(
+          preTitle: 'Home',
+          initialChallengeIndex: 0,
+        ),
+      ),
+    )
+        .then((value) {
+      homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
+    });
   }
 
   void onTapSave() async {
@@ -227,18 +285,41 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   amountAndUnit() {
-    return SpaceColumnComponent(
-      child: AmountAndUnitComponent(
-          acceptanceCriteria: widget.editChallenge.acceptanceCriteria),
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: SpaceColumnComponent(
+        child: AmountAndUnitComponent(
+            acceptanceCriteria: widget.editChallenge.acceptanceCriteria),
+      ),
     );
   }
 
   frequency() {
-    return SpaceColumnComponent(
-      child: FrequencyComponent(
-        challenge: widget.editChallenge,
-        reloadSearchChallengePage: () => setState(
-          () {},
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: SpaceColumnComponent(
+        child: FrequencyComponent(
+          challenge: widget.editChallenge,
+          reloadSearchChallengePage: () => setState(
+            () {},
+          ),
+        ),
+      ),
+    );
+  }
+
+  member() {
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: const SpaceColumnComponent(
+        child: CustomContainerComponent(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Add Member'),
+              Icon(Icons.arrow_forward_ios_rounded),
+            ],
+          ),
         ),
       ),
     );
