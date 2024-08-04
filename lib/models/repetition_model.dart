@@ -1,5 +1,4 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/progress_model.dart';
 
 class RepetitionModel {
@@ -33,10 +32,6 @@ class RepetitionModel {
     }
 
     return progressList.last.progress >= goalAmount;
-  }
-
-  bool isFailed(ChallengeModel challenge) {
-    return repetitionStatus == RepetitionStatusEnum.failed;
   }
 
   isInProgress() {
@@ -80,10 +75,6 @@ class RepetitionModel {
     return repetitionStatus;
   }
 
-  isCurrentRepetition(ChallengeModel challenge) {
-    return challenge.getCurrentRepetitionNumber() == repetitionNumber;
-  }
-
   double getLastProgressPercentage() {
     if (progressList.isEmpty) {
       return 0;
@@ -117,17 +108,15 @@ class RepetitionModel {
     return progress;
   }
 
-  static toJsonList(List<RepetitionModel> repetitions) {
-    return repetitions
-        .map((e) => {
-              'repetitionNumber': e.repetitionNumber,
-              'goalAmount': e.goalAmount,
-              'progressList': ProgressModel.toJsonList(e.progressList),
-              'startDate': e.startDate.toString(),
-              'endDate': e.endDate.toString(),
-              'repetitionStatus': e.repetitionStatus.toString()
-            })
-        .toList();
+  toJson() {
+    return {
+      'repetitionNumber': repetitionNumber,
+      'goalAmount': goalAmount,
+      'progressList': ProgressModel.toJsonList(progressList),
+      'startDate': startDate.toString(),
+      'endDate': endDate.toString(),
+      'repetitionStatus': repetitionStatus.toString()
+    };
   }
 
   static fromJsonList(json) {
@@ -152,24 +141,27 @@ class RepetitionModel {
     return list;
   }
 
-  static copyRepetition(RepetitionModel repetition) {
+  copyRepetition() {
     RepetitionModel repetitionCopy = RepetitionModel(
-        repetitionNumber: repetition.repetitionNumber,
-        goalAmount: repetition.goalAmount,
-        progressList: ProgressModel.copyProgressList(repetition.progressList),
-        repetitionStatus: repetition.repetitionStatus);
+        repetitionNumber: repetitionNumber,
+        goalAmount: goalAmount,
+        progressList: ProgressModel.copyProgressList(progressList),
+        repetitionStatus: repetitionStatus,
+        startDate: startDate,
+        endDate: endDate);
+
     return repetitionCopy;
   }
 
   static copyRepetitionList(List<RepetitionModel> repetitionList) {
     List<RepetitionModel> repetitionListCopy = [];
-    for (var e in repetitionList) {
-      repetitionListCopy.add(RepetitionModel.copyRepetition(e));
+    for (var repetition in repetitionList) {
+      repetitionListCopy.add(repetition.copyRepetition());
     }
     return repetitionListCopy;
   }
 
-  void deleteProgress(int progressIndex) {
-    progressList.removeAt(progressIndex);
+  void deleteProgress(ProgressModel progress) {
+    progressList.remove(progress);
   }
 }

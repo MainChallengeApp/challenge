@@ -47,7 +47,7 @@ class ProgressModel {
         mediaIds: List.from(e['mediaIds']),
         percentProgress: e['percentProgress'],
         date: DateTime.parse(e['date']),
-        repetitionNumber: e['frequencyAmount'])));
+        repetitionNumber: e['repetitionNumber'])));
     return progressList;
   }
 
@@ -58,7 +58,7 @@ class ProgressModel {
               'progress': progress.progress,
               'percentProgress': progress.percentProgress,
               'mediaIds': progress.mediaIds,
-              'frequencyAmount': progress.repetitionNumber
+              'repetitionNumber': progress.repetitionNumber
             })
         .toList();
   }
@@ -66,18 +66,18 @@ class ProgressModel {
   static copyProgressList(List<ProgressModel> progressList) {
     List<ProgressModel> list = [];
     for (var progress in progressList) {
-      list.add(copyProgress(progress));
+      list.add(progress.copyProgress());
     }
     return list;
   }
 
-  static copyProgress(ProgressModel progress) {
+  copyProgress() {
     return ProgressModel(
-        date: progress.date,
-        progress: progress.progress,
-        mediaIds: MediaModel.copyMediaIdList(progress.mediaIds),
-        percentProgress: progress.percentProgress,
-        repetitionNumber: progress.repetitionNumber);
+        date: date,
+        progress: progress,
+        mediaIds: MediaModel.copyMediaIdList(mediaIds),
+        percentProgress: percentProgress,
+        repetitionNumber: repetitionNumber);
   }
 
   static copyOrCreateProgress(ProgressModel? progress, int repetitionNumber,
@@ -88,15 +88,6 @@ class ProgressModel {
           mediaIds: mediaIds,
           progress: progressProgress);
     }
-    return copyProgress(progress);
-  }
-
-  static emptyProgress(int frequencyAmount) {
-    return ProgressModel(
-        progress: 0,
-        mediaIds: [],
-        date: DateTime.now(),
-        percentProgress: 0,
-        repetitionNumber: frequencyAmount);
+    return progress.copyProgress();
   }
 }

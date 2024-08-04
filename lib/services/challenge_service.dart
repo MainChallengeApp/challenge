@@ -1,6 +1,7 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/progress_model.dart';
 import 'package:challenge/models/repetition_model.dart';
 
 class ChallengeService {
@@ -45,9 +46,9 @@ class ChallengeService {
     // TODO: implement addProgress
   }
 
-  void deleteProgress(
-      ChallengeModel challenge, RepetitionModel repetition, int progressIndex) {
-    repetition.deleteProgress(progressIndex);
+  void deleteProgress(ChallengeModel challenge, RepetitionModel repetition,
+      ProgressModel progress) {
+    repetition.deleteProgress(progress);
     allChallengesList = allChallengesList.map((e) {
       return e.id == challenge.id ? challenge : e;
     }).toList();

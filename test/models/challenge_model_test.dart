@@ -3,6 +3,7 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/exceptions/challenge_category_is_not_supported_exception.dart';
 import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/models/frequency_model.dart';
@@ -129,6 +130,28 @@ void main() {
 
         // Act & Assert
         expect(() => ChallengeModel.fromJson(json), throwsA(isA<TypeError>()));
+      });
+
+      test('should throw Challenge Category is not supported Exception', () {
+        // Arrange
+        Map<String, dynamic> json = {
+          'id': '1',
+          'status': 'backlog',
+          'title': 'Challenge Title',
+          'description': 'Challenge Description',
+          'thumbnailPath': 'assets/images/test.png',
+          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
+          'frequency': {'type': 'time', 'amount': 1},
+          'repetitions': [],
+          'media': [],
+          'categories': ['notSupportedCategory'],
+          'startDate': DateTime.now().toString(),
+          'endDate': DateTime.now().add(const Duration(days: 1)).toString()
+        };
+
+        // Act & Assert
+        expect(() => ChallengeModel.fromJson(json),
+            throwsA(isA<ChallengeCategoryIsNotSupportedException>()));
       });
     });
 

@@ -120,8 +120,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 repetition.repetitionStatus == RepetitionStatusEnum.failed,
             onTap: () => onTapProgress(progress),
             isSlidable: true,
-            onTapDeleteProgress: () => onTapDeleteProgress(
-                repetition, repetition.progressList.indexOf(progress)),
+            onTapDeleteProgress: () =>
+                onTapDeleteProgress(repetition, progress),
             progress: progress,
             challenge: widget.challenge,
             unit: acceptanceCriteria.unit,
@@ -274,10 +274,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
         });
   }
 
-  onTapDeleteProgress(RepetitionModel repetition, int progressIndex) {
+  onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
     setState(() {
-      challengeService.deleteProgress(
-          widget.challenge, repetition, progressIndex);
+      challengeService.deleteProgress(widget.challenge, repetition, progress);
     });
   }
 

@@ -610,8 +610,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
 
     setState(() {
-      challengeService.deleteProgress(widget.challenge, widget.repetition!,
-          widget.repetition!.progressList.indexOf(widget.progress!));
+      challengeService.deleteProgress(
+          widget.challenge, widget.repetition!, widget.progress!);
     });
     Navigator.pop(context);
   }

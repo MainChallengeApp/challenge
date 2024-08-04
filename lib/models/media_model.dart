@@ -27,15 +27,8 @@ class MediaModel {
     return list;
   }
 
-  static toJsonList(List<MediaModel> media) {
-    return media
-        .map((e) => {
-              'id': e.id,
-              'type': e.type.toString(),
-              'title': e.title,
-              'source': e.source
-            })
-        .toList();
+  toJson() {
+    return {'id': id, 'type': type.type, 'title': title, 'source': source};
   }
 
   static copyMediaIdList(List<String> mediaIdList) {

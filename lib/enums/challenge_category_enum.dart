@@ -1,17 +1,19 @@
+import 'package:challenge/exceptions/challenge_category_is_not_supported_exception.dart';
+
 enum ChallengeCategoryEnum {
   physicalHealth('physicalHealth'),
   mentalHealth('mentalHealth'),
   social('social'),
   other('other');
 
-  const ChallengeCategoryEnum(this.value);
+  const ChallengeCategoryEnum(this.category);
 
-  final String value;
+  final String category;
 
-  static ChallengeCategoryEnum factory(String status) {
-    return ChallengeCategoryEnum.values.firstWhere((e) => e.value == status,
-        orElse: () =>
-            throw Exception('Invalid ChallengeCategoryEnum value: $status'));
+  static ChallengeCategoryEnum factory(String category) {
+    return ChallengeCategoryEnum.values.firstWhere(
+        (e) => e.category == category,
+        orElse: () => throw ChallengeCategoryIsNotSupportedException(category));
   }
 
   static List<ChallengeCategoryEnum> fromJsonList(List json) {
@@ -20,14 +22,6 @@ enum ChallengeCategoryEnum {
       list.add(factory(item));
     }
     return list;
-  }
-
-  static List<String> toJsonList(List<ChallengeCategoryEnum> list) {
-    List<String> jsonList = [];
-    for (var item in list) {
-      jsonList.add(item.value);
-    }
-    return jsonList;
   }
 
   static List<ChallengeCategoryEnum> copyCategoryList(

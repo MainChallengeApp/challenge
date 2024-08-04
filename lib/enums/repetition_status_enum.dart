@@ -1,18 +1,19 @@
+import 'package:challenge/exceptions/repetition_status_is_not_supported_exception.dart';
+
 enum RepetitionStatusEnum {
-  success,
-  failed,
-  inProgress,
-  backlog;
+  success('success'),
+  failed('failed'),
+  inProgress('inProgress'),
+  backlog('backlog');
+
+  const RepetitionStatusEnum(this.status);
+
+  final String status;
 
   static RepetitionStatusEnum factory(String status) {
-    if (status == 'success') {
-      return RepetitionStatusEnum.success;
-    } else if (status == 'failed') {
-      return RepetitionStatusEnum.failed;
-    } else if (status == 'backlog') {
-      return RepetitionStatusEnum.backlog;
-    } else {
-      return RepetitionStatusEnum.inProgress;
-    }
+    return RepetitionStatusEnum.values.firstWhere(
+      (element) => element.status == status,
+      orElse: () => throw RepetitionStatusIsNotSupportedException(status),
+    );
   }
 }

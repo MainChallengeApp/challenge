@@ -1,17 +1,16 @@
+import 'package:challenge/exceptions/media_type_is_not_supported_exception.dart';
+
 enum MediaTypeEnum {
-  image,
-  video,
-  text;
+  image('image'),
+  video('video'),
+  text('text');
+
+  const MediaTypeEnum(this.type);
+
+  final String type;
 
   static MediaTypeEnum factory(String type) {
-    if (type == 'MediaTypeEnum.image') {
-      return MediaTypeEnum.image;
-    } else if (type == 'MediaTypeEnum.video') {
-      return MediaTypeEnum.video;
-    } else if (type == 'MediaTypeEnum.text') {
-      return MediaTypeEnum.text;
-    } else {
-      return MediaTypeEnum.image;
-    }
+    return MediaTypeEnum.values.firstWhere((e) => e.type == type,
+        orElse: () => throw MediaTypeIsNotSupportedException(type));
   }
 }

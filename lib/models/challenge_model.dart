@@ -95,9 +95,9 @@ class ChallengeModel {
       'endDate': endDate.toString(),
       'acceptanceCriteria': acceptanceCriteria.toJson(),
       'frequency': frequency.toJson(),
-      'repetitions': RepetitionModel.toJsonList(repetitions),
-      'media': MediaModel.toJsonList(media),
-      'categories': ChallengeCategoryEnum.toJsonList(categories)
+      'repetitions': repetitions.map((repetition) => repetition.toJson()),
+      'media': media.map((media) => media.toJson()),
+      'categories': categories.map((category) => category.category)
     };
   }
 
