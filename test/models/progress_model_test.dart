@@ -67,7 +67,8 @@ void main() {
         expect(progress.percentProgress, equals(2.0));
       });
 
-      test('should set progress and percentProgress when amount is > 0', () {
+      test('should set progress and percentProgress to 0.5 when amount is > 0',
+          () {
         // Arrange
         ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
         double progressAbsolute = 2.0;

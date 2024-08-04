@@ -1554,7 +1554,8 @@ void main() {
         expect(sortedChallenges[3].status, equals(ChallengeStatusEnum.success));
       });
 
-      test('should sort Challenges by status and percentage', () {
+      test('should sort Challenges by status and percentage with two backlogs',
+          () {
         // Arrange
         ChallengeModel challengeInBacklog = createMockChallengeModel(
             status: ChallengeStatusEnum.backlog,
