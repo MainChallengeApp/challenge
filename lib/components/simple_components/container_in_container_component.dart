@@ -2,6 +2,9 @@ import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
 class ContainerInContainerComponent extends StatelessWidget {
+  static const double standardPadding = 10;
+  static const double standardRadius = 10;
+
   final Widget child;
   final Color? color;
   final EdgeInsetsGeometry? margin;
@@ -32,8 +35,8 @@ class ContainerInContainerComponent extends StatelessWidget {
       decoration: BoxDecoration(
           color: color ?? themeColor4,
           border: border,
-          borderRadius:
-              borderRadius ?? const BorderRadius.all(Radius.circular(12))),
+          borderRadius: borderRadius ??
+              const BorderRadius.all(Radius.circular(standardRadius))),
       child: child,
     );
   }

@@ -1,11 +1,12 @@
-import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/components/list_items/list_item_container_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/media/video_thumbnail_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:flutter/material.dart';
+import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/media_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemMediaSmallComponent extends StatelessWidget {
@@ -29,12 +30,14 @@ class ListItemMediaSmallComponent extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
                 color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
+                borderRadius: BorderRadius.all(Radius.circular(
+                    ListItemIconSmallComponent.standardIconRadius))),
             width: 40,
             height: 40,
             margin: const EdgeInsets.only(right: 12),
             child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                borderRadius: const BorderRadius.all(Radius.circular(
+                    ListItemIconSmallComponent.standardIconRadius)),
                 child: media.type == MediaTypeEnum.image
                     ? Image.asset(media.source,
                         fit: BoxFit.cover,
@@ -74,7 +77,8 @@ class ListItemMediaSmallComponent extends StatelessWidget {
                   color: Colors.white,
                   border: Border.all(
                       width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(24))),
+                  borderRadius: const BorderRadius.all(Radius.circular(
+                      ListItemContainerComponent.standardBorderRadius))),
               child: Center(
                   child: Icon(
                 IconEnum.delete.icon,

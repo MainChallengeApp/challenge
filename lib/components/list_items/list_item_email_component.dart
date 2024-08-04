@@ -1,8 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/components/list_items/list_item_container_component.dart';
-import 'package:flutter/material.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/globals.dart';
+import 'package:flutter/material.dart';
 
 class ListItemEmailComponent extends StatefulWidget {
   ListItemEmailComponent(
@@ -30,7 +31,8 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
             height: 40,
             decoration: const BoxDecoration(
                 color: themeColor4,
-                borderRadius: BorderRadius.all(Radius.circular(12))),
+                borderRadius: BorderRadius.all(Radius.circular(
+                    ListItemIconSmallComponent.standardIconRadius))),
             margin: const EdgeInsets.only(right: 12),
             child: const Center(
                 child: Icon(

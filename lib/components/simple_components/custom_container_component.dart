@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class CustomContainerComponent extends StatelessWidget {
   static const double standardHeight = 55;
   static const double standardPadding = 10;
+  static const double standardRadius = 14;
 
   final double heightFactor;
   final Color backgroundColor;
@@ -40,7 +41,8 @@ class CustomContainerComponent extends StatelessWidget {
           color: backgroundColor,
           border: Border.all(
               width: borderWidth ?? 1, color: borderColor ?? themeColor5),
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 16))),
+          borderRadius: BorderRadius.all(
+              Radius.circular(borderRadius ?? standardRadius))),
       child: child,
     );
   }

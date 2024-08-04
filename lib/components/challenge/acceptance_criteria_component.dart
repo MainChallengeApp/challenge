@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
@@ -44,7 +45,8 @@ class _AcceptanceCriteriaComponentState
                   color: widget.challenge.status == ChallengeStatusEnum.failed
                       ? red
                       : green,
-                  borderRadius: const BorderRadius.all(Radius.circular(16))),
+                  borderRadius: const BorderRadius.all(Radius.circular(
+                      CustomContainerComponent.standardRadius))),
             ),
           ),
           Container(
@@ -53,7 +55,8 @@ class _AcceptanceCriteriaComponentState
                     color: Colors.white,
                     width: 10,
                     strokeAlign: BorderSide.strokeAlignOutside),
-                borderRadius: const BorderRadius.all(Radius.circular(16))),
+                borderRadius: const BorderRadius.all(
+                    Radius.circular(CustomContainerComponent.standardRadius))),
           ),
           TapContainerComponent(
               onTap: widget.onTap,

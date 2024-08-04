@@ -68,7 +68,8 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
         flex: 2,
         child: CustomContainerComponent(
           child: DropdownButton<String>(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius:
+                BorderRadius.circular(CustomContainerComponent.standardRadius),
             isExpanded: true,
             underline: Container(),
             value: '',

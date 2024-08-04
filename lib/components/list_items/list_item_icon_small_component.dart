@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ListItemIconSmallComponent extends StatelessWidget {
   static const double iconContainerSize = 40;
+  static const double standardIconRadius = 12;
 
   const ListItemIconSmallComponent(
       {super.key, this.onTap, required this.icon, required this.title});

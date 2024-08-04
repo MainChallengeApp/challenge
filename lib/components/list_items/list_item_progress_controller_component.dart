@@ -77,7 +77,8 @@ class _ListItemProgressControllerComponentState
                     }),
                 borderWith: 0,
                 borderColor: Colors.transparent,
-                borderRadius: 23,
+                borderRadius:
+                    ListItemContainerComponent.standardBorderRadius - 1,
                 margin: const EdgeInsets.all(0),
                 height: double.infinity,
                 child: const Center(
@@ -115,7 +116,8 @@ class _ListItemProgressControllerComponentState
                     }),
                 borderWith: 0,
                 borderColor: Colors.transparent,
-                borderRadius: 23,
+                borderRadius:
+                    ListItemContainerComponent.standardBorderRadius - 1,
                 margin: const EdgeInsets.all(0),
                 height: double.infinity,
                 child: const Center(
@@ -134,7 +136,8 @@ class _ListItemProgressControllerComponentState
                     }),
                 borderWith: 0,
                 borderColor: Colors.transparent,
-                borderRadius: 23,
+                borderRadius:
+                    ListItemContainerComponent.standardBorderRadius - 1,
                 margin: const EdgeInsets.all(0),
                 height: double.infinity,
                 child: const Center(

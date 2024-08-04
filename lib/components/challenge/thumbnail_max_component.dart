@@ -1,3 +1,4 @@
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -30,7 +31,8 @@ class ThumbnailMaxComponent extends StatelessWidget {
               child: Hero(
                 tag: challenge.id.toString(),
                 child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        CustomContainerComponent.standardRadius)),
                     child: challenge.getThumbnailPath() != ''
                         ? challenge.isThumbnailFromAssetsImage()
                             ? Transform.scale(

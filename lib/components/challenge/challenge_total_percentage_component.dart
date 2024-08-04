@@ -1,8 +1,8 @@
 import 'dart:math';
 
+import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,6 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.all(0),
         padding: padding,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isVisible
             ? (challenge.isFailed()
                 ? red

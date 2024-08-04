@@ -1,3 +1,4 @@
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
@@ -35,8 +36,8 @@ class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
           : const EdgeInsets.all(0),
       child: Center(
           child: SizedBox(
-        width: 55,
-        height: 55,
+        width: CustomContainerComponent.standardHeight,
+        height: CustomContainerComponent.standardHeight,
         child: widget.editChallenge.hasThumbnail()
             ? ClipRRect(
                 borderRadius: widget.editChallenge.isThumbnailFromAssetsImage()

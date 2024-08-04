@@ -1,10 +1,9 @@
-import 'package:challenge/globals.dart';
+import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/simple_components/container_in_container_component.dart';
+import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
 class IconContainerInListItemComponent extends StatelessWidget {
-  static const double iconContainerSize = 40;
-
   final IconData icon;
   final double? size;
 
@@ -14,8 +13,10 @@ class IconContainerInListItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ContainerInContainerComponent(
-        height: iconContainerSize,
-        width: iconContainerSize,
+        height: ListItemIconSmallComponent.iconContainerSize,
+        width: ListItemIconSmallComponent.iconContainerSize,
+        borderRadius: const BorderRadius.all(
+            Radius.circular(ListItemIconSmallComponent.standardIconRadius)),
         padding: EdgeInsets.zero,
         child: Center(
           child: Icon(

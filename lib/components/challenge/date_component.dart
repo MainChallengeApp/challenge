@@ -1,12 +1,12 @@
 import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DateComponent extends StatefulWidget {
   final DateTime? date;
   final String text;
+  final Color? textColor;
   final Function()? onTap;
 
   const DateComponent({
@@ -14,6 +14,7 @@ class DateComponent extends StatefulWidget {
     required this.date,
     required this.text,
     this.onTap,
+    this.textColor,
   });
 
   @override
@@ -39,8 +40,10 @@ class _DateComponentState extends State<DateComponent> {
                 children: [
                   Text(
                     widget.text,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: basicFontSize),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: basicFontSize,
+                        color: widget.textColor ?? Colors.black),
                   ),
                   Text(
                     (widget.date != null ? _dateFormat(widget.date!) : '-'),

@@ -1,3 +1,4 @@
+import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
 
 class CardComponent extends StatelessWidget {
@@ -30,8 +31,8 @@ class CardComponent extends StatelessWidget {
                       border: Border.all(
                           width: 1,
                           color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(24))),
+                      borderRadius: const BorderRadius.all(Radius.circular(
+                          ListItemContainerComponent.standardBorderRadius))),
                   child: Column(
                     children: children,
                   ),

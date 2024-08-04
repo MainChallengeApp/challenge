@@ -1,5 +1,7 @@
 import 'package:challenge/components/challenge/date_component.dart';
+import 'package:challenge/components/simple_components/custom_container_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,6 +42,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('end'),
         date: widget.editChallenge.endDate,
         text: 'End',
+        textColor: widget.isLocked ? themeColor3 : Colors.black,
       ),
     );
   }
@@ -50,6 +53,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('start'),
         date: widget.editChallenge.startDate,
         text: 'Start',
+        textColor: widget.isLocked ? themeColor3 : Colors.black,
       ),
     );
   }
@@ -112,8 +116,10 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
+                topLeft:
+                    Radius.circular(CustomContainerComponent.standardRadius),
+                topRight:
+                    Radius.circular(CustomContainerComponent.standardRadius),
               ),
             ),
             height: size.height * 0.27,
