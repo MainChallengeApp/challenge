@@ -1,3 +1,5 @@
+import 'package:challenge/exceptions/challenge_status_is_not_supported_exception.dart';
+
 enum ChallengeStatusEnum {
   success('success'),
   failed('failed'),
@@ -9,6 +11,9 @@ enum ChallengeStatusEnum {
   final String status;
 
   static ChallengeStatusEnum factory(String status) {
-    return ChallengeStatusEnum.values.firstWhere((e) => e.status == status);
+    return ChallengeStatusEnum.values.firstWhere(
+      (e) => e.status == status,
+      orElse: () => throw ChallengeStatusIsNotSupportedException(status),
+    );
   }
 }
