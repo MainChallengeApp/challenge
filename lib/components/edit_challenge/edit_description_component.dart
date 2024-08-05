@@ -3,7 +3,6 @@ import 'package:challenge/components/simple_components/tap_container_component.d
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EditDescriptionComponent extends StatefulWidget {
   final ChallengeModel challenge;
@@ -80,12 +79,5 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
               maxLines: 2,
               style: commonTextStyle,
             ));
-  }
-
-  _launchURL(String link) async {
-    final Uri url = Uri.parse(link);
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $url');
-    }
   }
 }
