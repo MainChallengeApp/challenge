@@ -1,4 +1,3 @@
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/progress_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -7,13 +6,13 @@ void main() {
     group('ProgressModel.empty()', () {
       test('should create progress with default values', () {
         // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: 1, goal: 1.0);
         // Act
         // Assert
         expect(progress.progress, equals(0));
         expect(progress.mediaIds, equals([]));
         expect(progress.date, isNotNull);
-        expect(progress.percentProgress, equals(0));
         expect(progress.repetitionNumber, equals(1));
       });
     });
@@ -28,7 +27,8 @@ void main() {
             'mediaIds': ['1', '2', '3'],
             'percentProgress': 1.0,
             'date': date.toString(),
-            'repetitionNumber': 1
+            'repetitionNumber': 1,
+            'goal': 1.0
           }
         ];
         // Act
@@ -36,67 +36,29 @@ void main() {
         // Assert
         expect(progress[0].progress, equals(1.0));
         expect(progress[0].mediaIds, equals(['1', '2', '3']));
-        expect(progress[0].percentProgress, equals(1.0));
         expect(progress[0].date, equals(date));
         expect(progress[0].repetitionNumber, equals(1));
-      });
-    });
-
-    group('setProgress()', () {
-      test('should set progress and percentProgress = 1 when amount is 0', () {
-        // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
-        double progressAbsolute = 2.0;
-        // Act
-        progress.setProgress(
-            AcceptanceCriteriaModel.empty(amount: 0), progressAbsolute);
-        // Assert
-        expect(progress.progress, equals(progressAbsolute));
-        expect(progress.percentProgress, equals(1.0));
-      });
-
-      test('should set progress and percentProgress when amount is > 0', () {
-        // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
-        double progressAbsolute = 2.0;
-        // Act
-        progress.setProgress(
-            AcceptanceCriteriaModel.empty(amount: 1), progressAbsolute);
-        // Assert
-        expect(progress.progress, equals(progressAbsolute));
-        expect(progress.percentProgress, equals(2.0));
-      });
-
-      test('should set progress and percentProgress to 0.5 when amount is > 0',
-          () {
-        // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
-        double progressAbsolute = 2.0;
-        // Act
-        progress.setProgress(
-            AcceptanceCriteriaModel.empty(amount: 4), progressAbsolute);
-        // Assert
-        expect(progress.progress, equals(progressAbsolute));
-        expect(progress.percentProgress, equals(0.5));
+        expect(progress[0].goal, equals(1.0));
       });
     });
 
     group('updateProgress()', () {
       test('should update progress', () {
         // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: 1, goal: 2);
         ProgressModel newProgress = ProgressModel(
             progress: 2.0,
             mediaIds: ['1', '2', '3'],
-            percentProgress: 1.0,
             date: DateTime.now(),
-            repetitionNumber: 1);
+            repetitionNumber: 1,
+            goal: 1);
         // Act
         progress.updateProgress(newProgress);
         // Assert
         expect(progress.progress, equals(newProgress.progress));
         expect(progress.mediaIds, equals(newProgress.mediaIds));
-        expect(progress.percentProgress, equals(newProgress.percentProgress));
+        expect(progress.goal, equals(newProgress.goal));
       });
     });
 
@@ -108,9 +70,9 @@ void main() {
           ProgressModel(
               progress: 1.0,
               mediaIds: ['1', '2', '3'],
-              percentProgress: 1.0,
               date: progressDate,
-              repetitionNumber: 1)
+              repetitionNumber: 1,
+              goal: 1.0)
         ];
         // Act
         List<Map<String, dynamic>> json =
@@ -118,11 +80,10 @@ void main() {
         // Assert
         expect(json[0]['progress'], equals(progressList[0].progress));
         expect(json[0]['mediaIds'], equals(progressList[0].mediaIds));
-        expect(json[0]['percentProgress'],
-            equals(progressList[0].percentProgress));
         expect(json[0]['date'], progressDate.toString());
         expect(json[0]['repetitionNumber'],
             equals(progressList[0].repetitionNumber));
+        expect(json[0]['goal'], equals(progressList[0].goal));
       });
     });
 
@@ -133,9 +94,9 @@ void main() {
           ProgressModel(
               progress: 1.0,
               mediaIds: ['1', '2', '3'],
-              percentProgress: 1.0,
               date: DateTime.now(),
-              repetitionNumber: 1)
+              repetitionNumber: 1,
+              goal: 1.0)
         ];
         // Act
         List<ProgressModel> copiedProgressList =
@@ -145,8 +106,6 @@ void main() {
             copiedProgressList[0].progress, equals(progressList[0].progress));
         expect(
             copiedProgressList[0].mediaIds, equals(progressList[0].mediaIds));
-        expect(copiedProgressList[0].percentProgress,
-            equals(progressList[0].percentProgress));
         expect(copiedProgressList[0].date, equals(progressList[0].date));
         expect(copiedProgressList[0].repetitionNumber,
             equals(progressList[0].repetitionNumber));
@@ -156,18 +115,18 @@ void main() {
     group('copyOrCreateProgress()', () {
       test('should copy progress', () {
         // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: 1, goal: 1);
         // Act
         ProgressModel copiedProgress = ProgressModel.copyOrCreateProgress(
             progress,
             progress.repetitionNumber,
+            progress.goal,
             progress.mediaIds,
-            progress.percentProgress);
+            progress.progress);
         // Assert
         expect(copiedProgress.progress, equals(progress.progress));
         expect(copiedProgress.mediaIds, equals(progress.mediaIds));
-        expect(
-            copiedProgress.percentProgress, equals(progress.percentProgress));
         expect(copiedProgress.date, equals(progress.date));
         expect(
             copiedProgress.repetitionNumber, equals(progress.repetitionNumber));
@@ -175,21 +134,22 @@ void main() {
 
       test('should create progress', () {
         // Arrange
-        ProgressModel progress = ProgressModel.empty(repetitionNumber: 1);
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: 1, goal: 1);
         progress.progress = 1.0;
         progress.mediaIds = ['1', '2', '3'];
-        progress.percentProgress = 1.0;
         progress.date = DateTime.now();
         // Act
         ProgressModel copiedProgress = ProgressModel.copyOrCreateProgress(
             null,
             progress.repetitionNumber,
+            progress.goal,
             progress.mediaIds,
-            progress.percentProgress);
+            progress.progress);
         // Assert
         expect(copiedProgress.progress, equals(progress.progress));
         expect(copiedProgress.mediaIds, equals(progress.mediaIds));
-        expect(copiedProgress.percentProgress, equals(0));
+        expect(copiedProgress.goal, equals(progress.goal));
         expect(copiedProgress.date, equals(isNotNull));
         expect(
             copiedProgress.repetitionNumber, equals(progress.repetitionNumber));

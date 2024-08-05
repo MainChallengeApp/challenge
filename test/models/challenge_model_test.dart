@@ -53,8 +53,8 @@ void main() {
                 progress: 1,
                 mediaIds: [],
                 date: DateTime.now(),
-                percentProgress: 1,
-                repetitionNumber: repetitionNumber)
+                repetitionNumber: repetitionNumber,
+                goal: goalAmount)
           ],
           repetitionStatus: RepetitionStatusEnum.success);
     }
@@ -833,8 +833,8 @@ void main() {
             progress: 1,
             mediaIds: [],
             date: DateTime.now(),
-            percentProgress: 0.5,
-            repetitionNumber: 1));
+            repetitionNumber: 1,
+            goal: repetition.goalAmount));
         challenge.repetitions.add(repetition);
 
         // Act
@@ -865,14 +865,14 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        RepetitionModel repetition = createMockRepetitionModel();
+        RepetitionModel repetition = createMockRepetitionModel(goalAmount: 2);
         challenge.acceptanceCriteria.amount = 2;
         repetition.progressList.add(ProgressModel(
             progress: 1,
             mediaIds: [],
             date: DateTime.now(),
-            percentProgress: 0.5,
-            repetitionNumber: 1));
+            repetitionNumber: 1,
+            goal: repetition.goalAmount));
         challenge.repetitions.add(repetition);
 
         // Act
@@ -1352,8 +1352,8 @@ void main() {
             progress: 0.5,
             mediaIds: [],
             date: DateTime.now(),
-            percentProgress: 0.5,
-            repetitionNumber: 1));
+            repetitionNumber: 1,
+            goal: repetition.goalAmount));
         challenge.repetitions.add(repetition);
 
         // Act
@@ -1373,8 +1373,8 @@ void main() {
             progress: 1,
             mediaIds: [],
             date: DateTime.now(),
-            percentProgress: 1,
-            repetitionNumber: 1));
+            repetitionNumber: 1,
+            goal: repetition.goalAmount));
         challenge.repetitions.add(repetition);
 
         // Act
@@ -1394,8 +1394,8 @@ void main() {
             progress: 1,
             mediaIds: [],
             date: DateTime.now(),
-            percentProgress: 1,
-            repetitionNumber: 1));
+            repetitionNumber: 1,
+            goal: repetition1.goalAmount));
 
         RepetitionModel repetition2 = createMockRepetitionModel();
         repetition2.progressList.clear();
@@ -1498,8 +1498,8 @@ void main() {
             progress: 1,
             mediaIds: [media.id!],
             date: DateTime.now(),
-            percentProgress: 1,
-            repetitionNumber: 1));
+            repetitionNumber: 1,
+            goal: repetition.goalAmount));
 
         challenge.media.add(media);
         challenge.repetitions.add(repetition);
@@ -1588,6 +1588,23 @@ void main() {
         expect(
             sortedChallenges[2].status, equals(ChallengeStatusEnum.inProgress));
         expect(sortedChallenges[3].status, equals(ChallengeStatusEnum.success));
+      });
+    });
+
+    group('setRepetitionGoals()', () {
+      test('should set goal amount to acceptance criteria amount', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel();
+        RepetitionModel repetition = createMockRepetitionModel();
+        double newGoalAmount = 10;
+        repetition.goalAmount = 0;
+        challenge.repetitions.add(repetition);
+
+        // Act
+        challenge.setGoals(newGoalAmount);
+
+        // Assert
+        expect(repetition.goalAmount, equals(newGoalAmount));
       });
     });
   });

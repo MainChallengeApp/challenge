@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
@@ -56,9 +58,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
-      widget.challenge.getCurrentRepetitionNumber() == 0
-          ? 1
-          : widget.challenge.getCurrentRepetitionNumber(),
+      max(1, widget.challenge.getCurrentRepetitionNumber()),
+      widget.repetition != null
+          ? widget.repetition!.goalAmount
+          : widget.challenge.getRepetitionGoal(
+              max(1, widget.challenge.getCurrentRepetitionNumber())),
       mediaList.map((e) => e.id!).toList(),
       widget.repetition != null
           ? (widget.repetition!.getLastProgress() != null
@@ -74,8 +78,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   @override
   Widget build(BuildContext context) {
-    editProgress.setProgress(
-        widget.challenge.acceptanceCriteria, editProgress.progress);
     return Scaffold(
         appBar: AppBarComponent(
             preTitle: widget.preTitle,
@@ -113,6 +115,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           , // +1 for progress bar +1 for upload Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
+              widget.repetition ??= widget.challenge.addRepetition();
               return SpaceColumnComponent(
                   child: ListItemProgressComponent(
                 onTap: !widget.isSaveInsteadOfEditButtonVisible

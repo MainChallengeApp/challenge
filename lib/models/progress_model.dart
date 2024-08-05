@@ -1,43 +1,45 @@
-import 'package:challenge/models/acceptance_criteria_model.dart';
 import 'package:challenge/models/media_model.dart';
 
 class ProgressModel {
   late DateTime date;
   int repetitionNumber;
   double progress;
-  double percentProgress;
+  double goal;
   List<String> mediaIds;
 
   ProgressModel(
       {required this.progress,
       required this.mediaIds,
       required this.date,
-      required this.percentProgress,
-      required this.repetitionNumber});
+      required this.repetitionNumber,
+      required this.goal});
 
   ProgressModel.empty(
       {required this.repetitionNumber,
-      this.percentProgress = 0,
+      required this.goal,
       this.progress = 0,
       this.mediaIds = const []}) {
     date = DateTime.now();
   }
 
-  setProgress(AcceptanceCriteriaModel acceptanceCriteria, double progress) {
-    if (acceptanceCriteria.amount == 0) {
-      this.progress = progress;
-      percentProgress = 1;
-      return;
-    }
-
-    this.progress = progress;
-    percentProgress = progress / acceptanceCriteria.amount;
+  getPercentProgress() {
+    return goal == 0 ? 0 : progress / goal;
   }
 
   updateProgress(ProgressModel newProgress) {
     progress = newProgress.progress;
-    percentProgress = newProgress.percentProgress;
     mediaIds = newProgress.mediaIds;
+    goal = newProgress.goal;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'date': date.toString(),
+      'progress': progress,
+      'mediaIds': mediaIds,
+      'repetitionNumber': repetitionNumber,
+      'goal': goal
+    };
   }
 
   static fromJsonList(json) {
@@ -45,22 +47,15 @@ class ProgressModel {
     json?.forEach((e) => progressList.add(ProgressModel(
         progress: e['progress'],
         mediaIds: List.from(e['mediaIds']),
-        percentProgress: e['percentProgress'],
         date: DateTime.parse(e['date']),
-        repetitionNumber: e['repetitionNumber'])));
+        repetitionNumber: e['repetitionNumber'],
+        goal: e['goal'])));
     return progressList;
   }
 
-  static toJsonList(List<ProgressModel> progressList) {
-    return progressList
-        .map((progress) => {
-              'date': progress.date.toString(),
-              'progress': progress.progress,
-              'percentProgress': progress.percentProgress,
-              'mediaIds': progress.mediaIds,
-              'repetitionNumber': progress.repetitionNumber
-            })
-        .toList();
+  static List<Map<String, dynamic>> toJsonList(
+      List<ProgressModel> progressList) {
+    return progressList.map((progress) => progress.toJson()).toList();
   }
 
   static copyProgressList(List<ProgressModel> progressList) {
@@ -76,15 +71,16 @@ class ProgressModel {
         date: date,
         progress: progress,
         mediaIds: MediaModel.copyMediaIdList(mediaIds),
-        percentProgress: percentProgress,
-        repetitionNumber: repetitionNumber);
+        repetitionNumber: repetitionNumber,
+        goal: goal);
   }
 
   static copyOrCreateProgress(ProgressModel? progress, int repetitionNumber,
-      List<String> mediaIds, double progressProgress) {
+      double goal, List<String> mediaIds, double progressProgress) {
     if (progress == null) {
       return ProgressModel.empty(
           repetitionNumber: repetitionNumber,
+          goal: goal,
           mediaIds: mediaIds,
           progress: progressProgress);
     }

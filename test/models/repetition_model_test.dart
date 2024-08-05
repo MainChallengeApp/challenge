@@ -38,7 +38,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 1, percentProgress: 1));
+            repetitionNumber: 1, progress: 1, goal: repetition.goalAmount));
         // Act
         bool result = repetition.isComplete();
         // Assert
@@ -52,7 +52,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
         // Act
         bool result = repetition.isComplete();
         // Assert
@@ -160,7 +160,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 1, percentProgress: 1));
+            repetitionNumber: 1, progress: 1, goal: repetition.goalAmount));
         // Act
         repetition.end();
         // Assert
@@ -176,7 +176,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
         // Act
         repetition.end();
         // Assert
@@ -194,7 +194,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 1, percentProgress: 1));
+            repetitionNumber: 1, progress: 1, goal: repetition.goalAmount));
         repetition.end();
         repetition.endDate = DateTime.now().subtract(const Duration(days: 1));
         // Act
@@ -212,7 +212,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
         repetition.end();
         repetition.endDate = DateTime.now().subtract(const Duration(days: 1));
         // Act
@@ -269,7 +269,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
         // Act
         double result = repetition.getLastProgressPercentage();
         // Assert
@@ -295,7 +295,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
         // Act
         double result = repetition.getLastProgressAbsolute();
         // Assert
@@ -319,7 +319,7 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         ProgressModel progress = ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5);
+            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount);
         repetition.progressList.add(progress);
         // Act
         ProgressModel? result = repetition.getLastProgress();
@@ -338,15 +338,14 @@ void main() {
         // Assert
         expect(result.repetitionNumber, equals(1));
         expect(result.progress, equals(0));
-        expect(result.percentProgress, equals(0));
       });
 
       test('should add progress when progress is not null', () {
         // Arrange
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        ProgressModel progress = ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5);
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1);
         // Act
         ProgressModel result = repetition.addProgress(progress: progress);
         // Assert
@@ -355,12 +354,12 @@ void main() {
     });
 
     group('toJson()', () {
-      test('should return list of repetitions as json', () {
+      test('should return a repetition as json', () {
         // Arrange
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+        repetition.progressList.add(
+            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1));
         repetition.startDate = DateTime.now();
         repetition.endDate = DateTime.now().add(const Duration(days: 1));
         repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
@@ -391,7 +390,8 @@ void main() {
               'progress': 0.5,
               'mediaIds': [],
               'percentProgress': 0.5,
-              'date': DateTime.now().toString()
+              'date': DateTime.now().toString(),
+              'goal': 1.0
             }
           ],
           'startDate': DateTime.now().toString(),
@@ -408,7 +408,8 @@ void main() {
               'progress': 1.0,
               'mediaIds': [],
               'percentProgress': 1.0,
-              'date': DateTime.now().toString()
+              'date': DateTime.now().toString(),
+              'goal': 2.0
             }
           ],
           'startDate':
@@ -428,7 +429,6 @@ void main() {
         expect(result[0].progressList.length, equals(1));
         expect(result[0].progressList[0].repetitionNumber, equals(1));
         expect(result[0].progressList[0].progress, equals(0.5));
-        expect(result[0].progressList[0].percentProgress, equals(0.5));
         expect(result[0].startDate, equals(DateTime.parse(json1['startDate'])));
         expect(result[0].endDate, equals(DateTime.parse(json1['endDate'])));
         expect(result[0].repetitionStatus,
@@ -466,8 +466,8 @@ void main() {
 
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+        repetition.progressList.add(
+            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1));
         repetition.startDate = repetitionStartDate;
         repetition.endDate = repetitionEndDate;
         repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
@@ -493,16 +493,16 @@ void main() {
 
         RepetitionModel repetition1 =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition1.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5));
+        repetition1.progressList.add(
+            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1));
         repetition1.startDate = repetitionStartDate;
         repetition1.endDate = repetitionEndDate;
         repetition1.repetitionStatus = RepetitionStatusEnum.inProgress;
 
         RepetitionModel repetition2 =
             RepetitionModel.empty(repetitionNumber: 2, goalAmount: 2);
-        repetition2.progressList.add(ProgressModel.empty(
-            repetitionNumber: 2, progress: 1, percentProgress: 1));
+        repetition2.progressList.add(
+            ProgressModel.empty(repetitionNumber: 2, progress: 1, goal: 1));
         repetition2.startDate =
             DateTime.now().subtract(const Duration(days: 1));
         repetition2.endDate = DateTime.now().subtract(const Duration(days: 1));
@@ -541,8 +541,8 @@ void main() {
         // Arrange
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        ProgressModel progress = ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, percentProgress: 0.5);
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1);
         repetition.progressList.add(progress);
         // Act
         repetition.deleteProgress(progress);

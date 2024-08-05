@@ -3,7 +3,7 @@ import 'package:challenge/models/progress_model.dart';
 
 class RepetitionModel {
   final int repetitionNumber;
-  final double goalAmount;
+  double goalAmount;
   late final List<ProgressModel> progressList;
   DateTime? startDate;
   DateTime? endDate;
@@ -79,7 +79,7 @@ class RepetitionModel {
     if (progressList.isEmpty) {
       return 0;
     }
-    return progressList.last.percentProgress;
+    return progressList.last.getPercentProgress();
   }
 
   double getLastProgressAbsolute() {
@@ -100,7 +100,9 @@ class RepetitionModel {
       {ProgressModel? progress, mediaIds = const <String>[]}) {
     if (progress == null) {
       ProgressModel emptyProgress = ProgressModel.empty(
-          repetitionNumber: repetitionNumber, mediaIds: mediaIds);
+          repetitionNumber: repetitionNumber,
+          goal: goalAmount,
+          mediaIds: mediaIds);
       progressList.add(emptyProgress);
       return emptyProgress;
     }
@@ -163,5 +165,12 @@ class RepetitionModel {
 
   void deleteProgress(ProgressModel progress) {
     progressList.remove(progress);
+  }
+
+  void setGoals(double goal) {
+    goalAmount = goal;
+    for (var progress in progressList) {
+      progress.goal = goal;
+    }
   }
 }

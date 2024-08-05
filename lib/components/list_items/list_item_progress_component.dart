@@ -75,13 +75,11 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                   newProgress = 0;
                 }
                 widget.progress.progress = newProgress.toDouble();
-                widget.progress.setProgress(widget.challenge.acceptanceCriteria,
-                    widget.progress.progress);
               });
             }
           : null,
-      initialProgress: widget.progress.percentProgress <= 1
-          ? widget.progress.percentProgress
+      initialProgress: widget.progress.getPercentProgress() <= 1
+          ? widget.progress.getPercentProgress()
           : 1,
       isFailed: widget.challenge.isFailed(),
       child: SingleChildScrollView(
