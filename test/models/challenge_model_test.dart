@@ -18,14 +18,16 @@ void main() {
     ChallengeModel createMockChallengeModel(
         {ChallengeStatusEnum status = ChallengeStatusEnum.inProgress,
         DateTime? startDate,
-        DateTime? endDate}) {
+        DateTime? endDate,
+        AcceptanceCriteriaModel? acceptanceCriteria}) {
       return ChallengeModel(
         id: '1',
         status: status,
         title: 'Challenge Title',
         description: 'Challenge Description',
         thumbnailPath: 'assets/images/test.png',
-        acceptanceCriteria: AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
+        acceptanceCriteria: acceptanceCriteria ??
+            AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
         frequency: FrequencyModel(type: FrequencyTypeEnum.time, amount: 1),
         repetitions: [],
         media: [],
@@ -656,6 +658,7 @@ void main() {
         challenge.status = ChallengeStatusEnum.inProgress;
         challenge.startDate =
             DateTime.now().subtract(const Duration(hours: 23));
+        challenge.endDate = challenge.startDate!.add(const Duration(days: 1));
         challenge.repetitions = [];
 
         // Act
@@ -774,6 +777,7 @@ void main() {
         challenge.frequency =
             FrequencyModel(type: FrequencyTypeEnum.daily, amount: 2);
         challenge.startDate = DateTime.now().subtract(const Duration(days: 1));
+        challenge.endDate = challenge.startDate!.add(const Duration(days: 2));
         challenge.status = ChallengeStatusEnum.inProgress;
         challenge.repetitions = [];
 
@@ -1450,7 +1454,7 @@ void main() {
         challenge.frequency.type = FrequencyTypeEnum.time;
 
         // Act
-        String nextIn = challenge.nextIn();
+        String nextIn = challenge.endsIn();
 
         // Assert
         expect(nextIn, equals(''));
@@ -1464,7 +1468,7 @@ void main() {
         challenge.repetitions = [];
 
         // Act
-        String nextIn = challenge.nextIn();
+        String nextIn = challenge.endsIn();
 
         // Assert
         expect(nextIn, equals('0 min'));
@@ -1479,7 +1483,7 @@ void main() {
         challenge.repetitions = [];
 
         // Act
-        String nextIn = challenge.nextIn();
+        String nextIn = challenge.endsIn();
 
         // Assert
         expect(nextIn, equals('23 h'));
@@ -1605,6 +1609,21 @@ void main() {
 
         // Assert
         expect(repetition.goalAmount, equals(newGoalAmount));
+      });
+    });
+
+    group('getRepetitionGoal()', () {
+      test('should return acceptance criteria amount for repetition goal', () {
+        // Arrange
+        ChallengeModel challenge = createMockChallengeModel(
+            acceptanceCriteria:
+                AcceptanceCriteriaModel(amount: 2, unit: 'unit'));
+
+        // Act
+        double goalAmount = challenge.getCalculatedRepetitionGoal(1);
+
+        // Assert
+        expect(goalAmount, equals(challenge.acceptanceCriteria.amount));
       });
     });
   });

@@ -61,7 +61,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       max(1, widget.challenge.getCurrentRepetitionNumber()),
       widget.repetition != null
           ? widget.repetition!.goalAmount
-          : widget.challenge.getRepetitionGoal(
+          : widget.challenge.getCalculatedRepetitionGoal(
               max(1, widget.challenge.getCurrentRepetitionNumber())),
       mediaList.map((e) => e.id!).toList(),
       widget.repetition != null

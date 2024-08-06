@@ -241,11 +241,18 @@ class ChallengeModel {
                       ? startDate
                       : null,
               endDate: frequency.type == FrequencyTypeEnum.daily &&
-                      repetitionNumber <= getCurrentRepetitionNumber()
-                  ? startDate?.add(Duration(days: repetitionNumber))
+                      repetitionNumber <= getCurrentRepetitionNumber() &&
+                      startDate != null
+                  ? startDate!
+                              .add(Duration(days: repetitionNumber))
+                              .difference(endDate!)
+                              .inMilliseconds <=
+                          0
+                      ? startDate!.add(Duration(days: repetitionNumber))
+                      : endDate
                   : null,
               repetitionNumber: repetitionNumber,
-              goalAmount: acceptanceCriteria.amount,
+              goalAmount: getCalculatedRepetitionGoal(repetitionNumber),
               repetitionStatus: repetitionNumber < getCurrentRepetitionNumber()
                   ? RepetitionStatusEnum.failed
                   : isInProgress() &&
@@ -432,13 +439,12 @@ class ChallengeModel {
         getCurrentRepetitionNumber() != frequency.getMaxAmountOfRepetitions();
   }
 
-  nextIn() {
+  endsIn() {
     if (frequency.type == FrequencyTypeEnum.daily) {
       RepetitionModel? currentRepetition = getCurrentRepetition();
-      Duration difference = currentRepetition?.startDate
-              ?.add(const Duration(days: 1))
-              .difference(DateTime.now()) ??
-          Duration.zero;
+      Duration difference = currentRepetition?.endDate != null
+          ? currentRepetition!.endDate!.difference(DateTime.now())
+          : Duration.zero;
       if (difference.inHours <= 0) {
         return '${difference.inMinutes} min';
       }
@@ -463,7 +469,7 @@ class ChallengeModel {
     }
   }
 
-  getRepetitionGoal(int repetitionNumber) {
+  getCalculatedRepetitionGoal(int repetitionNumber) {
     return acceptanceCriteria.amount;
   }
 

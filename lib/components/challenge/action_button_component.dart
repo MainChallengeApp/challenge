@@ -119,7 +119,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
               frequency.type == FrequencyTypeEnum.time,
       text: frequency.type == FrequencyTypeEnum.time
           ? 'Next'
-          : 'Next in ${widget.challenge.nextIn()}',
+          : 'Next in ${widget.challenge.endsIn()}',
     );
   }
 
@@ -131,11 +131,11 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
               (frequency.amount == null ||
                   widget.challenge.getCurrentRepetitionNumber() <
                       frequency.getMaxAmountOfRepetitions()!)
-          ? 'Next in ${widget.challenge.nextIn()}'
+          ? 'Next in ${widget.challenge.endsIn()}'
           : frequency.type != FrequencyTypeEnum.time &&
                   widget.challenge.getCurrentRepetitionNumber() ==
                       frequency.getMaxAmountOfRepetitions()
-              ? 'Ends in ${widget.challenge.nextIn()}'
+              ? 'Ends in ${widget.challenge.endsIn()}'
               : null,
       isPrimaryButton:
           widget.challenge.getCurrentRepetitionProgressPercentage() >= 1 &&
