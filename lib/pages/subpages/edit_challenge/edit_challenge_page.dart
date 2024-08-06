@@ -170,8 +170,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
     ChallengeController challengeController = ChallengeController();
     allChallengesList.insert(0, challengeCopy);
-    challengeList.insert(0, challengeCopy);
+    allChallengesList =
+        ChallengeModel.sortChallengeList(challenges: allChallengesList);
     await challengeController.writeFile(allChallengesList);
+
+    challengeList.insert(0, challengeCopy);
+    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+    int index = challengeList.indexOf(challengeCopy);
 
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
@@ -183,9 +188,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
     homeNavigator
         .push(
       NoAnimationPageRouteComponent(
-        builder: (context) => const HomeChallengePage(
+        builder: (context) => HomeChallengePage(
           preTitle: 'Home',
-          initialChallengeIndex: 0,
+          initialChallengeIndex: index,
         ),
       ),
     )
@@ -205,10 +210,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     widget.challenge.endDate = widget.editChallenge.endDate;
     widget.challenge.categories = widget.editChallenge.categories;
 
-    if (widget.isSearchEdit) {
-      Navigator.pop(context);
-      return;
-    }
+    widget.challenge.setGoals(widget.editChallenge.acceptanceCriteria.amount);
 
     if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
       allChallengesList = allChallengesList.map((e) {
@@ -230,6 +232,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
     } else {
       challengeList.insert(0, widget.challenge);
     }
+
+    allChallengesList =
+        ChallengeModel.sortChallengeList(challenges: allChallengesList);
+    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
     // var r = challengeList;
     // challengeList.insert(0, widget.challenge);
     challengeController.writeFile(allChallengesList);
@@ -270,7 +276,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     }
 
     Navigator.pop(context);
-    if (!widget.isSearchEdit && !widget.isNewChallenge && !widget.isTryAgain) {
+    if (!widget.isNewChallenge && !widget.isTryAgain) {
       Navigator.pop(context);
     }
 

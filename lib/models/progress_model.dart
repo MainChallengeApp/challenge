@@ -23,7 +23,7 @@ class ProgressModel {
   }
 
   getPercentProgress() {
-    return goal == 0 ? 0 : progress / goal;
+    return goal == 0 ? 1.0 : progress / goal;
   }
 
   updateProgress(ProgressModel newProgress) {

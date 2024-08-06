@@ -456,6 +456,17 @@ class ChallengeModel {
     }
   }
 
+  void setGoals(double goal) {
+    acceptanceCriteria.amount = goal;
+    for (RepetitionModel repetition in repetitions) {
+      repetition.setGoals(goal);
+    }
+  }
+
+  getRepetitionGoal(int repetitionNumber) {
+    return acceptanceCriteria.amount;
+  }
+
   // Challenge List Functions
 
   static List<ChallengeModel> sortChallengeList(
@@ -477,16 +488,5 @@ class ChallengeModel {
                             .getCurrentPercentage()
                             .compareTo(b.getCurrentPercentage()));
     return challenges;
-  }
-
-  void setGoals(double goal) {
-    acceptanceCriteria.amount = goal;
-    for (RepetitionModel repetition in repetitions) {
-      repetition.setGoals(goal);
-    }
-  }
-
-  getRepetitionGoal(int repetitionNumber) {
-    return acceptanceCriteria.amount;
   }
 }

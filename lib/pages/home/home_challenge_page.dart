@@ -32,8 +32,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HomeChallengePage extends StatefulWidget {
-  const HomeChallengePage(
-      {super.key, required this.preTitle, required this.initialChallengeIndex});
+  const HomeChallengePage({
+    super.key,
+    required this.preTitle,
+    required this.initialChallengeIndex,
+  });
   final String preTitle;
   final int initialChallengeIndex;
 
@@ -73,7 +76,19 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    ChallengeModel? challenge = challengeList.length > currentChallengeIndex
+        ? challengeList[currentChallengeIndex]
+        : null;
     challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+    allChallengesList =
+        ChallengeModel.sortChallengeList(challenges: allChallengesList);
+    int oldChallengeIndex = currentChallengeIndex;
+    currentChallengeIndex =
+        challengeList.indexWhere((c) => c.id == challenge?.id);
+    if (pageController.hasClients &&
+        oldChallengeIndex != currentChallengeIndex) {
+      pageController.jumpToPage(currentChallengeIndex);
+    }
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
@@ -519,6 +534,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   onTapStart(ChallengeModel challenge) {
     setState(() {
       challengeService.startChallenge(challenge);
+      challengeList =
+          ChallengeModel.sortChallengeList(challenges: challengeList);
+      allChallengesList =
+          ChallengeModel.sortChallengeList(challenges: allChallengesList);
+      int index = challengeList.indexWhere((c) => c.id == challenge.id);
+      pageController.jumpToPage(index);
     });
   }
 

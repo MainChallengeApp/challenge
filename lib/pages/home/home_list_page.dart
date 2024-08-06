@@ -26,7 +26,6 @@ class HomeListPage extends StatefulWidget {
 }
 
 class _HomeListPageState extends State<HomeListPage> {
-  late Future<List<ChallengeModel>> challengesFutures;
   ChallengeController challengeController = ChallengeController();
 
   ScrollController scrollController = ScrollController();
@@ -38,8 +37,7 @@ class _HomeListPageState extends State<HomeListPage> {
   @override
   void initState() {
     super.initState();
-    challengeController.readFile().then((value) => allChallengesList =
-        value); //.catchError((error) => const Center(child: CircularProgressIndicator());
+    challengeController.readFile().then((value) => allChallengesList = value);
 
     timer = Timer.periodic(
         const Duration(seconds: 1), (Timer t) => setState(() {}));
@@ -71,6 +69,8 @@ class _HomeListPageState extends State<HomeListPage> {
         .toList();
 
     challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+    allChallengesList =
+        ChallengeModel.sortChallengeList(challenges: allChallengesList);
 
     return RawScrollbar(
       controller: scrollController,
@@ -107,24 +107,6 @@ class _HomeListPageState extends State<HomeListPage> {
     );
   }
 
-  void sortChallengeList() {
-    for (ChallengeModel challenge in challengeList) {
-      challenge.checkChallengeStatus();
-    }
-    // challengeList.sort((a, b) => a.isSucceeded() && !b.isSucceeded()
-    //     ? -1
-    //     : b.isSucceeded() && !a.isSucceeded()
-    //         ? 1
-    //         : 0);
-    challengeList.sort((a, b) =>
-        (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
-            ? 1
-            : (b.isSucceeded() || b.isFailed()) &&
-                    !(a.isSucceeded() || a.isFailed())
-                ? -1
-                : a.getCurrentPercentage().compareTo(b.getCurrentPercentage()));
-  }
-
   SpaceColumnComponent newChallenge() {
     return SpaceColumnComponent(
       child: ListItemIconSmallComponent(
@@ -147,7 +129,6 @@ class _HomeListPageState extends State<HomeListPage> {
 
   changeList(String value) {
     setState(() {
-      // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
   }
