@@ -28,6 +28,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
         textEditingController: widget.textEditingController,
         onChangeTextField: onChangeTextField,
         errorText: errorText,
+        keyboardType: TextInputType.emailAddress,
         hintText: 'Email');
   }
 

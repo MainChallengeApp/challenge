@@ -37,31 +37,40 @@ class _LoginPageState extends State<LoginPage> {
         preTitle: 'Login',
         isFirstPageInRoute: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            spacing(),
-            appIcon(),
-            spacing(),
-            emailInput(),
-            passwordInput(),
-            forGotPasswordButton(),
-            acceptButton(),
-            switchToRegistrationButton(),
-          ],
-        ),
+      resizeToAvoidBottomInset: false,
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(0),
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  // spacing(),
+                  appIcon(),
+                  spacing(),
+                  emailInput(),
+                  passwordInput(),
+                  forGotPasswordButton(),
+                  acceptButton(),
+                  const SpaceComponent(
+                    heightMultiplier: 17,
+                  ),
+                  switchToRegistrationButton(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  SpaceColumnComponent acceptButton() {
-    return SpaceColumnComponent(
-      heightMultiplier: 4,
-      child: ListItemButtonComponent(
-        onTap: onTapLogin,
-        isMainButton: AccountModel.isValidUsername(username),
-        text: 'Login',
-      ),
+  ListItemButtonComponent acceptButton() {
+    return ListItemButtonComponent(
+      onTap: onTapLogin,
+      isMainButton: AccountModel.isValidUsername(username),
+      text: 'Login',
     );
   }
 
@@ -84,14 +93,14 @@ class _LoginPageState extends State<LoginPage> {
 
   SpaceComponent spacing() {
     return const SpaceComponent(
-      height: 50,
+      height: 45,
     );
   }
 
   Container appIcon() {
     return Container(
-      width: 80,
-      height: 80,
+      width: 70,
+      height: 70,
       decoration: const BoxDecoration(
           image: DecorationImage(
         image: AssetImage('assets/icons/challenge_icon_black.png'),
@@ -110,23 +119,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   switchToRegistrationButton() {
-    return GestureDetector(
-      onTap: widget.onTapSwitchToRegistration,
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Not a member yet?',
-            style: TextStyle(color: themeColor3),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            ' Register now!',
-            style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 60.0),
+      child: GestureDetector(
+        onTap: widget.onTapSwitchToRegistration,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Not a member yet?',
+              style: TextStyle(color: themeColor3),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              ' Register now!',
+              style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
+            ),
+          ],
+        ),
       ),
     );
   }

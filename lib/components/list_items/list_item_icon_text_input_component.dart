@@ -11,7 +11,8 @@ class ListItemIconTextInputComponent extends StatefulWidget {
       required this.textEditingController,
       this.errorText,
       this.hintText,
-      this.isHidden});
+      this.isHidden,
+      this.keyboardType});
 
   Function(String)? onChangeTextField;
   final IconData icon;
@@ -19,6 +20,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   String? errorText;
   String? hintText;
   bool? isHidden;
+  TextInputType? keyboardType;
 
   @override
   State<ListItemIconTextInputComponent> createState() =>
@@ -37,6 +39,7 @@ class _ListItemIconTextInputComponentState
           onChanged: widget.onChangeTextField ?? (value) {},
           textAlignVertical: TextAlignVertical.center,
           textAlign: TextAlign.start,
+          keyboardType: widget.keyboardType,
           decoration: InputDecoration(
               isCollapsed: true, // somehow needed to vertically center the text
               border: InputBorder.none,

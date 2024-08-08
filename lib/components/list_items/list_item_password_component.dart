@@ -30,6 +30,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
         isHidden: true,
         onChangeTextField: onChangeTextField,
         errorText: errorText,
+        keyboardType: TextInputType.visiblePassword,
         hintText: 'Password');
   }
 
