@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -79,7 +79,7 @@ class _MediaListPageState extends State<MediaListPage> {
 
             if (index == 1) {
               return SpaceColumnComponent(
-                child: ListItemIconSmallComponent(
+                child: ListItemIconTextComponent(
                   icon: Icons.file_upload_rounded,
                   title: 'Upload Media',
                   onTap: onTapUploadMedia,

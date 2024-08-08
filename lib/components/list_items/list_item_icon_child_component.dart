@@ -2,17 +2,17 @@ import 'package:challenge/components/list_items/list_item_container_component.da
 import 'package:challenge/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
 
-class ListItemIconSmallComponent extends StatelessWidget {
+class ListItemIconChildComponent extends StatelessWidget {
   static const double iconContainerSize = 40;
   static const double standardIconRadius = 12;
 
-  const ListItemIconSmallComponent(
-      {super.key, this.onTap, required this.icon, required this.title});
+  const ListItemIconChildComponent(
+      {super.key, this.onTap, required this.icon, required this.child});
 
   final void Function()? onTap;
 
   final IconData icon;
-  final String title;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,7 @@ class ListItemIconSmallComponent extends StatelessWidget {
             icon: icon,
           ),
           Expanded(
-            child: Text(
-              title,
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: child,
           )
         ],
       ),

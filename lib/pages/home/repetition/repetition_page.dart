@@ -1,5 +1,5 @@
 import 'package:challenge/components/list_items/list_item_button_component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/components/list_items/list_item_repetition_expanded_component.dart';
@@ -104,7 +104,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           height: repetition.progressList.isEmpty
               ? SpaceComponent.staticHeight * 4
               : null,
-          child: ListItemIconSmallComponent(
+          child: ListItemIconTextComponent(
             icon: Icons.add_rounded,
             title: 'New Progress',
             onTap: () => onTapNewProgress(repetition),

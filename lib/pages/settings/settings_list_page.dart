@@ -1,4 +1,4 @@
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
@@ -8,9 +8,8 @@ import 'package:challenge/json_file_controller/account_controller.dart';
 import 'package:challenge/models/account_model.dart';
 import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/pages/settings/credits/credits_page.dart';
-import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsListPage extends StatefulWidget {
@@ -27,6 +26,8 @@ class _SettingsListPageState extends State<SettingsListPage> {
   AccountModel account = AccountModel(username: '');
   AccountController accountController = AccountController();
   ScrollController scrollController = ScrollController();
+
+  AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == 0) {
               return Column(
                 children: [
-                  ListItemIconSmallComponent(
+                  ListItemIconTextComponent(
                       icon: Icons.person_outlined, title: account.username),
                   const SpaceComponent()
                 ],
@@ -73,7 +74,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == 1) {
               return Column(
                 children: [
-                  ListItemIconSmallComponent(
+                  ListItemIconTextComponent(
                       onTap: onTapFeedback,
                       icon: Icons.feedback_outlined,
                       title: 'Feedback'),
@@ -85,7 +86,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == 2) {
               return Column(
                 children: [
-                  ListItemIconSmallComponent(
+                  ListItemIconTextComponent(
                       onTap: onTapCredits,
                       icon: Icons.handshake_outlined,
                       title: 'Credits'),
@@ -97,7 +98,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
             if (index == itemCount - 1) {
               return Column(
                 children: [
-                  ListItemIconSmallComponent(
+                  ListItemIconTextComponent(
                       onTap: onTapLogout,
                       icon: Icons.logout_rounded,
                       title: 'Log out'),
@@ -108,7 +109,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
 
             return Column(
               children: [
-                ListItemIconSmallComponent(
+                ListItemIconTextComponent(
                     onTap: () {}, icon: Icons.settings, title: 'settings'),
                 const SpaceComponent()
               ],
@@ -118,8 +119,7 @@ class _SettingsListPageState extends State<SettingsListPage> {
   }
 
   onTapLogout() {
-    accountController.writeFile(AccountModel(username: ''));
-    context.read<DesignProvider>().setIsRegistered(false);
+    authService.logout();
   }
 
   void loadAccount() async {

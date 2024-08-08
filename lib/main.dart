@@ -1,6 +1,5 @@
-import 'package:challenge/app.dart';
 import 'package:challenge/firebase_options.dart';
-import 'package:challenge/pages/registration/registration_page.dart';
+import 'package:challenge/pages/auth/auth_gate_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/account_service.dart';
@@ -49,9 +48,7 @@ class _MyAppState extends State<MyApp> {
           TargetPlatform.android: CupertinoPageTransitionsBuilder(),
           TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
         })),
-        home: context.watch<DesignProvider>().isRegistered()
-            ? const App()
-            : const RegistrationPage());
+        home: const AuthGatePage());
   }
 
   void setOrientationToPortraitUp() {

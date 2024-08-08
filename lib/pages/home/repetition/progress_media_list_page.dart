@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:challenge/components/list_items/list_item_button_component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_controller_component.dart';
@@ -144,7 +144,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
             if (index == 2 && widget.isSaveInsteadOfEditButtonVisible) {
               return SpaceColumnComponent(
-                child: ListItemIconSmallComponent(
+                child: ListItemIconTextComponent(
                     onTap: onTapUploadMedia,
                     icon: Icons.upload_rounded,
                     title: 'Upload Media'),

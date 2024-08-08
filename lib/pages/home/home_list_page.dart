@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/bottom_navigation_component.dart';
@@ -109,7 +109,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
   SpaceColumnComponent newChallenge() {
     return SpaceColumnComponent(
-      child: ListItemIconSmallComponent(
+      child: ListItemIconTextComponent(
         onTap: () => tapOnNewChallenge(),
         icon: Icons.add_rounded,
         title: 'New Challenge',

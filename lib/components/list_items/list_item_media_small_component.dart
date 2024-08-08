@@ -1,5 +1,5 @@
 import 'package:challenge/components/list_items/list_item_container_component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/media/video_thumbnail_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
@@ -31,13 +31,13 @@ class ListItemMediaSmallComponent extends StatelessWidget {
             decoration: const BoxDecoration(
                 color: themeColor4,
                 borderRadius: BorderRadius.all(Radius.circular(
-                    ListItemIconSmallComponent.standardIconRadius))),
+                    ListItemIconTextComponent.standardIconRadius))),
             width: 40,
             height: 40,
             margin: const EdgeInsets.only(right: 12),
             child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(
-                    ListItemIconSmallComponent.standardIconRadius)),
+                    ListItemIconTextComponent.standardIconRadius)),
                 child: media.type == MediaTypeEnum.image
                     ? Image.asset(media.source,
                         fit: BoxFit.cover,

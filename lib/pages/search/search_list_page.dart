@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
-import 'package:challenge/components/list_items/list_item_icon_small_component.dart';
+import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/bottom_navigation_component.dart';
@@ -101,7 +101,7 @@ class _SearchListPageState extends State<SearchListPage> {
 
             if (index == filteredChallenges.length + 1) {
               return SpaceColumnComponent(
-                  child: ListItemIconSmallComponent(
+                  child: ListItemIconTextComponent(
                 onTap: onTapNewChallenge,
                 icon: Icons.add,
                 title: searchBarText == '' ? 'New Challenge' : searchBarText,
