@@ -5,7 +5,8 @@ The app for finding new challenges, tracking and completing them!
 ## Getting Started
 
 1. install flutter
-2. run `flutter run`
+2. run `flutterfire configure` to configure the Firebase project
+3. run `flutter run`
 
 ## Testing
 
