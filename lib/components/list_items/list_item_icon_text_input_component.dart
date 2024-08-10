@@ -36,7 +36,7 @@ class _ListItemIconTextInputComponentState
         child: TextField(
           controller: widget.textEditingController,
           obscureText: widget.isHidden ?? false,
-          onChanged: widget.onChangeTextField ?? (value) {},
+          onChanged: widget.onChangeTextField,
           textAlignVertical: TextAlignVertical.center,
           textAlign: TextAlign.start,
           keyboardType: widget.keyboardType,

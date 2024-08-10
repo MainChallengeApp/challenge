@@ -1,16 +1,15 @@
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/list_items/list_item_password_component.dart';
+import 'package:challenge/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/account_model.dart';
-import 'package:challenge/providers/design_provider.dart';
-import 'package:challenge/services/account_service.dart';
+import 'package:challenge/services/auth/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key, required this.onTapSwitchToLogin});
@@ -22,20 +21,25 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  AccountService accountService = AccountService();
+  AuthService authService = AuthService();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
   String? emailErrorText;
+  String? passwordErrorText;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const AppBarComponent(
+      appBar: AppBarComponent(
         preTitle: 'Register',
         isFirstPageInRoute: true,
-        leadingIcon: LeadingAppIconComponent(),
+        leadingIcon: isLoading
+            ? const LoadingCircleComponent()
+            : const LeadingAppIconComponent(),
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -61,9 +65,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return SpaceColumnComponent(
       heightMultiplier: 4,
       child: ListItemButtonComponent(
-        onTap: onTapAccept,
-        isMainButton:
-            AccountModel.isValidUsername(emailTextEditingController.text),
+        onTap: onTapRegister,
+        isMainButton: isMainButton(),
         text: 'Register',
       ),
     );
@@ -74,6 +77,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
       heightMultiplier: 2,
       child: ListItemPasswordComponent(
         textEditingController: passwordTextEditingController,
+        errorText: passwordErrorText,
+        onChangeTextField: (_) => setState(() {
+          emailErrorText = null;
+          passwordErrorText = null;
+        }),
       ),
     );
   }
@@ -83,6 +91,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: ListItemEmailComponent(
         textEditingController: emailTextEditingController,
         errorText: emailErrorText,
+        onChangeTextField: (_) => setState(() {
+          emailErrorText = null;
+          passwordErrorText = null;
+        }),
       ),
     );
   }
@@ -105,13 +117,40 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  onTapAccept() {
-    if (accountService.registerAccount(
-        username: emailTextEditingController.text)) {
-      context.read<DesignProvider>().setIsRegistered(true);
-    } else {
+  onTapRegister() async {
+    if (!authService.isValidEmail(emailTextEditingController.text)) {
       setState(() {
-        emailErrorText = 'add an Email';
+        emailErrorText = 'Invalid Email';
+      });
+      return;
+    }
+
+    if (!authService.isValidPassword(passwordTextEditingController.text)) {
+      setState(() {
+        emailErrorText = 'Invalid Password';
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await authService.registerEmailPassword(
+          emailTextEditingController.text, passwordTextEditingController.text);
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        emailErrorText = authService.getEmailErrorMessage(e.code);
+        passwordErrorText = authService.getPasswordErrorMessage(e.code);
+        if (emailErrorText == null && passwordErrorText == null) {
+          emailErrorText = 'Registration failed';
+          passwordErrorText = 'Registration failed';
+        }
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
       });
     }
   }
@@ -125,14 +164,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Not a member yet?',
+              'Already a member?',
               style: TextStyle(color: themeColor3),
             ),
             SizedBox(
               width: 5,
             ),
             Text(
-              ' Register now!',
+              ' Login here!',
               style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
             ),
           ],
@@ -141,11 +180,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  // bool isEmailValid(String email) {
-  //   // Define a regular expression pattern for a basic email validation
-  //   final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
-
-  //   // Use the regular expression to check if the email matches the pattern
-  //   return emailRegex.hasMatch(email);
-  // }
+  isMainButton() {
+    return authService.isValidEmail(emailTextEditingController.text) &&
+        authService.isValidPassword(passwordTextEditingController.text);
+  }
 }

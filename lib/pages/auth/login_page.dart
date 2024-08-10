@@ -1,13 +1,14 @@
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/list_items/list_item_password_component.dart';
+import 'package:challenge/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/account_model.dart';
 import 'package:challenge/services/auth/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,15 +27,20 @@ class _LoginPageState extends State<LoginPage> {
   AuthService authService = AuthService();
 
   String? emailErrorText;
+  String? passwordErrorText;
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const AppBarComponent(
+      appBar: AppBarComponent(
         preTitle: 'Login',
         isFirstPageInRoute: true,
-        leadingIcon: LeadingAppIconComponent(),
+        leadingIcon: isLoading
+            ? const LoadingCircleComponent()
+            : const LeadingAppIconComponent(),
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -60,8 +66,7 @@ class _LoginPageState extends State<LoginPage> {
   ListItemButtonComponent loginButton() {
     return ListItemButtonComponent(
       onTap: onTapLogin,
-      isMainButton:
-          AccountModel.isValidUsername(emailTextEditingController.text),
+      isMainButton: isMainButton(),
       text: 'Login',
     );
   }
@@ -70,6 +75,11 @@ class _LoginPageState extends State<LoginPage> {
     return SpaceColumnComponent(
       child: ListItemPasswordComponent(
         textEditingController: passwordTextEditingController,
+        errorText: passwordErrorText,
+        onChangeTextField: (_) => setState(() {
+          passwordErrorText = null;
+          emailErrorText = null;
+        }),
       ),
     );
   }
@@ -79,6 +89,10 @@ class _LoginPageState extends State<LoginPage> {
       child: ListItemEmailComponent(
         textEditingController: emailTextEditingController,
         errorText: emailErrorText,
+        onChangeTextField: (_) => setState(() {
+          emailErrorText = null;
+          passwordErrorText = null;
+        }),
       ),
     );
   }
@@ -102,12 +116,40 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   onTapLogin() async {
+    if (!authService.isValidEmail(emailTextEditingController.text)) {
+      setState(() {
+        emailErrorText = 'Invalid Email';
+      });
+      return;
+    }
+
+    if (!authService.isValidPassword(passwordTextEditingController.text)) {
+      setState(() {
+        passwordErrorText = 'Invalid Password';
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
     try {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
-    } on Exception catch (e) {
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
       setState(() {
-        emailErrorText = e.toString();
+        emailErrorText = authService.getEmailErrorMessage(e.code);
+        passwordErrorText = authService.getPasswordErrorMessage(e.code);
+        if (emailErrorText == null && passwordErrorText == null) {
+          emailErrorText = 'Login failed';
+          passwordErrorText = 'Login failed';
+        }
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
       });
     }
   }
@@ -158,11 +200,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // bool isEmailValid(String email) {
-  //   // Define a regular expression pattern for a basic email validation
-  //   final emailRegex = RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$');
-
-  //   // Use the regular expression to check if the email matches the pattern
-  //   return emailRegex.hasMatch(email);
-  // }
+  isMainButton() {
+    return authService.isValidEmail(emailTextEditingController.text) &&
+        authService.isValidPassword(passwordTextEditingController.text);
+  }
 }

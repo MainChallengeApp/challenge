@@ -20,22 +20,15 @@ class ListItemPasswordComponent extends StatefulWidget {
 }
 
 class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
-  String? errorText;
-
   @override
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
         icon: Icons.password_rounded,
         textEditingController: widget.textEditingController,
         isHidden: true,
-        onChangeTextField: onChangeTextField,
-        errorText: errorText,
+        onChangeTextField: widget.onChangeTextField,
+        errorText: widget.errorText,
         keyboardType: TextInputType.visiblePassword,
         hintText: 'Password');
-  }
-
-  onChangeTextField(value) {
-    errorText = null;
-    widget.onChangeTextField?.call(value);
   }
 }
