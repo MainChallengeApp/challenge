@@ -6,16 +6,15 @@ class AcceptanceCriteriaModel {
 
   AcceptanceCriteriaModel.empty({this.amount = 1, this.unit = ''});
 
-  static AcceptanceCriteriaModel fromJson(json) {
+  static AcceptanceCriteriaModel fromDoc(doc) {
     try {
-      return AcceptanceCriteriaModel(
-          amount: json['amount'], unit: json['unit']);
+      return AcceptanceCriteriaModel(amount: doc['amount'], unit: doc['unit']);
     } on Exception {
       rethrow;
     }
   }
 
-  toJson() {
+  toDoc() {
     return {
       'amount': amount,
       'unit': unit,

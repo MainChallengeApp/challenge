@@ -32,7 +32,7 @@ void main() {
           }
         ];
         // Act
-        List<ProgressModel> progress = ProgressModel.fromJsonList(json);
+        List<ProgressModel> progress = ProgressModel.fromDocs(json);
         // Assert
         expect(progress[0].progress, equals(1.0));
         expect(progress[0].mediaIds, equals(['1', '2', '3']));
@@ -75,8 +75,7 @@ void main() {
               goal: 1.0)
         ];
         // Act
-        List<Map<String, dynamic>> json =
-            ProgressModel.toJsonList(progressList);
+        List<Map<String, dynamic>> json = ProgressModel.toDocs(progressList);
         // Assert
         expect(json[0]['progress'], equals(progressList[0].progress));
         expect(json[0]['mediaIds'], equals(progressList[0].mediaIds));

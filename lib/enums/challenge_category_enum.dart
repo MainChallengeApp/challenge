@@ -10,16 +10,16 @@ enum ChallengeCategoryEnum {
 
   final String category;
 
-  static ChallengeCategoryEnum factory(String category) {
+  static ChallengeCategoryEnum fromString(String category) {
     return ChallengeCategoryEnum.values.firstWhere(
         (e) => e.category == category,
         orElse: () => throw ChallengeCategoryIsNotSupportedException(category));
   }
 
-  static List<ChallengeCategoryEnum> fromJsonList(List json) {
+  static List<ChallengeCategoryEnum> fromDocs(List docs) {
     List<ChallengeCategoryEnum> list = [];
-    for (var item in json) {
-      list.add(factory(item));
+    for (var doc in docs) {
+      list.add(fromString(doc));
     }
     return list;
   }

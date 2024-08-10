@@ -64,7 +64,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         onChanged: (String? value) {
           // This is called when the user selects an item.
           setState(() {
-            frequency.type = FrequencyTypeEnum.factory(value!);
+            frequency.type = FrequencyTypeEnum.fromString(value!);
           });
           widget.challenge.setFrequencyAmount();
           widget.challenge.setEndDate();

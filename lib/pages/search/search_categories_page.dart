@@ -189,7 +189,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     final data = await assetBundle.loadString('assets/search_challenges.json');
 
     final body = json.decode(data);
-    return body.map<ChallengeModel>((e) => ChallengeModel.fromJson(e)).toList();
+    return body.map<ChallengeModel>((e) => ChallengeModel.fromDoc(e)).toList();
   }
 
   changeList(String value) {

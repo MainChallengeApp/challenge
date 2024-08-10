@@ -10,7 +10,7 @@ enum ChallengeStatusEnum {
 
   final String status;
 
-  static ChallengeStatusEnum factory(String status) {
+  static ChallengeStatusEnum fromString(String status) {
     return ChallengeStatusEnum.values.firstWhere(
       (e) => e.status == status,
       orElse: () => throw ChallengeStatusIsNotSupportedException(status),

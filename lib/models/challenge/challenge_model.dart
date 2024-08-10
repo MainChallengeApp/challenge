@@ -58,33 +58,33 @@ class ChallengeModel {
     media = [];
   }
 
-  static ChallengeModel fromJson(Map json) {
+  static ChallengeModel fromDoc(Map doc) {
     try {
       ChallengeModel challenge = ChallengeModel(
-          id: json.containsKey('id') ? json['id'] : null,
-          status: ChallengeStatusEnum.factory(json['status']),
-          title: json['title'],
-          description: json['description'],
-          thumbnailPath: json['thumbnailPath'],
-          startDate: json['startDate'] == null || json['startDate'] == 'null'
+          id: doc.containsKey('id') ? doc['id'] : null,
+          status: ChallengeStatusEnum.fromString(doc['status']),
+          title: doc['title'],
+          description: doc['description'],
+          thumbnailPath: doc['thumbnailPath'],
+          startDate: doc['startDate'] == null || doc['startDate'] == 'null'
               ? null
-              : DateTime.parse(json['startDate']),
-          endDate: json['endDate'] == null || json['endDate'] == 'null'
+              : DateTime.parse(doc['startDate']),
+          endDate: doc['endDate'] == null || doc['endDate'] == 'null'
               ? null
-              : DateTime.parse(json['endDate']),
+              : DateTime.parse(doc['endDate']),
           acceptanceCriteria:
-              AcceptanceCriteriaModel.fromJson(json['acceptanceCriteria']),
-          frequency: FrequencyModel.fromJson(json['frequency']),
-          repetitions: RepetitionModel.fromJsonList(json['repetitions']),
-          media: MediaModel.fromJsonList(json['media']),
-          categories: ChallengeCategoryEnum.fromJsonList(json['categories']));
+              AcceptanceCriteriaModel.fromDoc(doc['acceptanceCriteria']),
+          frequency: FrequencyModel.fromDoc(doc['frequency']),
+          repetitions: RepetitionModel.fromDocs(doc['repetitions']),
+          media: MediaModel.fromDocs(doc['media']),
+          categories: ChallengeCategoryEnum.fromDocs(doc['categories']));
       return challenge;
     } on Exception {
       rethrow;
     }
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toDoc() {
     return {
       'id': id,
       'status': status.status,
@@ -93,11 +93,11 @@ class ChallengeModel {
       'thumbnailPath': thumbnailPath,
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
-      'acceptanceCriteria': acceptanceCriteria.toJson(),
-      'frequency': frequency.toJson(),
+      'acceptanceCriteria': acceptanceCriteria.toDoc(),
+      'frequency': frequency.toDoc(),
       'repetitions':
-          repetitions.map((repetition) => repetition.toJson()).toList(),
-      'media': media.map((media) => media.toJson()).toList(),
+          repetitions.map((repetition) => repetition.toDoc()).toList(),
+      'media': media.map((media) => media.toDoc()).toList(),
       'categories': categories.map((category) => category.category).toList()
     };
   }

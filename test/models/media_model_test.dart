@@ -48,7 +48,7 @@ void main() {
         }
       ];
       // Act
-      List<MediaModel> media = MediaModel.fromJsonList(json);
+      List<MediaModel> media = MediaModel.fromDocs(json);
       // Assert
       expect(media[0].id, equals('1'));
       expect(media[0].type, equals(MediaTypeEnum.image));
@@ -68,7 +68,7 @@ void main() {
       ];
       // Act
       // Assert
-      expect(() => MediaModel.fromJsonList(json),
+      expect(() => MediaModel.fromDocs(json),
           throwsA(isA<MediaTypeIsNotSupportedException>()));
     });
   });
@@ -82,7 +82,7 @@ void main() {
           title: 'title',
           source: 'abc/title');
       // Act
-      Map<String, String?> json = media.toJson();
+      Map<String, String?> json = media.toDoc();
       // Assert
       expect(
           json,

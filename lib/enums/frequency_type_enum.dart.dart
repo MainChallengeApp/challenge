@@ -9,7 +9,7 @@ enum FrequencyTypeEnum {
 
   const FrequencyTypeEnum(this.text);
 
-  static FrequencyTypeEnum factory(String text) {
+  static FrequencyTypeEnum fromString(String text) {
     return FrequencyTypeEnum.values.firstWhere((e) => e.text == text,
         orElse: () => throw FrequencyTypeIsNotSupportedException(text));
   }

@@ -17,17 +17,17 @@ class MediaModel {
     }
   }
 
-  static fromJsonList(json) {
+  static fromDocs(docs) {
     List<MediaModel> list = [];
-    json?.forEach((e) => list.add(MediaModel(
-        type: MediaTypeEnum.factory(e['type']),
+    docs?.forEach((e) => list.add(MediaModel(
+        type: MediaTypeEnum.fromString(e['type']),
         title: e['title'],
         source: e['source'],
         id: e['id'])));
     return list;
   }
 
-  toJson() {
+  toDoc() {
     return {'id': id, 'type': type.type, 'title': title, 'source': source};
   }
 

@@ -10,7 +10,7 @@ enum RepetitionStatusEnum {
 
   final String status;
 
-  static RepetitionStatusEnum factory(String status) {
+  static RepetitionStatusEnum fromString(String status) {
     return RepetitionStatusEnum.values.firstWhere(
       (element) => element.status == status,
       orElse: () => throw RepetitionStatusIsNotSupportedException(status),

@@ -103,7 +103,7 @@ void main() {
         };
 
         // Act
-        ChallengeModel challenge = ChallengeModel.fromJson(json);
+        ChallengeModel challenge = ChallengeModel.fromDoc(json);
 
         // Assert
         expect(challenge.id, equals(json['id']));
@@ -132,7 +132,7 @@ void main() {
         Map<String, dynamic> json = {};
 
         // Act & Assert
-        expect(() => ChallengeModel.fromJson(json), throwsA(isA<TypeError>()));
+        expect(() => ChallengeModel.fromDoc(json), throwsA(isA<TypeError>()));
       });
 
       test('should throw challenge category is not supported exception', () {
@@ -153,7 +153,7 @@ void main() {
         };
 
         // Act & Assert
-        expect(() => ChallengeModel.fromJson(json),
+        expect(() => ChallengeModel.fromDoc(json),
             throwsA(isA<ChallengeCategoryIsNotSupportedException>()));
       });
 
@@ -175,7 +175,7 @@ void main() {
         };
 
         // Act & Assert
-        expect(() => ChallengeModel.fromJson(json),
+        expect(() => ChallengeModel.fromDoc(json),
             throwsA(isA<ChallengeStatusIsNotSupportedException>()));
       });
     });
@@ -200,7 +200,7 @@ void main() {
         };
 
         // Act
-        Map<String, dynamic> challengeJson = challenge.toJson();
+        Map<String, dynamic> challengeJson = challenge.toDoc();
 
         // Assert
         expect(challengeJson, equals(json));

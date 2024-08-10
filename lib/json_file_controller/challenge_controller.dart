@@ -18,7 +18,7 @@ class ChallengeController {
 
       final body = json.decode(data);
       List<ChallengeModel> c = body.map<ChallengeModel>((e) {
-        return ChallengeModel.fromJson(e);
+        return ChallengeModel.fromDoc(e);
       }).toList();
       return c;
     } catch (e) {
@@ -31,7 +31,7 @@ class ChallengeController {
     try {
       // Convert the list of Challenge objects to a list of JSON data.
       final jsonData =
-          challenges.map((challenge) => challenge.toJson()).toList();
+          challenges.map((challenge) => challenge.toDoc()).toList();
 
       // Convert the list of JSON data to a JSON string.
       final jsonString = json.encode(jsonData);

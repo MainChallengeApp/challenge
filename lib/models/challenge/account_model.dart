@@ -3,9 +3,9 @@ class AccountModel {
 
   AccountModel({required this.username});
 
-  static AccountModel fromJson(json) => AccountModel(username: json['email']);
+  static AccountModel fromDoc(doc) => AccountModel(username: doc['email']);
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toDoc() {
     return {'email': username};
   }
 

@@ -118,7 +118,7 @@ void main() {
         };
         FrequencyModel expectedFrequencyModel = createMockFrequencyModel();
         // Act
-        FrequencyModel actualFrequencyModel = FrequencyModel.fromJson(json);
+        FrequencyModel actualFrequencyModel = FrequencyModel.fromDoc(json);
         // Assert
         expect(actualFrequencyModel.amount, expectedFrequencyModel.amount);
         expect(actualFrequencyModel.type, expectedFrequencyModel.type);
@@ -130,7 +130,7 @@ void main() {
         // Arrange
         Map<String, dynamic> json = {'amount': 1, 'type': 'invalid'};
         // Act & Assert
-        expect(() => FrequencyModel.fromJson(json),
+        expect(() => FrequencyModel.fromDoc(json),
             throwsA(isA<FrequencyTypeIsNotSupportedException>()));
       });
 
@@ -138,7 +138,7 @@ void main() {
         // Arrange
         Map<String, dynamic> json = {'amount': 1.5, 'type': 'invalid'};
         // Act & Assert
-        expect(() => FrequencyModel.fromJson(json), throwsA(isA<TypeError>()));
+        expect(() => FrequencyModel.fromDoc(json), throwsA(isA<TypeError>()));
       });
     });
 
@@ -151,7 +151,7 @@ void main() {
           'type': FrequencyTypeEnum.time.text
         };
         // Act
-        Map<String, dynamic> actualJson = frequencyModel.toJson();
+        Map<String, dynamic> actualJson = frequencyModel.toDoc();
         // Assert
         expect(actualJson, expectedJson);
       });
@@ -165,7 +165,7 @@ void main() {
           'type': FrequencyTypeEnum.time.text
         };
         // Act
-        Map<String, dynamic> actualJson = frequencyModel.toJson();
+        Map<String, dynamic> actualJson = frequencyModel.toDoc();
         // Assert
         expect(actualJson, expectedJson);
       });

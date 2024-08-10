@@ -110,36 +110,36 @@ class RepetitionModel {
     return progress;
   }
 
-  toJson() {
+  toDoc() {
     return {
       'repetitionNumber': repetitionNumber,
       'goalAmount': goalAmount,
-      'progressList': ProgressModel.toJsonList(progressList),
+      'progressList': ProgressModel.toDocs(progressList),
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
       'repetitionStatus': repetitionStatus.toString()
     };
   }
 
-  static fromJsonList(json) {
+  static fromDocs(docs) {
     List<RepetitionModel> list = [];
-    json?.forEach((json) => list.add(RepetitionModel(
-        repetitionNumber: json['repetitionNumber'],
-        goalAmount: json['goalAmount'] ??
+    docs?.forEach((doc) => list.add(RepetitionModel(
+        repetitionNumber: doc['repetitionNumber'],
+        goalAmount: doc['goalAmount'] ??
             0, // ?? 0 can be removed when no more home challenges saved without goalAmount
-        progressList: ProgressModel.fromJsonList(json['progressList']),
-        startDate: json['startDate'] == null ||
-                json['startDate'] == 'null' ||
-                json['startDate'] == ''
+        progressList: ProgressModel.fromDocs(doc['progressList']),
+        startDate: doc['startDate'] == null ||
+                doc['startDate'] == 'null' ||
+                doc['startDate'] == ''
             ? null
-            : DateTime.parse(json['startDate']),
-        endDate: json['endDate'] == null ||
-                json['endDate'] == 'null' ||
-                json['endDate'] == ''
+            : DateTime.parse(doc['startDate']),
+        endDate: doc['endDate'] == null ||
+                doc['endDate'] == 'null' ||
+                doc['endDate'] == ''
             ? null
-            : DateTime.parse(json['endDate']),
+            : DateTime.parse(doc['endDate']),
         repetitionStatus:
-            RepetitionStatusEnum.factory(json['repetitionStatus']))));
+            RepetitionStatusEnum.fromString(doc['repetitionStatus']))));
     return list;
   }
 

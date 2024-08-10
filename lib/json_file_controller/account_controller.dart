@@ -17,7 +17,7 @@ class AccountController {
       final data = await file.readAsString();
 
       final jsonData = json.decode(data);
-      return AccountModel.fromJson(
+      return AccountModel.fromDoc(
           jsonData); // body.map<Account>(Account.fromJson);
     } catch (e) {
       return AccountModel(username: '');
@@ -27,7 +27,7 @@ class AccountController {
   Future<void> writeFile(AccountModel account) async {
     try {
       // Convert the list of Challenge objects to a list of JSON data.
-      final jsonData = account.toJson();
+      final jsonData = account.toDoc();
 
       // Convert the list of JSON data to a JSON string.
       final jsonString = json.encode(jsonData);

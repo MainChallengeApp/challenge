@@ -365,12 +365,12 @@ void main() {
         repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
 
         // Act
-        Map<String, dynamic> result = repetition.toJson();
+        Map<String, dynamic> result = repetition.toDoc();
         // Assert
         expect(result['repetitionNumber'], equals(1));
         expect(result['goalAmount'], equals(1));
         expect(result['progressList'],
-            equals(ProgressModel.toJsonList(repetition.progressList)));
+            equals(ProgressModel.toDocs(repetition.progressList)));
         expect(result['startDate'], equals(repetition.startDate.toString()));
         expect(result['endDate'], equals(repetition.endDate.toString()));
         expect(result['repetitionStatus'],
@@ -421,7 +421,7 @@ void main() {
 
         List<Map<String, dynamic>> json = [json1, json2];
         // Act
-        List<RepetitionModel> result = RepetitionModel.fromJsonList(json);
+        List<RepetitionModel> result = RepetitionModel.fromDocs(json);
         // Assert
         expect(result.length, equals(2));
         expect(result[0].repetitionNumber, equals(1));
@@ -452,7 +452,7 @@ void main() {
         };
         // Act
         // Assert
-        expect(() => RepetitionModel.fromJsonList([json]),
+        expect(() => RepetitionModel.fromDocs([json]),
             throwsA(isA<RepetitionStatusIsNotSupportedException>()));
       });
     });

@@ -35,17 +35,17 @@ class FrequencyModel {
             : throw FrequencyTypeIsNotSupportedException(type.text);
   }
 
-  static FrequencyModel fromJson(json) {
+  static FrequencyModel fromDoc(doc) {
     try {
       return FrequencyModel(
-          amount: json['amount'],
-          type: FrequencyTypeEnum.factory(json['type']));
+          amount: doc['amount'],
+          type: FrequencyTypeEnum.fromString(doc['type']));
     } on Exception {
       rethrow;
     }
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toDoc() {
     return {
       'amount': amount,
       'type': type.text,

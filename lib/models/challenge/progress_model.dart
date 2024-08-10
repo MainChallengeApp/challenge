@@ -32,7 +32,7 @@ class ProgressModel {
     goal = newProgress.goal;
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toDoc() {
     return {
       'date': date.toString(),
       'progress': progress,
@@ -42,20 +42,19 @@ class ProgressModel {
     };
   }
 
-  static fromJsonList(json) {
+  static fromDocs(docs) {
     List<ProgressModel> progressList = [];
-    json?.forEach((e) => progressList.add(ProgressModel(
-        progress: e['progress'],
-        mediaIds: List.from(e['mediaIds']),
-        date: DateTime.parse(e['date']),
-        repetitionNumber: e['repetitionNumber'],
-        goal: e['goal'])));
+    docs?.forEach((doc) => progressList.add(ProgressModel(
+        progress: doc['progress'],
+        mediaIds: List.from(doc['mediaIds']),
+        date: DateTime.parse(doc['date']),
+        repetitionNumber: doc['repetitionNumber'],
+        goal: doc['goal'])));
     return progressList;
   }
 
-  static List<Map<String, dynamic>> toJsonList(
-      List<ProgressModel> progressList) {
-    return progressList.map((progress) => progress.toJson()).toList();
+  static List<Map<String, dynamic>> toDocs(List<ProgressModel> progressList) {
+    return progressList.map((progress) => progress.toDoc()).toList();
   }
 
   static copyProgressList(List<ProgressModel> progressList) {

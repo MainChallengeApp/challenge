@@ -29,7 +29,7 @@ void main() {
 
         // Act
         AcceptanceCriteriaModel acceptanceCriteriaFromJson =
-            AcceptanceCriteriaModel.fromJson(json);
+            AcceptanceCriteriaModel.fromDoc(json);
 
         // Assert
         expect(acceptanceCriteriaFromJson.amount,
@@ -43,7 +43,7 @@ void main() {
         Map<String, dynamic> json = {'amount': '2', 'unit': 'unit'};
 
         // Assert & // Act
-        expect(() => AcceptanceCriteriaModel.fromJson(json),
+        expect(() => AcceptanceCriteriaModel.fromDoc(json),
             throwsA(isA<TypeError>()));
       });
     });
@@ -57,7 +57,7 @@ void main() {
 
         // Act
         Map<String, dynamic> acceptanceCriteriaToJson =
-            acceptanceCriteria.toJson();
+            acceptanceCriteria.toDoc();
 
         // Assert
         expect(acceptanceCriteriaToJson, equals(expectedJson));

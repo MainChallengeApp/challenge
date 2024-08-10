@@ -7,7 +7,7 @@ void main() {
       // Arrange
       Map<String, dynamic> json = {'email': 'email'};
       // Act
-      AccountModel account = AccountModel.fromJson(json);
+      AccountModel account = AccountModel.fromDoc(json);
       // Assert
       expect(account.username, equals('email'));
     });
@@ -18,7 +18,7 @@ void main() {
       // Arrange
       AccountModel account = AccountModel(username: 'email');
       // Act
-      Map<String, dynamic> json = account.toJson();
+      Map<String, dynamic> json = account.toDoc();
       // Assert
       expect(json['email'], equals(account.username));
     });
