@@ -19,21 +19,21 @@ class ListItemEmailComponent extends StatefulWidget {
 }
 
 class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
-  String? errorText;
-
   @override
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
         icon: Icons.email_rounded,
         textEditingController: widget.textEditingController,
         onChangeTextField: onChangeTextField,
-        errorText: errorText,
+        errorText: widget.errorText,
         keyboardType: TextInputType.emailAddress,
         hintText: 'Email');
   }
 
   onChangeTextField(value) {
-    errorText = null;
+    setState(() {
+      widget.errorText = null;
+    });
     widget.onChangeTextField?.call(value);
   }
 }
