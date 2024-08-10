@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ChallengeController {

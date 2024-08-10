@@ -9,10 +9,10 @@ import 'package:challenge/components/simple_components/space_column_component.da
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';

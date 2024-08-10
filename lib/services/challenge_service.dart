@@ -1,8 +1,8 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
 
 class ChallengeService {
   ChallengeController challengeController = ChallengeController();

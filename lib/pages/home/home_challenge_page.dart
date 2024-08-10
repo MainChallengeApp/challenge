@@ -19,7 +19,7 @@ import 'package:challenge/components/simple_components/tap_container_component.d
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';

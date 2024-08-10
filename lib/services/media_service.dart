@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MediaService {

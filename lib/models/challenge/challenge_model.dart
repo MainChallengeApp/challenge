@@ -4,8 +4,8 @@ import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/models/frequency_model.dart';
-import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:uuid/uuid.dart';
 
 import 'acceptance_criteria_model.dart';

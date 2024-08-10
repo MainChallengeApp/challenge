@@ -1,8 +1,8 @@
 import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/frequency_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:flutter/material.dart';
 
 class ActionButtonComponent extends StatefulWidget {

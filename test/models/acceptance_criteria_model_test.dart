@@ -1,4 +1,4 @@
-import 'package:challenge/models/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 

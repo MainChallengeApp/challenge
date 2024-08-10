@@ -1,6 +1,6 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/exceptions/frequency_type_is_not_supported_exception.dart';
-import 'package:challenge/models/frequency_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

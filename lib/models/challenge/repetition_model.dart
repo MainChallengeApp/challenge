@@ -1,5 +1,5 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
 
 class RepetitionModel {
   final int repetitionNumber;

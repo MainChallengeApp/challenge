@@ -1,13 +1,12 @@
 import 'dart:io';
 
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:flutter/material.dart';
-
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/media_model.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
+import 'package:flutter/material.dart';
 
 class ImagePage extends StatefulWidget {
   final String preTitle;

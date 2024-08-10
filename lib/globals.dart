@@ -1,4 +1,4 @@
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:flutter/material.dart';
 
 import 'enums/tab_item_enum.dart';

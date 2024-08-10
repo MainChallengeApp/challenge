@@ -6,8 +6,8 @@ import 'package:challenge/components/simple_components/icon_container_in_list_it
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';

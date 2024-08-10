@@ -10,7 +10,7 @@ import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';

@@ -6,7 +6,7 @@ import 'package:challenge/components/simple_components/tap_container_component.d
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

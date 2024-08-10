@@ -5,8 +5,8 @@ import 'package:challenge/components/navigation/no_animation_page_route_componen
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/account_controller.dart';
-import 'package:challenge/models/account_model.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/account_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/settings/credits/credits_page.dart';
 import 'package:challenge/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';

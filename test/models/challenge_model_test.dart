@@ -5,12 +5,12 @@ import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/exceptions/challenge_category_is_not_supported_exception.dart';
 import 'package:challenge/exceptions/challenge_status_is_not_supported_exception.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/frequency_model.dart';
-import 'package:challenge/models/media_model.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

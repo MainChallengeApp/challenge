@@ -1,5 +1,5 @@
-import 'package:challenge/models/challenge_model.dart';
 import 'package:challenge/components/challenge/challenge_total_percentage_component.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:flutter/material.dart';
 
 class TitleComponent extends StatelessWidget {

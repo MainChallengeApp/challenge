@@ -2,9 +2,9 @@ import 'package:challenge/components/simple_components/custom_container_componen
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/acceptance_criteria_model.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/frequency_model.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

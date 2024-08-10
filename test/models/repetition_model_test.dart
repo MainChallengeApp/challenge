@@ -1,7 +1,7 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/exceptions/repetition_status_is_not_supported_exception.dart';
-import 'package:challenge/models/progress_model.dart';
-import 'package:challenge/models/repetition_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

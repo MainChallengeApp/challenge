@@ -9,7 +9,7 @@ import 'package:challenge/components/navigation/no_animation_page_route_componen
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';

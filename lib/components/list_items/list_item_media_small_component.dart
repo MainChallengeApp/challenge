@@ -5,7 +5,7 @@ import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

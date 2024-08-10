@@ -15,7 +15,7 @@ import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';

@@ -8,7 +8,7 @@ import 'package:challenge/components/simple_components/custom_button_component.d
 import 'package:challenge/components/simple_components/custom_card_component.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/models/challenge_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 

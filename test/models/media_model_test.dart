@@ -1,6 +1,6 @@
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/exceptions/media_type_is_not_supported_exception.dart';
-import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

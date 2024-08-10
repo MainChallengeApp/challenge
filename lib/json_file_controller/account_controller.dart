@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:challenge/models/account_model.dart';
+import 'package:challenge/models/challenge/account_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class AccountController {

@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:challenge/components/simple_components/tap_container_component.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/progress_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 

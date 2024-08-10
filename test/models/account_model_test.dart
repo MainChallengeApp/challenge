@@ -1,4 +1,4 @@
-import 'package:challenge/models/account_model.dart';
+import 'package:challenge/models/challenge/account_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

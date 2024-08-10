@@ -9,8 +9,8 @@ import 'package:challenge/components/simple_components/space_column_component.da
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge_model.dart';
-import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:flutter/material.dart';

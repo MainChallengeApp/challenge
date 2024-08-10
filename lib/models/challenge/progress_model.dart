@@ -1,4 +1,4 @@
-import 'package:challenge/models/media_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 
 class ProgressModel {
   late DateTime date;
