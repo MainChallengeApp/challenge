@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  final _auth = FirebaseAuth.instance;
+  final auth = FirebaseAuth.instance;
 
-  User? getCurrentUser() => _auth.currentUser;
-  String getCurrentUserId() => _auth.currentUser!.uid;
+  User? getCurrentUser() => auth.currentUser;
+  String getCurrentUserId() => auth.currentUser!.uid;
 
   Future<UserCredential> loginEmailPassword(
       String email, String password) async {
     try {
-      final userCredential = await _auth.signInWithEmailAndPassword(
+      final userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
       return userCredential;
     } on FirebaseAuthException {
@@ -20,7 +20,7 @@ class AuthService {
   Future<UserCredential> registerEmailPassword(
       String email, String password) async {
     try {
-      final userCredential = await _auth.createUserWithEmailAndPassword(
+      final userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       return userCredential;
     } on FirebaseAuthException {
@@ -29,7 +29,7 @@ class AuthService {
   }
 
   Future<void> logout() async {
-    await _auth.signOut();
+    await auth.signOut();
   }
 
   bool isValidEmail(String text) {

@@ -6,14 +6,14 @@ class UsersDatabase extends Database {
     collection = 'users';
   }
 
-  Future<void> createUser(UserModel user) async {
-    await db.collection(collection).doc(user.id).set(user.toMap());
+  Future<void> create(UserModel user) async {
+    await db.collection(collection).doc(user.id).set(user.toDoc());
   }
 
-  Future<UserModel> getUser(String id) async {
+  Future<UserModel> getById(String id) async {
     try {
       final doc = await db.collection(collection).doc(id).get();
-      return UserModel.fromMap(doc.data()!);
+      return UserModel.fromDoc(doc);
     } on Exception {
       rethrow;
     }

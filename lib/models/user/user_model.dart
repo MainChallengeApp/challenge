@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
-  final String id;
-  final String email;
-  final String username;
-  final String name;
+  String id;
+  String email;
+  String username;
+  String name;
 
   UserModel({
     required this.id,
@@ -11,19 +13,19 @@ class UserModel {
     required this.username,
   });
 
-  static fromMap(Map<String, dynamic> map) {
+  static fromDoc(DocumentSnapshot doc) {
     try {
       return UserModel(
-          id: map['id'],
-          email: map['email'],
-          username: map['username'],
-          name: map['name']);
+          id: doc.id,
+          email: doc['email'],
+          username: doc['username'],
+          name: doc['name']);
     } on Exception {
       rethrow;
     }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toDoc() {
     return {
       'id': id,
       'email': email,

@@ -8,7 +8,7 @@ import 'package:challenge/components/simple_components/space_column_component.da
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/services/auth/auth_service.dart';
-import 'package:challenge/services/user/user_service.dart';
+import 'package:challenge/services/user/users_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +23,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   AuthService authService = AuthService();
-  UserService userService = UserService();
+  UsersService usersService = UsersService();
 
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
@@ -140,14 +140,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
     });
 
     try {
-      UserCredential userCredential = await authService.registerEmailPassword(
+      await authService.registerEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
 
-      userService.createUser(
-          id: userCredential.user!.uid,
-          email: emailTextEditingController.text,
-          username: '',
-          name: '');
+      usersService.createUser(
+          email: emailTextEditingController.text, username: '', name: '');
     } on FirebaseAuthException catch (e) {
       setState(() {
         emailErrorText = authService.getEmailErrorMessage(e.code);
