@@ -138,7 +138,6 @@ class _LoginPageState extends State<LoginPage> {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       setState(() {
         emailErrorText = authService.getEmailErrorMessage(e.code);
         passwordErrorText = authService.getPasswordErrorMessage(e.code);
@@ -146,6 +145,11 @@ class _LoginPageState extends State<LoginPage> {
           emailErrorText = 'Login failed';
           passwordErrorText = 'Login failed';
         }
+      });
+    } on Exception {
+      setState(() {
+        emailErrorText = 'Registration failed';
+        passwordErrorText = 'Registration failed';
       });
     } finally {
       setState(() {
