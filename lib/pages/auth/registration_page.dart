@@ -2,6 +2,7 @@ import 'package:challenge/components/list_items/list_item_button_component.dart'
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/list_items/list_item_password_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
@@ -21,7 +22,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  String username = '';
   AccountService accountService = AccountService();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
@@ -33,31 +33,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const AppBarComponent(
-        preTitle: 'Registration',
+        preTitle: 'Register',
         isFirstPageInRoute: true,
+        leadingIcon: LeadingAppIconComponent(),
       ),
+      resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            spacing(),
-            appIcon(),
-            spacing(),
-            emailInput(),
-            passwordInput(),
-            acceptButton(),
-            switchToRegistrationButton(),
-          ],
+        physics: const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              spacing(),
+              emailInput(),
+              passwordInput(),
+              registerButton(),
+              const Spacer(),
+              switchToLoginButton(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  SpaceColumnComponent acceptButton() {
+  SpaceColumnComponent registerButton() {
     return SpaceColumnComponent(
       heightMultiplier: 4,
       child: ListItemButtonComponent(
         onTap: onTapAccept,
-        isMainButton: AccountModel.isValidUsername(username),
+        isMainButton:
+            AccountModel.isValidUsername(emailTextEditingController.text),
         text: 'Register',
       ),
     );
@@ -100,33 +106,37 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   onTapAccept() {
-    if (accountService.registerAccount(username: username)) {
+    if (accountService.registerAccount(
+        username: emailTextEditingController.text)) {
       context.read<DesignProvider>().setIsRegistered(true);
     } else {
       setState(() {
-        emailErrorText = 'add a Username';
+        emailErrorText = 'add an Email';
       });
     }
   }
 
-  switchToRegistrationButton() {
-    return GestureDetector(
-      onTap: widget.onTapSwitchToLogin,
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Not a member yet?',
-            style: TextStyle(color: themeColor3),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            ' Register now!',
-            style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
-          ),
-        ],
+  switchToLoginButton() {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 150.0),
+      child: GestureDetector(
+        onTap: widget.onTapSwitchToLogin,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Not a member yet?',
+              style: TextStyle(color: themeColor3),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(
+              ' Register now!',
+              style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
+            ),
+          ],
+        ),
       ),
     );
   }

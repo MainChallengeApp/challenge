@@ -6,6 +6,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final Color textColor;
   final Color backgroundColor;
   final bool isFirstPageInRoute;
+  final Widget? leadingIcon;
 
   final double appBarFontSize = 21;
 
@@ -18,7 +19,8 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       this.titleText,
       this.textColor = Colors.black,
       this.backgroundColor = Colors.white,
-      this.isFirstPageInRoute = false});
+      this.isFirstPageInRoute = false,
+      this.leadingIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +35,13 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
     return AppBar(
       elevation: 0,
-      leading: isFirstPageInRoute
-          ? const Icon(
-              Icons.chevron_left,
-              color: Colors.transparent,
-            )
-          : null,
+      leading: leadingIcon ??
+          (isFirstPageInRoute
+              ? const Icon(
+                  Icons.chevron_left,
+                  color: Colors.transparent,
+                )
+              : null),
       backgroundColor: backgroundColor,
       foregroundColor: textColor,
       scrolledUnderElevation: 0,

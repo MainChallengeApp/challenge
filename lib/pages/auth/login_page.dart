@@ -2,11 +2,11 @@ import 'package:challenge/components/list_items/list_item_button_component.dart'
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/list_items/list_item_password_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
+import 'package:challenge/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/account_model.dart';
-import 'package:challenge/services/account_service.dart';
 import 'package:challenge/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
@@ -20,8 +20,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String username = '';
-  AccountService accountService = AccountService();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
@@ -36,40 +34,34 @@ class _LoginPageState extends State<LoginPage> {
       appBar: const AppBarComponent(
         preTitle: 'Login',
         isFirstPageInRoute: true,
+        leadingIcon: LeadingAppIconComponent(),
       ),
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(0),
-              physics: const AlwaysScrollableScrollPhysics(),
-              child: Column(
-                children: [
-                  // spacing(),
-                  appIcon(),
-                  spacing(),
-                  emailInput(),
-                  passwordInput(),
-                  forGotPasswordButton(),
-                  acceptButton(),
-                  const SpaceComponent(
-                    heightMultiplier: 17,
-                  ),
-                  switchToRegistrationButton(),
-                ],
-              ),
-            ),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              spacing(),
+              emailInput(),
+              passwordInput(),
+              forGotPasswordButton(),
+              loginButton(),
+              const Spacer(),
+              switchToRegistrationButton(),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
-  ListItemButtonComponent acceptButton() {
+  ListItemButtonComponent loginButton() {
     return ListItemButtonComponent(
       onTap: onTapLogin,
-      isMainButton: AccountModel.isValidUsername(username),
+      isMainButton:
+          AccountModel.isValidUsername(emailTextEditingController.text),
       text: 'Login',
     );
   }
@@ -93,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
 
   SpaceComponent spacing() {
     return const SpaceComponent(
-      height: 45,
+      height: 50,
     );
   }
 
@@ -114,13 +106,15 @@ class _LoginPageState extends State<LoginPage> {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
     } on Exception catch (e) {
-      print(e);
+      setState(() {
+        emailErrorText = e.toString();
+      });
     }
   }
 
   switchToRegistrationButton() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 60.0),
+      padding: const EdgeInsets.only(bottom: 150.0),
       child: GestureDetector(
         onTap: widget.onTapSwitchToRegistration,
         child: const Row(
