@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:challenge/components/categories/category_component.dart';
 import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
@@ -13,6 +11,7 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:challenge/services/challenges/search_challenge_service.dart';
 import 'package:flutter/material.dart';
 
 import 'search_challenge_page.dart';
@@ -28,13 +27,17 @@ class SearchCategoriesPage extends StatefulWidget {
 class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   late List<ChallengeModel> challenges;
   final ScrollController scrollController = ScrollController();
+  final SearchChallengesService searchChallengesService =
+      SearchChallengesService();
 
   String searchBarText = '';
 
   @override
   void initState() {
     super.initState();
-    getChallenges(context).then((value) => challenges = value);
+    searchChallengesService.getAll().then((value) {
+      return challenges = value;
+    });
   }
 
   @override
@@ -60,9 +63,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemCount: categories.length + 1, //  + 1 for searchBar
-          // separatorBuilder: (context, index) => const SizedBox( // does not work properly with scrollbar (scrollbar jumps around)
-          //       height: 17,
-          //     ),
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
               return SpaceColumnComponent(
@@ -181,15 +181,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       onTap: () =>
           onTapCategory(const [ChallengeCategoryEnum.mentalHealth], 'Mental'),
     ));
-  }
-
-  static Future<List<ChallengeModel>> getChallenges(
-      BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/search_challenges.json');
-
-    final body = json.decode(data);
-    return body.map<ChallengeModel>((e) => ChallengeModel.fromDoc(e)).toList();
   }
 
   changeList(String value) {

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:challenge/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_search_bar_component.dart';
@@ -39,7 +37,6 @@ class SearchListPage extends StatefulWidget {
 }
 
 class _SearchListPageState extends State<SearchListPage> {
-  late Future<List<ChallengeModel>> challengesFutures;
   late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
 
@@ -48,7 +45,6 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   void initState() {
     super.initState();
-    challengesFutures = getChallenges(context);
     searchBarText = widget.initialSearchText;
   }
 
@@ -121,15 +117,6 @@ class _SearchListPageState extends State<SearchListPage> {
             );
           }),
     );
-  }
-
-  static Future<List<ChallengeModel>> getChallenges(
-      BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/search_challenges.json');
-
-    final body = json.decode(data);
-    return body.map<ChallengeModel>((e) => ChallengeModel.fromDoc(e)).toList();
   }
 
   changeList(String value) {
