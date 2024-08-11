@@ -17,6 +17,7 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/services/media_service.dart';
@@ -325,13 +326,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           .map((oldChallenge) => oldChallenge.id == widget.challenge.id
               ? widget.challenge
               : oldChallenge)
-          .toList();
+          .toList() as List<UserChallengeModel>;
 
       challengeList = challengeList
           .map((oldChallenge) => oldChallenge.id == widget.challenge.id
               ? widget.challenge
               : oldChallenge)
-          .toList();
+          .toList() as List<UserChallengeModel>;
 
       challengeController.writeFile(allChallengesList);
 

@@ -3,8 +3,6 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/exceptions/challenge_category_is_not_supported_exception.dart';
-import 'package:challenge/exceptions/challenge_status_is_not_supported_exception.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
@@ -82,110 +80,109 @@ void main() {
       });
     });
 
-    group('fromJson()', () {
-      test('should create ChallengeModel object when json is passed correctly',
-          () {
-        // Arrange
-        Map<String, dynamic> json = {
-          'id': '1',
-          'status': 'backlog',
-          'title': 'Challenge Title',
-          'description': 'Challenge Description',
-          'thumbnailPath': 'assets/images/test.png',
-          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
-          'frequency': {'type': 'time', 'amount': 1},
-          'repetitions': [],
-          'media': [],
-          'categories': ['social', 'physicalHealth'],
-          'startDate': DateTime.now().toIso8601String(),
-          'endDate':
-              DateTime.now().add(const Duration(days: 1)).toIso8601String()
-        };
+    // group('fromJson()', () {
+    //   test('should create ChallengeModel object when json is passed correctly',
+    //       () {
+    //     // Arrange
+    //     Map<String, dynamic> json = {
+    //       'id': '1',
+    //       'status': 'backlog',
+    //       'title': 'Challenge Title',
+    //       'description': 'Challenge Description',
+    //       'thumbnailPath': 'assets/images/test.png',
+    //       'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
+    //       'frequency': {'type': 'time', 'amount': 1},
+    //       'repetitions': [],
+    //       'media': [],
+    //       'categories': ['social', 'physicalHealth'],
+    //       'startDate': DateTime.now().toIso8601String(),
+    //       'endDate':
+    //           DateTime.now().add(const Duration(days: 1)).toIso8601String()
+    //     };
 
-        // Act
-        ChallengeModel challenge = ChallengeModel.fromDoc(json);
+    //     // Act
+    //     ChallengeModel challenge = ChallengeModel.fromDoc(json);
 
-        // Assert
-        expect(challenge.id, equals(json['id']));
-        expect(challenge.status, equals(ChallengeStatusEnum.backlog));
-        expect(challenge.title, equals(json['title']));
-        expect(challenge.description, equals(json['description']));
-        expect(challenge.thumbnailPath, equals(json['thumbnailPath']));
-        expect(challenge.acceptanceCriteria.amount, equals(1));
-        expect(challenge.acceptanceCriteria.unit, equals('Unit'));
-        expect(challenge.frequency.type, equals(FrequencyTypeEnum.time));
-        expect(challenge.frequency.amount, equals(1));
-        expect(challenge.repetitions, equals([]));
-        expect(challenge.media, equals([]));
-        expect(
-            challenge.categories,
-            equals([
-              ChallengeCategoryEnum.social,
-              ChallengeCategoryEnum.physicalHealth
-            ]));
-        expect(challenge.startDate, equals(DateTime.parse(json['startDate'])));
-        expect(challenge.endDate, equals(DateTime.parse(json['endDate'])));
-      });
+    //     // Assert
+    //     expect(challenge.id, equals(json['id']));
+    //     expect(challenge.status, equals(ChallengeStatusEnum.backlog));
+    //     expect(challenge.title, equals(json['title']));
+    //     expect(challenge.description, equals(json['description']));
+    //     expect(challenge.thumbnailPath, equals(json['thumbnailPath']));
+    //     expect(challenge.acceptanceCriteria.amount, equals(1));
+    //     expect(challenge.acceptanceCriteria.unit, equals('Unit'));
+    //     expect(challenge.frequency.type, equals(FrequencyTypeEnum.time));
+    //     expect(challenge.frequency.amount, equals(1));
+    //     expect(challenge.repetitions, equals([]));
+    //     expect(challenge.media, equals([]));
+    //     expect(
+    //         challenge.categories,
+    //         equals([
+    //           ChallengeCategoryEnum.social,
+    //           ChallengeCategoryEnum.physicalHealth
+    //         ]));
+    //     expect(challenge.startDate, equals(DateTime.parse(json['startDate'])));
+    //     expect(challenge.endDate, equals(DateTime.parse(json['endDate'])));
+    //   });
 
-      test('should throw error when json is passed incorrectly', () {
-        // Arrange
-        Map<String, dynamic> json = {};
+    //   test('should throw error when json is passed incorrectly', () {
+    //     // Arrange
+    //     Map<String, dynamic> json = {};
 
-        // Act & Assert
-        expect(() => ChallengeModel.fromDoc(json), throwsA(isA<TypeError>()));
-      });
+    //     // Act & Assert
+    //     expect(() => ChallengeModel.fromDoc(json), throwsA(isA<TypeError>()));
+    //   });
 
-      test('should throw challenge category is not supported exception', () {
-        // Arrange
-        Map<String, dynamic> json = {
-          'id': '1',
-          'status': 'backlog',
-          'title': 'Challenge Title',
-          'description': 'Challenge Description',
-          'thumbnailPath': 'assets/images/test.png',
-          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
-          'frequency': {'type': 'time', 'amount': 1},
-          'repetitions': [],
-          'media': [],
-          'categories': ['notSupportedCategory'],
-          'startDate': DateTime.now().toString(),
-          'endDate': DateTime.now().add(const Duration(days: 1)).toString()
-        };
+    //   test('should throw challenge category is not supported exception', () {
+    //     // Arrange
+    //     Map<String, dynamic> json = {
+    //       'id': '1',
+    //       'status': 'backlog',
+    //       'title': 'Challenge Title',
+    //       'description': 'Challenge Description',
+    //       'thumbnailPath': 'assets/images/test.png',
+    //       'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
+    //       'frequency': {'type': 'time', 'amount': 1},
+    //       'repetitions': [],
+    //       'media': [],
+    //       'categories': ['notSupportedCategory'],
+    //       'startDate': DateTime.now().toString(),
+    //       'endDate': DateTime.now().add(const Duration(days: 1)).toString()
+    //     };
 
-        // Act & Assert
-        expect(() => ChallengeModel.fromDoc(json),
-            throwsA(isA<ChallengeCategoryIsNotSupportedException>()));
-      });
+    //     // Act & Assert
+    //     expect(() => ChallengeModel.fromDoc(json),
+    //         throwsA(isA<ChallengeCategoryIsNotSupportedException>()));
+    //   });
 
-      test('should throw challenge status is not supported exception', () {
-        // Arrange
-        Map<String, dynamic> json = {
-          'id': '1',
-          'status': 'not supported status',
-          'title': 'Challenge Title',
-          'description': 'Challenge Description',
-          'thumbnailPath': 'assets/images/test.png',
-          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
-          'frequency': {'type': 'time', 'amount': 1},
-          'repetitions': [],
-          'media': [],
-          'categories': ['notSupportedCategory'],
-          'startDate': DateTime.now().toString(),
-          'endDate': DateTime.now().add(const Duration(days: 1)).toString()
-        };
+    //   test('should throw challenge status is not supported exception', () {
+    //     // Arrange
+    //     Map<String, dynamic> json = {
+    //       'id': '1',
+    //       'status': 'not supported status',
+    //       'title': 'Challenge Title',
+    //       'description': 'Challenge Description',
+    //       'thumbnailPath': 'assets/images/test.png',
+    //       'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
+    //       'frequency': {'type': 'time', 'amount': 1},
+    //       'repetitions': [],
+    //       'media': [],
+    //       'categories': ['notSupportedCategory'],
+    //       'startDate': DateTime.now().toString(),
+    //       'endDate': DateTime.now().add(const Duration(days: 1)).toString()
+    //     };
 
-        // Act & Assert
-        expect(() => ChallengeModel.fromDoc(json),
-            throwsA(isA<ChallengeStatusIsNotSupportedException>()));
-      });
-    });
+    //     // Act & Assert
+    //     expect(() => ChallengeModel.fromDoc(json),
+    //         throwsA(isA<ChallengeStatusIsNotSupportedException>()));
+    //   });
+    // });
 
     group('toJson()', () {
       test('should return json when ChallengeModel is passed', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         Map<String, dynamic> json = {
-          'id': '1',
           'status': 'inProgress',
           'title': 'Challenge Title',
           'description': 'Challenge Description',

@@ -20,6 +20,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -79,9 +80,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     ChallengeModel? challenge = challengeList.length > currentChallengeIndex
         ? challengeList[currentChallengeIndex]
         : null;
-    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList)
+        as List<UserChallengeModel>;
     allChallengesList =
-        ChallengeModel.sortChallengeList(challenges: allChallengesList);
+        ChallengeModel.sortChallengeList(challenges: allChallengesList)
+            as List<UserChallengeModel>;
     int oldChallengeIndex = currentChallengeIndex;
     currentChallengeIndex =
         challengeList.indexWhere((c) => c.id == challenge?.id);
@@ -414,7 +417,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     ).then((_) {
       setState(() {
         challengeList =
-            ChallengeModel.sortChallengeList(challenges: challengeList);
+            ChallengeModel.sortChallengeList(challenges: challengeList)
+                as List<UserChallengeModel>;
 
         int index = challengeList.indexWhere((c) => c.id == challenge.id);
 
@@ -445,7 +449,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       ),
     ).then((_) => setState(() {
           challengeList =
-              ChallengeModel.sortChallengeList(challenges: challengeList);
+              ChallengeModel.sortChallengeList(challenges: challengeList)
+                  as List<UserChallengeModel>;
 
           int index = challengeList.indexWhere((c) => c.id == challenge.id);
 
@@ -464,10 +469,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           challengeList = challengeList
               .map((oldChallenge) =>
                   oldChallenge.id == challenge.id ? challenge : oldChallenge)
-              .toList();
+              .toList() as List<UserChallengeModel>;
 
           challengeList =
-              ChallengeModel.sortChallengeList(challenges: challengeList);
+              ChallengeModel.sortChallengeList(challenges: challengeList)
+                  as List<UserChallengeModel>;
 
           int index = challengeList.indexWhere((c) => c.id == challenge.id);
 
@@ -477,12 +483,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         allChallengesList = allChallengesList
             .map((oldChallenge) =>
                 oldChallenge.id == challenge.id ? challenge : oldChallenge)
-            .toList();
+            .toList() as List<UserChallengeModel>;
 
         challengeList = challengeList
             .map((oldChallenge) =>
                 oldChallenge.id == challenge.id ? challenge : oldChallenge)
-            .toList();
+            .toList() as List<UserChallengeModel>;
 
         challengeController.writeFile(allChallengesList);
       },
@@ -535,9 +541,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     setState(() {
       challengeService.startChallenge(challenge);
       challengeList =
-          ChallengeModel.sortChallengeList(challenges: challengeList);
+          ChallengeModel.sortChallengeList(challenges: challengeList)
+              as List<UserChallengeModel>;
       allChallengesList =
-          ChallengeModel.sortChallengeList(challenges: allChallengesList);
+          ChallengeModel.sortChallengeList(challenges: allChallengesList)
+              as List<UserChallengeModel>;
       int index = challengeList.indexWhere((c) => c.id == challenge.id);
       pageController.jumpToPage(index);
     });
@@ -559,7 +567,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             challengeService.endChallenge(challenge);
           });
           challengeList =
-              ChallengeModel.sortChallengeList(challenges: challengeList);
+              ChallengeModel.sortChallengeList(challenges: challengeList)
+                  as List<UserChallengeModel>;
           pageController.jumpToPage(challengeList
               .indexWhere(((element) => element.id == challenge.id)));
         });

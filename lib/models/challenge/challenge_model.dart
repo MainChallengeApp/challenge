@@ -6,13 +6,14 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 import 'acceptance_criteria_model.dart';
 import 'media_model.dart';
 
 class ChallengeModel {
-  late String? id;
+  String id;
   ChallengeStatusEnum status;
   String title;
   String description;
@@ -26,7 +27,7 @@ class ChallengeModel {
   List<ChallengeCategoryEnum> categories;
 
   ChallengeModel(
-      {this.id,
+      {required this.id,
       required this.status,
       required this.title,
       required this.description,
@@ -37,14 +38,11 @@ class ChallengeModel {
       required this.frequency,
       required this.repetitions,
       required this.media,
-      this.categories = const []}) {
-    if (id == null || id!.isEmpty) {
-      id = const Uuid().v4();
-    }
-  }
+      this.categories = const []});
 
   ChallengeModel.empty(
-      {this.status = ChallengeStatusEnum.backlog,
+      {this.id = '',
+      this.status = ChallengeStatusEnum.backlog,
       this.title = '',
       this.description = '',
       this.thumbnailPath = '',
@@ -58,10 +56,10 @@ class ChallengeModel {
     media = [];
   }
 
-  static ChallengeModel fromDoc(Map doc) {
+  static ChallengeModel fromDoc(DocumentSnapshot doc) {
     try {
       ChallengeModel challenge = ChallengeModel(
-          id: doc.containsKey('id') ? doc['id'] : null,
+          id: doc.id,
           status: ChallengeStatusEnum.fromString(doc['status']),
           title: doc['title'],
           description: doc['description'],
@@ -86,7 +84,6 @@ class ChallengeModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      'id': id,
       'status': status.status,
       'title': title,
       'description': description,
@@ -104,7 +101,7 @@ class ChallengeModel {
 
   ChallengeModel copyChallenge({bool isTryAgain = false, bool withId = false}) {
     ChallengeModel challengeCopy = ChallengeModel(
-        id: withId ? id : null,
+        id: withId ? id : '',
         status: isTryAgain ? ChallengeStatusEnum.backlog : status,
         title: title,
         startDate: isTryAgain ? null : startDate,

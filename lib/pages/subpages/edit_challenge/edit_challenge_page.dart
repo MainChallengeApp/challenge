@@ -19,6 +19,7 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/challenges/user_challenges_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +51,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
   ChallengeController challengeController = ChallengeController();
 
   bool isDescriptionExpanded = false;
+
+  final userChallengesService = UserChallengesService();
 
   @override
   Widget build(BuildContext context) {
@@ -168,15 +171,18 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void onTapAccept() async {
     ChallengeModel challengeCopy = widget.editChallenge.copyChallenge();
 
-    ChallengeController challengeController = ChallengeController();
-    allChallengesList.insert(0, challengeCopy);
-    allChallengesList =
-        ChallengeModel.sortChallengeList(challenges: allChallengesList);
-    await challengeController.writeFile(allChallengesList);
+    // ChallengeController challengeController = ChallengeController();
+    // allChallengesList.insert(0, challengeCopy);
+    // allChallengesList =
+    //     ChallengeModel.sortChallengeList(challenges: allChallengesList);
+    // await challengeController.writeFile(allChallengesList);
 
-    challengeList.insert(0, challengeCopy);
-    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
-    int index = challengeList.indexOf(challengeCopy);
+    // challengeList.insert(0, challengeCopy);
+    // challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+
+    userChallengesService.create(challengeCopy);
+
+    // int index = challengeList.indexOf(challengeCopy);
 
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
@@ -188,9 +194,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
     homeNavigator
         .push(
       NoAnimationPageRouteComponent(
-        builder: (context) => HomeChallengePage(
+        builder: (context) => const HomeChallengePage(
           preTitle: 'Home',
-          initialChallengeIndex: index,
+          initialChallengeIndex: 0,
         ),
       ),
     )
@@ -200,94 +206,94 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void onTapSave() async {
-    widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
-    widget.challenge.title = widget.editChallenge.title;
-    widget.challenge.description = widget.editChallenge.description;
-    widget.challenge.acceptanceCriteria =
-        widget.editChallenge.acceptanceCriteria;
-    widget.challenge.frequency = widget.editChallenge.frequency;
-    widget.challenge.startDate = widget.editChallenge.startDate;
-    widget.challenge.endDate = widget.editChallenge.endDate;
-    widget.challenge.categories = widget.editChallenge.categories;
+    // widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
+    // widget.challenge.title = widget.editChallenge.title;
+    // widget.challenge.description = widget.editChallenge.description;
+    // widget.challenge.acceptanceCriteria =
+    //     widget.editChallenge.acceptanceCriteria;
+    // widget.challenge.frequency = widget.editChallenge.frequency;
+    // widget.challenge.startDate = widget.editChallenge.startDate;
+    // widget.challenge.endDate = widget.editChallenge.endDate;
+    // widget.challenge.categories = widget.editChallenge.categories;
 
-    widget.challenge.setGoals(widget.editChallenge.acceptanceCriteria.amount);
+    // widget.challenge.setGoals(widget.editChallenge.acceptanceCriteria.amount);
 
-    if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
-      allChallengesList = allChallengesList.map((e) {
-        if (e.id == widget.challenge.id) {
-          return widget.challenge;
-        }
-        return e;
-      }).toList(); //[widget.challenge.id!] = widget.challenge;
-    } else {
-      allChallengesList.insert(0, widget.challenge);
-    }
-    if (challengeList.map((e) => e.id).contains(widget.challenge.id)) {
-      challengeList = challengeList.map((e) {
-        if (e.id == widget.challenge.id) {
-          return widget.challenge;
-        }
-        return e;
-      }).toList(); //[widget.challenge.id!] = widget.challenge;
-    } else {
-      challengeList.insert(0, widget.challenge);
-    }
+    // if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
+    //   allChallengesList = allChallengesList.map((e) {
+    //     if (e.id == widget.challenge.id) {
+    //       return widget.challenge;
+    //     }
+    //     return e;
+    //   }).toList() as List<UserChallengeModel>; //[widget.challenge.id!] = widget.challenge;
+    // } else {
+    //   allChallengesList.insert(0, widget.challenge);
+    // }
+    // if (challengeList.map((e) => e.id).contains(widget.challenge.id)) {
+    //   challengeList = challengeList.map((e) {
+    //     if (e.id == widget.challenge.id) {
+    //       return widget.challenge;
+    //     }
+    //     return e;
+    //   }).toList(); //[widget.challenge.id!] = widget.challenge;
+    // } else {
+    //   challengeList.insert(0, widget.challenge);
+    // }
 
-    allChallengesList =
-        ChallengeModel.sortChallengeList(challenges: allChallengesList);
-    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
-    // var r = challengeList;
-    // challengeList.insert(0, widget.challenge);
-    challengeController.writeFile(allChallengesList);
+    // allChallengesList =
+    //     ChallengeModel.sortChallengeList(challenges: allChallengesList);
+    // challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+    // // var r = challengeList;
+    // // challengeList.insert(0, widget.challenge);
+    // challengeController.writeFile(allChallengesList);
 
-    if (widget.isSearchNewChallenge) {
-      Navigator.pop(context);
+    // if (widget.isSearchNewChallenge) {
+    //   Navigator.pop(context);
 
-      context.read<TabProvider>().selectTab(TabItemEnum.Home);
+    //   context.read<TabProvider>().selectTab(TabItemEnum.Home);
 
-      // ignore: use_build_context_synchronously
-      var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
+    //   // ignore: use_build_context_synchronously
+    //   var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
 
-      homeNavigator.popUntil((route) => route.isFirst);
-      // // ignore: use_build_context_synchronously
-      // while (await homeNavigator.maybePop(context)) {
-      //   // ignore: use_build_context_synchronously
-      //   homeNavigator.pop(context);
-      // }
+    //   homeNavigator.popUntil((route) => route.isFirst);
+    //   // // ignore: use_build_context_synchronously
+    //   // while (await homeNavigator.maybePop(context)) {
+    //   //   // ignore: use_build_context_synchronously
+    //   //   homeNavigator.pop(context);
+    //   // }
 
-      /**
-     * somehow does the home list page not refresh
-     * when completing a challenge
-     * with frequency.amount = 0
-     */
-      homeNavigator
-          .push(
-        NoAnimationPageRouteComponent(
-          builder: (context) => const HomeChallengePage(
-            preTitle: 'Home',
-            initialChallengeIndex: 0,
-          ), // Todo: change initialChallengeIndex when id is known from backend
-        ),
-      )
-          .then((_) {
-        homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
-      });
-      return;
-    }
+    //   /**
+    //  * somehow does the home list page not refresh
+    //  * when completing a challenge
+    //  * with frequency.amount = 0
+    //  */
+    //   homeNavigator
+    //       .push(
+    //     NoAnimationPageRouteComponent(
+    //       builder: (context) => const HomeChallengePage(
+    //         preTitle: 'Home',
+    //         initialChallengeIndex: 0,
+    //       ), // Todo: change initialChallengeIndex when id is known from backend
+    //     ),
+    //   )
+    //       .then((_) {
+    //     homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
+    //   });
+    //   return;
+    // }
 
-    Navigator.pop(context);
-    if (!widget.isNewChallenge && !widget.isTryAgain) {
-      Navigator.pop(context);
-    }
+    // Navigator.pop(context);
+    // if (!widget.isNewChallenge && !widget.isTryAgain) {
+    //   Navigator.pop(context);
+    // }
 
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => HomeChallengePage(
-            preTitle: 'Home', // very bad workaround
-            initialChallengeIndex: challengeList.indexOf(widget.challenge)),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   NoAnimationPageRouteComponent(
+    //     builder: (context) => HomeChallengePage(
+    //         preTitle: 'Home', // very bad workaround
+    //         initialChallengeIndex: challengeList.indexOf(widget.challenge)),
+    //   ),
+    // );
   }
 
   amountAndUnit() {

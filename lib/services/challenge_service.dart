@@ -3,6 +3,7 @@ import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 
 class ChallengeService {
   ChallengeController challengeController = ChallengeController();
@@ -16,9 +17,10 @@ class ChallengeService {
     }
     allChallengesList = allChallengesList.map((e) {
       return e.id == challenge.id ? challenge : e;
-    }).toList();
-    challengeList =
-        challengeList.map((e) => e.id == challenge.id ? challenge : e).toList();
+    }).toList() as List<UserChallengeModel>;
+    challengeList = challengeList
+        .map((e) => e.id == challenge.id ? challenge : e)
+        .toList() as List<UserChallengeModel>;
     challengeController.writeFile(allChallengesList);
   }
 
@@ -26,9 +28,10 @@ class ChallengeService {
     challenge.endRepetition();
     allChallengesList = allChallengesList.map((e) {
       return e.id == challenge.id ? challenge : e;
-    }).toList();
-    challengeList =
-        challengeList.map((e) => e.id == challenge.id ? challenge : e).toList();
+    }).toList() as List<UserChallengeModel>;
+    challengeList = challengeList
+        .map((e) => e.id == challenge.id ? challenge : e)
+        .toList() as List<UserChallengeModel>;
     challengeController.writeFile(allChallengesList);
   }
 
@@ -36,9 +39,10 @@ class ChallengeService {
     challenge.end();
     allChallengesList = allChallengesList.map((e) {
       return e.id == challenge.id ? challenge : e;
-    }).toList();
-    challengeList =
-        challengeList.map((e) => e.id == challenge.id ? challenge : e).toList();
+    }).toList() as List<UserChallengeModel>;
+    challengeList = challengeList
+        .map((e) => e.id == challenge.id ? challenge : e)
+        .toList() as List<UserChallengeModel>;
     challengeController.writeFile(allChallengesList);
   }
 
@@ -51,9 +55,10 @@ class ChallengeService {
     repetition.deleteProgress(progress);
     allChallengesList = allChallengesList.map((e) {
       return e.id == challenge.id ? challenge : e;
-    }).toList();
-    challengeList =
-        challengeList.map((e) => e.id == challenge.id ? challenge : e).toList();
+    }).toList() as List<UserChallengeModel>;
+    challengeList = challengeList
+        .map((e) => e.id == challenge.id ? challenge : e)
+        .toList() as List<UserChallengeModel>;
     challengeController.writeFile(allChallengesList);
   }
 }

@@ -10,9 +10,11 @@ import 'package:challenge/components/simple_components/space_column_component.da
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/services/challenges/user_challenges_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +30,8 @@ class HomeListPage extends StatefulWidget {
 class _HomeListPageState extends State<HomeListPage> {
   ChallengeController challengeController = ChallengeController();
 
+  final userChallengesService = UserChallengesService();
+
   ScrollController scrollController = ScrollController();
 
   String searchBarText = '';
@@ -37,7 +41,9 @@ class _HomeListPageState extends State<HomeListPage> {
   @override
   void initState() {
     super.initState();
-    challengeController.readFile().then((value) => allChallengesList = value);
+    userChallengesService
+        .getAllOfUser()
+        .then((value) => allChallengesList = value);
 
     timer = Timer.periodic(
         const Duration(seconds: 1), (Timer t) => setState(() {}));
@@ -68,9 +74,11 @@ class _HomeListPageState extends State<HomeListPage> {
         .where((element) => element.searchInChallenge(searchBarText))
         .toList();
 
-    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
+    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList)
+        as List<UserChallengeModel>;
     allChallengesList =
-        ChallengeModel.sortChallengeList(challenges: allChallengesList);
+        ChallengeModel.sortChallengeList(challenges: allChallengesList)
+            as List<UserChallengeModel>;
 
     return RawScrollbar(
       controller: scrollController,
@@ -90,15 +98,15 @@ class _HomeListPageState extends State<HomeListPage> {
             if (index == 1) {
               return newChallenge();
             }
-            ChallengeModel challenge = challengeList[index -
+            UserChallengeModel challenge = challengeList[index -
                 1 -
                 1]; // -1 for new Challenge listItem - 1 for searchBar
 
             challenge.checkChallengeStatus();
             return SpaceColumnComponent(
               child: ListItemChallengeSmallComponent(
-                onTap: () =>
-                    push(context, challenge: challenge, index: index - 1 - 1),
+                onTap: () => push(context,
+                    userChallenge: challenge, index: index - 1 - 1),
                 challenge: challenge,
                 onTapDeleteChallenge: () => deleteChallenge(challenge),
               ),
@@ -134,13 +142,13 @@ class _HomeListPageState extends State<HomeListPage> {
   }
 
   void push(BuildContext context,
-      {required ChallengeModel challenge, required int index}) {
+      {required UserChallengeModel userChallenge, required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
             preTitle: widget.title,
-            initialChallengeIndex: challengeList.indexOf(challenge)),
+            initialChallengeIndex: challengeList.indexOf(userChallenge)),
       ),
     ).then((_) => setState(() {}));
   }
