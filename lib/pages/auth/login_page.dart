@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_email_component.dart';
 import 'package:challenge/components/list_items/list_item_password_component.dart';
@@ -188,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
       heightMultiplier: 2,
       child: GestureDetector(
         onTap: () {
-          print('Forgot password');
+          log('Forgot password');
         },
         child: const Align(
           alignment: Alignment.centerRight,
