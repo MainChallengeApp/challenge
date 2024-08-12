@@ -1,10 +1,9 @@
 import 'package:challenge/firebase_options.dart';
-import 'package:challenge/pages/auth/auth_gate_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
-import 'package:challenge/services/account_service.dart';
+import 'package:challenge/ui/pages/auth/auth_gate_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,13 +32,10 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  AccountService accountService = AccountService();
-
   @override
   void initState() {
     super.initState();
     setOrientationToPortraitUp();
-    accountService.loadAccount(context);
   }
 
   @override
