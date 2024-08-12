@@ -44,6 +44,7 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
               children: [
                 Expanded(
                   child: TextField(
+                    autofocus: true,
                     maxLines: null,
                     style: const TextStyle(
                       fontSize: basicFontSize,

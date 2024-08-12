@@ -10,9 +10,9 @@ import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +21,10 @@ import 'progress_media_list_page.dart';
 
 class RepetitionPage extends StatefulWidget {
   final String preTitle;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
 
   const RepetitionPage(
-      {super.key, required this.preTitle, required this.challenge});
+      {super.key, required this.preTitle, required this.userChallenge});
 
   @override
   State<RepetitionPage> createState() => _RepetitionPageState();
@@ -33,10 +33,10 @@ class RepetitionPage extends StatefulWidget {
 class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
   late final AcceptanceCriteriaModel acceptanceCriteria =
-      widget.challenge.acceptanceCriteria;
+      widget.userChallenge.acceptanceCriteria;
 
   late final expandedRepetitionIndexList = [
-    widget.challenge.getCurrentRepetitionNumber()
+    widget.userChallenge.getCurrentRepetitionNumber()
   ];
 
   ChallengeService challengeService = ChallengeService();
@@ -63,7 +63,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
         body: Stack(
           children: [
             _buildList(),
-            !(widget.challenge.isFailed() || widget.challenge.isSucceeded())
+            !(widget.userChallenge.isFailed() ||
+                    widget.userChallenge.isSucceeded())
                 ? actionButton()
                 : Container()
           ],
@@ -79,18 +80,24 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.challenge.getCurrentRepetitionNumber(),
+          itemCount: widget.userChallenge.getCurrentRepetitionNumber(),
           itemBuilder: (BuildContext content, int index) {
             RepetitionModel repetition;
-            if ((widget.challenge.getCurrentRepetitionNumber() - 1 - index) <
-                    widget.challenge.repetitions.length &&
-                (widget.challenge.getCurrentRepetitionNumber() - 1 - index) >=
+            if ((widget.userChallenge.getCurrentRepetitionNumber() -
+                        1 -
+                        index) <
+                    widget.userChallenge.repetitions.length &&
+                (widget.userChallenge.getCurrentRepetitionNumber() -
+                        1 -
+                        index) >=
                     0) {
-              repetition = widget.challenge.getAllRepetitions()[
-                  widget.challenge.getCurrentRepetitionNumber() - 1 - index];
+              repetition = widget.userChallenge.getAllRepetitions()[
+                  widget.userChallenge.getCurrentRepetitionNumber() -
+                      1 -
+                      index];
               repetition.evaluateRepetitionStatus();
             } else {
-              repetition = widget.challenge.addRepetition();
+              repetition = widget.userChallenge.addRepetition();
             }
             repetition.evaluateRepetitionStatus();
             return repetitionListItem(repetition);
@@ -123,7 +130,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
             onTapDeleteProgress: () =>
                 onTapDeleteProgress(repetition, progress),
             progress: progress,
-            challenge: widget.challenge,
+            challenge: widget.userChallenge,
             unit: acceptanceCriteria.unit,
           )));
     }
@@ -144,7 +151,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   ? ListItemRepetitionExpandedComponent(
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
-                      challenge: widget.challenge,
+                      userChallenge: widget.userChallenge,
                       setStateRepetitionPage: () => setState(() {}),
                       onTapNextRepetition: (int repetitionNumber) {
                         setState(() {
@@ -156,7 +163,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   : ListItemRepetitionComponent(
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
-                      challenge: widget.challenge,
+                      challenge: widget.userChallenge,
                     ),
             ],
           ),
@@ -201,12 +208,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
         builder: (context) => ProgressMediaListPage(
           preTitle:
               '${widget.preTitle}/Repetitions/${progress.repetitionNumber}',
-          initialMediaList: widget.challenge.media
+          initialMediaList: widget.userChallenge.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
-          challenge: widget.challenge,
+          challenge: widget.userChallenge,
           repetition:
-              widget.challenge.repetitions[progress.repetitionNumber - 1],
+              widget.userChallenge.repetitions[progress.repetitionNumber - 1],
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
         ),
@@ -236,7 +243,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           preTitle:
               '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
           repetition: repetition,
-          challenge: widget.challenge,
+          challenge: widget.userChallenge,
           isSaveInsteadOfEditButtonVisible: true,
         ),
       ),
@@ -259,12 +266,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   void onTapStartChallenge() {
     setState(() {
-      challengeService.startChallenge(widget.challenge);
+      challengeService.startChallenge(widget.userChallenge);
     });
   }
 
   void onTapEndChallenge() {
-    EndChallengeDialog.show(context, widget.challenge,
+    EndChallengeDialog.show(context, widget.userChallenge,
         onTapNo: () => Navigator.pop(context),
         onTapYes: (challenge) {
           Navigator.pop(EndChallengeDialog.context3);
@@ -276,7 +283,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
     setState(() {
-      challengeService.deleteProgress(widget.challenge, repetition, progress);
+      challengeService.deleteProgress(
+          widget.userChallenge, repetition, progress);
     });
   }
 
@@ -285,7 +293,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         alignment: Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),
-          child: widget.challenge.isInBacklog()
+          child: widget.userChallenge.isInBacklog()
               ? ListItemButtonComponent(
                   onTap: onTapStartChallenge,
                   text: 'Start Challenge',
@@ -294,7 +302,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
               : ListItemButtonComponent(
                   onTap: onTapEndChallenge,
                   text: 'End Challenge',
-                  isMainButton: widget.challenge.isCompleted(),
+                  isMainButton: widget.userChallenge.isCompleted(),
                 ),
         ));
   }

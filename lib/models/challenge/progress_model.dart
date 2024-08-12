@@ -44,7 +44,7 @@ class ProgressModel {
 
   static fromDocs(docs) {
     List<ProgressModel> progressList = [];
-    docs?.forEach((doc) => progressList.add(ProgressModel(
+    docs.forEach((doc) => progressList.add(ProgressModel(
         progress: doc['progress'],
         mediaIds: List.from(doc['mediaIds']),
         date: DateTime.parse(doc['date']),

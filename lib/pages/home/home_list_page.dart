@@ -14,6 +14,7 @@ import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/services/challenges/user_challenges_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +32,11 @@ class _HomeListPageState extends State<HomeListPage> {
   ChallengeController challengeController = ChallengeController();
 
   final userChallengesService = UserChallengesService();
+  late final userChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: false);
+  late final listeningProvider = Provider.of<UserChallengesProvider>(context);
+
+  late List<UserChallengeModel> filteredUserChallenges;
 
   ScrollController scrollController = ScrollController();
 
@@ -41,10 +47,7 @@ class _HomeListPageState extends State<HomeListPage> {
   @override
   void initState() {
     super.initState();
-    userChallengesService
-        .getAllOfUser()
-        .then((value) => allChallengesList = value);
-
+    userChallengesProvider.getAllOfUser();
     timer = Timer.periodic(
         const Duration(seconds: 1), (Timer t) => setState(() {}));
   }
@@ -70,14 +73,12 @@ class _HomeListPageState extends State<HomeListPage> {
   }
 
   Widget _buildList() {
-    challengeList = allChallengesList
+    filteredUserChallenges = listeningProvider.userChallenges
         .where((element) => element.searchInChallenge(searchBarText))
         .toList();
 
-    challengeList = ChallengeModel.sortChallengeList(challenges: challengeList)
-        as List<UserChallengeModel>;
-    allChallengesList =
-        ChallengeModel.sortChallengeList(challenges: allChallengesList)
+    filteredUserChallenges =
+        ChallengeModel.sortChallengeList(challenges: filteredUserChallenges)
             as List<UserChallengeModel>;
 
     return RawScrollbar(
@@ -88,7 +89,7 @@ class _HomeListPageState extends State<HomeListPage> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: challengeList.length +
+          itemCount: filteredUserChallenges.length +
               1 +
               1, // +1 for new Challenge listItem + 1 for searchBar
           itemBuilder: (BuildContext content, int index) {
@@ -98,7 +99,7 @@ class _HomeListPageState extends State<HomeListPage> {
             if (index == 1) {
               return newChallenge();
             }
-            UserChallengeModel challenge = challengeList[index -
+            UserChallengeModel challenge = filteredUserChallenges[index -
                 1 -
                 1]; // -1 for new Challenge listItem - 1 for searchBar
 
@@ -147,8 +148,10 @@ class _HomeListPageState extends State<HomeListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
-            preTitle: widget.title,
-            initialChallengeIndex: challengeList.indexOf(userChallenge)),
+          preTitle: widget.title,
+          initialUserChallengeId: userChallenge.id,
+          filterOptions: searchBarText,
+        ),
       ),
     ).then((_) => setState(() {}));
   }
@@ -166,11 +169,9 @@ class _HomeListPageState extends State<HomeListPage> {
     ).then((_) => setState(() {}));
   }
 
-  void deleteChallenge(ChallengeModel challenge) {
-    allChallengesList.removeWhere((element) => element.id == challenge.id);
-    challengeList.removeWhere((element) => element.id == challenge.id);
-    challengeController.writeFile(allChallengesList);
-
-    setState(() {});
+  void deleteChallenge(UserChallengeModel userChallenge) {
+    setState(() {
+      userChallengesProvider.delete(userChallenge);
+    });
   }
 }

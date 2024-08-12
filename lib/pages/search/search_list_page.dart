@@ -47,6 +47,8 @@ class _SearchListPageState extends State<SearchListPage> {
   late final searchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: false);
 
+  int numberOfBuilds = 0;
+
   String searchBarText = '';
 
   @override
@@ -90,11 +92,13 @@ class _SearchListPageState extends State<SearchListPage> {
               1 +
               1, //  + 1 for searchBar + 1 for new Challenge
           itemBuilder: (BuildContext content, int index) {
+            numberOfBuilds++;
             if (index == 0) {
               return Column(
                 children: [
                   ListItemSearchBarComponent(
-                    autoFocus: widget.isSearchBarAutoFocus,
+                    autoFocus:
+                        widget.isSearchBarAutoFocus && numberOfBuilds == 1,
                     changeList: changeList,
                     textEditingController:
                         TextEditingController(text: searchBarText),

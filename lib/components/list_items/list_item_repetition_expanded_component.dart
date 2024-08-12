@@ -7,8 +7,8 @@ import 'package:challenge/components/list_items/list_item_fraction_component.dar
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
@@ -19,12 +19,12 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
       {super.key,
       required this.repetition,
       this.onTap,
-      required this.challenge,
+      required this.userChallenge,
       required this.setStateRepetitionPage,
       required this.onTapNextRepetition});
 
   final RepetitionModel repetition;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
   final void Function()? onTap;
   final void Function() setStateRepetitionPage;
   final void Function(int repetitionNumber) onTapNextRepetition;
@@ -49,7 +49,7 @@ class _ListItemRepetitionExpandedComponentState
         ListItemFractionComponent(
           initialProgress:
               min(1, widget.repetition.getLastProgressPercentage()),
-          isFailed: widget.challenge.isFailed(),
+          isFailed: widget.userChallenge.isFailed(),
           onTap: widget.onTap,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -83,7 +83,7 @@ class _ListItemRepetitionExpandedComponentState
                             padding: const EdgeInsets.only(
                                 left: 10, bottom: 10, right: 5),
                             child: ActionButtonComponent(
-                              challenge: widget.challenge,
+                              userChallenge: widget.userChallenge,
                               onTapAgain: (_) => {},
                               onTapEnd: (_) => {},
                               onTapNext: (_) => {},
@@ -113,7 +113,7 @@ class _ListItemRepetitionExpandedComponentState
                               padding: const EdgeInsets.only(
                                   left: 5, bottom: 10, right: 10),
                               child: ActionButtonComponent(
-                                  challenge: widget.challenge,
+                                  userChallenge: widget.userChallenge,
                                   onTapStart: onTapStart,
                                   onTapEnd: onTapEnd,
                                   onTapAgain: (_) => {},
@@ -167,13 +167,13 @@ class _ListItemRepetitionExpandedComponentState
   repetition() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.repetition.repetitionNumber}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.typeToString()}');
+            '${widget.repetition.repetitionNumber}/${widget.userChallenge.frequency.amount ?? '∞'} ${widget.userChallenge.frequency.typeToString()}');
   }
 
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}');
+            '${DesignUtil.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}');
   }
 
   repetitionIcon() {

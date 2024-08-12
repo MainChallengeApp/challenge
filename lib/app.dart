@@ -5,7 +5,7 @@ import 'package:challenge/pages/home/home_tab_navigator.dart';
 import 'package:challenge/pages/search/search_tab_navigator.dart';
 import 'package:challenge/pages/settings/settings_tab_navigator.dart';
 import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/services/challenges/user_challenges_service.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,14 +18,15 @@ class App extends StatefulWidget {
 
 class AppState extends State<App> {
   ChallengeController challengeController = ChallengeController();
-  final userChallengesService = UserChallengesService();
+  late final userChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: false);
 
   @override
   void initState() {
     super.initState();
-    userChallengesService.getAllOfUser().then((value) {
-      allChallengesList = value;
-      if (allChallengesList.isEmpty) {
+
+    userChallengesProvider.getAllOfUser().then((value) {
+      if (value.isEmpty) {
         context.read<TabProvider>().selectTab(TabItemEnum.Search);
       } else {
         context.read<TabProvider>().selectTab(TabItemEnum.Home);

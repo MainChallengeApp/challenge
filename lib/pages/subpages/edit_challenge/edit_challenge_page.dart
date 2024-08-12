@@ -16,10 +16,11 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/services/challenges/user_challenges_service.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   bool isDescriptionExpanded = false;
 
-  final userChallengesService = UserChallengesService();
+  late final userChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: false);
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +96,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
             ),
           ),
           const SpaceComponent(),
-          widget.isSearchEdit || widget.isSearchNewChallenge
+          widget.isSearchEdit ||
+                  widget.isSearchNewChallenge ||
+                  widget.isNewChallenge
               ? Expanded(
                   child: CustomButtonComponent(
                     onTap: onTapAccept,
@@ -170,19 +174,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   void onTapAccept() async {
     ChallengeModel challengeCopy = widget.editChallenge.copyChallenge();
-
-    // ChallengeController challengeController = ChallengeController();
-    // allChallengesList.insert(0, challengeCopy);
-    // allChallengesList =
-    //     ChallengeModel.sortChallengeList(challenges: allChallengesList);
-    // await challengeController.writeFile(allChallengesList);
-
-    // challengeList.insert(0, challengeCopy);
-    // challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
-
-    userChallengesService.create(challengeCopy);
-
-    // int index = challengeList.indexOf(challengeCopy);
+    UserChallengeModel userChallenge =
+        await userChallengesProvider.create(challengeCopy);
 
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
@@ -194,9 +187,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
     homeNavigator
         .push(
       NoAnimationPageRouteComponent(
-        builder: (context) => const HomeChallengePage(
+        builder: (context) => HomeChallengePage(
           preTitle: 'Home',
-          initialChallengeIndex: 0,
+          initialUserChallengeId: userChallenge.id,
         ),
       ),
     )

@@ -3,6 +3,7 @@ import 'package:challenge/pages/auth/auth_gate_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/services/account_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => DesignProvider()),
       ChangeNotifierProvider(create: (_) => TabProvider()),
       ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
+      ChangeNotifierProvider(create: (_) => UserChallengesProvider()),
     ],
     child: const MyApp(),
   ));

@@ -117,7 +117,7 @@ class RepetitionModel {
       'progressList': ProgressModel.toDocs(progressList),
       'startDate': startDate.toString(),
       'endDate': endDate.toString(),
-      'repetitionStatus': repetitionStatus.toString()
+      'repetitionStatus': repetitionStatus.status
     };
   }
 
@@ -125,8 +125,8 @@ class RepetitionModel {
     List<RepetitionModel> list = [];
     docs?.forEach((doc) => list.add(RepetitionModel(
         repetitionNumber: doc['repetitionNumber'],
-        goalAmount: doc['goalAmount'] ??
-            0, // ?? 0 can be removed when no more home challenges saved without goalAmount
+        goalAmount: (doc['goalAmount'] as num)
+            .toDouble(), // ?? 0 can be removed when no more home challenges saved without goalAmount
         progressList: ProgressModel.fromDocs(doc['progressList']),
         startDate: doc['startDate'] == null ||
                 doc['startDate'] == 'null' ||

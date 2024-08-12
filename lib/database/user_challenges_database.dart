@@ -6,8 +6,10 @@ class UserChallengesDatabase extends Database {
     collection = 'user_challenges';
   }
 
-  Future<void> create(UserChallengeModel userChallenge) async {
-    await db.collection(collection).add(userChallenge.toDoc());
+  Future<UserChallengeModel> create(UserChallengeModel userChallenge) async {
+    final userChallengeDoc =
+        await db.collection(collection).add(userChallenge.toDoc());
+    return UserChallengeModel.fromDoc(await userChallengeDoc.get());
   }
 
   Future<void> createMany(List<UserChallengeModel> userChallenges) async {
@@ -41,5 +43,20 @@ class UserChallengesDatabase extends Database {
     } on Exception {
       rethrow;
     }
+  }
+
+  Future<void> update(UserChallengeModel userChallenge) async {
+    try {
+      await db
+          .collection(collection)
+          .doc(userChallenge.id)
+          .update(userChallenge.toDoc());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> delete(UserChallengeModel userChallenge) {
+    return db.collection(collection).doc(userChallenge.id).delete();
   }
 }
