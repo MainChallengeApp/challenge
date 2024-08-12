@@ -14,4 +14,9 @@ class UsersService {
         name: name);
     await usersDatabase.create(user);
   }
+
+  Future<UserModel> getUser() async {
+    final user = await usersDatabase.getById(authService.getCurrentUserId());
+    return user;
+  }
 }
