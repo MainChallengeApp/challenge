@@ -1,18 +1,19 @@
 import 'package:challenge/components/simple_components/custom_button_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:flutter/material.dart';
 
 class EndChallengeDialog {
-  static late BuildContext context3;
+  static late BuildContext context2;
 
-  static Future<void> show(BuildContext context, ChallengeModel challenge,
-      {required void Function(ChallengeModel) onTapYes,
+  static Future<void> show(
+      BuildContext context, UserChallengeModel userChallenge,
+      {required void Function(UserChallengeModel) onTapYes,
       required void Function() onTapNo}) async {
     final result = await showDialog(
       context: context,
       builder: (context) {
-        context3 = context;
+        context2 = context;
         return GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Dialog(
@@ -38,8 +39,8 @@ class EndChallengeDialog {
                     Row(
                       children: [
                         Expanded(
-                            child:
-                                _dialogYesButton(context, challenge, onTapYes)),
+                            child: _dialogYesButton(
+                                context, userChallenge, onTapYes)),
                         const SpaceComponent(),
                         Expanded(child: _dialogNoButton())
                       ],
@@ -58,12 +59,14 @@ class EndChallengeDialog {
     }
   }
 
-  static _dialogYesButton(BuildContext context, ChallengeModel challenge,
-      void Function(ChallengeModel) onTapYes) {
+  static _dialogYesButton(
+      BuildContext context,
+      UserChallengeModel userChallenge,
+      void Function(UserChallengeModel) onTapYes) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: CustomButtonComponent(
-        onTap: () => onTapYes(challenge),
+        onTap: () => onTapYes(userChallenge),
         text: 'Yes',
         margin: const EdgeInsets.only(bottom: 16, left: 16),
       ),
@@ -75,7 +78,7 @@ class EndChallengeDialog {
       alignment: Alignment.bottomCenter,
       child: CustomButtonComponent(
         onTap: () {
-          Navigator.pop(context3);
+          Navigator.pop(context2);
         },
         margin: const EdgeInsets.only(bottom: 16, right: 16),
         text: 'No',

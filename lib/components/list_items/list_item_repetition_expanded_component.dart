@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/components/challenge/action_button_component.dart';
 import 'package:challenge/components/challenge/date_component.dart';
+import 'package:challenge/components/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:challenge/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/components/simple_components/container_in_container_text_component.dart';
@@ -9,7 +10,6 @@ import 'package:challenge/components/simple_components/icon_container_in_list_it
 import 'package:challenge/components/simple_components/space_component.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +148,7 @@ class _ListItemRepetitionExpandedComponentState
 
   onTapEnd(challenge) {
     EndChallengeDialog.show(context, challenge, onTapYes: (challenge) {
-      Navigator.pop(EndChallengeDialog.context3);
+      Navigator.pop(EndChallengeDialog.context2);
       setState(() {
         challengeService.endChallenge(challenge);
       });

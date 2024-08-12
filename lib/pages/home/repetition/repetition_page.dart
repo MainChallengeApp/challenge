@@ -1,3 +1,4 @@
+import 'package:challenge/components/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/components/list_items/list_item_button_component.dart';
 import 'package:challenge/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/components/list_items/list_item_progress_component.dart';
@@ -13,7 +14,6 @@ import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
 
@@ -274,7 +274,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     EndChallengeDialog.show(context, widget.userChallenge,
         onTapNo: () => Navigator.pop(context),
         onTapYes: (challenge) {
-          Navigator.pop(EndChallengeDialog.context3);
+          Navigator.pop(EndChallengeDialog.context2);
           setState(() {
             challengeService.endChallenge(challenge);
           });

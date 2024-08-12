@@ -9,25 +9,24 @@ import 'package:challenge/components/challenge/documentation_button_component.da
 import 'package:challenge/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/components/challenge/title_component.dart';
+import 'package:challenge/components/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/components/navigation/app_bar_component.dart';
 import 'package:challenge/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/components/simple_components/custom_card_component.dart';
+import 'package:challenge/components/simple_components/slider_component.dart';
 import 'package:challenge/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
-import 'package:challenge/components/simple_components/tap_container_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/pages/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/pages/subpages/media/media_list_page.dart';
-import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/services/challenge_service.dart';
 import 'package:flutter/material.dart';
@@ -51,9 +50,6 @@ class HomeChallengePage extends StatefulWidget {
 
 class _HomeChallengePageState extends State<HomeChallengePage> {
   bool isDescriptionExpanded = false;
-
-  Map<ChallengeModel, BuildContext> challengeSlidableContextMap = {};
-  late BuildContext context3;
 
   late PageController pageController = PageController(
       initialPage: max(
@@ -86,8 +82,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     filteredChallenges = userChallengesProvider.userChallenges
         .where((challenge) => challenge.searchInChallenge(widget.filterOptions))
         .toList();
-    timer = Timer.periodic(
-        const Duration(seconds: 1), (Timer t) => setState(() {}));
+    // timer = Timer.periodic(
+    //     const Duration(seconds: 1), (Timer t) => setState(() {}));
   }
 
   @override
@@ -115,8 +111,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               // The end action pane is the one at the right or the bottom side.
               key: ObjectKey(challenge),
               endActionPane: endActionPane(challenge),
+
               child: Builder(builder: (context) {
-                challengeSlidableContextMap[challenge] = context;
                 return CardComponent(
                   scrollPhysics: filteredChallenges.length == 1
                       ? const AlwaysScrollableScrollPhysics()
@@ -140,12 +136,11 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   endActionPane(UserChallengeModel userChallenge) {
-    BuildContext? slidableContext = challengeSlidableContextMap[userChallenge];
     return ActionPane(
       extentRatio: (userChallenge.isEditable()) ? 0.5 : 0.25,
       motion: const ScrollMotion(),
       children: [
-        editSlider(userChallenge, slidableContext),
+        editSlider(userChallenge),
         separator(userChallenge),
         deleteSlider(userChallenge),
         const SpaceComponent(
@@ -156,11 +151,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   separator(ChallengeModel challenge) {
-    return (challenge.isEditable())
-        ? const SpaceComponent(
-            width: 20,
-          )
-        : Container();
+    return SpaceComponent(
+      width: 20,
+      isVisible: challenge.isEditable(),
+    );
   }
 
   expandedSpace() {
@@ -192,59 +186,23 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   deleteSlider(UserChallengeModel userChallenge) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: TapContainerComponent(
-          onTap: () => onTapDeleteChallenge(userChallenge),
-          borderRadius: 24,
-          height: double.infinity,
-          child: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                IconEnum.delete.icon,
-                color: red,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Delete',
-                style: TextStyle(color: red),
-              )
-            ],
-          )),
-        ),
-      ),
-    );
+    return SliderComponent(
+        icon: IconEnum.delete.icon,
+        label: 'Delete',
+        foregroundColor: red,
+        onTap: () => onTapDeleteChallenge(userChallenge));
   }
 
-  editSlider(ChallengeModel challenge, BuildContext? slidableContext) {
-    return (challenge.isEditable())
-        ? Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: TapContainerComponent(
-                onTap: () => onTapEditChallenge(challenge, slidableContext),
-                borderRadius: 24,
-                height: double.infinity,
-                child: const Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.edit),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text('Edit')
-                  ],
-                )),
-              ),
-            ),
-          )
-        : Container();
+  editSlider(UserChallengeModel userChallenge) {
+    return Visibility(
+      visible: userChallenge.isEditable(),
+      child: SliderComponent(
+          icon: IconEnum.edit.icon,
+          label: 'Edit',
+          onTap: () {
+            onTapEditChallenge(userChallenge);
+          }),
+    );
   }
 
   startEndTryAcceptAgainButton(UserChallengeModel userChallenge) {
@@ -350,21 +308,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             challenge: userChallenge);
   }
 
-  void onTapEditChallenge(
-      ChallengeModel challenge, BuildContext? slidableContext) {
-    setState(() {
-      if (slidableContext != null) {
-        Slidable.of(slidableContext)!.close(duration: Duration.zero);
-      }
-    });
-    if (challenge.isEditable()) {
+  void onTapEditChallenge(UserChallengeModel userChallenge) {
+    if (userChallenge.isEditable()) {
       // currentChallengeIndex = widget.challenges.indexOf(challenge);
       Navigator.push(
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
-            preTitle: '${widget.preTitle}/${challenge.title}',
-            challenge: challenge,
+            preTitle: '${widget.preTitle}/${userChallenge.title}',
+            challenge: userChallenge,
           ),
         ),
       ).then((_) => {setState(() {})});
@@ -456,121 +408,35 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         }));
   }
 
-  dialogYesButton(ChallengeModel challenge) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context3);
-        context.read<DesignProvider>().triggerSetStateHomeList();
-        setState(() {
-          challenge.end();
-
-          challengeList = challengeList
-              .map((oldChallenge) =>
-                  oldChallenge.id == challenge.id ? challenge : oldChallenge)
-              .toList() as List<UserChallengeModel>;
-
-          challengeList =
-              ChallengeModel.sortChallengeList(challenges: challengeList)
-                  as List<UserChallengeModel>;
-
-          int index = challengeList.indexWhere((c) => c.id == challenge.id);
-
-          pageController.jumpToPage(index);
-        });
-
-        allChallengesList = allChallengesList
-            .map((oldChallenge) =>
-                oldChallenge.id == challenge.id ? challenge : oldChallenge)
-            .toList() as List<UserChallengeModel>;
-
-        challengeList = challengeList
-            .map((oldChallenge) =>
-                oldChallenge.id == challenge.id ? challenge : oldChallenge)
-            .toList() as List<UserChallengeModel>;
-
-        challengeController.writeFile(allChallengesList);
-      },
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: 55,
-          margin: const EdgeInsets.only(bottom: 16, left: 16),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: const Center(
-              child: Text(
-            'Yes',
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black),
-          )),
-        ),
-      ),
-    );
-  }
-
-  dialogNoButton() {
-    return GestureDetector(
-      onTap: () {
-        Navigator.pop(context3);
-      },
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: 55,
-          margin: const EdgeInsets.only(bottom: 16, right: 16),
-          decoration: BoxDecoration(
-              color: themeColor2,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: const Center(
-              child: Text(
-            'No',
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-          )),
-        ),
-      ),
-    );
-  }
-
   onTapStart(UserChallengeModel userChallenge) async {
-    await userChallengesProvider.startChallenge(userChallenge);
     setState(() {
-      // challengeService.startChallenge(challenge);
-      // challengeList =
-      //     ChallengeModel.sortChallengeList(challenges: challengeList)
-      //         as List<UserChallengeModel>;
-      // allChallengesList =
-      //     ChallengeModel.sortChallengeList(challenges: allChallengesList)
-      //         as List<UserChallengeModel>;
-      int index = userChallengesProvider.userChallenges
-          .indexWhere((c) => c.id == userChallenge.id);
+      userChallenge.start();
+      userChallengesProvider.sortLocalList();
+      int index = userChallengesProvider.getLocalIndex(userChallenge.id);
       pageController.jumpToPage(index);
     });
+    await userChallengesProvider.update(userChallenge);
   }
 
-  onTapEnd(ChallengeModel challenge) {
-    if (challenge.canEndRepetition()) {
+  onTapEnd(UserChallengeModel userChallenge) {
+    if (userChallenge.canEndRepetition()) {
       setState(() {
-        challengeService.nextRepetition(challenge);
+        challengeService.nextRepetition(userChallenge);
       });
       return;
     }
 
-    EndChallengeDialog.show(context, challenge,
+    EndChallengeDialog.show(context, userChallenge,
         onTapNo: () => Navigator.pop(context),
-        onTapYes: (challenge) {
-          Navigator.pop(EndChallengeDialog.context3);
+        onTapYes: (userChallenge) async {
+          Navigator.pop(EndChallengeDialog.context2);
           setState(() {
-            challengeService.endChallenge(challenge);
+            userChallenge.end();
+            userChallengesProvider.updateLocalList(userChallenge);
           });
-          challengeList =
-              ChallengeModel.sortChallengeList(challenges: challengeList)
-                  as List<UserChallengeModel>;
-          pageController.jumpToPage(challengeList
-              .indexWhere(((element) => element.id == challenge.id)));
+          int index = userChallengesProvider.getLocalIndex(userChallenge.id);
+          pageController.jumpToPage(index);
+          await userChallengesProvider.update(userChallenge);
         });
   }
 

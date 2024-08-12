@@ -4,20 +4,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserChallengeModel extends ChallengeModel {
   String userId;
 
-  UserChallengeModel(
-      {required super.id,
-      required this.userId,
-      required super.status,
-      required super.title,
-      required super.description,
-      required super.thumbnailPath,
-      super.startDate,
-      super.endDate,
-      required super.acceptanceCriteria,
-      required super.frequency,
-      required super.repetitions,
-      required super.media,
-      super.categories = const []});
+  UserChallengeModel({
+    required super.id,
+    required this.userId,
+    required super.status,
+    required super.title,
+    required super.description,
+    required super.thumbnailPath,
+    super.startDate,
+    super.endDate,
+    required super.acceptanceCriteria,
+    required super.frequency,
+    required super.repetitions,
+    required super.media,
+    super.categories = const [],
+  });
 
   UserChallengeModel.fromChallengeModel({
     required ChallengeModel challenge,
@@ -35,6 +36,7 @@ class UserChallengeModel extends ChallengeModel {
           repetitions: challenge.repetitions,
           media: challenge.media,
           categories: challenge.categories,
+          createdAt: challenge.createdAt,
         );
 
   @override

@@ -61,6 +61,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+          resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
           appBar: AppBarComponent(
               preTitle: widget.preTitle,
               titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
@@ -73,7 +74,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
               amountAndUnit(),
               frequency(),
               startAndEndDate(),
-              // member(),
               Visibility(
                   visible: !isDescriptionExpanded,
                   child: Expanded(child: Container())),
@@ -174,8 +174,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   void onTapAccept() async {
     ChallengeModel challengeCopy = widget.editChallenge.copyChallenge();
-    UserChallengeModel userChallenge =
-        await userChallengesProvider.create(challengeCopy);
+    challengeCopy.createdAt = DateTime.now();
+    userChallengesProvider.insertToLocalList(challengeCopy);
 
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
@@ -187,106 +187,37 @@ class _EditChallengePageState extends State<EditChallengePage> {
     homeNavigator
         .push(
       NoAnimationPageRouteComponent(
-        builder: (context) => HomeChallengePage(
+        builder: (context) => const HomeChallengePage(
           preTitle: 'Home',
-          initialUserChallengeId: userChallenge.id,
+          initialUserChallengeId: '',
         ),
       ),
     )
         .then((value) {
       homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
     });
+
+    await userChallengesProvider.create(challengeCopy);
   }
 
   void onTapSave() async {
-    // widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
-    // widget.challenge.title = widget.editChallenge.title;
-    // widget.challenge.description = widget.editChallenge.description;
-    // widget.challenge.acceptanceCriteria =
-    //     widget.editChallenge.acceptanceCriteria;
-    // widget.challenge.frequency = widget.editChallenge.frequency;
-    // widget.challenge.startDate = widget.editChallenge.startDate;
-    // widget.challenge.endDate = widget.editChallenge.endDate;
-    // widget.challenge.categories = widget.editChallenge.categories;
+    // TODO: maybe just copyChallenge()
+    widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
+    widget.challenge.title = widget.editChallenge.title;
+    widget.challenge.description = widget.editChallenge.description;
+    widget.challenge.acceptanceCriteria =
+        widget.editChallenge.acceptanceCriteria;
+    widget.challenge.frequency = widget.editChallenge.frequency;
+    widget.challenge.startDate = widget.editChallenge.startDate;
+    widget.challenge.endDate = widget.editChallenge.endDate;
+    widget.challenge.categories = widget.editChallenge.categories;
 
-    // widget.challenge.setGoals(widget.editChallenge.acceptanceCriteria.amount);
+    widget.challenge.setGoals(widget.editChallenge.acceptanceCriteria.amount);
 
-    // if (allChallengesList.map((e) => e.id).contains(widget.challenge.id)) {
-    //   allChallengesList = allChallengesList.map((e) {
-    //     if (e.id == widget.challenge.id) {
-    //       return widget.challenge;
-    //     }
-    //     return e;
-    //   }).toList() as List<UserChallengeModel>; //[widget.challenge.id!] = widget.challenge;
-    // } else {
-    //   allChallengesList.insert(0, widget.challenge);
-    // }
-    // if (challengeList.map((e) => e.id).contains(widget.challenge.id)) {
-    //   challengeList = challengeList.map((e) {
-    //     if (e.id == widget.challenge.id) {
-    //       return widget.challenge;
-    //     }
-    //     return e;
-    //   }).toList(); //[widget.challenge.id!] = widget.challenge;
-    // } else {
-    //   challengeList.insert(0, widget.challenge);
-    // }
-
-    // allChallengesList =
-    //     ChallengeModel.sortChallengeList(challenges: allChallengesList);
-    // challengeList = ChallengeModel.sortChallengeList(challenges: challengeList);
-    // // var r = challengeList;
-    // // challengeList.insert(0, widget.challenge);
-    // challengeController.writeFile(allChallengesList);
-
-    // if (widget.isSearchNewChallenge) {
-    //   Navigator.pop(context);
-
-    //   context.read<TabProvider>().selectTab(TabItemEnum.Home);
-
-    //   // ignore: use_build_context_synchronously
-    //   var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
-
-    //   homeNavigator.popUntil((route) => route.isFirst);
-    //   // // ignore: use_build_context_synchronously
-    //   // while (await homeNavigator.maybePop(context)) {
-    //   //   // ignore: use_build_context_synchronously
-    //   //   homeNavigator.pop(context);
-    //   // }
-
-    //   /**
-    //  * somehow does the home list page not refresh
-    //  * when completing a challenge
-    //  * with frequency.amount = 0
-    //  */
-    //   homeNavigator
-    //       .push(
-    //     NoAnimationPageRouteComponent(
-    //       builder: (context) => const HomeChallengePage(
-    //         preTitle: 'Home',
-    //         initialChallengeIndex: 0,
-    //       ), // Todo: change initialChallengeIndex when id is known from backend
-    //     ),
-    //   )
-    //       .then((_) {
-    //     homeNavigator.context.read<DesignProvider>().triggerSetStateHomeList();
-    //   });
-    //   return;
-    // }
-
-    // Navigator.pop(context);
-    // if (!widget.isNewChallenge && !widget.isTryAgain) {
-    //   Navigator.pop(context);
-    // }
-
-    // Navigator.push(
-    //   context,
-    //   NoAnimationPageRouteComponent(
-    //     builder: (context) => HomeChallengePage(
-    //         preTitle: 'Home', // very bad workaround
-    //         initialChallengeIndex: challengeList.indexOf(widget.challenge)),
-    //   ),
-    // );
+    userChallengesProvider
+        .updateLocalList(widget.challenge as UserChallengeModel);
+    Navigator.pop(context);
+    await userChallengesProvider.update(widget.challenge as UserChallengeModel);
   }
 
   amountAndUnit() {

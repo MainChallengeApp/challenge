@@ -15,7 +15,6 @@ import 'package:challenge/pages/home/home_challenge_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
-import 'package:challenge/services/challenges/user_challenges_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +30,6 @@ class HomeListPage extends StatefulWidget {
 class _HomeListPageState extends State<HomeListPage> {
   ChallengeController challengeController = ChallengeController();
 
-  final userChallengesService = UserChallengesService();
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
   late final listeningProvider = Provider.of<UserChallengesProvider>(context);

@@ -5,7 +5,8 @@ enum IconEnum {
   delete(Icons.delete),
   newChallenge(Icons.add_rounded),
   shuffle(Icons.shuffle_rounded),
-  search(Icons.search_rounded);
+  search(Icons.search_rounded),
+  edit(Icons.edit_rounded);
 
   const IconEnum(this.icon);
 

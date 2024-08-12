@@ -25,30 +25,35 @@ class ChallengeModel {
   List<RepetitionModel> repetitions;
   List<MediaModel> media;
   List<ChallengeCategoryEnum> categories;
+  DateTime createdAt;
 
-  ChallengeModel(
-      {required this.id,
-      required this.status,
-      required this.title,
-      required this.description,
-      required this.thumbnailPath,
-      this.startDate,
-      this.endDate,
-      required this.acceptanceCriteria,
-      required this.frequency,
-      required this.repetitions,
-      required this.media,
-      this.categories = const []});
+  ChallengeModel({
+    required this.id,
+    required this.status,
+    required this.title,
+    required this.description,
+    required this.thumbnailPath,
+    this.startDate,
+    this.endDate,
+    required this.acceptanceCriteria,
+    required this.frequency,
+    required this.repetitions,
+    required this.media,
+    this.categories = const [],
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
 
-  ChallengeModel.empty(
-      {this.id = '',
-      this.status = ChallengeStatusEnum.backlog,
-      this.title = '',
-      this.description = '',
-      this.thumbnailPath = '',
-      this.repetitions = const [],
-      this.media = const [],
-      this.categories = const []}) {
+  ChallengeModel.empty({
+    this.id = '',
+    this.status = ChallengeStatusEnum.backlog,
+    this.title = '',
+    this.description = '',
+    this.thumbnailPath = '',
+    this.repetitions = const [],
+    this.media = const [],
+    this.categories = const [],
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now() {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();
     frequency = FrequencyModel.empty();
@@ -58,24 +63,32 @@ class ChallengeModel {
 
   static ChallengeModel fromDoc(DocumentSnapshot doc) {
     try {
+      final data = doc.data() as Map<String, dynamic>;
       ChallengeModel challenge = ChallengeModel(
-          id: doc.id,
-          status: ChallengeStatusEnum.fromString(doc['status']),
-          title: doc['title'],
-          description: doc['description'],
-          thumbnailPath: doc['thumbnailPath'],
-          startDate: doc['startDate'] == null || doc['startDate'] == 'null'
-              ? null
-              : DateTime.parse(doc['startDate']),
-          endDate: doc['endDate'] == null || doc['endDate'] == 'null'
-              ? null
-              : DateTime.parse(doc['endDate']),
-          acceptanceCriteria:
-              AcceptanceCriteriaModel.fromDoc(doc['acceptanceCriteria']),
-          frequency: FrequencyModel.fromDoc(doc['frequency']),
-          repetitions: RepetitionModel.fromDocs(doc['repetitions']),
-          media: MediaModel.fromDocs(doc['media']),
-          categories: ChallengeCategoryEnum.fromDocs(doc['categories']));
+        id: doc.id,
+        status: ChallengeStatusEnum.fromString(doc['status']),
+        title: doc['title'],
+        description: doc['description'],
+        thumbnailPath: doc['thumbnailPath'],
+        startDate: doc['startDate'] == null || doc['startDate'] == 'null'
+            ? null
+            : DateTime.parse(doc['startDate']),
+        endDate: doc['endDate'] == null || doc['endDate'] == 'null'
+            ? null
+            : DateTime.parse(doc['endDate']),
+        acceptanceCriteria:
+            AcceptanceCriteriaModel.fromDoc(doc['acceptanceCriteria']),
+        frequency: FrequencyModel.fromDoc(doc['frequency']),
+        repetitions: RepetitionModel.fromDocs(doc['repetitions']),
+        media: MediaModel.fromDocs(doc['media']),
+        categories: ChallengeCategoryEnum.fromDocs(doc['categories']),
+        createdAt: data.containsKey('createdAt') &&
+                doc['createdAt'] != null &&
+                doc['createdAt'] != 'null'
+            ? (data['createdAt'] as Timestamp).toDate()
+            : null,
+      );
+
       return challenge;
     } on Exception {
       rethrow;
@@ -95,7 +108,8 @@ class ChallengeModel {
       'repetitions':
           repetitions.map((repetition) => repetition.toDoc()).toList(),
       'media': media.map((media) => media.toDoc()).toList(),
-      'categories': categories.map((category) => category.category).toList()
+      'categories': categories.map((category) => category.category).toList(),
+      'createdAt': createdAt
     };
   }
 
@@ -477,19 +491,48 @@ class ChallengeModel {
     for (ChallengeModel challenge in challenges) {
       challenge.checkChallengeStatus();
     }
-    challenges.sort((a, b) =>
-        (a.isSucceeded() || a.isFailed()) && !(b.isSucceeded() || b.isFailed())
-            ? 1
-            : (b.isSucceeded() || b.isFailed()) &&
-                    !(a.isSucceeded() || a.isFailed())
-                ? -1
-                : a.isInProgress() && b.isInBacklog()
-                    ? 1
-                    : b.isInProgress() && a.isInBacklog()
-                        ? -1
-                        : a
-                            .getCurrentPercentage()
-                            .compareTo(b.getCurrentPercentage()));
+    challenges.sort((a, b) {
+      // Check if a is succeeded or failed and b is not
+      if ((a.isSucceeded() || a.isFailed()) &&
+          !(b.isSucceeded() || b.isFailed())) {
+        return 1;
+      }
+
+      // Check if b is succeeded or failed and a is not
+      if ((b.isSucceeded() || b.isFailed()) &&
+          !(a.isSucceeded() || a.isFailed())) {
+        return -1;
+      }
+
+      // Check if a is in progress and b is in backlog
+      if (a.isInProgress() && b.isInBacklog()) {
+        return 1;
+      }
+
+      // Check if b is in progress and a is in backlog
+      if (b.isInProgress() && a.isInBacklog()) {
+        return -1;
+      }
+
+      // Compare by current percentage
+      if (a.getCurrentPercentage().compareTo(b.getCurrentPercentage()) > 0) {
+        return -1;
+      }
+
+      if (a.getCurrentPercentage().compareTo(b.getCurrentPercentage()) < 0) {
+        return 1;
+      }
+
+      if (a.createdAt.compareTo(b.createdAt) > 0) {
+        return -1;
+      }
+
+      if (b.createdAt.compareTo(a.createdAt) > 0) {
+        return 1;
+      }
+
+      return 0;
+    });
     return challenges;
   }
 }

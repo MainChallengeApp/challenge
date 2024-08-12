@@ -1,7 +1,10 @@
-import 'package:challenge/components/list_items/list_item_container_component.dart';
 import 'package:flutter/material.dart';
 
 class CardComponent extends StatelessWidget {
+  static const double standardBorderRadius = 24;
+  static const double standardBottomMargin = 16;
+  static const double standardSideMargin = 20;
+
   final List<Widget> children;
   final ScrollPhysics scrollPhysics;
 
@@ -22,8 +25,10 @@ class CardComponent extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                     child: Container(
-                  margin:
-                      const EdgeInsets.only(bottom: 16, left: 20, right: 20),
+                  margin: const EdgeInsets.only(
+                      bottom: standardBottomMargin,
+                      left: standardSideMargin,
+                      right: standardSideMargin),
                   padding: const EdgeInsets.all(16),
                   width: double.infinity,
                   // height: 100,
@@ -31,8 +36,8 @@ class CardComponent extends StatelessWidget {
                       border: Border.all(
                           width: 1,
                           color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius: const BorderRadius.all(Radius.circular(
-                          ListItemContainerComponent.standardBorderRadius))),
+                      borderRadius: const BorderRadius.all(
+                          Radius.circular(standardBorderRadius))),
                   child: Column(
                     children: children,
                   ),
