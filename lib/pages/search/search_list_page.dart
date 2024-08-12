@@ -6,10 +6,13 @@ import 'package:challenge/components/navigation/bottom_navigation_component.dart
 import 'package:challenge/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/components/simple_components/space_column_component.dart';
 import 'package:challenge/components/simple_components/space_component.dart';
+import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'search_challenge_page.dart';
 
@@ -20,17 +23,18 @@ class SearchListPage extends StatefulWidget {
   final bool isFirstPageInRoute;
   final String initialSearchText;
   final bool isSearchBarAutoFocus;
-  final List<ChallengeModel> challenges;
+  final List<ChallengeCategoryEnum> categories;
 
-  const SearchListPage(
-      {super.key,
-      this.preTitle = '',
-      required this.title,
-      this.onPush,
-      this.isFirstPageInRoute = true,
-      this.initialSearchText = '',
-      this.isSearchBarAutoFocus = false,
-      required this.challenges});
+  const SearchListPage({
+    super.key,
+    this.preTitle = '',
+    required this.title,
+    this.onPush,
+    this.isFirstPageInRoute = true,
+    this.initialSearchText = '',
+    this.isSearchBarAutoFocus = false,
+    this.categories = const [],
+  });
 
   @override
   State<SearchListPage> createState() => _SearchListPageState();
@@ -40,12 +44,16 @@ class _SearchListPageState extends State<SearchListPage> {
   late List<ChallengeModel> filteredChallenges;
   final ScrollController scrollController = ScrollController();
 
+  late final searchChallengesProvider =
+      Provider.of<SearchChallengesProvider>(context, listen: false);
+
   String searchBarText = '';
 
   @override
   void initState() {
     super.initState();
     searchBarText = widget.initialSearchText;
+    searchChallengesProvider.getAll();
   }
 
   @override
@@ -63,8 +71,10 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Widget _buildList() {
-    filteredChallenges = widget.challenges
-        .where((element) => element.searchInChallenge(searchBarText))
+    filteredChallenges = searchChallengesProvider.searchChallenges
+        .where((element) =>
+            element.searchInChallenge(searchBarText) &&
+            element.isInCategories(widget.categories))
         .toList();
     filteredChallenges
         .sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));

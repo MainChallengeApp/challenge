@@ -1,6 +1,7 @@
 import 'package:challenge/firebase_options.dart';
 import 'package:challenge/pages/auth/auth_gate_page.dart';
 import 'package:challenge/providers/design_provider.dart';
+import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/account_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,6 +17,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => DesignProvider()),
       ChangeNotifierProvider(create: (_) => TabProvider()),
+      ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
     ],
     child: const MyApp(),
   ));

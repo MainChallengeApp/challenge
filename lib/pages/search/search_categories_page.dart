@@ -11,8 +11,9 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/pages/search/search_list_page.dart';
 import 'package:challenge/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:challenge/services/challenges/search_challenge_service.dart';
+import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'search_challenge_page.dart';
 
@@ -27,17 +28,16 @@ class SearchCategoriesPage extends StatefulWidget {
 class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   late List<ChallengeModel> challenges;
   final ScrollController scrollController = ScrollController();
-  final SearchChallengesService searchChallengesService =
-      SearchChallengesService();
+
+  late final searchChallengesProvider =
+      Provider.of<SearchChallengesProvider>(context, listen: false);
 
   String searchBarText = '';
 
   @override
   void initState() {
     super.initState();
-    searchChallengesService.getAll().then((value) {
-      return challenges = value;
-    });
+    searchChallengesProvider.getAll();
   }
 
   @override
@@ -198,17 +198,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
             preTitle: 'Search',
             isFirstPageInRoute: false,
             initialSearchText: searchBarText,
-            isSearchBarAutoFocus: true,
-            challenges: challenges),
+            isSearchBarAutoFocus: true),
       ),
     );
   }
 
   void onTapCategory(List<ChallengeCategoryEnum> categories, String title) {
-    List<ChallengeModel> filteredChallenges = challenges
-        .where((challenge) => challenge.isInCategories(categories))
-        .toList();
-
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -216,14 +211,15 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           title: title,
           preTitle: 'Search',
           isFirstPageInRoute: false,
-          challenges: filteredChallenges,
+          categories: categories,
         ),
       ),
     );
   }
 
   void onTapRandom() {
-    List<ChallengeModel> challengesCopy = challenges;
+    List<ChallengeModel> challengesCopy =
+        searchChallengesProvider.searchChallenges;
     challengesCopy.shuffle();
     Navigator.push(
       context,
