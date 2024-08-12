@@ -1,5 +1,4 @@
 import 'package:challenge/firebase_options.dart';
-import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -15,7 +14,6 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (_) => DesignProvider()),
       ChangeNotifierProvider(create: (_) => TabProvider()),
       ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
       ChangeNotifierProvider(create: (_) => UserChallengesProvider()),

@@ -4,7 +4,6 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/providers/design_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -58,7 +57,6 @@ class _HomeListPageState extends State<HomeListPage> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<DesignProvider>().triggeredSetStateHomeList();
     return Scaffold(
       appBar: AppBarComponent(
         preTitle: widget.title,
