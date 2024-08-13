@@ -318,6 +318,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
               initialMediaList: currentMedia,
               userChallenge: widget.userChallenge,
               repetition: widget.userChallenge.getCurrentRepetition(),
+              amountOfPops: 2,
             ),
           ),
         ).then((_) => setState(() {}));

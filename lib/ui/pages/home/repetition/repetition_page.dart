@@ -1,6 +1,5 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
@@ -33,8 +32,6 @@ class RepetitionPage extends StatefulWidget {
 
 class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
-  late final AcceptanceCriteriaModel acceptanceCriteria =
-      widget.userChallenge.acceptanceCriteria;
 
   late final expandedRepetitionIndexList = [
     widget.userChallenge.getCurrentRepetitionNumber()
@@ -42,19 +39,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      // TODO: wtf
-      List<String> preTitleArray = widget.preTitle.split('/');
-      if (preTitleArray.length >= 3 && preTitleArray.contains('Repetitions')) {
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +119,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 onTapDeleteProgress(repetition, progress),
             progress: progress,
             challenge: widget.userChallenge,
-            unit: acceptanceCriteria.unit,
+            unit: widget.userChallenge.acceptanceCriteria.unit,
           )));
     }
     return progressListItems;
@@ -295,7 +279,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   actionButton() {
     return Align(
-        alignment: Alignment.bottomCenter,
+        alignment: widget.userChallenge.isInBacklog()
+            ? Alignment.topCenter
+            : Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: widget.userChallenge.isInBacklog()

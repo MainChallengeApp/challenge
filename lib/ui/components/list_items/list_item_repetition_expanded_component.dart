@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/services/challenge_service.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -13,6 +13,7 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListItemRepetitionExpandedComponent extends StatefulWidget {
   const ListItemRepetitionExpandedComponent(
@@ -36,7 +37,10 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
 
 class _ListItemRepetitionExpandedComponentState
     extends State<ListItemRepetitionExpandedComponent> {
-  final ChallengeService challengeService = ChallengeService();
+  late final userChallengesProvider = Provider.of<UserChallengesProvider>(
+    context,
+    listen: false,
+  );
 
   late BuildContext pageContext;
 
@@ -87,13 +91,7 @@ class _ListItemRepetitionExpandedComponentState
                               onTapAgain: (_) => {},
                               onTapEnd: (_) => {},
                               onTapNext: (_) => {},
-                              onTapStart: (challenge) {
-                                setState(() {
-                                  challengeService.startChallenge(challenge);
-                                });
-
-                                return;
-                              },
+                              onTapStart: onTapStart,
                             ),
                           )
                         : Padding(
@@ -137,30 +135,33 @@ class _ListItemRepetitionExpandedComponentState
     );
   }
 
-  onTapNext(challenge) {
+  onTapNext(UserChallengeModel userChallenge) {
     setState(() {
-      challengeService.nextRepetition(challenge);
+      userChallenge.endRepetition();
       widget.onTapNextRepetition
-          .call(challenge.getLastRepetition()!.repetitionNumber);
+          .call(userChallenge.getLastRepetition()!.repetitionNumber);
     });
+    userChallengesProvider.update(userChallenge);
     widget.setStateRepetitionPage.call();
   }
 
-  onTapEnd(challenge) {
+  onTapEnd(UserChallengeModel userChallenge) {
     EndChallengeDialog.show(
         context: pageContext,
-        onTapYes: (challenge) {
+        onTapYes: (UserChallengeModel userChallenge) {
           setState(() {
-            challengeService.endChallenge(challenge);
+            userChallenge.end();
           });
+          userChallengesProvider.update(userChallenge);
           widget.setStateRepetitionPage.call();
         });
   }
 
-  onTapStart(challenge) {
+  onTapStart(userChallenge) {
     setState(() {
-      challengeService.startChallenge(challenge);
+      userChallenge.start();
     });
+    userChallengesProvider.update(userChallenge);
   }
 
   repetition() {

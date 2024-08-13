@@ -36,7 +36,8 @@ class ProgressMediaListPage extends StatefulWidget {
       this.repetition,
       this.initialMediaList,
       this.progress,
-      this.isSaveInsteadOfEditButtonVisible = true});
+      this.isSaveInsteadOfEditButtonVisible = true,
+      this.amountOfPops = 1});
 
   final String preTitle;
   final UserChallengeModel userChallenge;
@@ -44,6 +45,7 @@ class ProgressMediaListPage extends StatefulWidget {
   List<MediaModel>? initialMediaList;
   ProgressModel? progress;
   bool isSaveInsteadOfEditButtonVisible;
+  int amountOfPops;
 
   @override
   State<ProgressMediaListPage> createState() => _ProgressMediaListPageState();
@@ -320,7 +322,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
       widget.repetition ??= widget.userChallenge.addRepetition();
 
-      // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       if (widget.progress == null) {
         widget.repetition!.addProgress(progress: editProgress);
       } else {
@@ -329,8 +330,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       userChallengesProvider.updateLocalList(widget.userChallenge);
       userChallengesProvider.update(widget.userChallenge);
 
-      Navigator.pop(context);
-      Navigator.pop(context);
+      for (int i = 0; i < widget.amountOfPops; i++) {
+        Navigator.pop(context);
+      }
     } else {
       setState(() {
         widget.isSaveInsteadOfEditButtonVisible = true;
@@ -567,7 +569,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   void onTapCancel() {
     if (widget.progress == null) {
-      Navigator.pop(context);
+      for (int i = 0; i < widget.amountOfPops; i++) {
+        Navigator.pop(context);
+      }
       return;
     } else {
       setState(() {

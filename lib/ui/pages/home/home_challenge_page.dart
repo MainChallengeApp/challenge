@@ -23,6 +23,7 @@ import 'package:challenge/ui/components/simple_components/snack_bar_component.da
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
+import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_camera_page.dart';
@@ -298,6 +299,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         ? Container()
         : AcceptanceCriteriaComponent(
             onTap: () => onTapAcceptanceCriteria(userChallenge),
+            onTapNewProgress: () => onTapNewProgress(userChallenge),
             challenge: userChallenge);
   }
 
@@ -353,7 +355,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     });
   }
 
-  onTapAcceptanceCriteria(UserChallengeModel userChallenge) async {
+  onTapAcceptanceCriteria(UserChallengeModel userChallenge) {
     if (userChallenge.frequency.amount != null &&
         userChallenge.frequency.amount! <= 0) {
       return;
@@ -367,9 +369,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       ),
     ).then((_) {
       setState(() {
-        filteredUserChallenges =
-            ChallengeModel.sortChallengeList(challenges: filteredUserChallenges)
-                as List<UserChallengeModel>;
+        filteredUserChallenges = userChallengesProvider.userChallenges
+            .where((challenge) =>
+                challenge.searchInChallenge(widget.filterOptions))
+            .toList();
 
         int index =
             filteredUserChallenges.indexWhere((c) => c.id == userChallenge.id);
@@ -478,5 +481,26 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     filteredUserChallenges =
         ChallengeModel.sortChallengeList(challenges: filteredUserChallenges)
             as List<UserChallengeModel>;
+  }
+
+  void onTapNewProgress(UserChallengeModel userChallenge) {
+    if (userChallenge.getCurrentRepetition() == null) {
+      return;
+    }
+
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => ProgressMediaListPage(
+          preTitle:
+              '${widget.preTitle}/${userChallenge.title}/Repetitions/${userChallenge.getCurrentRepetition()!.repetitionNumber}',
+          repetition: userChallenge.getCurrentRepetition()!,
+          userChallenge: userChallenge,
+          isSaveInsteadOfEditButtonVisible: true,
+        ),
+      ),
+    ).then((_) => setState(() {
+          // context.read<DesignProvider>().setIsBottomNavBarVisible(true);
+        }));
   }
 }

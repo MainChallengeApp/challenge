@@ -1,23 +1,27 @@
 import 'dart:math';
 
-import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
-import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
-import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
 class AcceptanceCriteriaComponent extends StatefulWidget {
   final void Function() onTap;
   final ChallengeModel challenge;
+  final void Function() onTapNewProgress;
 
   const AcceptanceCriteriaComponent(
-      {super.key, required this.onTap, required this.challenge});
+      {super.key,
+      required this.onTap,
+      required this.challenge,
+      required this.onTapNewProgress});
 
   @override
   State<AcceptanceCriteriaComponent> createState() =>
@@ -61,19 +65,42 @@ class _AcceptanceCriteriaComponentState
           TapContainerComponent(
               onTap: widget.onTap,
               backgroundColor: Colors.transparent,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    // progressPercentage(widget.challenge.acceptanceCriteria),
-                    repetition(),
-                    repetitionProgressAbsolute(),
-                    amountOfProgress(),
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          // progressPercentage(widget.challenge.acceptanceCriteria),
+                          repetition(),
+                          repetitionProgressAbsolute(),
+                          amountOfProgress(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  newProgress()
+                ],
               ))
         ],
       ),
+    );
+  }
+
+  GestureDetector newProgress() {
+    return GestureDetector(
+      onTap: widget.onTapNewProgress,
+      child: ContainerInContainerComponent(
+          margin: const EdgeInsets.only(left: 10),
+          child: Center(
+            child: Icon(
+              IconEnum.newChallenge.icon,
+              size: 15,
+              color: themeColor3,
+            ),
+          )),
     );
   }
 
