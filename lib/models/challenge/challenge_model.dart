@@ -523,6 +523,19 @@ class ChallengeModel {
         return -1;
       }
 
+      if ((a.isSucceeded() || a.isFailed()) &&
+          (b.isSucceeded() || b.isFailed()) &&
+          a.endDate != null &&
+          b.endDate != null) {
+        if (a.endDate!.compareTo(b.endDate!) > 0) {
+          return -1;
+        }
+
+        if (b.endDate!.compareTo(a.endDate!) > 0) {
+          return 1;
+        }
+      }
+
       if (a.createdAt.compareTo(b.createdAt) > 0) {
         return -1;
       }
