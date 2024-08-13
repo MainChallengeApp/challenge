@@ -38,7 +38,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBarComponent(
-        preTitle: 'Register',
+        preTitle: 'Registration',
         isFirstPageInRoute: true,
         leadingIcon: isLoading
             ? const LoadingCircleComponent()
@@ -176,14 +176,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
           children: [
             Text(
               'Already a member?',
-              style: TextStyle(color: themeColor3),
+              style: TextStyle(color: themeColor3, fontSize: basicFontSize),
             ),
             SizedBox(
               width: 5,
             ),
             Text(
               ' Login here!',
-              style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: themeColor3,
+                  fontSize: basicFontSize),
             ),
           ],
         ),

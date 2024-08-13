@@ -23,10 +23,20 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
         icon: Icons.email_rounded,
+        actionIcon: widget.textEditingController.text == ''
+            ? null
+            : Icons.highlight_remove_rounded,
+        onTap: onTapActionIcon,
         textEditingController: widget.textEditingController,
         onChangeTextField: widget.onChangeTextField,
         errorText: widget.errorText,
         keyboardType: TextInputType.emailAddress,
         hintText: 'Email');
+  }
+
+  onTapActionIcon() {
+    setState(() {
+      widget.textEditingController.clear();
+    });
   }
 }

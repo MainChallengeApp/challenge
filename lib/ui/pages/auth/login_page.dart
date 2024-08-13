@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:challenge/globals.dart';
+import 'package:challenge/services/auth/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
@@ -8,8 +10,6 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/services/auth/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Text(
               'Not a member yet?',
-              style: TextStyle(color: themeColor3),
+              style: TextStyle(color: themeColor3, fontSize: basicFontSize),
             ),
             SizedBox(
               width: 5,
@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.only(right: 20.0),
             child: Text(
               'Forgot password?',
-              style: TextStyle(color: themeColor3),
+              style: TextStyle(color: themeColor3, fontSize: basicFontSize),
             ),
           ),
         ),

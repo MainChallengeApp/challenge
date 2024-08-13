@@ -20,15 +20,29 @@ class ListItemPasswordComponent extends StatefulWidget {
 }
 
 class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
+  bool isHidden = true;
+
   @override
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
         icon: Icons.password_rounded,
+        actionIcon: widget.textEditingController.text == ''
+            ? null
+            : isHidden
+                ? Icons.visibility_outlined
+                : Icons.visibility_off_outlined,
+        onTap: onTapActionIcon,
         textEditingController: widget.textEditingController,
-        isHidden: true,
+        isHidden: isHidden,
         onChangeTextField: widget.onChangeTextField,
         errorText: widget.errorText,
         keyboardType: TextInputType.visiblePassword,
         hintText: 'Password');
+  }
+
+  onTapActionIcon() {
+    setState(() {
+      isHidden = !isHidden;
+    });
   }
 }
