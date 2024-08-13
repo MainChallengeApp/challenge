@@ -1,14 +1,14 @@
 import 'dart:developer';
 
 import 'package:camera/camera.dart';
+import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,13 +19,13 @@ class MediaCameraPage extends StatefulWidget {
     required this.cameras,
     required this.preTitle,
     required this.mediaList,
-    required this.challenge,
+    required this.userChallenge,
   });
 
   final List<CameraDescription> cameras;
   final String preTitle;
   final List<MediaModel> mediaList;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
 
   @override
   State<MediaCameraPage> createState() => _CameraStateMedia();
@@ -316,8 +316,8 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             builder: (context) => ProgressMediaListPage(
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
-              challenge: widget.challenge,
-              repetition: widget.challenge.getCurrentRepetition(),
+              userChallenge: widget.userChallenge,
+              repetition: widget.userChallenge.getCurrentRepetition(),
             ),
           ),
         ).then((_) => setState(() {}));

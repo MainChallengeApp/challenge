@@ -1,16 +1,16 @@
 import 'dart:math';
 
+import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
-import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/models/challenge/repetition_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/services/challenge_service.dart';
+import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
@@ -38,11 +38,11 @@ class _ListItemRepetitionExpandedComponentState
     extends State<ListItemRepetitionExpandedComponent> {
   final ChallengeService challengeService = ChallengeService();
 
-  late BuildContext dialogContext;
+  late BuildContext pageContext;
 
   @override
   Widget build(BuildContext context) {
-    dialogContext = context;
+    pageContext = context;
     widget.repetition.evaluateRepetitionStatus();
     return Stack(
       children: [
@@ -147,15 +147,14 @@ class _ListItemRepetitionExpandedComponentState
   }
 
   onTapEnd(challenge) {
-    EndChallengeDialog.show(context, challenge, onTapYes: (challenge) {
-      Navigator.pop(EndChallengeDialog.context2);
-      setState(() {
-        challengeService.endChallenge(challenge);
-      });
-      widget.setStateRepetitionPage.call();
-    }, onTapNo: () {
-      Navigator.pop(context);
-    });
+    EndChallengeDialog.show(
+        context: pageContext,
+        onTapYes: (challenge) {
+          setState(() {
+            challengeService.endChallenge(challenge);
+          });
+          widget.setStateRepetitionPage.call();
+        });
   }
 
   onTapStart(challenge) {

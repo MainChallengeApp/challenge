@@ -1,4 +1,10 @@
-import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
+import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_progress_component.dart';
@@ -8,14 +14,9 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
-import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/models/challenge/repetition_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/services/challenge_service.dart';
+import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'progress_media_list_page.dart';
 
@@ -39,14 +40,17 @@ class _RepetitionPageState extends State<RepetitionPage> {
     widget.userChallenge.getCurrentRepetitionNumber()
   ];
 
-  ChallengeService challengeService = ChallengeService();
+  late final userChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: false);
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
+      // TODO: wtf
       List<String> preTitleArray = widget.preTitle.split('/');
       if (preTitleArray.length >= 3 && preTitleArray.contains('Repetitions')) {
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }
     });
@@ -211,7 +215,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           initialMediaList: widget.userChallenge.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
-          challenge: widget.userChallenge,
+          userChallenge: widget.userChallenge,
           repetition:
               widget.userChallenge.repetitions[progress.repetitionNumber - 1],
           progress: progress,
@@ -243,7 +247,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           preTitle:
               '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
           repetition: repetition,
-          challenge: widget.userChallenge,
+          userChallenge: widget.userChallenge,
           isSaveInsteadOfEditButtonVisible: true,
         ),
       ),
@@ -266,26 +270,27 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   void onTapStartChallenge() {
     setState(() {
-      challengeService.startChallenge(widget.userChallenge);
+      widget.userChallenge.start();
     });
+    userChallengesProvider.update(widget.userChallenge);
   }
 
   void onTapEndChallenge() {
-    EndChallengeDialog.show(context, widget.userChallenge,
-        onTapNo: () => Navigator.pop(context),
-        onTapYes: (challenge) {
-          Navigator.pop(EndChallengeDialog.context2);
+    EndChallengeDialog.show(
+        context: context,
+        onTapYes: () {
           setState(() {
-            challengeService.endChallenge(challenge);
+            widget.userChallenge.end();
           });
+          userChallengesProvider.update(widget.userChallenge);
         });
   }
 
   onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
     setState(() {
-      challengeService.deleteProgress(
-          widget.userChallenge, repetition, progress);
+      repetition.deleteProgress(progress);
     });
+    userChallengesProvider.update(widget.userChallenge);
   }
 
   actionButton() {

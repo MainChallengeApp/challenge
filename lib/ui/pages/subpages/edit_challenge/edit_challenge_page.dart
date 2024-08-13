@@ -97,7 +97,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
           const SpaceComponent(),
           widget.isSearchEdit ||
                   widget.isSearchNewChallenge ||
-                  widget.isNewChallenge
+                  widget.isNewChallenge ||
+                  widget.isTryAgain
               ? Expanded(
                   child: CustomButtonComponent(
                     onTap: onTapAccept,

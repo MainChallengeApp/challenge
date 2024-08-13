@@ -445,7 +445,7 @@ class ChallengeModel {
 
   bool canEndRepetition() {
     return frequency.type == FrequencyTypeEnum.time &&
-        getCurrentRepetition()?.isInProgress() &&
+        (getCurrentRepetition()?.isInProgress() ?? false) &&
         getCurrentRepetition()!.progressList.isNotEmpty &&
         getCurrentRepetitionNumber() != frequency.getMaxAmountOfRepetitions();
   }
@@ -516,11 +516,11 @@ class ChallengeModel {
 
       // Compare by current percentage
       if (a.getCurrentPercentage().compareTo(b.getCurrentPercentage()) > 0) {
-        return -1;
+        return 1;
       }
 
-      if (a.getCurrentPercentage().compareTo(b.getCurrentPercentage()) < 0) {
-        return 1;
+      if (b.getCurrentPercentage().compareTo(a.getCurrentPercentage()) > 0) {
+        return -1;
       }
 
       if (a.createdAt.compareTo(b.createdAt) > 0) {

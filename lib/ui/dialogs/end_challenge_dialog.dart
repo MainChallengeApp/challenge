@@ -1,86 +1,49 @@
-import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/dialogs/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 class EndChallengeDialog {
-  static late BuildContext context2;
+  static final userChallengesProvider = UserChallengesProvider();
 
   static Future<void> show(
-      BuildContext context, UserChallengeModel userChallenge,
-      {required void Function(UserChallengeModel) onTapYes,
-      required void Function() onTapNo}) async {
-    final result = await showDialog(
+      {required BuildContext context, required Function onTapYes}) async {
+    await showDialog(
       context: context,
       builder: (context) {
-        context2 = context;
-        return GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: Dialog(
-            insetPadding: const EdgeInsets.only(
-                top: 150, bottom: 200, left: 50, right: 50),
-            alignment: Alignment.center,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(24))),
-            child: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(24))),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                        'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: _dialogYesButton(
-                                context, userChallenge, onTapYes)),
-                        const SpaceComponent(),
-                        Expanded(child: _dialogNoButton())
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
+        return CustomDialog(
+            text:
+                'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
+            buttons: [
+              Expanded(child: yesButton(context, onTapYes)),
+              const SpaceComponent(),
+              Expanded(child: noButton(context))
+            ]);
       },
     );
-
-    if (result == true) {
-      // End the challenge
-    }
   }
 
-  static _dialogYesButton(
-      BuildContext context,
-      UserChallengeModel userChallenge,
-      void Function(UserChallengeModel) onTapYes) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: CustomButtonComponent(
-        onTap: () => onTapYes(userChallenge),
-        text: 'Yes',
-        margin: const EdgeInsets.only(bottom: 16, left: 16),
-      ),
-    );
-  }
-
-  static _dialogNoButton() {
+  static yesButton(BuildContext context, Function onTapYes) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: CustomButtonComponent(
         onTap: () {
-          Navigator.pop(context2);
+          Navigator.pop(context);
+          onTapYes.call();
         },
-        margin: const EdgeInsets.only(bottom: 16, right: 16),
+        text: 'Yes',
+      ),
+    );
+  }
+
+  static noButton(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: CustomButtonComponent(
+        onTap: () {
+          Navigator.pop(context);
+        },
         text: 'No',
         isPrimaryButton: true,
       ),

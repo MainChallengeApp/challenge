@@ -1,5 +1,16 @@
 import 'dart:math';
 
+import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/services/challenge_service.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -9,36 +20,26 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/models/challenge/repetition_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
-import 'package:challenge/services/challenge_service.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class ProgressMediaListPage extends StatefulWidget {
   ProgressMediaListPage(
       {super.key,
       required this.preTitle,
-      required this.challenge,
+      required this.userChallenge,
       this.repetition,
       this.initialMediaList,
       this.progress,
       this.isSaveInsteadOfEditButtonVisible = true});
 
   final String preTitle;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
   RepetitionModel? repetition;
   List<MediaModel>? initialMediaList;
   ProgressModel? progress;
@@ -59,11 +60,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
-      max(1, widget.challenge.getCurrentRepetitionNumber()),
+      max(1, widget.userChallenge.getCurrentRepetitionNumber()),
       widget.repetition != null
           ? widget.repetition!.goalAmount
-          : widget.challenge.getCalculatedRepetitionGoal(
-              max(1, widget.challenge.getCurrentRepetitionNumber())),
+          : widget.userChallenge.getCalculatedRepetitionGoal(
+              max(1, widget.userChallenge.getCurrentRepetitionNumber())),
       mediaList.map((e) => e.id!).toList(),
       widget.repetition != null
           ? (widget.repetition!.getLastProgress() != null
@@ -74,6 +75,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   BuildContext? context2;
 
   ChallengeService challengeService = ChallengeService();
+  late final userChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: false);
 
   MediaService mediaService = MediaService();
 
@@ -116,27 +119,27 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           , // +1 for progress bar +1 for upload Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              widget.repetition ??= widget.challenge.addRepetition();
+              widget.repetition ??= widget.userChallenge.addRepetition();
               return SpaceColumnComponent(
                   child: ListItemProgressComponent(
                 onTap: !widget.isSaveInsteadOfEditButtonVisible
                     ? null
                     : onTapProgressBar,
                 progress: editProgress,
-                challenge: widget.challenge,
+                challenge: widget.userChallenge,
                 isEditable: widget.isSaveInsteadOfEditButtonVisible,
                 isFailed: widget.repetition != null
                     ? widget.repetition!.repetitionStatus ==
                         RepetitionStatusEnum.failed
                     : false,
-                unit: widget.challenge.acceptanceCriteria.unit,
+                unit: widget.userChallenge.acceptanceCriteria.unit,
               ));
             }
 
             if (index == 1 && widget.isSaveInsteadOfEditButtonVisible) {
               return SpaceColumnComponent(
                 child: ListItemProgressControllerComponent(
-                  challenge: widget.challenge,
+                  challenge: widget.userChallenge,
                   editProgress: editProgress,
                   progressListSetState: () => setState(() {}),
                 ),
@@ -161,7 +164,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   setState(() {
                     mediaService.deleteMedia(
                         mediaList.reversed.elementAt(newIndex),
-                        widget.challenge);
+                        widget.userChallenge);
                     mediaList.removeWhere((media) =>
                         media.id == mediaList.reversed.elementAt(newIndex).id);
                     editProgress.mediaIds.removeAt(newIndex);
@@ -181,7 +184,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           mediaList: mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIndex: index,
-          challenge: widget.challenge,
+          challenge: widget.userChallenge,
           onTap: onTapDeleteMedia,
         ),
       ),
@@ -302,18 +305,20 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         Navigator.pop(context2!);
       }
 
-      if (widget.challenge.isInBacklog() && editProgress.progress > 0) {
-        challengeService.startChallenge(widget.challenge);
-        widget.repetition = widget.challenge.getLastRepetition();
-      } else if (widget.challenge.isInProgress() &&
-          widget.challenge.getCurrentRepetition() != null &&
-          widget.challenge.getCurrentRepetition()!.isInBacklog() &&
+      if (widget.userChallenge.isInBacklog() && editProgress.progress > 0) {
+        widget.userChallenge.start();
+        userChallengesProvider.update(widget.userChallenge);
+
+        widget.repetition = widget.userChallenge.getLastRepetition();
+      } else if (widget.userChallenge.isInProgress() &&
+          widget.userChallenge.getCurrentRepetition() != null &&
+          widget.userChallenge.getCurrentRepetition()!.isInBacklog() &&
           editProgress.progress > 0) {
-        widget.challenge.getCurrentRepetition()!.start();
-        widget.repetition = widget.challenge.getCurrentRepetition();
+        widget.userChallenge.getCurrentRepetition()!.start();
+        widget.repetition = widget.userChallenge.getCurrentRepetition();
       }
 
-      widget.repetition ??= widget.challenge.addRepetition();
+      widget.repetition ??= widget.userChallenge.addRepetition();
 
       // context.read<DesignProvider>().setIsBottomNavBarVisible(false);
       if (widget.progress == null) {
@@ -321,38 +326,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       } else {
         widget.progress!.updateProgress(editProgress);
       }
-
-      allChallengesList = allChallengesList
-          .map((oldChallenge) => oldChallenge.id == widget.challenge.id
-              ? widget.challenge
-              : oldChallenge)
-          .toList() as List<UserChallengeModel>;
-
-      challengeList = challengeList
-          .map((oldChallenge) => oldChallenge.id == widget.challenge.id
-              ? widget.challenge
-              : oldChallenge)
-          .toList() as List<UserChallengeModel>;
-
-      challengeController.writeFile(allChallengesList);
+      userChallengesProvider.updateLocalList(widget.userChallenge);
+      userChallengesProvider.update(widget.userChallenge);
 
       Navigator.pop(context);
       Navigator.pop(context);
-      // only show Repetition Page, when its in the navigation stack
-      // Navigator.push(
-      //     context,
-      //     NoAnimationPageRouteComponent(
-      //       builder: (context) => RepetitionPage(
-      //           preTitle: 'Home/${widget.challenge.title}',
-      //           challenge: widget.challenge),
-      //     )).then((_) {
-      //   challengeList =
-      //       ChallengeModel.sortChallengeList(challenges: challengeList);
-
-      //   // int index = challengeList.indexWhere((c) => c.id == widget.challenge.id);
-
-      //   // pageController.jumpToPage(index); some how need to jump to the right page and setState
-      // });
     } else {
       setState(() {
         widget.isSaveInsteadOfEditButtonVisible = true;
@@ -461,7 +439,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               child: GestureDetector(
                   onTap: () => setState(() {
                         editProgress.progress =
-                            widget.challenge.acceptanceCriteria.amount;
+                            widget.userChallenge.acceptanceCriteria.amount;
                         amountTextEditingController.text =
                             DesignUtil.doubleAsIntString(editProgress.progress)
                                 .toString();
@@ -544,7 +522,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                       style: const TextStyle(color: Colors.grey),
                       controller: TextEditingController()
                         ..text =
-                            '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}',
+                            '${DesignUtil.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}',
                       decoration:
                           const InputDecoration.collapsed(hintText: 'Unit'),
                     ),
@@ -580,7 +558,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             title: DateTime.now().toString().split('.')[0],
             source: file.path);
 
-        widget.challenge.media.add(media);
+        widget.userChallenge.media.add(media);
         editProgress.mediaIds.add(media.id!);
         mediaList.add(media);
       });
@@ -615,13 +593,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
     setState(() {
       challengeService.deleteProgress(
-          widget.challenge, widget.repetition!, widget.progress!);
+          widget.userChallenge, widget.repetition!, widget.progress!);
     });
     Navigator.pop(context);
   }
 
   void onTapDeleteMedia(MediaModel media) {
-    mediaService.deleteMedia(media, widget.challenge);
+    mediaService.deleteMedia(media, widget.userChallenge);
 
     setState(() {
       mediaList.removeWhere((element) => element.id == media.id);
