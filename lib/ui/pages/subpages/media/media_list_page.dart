@@ -1,30 +1,31 @@
 import 'dart:io';
 
+import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class MediaListPage extends StatefulWidget {
   const MediaListPage(
       {super.key,
       required this.preTitle,
       this.tapOnNewChallenge,
-      required this.challenge});
+      required this.userChallenge});
   final String preTitle;
   final Function? tapOnNewChallenge;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
 
   @override
   State<MediaListPage> createState() => _MediaListPageState();
@@ -35,7 +36,8 @@ class _MediaListPageState extends State<MediaListPage> {
 
   ScrollController scrollController = ScrollController();
 
-  ChallengeController challengeController = ChallengeController();
+  late final userChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: false);
 
   MediaService mediaService = MediaService();
 
@@ -51,7 +53,7 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   _buildList() {
-    List<MediaModel> mediaList = widget.challenge.media
+    List<MediaModel> mediaList = widget.userChallenge.media
         .where((element) =>
             element.title.toLowerCase().contains(searchBarText.toLowerCase()))
         .toList();
@@ -101,7 +103,9 @@ class _MediaListPageState extends State<MediaListPage> {
                   MediaModel media =
                       mediaList.reversed.elementAt(index - 1 - 1);
 
-                  mediaService.deleteMedia(media, widget.challenge);
+                  mediaService.deleteMedia(media);
+                  widget.userChallenge.removeMedia(media);
+                  userChallengesProvider.update(widget.userChallenge);
 
                   setState(() {
                     mediaList.removeWhere((element) => element.id == media.id);
@@ -127,12 +131,12 @@ class _MediaListPageState extends State<MediaListPage> {
       context,
       NoAnimationPageRouteComponent(
           builder: (context) => MediaDetailPage(
-                mediaList: widget.challenge.media
+                mediaList: widget.userChallenge.media
                     .where((element) => element.title.contains(searchBarText))
                     .toList(),
                 preTitle: '${widget.preTitle}/Media',
                 initialMediaIndex: index,
-                challenge: widget.challenge,
+                userChallenge: widget.userChallenge,
                 onTap: onTapDeleteMedia,
               )),
     ).then((_) => setState(() {}));
@@ -142,12 +146,12 @@ class _MediaListPageState extends State<MediaListPage> {
     XFile? file = await mediaService.onTapUploadMedia();
     if (file != null) {
       setState(() {
-        widget.challenge.media.add(MediaModel(
+        widget.userChallenge.media.add(MediaModel(
             type: MediaTypeEnum.image,
             title: DateTime.now().toString().split('.')[0],
             source: file.path));
-        challengeController.writeFile(allChallengesList);
       });
+      userChallengesProvider.update(widget.userChallenge);
     }
   }
 
@@ -160,20 +164,8 @@ class _MediaListPageState extends State<MediaListPage> {
         }
       });
 
-      widget.challenge.media.removeWhere((element) => element.id == media.id);
-      for (var repetition in widget.challenge.repetitions) {
-        for (var progress in repetition.progressList) {
-          progress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
-        }
-      }
-
-      allChallengesList
-          .map((challenge) => challenge.id == widget.challenge.id
-              ? widget.challenge
-              : challenge)
-          .toList();
-
-      challengeController.writeFile(allChallengesList);
+      widget.userChallenge.removeMedia(media);
+      userChallengesProvider.update(widget.userChallenge);
 
       setState(() {});
     }

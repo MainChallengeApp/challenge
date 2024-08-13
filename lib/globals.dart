@@ -1,4 +1,3 @@
-import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:flutter/material.dart';
 
 import 'enums/tab_item_enum.dart';
@@ -12,9 +11,6 @@ Color green = Colors.green.withAlpha(100);
 Color red = Colors.red.withAlpha(100);
 
 const double basicFontSize = 13;
-
-List<UserChallengeModel> challengeList = [];
-List<UserChallengeModel> allChallengesList = [];
 
 final navigatorKeys = {
   TabItemEnum.Search: GlobalKey<NavigatorState>(),

@@ -166,12 +166,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  thumbnail(ChallengeModel challenge) {
+  thumbnail(UserChallengeModel userChallenge) {
     return Column(
       children: [
         ThumbnailMaxComponent(
-            challenge: challenge,
-            onTapOpenMediaPage: () => onTapOpenMediaPage(challenge)),
+            challenge: userChallenge,
+            onTapOpenMediaPage: () => onTapOpenMediaPage(userChallenge)),
         const SpaceComponent(
           height: 11,
         )
@@ -335,13 +335,13 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     }
   }
 
-  void onTapOpenMediaPage(ChallengeModel challenge) {
+  void onTapOpenMediaPage(UserChallengeModel userChallenge) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
-          preTitle: '${widget.preTitle}/${challenge.title}',
-          challenge: challenge,
+          preTitle: '${widget.preTitle}/${userChallenge.title}',
+          userChallenge: userChallenge,
         ),
       ),
     ).then((_) => setState(() {}));

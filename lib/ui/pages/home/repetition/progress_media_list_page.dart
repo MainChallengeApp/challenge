@@ -3,13 +3,11 @@ import 'dart:math';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
-import 'package:challenge/services/challenge_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -52,7 +50,6 @@ class ProgressMediaListPage extends StatefulWidget {
 }
 
 class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
-  ChallengeController challengeController = ChallengeController();
   ScrollController scrollController = ScrollController();
 
   TextEditingController amountTextEditingController = TextEditingController();
@@ -76,7 +73,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   BuildContext? context2;
 
-  ChallengeService challengeService = ChallengeService();
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 
@@ -164,9 +160,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 media: mediaList.reversed.elementAt(newIndex),
                 onTapDeleteMedia: () {
                   setState(() {
-                    mediaService.deleteMedia(
-                        mediaList.reversed.elementAt(newIndex),
-                        widget.userChallenge);
+                    mediaService
+                        .deleteMedia(mediaList.reversed.elementAt(newIndex));
+                    widget.userChallenge
+                        .removeMedia(mediaList.reversed.elementAt(newIndex));
                     mediaList.removeWhere((media) =>
                         media.id == mediaList.reversed.elementAt(newIndex).id);
                     editProgress.mediaIds.removeAt(newIndex);
@@ -186,7 +183,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           mediaList: mediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIndex: index,
-          challenge: widget.userChallenge,
+          userChallenge: widget.userChallenge,
           onTap: onTapDeleteMedia,
         ),
       ),
@@ -596,17 +593,18 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
 
     setState(() {
-      challengeService.deleteProgress(
-          widget.userChallenge, widget.repetition!, widget.progress!);
+      widget.repetition!.deleteProgress(widget.progress!);
     });
+    userChallengesProvider.update(widget.userChallenge);
     Navigator.pop(context);
   }
 
   void onTapDeleteMedia(MediaModel media) {
-    mediaService.deleteMedia(media, widget.userChallenge);
+    mediaService.deleteMedia(media);
 
     setState(() {
       mediaList.removeWhere((element) => element.id == media.id);
+      widget.userChallenge.removeMedia(media);
       editProgress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
     });
   }

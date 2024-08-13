@@ -1,18 +1,18 @@
-import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/ui/pages/subpages/media/video_component.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/pages/subpages/media/video_component.dart';
 import 'package:flutter/material.dart';
 
 class MediaDetailPage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
   final void Function(MediaModel)? onTap;
 
   const MediaDetailPage(
@@ -20,7 +20,7 @@ class MediaDetailPage extends StatefulWidget {
       required this.preTitle,
       required this.mediaList,
       required this.initialMediaIndex,
-      required this.challenge,
+      required this.userChallenge,
       this.onTap});
 
   @override
@@ -100,16 +100,19 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
   deleteButton() {
     return GestureDetector(
       onTap: () => setState(() {
-        MediaModel media = widget.mediaList[currentMediaIndex];
+        MediaModel media =
+            widget.mediaList.reversed.toList()[currentMediaIndex];
         widget.mediaList.removeWhere((element) => element.id == media.id);
 
         widget.onTap?.call(media);
 
-        if (currentMediaIndex >= widget.mediaList.length) {
-          currentMediaIndex = widget.mediaList.length - 1;
-        }
         if (widget.mediaList.isEmpty) {
           Navigator.pop(context);
+          return;
+        }
+
+        if (currentMediaIndex >= widget.mediaList.length) {
+          currentMediaIndex = widget.mediaList.length - 1;
         }
       }),
       child: Container(
