@@ -90,6 +90,7 @@ class _AcceptanceCriteriaComponentState
   }
 
   GestureDetector newProgress() {
+// TODO: add visibility check
     return GestureDetector(
       onTap: widget.onTapNewProgress,
       child: ContainerInContainerComponent(
