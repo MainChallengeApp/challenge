@@ -178,7 +178,7 @@ void main() {
     //   });
     // });
 
-    group('toJson()', () {
+    group('toDoc()', () {
       test('should return json when ChallengeModel is passed', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
@@ -193,7 +193,8 @@ void main() {
           'media': [],
           'categories': ['mentalHealth'],
           'startDate': challenge.startDate?.toString(),
-          'endDate': challenge.endDate?.toString()
+          'endDate': challenge.endDate?.toString(),
+          'createdAt': challenge.createdAt
         };
 
         // Act

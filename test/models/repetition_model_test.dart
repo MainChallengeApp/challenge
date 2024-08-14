@@ -374,7 +374,7 @@ void main() {
         expect(result['startDate'], equals(repetition.startDate.toString()));
         expect(result['endDate'], equals(repetition.endDate.toString()));
         expect(result['repetitionStatus'],
-            equals(repetition.repetitionStatus.toString()));
+            equals(repetition.repetitionStatus.status));
       });
     });
 
