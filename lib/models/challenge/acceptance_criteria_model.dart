@@ -21,12 +21,10 @@ class AcceptanceCriteriaModel {
     };
   }
 
-  static AcceptanceCriteriaModel copyAcceptanceCriteria(
-      AcceptanceCriteriaModel ac,
-      {bool isTryAgain = false}) {
+  AcceptanceCriteriaModel copy() {
     return AcceptanceCriteriaModel(
-      amount: ac.amount,
-      unit: ac.unit,
+      amount: amount,
+      unit: unit,
     );
   }
 }

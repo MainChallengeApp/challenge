@@ -40,8 +40,13 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 
+  late final listeningProvider =
+      Provider.of<UserChallengesProvider>(context, listen: true);
+
   @override
   Widget build(BuildContext context) {
+    listeningProvider.userChallenges;
+
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.preTitle,
@@ -140,7 +145,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
                       userChallenge: widget.userChallenge,
-                      setStateRepetitionPage: () => setState(() {}),
                       onTapNextRepetition: (int repetitionNumber) {
                         setState(() {
                           expandedRepetitionIndexList.clear();
@@ -252,24 +256,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
     });
   }
 
-  void onTapStartChallenge() {
-    setState(() {
-      widget.userChallenge.start();
-    });
-    userChallengesProvider.update(widget.userChallenge);
-  }
-
-  void onTapEndChallenge() {
-    EndChallengeDialog.show(
-        context: context,
-        onTapYes: () {
-          setState(() {
-            widget.userChallenge.end();
-          });
-          userChallengesProvider.update(widget.userChallenge);
-        });
-  }
-
   onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
     setState(() {
       repetition.deleteProgress(progress);
@@ -278,6 +264,18 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   actionButton() {
+    void onTapStartChallenge() {
+      userChallengesProvider.start(widget.userChallenge);
+    }
+
+    void onTapEndChallenge() {
+      EndChallengeDialog.show(
+          context: context,
+          onTapYes: () {
+            userChallengesProvider.end(widget.userChallenge);
+          });
+    }
+
     return Align(
         alignment: widget.userChallenge.isInBacklog()
             ? Alignment.topCenter

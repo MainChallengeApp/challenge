@@ -1,6 +1,5 @@
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -26,7 +25,6 @@ import 'package:provider/provider.dart';
 class EditChallengePage extends StatefulWidget {
   final String preTitle;
   final ChallengeModel challenge;
-  late final ChallengeModel editChallenge;
   final bool isNewChallenge;
   final bool isTryAgain;
   final bool isSearchEdit;
@@ -46,8 +44,6 @@ class EditChallengePage extends StatefulWidget {
 }
 
 class _EditChallengePageState extends State<EditChallengePage> {
-  ChallengeController challengeController = ChallengeController();
-
   bool isDescriptionExpanded = false;
 
   late final userChallengesProvider =
@@ -125,7 +121,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       child: SpaceColumnComponent(
         heightMultiplier: 2,
         child: StartAndEndDateComponent(
-          editChallenge: widget.editChallenge,
+          editChallenge: editChallenge,
           reloadSearchChallengePage: () => setState(
             () {},
           ),
@@ -136,7 +132,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   description() {
     EditDescriptionComponent descriptionComponent = EditDescriptionComponent(
-      challenge: widget.editChallenge,
+      challenge: editChallenge,
       isDescriptionExpanded: isDescriptionExpanded,
       onTap: () => setState(() {
         isDescriptionExpanded = !isDescriptionExpanded;
@@ -159,9 +155,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
       children: [
         Row(
           children: [
-            UploadThumbnailComponent(editChallenge: widget.editChallenge),
+            UploadThumbnailComponent(editChallenge: editChallenge),
             const SpaceComponent(),
-            ExpandedTextFieldComponent(editChallenge: widget.editChallenge)
+            ExpandedTextFieldComponent(editChallenge: editChallenge)
           ],
         ),
         const SpaceComponent()
@@ -174,9 +170,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void onTapAccept() async {
-    ChallengeModel challengeCopy = widget.editChallenge.copyChallenge();
+    ChallengeModel challengeCopy = editChallenge.copyChallenge();
     challengeCopy.createdAt = DateTime.now();
-    userChallengesProvider.insertToLocalList(challengeCopy);
+    userChallengesProvider.create(challengeCopy);
 
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
@@ -193,28 +189,23 @@ class _EditChallengePageState extends State<EditChallengePage> {
         ),
       ),
     );
-
-    await userChallengesProvider.create(challengeCopy);
   }
 
   void onTapSave() async {
     // TODO: maybe just copyChallenge()
-    widget.challenge.thumbnailPath = widget.editChallenge.thumbnailPath;
-    widget.challenge.title = widget.editChallenge.title;
-    widget.challenge.description = widget.editChallenge.description;
-    widget.challenge.acceptanceCriteria =
-        widget.editChallenge.acceptanceCriteria;
-    widget.challenge.frequency = widget.editChallenge.frequency;
-    widget.challenge.startDate = widget.editChallenge.startDate;
-    widget.challenge.endDate = widget.editChallenge.endDate;
-    widget.challenge.categories = widget.editChallenge.categories;
+    widget.challenge.thumbnailPath = editChallenge.thumbnailPath;
+    widget.challenge.title = editChallenge.title;
+    widget.challenge.description = editChallenge.description;
+    widget.challenge.acceptanceCriteria = editChallenge.acceptanceCriteria;
+    widget.challenge.frequency = editChallenge.frequency;
+    widget.challenge.startDate = editChallenge.startDate;
+    widget.challenge.endDate = editChallenge.endDate;
+    widget.challenge.categories = editChallenge.categories;
 
-    widget.challenge.setGoals(widget.editChallenge.acceptanceCriteria.amount);
+    widget.challenge.setGoals(editChallenge.acceptanceCriteria.amount);
 
-    userChallengesProvider
-        .updateLocalList(widget.challenge as UserChallengeModel);
+    userChallengesProvider.update(widget.challenge as UserChallengeModel);
     Navigator.pop(context);
-    await userChallengesProvider.update(widget.challenge as UserChallengeModel);
   }
 
   amountAndUnit() {
@@ -222,7 +213,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       visible: !isDescriptionExpanded,
       child: SpaceColumnComponent(
         child: AmountAndUnitComponent(
-            acceptanceCriteria: widget.editChallenge.acceptanceCriteria),
+            acceptanceCriteria: editChallenge.acceptanceCriteria),
       ),
     );
   }
@@ -232,7 +223,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       visible: !isDescriptionExpanded,
       child: SpaceColumnComponent(
         child: FrequencyComponent(
-          challenge: widget.editChallenge,
+          challenge: editChallenge,
           reloadSearchChallengePage: () => setState(
             () {},
           ),

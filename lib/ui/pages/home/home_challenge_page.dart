@@ -69,10 +69,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   late final listeningProvider =
       Provider.of<UserChallengesProvider>(context, listen: true);
 
-  late List<UserChallengeModel> filteredUserChallenges = userChallengesProvider
-      .getAllOfUser()
-      .where((challenge) => challenge.searchInChallenge(widget.filterOptions))
-      .toList();
+  List<UserChallengeModel> filteredUserChallenges = [];
 
   @override
   void initState() {
@@ -89,9 +86,28 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (filteredUserChallenges.isEmpty) {
+      filteredUserChallenges = listeningProvider.userChallenges
+          .where(
+              (challenge) => challenge.searchInChallenge(widget.filterOptions))
+          .toList();
+    }
+    UserChallengeModel currentChallenge =
+        filteredUserChallenges[currentChallengeIndex];
+
     filteredUserChallenges = listeningProvider.userChallenges
         .where((challenge) => challenge.searchInChallenge(widget.filterOptions))
         .toList();
+
+    int index =
+        filteredUserChallenges.indexWhere((c) => c.id == currentChallenge.id);
+
+    if (index != currentChallengeIndex && index != -1) {
+      currentChallengeIndex = index;
+      // setState(() {
+      pageController.jumpToPage(index);
+      // });
+    }
 
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
@@ -369,18 +385,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             preTitle: '${widget.preTitle}/${userChallenge.title}',
             userChallenge: userChallenge),
       ),
-    ).then((_) {
-      setState(() {
-        filteredUserChallenges = userChallengesProvider.userChallenges
-            .where((challenge) =>
-                challenge.searchInChallenge(widget.filterOptions))
-            .toList();
-
-        int index =
-            filteredUserChallenges.indexWhere((c) => c.id == userChallenge.id);
-        pageController.jumpToPage(index);
-      });
-    });
+    );
   }
 
   onTapCamera(UserChallengeModel userChallenge) async {
@@ -403,31 +408,16 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           userChallenge: userChallenge,
         ),
       ),
-    ).then((_) => setState(() {
-          int index = filteredUserChallenges
-              .indexWhere((c) => c.id == userChallenge.id);
-          pageController.jumpToPage(index);
-        }));
+    );
   }
 
   onTapStart(UserChallengeModel userChallenge) {
-    setState(() {
-      userChallenge.start();
-      updateFilteredUserChallenges(userChallenge);
-      int index = getLocalIndex(userChallenge.id);
-      pageController.jumpToPage(index);
-    });
-    userChallengesProvider.update(userChallenge);
+    userChallengesProvider.start(userChallenge);
   }
 
   onTapEnd(UserChallengeModel userChallenge) {
     if (userChallenge.canEndRepetition()) {
-      setState(() {
-        userChallenge.endRepetition();
-        updateFilteredUserChallenges(userChallenge);
-        int index = getLocalIndex(userChallenge.id);
-        pageController.jumpToPage(index);
-      });
+      userChallenge.endRepetition();
       userChallengesProvider.update(userChallenge);
       return;
     }
@@ -435,11 +425,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     EndChallengeDialog.show(
         context: context,
         onTapYes: () {
-          userChallenge.end();
-          updateFilteredUserChallenges(userChallenge);
-          int index = getLocalIndex(userChallenge.id);
-          pageController.jumpToPage(index);
-          userChallengesProvider.update(userChallenge);
+          userChallengesProvider.end(userChallenge);
         });
   }
 
@@ -461,28 +447,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   onTapNext(UserChallengeModel userChallenge) {
-    setState(() {
-      userChallenge.endRepetition();
-      updateFilteredUserChallenges(userChallenge);
-      int index = getLocalIndex(userChallenge.id);
-      pageController.jumpToPage(index);
-    });
+    userChallenge.endRepetition();
     userChallengesProvider.update(userChallenge);
-  }
-
-  int getLocalIndex(String userChallengeId) {
-    return filteredUserChallenges.indexWhere((uc) => uc.id == userChallengeId);
-  }
-
-  void updateFilteredUserChallenges(UserChallengeModel userChallenge) {
-    userChallengesProvider.updateLocalList(userChallenge);
-    filteredUserChallenges = userChallengesProvider.userChallenges
-        .where((challenge) => challenge.searchInChallenge(widget.filterOptions))
-        .toList();
-    filteredUserChallenges[getLocalIndex(userChallenge.id)] = userChallenge;
-    filteredUserChallenges =
-        ChallengeModel.sortChallengeList(challenges: filteredUserChallenges)
-            as List<UserChallengeModel>;
   }
 
   void onTapNewProgress(UserChallengeModel userChallenge) {

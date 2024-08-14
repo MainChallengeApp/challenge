@@ -11,17 +11,25 @@ class UserChallengesProvider with ChangeNotifier {
   List<UserChallengeModel> _userChallenges = [];
   List<UserChallengeModel> get userChallenges => _userChallenges;
 
-  Future<UserChallengeModel> create(ChallengeModel challenge) async {
+  Future<void> create(ChallengeModel challenge) async {
     final userChallenge = UserChallengeModel.fromChallengeModel(
       challenge: challenge,
       userId: authService.getCurrentUserId(),
     );
+    _userChallenges.insert(0, userChallenge);
+    sortLocalList();
     try {
-      UserChallengeModel userChallengeInDb =
-          await userChallengesDatabase.create(userChallenge);
+      createOnline(userChallenge);
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  createOnline(UserChallengeModel userChallenge) async {
+    try {
+      await userChallengesDatabase.create(userChallenge);
       _userChallenges = await getAllOfUser();
-      notifyListeners();
-      return userChallengeInDb;
+      sortLocalList();
     } on Exception {
       rethrow;
     }
@@ -32,7 +40,6 @@ class UserChallengesProvider with ChangeNotifier {
       _userChallenges = await userChallengesDatabase.getAllByUserId(
           userId: authService.getCurrentUserId());
       sortLocalList();
-      notifyListeners();
       return _userChallenges;
     } on Exception {
       rethrow;
@@ -47,11 +54,16 @@ class UserChallengesProvider with ChangeNotifier {
     }
   }
 
-  Future<void> update(UserChallengeModel userChallenge) async {
+  // TODO: replace raw updates with specific methods like in start and end
+  update(UserChallengeModel userChallenge) {
     try {
-      await userChallengesDatabase.update(userChallenge);
-      _userChallenges = await getAllOfUser();
-      notifyListeners();
+      int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);
+      if (index != -1) {
+        _userChallenges[index] = userChallenge;
+        sortLocalList();
+      }
+
+      userChallengesDatabase.update(userChallenge);
     } catch (e) {
       rethrow;
     }
@@ -60,20 +72,25 @@ class UserChallengesProvider with ChangeNotifier {
   // delete user challenge
   Future<void> delete(UserChallengeModel userChallenge) async {
     try {
-      await userChallengesDatabase.delete(userChallenge);
       int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);
       if (index != -1) {
         _userChallenges.removeAt(index);
         notifyListeners();
       }
+      userChallengesDatabase.delete(userChallenge);
     } on Exception {
       rethrow;
     }
   }
 
-  startChallenge(UserChallengeModel userChallenge) async {
+  start(UserChallengeModel userChallenge) {
     userChallenge.start();
-    await update(userChallenge);
+    update(userChallenge);
+  }
+
+  end(UserChallengeModel userChallenge) {
+    userChallenge.end();
+    update(userChallenge);
   }
 
   void insertToLocalList(ChallengeModel challengeCopy) {
@@ -84,16 +101,6 @@ class UserChallengesProvider with ChangeNotifier {
           userId: authService.getCurrentUserId(),
         ));
     sortLocalList();
-    notifyListeners();
-  }
-
-  void updateLocalList(UserChallengeModel userChallenge) {
-    int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);
-    if (index != -1) {
-      _userChallenges[index] = userChallenge;
-      sortLocalList();
-      notifyListeners();
-    }
   }
 
   void sortLocalList() {
@@ -101,9 +108,5 @@ class UserChallengesProvider with ChangeNotifier {
         ChallengeModel.sortChallengeList(challenges: _userChallenges)
             as List<UserChallengeModel>;
     notifyListeners();
-  }
-
-  getLocalIndex(String userChallengeId) {
-    return _userChallenges.indexWhere((uc) => uc.id == userChallengeId);
   }
 }

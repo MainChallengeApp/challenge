@@ -122,9 +122,7 @@ class ChallengeModel {
         endDate: isTryAgain ? null : endDate,
         description: description,
         thumbnailPath: thumbnailPath,
-        acceptanceCriteria: AcceptanceCriteriaModel.copyAcceptanceCriteria(
-            acceptanceCriteria,
-            isTryAgain: isTryAgain),
+        acceptanceCriteria: acceptanceCriteria.copy(),
         frequency: frequency.copy(),
         repetitions:
             isTryAgain ? [] : RepetitionModel.copyRepetitionList(repetitions),
@@ -313,7 +311,7 @@ class ChallengeModel {
   }
 
   void endRepetition() {
-    if (frequency.type == FrequencyTypeEnum.time) {
+    if (canEndRepetition()) {
       RepetitionModel? currentRepetition = getCurrentRepetition();
       currentRepetition?.end();
       currentRepetition?.evaluateRepetitionStatus();

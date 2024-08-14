@@ -306,8 +306,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
       if (widget.userChallenge.isInBacklog() && editProgress.progress > 0) {
         widget.userChallenge.start();
-        userChallengesProvider.update(widget.userChallenge);
-
         widget.repetition = widget.userChallenge.getLastRepetition();
       } else if (widget.userChallenge.isInProgress() &&
           widget.userChallenge.getCurrentRepetition() != null &&
@@ -324,7 +322,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       } else {
         widget.progress!.updateProgress(editProgress);
       }
-      userChallengesProvider.updateLocalList(widget.userChallenge);
       userChallengesProvider.update(widget.userChallenge);
 
       for (int i = 0; i < widget.amountOfPops; i++) {

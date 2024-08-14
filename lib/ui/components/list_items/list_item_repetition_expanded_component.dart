@@ -21,13 +21,11 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
       required this.repetition,
       this.onTap,
       required this.userChallenge,
-      required this.setStateRepetitionPage,
       required this.onTapNextRepetition});
 
   final RepetitionModel repetition;
   final UserChallengeModel userChallenge;
   final void Function()? onTap;
-  final void Function() setStateRepetitionPage;
   final void Function(int repetitionNumber) onTapNextRepetition;
 
   @override
@@ -42,10 +40,17 @@ class _ListItemRepetitionExpandedComponentState
     listen: false,
   );
 
+  late final listeningProvider = Provider.of<UserChallengesProvider>(
+    context,
+    listen: true,
+  );
+
   late BuildContext pageContext;
 
   @override
   Widget build(BuildContext context) {
+    listeningProvider.userChallenges;
+
     pageContext = context;
     widget.repetition.evaluateRepetitionStatus();
     return Stack(
@@ -142,26 +147,18 @@ class _ListItemRepetitionExpandedComponentState
           .call(userChallenge.getLastRepetition()!.repetitionNumber);
     });
     userChallengesProvider.update(userChallenge);
-    widget.setStateRepetitionPage.call();
   }
 
   onTapEnd(UserChallengeModel userChallenge) {
     EndChallengeDialog.show(
         context: pageContext,
-        onTapYes: (UserChallengeModel userChallenge) {
-          setState(() {
-            userChallenge.end();
-          });
-          userChallengesProvider.update(userChallenge);
-          widget.setStateRepetitionPage.call();
+        onTapYes: () {
+          userChallengesProvider.end(userChallenge);
         });
   }
 
   onTapStart(userChallenge) {
-    setState(() {
-      userChallenge.start();
-    });
-    userChallengesProvider.update(userChallenge);
+    userChallengesProvider.start(userChallenge);
   }
 
   repetition() {
