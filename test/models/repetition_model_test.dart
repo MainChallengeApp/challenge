@@ -353,7 +353,7 @@ void main() {
       });
     });
 
-    group('toJson()', () {
+    group('toDoc()', () {
       test('should return a repetition as json', () {
         // Arrange
         RepetitionModel repetition =
