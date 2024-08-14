@@ -98,12 +98,18 @@ class _AcceptanceCriteriaComponentState
       child: GestureDetector(
         onTap: widget.onTapNewProgress,
         child: ContainerInContainerComponent(
+            padding: const EdgeInsets.symmetric(horizontal: 7),
             margin: const EdgeInsets.only(left: 10),
             child: Center(
-              child: Icon(
-                IconEnum.newChallenge.icon,
-                size: 15,
-                color: themeColor3,
+              child: Container(
+                // color: Colors.red,
+                child: Center(
+                  child: Icon(
+                    IconEnum.newChallenge.icon,
+                    size: 20,
+                    color: themeColor3,
+                  ),
+                ),
               ),
             )),
       ),
