@@ -32,16 +32,14 @@ class EditChallengePage extends StatefulWidget {
   final bool isSearchEdit;
   final bool isSearchNewChallenge;
 
-  EditChallengePage(
+  const EditChallengePage(
       {super.key,
       required this.preTitle,
       required this.challenge,
       this.isSearchEdit = false,
       this.isNewChallenge = false,
       this.isTryAgain = false,
-      this.isSearchNewChallenge = false}) {
-    editChallenge = challenge.copyChallenge(isTryAgain: isTryAgain);
-  }
+      this.isSearchNewChallenge = false});
 
   @override
   State<EditChallengePage> createState() => _EditChallengePageState();
@@ -54,6 +52,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
+
+  late ChallengeModel editChallenge =
+      widget.challenge.copyChallenge(isTryAgain: widget.isTryAgain);
 
   @override
   Widget build(BuildContext context) {

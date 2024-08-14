@@ -1,6 +1,5 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -34,16 +33,14 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
 
   @override
   Widget build(BuildContext context) {
-    AcceptanceCriteriaModel acceptanceCriteria =
-        widget.challenge.acceptanceCriteria;
     return frequency.type == FrequencyTypeEnum.time
-        ? timeFrequency(acceptanceCriteria)
+        ? timeFrequency()
         : frequency.type == FrequencyTypeEnum.daily
-            ? dayFrequency(acceptanceCriteria)
-            : frequencyDropDown(acceptanceCriteria);
+            ? dayFrequency()
+            : frequencyDropDown();
   }
 
-  frequencyDropDown(AcceptanceCriteriaModel acceptanceCriteria) {
+  frequencyDropDown() {
     Map<FrequencyTypeEnum, String> frequencyMap = {
       FrequencyTypeEnum.time: 'Time',
       FrequencyTypeEnum.daily: 'Day',
@@ -82,17 +79,17 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
     );
   }
 
-  timeFrequency(AcceptanceCriteriaModel acceptanceCriteria) {
+  timeFrequency() {
     return Row(
       children: [
-        frequencyAmountInput(acceptanceCriteria),
+        frequencyAmountInput(),
         const SpaceComponent(),
-        frequencyDropDown(acceptanceCriteria)
+        frequencyDropDown()
       ],
     );
   }
 
-  frequencyAmountInput(AcceptanceCriteriaModel acceptanceCriteria) {
+  frequencyAmountInput() {
     if (frequency.amount != null) {
       frequencyAmountTextEditingController.text = frequency.amount.toString();
     } else {
@@ -136,19 +133,19 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
     );
   }
 
-  dayFrequency(AcceptanceCriteriaModel acceptanceCriteria) {
+  dayFrequency() {
     return Row(
       children: [
-        frequencyAmountInput(acceptanceCriteria),
+        frequencyAmountInput(),
         const SpaceComponent(),
-        frequencyDropDown(acceptanceCriteria),
+        frequencyDropDown(),
         const SpaceComponent(),
-        frequencyFrequencyDropDown(acceptanceCriteria),
+        frequencyFrequencyDropDown(),
       ],
     );
   }
 
-  frequencyFrequencyDropDown(AcceptanceCriteriaModel acceptanceCriteria) {
+  frequencyFrequencyDropDown() {
     return const Expanded(
         flex: 2,
         child: CustomContainerComponent(
