@@ -4,6 +4,7 @@ class CardComponent extends StatelessWidget {
   static const double standardBorderRadius = 24;
   static const double standardBottomMargin = 16;
   static const double standardSideMargin = 20;
+  static const double standardPadding = 16;
 
   final List<Widget> children;
   final ScrollPhysics scrollPhysics;
@@ -29,7 +30,7 @@ class CardComponent extends StatelessWidget {
                       bottom: standardBottomMargin,
                       left: standardSideMargin,
                       right: standardSideMargin),
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(standardPadding),
                   width: double.infinity,
                   // height: 100,
                   decoration: BoxDecoration(

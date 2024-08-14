@@ -4,7 +4,7 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -14,13 +14,13 @@ import 'package:flutter/material.dart';
 
 class AcceptanceCriteriaComponent extends StatefulWidget {
   final void Function() onTap;
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
   final void Function() onTapNewProgress;
 
   const AcceptanceCriteriaComponent(
       {super.key,
       required this.onTap,
-      required this.challenge,
+      required this.userChallenge,
       required this.onTapNewProgress});
 
   @override
@@ -37,18 +37,21 @@ class _AcceptanceCriteriaComponentState
       child: Stack(
         children: [
           FractionallySizedBox(
-            widthFactor: !widget.challenge.isInProgress()
-                ? min(widget.challenge.getCurrentPercentage(), 1)
-                : min(widget.challenge.getCurrentRepetitionProgressPercentage(),
+            widthFactor: !widget.userChallenge.isInProgress()
+                ? min(widget.userChallenge.getCurrentPercentage(), 1)
+                : min(
+                    widget.userChallenge
+                        .getCurrentRepetitionProgressPercentage(),
                     1),
             heightFactor: 1,
             child: Container(
               // width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: widget.challenge.status == ChallengeStatusEnum.failed
-                      ? red
-                      : green,
+                  color:
+                      widget.userChallenge.status == ChallengeStatusEnum.failed
+                          ? red
+                          : green,
                   borderRadius: const BorderRadius.all(Radius.circular(
                       CustomContainerComponent.standardRadius))),
             ),
@@ -76,7 +79,7 @@ class _AcceptanceCriteriaComponentState
                           // progressPercentage(widget.challenge.acceptanceCriteria),
                           repetition(),
                           repetitionProgressAbsolute(),
-                          amountOfProgress(),
+                          // amountOfProgress(),
                         ],
                       ),
                     ),
@@ -89,71 +92,73 @@ class _AcceptanceCriteriaComponentState
     );
   }
 
-  GestureDetector newProgress() {
-// TODO: add visibility check
-    return GestureDetector(
-      onTap: widget.onTapNewProgress,
-      child: ContainerInContainerComponent(
-          margin: const EdgeInsets.only(left: 10),
-          child: Center(
-            child: Icon(
-              IconEnum.newChallenge.icon,
-              size: 15,
-              color: themeColor3,
-            ),
-          )),
+  Visibility newProgress() {
+    return Visibility(
+      visible: widget.userChallenge.getCurrentRepetition() != null,
+      child: GestureDetector(
+        onTap: widget.onTapNewProgress,
+        child: ContainerInContainerComponent(
+            margin: const EdgeInsets.only(left: 10),
+            child: Center(
+              child: Icon(
+                IconEnum.newChallenge.icon,
+                size: 15,
+                color: themeColor3,
+              ),
+            )),
+      ),
     );
   }
 
   repetition() {
-    return (widget.challenge.frequency.amount == 1 &&
-            widget.challenge.frequency.type == FrequencyTypeEnum.time)
+    return (widget.userChallenge.frequency.amount == 1 &&
+            widget.userChallenge.frequency.type == FrequencyTypeEnum.time)
         ? Container()
-        : widget.challenge.isInBacklog()
+        : widget.userChallenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.typeToString()}')
+                    '${widget.userChallenge.frequency.amount ?? '∞'} ${widget.userChallenge.frequency.typeToString()}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${widget.challenge.getCurrentRepetitionNumber()}/${widget.challenge.frequency.amount ?? '∞'} ${widget.challenge.frequency.typeToString()}');
+                    '${widget.userChallenge.getCurrentRepetitionNumber()}/${widget.userChallenge.frequency.amount ?? '∞'} ${widget.userChallenge.frequency.typeToString()}');
   }
 
   repetitionProgressAbsolute() {
-    return widget.challenge.acceptanceCriteria.unit != '' ||
-            widget.challenge.acceptanceCriteria.amount != 0
-        ? widget.challenge.isInProgress() ||
-                (widget.challenge.frequency.amount != null &&
-                        widget.challenge.frequency.amount! == 1) &&
-                    !widget.challenge.isInBacklog()
+    return widget.userChallenge.acceptanceCriteria.unit != '' ||
+            widget.userChallenge.acceptanceCriteria.amount != 0
+        ? widget.userChallenge.isInProgress() ||
+                (widget.userChallenge.frequency.amount != null &&
+                        widget.userChallenge.frequency.amount! == 1) &&
+                    !widget.userChallenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${DesignUtil.doubleAsIntString(widget.challenge.getCurrentRepetitionProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+                    '${DesignUtil.doubleAsIntString(widget.userChallenge.getCurrentRepetitionProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.challenge.acceptanceCriteria.unit}')
+                    '${DesignUtil.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
         : Container();
   }
 
   percentageDone() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentPercentage() * 100).roundToDouble())} %');
+            '${DesignUtil.doubleAsIntString((widget.userChallenge.getCurrentPercentage() * 100).roundToDouble())} %');
   }
 
   repetitionPercentage() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString((widget.challenge.getCurrentRepetitionProgressPercentage() * 100).roundToDouble())} %');
+            '${DesignUtil.doubleAsIntString((widget.userChallenge.getCurrentRepetitionProgressPercentage() * 100).roundToDouble())} %');
   }
 
   amountOfProgress() {
-    return widget.challenge.isInProgress() ||
-            !widget.challenge.isInBacklog() &&
-                widget.challenge.frequency.amount == 1
+    return widget.userChallenge.isInProgress() ||
+            !widget.userChallenge.isInBacklog() &&
+                widget.userChallenge.frequency.amount == 1
         ? ContainerInContainerComponent(
             child: Row(children: [
             Text(
-              '${widget.challenge.getCurrentRepetition()?.progressList.length ?? 0} ',
+              '${widget.userChallenge.getCurrentRepetition()?.progressList.length ?? 0} ',
               style: const TextStyle(fontSize: 10, color: themeColor3),
             ),
             Icon(

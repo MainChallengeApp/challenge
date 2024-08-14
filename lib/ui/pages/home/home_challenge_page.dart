@@ -213,36 +213,38 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   documentationButtons(BuildContext context, UserChallengeModel userChallenge) {
-    return isDescriptionExpanded
-        ? Container()
-        : SpaceColumnComponent(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DocumentationButtonComponent(
-                  iconData: Icons.numbers_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The Numbers feature will be added soon.'),
-                  isGrayedOut: true,
-                ),
-                DocumentationButtonComponent(
-                  iconData: Icons.notes_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The Notes feature will be added soon.'),
-                  isGrayedOut: true,
-                ),
-                DocumentationButtonComponent(
-                  iconData: Icons.gps_not_fixed_rounded,
-                  onTap: () => SnackBarComponent.showSnackBar(
-                      context, 'The GPS feature will be added soon.'),
-                  isGrayedOut: true,
-                ),
-                DocumentationButtonComponent(
-                    iconData: Icons.camera_alt_outlined,
-                    onTap: () => onTapCamera(userChallenge)),
-              ],
+    return Visibility(
+      visible: !isDescriptionExpanded &&
+          userChallenge.getCurrentRepetition() != null,
+      child: SpaceColumnComponent(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DocumentationButtonComponent(
+              iconData: Icons.numbers_rounded,
+              onTap: () => SnackBarComponent.showSnackBar(
+                  context, 'The Numbers feature will be added soon.'),
+              isGrayedOut: true,
             ),
-          );
+            DocumentationButtonComponent(
+              iconData: Icons.notes_rounded,
+              onTap: () => SnackBarComponent.showSnackBar(
+                  context, 'The Notes feature will be added soon.'),
+              isGrayedOut: true,
+            ),
+            DocumentationButtonComponent(
+              iconData: Icons.gps_not_fixed_rounded,
+              onTap: () => SnackBarComponent.showSnackBar(
+                  context, 'The GPS feature will be added soon.'),
+              isGrayedOut: true,
+            ),
+            DocumentationButtonComponent(
+                iconData: Icons.camera_alt_outlined,
+                onTap: () => onTapCamera(userChallenge)),
+          ],
+        ),
+      ),
+    );
   }
 
   startAndEndDate(ChallengeModel challenge) {
@@ -300,7 +302,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         : AcceptanceCriteriaComponent(
             onTap: () => onTapAcceptanceCriteria(userChallenge),
             onTapNewProgress: () => onTapNewProgress(userChallenge),
-            challenge: userChallenge);
+            userChallenge: userChallenge);
   }
 
   void onTapEditChallenge(UserChallengeModel userChallenge) {
@@ -492,8 +494,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle:
-              '${widget.preTitle}/${userChallenge.title}/Repetitions/${userChallenge.getCurrentRepetition()!.repetitionNumber}',
+          preTitle: '${widget.preTitle}/${userChallenge.title}',
           repetition: userChallenge.getCurrentRepetition()!,
           userChallenge: userChallenge,
           isSaveInsteadOfEditButtonVisible: true,
