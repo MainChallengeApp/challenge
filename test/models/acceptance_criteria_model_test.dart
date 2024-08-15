@@ -74,7 +74,7 @@ void main() {
 
         // Act
         AcceptanceCriteriaModel acceptanceCriteriaCopy =
-            AcceptanceCriteriaModel.copy(acceptanceCriteria);
+            acceptanceCriteria.copy();
 
         // Assert (maybe just override the == operator)
         expect(

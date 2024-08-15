@@ -192,8 +192,8 @@ void main() {
           'repetitions': [],
           'media': [],
           'categories': ['mentalHealth'],
-          'startDate': challenge.startDate?.toString(),
-          'endDate': challenge.endDate?.toString(),
+          'startDate': challenge.startDate,
+          'endDate': challenge.endDate,
           'createdAt': challenge.createdAt
         };
 
