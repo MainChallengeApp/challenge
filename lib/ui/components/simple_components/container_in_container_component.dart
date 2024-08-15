@@ -37,7 +37,7 @@ class ContainerInContainerComponent extends StatelessWidget {
           border: border,
           borderRadius: borderRadius ??
               const BorderRadius.all(Radius.circular(standardRadius))),
-      child: child,
+      child: child, // TODO: maybe center?
     );
   }
 }

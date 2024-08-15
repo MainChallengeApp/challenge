@@ -101,15 +101,10 @@ class _AcceptanceCriteriaComponentState
             padding: const EdgeInsets.symmetric(horizontal: 7),
             margin: const EdgeInsets.only(left: 10),
             child: Center(
-              child: Container(
-                // color: Colors.red,
-                child: Center(
-                  child: Icon(
-                    IconEnum.newChallenge.icon,
-                    size: 20,
-                    color: themeColor3,
-                  ),
-                ),
+              child: Icon(
+                IconEnum.newChallenge.icon,
+                size: 20,
+                color: themeColor3,
               ),
             )),
       ),
