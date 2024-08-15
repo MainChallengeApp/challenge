@@ -2,9 +2,9 @@ import 'package:challenge/database/database.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 
 class SearchChallengesDatabase extends Database {
-  SearchChallengesDatabase() {
-    collection = 'search_challenges';
-  }
+  static String collectionName = 'search_challenges';
+
+  SearchChallengesDatabase() : super(collection: collectionName);
 
   Future<void> create(ChallengeModel challenge) async {
     challenge.id = db.collection(collection).doc().id;

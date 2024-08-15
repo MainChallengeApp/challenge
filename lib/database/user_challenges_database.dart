@@ -2,9 +2,9 @@ import 'package:challenge/database/database.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 
 class UserChallengesDatabase extends Database {
-  UserChallengesDatabase() {
-    collection = 'user_challenges';
-  }
+  static String collectionName = 'user_challenges';
+
+  UserChallengesDatabase() : super(collection: collectionName);
 
   Future<UserChallengeModel> create(UserChallengeModel userChallenge) async {
     final userChallengeDoc =

@@ -63,30 +63,25 @@ class ChallengeModel {
 
   static ChallengeModel fromDoc(DocumentSnapshot doc) {
     try {
-      final data = doc.data() as Map<String, dynamic>;
       ChallengeModel challenge = ChallengeModel(
         id: doc.id,
         status: ChallengeStatusEnum.fromString(doc['status']),
         title: doc['title'],
         description: doc['description'],
         thumbnailPath: doc['thumbnailPath'],
-        startDate: doc['startDate'] == null || doc['startDate'] == 'null'
+        startDate: doc['startDate'] == null
             ? null
-            : DateTime.parse(doc['startDate']),
-        endDate: doc['endDate'] == null || doc['endDate'] == 'null'
+            : (doc['startDate'] as Timestamp).toDate(),
+        endDate: doc['endDate'] == null
             ? null
-            : DateTime.parse(doc['endDate']),
+            : (doc['endDate'] as Timestamp).toDate(),
         acceptanceCriteria:
             AcceptanceCriteriaModel.fromDoc(doc['acceptanceCriteria']),
         frequency: FrequencyModel.fromDoc(doc['frequency']),
         repetitions: RepetitionModel.fromDocs(doc['repetitions']),
         media: MediaModel.fromDocs(doc['media']),
         categories: ChallengeCategoryEnum.fromDocs(doc['categories']),
-        createdAt: data.containsKey('createdAt') &&
-                doc['createdAt'] != null &&
-                doc['createdAt'] != 'null'
-            ? (data['createdAt'] as Timestamp).toDate()
-            : null,
+        createdAt: (doc['createdAt'] as Timestamp).toDate(),
       );
 
       return challenge;
@@ -101,8 +96,8 @@ class ChallengeModel {
       'title': title,
       'description': description,
       'thumbnailPath': thumbnailPath,
-      'startDate': startDate.toString(),
-      'endDate': endDate.toString(),
+      'startDate': startDate,
+      'endDate': endDate,
       'acceptanceCriteria': acceptanceCriteria.toDoc(),
       'frequency': frequency.toDoc(),
       'repetitions':

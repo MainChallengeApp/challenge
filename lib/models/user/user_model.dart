@@ -13,7 +13,7 @@ class UserModel {
     required this.username,
   });
 
-  static fromDoc(DocumentSnapshot doc) {
+  static UserModel fromDoc(DocumentSnapshot doc) {
     try {
       return UserModel(
           id: doc.id,
