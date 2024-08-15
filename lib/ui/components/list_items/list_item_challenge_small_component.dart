@@ -120,7 +120,7 @@ class _ListItemChallengeSmallComponentState
             motion: const ScrollMotion(),
             // dismissible: DismissiblePane(
             //   onDismissed: () {
-            //     print('delete');
+            //     log('delete');
             //   },
             // ),
             children: [

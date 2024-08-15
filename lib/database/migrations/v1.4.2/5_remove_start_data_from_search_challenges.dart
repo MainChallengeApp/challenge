@@ -16,17 +16,15 @@ class RemoveStartDataFromSearchChallenges extends MigrationModel {
     final Map<String, dynamic> idDataMap = {};
 
     for (DocumentSnapshot doc in querySnapshot.docs) {
-      print('[${DateTime.now()}] migrating search challenge ${doc.id}');
+      log('[${DateTime.now()}] migrating search challenge ${doc.id}');
 
       final data = doc.data() as Map<String, dynamic>;
 
       if (data.containsKey('startData')) {
         data.remove('startData');
-        print(
-            '${DateTime.now()}] startData removed from search challenge ${doc.id}');
+        log('${DateTime.now()}] startData removed from search challenge ${doc.id}');
       } else {
-        print(
-            '${DateTime.now()}] no startData found in search challenge ${doc.id}. Already good.');
+        log('${DateTime.now()}] no startData found in search challenge ${doc.id}. Already good.');
       }
 
       if (data['startDate'] is DateTime) {
@@ -36,8 +34,7 @@ class RemoveStartDataFromSearchChallenges extends MigrationModel {
       } else if (data['startDate'] is String) {
         data['startDate'] = DateTime.parse(data['startDate']);
       } else {
-        print(
-            '${DateTime.now()}] migration user challenge ${doc.id} failed and skipped');
+        log('${DateTime.now()}] migration user challenge ${doc.id} failed and skipped');
       }
 
       idDataMap[doc.id] = data;

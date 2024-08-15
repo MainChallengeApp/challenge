@@ -16,7 +16,7 @@ class ChangeEndDateTypeMigration extends MigrationModel {
         await db.collection(UserChallengesDatabase.collectionName).get();
 
     for (DocumentSnapshot doc in querySnapshot.docs) {
-      print('[${DateTime.now()}] migration user challenge ${doc.id}');
+      log('[${DateTime.now()}] migration user challenge ${doc.id}');
       final data = doc.data() as Map<String, dynamic>;
       if (data['endDate'] is DateTime) {
         continue;
@@ -25,7 +25,7 @@ class ChangeEndDateTypeMigration extends MigrationModel {
       } else if (data['endDate'] is String) {
         data['endDate'] = DateTime.parse(data['endDate']);
       } else {
-        print('${DateTime.now()}] migration user challenge ${doc.id} failed');
+        log('${DateTime.now()}] migration user challenge ${doc.id} failed');
       }
       final ref =
           db.collection(UserChallengesDatabase.collectionName).doc(doc.id);

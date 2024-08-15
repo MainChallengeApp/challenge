@@ -10,6 +10,6 @@ class TestMigration extends MigrationModel {
   Future<void> run() async {
     var usersDatabase = UsersDatabase();
     List<UserModel> users = await usersDatabase.getAll();
-    print(users.map((u) => u.email));
+    log(users.map((u) => u.email));
   }
 }

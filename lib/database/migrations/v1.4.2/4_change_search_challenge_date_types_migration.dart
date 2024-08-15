@@ -19,7 +19,7 @@ class ChangeSearchChallengeDateTypesMigration extends MigrationModel {
     DateTime now = DateTime.now();
 
     for (DocumentSnapshot doc in querySnapshot.docs) {
-      print('[${DateTime.now()}] migration search challenge ${doc.id}');
+      log('[${DateTime.now()}] migration search challenge ${doc.id}');
 
       final data = doc.data() as Map<String, dynamic>;
 
@@ -30,8 +30,7 @@ class ChangeSearchChallengeDateTypesMigration extends MigrationModel {
       } else if (data['endDate'] is String) {
         data['endDate'] = DateTime.parse(data['endDate']);
       } else {
-        print(
-            '${DateTime.now()}] migration user challenge ${doc.id} failed and skipped');
+        log('${DateTime.now()}] migration user challenge ${doc.id} failed and skipped');
       }
 
       if (data['startDate'] is DateTime) {
@@ -41,8 +40,7 @@ class ChangeSearchChallengeDateTypesMigration extends MigrationModel {
       } else if (data['startDate'] is String) {
         data['startDate'] = DateTime.parse(data['startDate']);
       } else {
-        print(
-            '${DateTime.now()}] migration user challenge ${doc.id} failed and skipped');
+        log('${DateTime.now()}] migration user challenge ${doc.id} failed and skipped');
       }
 
       data['createdAt'] = now;

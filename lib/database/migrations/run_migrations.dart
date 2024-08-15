@@ -22,7 +22,7 @@ List<MigrationModel> migrationScripts = [
 ];
 
 void main() async {
-  print('[${DateTime.now()}]: start database migration...');
+  log('[${DateTime.now()}]: start database migration...');
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -30,25 +30,24 @@ void main() async {
   int newestMigrationNumber =
       await migrationDatabase.getNewestMigrationNumber();
 
-  print('newestMigrationNumber: $newestMigrationNumber');
+  log('newestMigrationNumber: $newestMigrationNumber');
   migrationScripts
       .sort((a, b) => a.migrationNumber.compareTo(b.migrationNumber));
   migrationScripts.removeWhere(
       (migration) => migration.migrationNumber <= newestMigrationNumber);
 
   if (migrationScripts.isEmpty) {
-    print('[${DateTime.now()}]: no migration scripts to run.');
+    log('[${DateTime.now()}]: no migration scripts to run.');
     exit(0);
   }
 
   for (var migration in migrationScripts) {
-    print(
-        '[${DateTime.now()}]: running migration script ${migration.migrationNumber}: ${migration.description}');
+    log('[${DateTime.now()}]: running migration script ${migration.migrationNumber}: ${migration.description}');
     await migration.run();
     migration.createdAt = DateTime.now();
     await migrationDatabase.create(migration);
   }
 
-  print('[${DateTime.now()}] end database migration');
+  log('[${DateTime.now()}] end database migration');
   exit(0);
 }

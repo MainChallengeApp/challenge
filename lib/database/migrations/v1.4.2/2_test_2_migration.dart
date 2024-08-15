@@ -14,7 +14,7 @@ class Test2Migration extends MigrationModel {
         await db.collection(UserChallengesDatabase.collectionName).get();
 
     for (DocumentSnapshot doc in querySnapshot.docs) {
-      print('[${DateTime.now()}] migration user challenge ${doc['title']}');
+      log('[${DateTime.now()}] migration user challenge ${doc['title']}');
       final data = doc.data() as Map<String, dynamic>;
       if (data['startDate'] is DateTime) {
         continue;
@@ -23,8 +23,7 @@ class Test2Migration extends MigrationModel {
       } else if (data['startDate'] is String) {
         data['startDate'] = DateTime.parse(data['startDate']);
       } else {
-        print(
-            '${DateTime.now()}] migration user challenge ${doc['title']} failed');
+        log('${DateTime.now()}] migration user challenge ${doc['title']} failed');
       }
       await db
           .collection(UserChallengesDatabase.collectionName)
