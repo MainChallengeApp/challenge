@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAOzc3uf3SS2_haASzfmVMm3jPqdWtvJcs</string>
+	<string>AIzaSyDgwXf9Q9cvuAaUaoGyjeO0qXGlL3jTlZI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>174464570402</string>
+	<string>883522572330</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>de.dreimus.challenge.app</string>
 	<key>PROJECT_ID</key>
-	<string>challenge-test-f5e32</string>
+	<string>challenge-dev-sdgi</string>
 	<key>STORAGE_BUCKET</key>
-	<string>challenge-test-f5e32.appspot.com</string>
+	<string>challenge-dev-sdgi.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:174464570402:ios:1c83f5ed5130b737c1a67b</string>
+	<string>1:883522572330:ios:b81eb55fa4b34f6d19f353</string>
 </dict>
 </plist>

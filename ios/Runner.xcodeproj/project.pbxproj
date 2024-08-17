@@ -288,7 +288,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"/Users/d00669/p/challenge/dev/challenge/ios/Runner/GoogleService-Info.plist",
+				"$(PROJECT_DIR)/Runner/GoogleService-Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
