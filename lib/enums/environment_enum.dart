@@ -7,7 +7,7 @@ enum EnvironmentEnum {
 
   const EnvironmentEnum({required this.string});
 
-  factory EnvironmentEnum.fromString(String status) {
+  factory EnvironmentEnum.fromString(String? status) {
     return EnvironmentEnum.values.firstWhere(
       (e) => e.string == status,
       orElse: () => EnvironmentEnum.dev,

@@ -3,6 +3,7 @@
 # and needs to be executed before building the project
 
 script_dir=$(dirname "$(realpath "$0")")
+
 # load .env
 export $(cat $script_dir/../.env | xargs)
 
