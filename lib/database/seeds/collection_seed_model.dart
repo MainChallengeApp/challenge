@@ -8,6 +8,8 @@ abstract class CollectionSeedModel {
 
   Future<void> run();
 
+  List<Map<String, dynamic>> createData();
+
   Future<void> clearCollection() async {
     QuerySnapshot snapshot = await db.collection(collectionName).get();
     for (var doc in snapshot.docs) {

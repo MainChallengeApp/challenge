@@ -8,15 +8,31 @@ class UsersCollectionSeed extends CollectionSeedModel {
   Future<void> run() async {
     await clearCollection();
 
-    List<Map<String, dynamic>> users = [
-      {'email': '1.user@dev.db'},
+    createTestUser();
+
+    List<Map<String, dynamic>> users = createData();
+
+    for (var user in users) {
+      await db.collection(UsersDatabase.collectionName).add(user);
+    }
+  }
+
+  void createTestUser() {
+    db.collection(collectionName).doc('ZA23oy14uvgCuEUKSHlTV6IQ0oM2').set({
+      'email': '1.user@dev.db',
+      'username': 'FirstTestUser',
+      'name': 'First Test User'
+    });
+  }
+
+  @override
+  List<Map<String, dynamic>> createData() {
+    return [
       {
         'email': 'tester@test.test',
         'username': 'test@test.test',
         'name': 'test@test.test',
       },
     ];
-
-    db.collection(UsersDatabase.collectionName).add(users[0]);
   }
 }
