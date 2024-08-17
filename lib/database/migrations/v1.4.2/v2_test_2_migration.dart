@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration_model.dart';
+import 'package:challenge/database/migrations/migration.dart';
 import 'package:challenge/database/user_challenges_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Test2Migration extends MigrationModel {
+class Test2Migration extends Migration {
   Test2Migration()
       : super(
             migrationNumber: 2,

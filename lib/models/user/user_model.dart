@@ -27,7 +27,6 @@ class UserModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      'id': id,
       'email': email,
       'username': username,
       'name': name,

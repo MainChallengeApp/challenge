@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MigrationModel {
+class Migration {
   final int migrationNumber;
   final String description;
   DateTime createdAt;
   final db = FirebaseFirestore.instance;
 
-  MigrationModel(
+  Migration(
       {required this.migrationNumber,
       required this.description,
       DateTime? createdAt})
@@ -26,7 +26,7 @@ class MigrationModel {
 
   static fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     try {
-      return MigrationModel(
+      return Migration(
         migrationNumber: doc['migrationNumber'],
         createdAt: (doc['createdAt'] as Timestamp).toDate(),
         description: doc['description'],

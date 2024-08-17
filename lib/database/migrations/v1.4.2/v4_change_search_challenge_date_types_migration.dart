@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration_model.dart';
+import 'package:challenge/database/migrations/migration.dart';
 import 'package:challenge/database/search_challenges_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ChangeSearchChallengeDateTypesMigration extends MigrationModel {
+class ChangeSearchChallengeDateTypesMigration extends Migration {
   ChangeSearchChallengeDateTypesMigration()
       : super(
             migrationNumber: 4,

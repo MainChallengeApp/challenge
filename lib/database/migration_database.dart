@@ -1,10 +1,10 @@
 import 'package:challenge/database/database.dart';
-import 'package:challenge/database/migrations/migration_model.dart';
+import 'package:challenge/database/migrations/migration.dart';
 
 class MigrationDatabase extends Database {
   MigrationDatabase() : super(collection: 'migrations');
 
-  Future<void> create(MigrationModel migration) async {
+  Future<void> create(Migration migration) async {
     await db.collection(collection).add(migration.toDoc());
   }
 
@@ -21,7 +21,7 @@ class MigrationDatabase extends Database {
       }
 
       return querySnapshot.docs
-          .map((doc) => MigrationModel.fromDoc(doc))
+          .map((doc) => Migration.fromDoc(doc))
           .first
           .migrationNumber;
     } on Exception {

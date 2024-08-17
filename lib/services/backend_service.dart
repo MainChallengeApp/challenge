@@ -8,6 +8,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class BackendService {
   static Future<void> initializeBackend() async {
+    if (Firebase.apps.isNotEmpty) {
+      return;
+    }
+
     await dotenv.load(fileName: '.env');
 
     WidgetsFlutterBinding.ensureInitialized();

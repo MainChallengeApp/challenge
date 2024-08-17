@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration_model.dart';
+import 'package:challenge/database/migrations/migration.dart';
 
-class TestCiCdMigration extends MigrationModel {
+class TestCiCdMigration extends Migration {
   TestCiCdMigration()
       : super(migrationNumber: 6, description: 'test ci cd migration');
 
