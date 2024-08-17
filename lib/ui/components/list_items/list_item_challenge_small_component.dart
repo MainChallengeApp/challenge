@@ -108,7 +108,7 @@ class _ListItemChallengeSmallComponentState
   percentageDone() {
     return ChallengeTotalPercentageComponent(
       challenge: widget.challenge,
-      isVisible: !widget.isSearch,
+      isVisible: !widget.isSearch && !widget.challenge.isInBacklog(),
     );
   }
 
