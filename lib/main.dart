@@ -1,4 +1,7 @@
-import 'package:challenge/firebase_options.dart';
+import 'package:challenge/enums/environment_enum.dart';
+import 'package:challenge/environments/firebase_options_dev.dart' as dev;
+import 'package:challenge/environments/firebase_options_prod.dart' as prod;
+import 'package:challenge/environments/firebase_options_test.dart' as test;
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -10,7 +13,32 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final firebaseDev = dev.DefaultFirebaseOptions.currentPlatform;
+  final firebaseTest = test.DefaultFirebaseOptions.currentPlatform;
+  final firebaseProd = prod.DefaultFirebaseOptions.currentPlatform;
+
+  var environment =
+      EnvironmentEnum.fromString(const String.fromEnvironment('ENVIRONMENT'));
+
+  FirebaseOptions environmentOptions;
+
+  switch (environment) {
+    case EnvironmentEnum.dev:
+      environmentOptions = firebaseDev;
+      break;
+    case EnvironmentEnum.test:
+      environmentOptions = firebaseTest;
+      break;
+    case EnvironmentEnum.prod:
+      environmentOptions = firebaseProd;
+      break;
+    default:
+      environmentOptions = firebaseDev;
+  }
+
+  await Firebase.initializeApp(
+      options: environmentOptions, name: 'challenge-${environment.string}');
 
   runApp(MultiProvider(
     providers: [

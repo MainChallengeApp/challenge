@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCtrztKsmbgl1_olKms9sRS7ZRN66fO8eI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>51029186992</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>de.dreimus.challenge.app</string>
+	<key>PROJECT_ID</key>
+	<string>challenge-prod-g6f43</string>
+	<key>STORAGE_BUCKET</key>
+	<string>challenge-prod-g6f43.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:51029186992:ios:43207c787016f2c5365e75</string>
+</dict>
+</plist>
