@@ -4,12 +4,16 @@ import 'dart:io';
 import 'package:challenge/collections/migrations/run_migrations.dart'
     as run_migrations;
 import 'package:challenge/collections/seeds/collection_seed_model.dart';
+import 'package:challenge/collections/seeds/collection_seeds/search_challenges_collection_seed.dart';
 import 'package:challenge/collections/seeds/collection_seeds/users_collection_seed.dart';
 import 'package:challenge/environments/firebase_options_dev.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-List<CollectionSeedModel> collectionSeeds = [UsersCollectionSeed()];
+List<CollectionSeedModel> collectionSeeds = [
+  UsersCollectionSeed(),
+  SearchChallengesCollectionSeed()
+];
 
 void main() async {
   log('[${DateTime.now()}]: start seeding dev database...');

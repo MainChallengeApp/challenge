@@ -1,3 +1,8 @@
+import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/ui/components/categories/category_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -5,13 +10,8 @@ import 'package:challenge/ui/components/navigation/bottom_navigation_component.d
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/enums/challenge_category_enum.dart';
-import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/pages/search/search_list_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
