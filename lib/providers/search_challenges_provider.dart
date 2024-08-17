@@ -1,10 +1,10 @@
-import 'package:challenge/database/search_challenges_database.dart';
+import 'package:challenge/collections/search_challenges_collection.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class SearchChallengesProvider with ChangeNotifier {
-  final searchChallengesDatabase = SearchChallengesDatabase();
+  final searchChallengesDatabase = SearchChallengesCollection();
   final authService = AuthService();
 
   List<ChallengeModel> _searchChallenges = [];

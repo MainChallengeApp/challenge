@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration.dart';
+import 'package:challenge/collections/migrations/migration.dart';
 
 class TestCiCdMigration extends Migration {
   TestCiCdMigration()

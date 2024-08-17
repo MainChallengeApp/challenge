@@ -1,11 +1,11 @@
-import 'package:challenge/database/user_challenges_database.dart';
+import 'package:challenge/collections/user_challenges_collection.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class UserChallengesProvider with ChangeNotifier {
-  final userChallengesDatabase = UserChallengesDatabase();
+  final userChallengesDatabase = UserChallengesCollection();
   final authService = AuthService();
 
   List<UserChallengeModel> _userChallenges = [];

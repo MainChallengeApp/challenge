@@ -1,17 +1,17 @@
-import 'package:challenge/database/database.dart';
-import 'package:challenge/database/migrations/migration.dart';
+import 'package:challenge/collections/collection.dart';
+import 'package:challenge/collections/migrations/migration.dart';
 
-class MigrationDatabase extends Database {
-  MigrationDatabase() : super(collection: 'migrations');
+class MigrationCollection extends Collection {
+  MigrationCollection() : super(name: 'migrations');
 
   Future<void> create(Migration migration) async {
-    await db.collection(collection).add(migration.toDoc());
+    await db.collection(name).add(migration.toDoc());
   }
 
   Future<int> getNewestMigrationNumber() async {
     try {
       final querySnapshot = await db
-          .collection(collection)
+          .collection(name)
           .orderBy('migrationNumber', descending: true)
           .limit(1)
           .get();

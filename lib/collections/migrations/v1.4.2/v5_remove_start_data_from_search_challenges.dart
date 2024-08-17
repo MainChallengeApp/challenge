@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration.dart';
-import 'package:challenge/database/search_challenges_database.dart';
+import 'package:challenge/collections/migrations/migration.dart';
+import 'package:challenge/collections/search_challenges_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RemoveStartDataFromSearchChallenges extends Migration {
@@ -13,7 +13,7 @@ class RemoveStartDataFromSearchChallenges extends Migration {
   @override
   Future<void> run() async {
     final querySnapshot =
-        await db.collection(SearchChallengesDatabase.collectionName).get();
+        await db.collection(SearchChallengesCollection.collectionName).get();
 
     final Map<String, dynamic> idDataMap = {};
 
@@ -42,6 +42,6 @@ class RemoveStartDataFromSearchChallenges extends Migration {
       idDataMap[doc.id] = data;
     }
 
-    await updateMany(SearchChallengesDatabase.collectionName, idDataMap);
+    await updateMany(SearchChallengesCollection.collectionName, idDataMap);
   }
 }

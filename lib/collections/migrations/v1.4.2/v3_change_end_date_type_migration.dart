@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration.dart';
-import 'package:challenge/database/user_challenges_database.dart';
+import 'package:challenge/collections/migrations/migration.dart';
+import 'package:challenge/collections/user_challenges_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChangeEndDateTypeMigration extends Migration {
@@ -15,7 +15,7 @@ class ChangeEndDateTypeMigration extends Migration {
     final batch = db.batch();
 
     final querySnapshot =
-        await db.collection(UserChallengesDatabase.collectionName).get();
+        await db.collection(UserChallengesCollection.collectionName).get();
 
     for (DocumentSnapshot doc in querySnapshot.docs) {
       log('[${DateTime.now()}] migration user challenge ${doc.id}');
@@ -30,7 +30,7 @@ class ChangeEndDateTypeMigration extends Migration {
         log('${DateTime.now()}] migration user challenge ${doc.id} failed');
       }
       final ref =
-          db.collection(UserChallengesDatabase.collectionName).doc(doc.id);
+          db.collection(UserChallengesCollection.collectionName).doc(doc.id);
       batch.set(ref, data);
     }
 

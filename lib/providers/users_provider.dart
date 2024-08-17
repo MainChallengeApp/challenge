@@ -1,10 +1,10 @@
-import 'package:challenge/database/users_database.dart';
+import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class UsersProvider with ChangeNotifier {
-  UsersDatabase usersDatabase = UsersDatabase();
+  UsersCollection usersDatabase = UsersCollection();
   AuthService authService = AuthService();
 
   Future<void> createUser({required String email, username, name}) async {

@@ -1,14 +1,14 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:challenge/database/migration_database.dart';
-import 'package:challenge/database/migrations/migration.dart';
-import 'package:challenge/database/migrations/v1.4.2/v1_test_migration.dart';
-import 'package:challenge/database/migrations/v1.4.2/v2_test_2_migration.dart';
-import 'package:challenge/database/migrations/v1.4.2/v3_change_end_date_type_migration.dart';
-import 'package:challenge/database/migrations/v1.4.2/v4_change_search_challenge_date_types_migration.dart';
-import 'package:challenge/database/migrations/v1.4.2/v5_remove_start_data_from_search_challenges.dart';
-import 'package:challenge/database/migrations/v1.4.2/v6_test_ci_cd_migration.dart';
+import 'package:challenge/collections/migration_collection.dart';
+import 'package:challenge/collections/migrations/migration.dart';
+import 'package:challenge/collections/migrations/v1.4.2/v1_test_migration.dart';
+import 'package:challenge/collections/migrations/v1.4.2/v2_test_2_migration.dart';
+import 'package:challenge/collections/migrations/v1.4.2/v3_change_end_date_type_migration.dart';
+import 'package:challenge/collections/migrations/v1.4.2/v4_change_search_challenge_date_types_migration.dart';
+import 'package:challenge/collections/migrations/v1.4.2/v5_remove_start_data_from_search_challenges.dart';
+import 'package:challenge/collections/migrations/v1.4.2/v6_test_ci_cd_migration.dart';
 import 'package:challenge/services/backend_service.dart';
 
 List<Migration> migrationScripts = [
@@ -25,7 +25,7 @@ Future<void> main() async {
 
   await BackendService.initializeBackend();
 
-  MigrationDatabase migrationDatabase = MigrationDatabase();
+  MigrationCollection migrationDatabase = MigrationCollection();
   int newestMigrationNumber =
       await migrationDatabase.getNewestMigrationNumber();
 

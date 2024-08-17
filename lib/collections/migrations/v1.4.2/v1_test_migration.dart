@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration.dart';
-import 'package:challenge/database/users_database.dart';
+import 'package:challenge/collections/migrations/migration.dart';
+import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/models/user/user_model.dart';
 
 class TestMigration extends Migration {
@@ -10,7 +10,7 @@ class TestMigration extends Migration {
 
   @override
   Future<void> run() async {
-    var usersDatabase = UsersDatabase();
+    var usersDatabase = UsersCollection();
     List<UserModel> users = await usersDatabase.getAll();
     log(users.map((u) => u.email).toString());
   }

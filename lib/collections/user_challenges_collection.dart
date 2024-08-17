@@ -1,21 +1,21 @@
-import 'package:challenge/database/database.dart';
+import 'package:challenge/collections/collection.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 
-class UserChallengesDatabase extends Database {
+class UserChallengesCollection extends Collection {
   static String collectionName = 'user_challenges';
 
-  UserChallengesDatabase() : super(collection: collectionName);
+  UserChallengesCollection() : super(name: collectionName);
 
   Future<UserChallengeModel> create(UserChallengeModel userChallenge) async {
     final userChallengeDoc =
-        await db.collection(collection).add(userChallenge.toDoc());
+        await db.collection(name).add(userChallenge.toDoc());
     return UserChallengeModel.fromDoc(await userChallengeDoc.get());
   }
 
   Future<void> createMany(List<UserChallengeModel> userChallenges) async {
     final batch = db.batch();
     for (var userChallenge in userChallenges) {
-      final ref = db.collection(collection).doc();
+      final ref = db.collection(name).doc();
       batch.set(ref, userChallenge.toDoc());
     }
     await batch.commit();
@@ -24,10 +24,8 @@ class UserChallengesDatabase extends Database {
   Future<List<UserChallengeModel>> getAllByUserId(
       {required String userId}) async {
     try {
-      final querySnapshot = await db
-          .collection(collection)
-          .where('userId', isEqualTo: userId)
-          .get();
+      final querySnapshot =
+          await db.collection(name).where('userId', isEqualTo: userId).get();
       return querySnapshot.docs
           .map((doc) => UserChallengeModel.fromDoc(doc))
           .toList();
@@ -38,7 +36,7 @@ class UserChallengesDatabase extends Database {
 
   Future<UserChallengeModel> getById(String id) async {
     try {
-      final doc = await db.collection(collection).doc(id).get();
+      final doc = await db.collection(name).doc(id).get();
       return UserChallengeModel.fromDoc(doc);
     } on Exception {
       rethrow;
@@ -48,7 +46,7 @@ class UserChallengesDatabase extends Database {
   Future<void> update(UserChallengeModel userChallenge) async {
     try {
       await db
-          .collection(collection)
+          .collection(name)
           .doc(userChallenge.id)
           .update(userChallenge.toDoc());
     } catch (e) {
@@ -57,6 +55,6 @@ class UserChallengesDatabase extends Database {
   }
 
   Future<void> delete(UserChallengeModel userChallenge) {
-    return db.collection(collection).doc(userChallenge.id).delete();
+    return db.collection(name).doc(userChallenge.id).delete();
   }
 }

@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:challenge/database/migrations/migration.dart';
-import 'package:challenge/database/user_challenges_database.dart';
+import 'package:challenge/collections/migrations/migration.dart';
+import 'package:challenge/collections/user_challenges_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Test2Migration extends Migration {
@@ -13,7 +13,7 @@ class Test2Migration extends Migration {
   @override
   Future<void> run() async {
     final querySnapshot =
-        await db.collection(UserChallengesDatabase.collectionName).get();
+        await db.collection(UserChallengesCollection.collectionName).get();
 
     for (DocumentSnapshot doc in querySnapshot.docs) {
       log('[${DateTime.now()}] migration user challenge ${doc['title']}');
@@ -28,7 +28,7 @@ class Test2Migration extends Migration {
         log('${DateTime.now()}] migration user challenge ${doc['title']} failed');
       }
       await db
-          .collection(UserChallengesDatabase.collectionName)
+          .collection(UserChallengesCollection.collectionName)
           .doc(doc.id)
           .update(data);
     }

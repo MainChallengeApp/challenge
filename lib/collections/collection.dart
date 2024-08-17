@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class Database {
+abstract class Collection {
   final db = FirebaseFirestore.instance;
-  final String collection;
+  final String name;
 
-  Database({required this.collection});
+  Collection({required this.name});
 }
