@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:challenge/globals.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -27,8 +26,6 @@ class HomeListPage extends StatefulWidget {
 }
 
 class _HomeListPageState extends State<HomeListPage> {
-  ChallengeController challengeController = ChallengeController();
-
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
   late final listeningProvider = Provider.of<UserChallengesProvider>(context);

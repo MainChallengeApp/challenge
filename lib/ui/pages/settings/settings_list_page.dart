@@ -1,15 +1,15 @@
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/ui/pages/settings/credits/credits_page.dart';
-import 'package:challenge/services/auth/auth_service.dart';
-import 'package:challenge/services/user/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -26,14 +26,14 @@ class _SettingsListPageState extends State<SettingsListPage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();
-  UsersService usersService = UsersService();
+  UsersProvider usersProvider = UsersProvider();
 
   late Future<UserModel> userFuture;
 
   @override
   void initState() {
     super.initState();
-    userFuture = usersService.getUser();
+    userFuture = usersProvider.getUser();
   }
 
   @override

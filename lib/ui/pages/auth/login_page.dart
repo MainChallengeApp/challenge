@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:challenge/globals.dart';
-import 'package:challenge/services/auth/auth_service.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';

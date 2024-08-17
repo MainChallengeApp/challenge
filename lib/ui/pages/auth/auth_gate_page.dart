@@ -1,4 +1,4 @@
-import 'package:challenge/app.dart';
+import 'package:challenge/ui/pages/app.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

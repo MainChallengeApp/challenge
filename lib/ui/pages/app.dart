@@ -1,11 +1,10 @@
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
 import 'package:challenge/ui/pages/settings/settings_tab_navigator.dart';
-import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,6 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  ChallengeController challengeController = ChallengeController();
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 

@@ -1,6 +1,6 @@
 import 'package:challenge/globals.dart';
-import 'package:challenge/services/auth/auth_service.dart';
-import 'package:challenge/services/user/users_service.dart';
+import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
@@ -23,7 +23,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   AuthService authService = AuthService();
-  UsersService usersService = UsersService();
+  UsersProvider usersProvider = UsersProvider();
 
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
@@ -143,7 +143,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       await authService.registerEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
 
-      usersService.createUser(
+      usersProvider.createUser(
           email: emailTextEditingController.text, username: '', name: '');
     } on FirebaseAuthException catch (e) {
       setState(() {

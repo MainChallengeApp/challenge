@@ -1,9 +1,9 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/unit_model.dart';
+import 'package:challenge/services/design_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,7 +25,8 @@ class AmountAndUnitComponent extends StatefulWidget {
 class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
   late TextEditingController amountTextEditingController =
       TextEditingController(
-          text: DesignUtil.doubleAsIntString(widget.acceptanceCriteria.amount));
+          text: DesignService.doubleAsIntString(
+              widget.acceptanceCriteria.amount));
   late TextEditingController unitTextEditingController =
       TextEditingController(text: widget.acceptanceCriteria.unit.toString());
 

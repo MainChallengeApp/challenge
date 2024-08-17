@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/design_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
 class ChallengeTotalPercentageComponent extends StatelessWidget {
@@ -33,7 +33,7 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
             ? Colors.white
             : null,
         text: isVisible
-            ? '${DesignUtil.doubleAsIntString((min(challenge.getCurrentPercentage(), 1) * 100).roundToDouble())} %'
+            ? '${DesignService.doubleAsIntString((min(challenge.getCurrentPercentage(), 1) * 100).roundToDouble())} %'
             : '');
   }
 }

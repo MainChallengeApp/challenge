@@ -1,14 +1,14 @@
+import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/services/design_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 // import 'dart:math';
@@ -94,7 +94,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString(widget.progress.progress)}/${DesignUtil.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
+            '${DesignService.doubleAsIntString(widget.progress.progress)}/${DesignService.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
   }
 
   progressIcon() {

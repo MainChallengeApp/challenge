@@ -3,7 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:challenge/database/migrations/migration_database.dart';
+import 'package:challenge/database/migration_database.dart';
 import 'package:challenge/database/migrations/migration_model.dart';
 import 'package:challenge/database/migrations/v1.4.2/v1_test_migration.dart';
 import 'package:challenge/database/migrations/v1.4.2/v2_test_2_migration.dart';

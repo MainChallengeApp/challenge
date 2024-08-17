@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
-import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/utils/design_util.dart';
+import 'package:challenge/services/design_service.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -35,7 +35,7 @@ class _ListItemProgressControllerComponentState
 
   late TextEditingController progressTextEditingController =
       TextEditingController(
-          text: DesignUtil.doubleAsIntString(widget.editProgress.progress));
+          text: DesignService.doubleAsIntString(widget.editProgress.progress));
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +131,7 @@ class _ListItemProgressControllerComponentState
                           widget.challenge.acceptanceCriteria.amount;
                       widget.progressListSetState();
                       progressTextEditingController.text =
-                          DesignUtil.doubleAsIntString(
+                          DesignService.doubleAsIntString(
                               widget.editProgress.progress);
                     }),
                 borderWith: 0,
@@ -151,7 +151,7 @@ class _ListItemProgressControllerComponentState
     widget.editProgress.progress += 1;
     widget.progressListSetState();
     progressTextEditingController.text =
-        DesignUtil.doubleAsIntString(widget.editProgress.progress);
+        DesignService.doubleAsIntString(widget.editProgress.progress);
   }
 
   void subOneFromProgress() {
@@ -163,6 +163,6 @@ class _ListItemProgressControllerComponentState
     }
     widget.progressListSetState();
     progressTextEditingController.text =
-        DesignUtil.doubleAsIntString(widget.editProgress.progress);
+        DesignService.doubleAsIntString(widget.editProgress.progress);
   }
 }

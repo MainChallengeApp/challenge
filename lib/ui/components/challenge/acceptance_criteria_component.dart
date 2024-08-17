@@ -5,11 +5,11 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/services/design_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
-import 'package:challenge/utils/design_util.dart';
 import 'package:flutter/material.dart';
 
 class AcceptanceCriteriaComponent extends StatefulWidget {
@@ -133,23 +133,23 @@ class _AcceptanceCriteriaComponentState
                     !widget.userChallenge.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${DesignUtil.doubleAsIntString(widget.userChallenge.getCurrentRepetitionProgressAbsolute())}/${DesignUtil.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
+                    '${DesignService.doubleAsIntString(widget.userChallenge.getCurrentRepetitionProgressAbsolute())}/${DesignService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${DesignUtil.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
+                    '${DesignService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
         : Container();
   }
 
   percentageDone() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString((widget.userChallenge.getCurrentPercentage() * 100).roundToDouble())} %');
+            '${DesignService.doubleAsIntString((widget.userChallenge.getCurrentPercentage() * 100).roundToDouble())} %');
   }
 
   repetitionPercentage() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignUtil.doubleAsIntString((widget.userChallenge.getCurrentRepetitionProgressPercentage() * 100).roundToDouble())} %');
+            '${DesignService.doubleAsIntString((widget.userChallenge.getCurrentRepetitionProgressPercentage() * 100).roundToDouble())} %');
   }
 
   amountOfProgress() {

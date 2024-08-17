@@ -1,7 +1,7 @@
 import 'package:challenge/database/user_challenges_database.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/services/auth/auth_service.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class UserChallengesProvider with ChangeNotifier {
@@ -54,7 +54,6 @@ class UserChallengesProvider with ChangeNotifier {
     }
   }
 
-  // TODO: replace raw updates with specific methods like in start and end
   update(UserChallengeModel userChallenge) {
     try {
       int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);
@@ -69,7 +68,6 @@ class UserChallengesProvider with ChangeNotifier {
     }
   }
 
-  // delete user challenge
   Future<void> delete(UserChallengeModel userChallenge) async {
     try {
       int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);

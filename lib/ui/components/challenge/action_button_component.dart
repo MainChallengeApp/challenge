@@ -1,5 +1,4 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/json_file_controller/challenge_controller.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -32,8 +31,6 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   bool isKeyboardUp = false;
 
   late FrequencyModel frequency = widget.userChallenge.frequency;
-
-  ChallengeController challengeController = ChallengeController();
 
   @override
   Widget build(BuildContext context) {
