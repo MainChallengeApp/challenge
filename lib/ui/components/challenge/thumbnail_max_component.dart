@@ -65,7 +65,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                           textAlign: TextAlign.end,
                           style: const TextStyle(
                               color: themeColor3,
-                              fontWeight: FontWeight.w100,
+                              // fontWeight: FontWeight.w100,
                               fontSize: 10),
                         ),
                         const SizedBox(width: 2),

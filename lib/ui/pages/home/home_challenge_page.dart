@@ -230,8 +230,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   documentationButtons(BuildContext context, UserChallengeModel userChallenge) {
     return Visibility(
-      visible: !isDescriptionExpanded &&
-          userChallenge.getCurrentRepetition() != null,
+      visible: !isDescriptionExpanded && userChallenge.isInProgress(),
       child: SpaceColumnComponent(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

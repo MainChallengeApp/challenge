@@ -94,7 +94,7 @@ class _AcceptanceCriteriaComponentState
 
   Visibility newProgress() {
     return Visibility(
-      visible: widget.userChallenge.getCurrentRepetition() != null,
+      visible: widget.userChallenge.isInProgress(),
       child: GestureDetector(
         onTap: widget.onTapNewProgress,
         child: ContainerInContainerComponent(
