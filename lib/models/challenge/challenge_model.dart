@@ -221,6 +221,7 @@ class ChallengeModel {
     return currentRepetition;
   }
 
+  // TODO: refactor this function
   List<RepetitionModel> getAllRepetitions() {
     repetitions
         .sort((a, b) => a.repetitionNumber.compareTo(b.repetitionNumber));
@@ -245,16 +246,20 @@ class ChallengeModel {
                       ? startDate
                       : null,
               endDate: frequency.type == FrequencyTypeEnum.daily &&
-                      repetitionNumber <= getCurrentRepetitionNumber() &&
-                      startDate != null
-                  ? startDate!
-                              .add(Duration(days: repetitionNumber))
-                              .difference(endDate!)
-                              .inMilliseconds <=
-                          0
-                      ? startDate!.add(Duration(days: repetitionNumber))
-                      : endDate
-                  : null,
+                      startDate != null &&
+                      frequency.amount == null
+                  ? startDate!.add(Duration(days: repetitionNumber))
+                  : frequency.type == FrequencyTypeEnum.daily &&
+                          repetitionNumber <= getCurrentRepetitionNumber() &&
+                          startDate != null
+                      ? startDate!
+                                  .add(Duration(days: repetitionNumber))
+                                  .difference(endDate!)
+                                  .inMilliseconds <=
+                              0
+                          ? startDate!.add(Duration(days: repetitionNumber))
+                          : endDate
+                      : null,
               repetitionNumber: repetitionNumber,
               goalAmount: getCalculatedRepetitionGoal(repetitionNumber),
               repetitionStatus: repetitionNumber < getCurrentRepetitionNumber()
@@ -340,7 +345,7 @@ class ChallengeModel {
       }
 
       if (endDate != null && endDate!.isBefore(DateTime.now())) {
-        var days = endDate!.difference(startDate!).inDays;
+        var days = endDate!.difference(startDate!).inDays + 1;
         return days;
       }
 
