@@ -336,6 +336,7 @@ class ChallengeModel {
     return true;
   }
 
+  // TODO: refactor this function
   int getCurrentRepetitionNumber() {
     if (frequency.type == FrequencyTypeEnum.daily) {
       if (startDate == null) {
@@ -345,7 +346,12 @@ class ChallengeModel {
       }
 
       if (endDate != null && endDate!.isBefore(DateTime.now())) {
-        var days = endDate!.difference(startDate!).inDays + 1;
+        var days = endDate!.difference(startDate!).inDays +
+            (endDate!.difference(startDate!).inSeconds -
+                        endDate!.difference(startDate!).inDays * 24 * 60 * 60 >
+                    0
+                ? 1
+                : 0);
         return days;
       }
 
