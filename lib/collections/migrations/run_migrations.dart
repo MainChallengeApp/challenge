@@ -9,6 +9,7 @@ import 'package:challenge/collections/migrations/v1.4.2/v3_change_end_date_type_
 import 'package:challenge/collections/migrations/v1.4.2/v4_change_search_challenge_date_types_migration.dart';
 import 'package:challenge/collections/migrations/v1.4.2/v5_remove_start_data_from_search_challenges.dart';
 import 'package:challenge/collections/migrations/v1.4.2/v6_test_ci_cd_migration.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/backend_service.dart';
 
 List<Migration> migrationScripts = [
@@ -24,6 +25,14 @@ Future<void> main() async {
   log('[${DateTime.now()}]: start database migration...');
 
   await BackendService.initializeBackend();
+
+  // TODO: create migration users for dev, test and prod
+  // and add there credentials to .env and code magic security env vars
+  // and add .env to .gitignore
+  // and adjust uid in firebase security rules
+  var authService = AuthService();
+  await authService.loginEmailPassword(
+      'migration@user.db', 'migration@user.db');
 
   MigrationCollection migrationDatabase = MigrationCollection();
   int newestMigrationNumber =
