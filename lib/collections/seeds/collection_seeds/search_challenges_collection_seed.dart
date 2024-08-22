@@ -25,7 +25,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Act of Kindness',
         'description':
             "Spread joy with the 'Act of Kindness' challenge. Perform simple, spontaneous acts to make a positive impact on others' lives. From helping a neighbor to supporting a cause, each act creates a ripple effect of compassion. Join to foster kindness, elevate well-being, and be part of something truly uplifting. 💝\n",
-        'thumbnailPath': 'assets/images/be_kind.png',
+        'thumbnail': {
+          'url': 'assets/images/be_kind.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Act'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -40,7 +44,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Affirmation',
         'description':
             "Elevate your mindset with the 'Affirmations' challenge. Embrace daily positive affirmations to cultivate self-confidence and resilience. Speak words of encouragement to yourself, fostering a powerful, optimistic mindset. Join to build a habit of self-love, overcome challenges, and manifest a brighter, more fulfilling life. 💭\n",
-        'thumbnailPath': 'assets/images/affirmation.png',
+        'thumbnail': {
+          'url': 'assets/images/affirmation.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 15.0, 'unit': 'Minutes'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -55,7 +63,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Archery',
         'description':
             "Unleash your focus and precision with the 'Archery' challenge. Embark on a journey to master the art of bow and arrow, enhancing concentration and control. Engage in this ancient sport to boost hand-eye coordination and embrace the satisfaction of hitting your target. Ready, aim, challenge yourself! 🏹\n",
-        'thumbnailPath': 'assets/images/bow.png',
+        'thumbnail': {
+          'url': 'assets/images/bow.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -70,7 +82,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Bike Tour',
         'description':
             "Pedal your way to adventure with the 'Bike Tour' challenge. Explore new routes, breathe in the fresh air, and enhance your fitness through regular cycling escapades. Whether urban streets or scenic trails, each ride is a step towards a healthier, more exhilarating lifestyle. Gear up and roll into the journey! 🚴‍♂️\n",
-        'thumbnailPath': 'assets/images/bike_tour.png',
+        'thumbnail': {
+          'url': 'assets/images/bike_tour.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 20.0, 'unit': 'Kilometers'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -85,7 +101,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Bouldering',
         'description':
             "Elevate your physical and mental strength with the 'Bouldering' challenge. Conquer intricate climbing problems, pushing your agility and problem-solving skills to new heights. Embrace the thrill of scaling boulders, sculpting both your physique and determination. Climb, cling, and celebrate the triumphs of each ascent. 🧗‍♂️\n",
-        'thumbnailPath': 'assets/images/bouldering.png',
+        'thumbnail': {
+          'url': 'assets/images/bouldering.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -100,7 +120,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Bucket List',
         'description':
             "Embark on a journey of self-discovery and adventure with the 'Bucket List' challenge. Create and conquer a list of dreams and aspirations. From daring escapades to simple joys, each checked item is a step towards a life fully lived. Unleash your inner dreamer and turn aspirations into accomplishments! 🌟\n",
-        'thumbnailPath': 'assets/images/bucket_list.png',
+        'thumbnail': {
+          'url': 'assets/images/bucket_list.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'List'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -115,7 +139,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Bungee Jumping',
         'description':
             "Take a leap into the extraordinary with the 'Bungee Jumping' challenge. Conquer fears and feel the rush as you free-fall towards exhilaration. This isn't just a jump; it's a triumph over limits. Capture the moment, defy gravity, and mark the day you soared beyond the ordinary. 👇\n",
-        'thumbnailPath': 'assets/images/bungee_jumping.png',
+        'thumbnail': {
+          'url': 'assets/images/bungee_jumping.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Jump'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -130,7 +158,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Cleaning Up',
         'description':
             "Turn your space into a sanctuary with the 'Cleaning Up' challenge. Clear the clutter, organize chaos, and rediscover the joy of a tidy environment. It's not just about cleaning; it's a transformative journey to create a space that nurtures peace and productivity. Embrace the clean slate! 🧹\n",
-        'thumbnailPath': 'assets/images/dusting.png',
+        'thumbnail': {
+          'url': 'assets/images/dusting.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Hours'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -145,7 +177,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Climbing Stairs',
         'description':
             "Ascend to new heights with the 'Climbing Stairs' challenge. Elevate your fitness and embrace each step as a stride toward a healthier you. Whether at home or outdoors, conquer staircases and unlock a fitter, stronger version of yourself. Step up to the challenge and rise! 🏞️\n",
-        'thumbnailPath': 'assets/images/career.png',
+        'thumbnail': {
+          'url': 'assets/images/career.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1000.0, 'unit': 'Stairs'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -160,7 +196,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Cold Showers',
         'description':
             "Revitalize your body and mind with the invigorating 'Cold Showers' challenge. Embrace the chill to boost circulation, strengthen resilience, and kickstart your day with an icy blast. Unleash the power of cold and let each shiver be a step toward a refreshed you. Dare to shower cold! ❄️\n",
-        'thumbnailPath': 'assets/images/shower.png',
+        'thumbnail': {
+          'url': 'assets/images/shower.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Shower'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -175,7 +215,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'DIY-Workshop',
         'description':
             "Unleash your inner craftsman with the 'DIY Workshop' challenge! Dive into the world of creativity and handcrafting. Whether it's woodworking, painting, or building, discover the joy of making something uniquely yours. Ignite your imagination, grab your tools, and turn your DIY dreams into tangible masterpieces! 🔨\n",
-        'thumbnailPath': 'assets/images/diy.png',
+        'thumbnail': {
+          'url': 'assets/images/diy.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Thing'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -190,7 +234,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Dancing',
         'description':
             "Unleash your inner rhythm with the 'Dancing' challenge. Move and groove for at least 30 minutes. Whether it's a solo dance party or joining a class, let the music guide you. Elevate your mood, improve fitness, and discover the joy of self-expression. Dance like nobody's watching! 🕺💃\n",
-        'thumbnailPath': 'assets/images/dance.png',
+        'thumbnail': {
+          'url': 'assets/images/dance.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 30, 'type': 'time'},
         'media': [],
@@ -205,7 +253,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Diary',
         'description':
             "Embark on a daily journey of self-reflection with the 'Diary' challenge. Dedicate a few moments each day to pen down your thoughts, dreams, and experiences. This practice cultivates mindfulness, enhances emotional well-being, and creates a personal time capsule. Start scribbling for a healthier, happier you! 📖\n",
-        'thumbnailPath': 'assets/images/diary.png',
+        'thumbnail': {
+          'url': 'assets/images/diary.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Entry'},
         'frequency': {'amount': 100, 'type': 'daily'},
         'media': [],
@@ -220,7 +272,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Diet',
         'description':
             "Embark on a journey of mindful eating with the 'Diet' challenge. Nourish your body with wholesome foods, savor each bite, and make conscious choices for a healthier you. Discover the power of balanced nutrition and feel the positive impact on your well-being. Your body will thank you for this transformation! 🥦\n",
-        'thumbnailPath': 'assets/images/diet.png',
+        'thumbnail': {
+          'url': 'assets/images/diet.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 365, 'type': 'daily'},
         'media': [],
@@ -235,7 +291,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Digital Organization',
         'description':
             "Declutter your digital space and boost your productivity with the 'Digital Organization' challenge. Tame the chaos of files, emails, and apps. Create a streamlined digital environment that enhances focus and efficiency. Unleash the potential of an organized digital life and witness the clarity it brings to your daily tasks! 💻\n",
-        'thumbnailPath': 'assets/images/digital_organization.png',
+        'thumbnail': {
+          'url': 'assets/images/digital_organization.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Optimization'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -250,7 +310,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Diving',
         'description':
             "Dive into a world of wonder with the 'Diving' challenge. Explore the mesmerizing underwater realms and build a connection with the ocean. Immerse yourself in the thrill of discovery and witness the beauty beneath the waves. Challenge yourself to dive and unlock the secrets of the deep blue! 🤿\n",
-        'thumbnailPath': 'assets/images/scuba_diving.png',
+        'thumbnail': {
+          'url': 'assets/images/scuba_diving.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Dive'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -265,7 +329,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Donating',
         'description':
             "Make a meaningful impact with the 'Donations' challenge. Open your heart and contribute to a cause that resonates with you. Whether big or small, every donation counts. Challenge yourself to give generously, knowing that you're making a positive difference in the world. 🌍\n",
-        'thumbnailPath': 'assets/images/donation.png',
+        'thumbnail': {
+          'url': 'assets/images/donation.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Donation'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -280,7 +348,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Drawing',
         'description':
             "Unleash your creativity in the 'Drawing' challenge. Pick up a sketchpad, let your imagination flow, and bring your ideas to life. Whether you're a seasoned artist or a doodler, embrace the joy of creating something unique. Share your drawings and inspire others to express themselves artistically! ✏️\n",
-        'thumbnailPath': 'assets/images/sketchbook.png',
+        'thumbnail': {
+          'url': 'assets/images/sketchbook.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Drawing'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -295,7 +367,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Dream Diary',
         'description':
             "Embark on a journey into your subconscious with the 'Dream Diary' challenge. Capture the essence of your dreams each morning, creating a vivid tapestry of your subconscious mind. Reflect on the surreal landscapes, bizarre encounters, and hidden messages your dreams unveil. Dive into the mysterious realm of your sleeping thoughts. 😴\n",
-        'thumbnailPath': 'assets/images/fairytale.png',
+        'thumbnail': {
+          'url': 'assets/images/fairytale.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Entry'},
         'frequency': {'amount': 100, 'type': 'daily'},
         'media': [],
@@ -310,7 +386,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Drinking Water',
         'description':
             "Embark on the 'Drinking Water' Challenge to elevate your well-being. Hydrate your body and mind, savoring the refreshing benefits of water. Track your daily intake, building a habit that revitalizes your vitality. Dive into this challenge, and let the flow of hydration cascade into a healthier, more invigorated you! 🚰\n",
-        'thumbnailPath': 'assets/images/water.png',
+        'thumbnail': {
+          'url': 'assets/images/water.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 2.0, 'unit': 'Liters'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -325,7 +405,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Eating Vegan',
         'description':
             "Join the 'Eating Vegan' Challenge and explore the vibrant world of plant-based delights. Embrace cruelty-free, nutritious meals, and discover the flavors of compassion. Each bite is a step towards a sustainable, healthier lifestyle. Unleash your inner chef, making the planet and your taste buds rejoice! 🌱\n",
-        'thumbnailPath': 'assets/images/vegan.png',
+        'thumbnail': {
+          'url': 'assets/images/vegan.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -340,7 +424,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Eating Vegetarian',
         'description':
             "Embark on the 'Eating Vegetarian' Challenge and savor the rich tapestry of plant-based flavors. Elevate your dining experience with a palette of delicious, meat-free creations. It's a journey of taste, health, and eco-conscious living. Ignite your culinary adventure and let the veggie feast begin! 🥦\n",
-        'thumbnailPath': 'assets/images/vegetarian.png',
+        'thumbnail': {
+          'url': 'assets/images/vegetarian.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -355,7 +443,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Elevator Pitch',
         'description':
             "Engage in the 'Elevator Pitch' Challenge and craft a succinct narrative that captivates hearts and minds. Whether it's selling an idea or presenting yourself, refine the art of persuasion in a short elevator ride. Elevate your communication skills and leave a lasting impression with every floor. 🚀\n",
-        'thumbnailPath': 'assets/images/elevator.png',
+        'thumbnail': {
+          'url': 'assets/images/elevator.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Presentation'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -370,7 +462,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Evening Routine',
         'description':
             "Embark on the 'Evening Routine' Challenge and design a tranquil ritual for a peaceful night. From winding down activities to setting intentions, curate a routine that paves the way for restful slumber. Embrace the calm of the evening and wake up refreshed to conquer new challenges. 🌙\n",
-        'thumbnailPath': 'assets/images/evening_routine.png',
+        'thumbnail': {
+          'url': 'assets/images/evening_routine.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -385,7 +481,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Hometown',
         'description':
             "Rediscover the magic of your roots with the 'Hometown' challenge. Venture into unexplored corners, revisit childhood spots, and unravel hidden gems. Capture the essence of your hometown through fresh eyes and create lasting memories. Celebrate the beauty of familiarity and the thrill of newfound appreciation. 🏡\n",
-        'thumbnailPath': 'assets/images/own_city.png',
+        'thumbnail': {
+          'url': 'assets/images/own_city.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Place'},
         'frequency': {'amount': 1, 'type': 'daily'},
         'media': [],
@@ -400,7 +500,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Fighting Fear',
         'description':
             'Embark on a journey to face and overcome your deepest fears. This challenge is your personal conquest, pushing boundaries and embracing courage. Capture each fearless moment and share the triumph. Unleash the warrior within and let the world witness your bravery. 💪\n',
-        'thumbnailPath': 'assets/images/fear.png',
+        'thumbnail': {
+          'url': 'assets/images/fear.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Fear'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -415,7 +519,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Fishing',
         'description':
             'Dive into the serene world of fishing and master the art of angling. Whether by a tranquil lake or a rushing river, this challenge beckons you to reel in unforgettable moments. Document your catches, share your angling wisdom, and savor the tranquility of nature. 🎣\n',
-        'thumbnailPath': 'assets/images/fishing.png',
+        'thumbnail': {
+          'url': 'assets/images/fishing.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Fish'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -430,7 +538,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Flick Flack',
         'description':
             'Embark on a journey to master the exhilarating Flick Flack. Challenge gravity, learn acrobatic finesse, and defy expectations with every flip. Share your progress, inspire others, and experience the thrill of achieving airborne excellence. 🤸‍♂️\n',
-        'thumbnailPath': 'assets/images/flick_flack.png',
+        'thumbnail': {
+          'url': 'assets/images/flick_flack.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Execution'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -445,7 +557,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Forgiving',
         'description':
             "Experience the transformative power of forgiveness. Free yourself from the weight of resentment and open the door to inner peace. Take the 'Forgiving' challenge, embrace forgiveness, and witness the positive ripples it creates in your life. 🕊️ \n",
-        'thumbnailPath': 'assets/images/peace.png',
+        'thumbnail': {
+          'url': 'assets/images/peace.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Person'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -460,7 +576,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Full Body Workout',
         'description':
             "Embark on a holistic fitness journey with the 'Full Body Workout' challenge. Sculpt and strengthen every muscle, elevating your energy and vitality. Unleash the potential of your physique in a workout that's as comprehensive as it is invigorating. 🏋️‍♂️\n",
-        'thumbnailPath': 'assets/images/workout.png',
+        'thumbnail': {
+          'url': 'assets/images/workout.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 100, 'type': 'time'},
         'media': [],
@@ -475,7 +595,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Gardening',
         'description':
             "Dive into the world of flora with the 'Gardening' challenge. Cultivate your own garden oasis, connecting with nature and reaping the rewards of your labor. From planting seeds to nurturing blooms, let your gardening journey blossom! 🌼\n",
-        'thumbnailPath': 'assets/images/gardening.png',
+        'thumbnail': {
+          'url': 'assets/images/gardening.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -490,7 +614,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Gratitude Journaling',
         'description':
             "Embark on a 'Gratitude Journaling' and discover the transformative power of appreciation. Each day, reflect on the positive aspects of your life, cultivating a mindset of thankfulness. Small moments can have a big impact – join this challenge to unlock a more fulfilling and positive existence. 🙏🏼\n",
-        'thumbnailPath': 'assets/images/thankful.png',
+        'thumbnail': {
+          'url': 'assets/images/thankful.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 3.0, 'unit': 'Entries'},
         'frequency': {'amount': 100, 'type': 'daily'},
         'media': [],
@@ -505,7 +633,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Feedback',
         'description':
             "Embark on 'Feedback' and share your insights! Explore the app's features, leave constructive feedback, and be part of shaping its future. Your voice matters; help us create an even better experience. Dive into the adventure of improvement! 🚀\n",
-        'thumbnailPath': 'assets/images/feedback.png',
+        'thumbnail': {
+          'url': 'assets/images/feedback.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Feedback'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -520,7 +652,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Gym',
         'description':
             "Conquer the 'Gym Mastery' challenge! Sculpt your physique, boost your energy, and unleash the gym warrior within. Transform sweat into strength and witness the evolution of your fitness journey. Ready, set, lift! 🏋️‍♂️\n",
-        'thumbnailPath': 'assets/images/weightlifting.png',
+        'thumbnail': {
+          'url': 'assets/images/weightlifting.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 30, 'type': 'time'},
         'media': [],
@@ -535,7 +671,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Handstand',
         'description':
             "Defy gravity with the 'Handstand' challenge! Elevate your strength, balance, and core. Embrace the upside-down world and master the art of handstanding. Each moment inverted is a step closer to triumph. Ready to flip the script? 🤸‍♂️\n",
-        'thumbnailPath': 'assets/images/hand_stand.png',
+        'thumbnail': {
+          'url': 'assets/images/hand_stand.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Minute'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -550,7 +690,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'High Jump',
         'description':
             "Reach new heights in the 'High Jump' challenge! Elevate your jumps, conquer gravity, and defy limits. Aim higher, leap farther—unleash your inner high-jump champion. Elevate your game, one jump at a time! 🚀\n",
-        'thumbnailPath': 'assets/images/high-jump.png',
+        'thumbnail': {
+          'url': 'assets/images/high-jump.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Meter'},
         'frequency': {'amount': 1, 'type': 'daily'},
         'media': [],
@@ -565,7 +709,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Hiking',
         'description':
             "Embark on the 'Hiking' Challenge and conquer new heights. Hike through breathtaking landscapes, breathe in the crisp mountain air, and leave no trail unexplored. Unleash the adventurer in you, and let each step bring you closer to the summit! 🏔️\n",
-        'thumbnailPath': 'assets/images/hiker.png',
+        'thumbnail': {
+          'url': 'assets/images/hiker.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 10.0, 'unit': 'Kilometers'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -580,7 +728,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Hot Air Balloon',
         'description':
             "Soar into the skies with the 'Hot Air Balloon' challenge. Experience the world from a new perspective aboard a hot air balloon. Embrace the gentle breeze, marvel at landscapes unfolding below, and let your spirit ascend to new heights. Elevate your journey, one balloon ride at a time! 🎈\n",
-        'thumbnailPath': 'assets/images/air-hot-balloon.png',
+        'thumbnail': {
+          'url': 'assets/images/air-hot-balloon.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Flight'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -595,7 +747,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Ice Bath',
         'description':
             "Embrace the invigorating chill of the 'Ice Bath' challenge. Take a dive into an ice bath, awakening your senses and conquering the cold. Feel the rush as you push your limits and discover the refreshing power within the frozen depths. Challenge yourself to a frosty adventure! ❄️\n",
-        'thumbnailPath': 'assets/images/ice_bath.png',
+        'thumbnail': {
+          'url': 'assets/images/ice_bath.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 3.0, 'unit': 'Minutes'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -610,7 +766,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Juggling',
         'description':
             "Unleash your inner performer with the 'Juggling' challenge. Elevate your focus, coordination, and entertain others with your newfound skill. Embrace the joy of tossing and catching, turning every moment into a mesmerizing spectacle. 🤹‍♂️\n",
-        'thumbnailPath': 'assets/images/juggler.png',
+        'thumbnail': {
+          'url': 'assets/images/juggler.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -625,7 +785,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Kayaking',
         'description':
             "Feel the rush as you glide through rippling waters. The 'Kayaking' Challenge invites you to explore nature's wonders, offering an invigorating blend of adventure and tranquility. Grab your paddle, embrace the currents, and let the waters be your guide. 🚣 \n",
-        'thumbnailPath': 'assets/images/kayaking.png',
+        'thumbnail': {
+          'url': 'assets/images/kayaking.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -640,7 +804,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Making Money',
         'description':
             "Embark on the journey to financial empowerment with the 'Making Money' Challenge. This quest inspires innovative thinking, resourcefulness, and financial acumen. Turn ideas into income streams, invest wisely, and embrace the rewarding path to financial success. 💸\n",
-        'thumbnailPath': 'assets/images/earnings.png',
+        'thumbnail': {
+          'url': 'assets/images/earnings.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 10000.0, 'unit': 'Euro'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -655,7 +823,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Marathon',
         'description':
             "Strap on your running shoes and hit the pavement with the 'Marathon' Challenge. This odyssey of endurance invites you to conquer 42.195 kilometers, pushing your physical and mental limits. Ignite your runner's spirit, celebrate milestones, and cross the finish line stronger than ever! 🏃‍♂️\n",
-        'thumbnailPath': 'assets/images/marathon.png',
+        'thumbnail': {
+          'url': 'assets/images/marathon.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 42.195, 'unit': 'Kilometers'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -670,7 +842,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Martial Arts',
         'description':
             "Embark on a journey of self-discipline and strength with the 'Martial Arts' Challenge. Train your body and mind through three weekly sessions of intense martial arts. Unleash your inner warrior, master techniques, and embrace the path of resilience and skill. 🥋\n",
-        'thumbnailPath': 'assets/images/fight_club.png',
+        'thumbnail': {
+          'url': 'assets/images/fight_club.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -685,7 +861,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Meditation',
         'description':
             "Immerse yourself in tranquility with the 'Meditation' Challenge. Dedicate a daily session to finding inner peace and enhancing mental well-being. Harness the power of mindfulness, and let each moment guide you to a calmer, more centered self. 🧘‍♂️\n",
-        'thumbnailPath': 'assets/images/meditation.png',
+        'thumbnail': {
+          'url': 'assets/images/meditation.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 10.0, 'unit': 'Minutes'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -700,7 +880,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Morning Routine',
         'description':
             "Craft a dynamic start to your day with the 'Morning Routine' Challenge. Establish habits that set a positive tone, from energizing exercises to mindful moments. Elevate your mornings and watch as the rest of your day follows suit. 🌅\n",
-        'thumbnailPath': 'assets/images/sunrise.png',
+        'thumbnail': {
+          'url': 'assets/images/sunrise.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -715,7 +899,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'New City',
         'description':
             "Embark on an adventure with the 'New City' Challenge. Explore unfamiliar streets, savor local flavors, and embrace the pulse of a new place. Uncover hidden gems and create lasting memories as you immerse yourself in the vibrant energy of a city waiting to be discovered. 🌆\n",
-        'thumbnailPath': 'assets/images/other_city.png',
+        'thumbnail': {
+          'url': 'assets/images/other_city.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'City'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -730,7 +918,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'New Culture',
         'description':
             "Dive into the rich tapestry of humanity with the 'New Culture' Challenge. Immerse yourself in customs, traditions, and the beauty of diversity. Open your mind, embrace differences, and forge connections that transcend borders. Experience the world in a new light and celebrate the mosaic of cultures around you. 🌍\n",
-        'thumbnailPath': 'assets/images/culture.png',
+        'thumbnail': {
+          'url': 'assets/images/culture.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Culture'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -745,7 +937,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'New Instrument',
         'description':
             "Embark on a melodic adventure with the 'New Instrument' Challenge. Unleash the symphony within you as you learn to play a musical instrument. From the sweet notes of a guitar to the soulful tunes of a piano, let the music guide your journey of self-discovery. 🎶\n",
-        'thumbnailPath': 'assets/images/instrument.png',
+        'thumbnail': {
+          'url': 'assets/images/instrument.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 30, 'type': 'time'},
         'media': [],
@@ -760,7 +956,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'New Language',
         'description':
             "Dive into a linguistic odyssey with the 'New Language' Challenge. Explore the beauty of communication as you learn the intricacies of a foreign tongue. From greetings to fluency, embrace the richness of diverse expressions and broaden your global horizons. 🌐\n",
-        'thumbnailPath': 'assets/images/languages.png',
+        'thumbnail': {
+          'url': 'assets/images/languages.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 100, 'type': 'daily'},
         'media': [],
@@ -775,7 +975,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'New People',
         'description':
             "Embark on a social adventure with the 'New People' Challenge. Break the ice, forge connections, and discover the stories that weave our diverse tapestry. Each encounter is a chance to broaden your perspectives and create lasting bonds. Ready to meet the world? 🤝\n",
-        'thumbnailPath': 'assets/images/network.png',
+        'thumbnail': {
+          'url': 'assets/images/network.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Person'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -790,7 +994,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'New Recipe',
         'description':
             "Unleash your inner chef with the 'New Recipe' Challenge. Transform your kitchen into a culinary haven, experimenting with flavors and creating gastronomic delights. From savory to sweet, each dish is a journey of taste. Ready, set, cook up a storm! 🍲\n",
-        'thumbnailPath': 'assets/images/cooking.png',
+        'thumbnail': {
+          'url': 'assets/images/cooking.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Recipe'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -805,7 +1013,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Night in Nature',
         'description':
             'Discover the serene beauty of nature at night. Swap city lights for moonlit landscapes, stargaze, and share stories by the campfire. Immerse yourself in the tranquility of the nocturnal world. 🌙\n',
-        'thumbnailPath': 'assets/images/tent.png',
+        'thumbnail': {
+          'url': 'assets/images/tent.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Night'},
         'frequency': {'amount': 1, 'type': 'daily'},
         'media': [],
@@ -820,7 +1032,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Old Friends',
         'description':
             "Reconnect with cherished companions from the past. Rediscover shared memories, exchange laughter, and create new stories together. Strengthen the bonds of friendship that time couldn't break. 👫\n",
-        'thumbnailPath': 'assets/images/old_friends.png',
+        'thumbnail': {
+          'url': 'assets/images/old_friends.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Friend'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -835,7 +1051,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Origami',
         'description':
             'Unleash creativity with each fold, transforming paper into intricate art. Dive into the meditative world of origami, crafting beauty with precision. Elevate your skills, one delicate creation at a time. 📄\n',
-        'thumbnailPath': 'assets/images/origami.png',
+        'thumbnail': {
+          'url': 'assets/images/origami.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Work of art'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -850,7 +1070,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Parkour',
         'description':
             'Conquer obstacles, embrace fluidity, and master the art of movement. Embark on a journey of agility, flipping and vaulting through urban landscapes. Transform your surroundings into a thrilling playground. Unleash your inner daredevil! 🏃‍♂️\n',
-        'thumbnailPath': 'assets/images/parkour.png',
+        'thumbnail': {
+          'url': 'assets/images/parkour.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -865,7 +1089,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Photography',
         'description':
             'Capture moments that tell stories. Explore the world through your lens, framing beauty in everyday scenes. From portraits to landscapes, ignite your creativity. Freeze time and share your visual narratives. 📷\n',
-        'thumbnailPath': 'assets/images/photography.png',
+        'thumbnail': {
+          'url': 'assets/images/photography.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 10.0, 'unit': 'Photos'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -880,7 +1108,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Plank',
         'description':
             'Build core strength and endurance with the plank challenge. Begin with short durations, gradually extending. Feel the burn as you sculpt your abs. Share your plank progress and inspire others to join the stability journey. 🔥\n',
-        'thumbnailPath': 'assets/images/plank.png',
+        'thumbnail': {
+          'url': 'assets/images/plank.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 2.0, 'unit': 'Minutes'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -895,7 +1127,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Podcast',
         'description':
             'Dive into the world of podcasting! Share your insights, stories, or passions. Craft engaging narratives, explore intriguing topics, and connect with your audience through the power of your voice. Unleash your creativity and make waves in the podcasting realm. 🎙️\n',
-        'thumbnailPath': 'assets/images/podcast.png',
+        'thumbnail': {
+          'url': 'assets/images/podcast.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Episodes'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -910,7 +1146,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Poetry Slam',
         'description':
             "Step into the spotlight and let your words dance! Craft powerful verses, spill emotions, and perform your poetry with flair. Whether it's spoken word or rhythmic rhymes, embrace the stage and share the cadence of your soul. 🎤\n",
-        'thumbnailPath': 'assets/images/poetry.png',
+        'thumbnail': {
+          'url': 'assets/images/poetry.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -925,7 +1165,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Pottery',
         'description':
             "Mold, shape, and spin wonders from raw clay! Unleash your creativity on the potter's wheel, crafting unique vessels that tell stories through form and texture. Embrace the therapeutic art of pottery and watch your hands breathe life into timeless creations. 🏺\n",
-        'thumbnailPath': 'assets/images/pottery.png',
+        'thumbnail': {
+          'url': 'assets/images/pottery.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Work of art'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -940,7 +1184,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Presentation',
         'description':
             "Step into the spotlight and refine your art of persuasion! Craft compelling narratives, polish public speaking skills, and captivate your audience. Whether it's a boardroom or a virtual space, master the art of effective communication and leave a lasting impression. 🎙️\n",
-        'thumbnailPath': 'assets/images/presentation.png',
+        'thumbnail': {
+          'url': 'assets/images/presentation.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Presentation'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -955,7 +1203,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Pushups',
         'description':
             'Strengthen your upper body and core with the classic push-up challenge. Progress from standard to advanced variations, sculpting your chest, shoulders, and triceps. Embrace the burn, and watch your strength soar! 💪\n',
-        'thumbnailPath': 'assets/images/pushups.png',
+        'thumbnail': {
+          'url': 'assets/images/pushups.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 100.0, 'unit': 'Pushups'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -970,7 +1222,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Reading',
         'description':
             'Indulge in literary realms! Traverse genres, uncover narratives, and let each page broaden your horizons. Whether fiction or non-fiction, immerse yourself in the written tapestry. 📚\n',
-        'thumbnailPath': 'assets/images/reading.png',
+        'thumbnail': {
+          'url': 'assets/images/reading.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Book'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -985,7 +1241,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Stop Smoking',
         'description':
             'Step into a healthier life by bidding farewell to smoking. Embrace clean lungs, renewed energy, and a vibrant future. Your body will thank you for this empowering choice. 🚭\n',
-        'thumbnailPath': 'assets/images/no-smoking.png',
+        'thumbnail': {
+          'url': 'assets/images/no-smoking.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': null, 'type': 'daily'},
         'media': [],
@@ -1000,7 +1260,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Running',
         'description':
             "Hit the pavement, feel the rhythm, and conquer each stride. Whether a beginner or a seasoned runner, set new goals, surpass limits, and savor the runner's high. Ready, set, run your path to victory! 🏃‍♂️\n",
-        'thumbnailPath': 'assets/images/runner.png',
+        'thumbnail': {
+          'url': 'assets/images/runner.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 2.0, 'unit': 'Kilometers'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1015,7 +1279,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Self care',
         'description':
             "Dive into the bliss of self-nurturing moments. Embrace tranquility through spa sessions, mindful practices, and soulful escapes. Prioritize your well-being and recharge for life's journey. Elevate your self-care game, one rejuvenating step at a time. 💆‍♀️\n",
-        'thumbnailPath': 'assets/images/self_care.png',
+        'thumbnail': {
+          'url': 'assets/images/self_care.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -1030,7 +1298,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Skipping Rope',
         'description':
             'Jump into fitness and fun with the Skipping Rope Challenge. Elevate your heart rate, enhance coordination, and enjoy a dynamic workout. Whether indoors or outdoors, let the rhythmic motion of the rope bring joy to your exercise routine. 🏃‍♂️\n',
-        'thumbnailPath': 'assets/images/skip_rope.png',
+        'thumbnail': {
+          'url': 'assets/images/skip_rope.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 15.0, 'unit': 'Minutes'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1045,7 +1317,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Skydiving',
         'description':
             'Float above the clouds and experience the thrill of skydiving.\n',
-        'thumbnailPath': 'assets/images/skydiving.png',
+        'thumbnail': {
+          'url': 'assets/images/skydiving.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Jump'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -1060,7 +1336,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Sleep Rhythm',
         'description':
             'Transform your nights with the Sleep Rhythm Challenge. Establish a consistent sleep schedule, unlock the power of quality rest, and wake up refreshed every morning. Embrace the benefits of a well-regulated sleep pattern for a healthier and more energized life. 💤\n',
-        'thumbnailPath': 'assets/images/sleep.png',
+        'thumbnail': {
+          'url': 'assets/images/sleep.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1075,7 +1355,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Social Media Detox',
         'description':
             'Unplug and rejuvenate with the Social Media Detox Challenge. Take a break from the virtual noise, rediscover genuine connections, and reclaim your time for meaningful activities. Embrace the freedom from constant notifications and savor the present moment. 📵\n',
-        'thumbnailPath': 'assets/images/no-phone.png',
+        'thumbnail': {
+          'url': 'assets/images/no-phone.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1090,7 +1374,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Steps',
         'description':
             'Step into a healthier you with our Steps Challenge! Set daily step goals, explore your surroundings, and boost your well-being. Every step brings you closer to a more active lifestyle. Lace up, step out, and stride towards a healthier, happier life! 🚶‍♂️\n',
-        'thumbnailPath': 'assets/images/footprint.png',
+        'thumbnail': {
+          'url': 'assets/images/footprint.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 10000.0, 'unit': 'Steps'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1105,7 +1393,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Stretching',
         'description':
             'Embrace flexibility and enhance your well-being with our Stretching Challenge. Dedicate time each day to stretch your muscles, improve posture, and find balance. Feel the tension melt away as you embark on a journey to a more flexible and rejuvenated you. 🤸‍♂️\n',
-        'thumbnailPath': 'assets/images/stretching.png',
+        'thumbnail': {
+          'url': 'assets/images/stretching.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 15.0, 'unit': 'Minutes'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1120,7 +1412,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Sugar Detox',
         'description':
             'Take control of your health with our Sugar Detox Challenge. Bid farewell to refined sugars and embrace a healthier lifestyle. Boost energy, focus, and achieve better overall well-being. Your body will thank you for this sweet transformation! 🍏\n',
-        'thumbnailPath': 'assets/images/sugar-free.png',
+        'thumbnail': {
+          'url': 'assets/images/sugar-free.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 7, 'type': 'daily'},
         'media': [],
@@ -1135,7 +1431,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Survival Training',
         'description':
             'Explore self-reliance with our Survival Training Challenge. Acquire essential skills for the wild, mastering shelter-building and fire-making. Confront challenges to fortify both mind and body. Awaken your inner survivor! 🏕️\n',
-        'thumbnailPath': 'assets/images/knife.png',
+        'thumbnail': {
+          'url': 'assets/images/knife.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -1150,7 +1450,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Swimming',
         'description':
             'Dive into the refreshing world of swimming! Immerse yourself in the water, enhance endurance, and sculpt your physique. Make waves of progress as you conquer lap after lap. Join the aquatic journey! 🏊‍♂️\n',
-        'thumbnailPath': 'assets/images/swimming.png',
+        'thumbnail': {
+          'url': 'assets/images/swimming.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1165,7 +1469,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Taking Vitamins',
         'description':
             'Nourish your body, one vitamin at a time! Boost your wellness by making a habit of taking essential vitamins daily. Experience the vitality and support your health deserves. Elevate your routine with a daily dose of goodness! 💊\n',
-        'thumbnailPath': 'assets/images/vitamin.png',
+        'thumbnail': {
+          'url': 'assets/images/vitamin.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1180,7 +1488,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Theater',
         'description':
             "Step into a world of stories and emotions! Immerse yourself in the captivating realm of theater. Whether it's a classic play or a modern production, let the stage be your portal to creativity, drama, and unforgettable moments. Unleash your imagination and let the show begin! 🎭\n",
-        'thumbnailPath': 'assets/images/theater.png',
+        'thumbnail': {
+          'url': 'assets/images/theater.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 10, 'type': 'time'},
         'media': [],
@@ -1195,7 +1507,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Travel',
         'description':
             "Journey through diverse landscapes and cultures. Immerse yourself in new experiences, savor local flavors, and uncover the beauty of different places. Whether it's vibrant cities or serene nature, let every destination tell a unique story. Travel to broaden your horizons, create lasting memories, and let the world become your teacher. 🌍\n",
-        'thumbnailPath': 'assets/images/travel.png',
+        'thumbnail': {
+          'url': 'assets/images/travel.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Day'},
         'frequency': {'amount': 14, 'type': 'daily'},
         'media': [],
@@ -1210,7 +1526,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Walking',
         'description':
             'Step into the rhythm of life with a mindful walk. Breathe in nature, let your surroundings be your guide. From park strolls to mountain hikes, relish each step as a meditation. Discover the joy of moving forward, embracing the journey one step at a time. 🚶‍♂️\n',
-        'thumbnailPath': 'assets/images/walking.png',
+        'thumbnail': {
+          'url': 'assets/images/walking.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Walk'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],
@@ -1225,7 +1545,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Water Skiing',
         'description':
             "Feel the rush as you glide over the water's surface, skis cutting through waves. Embrace the thrill of speed and the challenge of maintaining balance. Whether it's your first time or a seasoned pro, water skiing is a splash of excitement and a testament to conquering aquatic adventures. 🎿\n",
-        'thumbnailPath': 'assets/images/water_skiing.png',
+        'thumbnail': {
+          'url': 'assets/images/water_skiing.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -1240,7 +1564,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Weight Gain',
         'description':
             "Transform your body and build confidence with the 'Weight Gain' challenge. This journey emphasizes balanced nutrition and targeted workouts for gradual and sustainable results. Celebrate a stronger, healthier you. It's not just about the numbers; it's about embracing a new, empowered version of yourself. 💪\n",
-        'thumbnailPath': 'assets/images/overweight.png',
+        'thumbnail': {
+          'url': 'assets/images/overweight.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 80.0, 'unit': 'Kg'},
         'frequency': {'amount': 1, 'type': 'time'},
         'media': [],
@@ -1255,7 +1583,11 @@ class SearchChallengesCollectionSeed extends CollectionSeedModel {
         'title': 'Wim Hof Breathing',
         'description':
             "Explore the 'Wim Hof Breathing' Challenge and unlock the potential of controlled breath work. Elevate your mental clarity and physical well-being through this transformative practice. Immerse yourself in the benefits, fostering increased energy, focus, and inner strength. 🌬️\n",
-        'thumbnailPath': 'assets/images/deep-breathing.png',
+        'thumbnail': {
+          'url': 'assets/images/deep-breathing.png',
+          'scale': 0.8,
+          'fit': 'contain'
+        },
         'acceptanceCriteria': {'amount': 1.0, 'unit': 'Session'},
         'frequency': {'amount': 30, 'type': 'daily'},
         'media': [],

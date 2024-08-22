@@ -1,9 +1,11 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_progress_component.dart';
@@ -42,6 +44,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   late final listeningProvider =
       Provider.of<UserChallengesProvider>(context, listen: true);
+
+  final mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -257,6 +261,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
+    mediaService.deleteMediaInChallengeByIds(
+        MediaModel.copyMediaIdList(progress.mediaIds), widget.userChallenge);
     setState(() {
       repetition.deleteProgress(progress);
     });

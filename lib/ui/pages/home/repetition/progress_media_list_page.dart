@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
@@ -10,6 +9,7 @@ import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/services/design_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -22,7 +22,6 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -77,6 +76,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       Provider.of<UserChallengesProvider>(context, listen: false);
 
   MediaService mediaService = MediaService();
+  StorageService storageService = StorageService();
 
   @override
   Widget build(BuildContext context) {
@@ -322,6 +322,16 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       } else {
         widget.progress!.updateProgress(editProgress);
       }
+
+      List<MediaModel> filteredMediaList = mediaList
+          .where((media) =>
+              widget.initialMediaList == null ||
+              !widget.initialMediaList!.contains(media))
+          .toList();
+
+      await mediaService.uploadMediaList(
+          filteredMediaList, widget.userChallenge);
+
       userChallengesProvider.update(widget.userChallenge);
 
       for (int i = 0; i < widget.amountOfPops; i++) {
@@ -331,19 +341,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       setState(() {
         widget.isSaveInsteadOfEditButtonVisible = true;
       });
-    }
-  }
-
-  String splitTitle(String title) {
-    // Find the index of the last '/' in the string
-    int lastIndex = title.lastIndexOf('/');
-
-    if (lastIndex != -1 && lastIndex > 0) {
-      // Extract the portion of the string up to the last '/'
-      String result = title.substring(0, lastIndex);
-      return result;
-    } else {
-      return title;
     }
   }
 
@@ -532,35 +529,15 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  // CustomContainerComponent({required Widget child, double heightFactor = 1}) {
-  //   return Container(
-  //     // width: double.infinity,
-  //     height: 55 * heightFactor,
-  //     padding: const EdgeInsets.all(10),
-  //     margin: const EdgeInsets.only(bottom: 16),
-  //     decoration: BoxDecoration(
-  //         color: Colors.white,
-  //         border: Border.all(
-  //             width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-  //         borderRadius: const BorderRadius.all(Radius.circular(16))),
-  //     child: child,
-  //   );
-  // }
-
   onTapUploadMedia() async {
-    XFile? file = await mediaService.onTapUploadMedia();
-    if (file != null) {
-      setState(() {
-        MediaModel media = MediaModel(
-            type: MediaTypeEnum.image,
-            title: DateTime.now().toString().split('.')[0],
-            source: file.path);
-
-        widget.userChallenge.media.add(media);
-        editProgress.mediaIds.add(media.id!);
-        mediaList.add(media);
-      });
+    MediaModel? media = await mediaService.openImagePicker();
+    if (media == null) {
+      return;
     }
+    setState(() {
+      editProgress.mediaIds.add(media.id!);
+      mediaList.add(media);
+    });
   }
 
   void onTapCancel() {
@@ -574,16 +551,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         widget.isSaveInsteadOfEditButtonVisible = false;
       });
     }
-  }
-
-  int countCharOccurrences(String text, String charToCount) {
-    int count = 0;
-    for (int i = 0; i < text.length; i++) {
-      if (text[i] == charToCount) {
-        count++;
-      }
-    }
-    return count;
   }
 
   void onTapDelete() {
@@ -600,7 +567,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   void onTapDeleteMedia(MediaModel media) {
     mediaService.deleteMedia(media);
-
     setState(() {
       mediaList.removeWhere((element) => element.id == media.id);
       widget.userChallenge.removeMedia(media);

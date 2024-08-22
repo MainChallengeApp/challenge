@@ -1,3 +1,4 @@
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/challenge/title_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -8,7 +9,6 @@ import 'package:challenge/ui/components/simple_components/custom_button_componen
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 

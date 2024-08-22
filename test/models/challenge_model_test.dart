@@ -23,7 +23,7 @@ void main() {
         status: status,
         title: 'Challenge Title',
         description: 'Challenge Description',
-        thumbnailPath: 'assets/images/test.png',
+        thumbnail: 'assets/images/test.png',
         acceptanceCriteria: acceptanceCriteria ??
             AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
         frequency: FrequencyModel(type: FrequencyTypeEnum.time, amount: 1),
@@ -218,7 +218,7 @@ void main() {
         expect(copiedChallenge.status, equals(challenge.status));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnailPath, equals(challenge.thumbnailPath));
+        expect(copiedChallenge.thumbnail, equals(challenge.thumbnail));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -246,7 +246,7 @@ void main() {
         expect(copiedChallenge.status, equals(challenge.status));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnailPath, equals(challenge.thumbnailPath));
+        expect(copiedChallenge.thumbnail, equals(challenge.thumbnail));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -275,7 +275,7 @@ void main() {
         expect(copiedChallenge.status, equals(ChallengeStatusEnum.backlog));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnailPath, equals(challenge.thumbnailPath));
+        expect(copiedChallenge.thumbnail, equals(challenge.thumbnail));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -415,19 +415,19 @@ void main() {
       test('should return thumbnailPath when it is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = 'thumbnailPath';
+        challenge.thumbnail = 'thumbnailPath';
 
         // Act
         String thumbnailPath = challenge.getThumbnailPath();
 
         // Assert
-        expect(thumbnailPath, equals(challenge.thumbnailPath));
+        expect(thumbnailPath, equals(challenge.thumbnail));
       });
 
       test('should return last media source when thumbnailPath is empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = '';
+        challenge.thumbnail = '';
         String mediaSource = 'media/source';
         challenge.media.add(MediaModel(
             source: mediaSource, type: MediaTypeEnum.image, title: 'title'));
@@ -443,7 +443,7 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = '';
+        challenge.thumbnail = '';
 
         // Act
         String thumbnailPath = challenge.getThumbnailPath();
@@ -458,11 +458,10 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = 'assets/images/test.png';
+        challenge.thumbnail = 'assets/images/test.png';
 
         // Act
-        bool isThumbnailFromAssetsImage =
-            challenge.isThumbnailFromAssetsImage();
+        bool isThumbnailFromAssetsImage = challenge.isThumbnailLocal();
 
         // Assert
         expect(isThumbnailFromAssetsImage, equals(true));
@@ -473,11 +472,10 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = 'not/assets/images/test.png';
+        challenge.thumbnail = 'not/assets/images/test.png';
 
         // Act
-        bool isThumbnailFromAssetsImage =
-            challenge.isThumbnailFromAssetsImage();
+        bool isThumbnailFromAssetsImage = challenge.isThumbnailLocal();
 
         // Assert
         expect(isThumbnailFromAssetsImage, equals(false));
@@ -594,7 +592,7 @@ void main() {
       test('should return true when thumbnailPath is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = 'thumbnailPath';
+        challenge.thumbnail = 'thumbnailPath';
 
         // Act
         bool hasThumbnail = challenge.hasThumbnail();
@@ -606,7 +604,7 @@ void main() {
       test('should return false when thumbnailPath is empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnailPath = '';
+        challenge.thumbnail = '';
 
         // Act
         bool hasThumbnail = challenge.hasThumbnail();

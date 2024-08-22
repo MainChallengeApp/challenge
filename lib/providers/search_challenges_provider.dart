@@ -10,10 +10,11 @@ class SearchChallengesProvider with ChangeNotifier {
   List<ChallengeModel> _searchChallenges = [];
   List<ChallengeModel> get searchChallenges => _searchChallenges;
 
-  Future<void> getAll() async {
+  Future<List<ChallengeModel>> getAll() async {
     try {
       _searchChallenges = await searchChallengesDatabase.getAll();
       notifyListeners();
+      return _searchChallenges;
     } on Exception {
       rethrow;
     }

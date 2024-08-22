@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
@@ -14,7 +13,6 @@ import 'package:challenge/ui/components/navigation/no_animation_page_route_compo
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class MediaListPage extends StatefulWidget {
@@ -143,16 +141,23 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   onTapUploadMedia() async {
-    XFile? file = await mediaService.onTapUploadMedia();
-    if (file != null) {
-      setState(() {
-        widget.userChallenge.media.add(MediaModel(
-            type: MediaTypeEnum.image,
-            title: DateTime.now().toString().split('.')[0],
-            source: file.path));
-      });
-      userChallengesProvider.update(widget.userChallenge);
+    MediaModel? media = await mediaService.openImagePicker();
+    if (media == null) {
+      return;
     }
+
+    setState(() {
+      widget.userChallenge.media.add(media);
+    });
+
+    MediaModel? mediaWithUrl =
+        await mediaService.uploadLocalMedia(media, widget.userChallenge);
+
+    if (mediaWithUrl == null) {
+      return;
+    }
+
+    userChallengesProvider.update(widget.userChallenge);
   }
 
   onTapDeleteMedia(MediaModel media) {

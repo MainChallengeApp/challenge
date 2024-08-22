@@ -2,16 +2,21 @@ import 'package:challenge/collections/user_challenges_collection.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/storage_service.dart';
 import 'package:flutter/material.dart';
 
 class UserChallengesProvider with ChangeNotifier {
-  final userChallengesDatabase = UserChallengesCollection();
+  final userChallengesCollection = UserChallengesCollection();
   final authService = AuthService();
+  final storageService = StorageService();
+  final mediaService = MediaService();
 
   List<UserChallengeModel> _userChallenges = [];
+
   List<UserChallengeModel> get userChallenges => _userChallenges;
 
-  Future<void> create(ChallengeModel challenge) async {
+  Future<UserChallengeModel> create(ChallengeModel challenge) async {
     final userChallenge = UserChallengeModel.fromChallengeModel(
       challenge: challenge,
       userId: authService.getCurrentUserId(),
@@ -19,17 +24,27 @@ class UserChallengesProvider with ChangeNotifier {
     _userChallenges.insert(0, userChallenge);
     sortLocalList();
     try {
-      createOnline(userChallenge);
+      return createOnline(userChallenge);
     } on Exception {
       rethrow;
     }
   }
 
-  createOnline(UserChallengeModel userChallenge) async {
+  Future<UserChallengeModel> createOnline(
+      UserChallengeModel userChallenge) async {
     try {
-      await userChallengesDatabase.create(userChallenge);
+      UserChallengeModel newUserChallenge =
+          await userChallengesCollection.create(userChallenge);
+
+      if (newUserChallenge.isThumbnailLocal()) {
+        newUserChallenge.thumbnail.url =
+            await mediaService.uploadLocalThumbnail(newUserChallenge);
+        update(newUserChallenge);
+      }
+
       _userChallenges = await getAllOfUser();
       sortLocalList();
+      return newUserChallenge;
     } on Exception {
       rethrow;
     }
@@ -37,7 +52,7 @@ class UserChallengesProvider with ChangeNotifier {
 
   getAllOfUser() async {
     try {
-      _userChallenges = await userChallengesDatabase.getAllByUserId(
+      _userChallenges = await userChallengesCollection.getAllByUserId(
           userId: authService.getCurrentUserId());
       sortLocalList();
       return _userChallenges;
@@ -48,21 +63,26 @@ class UserChallengesProvider with ChangeNotifier {
 
   Future<UserChallengeModel> getById(String id) async {
     try {
-      return await userChallengesDatabase.getById(id);
+      return await userChallengesCollection.getById(id);
     } on Exception {
       rethrow;
     }
   }
 
-  update(UserChallengeModel userChallenge) {
+  update(UserChallengeModel userChallenge) async {
     try {
+      if (userChallenge.isThumbnailLocal()) {
+        userChallenge.thumbnail.url =
+            await mediaService.uploadLocalThumbnail(userChallenge);
+      }
+
       int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);
       if (index != -1) {
         _userChallenges[index] = userChallenge;
         sortLocalList();
       }
 
-      userChallengesDatabase.update(userChallenge);
+      userChallengesCollection.update(userChallenge);
     } catch (e) {
       rethrow;
     }
@@ -75,7 +95,9 @@ class UserChallengesProvider with ChangeNotifier {
         _userChallenges.removeAt(index);
         notifyListeners();
       }
-      userChallengesDatabase.delete(userChallenge);
+      userChallengesCollection.delete(userChallenge);
+      storageService.deleteFolderByPath(
+          '${UserChallengesCollection.collectionName}/${userChallenge.id}');
     } on Exception {
       rethrow;
     }

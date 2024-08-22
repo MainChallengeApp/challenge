@@ -37,7 +37,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   @override
   void initState() {
     super.initState();
-    searchChallengesProvider.getAll();
+    searchChallengesProvider.getAll().then((searchChallenges) {
+      for (var searchChallenge in searchChallenges) {
+        precacheImage(
+            NetworkImage(searchChallenge.getThumbnailPath()), context);
+      }
+    });
   }
 
   @override

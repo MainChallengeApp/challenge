@@ -55,7 +55,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
                       height: double.infinity,
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: Image.asset(media.source,
+                        child: Image.network(media.source,
                             fit: BoxFit.contain,
                             errorBuilder: (context, error, stackTrace) =>
                                 const Center(

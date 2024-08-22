@@ -69,16 +69,21 @@ class _ListItemChallengeSmallComponentState
         child: ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             child: widget.challenge.getThumbnailPath() != ''
-                ? widget.challenge.isThumbnailFromAssetsImage()
+                ? widget.challenge.isThumbnailLocal()
                     ? Transform.scale(
-                        scale: 0.8,
+                        scale: widget.challenge.thumbnail.scale,
                         child: Image.asset(
                           widget.challenge.getThumbnailPath(),
-                          fit: BoxFit.contain,
+                          fit: widget.challenge.thumbnail.fit.fit,
                         ),
                       )
-                    : Image.asset(widget.challenge.getThumbnailPath(),
-                        fit: BoxFit.cover)
+                    : Transform.scale(
+                        scale: widget.challenge.thumbnail.scale,
+                        child: Image.network(
+                          widget.challenge.getThumbnailPath(),
+                          fit: widget.challenge.thumbnail.fit.fit,
+                        ),
+                      )
                 : const Center(
                     child: Icon(Icons.question_mark, color: themeColor3),
                   )),

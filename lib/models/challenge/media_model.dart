@@ -50,4 +50,12 @@ class MediaModel {
     }
     return mediaListCopy;
   }
+
+  bool isLocal() {
+    return !source.startsWith('https://');
+  }
+
+  bool isImage() {
+    return type == MediaTypeEnum.image;
+  }
 }

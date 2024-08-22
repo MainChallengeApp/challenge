@@ -4,6 +4,7 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
 import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
@@ -51,6 +52,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   late ChallengeModel editChallenge =
       widget.challenge.copyChallenge(isTryAgain: widget.isTryAgain);
+
+  final mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -172,6 +175,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void onTapAccept() async {
     ChallengeModel challengeCopy = editChallenge.copyChallenge();
     challengeCopy.createdAt = DateTime.now();
+
     userChallengesProvider.create(challengeCopy);
 
     // ignore: use_build_context_synchronously
@@ -193,7 +197,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   void onTapSave() async {
     // TODO: maybe just copyChallenge()
-    widget.challenge.thumbnailPath = editChallenge.thumbnailPath;
+    widget.challenge.thumbnail = editChallenge.thumbnail;
     widget.challenge.title = editChallenge.title;
     widget.challenge.description = editChallenge.description;
     widget.challenge.acceptanceCriteria = editChallenge.acceptanceCriteria;

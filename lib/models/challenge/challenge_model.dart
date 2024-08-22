@@ -6,6 +6,7 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
@@ -17,7 +18,7 @@ class ChallengeModel {
   ChallengeStatusEnum status;
   String title;
   String description;
-  String thumbnailPath;
+  ThumbnailModel thumbnail;
   DateTime? startDate;
   DateTime? endDate;
   late AcceptanceCriteriaModel acceptanceCriteria;
@@ -32,7 +33,7 @@ class ChallengeModel {
     required this.status,
     required this.title,
     required this.description,
-    required this.thumbnailPath,
+    required this.thumbnail,
     this.startDate,
     this.endDate,
     required this.acceptanceCriteria,
@@ -48,12 +49,13 @@ class ChallengeModel {
     this.status = ChallengeStatusEnum.backlog,
     this.title = '',
     this.description = '',
-    this.thumbnailPath = '',
     this.repetitions = const [],
     this.media = const [],
     this.categories = const [],
     DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now() {
+    ThumbnailModel? thumbnail,
+  })  : createdAt = createdAt ?? DateTime.now(),
+        thumbnail = thumbnail ?? ThumbnailModel(url: '', scale: 1) {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();
     frequency = FrequencyModel.empty();
@@ -68,7 +70,7 @@ class ChallengeModel {
         status: ChallengeStatusEnum.fromString(doc['status']),
         title: doc['title'],
         description: doc['description'],
-        thumbnailPath: doc['thumbnailPath'],
+        thumbnail: ThumbnailModel.fromDoc(doc['thumbnail']),
         startDate: doc['startDate'] == null
             ? null
             : (doc['startDate'] as Timestamp).toDate(),
@@ -95,7 +97,7 @@ class ChallengeModel {
       'status': status.status,
       'title': title,
       'description': description,
-      'thumbnailPath': thumbnailPath,
+      'thumbnail': thumbnail.toDoc(),
       'startDate': startDate,
       'endDate': endDate,
       'acceptanceCriteria': acceptanceCriteria.toDoc(),
@@ -116,7 +118,7 @@ class ChallengeModel {
         startDate: isTryAgain ? null : startDate,
         endDate: isTryAgain ? null : endDate,
         description: description,
-        thumbnailPath: thumbnailPath,
+        thumbnail: thumbnail.copy(),
         acceptanceCriteria: acceptanceCriteria.copy(),
         frequency: frequency.copy(),
         repetitions:
@@ -159,14 +161,14 @@ class ChallengeModel {
   }
 
   String getThumbnailPath() {
-    if (thumbnailPath.isEmpty && media.isNotEmpty) {
+    if (thumbnail.url.isEmpty && media.isNotEmpty) {
       return media.last.source;
     }
-    return thumbnailPath;
+    return thumbnail.url;
   }
 
-  bool isThumbnailFromAssetsImage() {
-    return thumbnailPath.startsWith('assets/images/');
+  bool isThumbnailLocal() {
+    return !thumbnail.url.startsWith('https://');
   }
 
   setEndDate() {
@@ -201,7 +203,7 @@ class ChallengeModel {
   }
 
   hasThumbnail() {
-    return thumbnailPath != '';
+    return thumbnail.url != '';
   }
 
   RepetitionModel? getLastRepetition() {
