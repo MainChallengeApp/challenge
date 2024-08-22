@@ -38,6 +38,17 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   late int currentChallengeIndex = widget.initChallengeIndex;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    for (var challenge in widget.challenges) {
+      if (challenge.isThumbnailLocal()) {
+        continue;
+      }
+      precacheImage(NetworkImage(challenge.getThumbnailPath()), context);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
