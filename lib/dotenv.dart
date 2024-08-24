@@ -16,7 +16,11 @@ class Dotenv {
     await dotenv.load(fileName: '.env');
     return Dotenv._create(
         environment: dotenv.env['ENVIRONMENT']!,
-        migrationUserEmail: dotenv.env['MIGRATION_USER_EMAIL']!,
-        migrationUserPassword: dotenv.env['MIGRATION_USER_PASSWORD']!);
+        migrationUserEmail: dotenv.env['MIGRATION_USER_EMAIL'] ??
+            const String.fromEnvironment('MIGRATION_USER_EMAIL',
+                defaultValue: ''),
+        migrationUserPassword: dotenv.env['MIGRATION_USER_PASSWORD'] ??
+            const String.fromEnvironment('MIGRATION_USER_PASSWORD',
+                defaultValue: ''));
   }
 }
