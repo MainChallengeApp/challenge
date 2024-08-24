@@ -1,3 +1,4 @@
+import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
@@ -9,6 +10,7 @@ import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -23,7 +25,8 @@ void main() {
         status: status,
         title: 'Challenge Title',
         description: 'Challenge Description',
-        thumbnail: 'assets/images/test.png',
+        thumbnail: ThumbnailModel(
+            url: 'assets/images/test.png', scale: 0.8, fit: BoxFitEnum.cover),
         acceptanceCriteria: acceptanceCriteria ??
             AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
         frequency: FrequencyModel(type: FrequencyTypeEnum.time, amount: 1),
@@ -186,7 +189,11 @@ void main() {
           'status': 'inProgress',
           'title': 'Challenge Title',
           'description': 'Challenge Description',
-          'thumbnailPath': 'assets/images/test.png',
+          'thumbnail': {
+            'url': 'assets/images/test.png',
+            'scale': 0.8,
+            'fit': 'cover'
+          },
           'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
           'frequency': {'type': 'time', 'amount': 1},
           'repetitions': [],
@@ -218,7 +225,7 @@ void main() {
         expect(copiedChallenge.status, equals(challenge.status));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnail, equals(challenge.thumbnail));
+        expect(copiedChallenge.thumbnail.url, equals(challenge.thumbnail.url));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -246,7 +253,7 @@ void main() {
         expect(copiedChallenge.status, equals(challenge.status));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnail, equals(challenge.thumbnail));
+        expect(copiedChallenge.thumbnail.url, equals(challenge.thumbnail.url));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -275,7 +282,7 @@ void main() {
         expect(copiedChallenge.status, equals(ChallengeStatusEnum.backlog));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnail, equals(challenge.thumbnail));
+        expect(copiedChallenge.thumbnail.url, equals(challenge.thumbnail.url));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -415,19 +422,18 @@ void main() {
       test('should return thumbnailPath when it is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = 'thumbnailPath';
 
         // Act
         String thumbnailPath = challenge.getThumbnailPath();
 
         // Assert
-        expect(thumbnailPath, equals(challenge.thumbnail));
+        expect(thumbnailPath, equals(challenge.thumbnail.url));
       });
 
       test('should return last media source when thumbnailPath is empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = '';
+        challenge.thumbnail.url = '';
         String mediaSource = 'media/source';
         challenge.media.add(MediaModel(
             source: mediaSource, type: MediaTypeEnum.image, title: 'title'));
@@ -443,7 +449,7 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = '';
+        challenge.thumbnail.url = '';
 
         // Act
         String thumbnailPath = challenge.getThumbnailPath();
@@ -458,7 +464,7 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = 'assets/images/test.png';
+        challenge.thumbnail.url = 'assets/images/test.png';
 
         // Act
         bool isThumbnailFromAssetsImage = challenge.isThumbnailLocal();
@@ -472,7 +478,7 @@ void main() {
           () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = 'not/assets/images/test.png';
+        challenge.thumbnail.url = 'https://assets/images/test.png';
 
         // Act
         bool isThumbnailFromAssetsImage = challenge.isThumbnailLocal();
@@ -592,7 +598,7 @@ void main() {
       test('should return true when thumbnailPath is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = 'thumbnailPath';
+        challenge.thumbnail.url = 'thumbnailPath';
 
         // Act
         bool hasThumbnail = challenge.hasThumbnail();
@@ -604,7 +610,7 @@ void main() {
       test('should return false when thumbnailPath is empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail = '';
+        challenge.thumbnail.url = '';
 
         // Act
         bool hasThumbnail = challenge.hasThumbnail();
