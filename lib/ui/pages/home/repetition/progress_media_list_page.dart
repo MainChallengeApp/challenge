@@ -335,6 +335,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       userChallengesProvider.update(widget.userChallenge);
 
       for (int i = 0; i < widget.amountOfPops; i++) {
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
       }
     } else {
