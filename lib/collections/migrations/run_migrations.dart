@@ -3,43 +3,41 @@ import 'dart:io';
 
 import 'package:challenge/collections/migration_collection.dart';
 import 'package:challenge/collections/migrations/migration.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v1_test_migration.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v2_test_2_migration.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v3_change_end_date_type_migration.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v4_change_search_challenge_date_types_migration.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v5_remove_start_data_from_search_challenges.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v6_test_ci_cd_migration.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v7_upload_search_challenges_thumbnails.dart';
-import 'package:challenge/collections/migrations/v1.4.2/v8_change_to_thumbnail_model.dart';
+import 'package:challenge/collections/migrations/v1.4.7/v1_use_thumbnail_model.dart';
+import 'package:challenge/dotenv.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/backend_service.dart';
 
-List<Migration> migrationScripts = [
-  TestMigration(),
-  Test2Migration(),
-  ChangeEndDateTypeMigration(),
-  ChangeSearchChallengeDateTypesMigration(),
-  RemoveStartDataFromSearchChallenges(),
-  TestCiCdMigration(),
-  V7UploadSearchChallengesThumbnailsMigration(),
-  V8ChangeToThumbnailModelMigration()
-];
+List<Migration> migrationScripts = [V1UseThumbnailModel()];
+
+MigrationCollection migrationCollection = MigrationCollection();
 
 Future<void> main() async {
   log('[${DateTime.now()}]: start database migration...');
 
   await BackendService.initializeBackend();
 
-  // // TODO: create migration users for dev, test and prod
-  // // and add there credentials to .env and code magic security env vars
-  // // and add .env to .gitignore
-  // // and adjust uid in firebase security rules
-  // var authService = AuthService();
-  // await authService.loginEmailPassword(
-  //     'migration@user.db', 'migration@user.db');
+  Dotenv dotenv = await Dotenv.create();
+  var authService = AuthService();
+  await authService.loginEmailPassword(
+      dotenv.migrationUserEmail, dotenv.migrationUserPassword);
 
-  MigrationCollection migrationDatabase = MigrationCollection();
+  await filterMigrationsToRun();
+
+  for (var migrationScript in migrationScripts) {
+    log('[${DateTime.now()}]: running migration script ${migrationScript.migrationNumber}: ${migrationScript.description}');
+    await migrationScript.run();
+    migrationScript.createdAt = DateTime.now();
+    await migrationCollection.create(migrationScript);
+  }
+
+  log('[${DateTime.now()}] end database migration');
+  exit(0);
+}
+
+filterMigrationsToRun() async {
   int newestMigrationNumber =
-      await migrationDatabase.getNewestMigrationNumber();
+      await migrationCollection.getNewestMigrationNumber();
 
   log('[${DateTime.now()}]: newestMigrationNumber is $newestMigrationNumber');
   migrationScripts
@@ -51,14 +49,4 @@ Future<void> main() async {
     log('[${DateTime.now()}]: no migration scripts to run.');
     exit(0);
   }
-
-  for (var migration in migrationScripts) {
-    log('[${DateTime.now()}]: running migration script ${migration.migrationNumber}: ${migration.description}');
-    await migration.run();
-    migration.createdAt = DateTime.now();
-    await migrationDatabase.create(migration);
-  }
-
-  log('[${DateTime.now()}] end database migration');
-  exit(0);
 }

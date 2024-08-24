@@ -1,13 +1,22 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Dotenv {
-  late String environment;
+  String environment;
 
-  Dotenv._create(this.environment);
+  String migrationUserEmail;
+
+  String migrationUserPassword;
+
+  Dotenv._create(
+      {required this.environment,
+      required this.migrationUserEmail,
+      required this.migrationUserPassword});
 
   static Future<Dotenv> create() async {
     await dotenv.load(fileName: '.env');
-    String environment = dotenv.env['ENVIRONMENT']!;
-    return Dotenv._create(environment);
+    return Dotenv._create(
+        environment: dotenv.env['ENVIRONMENT']!,
+        migrationUserEmail: dotenv.env['MIGRATION_USER_EMAIL']!,
+        migrationUserPassword: dotenv.env['MIGRATION_USER_PASSWORD']!);
   }
 }
