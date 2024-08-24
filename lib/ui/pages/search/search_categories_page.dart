@@ -40,8 +40,8 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     searchChallengesProvider.getAll().then((searchChallenges) {
       for (var searchChallenge in searchChallenges) {
         precacheImage(
-            // ignore: use_build_context_synchronously
             NetworkImage(searchChallenge.getThumbnailPath()),
+            // ignore: use_build_context_synchronously
             context);
       }
     });
