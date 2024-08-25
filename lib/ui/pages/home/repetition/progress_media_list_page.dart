@@ -326,7 +326,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       List<MediaModel> filteredMediaList = mediaList
           .where((media) =>
               widget.initialMediaList == null ||
-              !widget.initialMediaList!.contains(media))
+              !widget.initialMediaList!
+                  .map((media) => media.id)
+                  .contains(media.id))
           .toList();
 
       await mediaService.uploadMediaList(
