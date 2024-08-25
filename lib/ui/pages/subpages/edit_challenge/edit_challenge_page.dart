@@ -50,10 +50,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 
-  late ChallengeModel editChallenge =
-      widget.challenge.copyChallenge(isTryAgain: widget.isTryAgain);
+  late ChallengeModel editChallenge = widget.challenge
+      .copyChallenge(isTryAgain: widget.isTryAgain, withId: true);
 
   final mediaService = MediaService();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +106,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     onTap: onTapAccept,
                     text: 'Accept',
                     isPrimaryButton: true,
+                    isLoading: isLoading,
                   ),
                 )
               : Expanded(
@@ -111,6 +114,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     onTap: onTapSave,
                     text: 'Save',
                     isPrimaryButton: true,
+                    isLoading: isLoading,
                   ),
                 ),
         ],
@@ -173,10 +177,17 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void onTapAccept() async {
+    setState(() {
+      isLoading = true;
+    });
     ChallengeModel challengeCopy = editChallenge.copyChallenge();
     challengeCopy.createdAt = DateTime.now();
 
-    userChallengesProvider.create(challengeCopy);
+    await userChallengesProvider.create(challengeCopy);
+
+    setState(() {
+      isLoading = false;
+    });
 
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.Home);
@@ -187,28 +198,28 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
     homeNavigator.push(
       NoAnimationPageRouteComponent(
-        builder: (context) => const HomeChallengePage(
+        builder: (context) => HomeChallengePage(
           preTitle: 'Home',
-          initialUserChallengeId: '',
+          initialUserChallengeId: challengeCopy.id,
         ),
       ),
     );
   }
 
   void onTapSave() async {
-    // TODO: maybe just copyChallenge()
-    widget.challenge.thumbnail = editChallenge.thumbnail;
-    widget.challenge.title = editChallenge.title;
-    widget.challenge.description = editChallenge.description;
-    widget.challenge.acceptanceCriteria = editChallenge.acceptanceCriteria;
-    widget.challenge.frequency = editChallenge.frequency;
-    widget.challenge.startDate = editChallenge.startDate;
-    widget.challenge.endDate = editChallenge.endDate;
-    widget.challenge.categories = editChallenge.categories;
+    setState(() {
+      isLoading = true;
+    });
+    UserChallengeModel userChallengeCopy =
+        editChallenge.copyChallenge(withId: true) as UserChallengeModel;
 
-    widget.challenge.setGoals(editChallenge.acceptanceCriteria.amount);
+    userChallengeCopy.setGoals(editChallenge.acceptanceCriteria.amount);
 
-    userChallengesProvider.update(widget.challenge as UserChallengeModel);
+    await userChallengesProvider.update(userChallengeCopy);
+    setState(() {
+      isLoading = false;
+    });
+    // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 

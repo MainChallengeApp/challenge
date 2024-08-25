@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 
 class LoadingCircleComponent extends StatelessWidget {
-  const LoadingCircleComponent({super.key});
+  final Color? color;
+
+  const LoadingCircleComponent({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
-    return const CupertinoActivityIndicator();
+    return CupertinoActivityIndicator(
+      color: color,
+    );
   }
 }

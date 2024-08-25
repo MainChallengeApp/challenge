@@ -24,7 +24,7 @@ class UserChallengesProvider with ChangeNotifier {
     _userChallenges.insert(0, userChallenge);
     sortLocalList();
     try {
-      return createOnline(userChallenge);
+      return await createOnline(userChallenge);
     } on Exception {
       rethrow;
     }
@@ -74,6 +74,17 @@ class UserChallengesProvider with ChangeNotifier {
       if (userChallenge.isThumbnailLocal()) {
         userChallenge.thumbnail.url =
             await mediaService.uploadLocalThumbnail(userChallenge);
+      }
+
+      for (var media in userChallenge.media) {
+        if (media.isLocal()) {
+          mediaService.uploadLocalMedia(media, userChallenge).then((newMedia) {
+            if (newMedia != null) {
+              media.source = newMedia.source;
+              update(userChallenge);
+            }
+          });
+        }
       }
 
       int index = _userChallenges.indexWhere((uc) => uc.id == userChallenge.id);

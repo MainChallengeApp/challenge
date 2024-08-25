@@ -1,5 +1,6 @@
-import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/globals.dart';
+import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 
 class CustomButtonComponent extends StatelessWidget {
@@ -9,6 +10,7 @@ class CustomButtonComponent extends StatelessWidget {
   final String? subText;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
+  final bool isLoading;
 
   const CustomButtonComponent(
       {super.key,
@@ -17,7 +19,8 @@ class CustomButtonComponent extends StatelessWidget {
       required this.text,
       this.subText,
       this.padding,
-      this.margin});
+      this.margin,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +33,16 @@ class CustomButtonComponent extends StatelessWidget {
       child: Stack(
         children: [
           Center(
-            child: Text(
-              text,
-              style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: isPrimaryButton ? Colors.white : Colors.black),
-            ),
+            child: isLoading
+                ? LoadingCircleComponent(
+                    color: isPrimaryButton ? Colors.white : null,
+                  )
+                : Text(
+                    text,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: isPrimaryButton ? Colors.white : Colors.black),
+                  ),
           ),
           subText != null
               ? Align(

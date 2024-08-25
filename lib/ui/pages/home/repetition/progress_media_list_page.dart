@@ -331,8 +331,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   .contains(media.id))
           .toList();
 
-      await mediaService.uploadMediaList(
-          filteredMediaList, widget.userChallenge);
+      widget.userChallenge.media.addAll(filteredMediaList);
 
       userChallengesProvider.update(widget.userChallenge);
 

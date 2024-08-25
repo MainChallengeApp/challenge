@@ -57,4 +57,12 @@ class UserChallengeModel extends ChallengeModel {
       rethrow;
     }
   }
+
+  @override
+  UserChallengeModel copyChallenge(
+      {bool isTryAgain = false, bool withId = false}) {
+    return UserChallengeModel.fromChallengeModel(
+        challenge: super.copyChallenge(isTryAgain: isTryAgain, withId: withId),
+        userId: userId);
+  }
 }

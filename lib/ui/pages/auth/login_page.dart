@@ -5,7 +5,6 @@ import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
-import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -37,12 +36,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBarComponent(
+      appBar: const AppBarComponent(
         preTitle: 'Login',
         isFirstPageInRoute: true,
-        leadingIcon: isLoading
-            ? const LoadingCircleComponent()
-            : const LeadingAppIconComponent(),
+        leadingIcon: LeadingAppIconComponent(),
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -70,6 +67,7 @@ class _LoginPageState extends State<LoginPage> {
       onTap: onTapLogin,
       isMainButton: isMainButton(),
       text: 'Login',
+      isLoading: isLoading,
     );
   }
 
