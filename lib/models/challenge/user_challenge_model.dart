@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserChallengeModel extends ChallengeModel {
   String userId;
+  static const String userIdField = 'userId';
 
   UserChallengeModel({
     required super.id,
@@ -43,7 +44,7 @@ class UserChallengeModel extends ChallengeModel {
   Map<String, dynamic> toDoc() {
     return {
       ...super.toDoc(),
-      'userId': userId,
+      userIdField: userId,
     };
   }
 
@@ -51,7 +52,7 @@ class UserChallengeModel extends ChallengeModel {
     try {
       ChallengeModel challenge = ChallengeModel.fromDoc(doc);
       return UserChallengeModel.fromChallengeModel(
-          challenge: challenge, userId: doc['userId']);
+          challenge: challenge, userId: doc[userIdField]);
     } on Exception {
       rethrow;
     }

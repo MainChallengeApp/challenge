@@ -3,11 +3,22 @@ import 'package:challenge/models/challenge/progress_model.dart';
 
 class RepetitionModel {
   final int repetitionNumber;
+  static const String repetitionNumberField = 'repetitionNumber';
+
   double goalAmount;
+  static const String goalAmountField = 'goalAmount';
+
   late final List<ProgressModel> progressList;
+  static const String progressListField = 'progressList';
+
   DateTime? startDate;
+  static const String startDateField = 'startDate';
+
   DateTime? endDate;
+  static const String endDateField = 'endDate';
+
   RepetitionStatusEnum repetitionStatus;
+  static const String repetitionStatusField = 'repetitionStatus';
 
   RepetitionModel(
       {required this.repetitionNumber,
@@ -112,34 +123,34 @@ class RepetitionModel {
 
   toDoc() {
     return {
-      'repetitionNumber': repetitionNumber,
-      'goalAmount': goalAmount,
-      'progressList': ProgressModel.toDocs(progressList),
-      'startDate': startDate.toString(),
-      'endDate': endDate.toString(),
-      'repetitionStatus': repetitionStatus.status
+      repetitionNumberField: repetitionNumber,
+      goalAmountField: goalAmount,
+      progressListField: ProgressModel.toDocs(progressList),
+      startDateField: startDate.toString(),
+      endDateField: endDate.toString(),
+      repetitionStatusField: repetitionStatus.status
     };
   }
 
   static fromDocs(docs) {
     List<RepetitionModel> list = [];
     docs?.forEach((doc) => list.add(RepetitionModel(
-        repetitionNumber: doc['repetitionNumber'],
-        goalAmount: (doc['goalAmount'] as num)
+        repetitionNumber: doc[repetitionNumberField],
+        goalAmount: (doc[goalAmountField] as num)
             .toDouble(), // ?? 0 can be removed when no more home challenges saved without goalAmount
-        progressList: ProgressModel.fromDocs(doc['progressList']),
-        startDate: doc['startDate'] == null ||
-                doc['startDate'] == 'null' ||
-                doc['startDate'] == ''
+        progressList: ProgressModel.fromDocs(doc[progressListField]),
+        startDate: doc[startDateField] == null ||
+                doc[startDateField] == 'null' ||
+                doc[startDateField] == ''
             ? null
-            : DateTime.parse(doc['startDate']),
-        endDate: doc['endDate'] == null ||
-                doc['endDate'] == 'null' ||
-                doc['endDate'] == ''
+            : DateTime.parse(doc[startDateField]),
+        endDate: doc[endDateField] == null ||
+                doc[endDateField] == 'null' ||
+                doc[endDateField] == ''
             ? null
-            : DateTime.parse(doc['endDate']),
+            : DateTime.parse(doc[endDateField]),
         repetitionStatus:
-            RepetitionStatusEnum.fromString(doc['repetitionStatus']))));
+            RepetitionStatusEnum.fromString(doc[repetitionStatusField]))));
     return list;
   }
 

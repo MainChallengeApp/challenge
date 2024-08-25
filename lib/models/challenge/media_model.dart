@@ -3,9 +3,16 @@ import 'package:uuid/uuid.dart';
 
 class MediaModel {
   String? id;
+  static const String idField = 'id';
+
   MediaTypeEnum type;
+  static const String typeField = 'type';
+
   String title;
+  static const String titleField = 'title';
+
   String source;
+  static const String sourceField = 'source';
 
   MediaModel(
       {this.id,
@@ -20,15 +27,20 @@ class MediaModel {
   static fromDocs(docs) {
     List<MediaModel> list = [];
     docs?.forEach((e) => list.add(MediaModel(
-        type: MediaTypeEnum.fromString(e['type']),
-        title: e['title'],
-        source: e['source'],
-        id: e['id'])));
+        type: MediaTypeEnum.fromString(e[typeField]),
+        title: e[titleField],
+        source: e[sourceField],
+        id: e[idField])));
     return list;
   }
 
   toDoc() {
-    return {'id': id, 'type': type.type, 'title': title, 'source': source};
+    return {
+      idField: id,
+      typeField: type.type,
+      titleField: title,
+      sourceField: source
+    };
   }
 
   static copyMediaIdList(List<String> mediaIdList) {

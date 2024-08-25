@@ -1,14 +1,14 @@
 import 'package:challenge/enums/box_fit_enum.dart';
 
 class ThumbnailModel {
-  static String urlField = 'url';
   String url;
+  static const String urlField = 'url';
 
-  static String scaleField = 'scale';
   double scale;
+  static const String scaleField = 'scale';
 
-  static String fitField = 'fit';
   BoxFitEnum fit;
+  static const String fitField = 'fit';
 
   ThumbnailModel(
       {this.url = '', this.scale = 1.0, this.fit = BoxFitEnum.cover});

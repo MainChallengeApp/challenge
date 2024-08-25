@@ -1,6 +1,9 @@
 class AcceptanceCriteriaModel {
   double amount;
+  static const String amountField = 'amount';
+
   String unit;
+  static const String unitField = 'unit';
 
   AcceptanceCriteriaModel({required this.amount, required this.unit});
 
@@ -8,7 +11,8 @@ class AcceptanceCriteriaModel {
 
   static AcceptanceCriteriaModel fromDoc(doc) {
     try {
-      return AcceptanceCriteriaModel(amount: doc['amount'], unit: doc['unit']);
+      return AcceptanceCriteriaModel(
+          amount: doc[amountField], unit: doc[unitField]);
     } on Exception {
       rethrow;
     }
@@ -16,8 +20,8 @@ class AcceptanceCriteriaModel {
 
   toDoc() {
     return {
-      'amount': amount,
-      'unit': unit,
+      amountField: amount,
+      unitField: unit,
     };
   }
 

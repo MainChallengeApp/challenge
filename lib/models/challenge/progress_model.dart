@@ -2,10 +2,19 @@ import 'package:challenge/models/challenge/media_model.dart';
 
 class ProgressModel {
   late DateTime date;
+  static const String dateField = 'date';
+
   int repetitionNumber;
+  static const String repetitionNumberField = 'repetitionNumber';
+
   double progress;
+  static const String progressField = 'progress';
+
   double goal;
+  static const String goalField = 'goal';
+
   List<String> mediaIds;
+  static const String mediaIdsField = 'mediaIds';
 
   ProgressModel(
       {required this.progress,
@@ -34,22 +43,22 @@ class ProgressModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      'date': date.toString(),
-      'progress': progress,
-      'mediaIds': mediaIds,
-      'repetitionNumber': repetitionNumber,
-      'goal': goal
+      dateField: date.toString(),
+      progressField: progress,
+      mediaIdsField: mediaIds,
+      repetitionNumberField: repetitionNumber,
+      goalField: goal
     };
   }
 
   static fromDocs(docs) {
     List<ProgressModel> progressList = [];
     docs.forEach((doc) => progressList.add(ProgressModel(
-        progress: doc['progress'],
-        mediaIds: List.from(doc['mediaIds']),
-        date: DateTime.parse(doc['date']),
-        repetitionNumber: doc['repetitionNumber'],
-        goal: doc['goal'])));
+        progress: doc[progressField],
+        mediaIds: List.from(doc[mediaIdsField]),
+        date: DateTime.parse(doc[dateField]),
+        repetitionNumber: doc[repetitionNumberField],
+        goal: doc[goalField])));
     return progressList;
   }
 

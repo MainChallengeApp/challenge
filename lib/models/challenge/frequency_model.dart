@@ -2,7 +2,6 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/exceptions/frequency_type_is_not_supported_exception.dart';
 
 class FrequencyModel {
-  // static field names for better document handling
   int? amount;
   static const String amountField = 'amount';
 

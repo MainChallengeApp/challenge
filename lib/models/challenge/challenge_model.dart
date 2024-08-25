@@ -15,18 +15,43 @@ import 'media_model.dart';
 
 class ChallengeModel {
   String id;
+  static const String idField = 'id';
+
   ChallengeStatusEnum status;
+  static const String statusField = 'status';
+
   String title;
+  static const String titleField = 'title';
+
   String description;
+  static const String descriptionField = 'description';
+
   ThumbnailModel thumbnail;
+  static const String thumbnailField = 'thumbnail';
+
   DateTime? startDate;
+  static const String startDateField = 'startDate';
+
   DateTime? endDate;
+  static const String endDateField = 'endDate';
+
   late AcceptanceCriteriaModel acceptanceCriteria;
+  static const String acceptanceCriteriaField = 'acceptanceCriteria';
+
   late FrequencyModel frequency;
+  static const String frequencyField = 'frequency';
+
   List<RepetitionModel> repetitions;
+  static const String repetitionsField = 'repetitions';
+
   List<MediaModel> media;
+  static const String mediaField = 'media';
+
   List<ChallengeCategoryEnum> categories;
+  static const String categoriesField = 'categories';
+
   DateTime createdAt;
+  static const String createdAtField = 'createdAt';
 
   ChallengeModel({
     required this.id,
@@ -67,23 +92,23 @@ class ChallengeModel {
     try {
       ChallengeModel challenge = ChallengeModel(
         id: doc.id,
-        status: ChallengeStatusEnum.fromString(doc['status']),
-        title: doc['title'],
-        description: doc['description'],
-        thumbnail: ThumbnailModel.fromDoc(doc['thumbnail']),
-        startDate: doc['startDate'] == null
+        status: ChallengeStatusEnum.fromString(doc[statusField]),
+        title: doc[titleField],
+        description: doc[descriptionField],
+        thumbnail: ThumbnailModel.fromDoc(doc[thumbnailField]),
+        startDate: doc[startDateField] == null
             ? null
-            : (doc['startDate'] as Timestamp).toDate(),
-        endDate: doc['endDate'] == null
+            : (doc[startDateField] as Timestamp).toDate(),
+        endDate: doc[endDateField] == null
             ? null
-            : (doc['endDate'] as Timestamp).toDate(),
+            : (doc[endDateField] as Timestamp).toDate(),
         acceptanceCriteria:
-            AcceptanceCriteriaModel.fromDoc(doc['acceptanceCriteria']),
-        frequency: FrequencyModel.fromDoc(doc['frequency']),
-        repetitions: RepetitionModel.fromDocs(doc['repetitions']),
-        media: MediaModel.fromDocs(doc['media']),
-        categories: ChallengeCategoryEnum.fromDocs(doc['categories']),
-        createdAt: (doc['createdAt'] as Timestamp).toDate(),
+            AcceptanceCriteriaModel.fromDoc(doc[acceptanceCriteriaField]),
+        frequency: FrequencyModel.fromDoc(doc[frequencyField]),
+        repetitions: RepetitionModel.fromDocs(doc[repetitionsField]),
+        media: MediaModel.fromDocs(doc[mediaField]),
+        categories: ChallengeCategoryEnum.fromDocs(doc[categoriesField]),
+        createdAt: (doc[createdAtField] as Timestamp).toDate(),
       );
 
       return challenge;
@@ -94,19 +119,19 @@ class ChallengeModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      'status': status.status,
-      'title': title,
-      'description': description,
-      'thumbnail': thumbnail.toDoc(),
-      'startDate': startDate,
-      'endDate': endDate,
-      'acceptanceCriteria': acceptanceCriteria.toDoc(),
-      'frequency': frequency.toDoc(),
-      'repetitions':
+      statusField: status.status,
+      titleField: title,
+      descriptionField: description,
+      thumbnailField: thumbnail.toDoc(),
+      startDateField: startDate,
+      endDateField: endDate,
+      acceptanceCriteriaField: acceptanceCriteria.toDoc(),
+      frequencyField: frequency.toDoc(),
+      repetitionsField:
           repetitions.map((repetition) => repetition.toDoc()).toList(),
-      'media': media.map((media) => media.toDoc()).toList(),
-      'categories': categories.map((category) => category.category).toList(),
-      'createdAt': createdAt
+      mediaField: media.map((media) => media.toDoc()).toList(),
+      categoriesField: categories.map((category) => category.category).toList(),
+      createdAtField: createdAt
     };
   }
 
