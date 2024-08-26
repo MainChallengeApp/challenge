@@ -113,7 +113,7 @@ class _ListItemContainerComponentState
     );
   }
 
-  closeSlidable() {
-    Slidable.of(context2)?.close();
+  closeSlidable() async {
+    await Slidable.of(context2)?.close();
   }
 }

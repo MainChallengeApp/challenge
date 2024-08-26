@@ -70,8 +70,8 @@ class ListItemMediaSmallComponent extends StatelessWidget {
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              closeSlidable();
+            onTap: () async {
+              await closeSlidable();
               onTapDeleteMedia?.call();
             },
             child: Container(

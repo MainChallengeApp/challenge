@@ -125,8 +125,8 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       children: [
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              closeSlidable();
+            onTap: () async {
+              await closeSlidable();
               widget.onTapDeleteProgress?.call();
             },
             child: Container(

@@ -141,8 +141,8 @@ class _ListItemChallengeSmallComponentState
       child: TapContainerComponent(
         height: double.infinity,
         borderRadius: 24,
-        onTap: () {
-          closeSlidable();
+        onTap: () async {
+          await closeSlidable();
           widget.onTapDeleteChallenge?.call();
         },
         child: Center(
