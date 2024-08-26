@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
@@ -36,20 +34,10 @@ class _HomeListPageState extends State<HomeListPage> {
 
   String searchBarText = '';
 
-  Timer? timer;
-
   @override
   void initState() {
     super.initState();
     userChallengesProvider.getAllOfUser();
-    timer = Timer.periodic(
-        const Duration(seconds: 1), (Timer t) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
   }
 
   @override

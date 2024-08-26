@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
@@ -61,8 +60,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           (userChallenge) => userChallenge.id == widget.initialUserChallengeId),
       0);
 
-  Timer? setStateTimer;
-
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 
@@ -70,19 +67,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       Provider.of<UserChallengesProvider>(context, listen: true);
 
   List<UserChallengeModel> filteredUserChallenges = [];
-
-  @override
-  void initState() {
-    super.initState();
-    setStateTimer = Timer.periodic(
-        const Duration(seconds: 1), (Timer t) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    setStateTimer?.cancel(); // Step 4: Cancel the timer
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
