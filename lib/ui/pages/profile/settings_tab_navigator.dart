@@ -1,7 +1,7 @@
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/navigation/tab_navigator_component.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/ui/pages/settings/settings_list_page.dart';
+import 'package:challenge/ui/pages/profile/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
@@ -32,7 +32,7 @@ class SettingsTabNavigator extends TabNavigatorComponent {
   Map<String, WidgetBuilder> routeBuilders(BuildContext context,
       {int challengeId = 0, ChallengeModel? challenge}) {
     return {
-      SettingsTabNavigatorRoutes.root: (context) => SettingsListPage(
+      SettingsTabNavigatorRoutes.root: (context) => ProfilePage(
             title: tabItem.name,
             onPush: (c) => push(context, challenge: c),
           ),

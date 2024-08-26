@@ -3,8 +3,8 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
+import 'package:challenge/ui/pages/profile/settings_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
-import 'package:challenge/ui/pages/settings/settings_tab_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,9 +25,9 @@ class AppState extends State<App> {
 
     userChallengesProvider.getAllOfUser().then((value) {
       if (value.isEmpty) {
-        context.read<TabProvider>().selectTab(TabItemEnum.Search);
+        context.read<TabProvider>().selectTab(TabItemEnum.search);
       } else {
-        context.read<TabProvider>().selectTab(TabItemEnum.Home);
+        context.read<TabProvider>().selectTab(TabItemEnum.home);
       }
     });
   }
@@ -39,9 +39,9 @@ class AppState extends State<App> {
         resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
-            _buildOffstageNavigator(TabItemEnum.Search),
-            _buildOffstageNavigator(TabItemEnum.Home),
-            _buildOffstageNavigator(TabItemEnum.Settings),
+            _buildOffstageNavigator(TabItemEnum.search),
+            _buildOffstageNavigator(TabItemEnum.home),
+            _buildOffstageNavigator(TabItemEnum.profile),
           ],
         ),
         backgroundColor: Colors.white,
@@ -52,7 +52,7 @@ class AppState extends State<App> {
   Widget _buildOffstageNavigator(TabItemEnum tabItem) {
     final currentTab = context.watch<TabProvider>().currentTab;
     switch (tabItem) {
-      case TabItemEnum.Search:
+      case TabItemEnum.search:
         return Offstage(
           offstage: currentTab != tabItem,
           child: SearchTabNavigator(
@@ -60,7 +60,7 @@ class AppState extends State<App> {
             tabItem: tabItem,
           ),
         );
-      case TabItemEnum.Home:
+      case TabItemEnum.home:
         return Offstage(
           offstage: currentTab != tabItem,
           child: HomeTabNavigator(
@@ -68,7 +68,7 @@ class AppState extends State<App> {
             tabItem: tabItem,
           ),
         );
-      case TabItemEnum.Settings:
+      case TabItemEnum.profile:
         return Offstage(
           offstage: currentTab != tabItem,
           child: SettingsTabNavigator(

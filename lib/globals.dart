@@ -13,7 +13,7 @@ Color red = Colors.red.withAlpha(100);
 const double basicFontSize = 13;
 
 final navigatorKeys = {
-  TabItemEnum.Search: GlobalKey<NavigatorState>(),
-  TabItemEnum.Home: GlobalKey<NavigatorState>(),
-  TabItemEnum.Settings: GlobalKey<NavigatorState>(),
+  TabItemEnum.search: GlobalKey<NavigatorState>(),
+  TabItemEnum.home: GlobalKey<NavigatorState>(),
+  TabItemEnum.profile: GlobalKey<NavigatorState>(),
 };

@@ -51,6 +51,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.title, isFirstPageInRoute: true),
+      backgroundColor: Colors.white,
       body: Container(
         color: Colors.white,
         child: _buildList(),

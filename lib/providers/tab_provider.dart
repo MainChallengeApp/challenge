@@ -3,7 +3,7 @@ import 'package:challenge/globals.dart';
 import 'package:flutter/material.dart';
 
 class TabProvider with ChangeNotifier {
-  TabItemEnum _currentTab = TabItemEnum.Search;
+  TabItemEnum _currentTab = TabItemEnum.search;
 
   TabItemEnum get currentTab => _currentTab;
 

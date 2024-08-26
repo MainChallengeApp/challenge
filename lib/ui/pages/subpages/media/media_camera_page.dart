@@ -77,6 +77,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle, titleText: 'Camera'),
+      backgroundColor: Colors.white,
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationComponent extends StatefulWidget {
+  static const double standardMargin = 24;
+
   const BottomNavigationComponent({super.key});
 
   @override
@@ -72,8 +74,9 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
 
   NavigationDestination settings() {
     return NavigationDestination(
-      selectedIcon: Icon(TabItemEnum.Settings.icon, color: Colors.white),
-      icon: Icon(TabItemEnum.Settings.icon, color: Colors.white),
+      selectedIcon:
+          Icon(TabItemEnum.profile.icon, color: Colors.white, size: 29),
+      icon: Icon(TabItemEnum.profile.icon, color: Colors.white, size: 29),
       label: '',
     );
   }
@@ -95,23 +98,23 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
   NavigationDestination search() {
     return NavigationDestination(
       selectedIcon: Text(
-        String.fromCharCode(TabItemEnum.Search.icon!.codePoint),
+        String.fromCharCode(TabItemEnum.search.icon!.codePoint),
         style: TextStyle(
           color: Colors.white,
           inherit: false,
           fontSize: 26,
           fontWeight: FontWeight.w600,
-          fontFamily: TabItemEnum.Search.icon!.fontFamily,
+          fontFamily: TabItemEnum.search.icon!.fontFamily,
         ),
       ),
       icon: Text(
-        String.fromCharCode(TabItemEnum.Search.icon!.codePoint),
+        String.fromCharCode(TabItemEnum.search.icon!.codePoint),
         style: TextStyle(
           color: Colors.white,
           inherit: false,
           fontSize: 26,
           fontWeight: FontWeight.w600,
-          fontFamily: TabItemEnum.Search.icon!.fontFamily,
+          fontFamily: TabItemEnum.search.icon!.fontFamily,
         ),
       ),
       label: '',

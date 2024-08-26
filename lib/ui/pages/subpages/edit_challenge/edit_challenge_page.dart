@@ -190,9 +190,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
 
     // ignore: use_build_context_synchronously
-    context.read<TabProvider>().selectTab(TabItemEnum.Home);
+    context.read<TabProvider>().selectTab(TabItemEnum.home);
 
-    var homeNavigator = navigatorKeys[TabItemEnum.Home]!.currentState!;
+    var homeNavigator = navigatorKeys[TabItemEnum.home]!.currentState!;
 
     homeNavigator.popUntil((route) => route.isFirst);
 

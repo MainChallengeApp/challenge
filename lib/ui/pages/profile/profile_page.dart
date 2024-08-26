@@ -8,21 +8,22 @@ import 'package:challenge/ui/components/loading_circle/loading_circle_component.
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/pages/settings/credits/credits_page.dart';
+import 'package:challenge/ui/pages/profile/credits/credits_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SettingsListPage extends StatefulWidget {
-  const SettingsListPage({super.key, required this.title, this.onPush});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
 
   @override
-  State<SettingsListPage> createState() => _SettingsListPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _SettingsListPageState extends State<SettingsListPage> {
+class _ProfilePageState extends State<ProfilePage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();
@@ -42,10 +43,14 @@ class _SettingsListPageState extends State<SettingsListPage> {
         appBar: AppBarComponent(
           preTitle: widget.title,
           isFirstPageInRoute: true,
+          actions: const [Icon(Icons.settings_outlined)],
         ),
+        backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,
-          child: _buildList(),
+          child: const CardComponent(
+            children: [],
+          ),
         ),
         bottomNavigationBar: const BottomNavigationComponent());
   }

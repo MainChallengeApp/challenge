@@ -1,3 +1,4 @@
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:flutter/material.dart';
 
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
@@ -7,6 +8,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;
   final bool isFirstPageInRoute;
   final Widget? leadingIcon;
+  final List<Widget>? actions;
 
   final double appBarFontSize = 21;
 
@@ -20,7 +22,8 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       this.textColor = Colors.black,
       this.backgroundColor = Colors.white,
       this.isFirstPageInRoute = false,
-      this.leadingIcon});
+      this.leadingIcon,
+      this.actions});
 
   @override
   Widget build(BuildContext context) {
@@ -33,34 +36,38 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
       scrollController.jumpTo(scrollController.position.maxScrollExtent);
     });
 
-    return AppBar(
-      elevation: 0,
-      leading: leadingIcon ??
-          (isFirstPageInRoute
-              ? const Icon(
-                  Icons.chevron_left,
-                  color: Colors.transparent,
-                )
-              : null),
-      backgroundColor: backgroundColor,
-      foregroundColor: textColor,
-      scrolledUnderElevation: 0,
-      titleSpacing: 0,
-      title: Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 24),
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            controller: scrollController,
-            child: Text(
-              visibleTitleText,
-              textAlign: TextAlign.right,
-              style: TextStyle(color: textColor, fontSize: appBarFontSize),
+    return Padding(
+      padding: const EdgeInsets.only(
+          right: BottomNavigationComponent.standardMargin),
+      child: AppBar(
+          elevation: 0,
+          leading: leadingIcon ??
+              (isFirstPageInRoute
+                  ? const Icon(
+                      Icons.chevron_left,
+                      color: Colors.transparent,
+                    )
+                  : null),
+          backgroundColor: backgroundColor,
+          foregroundColor: textColor,
+          scrolledUnderElevation: 0,
+          titleSpacing: 0,
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                controller: scrollController,
+                child: Text(
+                  visibleTitleText,
+                  textAlign: TextAlign.right,
+                  style: TextStyle(color: textColor, fontSize: appBarFontSize),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+          actions: actions),
     );
   }
 }
