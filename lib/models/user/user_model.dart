@@ -13,11 +13,15 @@ class UserModel {
   String name;
   static const String nameField = 'name';
 
+  String? profilePictureUrl;
+  static const String profilePictureUrlField = 'profilePictureUrl';
+
   UserModel({
     required this.id,
     required this.email,
     required this.name,
     required this.username,
+    this.profilePictureUrl,
   });
 
   static UserModel fromDoc(DocumentSnapshot doc) {
@@ -26,7 +30,11 @@ class UserModel {
           id: doc.id,
           email: doc[emailField],
           username: doc[usernameField],
-          name: doc[nameField]);
+          name: doc[nameField],
+          profilePictureUrl:
+              (doc.data() as Map).containsKey(profilePictureUrlField)
+                  ? doc[profilePictureUrlField]
+                  : null);
     } on Exception {
       rethrow;
     }
@@ -37,6 +45,7 @@ class UserModel {
       emailField: email,
       usernameField: username,
       nameField: name,
+      profilePictureUrlField: profilePictureUrl,
     };
   }
 }

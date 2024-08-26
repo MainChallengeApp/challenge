@@ -3,7 +3,7 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
-import 'package:challenge/ui/pages/profile/settings_tab_navigator.dart';
+import 'package:challenge/ui/pages/profile/profile_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +71,7 @@ class AppState extends State<App> {
       case TabItemEnum.profile:
         return Offstage(
           offstage: currentTab != tabItem,
-          child: SettingsTabNavigator(
+          child: ProfileTabNavigator(
             navigatorKey: navigatorKeys[tabItem],
             tabItem: tabItem,
           ),

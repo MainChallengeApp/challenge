@@ -6,7 +6,9 @@ enum IconEnum {
   newChallenge(Icons.add_rounded),
   shuffle(Icons.shuffle_rounded),
   search(Icons.search_rounded),
-  edit(Icons.edit_rounded);
+  edit(Icons.edit_rounded),
+  profile(Icons.person_rounded),
+  ;
 
   const IconEnum(this.icon);
 
