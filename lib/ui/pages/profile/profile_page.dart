@@ -6,12 +6,12 @@ import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/profile/user_name_component.dart';
 import 'package:challenge/ui/components/profile/user_profile_picture_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/pages/profile/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CardComponent(
                     scrollPhysics: const AlwaysScrollableScrollPhysics(),
                     children: [
-                      profilePictureAndName(),
+                      profilePicture(),
+                      profileUserName(),
                       bio(),
                       challengesAndConnections(),
                       const Expanded(
@@ -97,29 +98,24 @@ class _ProfilePageState extends State<ProfilePage> {
     ];
   }
 
-  profilePictureAndName() {
+  profilePicture() {
     return SpaceColumnComponent(
-      child: Row(
-        children: [
-          UserProfilePictureComponent(
-            profilePictureUrl: user.profilePictureUrl,
-          ),
-          const SpaceComponent(),
-          UserNameComponent(
-            userName: user.email,
-          )
-        ],
+      height: 11,
+      child: UserProfilePictureMaxComponent(
+        profilePictureUrl: user.profilePictureUrl,
       ),
     );
   }
 
   bio() {
-    return const SpaceColumnComponent(
-      heightMultiplier: 2,
-      child: CustomContainerComponent(
-        child: Text(
-          'bio...',
-          style: TextStyle(color: themeColor3),
+    return Visibility(
+      visible: user.bio != null,
+      child: SpaceColumnComponent(
+        child: CustomContainerComponent(
+          child: Text(
+            user.bio ?? '',
+            style: const TextStyle(color: themeColor3),
+          ),
         ),
       ),
     );
@@ -172,6 +168,13 @@ class _ProfilePageState extends State<ProfilePage> {
           'Notifications',
         ),
       ),
+    );
+  }
+
+  profileUserName() {
+    return SpaceColumnComponent(
+      height: 11,
+      child: TitleComponent(title: user.email),
     );
   }
 }

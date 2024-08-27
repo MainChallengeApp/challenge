@@ -18,7 +18,7 @@ class TapContainerComponent extends StatefulWidget {
   final Function()? onLongPressUp;
   final Function()? onLongPressCancel;
   final Color? onTapColor;
-  final double? borderWith;
+  final double? borderWidth;
   final Color? borderColor;
 
   const TapContainerComponent(
@@ -32,7 +32,7 @@ class TapContainerComponent extends StatefulWidget {
       this.height,
       this.borderRadius,
       this.onTap,
-      this.borderWith,
+      this.borderWidth,
       this.onTapColor,
       this.onLongPress,
       this.onLongPressUp,
@@ -77,7 +77,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
             margin: widget.margin,
             borderRadius: widget.borderRadius,
             backgroundColor: widget.backgroundColor,
-            borderWidth: widget.borderWith,
+            borderWidth: widget.borderWidth,
             borderColor: widget.borderColor,
             isQuadratic: widget.isQuadratic,
             child: widget.child,
@@ -91,7 +91,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
               margin: widget.margin,
               borderRadius: widget.borderRadius,
               backgroundColor: widget.onTapColor ?? Colors.black.withAlpha(10),
-              borderWidth: widget.borderWith,
+              borderWidth: widget.borderWidth,
               borderColor: widget.borderColor,
               isQuadratic: widget.isQuadratic,
             ),

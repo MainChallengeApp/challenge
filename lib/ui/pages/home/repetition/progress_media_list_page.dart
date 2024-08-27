@@ -7,9 +7,9 @@ import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
-import 'package:challenge/services/design_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -395,13 +395,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                         if (editProgress.progress - 1 >= 0) {
                           editProgress.progress -= 1;
                           amountTextEditingController.text =
-                              DesignService.doubleAsIntString(
+                              UtilService.doubleAsIntString(
                                       editProgress.progress)
                                   .toString();
                         } else {
                           editProgress.progress = 0;
                           amountTextEditingController.text =
-                              DesignService.doubleAsIntString(
+                              UtilService.doubleAsIntString(
                                       editProgress.progress)
                                   .toString();
                         }
@@ -419,8 +419,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   onTap: () => setState(() {
                         editProgress.progress += 1;
                         amountTextEditingController.text =
-                            DesignService.doubleAsIntString(
-                                    editProgress.progress)
+                            UtilService.doubleAsIntString(editProgress.progress)
                                 .toString();
                       }),
                   child: const CustomContainerComponent(
@@ -437,8 +436,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                         editProgress.progress =
                             widget.userChallenge.acceptanceCriteria.amount;
                         amountTextEditingController.text =
-                            DesignService.doubleAsIntString(
-                                    editProgress.progress)
+                            UtilService.doubleAsIntString(editProgress.progress)
                                 .toString();
                       }),
                   child: const CustomContainerComponent(
@@ -467,9 +465,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     child: TextField(
                       textAlign: TextAlign.end,
                       controller: amountTextEditingController
-                        ..text = DesignService.doubleAsIntString(
-                                editProgress.progress)
-                            .toString(),
+                        ..text =
+                            UtilService.doubleAsIntString(editProgress.progress)
+                                .toString(),
                       keyboardType:
                           const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: <TextInputFormatter>[
@@ -519,7 +517,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                       style: const TextStyle(color: Colors.grey),
                       controller: TextEditingController()
                         ..text =
-                            '${DesignService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}',
+                            '${UtilService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}',
                       decoration:
                           const InputDecoration.collapsed(hintText: 'Unit'),
                     ),

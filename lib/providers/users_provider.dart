@@ -7,12 +7,12 @@ class UsersProvider with ChangeNotifier {
   UsersCollection usersDatabase = UsersCollection();
   AuthService authService = AuthService();
 
-  Future<void> createUser({required String email, username, name}) async {
+  Future<void> createUser({required String email, username}) async {
     final user = UserModel(
-        id: authService.getCurrentUserId(),
-        email: email,
-        username: username,
-        name: name);
+      id: authService.getCurrentUserId(),
+      email: email,
+      username: username,
+    );
     await usersDatabase.create(user);
   }
 

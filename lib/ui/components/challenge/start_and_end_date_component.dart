@@ -1,6 +1,6 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/services/design_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -64,10 +64,10 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     DateTime? initialDateTime = startOrEnd == 'start'
         ? widget.editChallenge.startDate
         : widget.editChallenge.endDate != null
-            ? DesignService.dateWithoutTime(widget.editChallenge.endDate!)
+            ? UtilService.dateWithoutTime(widget.editChallenge.endDate!)
                 .add(const Duration(hours: 23, minutes: 59, seconds: 59))
             : widget.editChallenge.startDate != null
-                ? DesignService.dateWithoutTime(widget.editChallenge.startDate!)
+                ? UtilService.dateWithoutTime(widget.editChallenge.startDate!)
                     .add(const Duration(hours: 23, minutes: 59, seconds: 59))
                 : null;
     setState(() {
@@ -104,7 +104,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
               setState(() {
                 if (!isDateTimeChanged) {
                   widget.editChallenge.endDate = initialDateTime ??
-                      DesignService.dateWithoutTime(DateTime.now()).add(
+                      UtilService.dateWithoutTime(DateTime.now()).add(
                           const Duration(hours: 23, minutes: 59, seconds: 59));
                   widget.editChallenge.setFrequencyAmount();
                   widget.reloadSearchChallengePage?.call();

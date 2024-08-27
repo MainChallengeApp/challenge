@@ -1,4 +1,4 @@
-import 'package:challenge/services/design_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -7,7 +7,7 @@ void main() {
       // Arrange
       double number = 1.0;
       // Act
-      String result = DesignService.doubleAsIntString(number);
+      String result = UtilService.doubleAsIntString(number);
       // Assert
       expect(result, equals('1'));
     });
@@ -16,7 +16,7 @@ void main() {
       // Arrange
       double number = 1.1;
       // Act
-      String result = DesignService.doubleAsIntString(number);
+      String result = UtilService.doubleAsIntString(number);
       // Assert
       expect(result, equals('1.1'));
     });

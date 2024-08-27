@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -63,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
               return Column(
                 children: [
                   ListItemIconTextComponent(
-                      icon: Icons.person_outlined, title: widget.user.email),
+                      icon: IconEnum.profile.icon, title: widget.user.email),
                   const SpaceComponent()
                 ],
               );

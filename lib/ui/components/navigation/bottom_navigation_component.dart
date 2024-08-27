@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -56,7 +57,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                     destinations: <Widget>[
                       search(),
                       home(),
-                      settings(),
+                      profile(),
                     ],
                   ),
                 ),
@@ -72,11 +73,10 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     context.read<TabProvider>().selectTab(TabItemEnum.values[index]);
   }
 
-  NavigationDestination settings() {
+  NavigationDestination profile() {
     return NavigationDestination(
-      selectedIcon:
-          Icon(TabItemEnum.profile.icon, color: Colors.white, size: 29),
-      icon: Icon(TabItemEnum.profile.icon, color: Colors.white, size: 29),
+      selectedIcon: Icon(IconEnum.profile.icon, color: Colors.white, size: 29),
+      icon: Icon(IconEnum.profile.icon, color: Colors.white, size: 29),
       label: '',
     );
   }
@@ -98,23 +98,23 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
   NavigationDestination search() {
     return NavigationDestination(
       selectedIcon: Text(
-        String.fromCharCode(TabItemEnum.search.icon!.codePoint),
+        String.fromCharCode(IconEnum.search.icon.codePoint),
         style: TextStyle(
           color: Colors.white,
           inherit: false,
           fontSize: 26,
           fontWeight: FontWeight.w600,
-          fontFamily: TabItemEnum.search.icon!.fontFamily,
+          fontFamily: IconEnum.search.icon.fontFamily,
         ),
       ),
       icon: Text(
-        String.fromCharCode(TabItemEnum.search.icon!.codePoint),
+        String.fromCharCode(IconEnum.search.icon.codePoint),
         style: TextStyle(
           color: Colors.white,
           inherit: false,
           fontSize: 26,
           fontWeight: FontWeight.w600,
-          fontFamily: TabItemEnum.search.icon!.fontFamily,
+          fontFamily: IconEnum.search.icon.fontFamily,
         ),
       ),
       label: '',

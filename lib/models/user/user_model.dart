@@ -10,19 +10,22 @@ class UserModel {
   String username;
   static const String usernameField = 'username';
 
-  String name;
-  static const String nameField = 'name';
-
   String? profilePictureUrl;
   static const String profilePictureUrlField = 'profilePictureUrl';
 
-  UserModel({
-    required this.id,
-    required this.email,
-    required this.name,
-    required this.username,
-    this.profilePictureUrl,
-  });
+  String? bio;
+  static const String bioField = 'bio';
+
+  List<String> connectionIds;
+  static const String connectionIdsField = 'connectionIds';
+
+  UserModel(
+      {required this.id,
+      required this.email,
+      required this.username,
+      this.profilePictureUrl,
+      this.bio,
+      this.connectionIds = const []});
 
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
@@ -30,11 +33,14 @@ class UserModel {
           id: doc.id,
           email: doc[emailField],
           username: doc[usernameField],
-          name: doc[nameField],
           profilePictureUrl:
               (doc.data() as Map).containsKey(profilePictureUrlField)
                   ? doc[profilePictureUrlField]
-                  : null);
+                  : null,
+          bio: (doc.data() as Map).containsKey(bioField) ? doc[bioField] : null,
+          connectionIds: (doc.data() as Map).containsKey(connectionIdsField)
+              ? doc[connectionIdsField]
+              : []);
     } on Exception {
       rethrow;
     }
@@ -44,8 +50,19 @@ class UserModel {
     return {
       emailField: email,
       usernameField: username,
-      nameField: name,
       profilePictureUrlField: profilePictureUrl,
+      bioField: bio,
+      connectionIdsField: connectionIds
     };
+  }
+
+  UserModel copy() {
+    return UserModel(
+        id: id,
+        email: email,
+        username: username,
+        profilePictureUrl: profilePictureUrl,
+        bio: bio,
+        connectionIds: List<String>.from(connectionIds));
   }
 }

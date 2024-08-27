@@ -2,7 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/services/design_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -94,7 +94,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignService.doubleAsIntString(widget.progress.progress)}/${DesignService.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
+            '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
   }
 
   progressIcon() {

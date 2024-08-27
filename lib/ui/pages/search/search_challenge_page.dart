@@ -1,6 +1,6 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/ui/components/challenge/title_component.dart';
+import 'package:challenge/ui/components/challenge/title_with_percentage_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -8,6 +8,7 @@ import 'package:challenge/ui/components/search_challenge/search_description_comp
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
@@ -95,17 +96,13 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   thumbnail(ChallengeModel challenge, BuildContext context) {
-    return Column(
-      children: [
-        ThumbnailMaxComponent(
-          challenge: challenge,
-          isMediaListVisible: false,
-          onTapOpenMediaPage: () => onTapOpenMediaPage(context),
-        ),
-        const SpaceComponent(
-          height: 11,
-        )
-      ],
+    return SpaceColumnComponent(
+      height: 11,
+      child: ThumbnailMaxComponent(
+        challenge: challenge,
+        isMediaListVisible: false,
+        onTapOpenMediaPage: () => onTapOpenMediaPage(context),
+      ),
     );
   }
 
@@ -142,16 +139,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   title(ChallengeModel challenge) {
-    return Column(
-      children: [
-        TitleComponent(
-          challenge: challenge,
-          isSearch: true,
-        ),
-        const SpaceComponent(
-          height: 11,
-        )
-      ],
+    return SpaceColumnComponent(
+      height: 11,
+      child: TitleWithPercentageComponent(
+        challenge: challenge,
+        isSearch: true,
+      ),
     );
   }
 }

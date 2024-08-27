@@ -5,6 +5,8 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:flutter/material.dart';
 
 class ThumbnailMaxComponent extends StatelessWidget {
+  static const double standardHeight = 180;
+
   final ChallengeModel challenge;
   final dynamic Function() onTapOpenMediaPage;
   final bool isMediaListVisible;
@@ -21,8 +23,8 @@ class ThumbnailMaxComponent extends StatelessWidget {
       onTap: onTapOpenMediaPage,
       backgroundColor: themeColor4,
       padding: const EdgeInsets.all(0),
-      borderWith: 0,
-      height: 180,
+      borderWidth: 0,
+      height: standardHeight,
       child: Stack(
         children: [
           Center(

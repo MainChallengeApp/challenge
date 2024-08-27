@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
-import 'package:challenge/services/design_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -170,7 +170,7 @@ class _ListItemRepetitionExpandedComponentState
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${DesignService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${DesignService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}');
+            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}');
   }
 
   repetitionIcon() {

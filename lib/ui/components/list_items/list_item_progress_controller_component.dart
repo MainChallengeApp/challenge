@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/services/design_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,7 @@ class _ListItemProgressControllerComponentState
 
   late TextEditingController progressTextEditingController =
       TextEditingController(
-          text: DesignService.doubleAsIntString(widget.editProgress.progress));
+          text: UtilService.doubleAsIntString(widget.editProgress.progress));
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _ListItemProgressControllerComponentState
                 onTap: () => setState(() {
                       subOneFromProgress();
                     }),
-                borderWith: 0,
+                borderWidth: 0,
                 borderColor: Colors.transparent,
                 borderRadius:
                     ListItemContainerComponent.standardBorderRadius - 1,
@@ -114,7 +114,7 @@ class _ListItemProgressControllerComponentState
                 onTap: () => setState(() {
                       addOneToProgress();
                     }),
-                borderWith: 0,
+                borderWidth: 0,
                 borderColor: Colors.transparent,
                 borderRadius:
                     ListItemContainerComponent.standardBorderRadius - 1,
@@ -131,10 +131,10 @@ class _ListItemProgressControllerComponentState
                           widget.challenge.acceptanceCriteria.amount;
                       widget.progressListSetState();
                       progressTextEditingController.text =
-                          DesignService.doubleAsIntString(
+                          UtilService.doubleAsIntString(
                               widget.editProgress.progress);
                     }),
-                borderWith: 0,
+                borderWidth: 0,
                 borderColor: Colors.transparent,
                 borderRadius:
                     ListItemContainerComponent.standardBorderRadius - 1,
@@ -151,7 +151,7 @@ class _ListItemProgressControllerComponentState
     widget.editProgress.progress += 1;
     widget.progressListSetState();
     progressTextEditingController.text =
-        DesignService.doubleAsIntString(widget.editProgress.progress);
+        UtilService.doubleAsIntString(widget.editProgress.progress);
   }
 
   void subOneFromProgress() {
@@ -163,6 +163,6 @@ class _ListItemProgressControllerComponentState
     }
     widget.progressListSetState();
     progressTextEditingController.text =
-        DesignService.doubleAsIntString(widget.editProgress.progress);
+        UtilService.doubleAsIntString(widget.editProgress.progress);
   }
 }

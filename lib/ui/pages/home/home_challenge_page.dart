@@ -12,7 +12,7 @@ import 'package:challenge/ui/components/challenge/description_component.dart';
 import 'package:challenge/ui/components/challenge/documentation_button_component.dart';
 import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/ui/components/challenge/title_component.dart';
+import 'package:challenge/ui/components/challenge/title_with_percentage_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -156,26 +156,18 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   title(ChallengeModel challenge) {
-    return Column(
-      children: [
-        TitleComponent(challenge: challenge),
-        const SpaceComponent(
-          height: 11,
-        )
-      ],
+    return SpaceColumnComponent(
+      height: 11,
+      child: TitleWithPercentageComponent(challenge: challenge),
     );
   }
 
   thumbnail(UserChallengeModel userChallenge) {
-    return Column(
-      children: [
-        ThumbnailMaxComponent(
-            challenge: userChallenge,
-            onTapOpenMediaPage: () => onTapOpenMediaPage(userChallenge)),
-        const SpaceComponent(
-          height: 11,
-        )
-      ],
+    return SpaceColumnComponent(
+      height: 11,
+      child: ThumbnailMaxComponent(
+          challenge: userChallenge,
+          onTapOpenMediaPage: () => onTapOpenMediaPage(userChallenge)),
     );
   }
 

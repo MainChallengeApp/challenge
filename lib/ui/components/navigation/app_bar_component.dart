@@ -55,7 +55,8 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
           title: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: const EdgeInsets.only(right: 24),
+              padding:
+                  EdgeInsets.only(right: (actions?.isEmpty ?? true) ? 0 : 24),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 controller: scrollController,
