@@ -25,6 +25,8 @@ class UsersProvider with ChangeNotifier {
 
   Future<UserModel> getUser() async {
     final user = await usersDatabase.getById(authService.getCurrentUserId());
+    _user = user;
+    notifyListeners();
     return user;
   }
 

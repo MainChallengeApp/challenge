@@ -38,6 +38,11 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    usersProvider.getUser().then((user) {
+      setState(() {
+        this.user = user;
+      });
+    });
   }
 
   @override
@@ -110,10 +115,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   challengesAndConnections(UserModel user) {
-    return const SpaceColumnComponent(
+    return SpaceColumnComponent(
       child: Row(
         children: [
-          Expanded(
+          const Expanded(
             child: CustomContainerComponent(
               child: Column(
                 children: [
@@ -128,15 +133,15 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ),
-          SpaceComponent(),
+          const SpaceComponent(),
           Expanded(
             child: CustomContainerComponent(
               child: Column(
                 children: [
                   Text(
-                    '0',
+                    user.connectionIds.length.toString(),
                   ),
-                  Text(
+                  const Text(
                     'Connections',
                     style: TextStyle(fontSize: 9),
                   ),

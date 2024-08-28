@@ -45,14 +45,14 @@ class _UploadProfilePictureComponentState
                             Radius.circular(13)), // TODO: 13?
                         child: Image.asset(
                           widget.editUser.profilePictureUrl!,
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
                         ))
                     : ClipRRect(
                         borderRadius: const BorderRadius.all(
                             Radius.circular(13)), // TODO: 13?
                         child: Image.network(
                           widget.editUser.profilePictureUrl!,
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
                         ))
                 : const Center(
                     child: Icon(Icons.file_upload_rounded, color: themeColor3),

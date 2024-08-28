@@ -116,6 +116,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   onTapLogin() async {
+    if (isLoading) {
+      return;
+    }
+
     if (!authService.isValidEmail(emailTextEditingController.text)) {
       setState(() {
         emailErrorText = 'Invalid Email';

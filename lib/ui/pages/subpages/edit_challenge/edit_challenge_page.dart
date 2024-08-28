@@ -174,6 +174,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void onTapAccept() async {
+    if (isLoading) {
+      return;
+    }
     setState(() {
       isLoading = true;
     });
@@ -204,6 +207,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void onTapSave() async {
+    if (isLoading) {
+      return;
+    }
     setState(() {
       isLoading = true;
     });

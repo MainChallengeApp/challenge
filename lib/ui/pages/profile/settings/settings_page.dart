@@ -5,12 +5,14 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/profile/settings/credits_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -28,9 +30,12 @@ class _SettingsPageState extends State<SettingsPage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();
-  UsersProvider usersProvider = UsersProvider();
+  late final UsersProvider usersProvider =
+      Provider.of<UsersProvider>(context, listen: true);
 
   late String title = 'Settings';
+
+  late UserModel user = widget.user;
 
   @override
   void initState() {
@@ -53,6 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildList() {
+    user = usersProvider.user;
     int itemCount = 4;
     return RawScrollbar(
       controller: scrollController,
@@ -67,10 +73,11 @@ class _SettingsPageState extends State<SettingsPage> {
             if (index == 0) {
               return Column(
                 children: [
-                  ListItemIconTextComponent(
+                  ListItemImageChildComponent(
                       onTap: onTapProfile,
                       icon: IconEnum.profile.icon,
-                      title: widget.user.email),
+                      url: user.profilePictureUrl,
+                      child: Text('@${user.username}')),
                   const SpaceComponent()
                 ],
               );
@@ -155,8 +162,8 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => EditProfilePage(
-            user: widget.user, preTitle: '${widget.preTitle}/$title'),
+        builder: (context) =>
+            EditProfilePage(user: user, preTitle: '${widget.preTitle}/$title'),
       ),
     );
   }

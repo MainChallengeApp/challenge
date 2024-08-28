@@ -125,6 +125,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
   void onTapSave() async {
+    if (isLoading) {
+      return;
+    }
     setState(() {
       isLoading = true;
     });

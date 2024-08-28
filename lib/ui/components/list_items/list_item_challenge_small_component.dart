@@ -3,8 +3,8 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
@@ -34,25 +34,26 @@ class _ListItemChallengeSmallComponentState
   late BuildContext context2;
   @override
   Widget build(BuildContext context) {
-    return ListItemContainerComponent(
-      endActionPane: endActionPane,
-      onTap: widget.onTap,
-      child: Row(
-        children: [
-          miniThumbnail(),
-          Expanded(
-            child: Text(
-              widget.challenge.title,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
+    return ListItemImageChildComponent(
+        url: widget.challenge.thumbnail.url,
+        endActionPane: endActionPane,
+        onTap: widget.onTap,
+        scale: widget.challenge.thumbnail.scale,
+        fit: widget.challenge.thumbnail.fit.fit,
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                widget.challenge.title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
             ),
-          ),
-          // progressRecurring(),
-          percentageDone()
-          // progressCircle()
-        ],
-      ),
-    );
+            // progressRecurring(),
+            percentageDone()
+            // progressCircle()
+          ],
+        ));
   }
 
   Container miniThumbnail() {
@@ -64,30 +65,27 @@ class _ListItemChallengeSmallComponentState
       width: ListItemIconTextComponent.iconContainerSize,
       height: ListItemIconTextComponent.iconContainerSize,
       margin: const EdgeInsets.only(right: 12),
-      child: Hero(
-        tag: widget.challenge.id.toString(),
-        child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: widget.challenge.getThumbnailPath() != ''
-                ? widget.challenge.isThumbnailLocal()
-                    ? Transform.scale(
-                        scale: widget.challenge.thumbnail.scale,
-                        child: Image.asset(
-                          widget.challenge.getThumbnailPath(),
-                          fit: widget.challenge.thumbnail.fit.fit,
-                        ),
-                      )
-                    : Transform.scale(
-                        scale: widget.challenge.thumbnail.scale,
-                        child: Image.network(
-                          widget.challenge.getThumbnailPath(),
-                          fit: widget.challenge.thumbnail.fit.fit,
-                        ),
-                      )
-                : const Center(
-                    child: Icon(Icons.question_mark, color: themeColor3),
-                  )),
-      ),
+      child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+          child: widget.challenge.getThumbnailPath() != ''
+              ? widget.challenge.isThumbnailLocal()
+                  ? Transform.scale(
+                      scale: widget.challenge.thumbnail.scale,
+                      child: Image.asset(
+                        widget.challenge.getThumbnailPath(),
+                        fit: widget.challenge.thumbnail.fit.fit,
+                      ),
+                    )
+                  : Transform.scale(
+                      scale: widget.challenge.thumbnail.scale,
+                      child: Image.network(
+                        widget.challenge.getThumbnailPath(),
+                        fit: widget.challenge.thumbnail.fit.fit,
+                      ),
+                    )
+              : const Center(
+                  child: Icon(Icons.question_mark, color: themeColor3),
+                )),
     );
   }
 

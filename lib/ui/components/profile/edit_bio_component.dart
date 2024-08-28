@@ -58,8 +58,8 @@ class _EditBioComponentState extends State<EditBioComponent> {
                     },
                     controller: TextEditingController()
                       ..text = widget.user.bio ?? '',
-                    decoration: const InputDecoration.collapsed(
-                        hintText: 'Description'),
+                    decoration:
+                        const InputDecoration.collapsed(hintText: 'Bio'),
                     keyboardType: TextInputType.multiline,
                   ),
                 ),

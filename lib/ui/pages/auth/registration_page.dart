@@ -119,6 +119,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   onTapRegister() async {
+    if (isLoading) {
+      return;
+    }
     if (!authService.isValidEmail(emailTextEditingController.text)) {
       setState(() {
         emailErrorText = 'Invalid Email';
