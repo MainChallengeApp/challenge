@@ -1,16 +1,20 @@
+import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/profile/bio_component.dart';
 import 'package:challenge/ui/components/profile/user_profile_picture_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/pages/profile/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -30,10 +34,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
   AuthService authService = AuthService();
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningProvider =
+  late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
+  late final listeningUserChallengesProvider =
+      Provider.of<UserChallengesProvider>(context, listen: true);
+
   late UserModel user;
+
+  int amountOfChallenges = 0;
+
+  bool isBioExpanded = false;
 
   @override
   void initState() {
@@ -47,7 +58,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    user = listeningProvider.user;
+    user = listeningUsersProvider.user;
+    amountOfChallenges = listeningUserChallengesProvider.userChallenges.length;
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.title,
@@ -61,12 +73,10 @@ class _ProfilePageState extends State<ProfilePage> {
             scrollPhysics: const AlwaysScrollableScrollPhysics(),
             children: [
               profilePicture(user),
-              profileUserName(user),
+              userName(user),
               bio(user),
               challengesAndConnections(user),
-              const Expanded(
-                child: SizedBox(),
-              ),
+              expandedSpace(),
               notifications(user)
             ],
           ),
@@ -101,73 +111,94 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   bio(UserModel user) {
-    return Visibility(
-      visible: user.bio != null,
-      child: SpaceColumnComponent(
-        child: CustomContainerComponent(
-          child: Text(
-            user.bio ?? '',
-            style: const TextStyle(color: themeColor3),
-          ),
-        ),
-      ),
+    BioComponent bioComponent = BioComponent(
+      bio: user.bio,
+      onTap: () {
+        setState(() {
+          isBioExpanded = !isBioExpanded;
+        });
+      },
+      isBioExpanded: isBioExpanded,
     );
+    return isBioExpanded
+        ? Expanded(child: bioComponent)
+        : SpaceColumnComponent(child: bioComponent);
   }
 
   challengesAndConnections(UserModel user) {
-    return SpaceColumnComponent(
-      child: Row(
-        children: [
-          const Expanded(
-            child: CustomContainerComponent(
-              child: Column(
-                children: [
-                  Text(
-                    '0',
-                  ),
-                  Text(
-                    'Challenges',
-                    style: TextStyle(fontSize: 9),
-                  ),
-                ],
+    return Visibility(
+      visible: !isBioExpanded,
+      child: SpaceColumnComponent(
+        child: Row(
+          children: [
+            Expanded(
+              child: TapContainerComponent(
+                onTap: () {
+                  context.read<TabProvider>().selectTab(TabItemEnum.home);
+
+                  var homeNavigator =
+                      navigatorKeys[TabItemEnum.home]!.currentState!;
+
+                  homeNavigator.popUntil((route) => route.isFirst);
+                },
+                child: Column(
+                  children: [
+                    Text(
+                      amountOfChallenges.toString(),
+                    ),
+                    const Text(
+                      'Challenges',
+                      style: TextStyle(fontSize: 9),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SpaceComponent(),
-          Expanded(
-            child: CustomContainerComponent(
-              child: Column(
-                children: [
-                  Text(
-                    user.connectionIds.length.toString(),
-                  ),
-                  const Text(
-                    'Connections',
-                    style: TextStyle(fontSize: 9),
-                  ),
-                ],
+            const SpaceComponent(),
+            Expanded(
+              child: TapContainerComponent(
+                onTap: () {},
+                child: Column(
+                  children: [
+                    Text(
+                      user.connectionIds.length.toString(),
+                    ),
+                    const Text(
+                      'Connections',
+                      style: TextStyle(fontSize: 9),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
 
   notifications(UserModel user) {
-    return const CustomContainerComponent(
-      child: Center(
-        child: Text(
-          'Notifications',
+    return Visibility(
+      visible: !isBioExpanded,
+      child: TapContainerComponent(
+        onTap: () {},
+        child: const Center(
+          child: Text(
+            'Notifications',
+          ),
         ),
       ),
     );
   }
 
-  profileUserName(UserModel user) {
+  userName(UserModel user) {
     return SpaceColumnComponent(
       height: 11,
       child: TitleComponent(title: '@${user.username}'),
     );
+  }
+
+  expandedSpace() {
+    return isBioExpanded ? Container() : Expanded(child: Container());
   }
 }

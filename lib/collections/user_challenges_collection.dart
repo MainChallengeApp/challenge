@@ -57,4 +57,16 @@ class UserChallengesCollection extends Collection {
   Future<void> delete(UserChallengeModel userChallenge) {
     return db.collection(name).doc(userChallenge.id).delete();
   }
+
+  Future<int> getAmountOfChallengesByUserId(String userId) async {
+    try {
+      final querySnapshot = await db
+          .collection(name)
+          .where(UserChallengeModel.userIdField, isEqualTo: userId)
+          .get();
+      return querySnapshot.docs.length;
+    } on Exception {
+      rethrow;
+    }
+  }
 }

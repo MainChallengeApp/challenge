@@ -33,7 +33,9 @@ class CustomContainerComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: isQuadratic ? standardHeight : double.infinity,
+      width: isQuadratic
+          ? (height ?? standardHeight * heightFactor)
+          : double.infinity,
       height: height ?? standardHeight * heightFactor,
       padding: padding,
       margin: margin,

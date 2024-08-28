@@ -5,7 +5,7 @@ import 'package:challenge/services/media_service.dart';
 import 'package:flutter/material.dart';
 
 class UsersProvider with ChangeNotifier {
-  UsersCollection usersDatabase = UsersCollection();
+  UsersCollection usersCollection = UsersCollection();
   AuthService authService = AuthService();
   MediaService mediaService = MediaService();
 
@@ -19,12 +19,12 @@ class UsersProvider with ChangeNotifier {
       username: username,
     );
     _user = user;
-    usersDatabase.create(user);
+    usersCollection.create(user);
     notifyListeners();
   }
 
   Future<UserModel> getUser() async {
-    final user = await usersDatabase.getById(authService.getCurrentUserId());
+    final user = await usersCollection.getById(authService.getCurrentUserId());
     _user = user;
     notifyListeners();
     return user;
@@ -33,7 +33,7 @@ class UsersProvider with ChangeNotifier {
   update(UserModel user) async {
     user.profilePictureUrl = await mediaService.uploadLocalProfilePicture(user);
     _user = user;
-    usersDatabase.update(user);
+    usersCollection.update(user);
     notifyListeners();
   }
 }

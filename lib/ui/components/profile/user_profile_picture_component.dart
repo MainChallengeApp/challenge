@@ -19,7 +19,8 @@ class UserProfilePictureMaxComponent extends StatelessWidget {
       height: ThumbnailMaxComponent.standardHeight,
       child: Center(
         child: SizedBox(
-          width: double.infinity,
+          width: 150,
+          height: 150,
           child: ClipRRect(
               borderRadius: const BorderRadius.all(
                   Radius.circular(CustomContainerComponent.standardRadius)),

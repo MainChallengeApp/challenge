@@ -140,4 +140,8 @@ class UserChallengesProvider with ChangeNotifier {
             as List<UserChallengeModel>;
     notifyListeners();
   }
+
+  Future<int> getAmountOfChallengesByUserId(String userId) async {
+    return await userChallengesCollection.getAmountOfChallengesByUserId(userId);
+  }
 }

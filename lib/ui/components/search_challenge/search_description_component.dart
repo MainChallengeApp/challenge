@@ -16,6 +16,11 @@ class SearchDescriptionComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainerComponent(
         height: double.infinity,
+        padding: const EdgeInsets.only(
+            left: CustomContainerComponent.standardPadding,
+            right: CustomContainerComponent.standardPadding,
+            top: CustomContainerComponent.standardPadding - 2,
+            bottom: CustomContainerComponent.standardPadding - 2),
         child: Linkify(
           onOpen: (link) {
             _launchURL(link.url);
