@@ -14,6 +14,7 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/pages/profile/settings/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key, required this.title, this.onPush});
@@ -28,60 +29,47 @@ class _ProfilePageState extends State<ProfilePage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();
-  UsersProvider usersProvider = UsersProvider();
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final listeningProvider =
+      Provider.of<UsersProvider>(context, listen: true);
 
-  late Future<UserModel> userFuture;
   late UserModel user;
 
   @override
   void initState() {
     super.initState();
-    userFuture = usersProvider.getUser().then((user) {
-      setState(() {
-        this.user = user;
-      });
-      return user;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: userFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            user = snapshot.data as UserModel;
-            return Scaffold(
-                appBar: AppBarComponent(
-                  preTitle: widget.title,
-                  isFirstPageInRoute: true,
-                  actions: actions(),
-                ),
-                backgroundColor: Colors.white,
-                body: Container(
-                  color: Colors.white,
-                  child: CardComponent(
-                    scrollPhysics: const AlwaysScrollableScrollPhysics(),
-                    children: [
-                      profilePicture(),
-                      profileUserName(),
-                      bio(),
-                      challengesAndConnections(),
-                      const Expanded(
-                        child: SizedBox(),
-                      ),
-                      notifications()
-                    ],
-                  ),
-                ),
-                bottomNavigationBar: const BottomNavigationComponent());
-          } else {
-            return const Center(child: Text('An error occurred'));
-          }
-        });
+    user = listeningProvider.user;
+    return Scaffold(
+        appBar: AppBarComponent(
+          preTitle: widget.title,
+          isFirstPageInRoute: true,
+          actions: actions(user),
+        ),
+        backgroundColor: Colors.white,
+        body: Container(
+          color: Colors.white,
+          child: CardComponent(
+            scrollPhysics: const AlwaysScrollableScrollPhysics(),
+            children: [
+              profilePicture(user),
+              profileUserName(user),
+              bio(user),
+              challengesAndConnections(user),
+              const Expanded(
+                child: SizedBox(),
+              ),
+              notifications(user)
+            ],
+          ),
+        ),
+        bottomNavigationBar: const BottomNavigationComponent());
   }
 
-  List<Widget> actions() {
+  List<Widget> actions(UserModel user) {
     return [
       GestureDetector(
           onTap: () {
@@ -98,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
     ];
   }
 
-  profilePicture() {
+  profilePicture(UserModel user) {
     return SpaceColumnComponent(
       height: 11,
       child: UserProfilePictureMaxComponent(
@@ -107,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  bio() {
+  bio(UserModel user) {
     return Visibility(
       visible: user.bio != null,
       child: SpaceColumnComponent(
@@ -121,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  challengesAndConnections() {
+  challengesAndConnections(UserModel user) {
     return const SpaceColumnComponent(
       child: Row(
         children: [
@@ -161,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  notifications() {
+  notifications(UserModel user) {
     return const CustomContainerComponent(
       child: Center(
         child: Text(
@@ -171,10 +159,10 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  profileUserName() {
+  profileUserName(UserModel user) {
     return SpaceColumnComponent(
       height: 11,
-      child: TitleComponent(title: user.email),
+      child: TitleComponent(title: '@${user.username}'),
     );
   }
 }

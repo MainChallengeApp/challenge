@@ -18,20 +18,15 @@ class UserProfilePictureMaxComponent extends StatelessWidget {
       borderWidth: 0,
       height: ThumbnailMaxComponent.standardHeight,
       child: Center(
-        child: SizedBox(
-            width: double.infinity,
-            child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                    Radius.circular(CustomContainerComponent.standardRadius)),
-                child: profilePictureUrl == null
-                    ? Icon(
-                        IconEnum.profile.icon,
-                        color: themeColor3,
-                      )
-                    : Transform.scale(
-                        child: Image.network(profilePictureUrl!,
-                            fit: BoxFit.contain),
-                      ))),
+        child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+                Radius.circular(CustomContainerComponent.standardRadius)),
+            child: profilePictureUrl == null
+                ? Icon(
+                    IconEnum.profile.icon,
+                    color: themeColor3,
+                  )
+                : Image.network(profilePictureUrl!, fit: BoxFit.contain)),
       ),
     );
   }

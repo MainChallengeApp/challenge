@@ -27,4 +27,8 @@ class UsersCollection extends Collection {
       rethrow;
     }
   }
+
+  void update(UserModel userCopy) {
+    db.collection(name).doc(userCopy.id).set(userCopy.toDoc());
+  }
 }

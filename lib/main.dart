@@ -1,6 +1,7 @@
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/backend_service.dart';
 import 'package:challenge/ui/pages/auth/auth_gate_page.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => TabProvider()),
       ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
       ChangeNotifierProvider(create: (_) => UserChallengesProvider()),
+      ChangeNotifierProvider(create: (_) => UsersProvider()),
     ],
     child: const MyApp(),
   ));

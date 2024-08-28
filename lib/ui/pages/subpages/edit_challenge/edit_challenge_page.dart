@@ -4,7 +4,6 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
 import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
@@ -52,8 +51,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   late ChallengeModel editChallenge = widget.challenge
       .copyChallenge(isTryAgain: widget.isTryAgain, withId: true);
-
-  final mediaService = MediaService();
 
   bool isLoading = false;
 

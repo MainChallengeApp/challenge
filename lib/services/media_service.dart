@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -54,21 +55,17 @@ class MediaService {
     }
   }
 
-  Future<void> uploadMediaList(
-      List<MediaModel> mediaList, UserChallengeModel userChallenge) async {
-    for (var media in mediaList) {
-      MediaModel? mediaWithUrl = await uploadLocalMedia(media, userChallenge);
-
-      if (mediaWithUrl == null) {
-        continue;
-      }
-
-      MediaModel mediaWithId = MediaModel(
-          id: media.id,
-          type: media.type,
-          title: media.title,
-          source: mediaWithUrl.source);
-      userChallenge.media.add(mediaWithId);
+  Future<String?> uploadLocalProfilePicture(UserModel user) async {
+    if (!user.hasProfilePicture() || !isUrlLocal(user.profilePictureUrl!)) {
+      return user.profilePictureUrl;
+    }
+    String path = 'users/${user.id}/profile_picture';
+    try {
+      String imageUrl =
+          await storageService.uploadFile(File(user.profilePictureUrl!), path);
+      return imageUrl;
+    } on Exception {
+      rethrow;
     }
   }
 
@@ -90,5 +87,9 @@ class MediaService {
       userChallenge.removeMedia(media);
       deleteMedia(media);
     }
+  }
+
+  isUrlLocal(String url) {
+    return !url.startsWith('https://');
   }
 }

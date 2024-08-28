@@ -9,6 +9,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/profile/settings/credits_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -29,6 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
   AuthService authService = AuthService();
   UsersProvider usersProvider = UsersProvider();
 
+  late String title = 'Settings';
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +41,8 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        preTitle: '${widget.preTitle}/Settings',
+        preTitle: widget.preTitle,
+        titleText: title,
       ),
       backgroundColor: Colors.white,
       body: Container(
@@ -64,7 +68,9 @@ class _SettingsPageState extends State<SettingsPage> {
               return Column(
                 children: [
                   ListItemIconTextComponent(
-                      icon: IconEnum.profile.icon, title: widget.user.email),
+                      onTap: onTapProfile,
+                      icon: IconEnum.profile.icon,
+                      title: widget.user.email),
                   const SpaceComponent()
                 ],
               );
@@ -143,5 +149,15 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
       ),
     ).then((_) => setState(() {}));
+  }
+
+  void onTapProfile() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditProfilePage(
+            user: widget.user, preTitle: '${widget.preTitle}/$title'),
+      ),
+    );
   }
 }

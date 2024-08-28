@@ -27,6 +27,14 @@ class UserModel {
       this.bio,
       this.connectionIds = const []});
 
+  UserModel.empty()
+      : id = '',
+        email = '',
+        username = '',
+        profilePictureUrl = null,
+        bio = null,
+        connectionIds = [];
+
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
       return UserModel(
@@ -39,7 +47,7 @@ class UserModel {
                   : null,
           bio: (doc.data() as Map).containsKey(bioField) ? doc[bioField] : null,
           connectionIds: (doc.data() as Map).containsKey(connectionIdsField)
-              ? doc[connectionIdsField]
+              ? List.from(doc[connectionIdsField])
               : []);
     } on Exception {
       rethrow;
@@ -64,5 +72,9 @@ class UserModel {
         profilePictureUrl: profilePictureUrl,
         bio: bio,
         connectionIds: List<String>.from(connectionIds));
+  }
+
+  hasProfilePicture() {
+    return profilePictureUrl != null;
   }
 }
