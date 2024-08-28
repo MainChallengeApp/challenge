@@ -55,17 +55,29 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
                       height: double.infinity,
                       child: Align(
                         alignment: Alignment.topCenter,
-                        child: Image.network(media.source,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Center(
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: Icon(Icons.question_mark,
-                                        color: themeColor3),
-                                  ),
-                                )),
+                        child: mediaService.isUrlLocal(media.source)
+                            ? Image.asset(media.source,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Center(
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: Icon(Icons.question_mark,
+                                            color: themeColor3),
+                                      ),
+                                    ))
+                            : Image.network(media.source,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Center(
+                                      child: SizedBox(
+                                        width: 20,
+                                        height: 20,
+                                        child: Icon(Icons.question_mark,
+                                            color: themeColor3),
+                                      ),
+                                    )),
                       ),
                     ))
                   : Center(
