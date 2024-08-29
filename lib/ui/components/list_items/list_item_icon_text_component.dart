@@ -6,21 +6,30 @@ class ListItemIconTextComponent extends StatelessWidget {
   static const double standardIconRadius = 12;
 
   const ListItemIconTextComponent(
-      {super.key, this.onTap, required this.icon, required this.title});
+      {super.key,
+      this.onTap,
+      required this.icon,
+      required this.title,
+      this.textColor,
+      this.iconColor});
 
   final void Function()? onTap;
 
   final IconData icon;
   final String title;
+  final Color? textColor;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
     return ListItemIconChildComponent(
         onTap: onTap,
         icon: icon,
+        iconColor: iconColor,
         child: Text(
           title,
           overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: textColor ?? Colors.black),
         ));
   }
 }

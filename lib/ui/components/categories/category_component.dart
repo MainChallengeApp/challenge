@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:challenge/globals.dart';
+import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,7 @@ class CategoryComponent extends StatelessWidget {
         onTap: onTap,
         height: 96,
         padding: const EdgeInsets.all(12),
-        borderRadius: 24,
+        borderRadius: CardComponent.standardBorderRadius,
         child: Stack(children: [
           Align(
               alignment: Alignment.topLeft,

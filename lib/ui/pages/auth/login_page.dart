@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:challenge/globals.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
@@ -11,6 +12,7 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.onTapSwitchToRegistration});
@@ -26,6 +28,8 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController passwordTextEditingController = TextEditingController();
 
   AuthService authService = AuthService();
+
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
   String? emailErrorText;
   String? passwordErrorText;
@@ -141,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
+      usersProvider.getUser();
     } on FirebaseAuthException catch (e) {
       setState(() {
         emailErrorText = authService.getEmailErrorMessage(e.code);
@@ -152,8 +157,8 @@ class _LoginPageState extends State<LoginPage> {
       });
     } on Exception {
       setState(() {
-        emailErrorText = 'Registration failed';
-        passwordErrorText = 'Registration failed';
+        emailErrorText = 'Login failed';
+        passwordErrorText = 'Login failed';
       });
     } finally {
       setState(() {

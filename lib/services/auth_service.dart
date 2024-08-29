@@ -1,7 +1,11 @@
+import 'package:challenge/services/database_service.dart';
+import 'package:challenge/services/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final auth = FirebaseAuth.instance;
+  final storageService = StorageService();
+  final databaseService = DatabaseService();
 
   User? getCurrentUser() => auth.currentUser;
   String getCurrentUserId() => auth.currentUser!.uid;
@@ -30,6 +34,16 @@ class AuthService {
 
   Future<void> logout() async {
     await auth.signOut();
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      await storageService.deleteUserFiles(getCurrentUserId());
+      await databaseService.deleteUserDocuments(getCurrentUserId());
+      await auth.currentUser!.delete();
+    } on FirebaseAuthException {
+      rethrow;
+    }
   }
 
   bool isValidEmail(String text) {

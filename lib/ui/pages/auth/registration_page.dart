@@ -144,7 +144,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       await authService.registerEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
 
-      usersProvider.createUser(
+      await usersProvider.createUser(
           email: emailTextEditingController.text, username: '');
     } on FirebaseAuthException catch (e) {
       setState(() {

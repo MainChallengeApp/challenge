@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:challenge/collections/user_challenges_collection.dart';
+import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
@@ -29,7 +31,8 @@ class MediaService {
   Future<MediaModel?> uploadLocalMedia(
       MediaModel media, UserChallengeModel userChallenge) async {
     try {
-      String path = 'user_challenges/${userChallenge.id}/${media.title}';
+      String path =
+          '${UserChallengesCollection.collectionName}/${userChallenge.id}/${media.title}';
 
       String imageUrl =
           await storageService.uploadFile(File(media.source), path);
@@ -44,7 +47,8 @@ class MediaService {
 
   Future<String> uploadLocalThumbnail(UserChallengeModel userChallenge) async {
     try {
-      String path = 'user_challenges/${userChallenge.id}/thumbnail';
+      String path =
+          '${UserChallengesCollection.collectionName}/${userChallenge.id}/thumbnail';
 
       String imageUrl = await storageService.uploadFile(
           File(userChallenge.thumbnail.url), path);
@@ -59,7 +63,8 @@ class MediaService {
     if (!user.hasProfilePicture() || !isUrlLocal(user.profilePictureUrl!)) {
       return user.profilePictureUrl;
     }
-    String path = 'users/${user.id}/profile_picture';
+    String path =
+        '${UsersCollection.collectionName}/${user.id}/profile_picture';
     try {
       String imageUrl =
           await storageService.uploadFile(File(user.profilePictureUrl!), path);

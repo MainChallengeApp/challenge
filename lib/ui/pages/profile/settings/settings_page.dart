@@ -10,6 +10,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/profile/settings/credits_page.dart';
+import 'package:challenge/ui/pages/profile/settings/delete_account_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_profile/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildList() {
     user = usersProvider.user;
-    int itemCount = 4;
+    int itemCount = 5;
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
@@ -107,13 +108,30 @@ class _SettingsPageState extends State<SettingsPage> {
               );
             }
 
-            if (index == itemCount - 1) {
+            if (index == 3) {
               return Column(
                 children: [
                   ListItemIconTextComponent(
                       onTap: onTapLogout,
                       icon: Icons.logout_rounded,
                       title: 'Log out'),
+                  const SpaceComponent()
+                ],
+              );
+            }
+
+            if (index == itemCount - 1) {
+              return Column(
+                children: [
+                  const SpaceComponent(
+                    heightMultiplier: 5,
+                  ),
+                  ListItemIconTextComponent(
+                      onTap: onTapDeleteAccount,
+                      icon: IconEnum.delete.icon,
+                      title: 'Delete Account',
+                      iconColor: Colors.red[300]!,
+                      textColor: Colors.red[300]!),
                   const SpaceComponent()
                 ],
               );
@@ -164,6 +182,17 @@ class _SettingsPageState extends State<SettingsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) =>
             EditProfilePage(user: user, preTitle: '${widget.preTitle}/$title'),
+      ),
+    );
+  }
+
+  void onTapDeleteAccount() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => DeleteAccountPage(
+          preTitle: '${widget.preTitle}/$title',
+        ),
       ),
     );
   }
