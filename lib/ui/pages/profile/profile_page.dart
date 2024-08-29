@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
@@ -49,11 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    usersProvider.getUser().then((user) {
-      setState(() {
-        this.user = user;
-      });
-    });
+    fetchUser();
   }
 
   @override
@@ -200,5 +198,28 @@ class _ProfilePageState extends State<ProfilePage> {
 
   expandedSpace() {
     return isBioExpanded ? Container() : Expanded(child: Container());
+  }
+
+  void fetchUser() {
+    const int maxRetries = 3;
+    const Duration initialDelay = Duration(seconds: 2);
+
+    Future<void> attemptFetchUser(int retryCount, Duration delay) async {
+      try {
+        var user = await usersProvider.getUser();
+        setState(() {
+          this.user = user;
+        });
+      } catch (error) {
+        if (retryCount < maxRetries) {
+          await Future.delayed(delay);
+          attemptFetchUser(retryCount + 1, delay * 2); // Exponential backoff
+        } else {
+          log('Failed to fetch user after $maxRetries attempts: $error');
+        }
+      }
+    }
+
+    attemptFetchUser(0, initialDelay);
   }
 }

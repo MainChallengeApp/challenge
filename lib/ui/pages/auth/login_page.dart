@@ -161,9 +161,11 @@ class _LoginPageState extends State<LoginPage> {
         passwordErrorText = 'Login failed';
       });
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 

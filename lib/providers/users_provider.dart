@@ -19,7 +19,7 @@ class UsersProvider with ChangeNotifier {
       username: username,
     );
     _user = user;
-    usersCollection.create(user);
+    await usersCollection.create(user);
     notifyListeners();
   }
 
@@ -34,6 +34,11 @@ class UsersProvider with ChangeNotifier {
     user.profilePictureUrl = await mediaService.uploadLocalProfilePicture(user);
     _user = user;
     usersCollection.update(user);
+    notifyListeners();
+  }
+
+  void resetLocalUser() {
+    _user = UserModel.empty();
     notifyListeners();
   }
 }

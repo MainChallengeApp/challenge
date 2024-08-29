@@ -1,3 +1,4 @@
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
@@ -8,6 +9,7 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DeleteAccountPage extends StatefulWidget {
   const DeleteAccountPage({super.key, required this.preTitle});
@@ -19,6 +21,8 @@ class DeleteAccountPage extends StatefulWidget {
 }
 
 class _DeleteAccountPageState extends State<DeleteAccountPage> {
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+
   final String titleText = 'Delete Account';
 
   final TextEditingController emailTextEditingController =
@@ -101,6 +105,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
       await authService.deleteAccount();
+      usersProvider.resetLocalUser();
     } on FirebaseAuthException catch (e) {
       setState(() {
         emailErrorText = authService.getEmailErrorMessage(e.code);

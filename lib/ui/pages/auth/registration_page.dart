@@ -161,9 +161,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
         passwordErrorText = 'Registration failed';
       });
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
