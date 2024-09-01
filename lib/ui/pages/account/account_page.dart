@@ -12,7 +12,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/profile/bio_component.dart';
-import 'package:challenge/ui/components/profile/user_profile_picture_component.dart';
+import 'package:challenge/ui/components/profile/profile_picture_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -102,7 +102,7 @@ class _AccountPageState extends State<AccountPage> {
   profilePicture(UserModel user) {
     return SpaceColumnComponent(
       height: 11,
-      child: UserProfilePictureMaxComponent(
+      child: ProfilePictureMaxComponent(
         profilePictureUrl: user.profilePictureUrl,
       ),
     );

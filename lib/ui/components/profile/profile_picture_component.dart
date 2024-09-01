@@ -4,10 +4,10 @@ import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:flutter/material.dart';
 
-class UserProfilePictureMaxComponent extends StatelessWidget {
+class ProfilePictureMaxComponent extends StatelessWidget {
   final String? profilePictureUrl;
 
-  const UserProfilePictureMaxComponent(
+  const ProfilePictureMaxComponent(
       {super.key, required this.profilePictureUrl});
 
   @override
