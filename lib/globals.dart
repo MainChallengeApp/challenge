@@ -15,5 +15,5 @@ const double basicFontSize = 13;
 final navigatorKeys = {
   TabItemEnum.search: GlobalKey<NavigatorState>(),
   TabItemEnum.home: GlobalKey<NavigatorState>(),
-  TabItemEnum.profile: GlobalKey<NavigatorState>(),
+  TabItemEnum.account: GlobalKey<NavigatorState>(),
 };

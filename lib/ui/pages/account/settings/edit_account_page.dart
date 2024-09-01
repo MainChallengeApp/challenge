@@ -11,21 +11,21 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EditProfilePage extends StatefulWidget {
+class EditAccountPage extends StatefulWidget {
   final UserModel user;
   final String preTitle;
 
-  const EditProfilePage({
+  const EditAccountPage({
     super.key,
     required this.user,
     required this.preTitle,
   });
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  State<EditAccountPage> createState() => _EditAccountPageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditAccountPageState extends State<EditAccountPage> {
   bool isDescriptionExpanded = false;
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
@@ -40,8 +40,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
           resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-          appBar: AppBarComponent(
-              preTitle: widget.preTitle, titleText: 'Edit Profile'),
+          appBar: AppBarComponent(preTitle: widget.preTitle, titleText: 'Edit'),
           backgroundColor: Colors.white,
           body: CardComponent(
             scrollPhysics: const AlwaysScrollableScrollPhysics(),

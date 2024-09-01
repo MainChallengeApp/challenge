@@ -18,20 +18,20 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
-import 'package:challenge/ui/pages/profile/settings/settings_page.dart';
+import 'package:challenge/ui/pages/account/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.title, this.onPush});
+class AccountPage extends StatefulWidget {
+  const AccountPage({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<AccountPage> createState() => _AccountPageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _AccountPageState extends State<AccountPage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();

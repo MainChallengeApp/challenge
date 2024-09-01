@@ -2,8 +2,8 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/ui/pages/account/account_tab_navigator.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
-import 'package:challenge/ui/pages/profile/profile_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +41,7 @@ class AppState extends State<App> {
           children: <Widget>[
             _buildOffstageNavigator(TabItemEnum.search),
             _buildOffstageNavigator(TabItemEnum.home),
-            _buildOffstageNavigator(TabItemEnum.profile),
+            _buildOffstageNavigator(TabItemEnum.account),
           ],
         ),
         backgroundColor: Colors.white,
@@ -68,7 +68,7 @@ class AppState extends State<App> {
             tabItem: tabItem,
           ),
         );
-      case TabItemEnum.profile:
+      case TabItemEnum.account:
         return Offstage(
           offstage: currentTab != tabItem,
           child: ProfileTabNavigator(

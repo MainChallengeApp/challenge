@@ -9,9 +9,9 @@ import 'package:challenge/ui/components/list_items/list_item_image_child_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/pages/profile/settings/credits_page.dart';
-import 'package:challenge/ui/pages/profile/settings/delete_account_page.dart';
-import 'package:challenge/ui/pages/subpages/edit_profile/edit_profile_page.dart';
+import 'package:challenge/ui/pages/account/settings/credits_page.dart';
+import 'package:challenge/ui/pages/account/settings/delete_account_page.dart';
+import 'package:challenge/ui/pages/account/settings/edit_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -181,7 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) =>
-            EditProfilePage(user: user, preTitle: '${widget.preTitle}/$title'),
+            EditAccountPage(user: user, preTitle: '${widget.preTitle}/$title'),
       ),
     );
   }
