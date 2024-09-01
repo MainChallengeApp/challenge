@@ -119,7 +119,14 @@ class _AccountPageState extends State<AccountPage> {
       isBioExpanded: isBioExpanded,
     );
     return isBioExpanded
-        ? Expanded(child: bioComponent)
+        ? Expanded(
+            child: Column(
+              children: [
+                Expanded(child: bioComponent),
+                const SpaceComponent(),
+              ],
+            ),
+          )
         : SpaceColumnComponent(child: bioComponent);
   }
 
@@ -176,14 +183,11 @@ class _AccountPageState extends State<AccountPage> {
   }
 
   notifications(UserModel user) {
-    return Visibility(
-      visible: !isBioExpanded,
-      child: TapContainerComponent(
-        onTap: () {},
-        child: const Center(
-          child: Text(
-            'Notifications',
-          ),
+    return TapContainerComponent(
+      onTap: () {},
+      child: const Center(
+        child: Text(
+          'Notifications',
         ),
       ),
     );

@@ -192,9 +192,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   startEndTryAcceptAgainButton(UserChallengeModel userChallenge) {
-    if (isDescriptionExpanded) {
-      return Container();
-    }
     return ActionButtonComponent(
       userChallenge: userChallenge,
       onTapStart: onTapStart,
@@ -258,7 +255,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       }),
     );
     return isDescriptionExpanded
-        ? Expanded(child: descriptionComponent)
+        ? Expanded(
+            child: Column(
+            children: [
+              Expanded(child: descriptionComponent),
+              challenge.description.isNotEmpty
+                  ? const SpaceComponent()
+                  : Container()
+            ],
+          ))
         : Column(
             children: [
               descriptionComponent,

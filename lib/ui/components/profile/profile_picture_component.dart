@@ -1,6 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
-import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:flutter/material.dart';
 
@@ -12,26 +11,17 @@ class ProfilePictureMaxComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainerComponent(
-      backgroundColor: themeColor4,
-      padding: const EdgeInsets.all(0),
-      borderWidth: 0,
-      height: ThumbnailMaxComponent.standardHeight,
-      child: Center(
-        child: SizedBox(
-          width: 150,
-          height: 150,
-          child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                  Radius.circular(CustomContainerComponent.standardRadius)),
-              child: profilePictureUrl == null
-                  ? Icon(
-                      IconEnum.profile.icon,
-                      color: themeColor3,
-                    )
-                  : Image.network(profilePictureUrl!, fit: BoxFit.cover)),
-        ),
-      ),
+    return AspectRatio(
+      aspectRatio: 1,
+      child: ClipRRect(
+          borderRadius: const BorderRadius.all(
+              Radius.circular(CustomContainerComponent.standardRadius)),
+          child: profilePictureUrl == null
+              ? Icon(
+                  IconEnum.profile.icon,
+                  color: themeColor3,
+                )
+              : Image.network(profilePictureUrl!, fit: BoxFit.cover)),
     );
   }
 }
