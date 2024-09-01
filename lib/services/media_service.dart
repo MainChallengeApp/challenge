@@ -45,13 +45,13 @@ class MediaService {
     }
   }
 
-  Future<String> uploadLocalThumbnail(UserChallengeModel userChallenge) async {
+  Future<String> uploadLocalThumbnail(
+      String userChallengeId, String url) async {
     try {
       String path =
-          '${UserChallengesCollection.collectionName}/${userChallenge.id}/thumbnail';
+          '${UserChallengesCollection.collectionName}/$userChallengeId/thumbnail';
 
-      String imageUrl = await storageService.uploadFile(
-          File(userChallenge.thumbnail.url), path);
+      String imageUrl = await storageService.uploadFile(File(url), path);
 
       return imageUrl;
     } on Exception {

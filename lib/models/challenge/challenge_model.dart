@@ -26,7 +26,7 @@ class ChallengeModel {
   String description;
   static const String descriptionField = 'description';
 
-  ThumbnailModel thumbnail;
+  ThumbnailModel? thumbnail;
   static const String thumbnailField = 'thumbnail';
 
   DateTime? startDate;
@@ -78,9 +78,8 @@ class ChallengeModel {
     this.media = const [],
     this.categories = const [],
     DateTime? createdAt,
-    ThumbnailModel? thumbnail,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        thumbnail = thumbnail ?? ThumbnailModel(url: '', scale: 1) {
+    this.thumbnail,
+  }) : createdAt = createdAt ?? DateTime.now() {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();
     frequency = FrequencyModel.empty();
@@ -95,7 +94,9 @@ class ChallengeModel {
         status: ChallengeStatusEnum.fromString(doc[statusField]),
         title: doc[titleField],
         description: doc[descriptionField],
-        thumbnail: ThumbnailModel.fromDoc(doc[thumbnailField]),
+        thumbnail: doc[thumbnailField] == null
+            ? null
+            : ThumbnailModel.fromDoc(doc[thumbnailField]),
         startDate: doc[startDateField] == null
             ? null
             : (doc[startDateField] as Timestamp).toDate(),
@@ -122,7 +123,7 @@ class ChallengeModel {
       statusField: status.status,
       titleField: title,
       descriptionField: description,
-      thumbnailField: thumbnail.toDoc(),
+      thumbnailField: thumbnail?.toDoc(),
       startDateField: startDate,
       endDateField: endDate,
       acceptanceCriteriaField: acceptanceCriteria.toDoc(),
@@ -143,7 +144,7 @@ class ChallengeModel {
         startDate: isTryAgain ? null : startDate,
         endDate: isTryAgain ? null : endDate,
         description: description,
-        thumbnail: thumbnail.copy(),
+        thumbnail: thumbnail?.copy(),
         acceptanceCriteria: acceptanceCriteria.copy(),
         frequency: frequency.copy(),
         repetitions:
@@ -185,17 +186,6 @@ class ChallengeModel {
     return status;
   }
 
-  String getThumbnailPath() {
-    if (thumbnail.url.isEmpty && media.isNotEmpty) {
-      return media.last.source;
-    }
-    return thumbnail.url;
-  }
-
-  bool isThumbnailLocal() {
-    return !thumbnail.url.startsWith('https://');
-  }
-
   setEndDate() {
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&
@@ -228,7 +218,7 @@ class ChallengeModel {
   }
 
   hasThumbnail() {
-    return thumbnail.url != '';
+    return thumbnail != null && thumbnail!.url != '';
   }
 
   RepetitionModel? getLastRepetition() {

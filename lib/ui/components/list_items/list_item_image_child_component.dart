@@ -1,3 +1,4 @@
+import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -12,8 +13,8 @@ class ListItemImageChildComponent extends StatelessWidget {
       this.onTap,
       required this.url,
       required this.child,
-      this.fit = BoxFit.cover,
-      this.scale = 1,
+      this.fit,
+      this.scale,
       this.icon = Icons.question_mark,
       this.endActionPane});
 
@@ -21,8 +22,8 @@ class ListItemImageChildComponent extends StatelessWidget {
   final ActionPane? Function(Function)? endActionPane;
 
   final String? url;
-  final BoxFit fit;
-  final double scale;
+  final BoxFit? fit;
+  final double? scale;
 
   final Widget child;
   final IconData icon;
@@ -47,20 +48,20 @@ class ListItemImageChildComponent extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(
                       ListItemIconTextComponent.standardIconRadius)),
                   child: Transform.scale(
-                    scale: scale,
+                    scale: scale ?? 1,
                     child: url == null
                         ? Center(
                             child: Icon(icon, color: themeColor3),
                           )
                         : mediaService.isUrlLocal(url!)
                             ? Image.asset(url!,
-                                fit: fit,
+                                fit: fit ?? BoxFitEnum.cover.fit,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Center(
                                       child: Icon(icon, color: themeColor3),
                                     ))
                             : Image.network(url!,
-                                fit: fit,
+                                fit: fit ?? BoxFitEnum.cover.fit,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Center(
                                       child: Icon(icon, color: themeColor3),

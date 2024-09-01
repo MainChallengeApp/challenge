@@ -36,9 +36,11 @@ class UserChallengesProvider with ChangeNotifier {
       UserChallengeModel newUserChallenge =
           await userChallengesCollection.create(userChallenge);
 
-      if (newUserChallenge.isThumbnailLocal()) {
-        newUserChallenge.thumbnail.url =
-            await mediaService.uploadLocalThumbnail(newUserChallenge);
+      if (newUserChallenge.hasThumbnail() &&
+          mediaService.isUrlLocal(newUserChallenge.thumbnail!.url)) {
+        newUserChallenge.thumbnail!.url =
+            await mediaService.uploadLocalThumbnail(
+                newUserChallenge.id, newUserChallenge.thumbnail!.url);
         update(newUserChallenge);
       }
 
@@ -71,9 +73,10 @@ class UserChallengesProvider with ChangeNotifier {
 
   update(UserChallengeModel userChallenge) async {
     try {
-      if (userChallenge.isThumbnailLocal()) {
-        userChallenge.thumbnail.url =
-            await mediaService.uploadLocalThumbnail(userChallenge);
+      if (userChallenge.hasThumbnail() &&
+          mediaService.isUrlLocal(userChallenge.thumbnail!.url)) {
+        userChallenge.thumbnail!.url = await mediaService.uploadLocalThumbnail(
+            userChallenge.id, userChallenge.thumbnail!.url);
       }
 
       for (var media in userChallenge.media) {

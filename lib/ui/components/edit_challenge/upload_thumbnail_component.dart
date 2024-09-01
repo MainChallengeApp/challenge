@@ -1,6 +1,7 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -28,7 +29,8 @@ class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
             return;
           }
           setState(() {
-            widget.editChallenge.thumbnail.selectThumbnail(media.source);
+            widget.editChallenge.thumbnail = ThumbnailModel();
+            widget.editChallenge.thumbnail!.selectThumbnail(media.source);
           });
         },
         isQuadratic: true,
@@ -38,25 +40,25 @@ class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
             width: CustomContainerComponent.standardHeight,
             height: CustomContainerComponent.standardHeight,
             child: widget.editChallenge.hasThumbnail()
-                ? widget.editChallenge.isThumbnailLocal()
+                ? mediaService.isUrlLocal(widget.editChallenge.thumbnail!.url)
                     ? ClipRRect(
                         borderRadius: const BorderRadius.all(
                             Radius.circular(13)), // TODO: 13?
                         child: Transform.scale(
-                          scale: widget.editChallenge.thumbnail.scale,
+                          scale: widget.editChallenge.thumbnail!.scale,
                           child: Image.asset(
-                            widget.editChallenge.thumbnail.url,
-                            fit: widget.editChallenge.thumbnail.fit.fit,
+                            widget.editChallenge.thumbnail!.url,
+                            fit: widget.editChallenge.thumbnail!.fit.fit,
                           ),
                         ))
                     : ClipRRect(
                         borderRadius: const BorderRadius.all(
                             Radius.circular(13)), // TODO: 13?
                         child: Transform.scale(
-                          scale: widget.editChallenge.thumbnail.scale,
+                          scale: widget.editChallenge.thumbnail!.scale,
                           child: Image.network(
-                            widget.editChallenge.thumbnail.url,
-                            fit: widget.editChallenge.thumbnail.fit.fit,
+                            widget.editChallenge.thumbnail!.url,
+                            fit: widget.editChallenge.thumbnail!.fit.fit,
                           ),
                         ))
                 : const Center(

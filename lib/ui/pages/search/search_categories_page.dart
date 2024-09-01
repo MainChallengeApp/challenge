@@ -3,6 +3,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/categories/category_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -34,13 +35,19 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
 
   String searchBarText = '';
 
+  final mediaService = MediaService();
+
   @override
   void initState() {
     super.initState();
     searchChallengesProvider.getAll().then((searchChallenges) {
       for (var searchChallenge in searchChallenges) {
+        if (!searchChallenge.hasThumbnail() ||
+            mediaService.isUrlLocal(searchChallenge.thumbnail!.url)) {
+          continue;
+        }
         precacheImage(
-            NetworkImage(searchChallenge.getThumbnailPath()),
+            NetworkImage(searchChallenge.thumbnail!.url),
             // ignore: use_build_context_synchronously
             context);
       }

@@ -2,6 +2,7 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
@@ -32,14 +33,17 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
 class _ListItemChallengeSmallComponentState
     extends State<ListItemChallengeSmallComponent> {
   late BuildContext context2;
+
+  final mediaService = MediaService();
+
   @override
   Widget build(BuildContext context) {
     return ListItemImageChildComponent(
-        url: widget.challenge.thumbnail.url,
+        url: widget.challenge.thumbnail?.url,
         endActionPane: endActionPane,
         onTap: widget.onTap,
-        scale: widget.challenge.thumbnail.scale,
-        fit: widget.challenge.thumbnail.fit.fit,
+        scale: widget.challenge.thumbnail?.scale,
+        fit: widget.challenge.thumbnail?.fit.fit,
         child: Row(
           children: [
             Expanded(
@@ -67,20 +71,20 @@ class _ListItemChallengeSmallComponentState
       margin: const EdgeInsets.only(right: 12),
       child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(12)),
-          child: widget.challenge.getThumbnailPath() != ''
-              ? widget.challenge.isThumbnailLocal()
+          child: widget.challenge.hasThumbnail()
+              ? mediaService.isUrlLocal(widget.challenge.thumbnail!.url)
                   ? Transform.scale(
-                      scale: widget.challenge.thumbnail.scale,
+                      scale: widget.challenge.thumbnail!.scale,
                       child: Image.asset(
-                        widget.challenge.getThumbnailPath(),
-                        fit: widget.challenge.thumbnail.fit.fit,
+                        widget.challenge.thumbnail!.url,
+                        fit: widget.challenge.thumbnail!.fit.fit,
                       ),
                     )
                   : Transform.scale(
-                      scale: widget.challenge.thumbnail.scale,
+                      scale: widget.challenge.thumbnail!.scale,
                       child: Image.network(
-                        widget.challenge.getThumbnailPath(),
-                        fit: widget.challenge.thumbnail.fit.fit,
+                        widget.challenge.thumbnail!.url,
+                        fit: widget.challenge.thumbnail!.fit.fit,
                       ),
                     )
               : const Center(

@@ -225,7 +225,8 @@ void main() {
         expect(copiedChallenge.status, equals(challenge.status));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnail.url, equals(challenge.thumbnail.url));
+        expect(
+            copiedChallenge.thumbnail!.url, equals(challenge.thumbnail!.url));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -253,7 +254,8 @@ void main() {
         expect(copiedChallenge.status, equals(challenge.status));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnail.url, equals(challenge.thumbnail.url));
+        expect(
+            copiedChallenge.thumbnail!.url, equals(challenge.thumbnail!.url));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -282,7 +284,8 @@ void main() {
         expect(copiedChallenge.status, equals(ChallengeStatusEnum.backlog));
         expect(copiedChallenge.title, equals(challenge.title));
         expect(copiedChallenge.description, equals(challenge.description));
-        expect(copiedChallenge.thumbnail.url, equals(challenge.thumbnail.url));
+        expect(
+            copiedChallenge.thumbnail!.url, equals(challenge.thumbnail!.url));
         expect(copiedChallenge.acceptanceCriteria.amount,
             equals(challenge.acceptanceCriteria.amount));
         expect(copiedChallenge.acceptanceCriteria.unit,
@@ -418,75 +421,6 @@ void main() {
         expect(challenge.status, equals(ChallengeStatusEnum.inProgress));
       });
     });
-    group('getThumbnailPath()', () {
-      test('should return thumbnailPath when it is not empty', () {
-        // Arrange
-        ChallengeModel challenge = createMockChallengeModel();
-
-        // Act
-        String thumbnailPath = challenge.getThumbnailPath();
-
-        // Assert
-        expect(thumbnailPath, equals(challenge.thumbnail.url));
-      });
-
-      test('should return last media source when thumbnailPath is empty', () {
-        // Arrange
-        ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail.url = '';
-        String mediaSource = 'media/source';
-        challenge.media.add(MediaModel(
-            source: mediaSource, type: MediaTypeEnum.image, title: 'title'));
-        // Act
-
-        String thumbnailPath = challenge.getThumbnailPath();
-
-        // Assert
-        expect(thumbnailPath, equals(mediaSource));
-      });
-
-      test('should return empty string when thumbnailPath and media is empty',
-          () {
-        // Arrange
-        ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail.url = '';
-
-        // Act
-        String thumbnailPath = challenge.getThumbnailPath();
-
-        // Assert
-        expect(thumbnailPath, equals(''));
-      });
-    });
-
-    group('isThumbnailFromAssetsImage()', () {
-      test('should return true when thumbnailPath starts with "assets/images/"',
-          () {
-        // Arrange
-        ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail.url = 'assets/images/test.png';
-
-        // Act
-        bool isThumbnailFromAssetsImage = challenge.isThumbnailLocal();
-
-        // Assert
-        expect(isThumbnailFromAssetsImage, equals(true));
-      });
-
-      test(
-          'should return false when thumbnailPath does not start with "assets/images/"',
-          () {
-        // Arrange
-        ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail.url = 'https://assets/images/test.png';
-
-        // Act
-        bool isThumbnailFromAssetsImage = challenge.isThumbnailLocal();
-
-        // Assert
-        expect(isThumbnailFromAssetsImage, equals(false));
-      });
-    });
 
     group('setEndDate()', () {
       test('should not change end date when start date is null', () {
@@ -598,7 +532,7 @@ void main() {
       test('should return true when thumbnailPath is not empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail.url = 'thumbnailPath';
+        challenge.thumbnail!.url = 'thumbnailPath';
 
         // Act
         bool hasThumbnail = challenge.hasThumbnail();
@@ -610,7 +544,7 @@ void main() {
       test('should return false when thumbnailPath is empty', () {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
-        challenge.thumbnail.url = '';
+        challenge.thumbnail!.url = '';
 
         // Act
         bool hasThumbnail = challenge.hasThumbnail();

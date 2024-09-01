@@ -1,5 +1,6 @@
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ class ThumbnailMaxComponent extends StatelessWidget {
   final dynamic Function() onTapOpenMediaPage;
   final bool isMediaListVisible;
 
-  const ThumbnailMaxComponent(
+  final mediaService = MediaService();
+
+  ThumbnailMaxComponent(
       {super.key,
       required this.challenge,
       required this.onTapOpenMediaPage,
@@ -33,17 +36,17 @@ class ThumbnailMaxComponent extends StatelessWidget {
               child: ClipRRect(
                   borderRadius: const BorderRadius.all(
                       Radius.circular(CustomContainerComponent.standardRadius)),
-                  child: challenge.getThumbnailPath() != ''
-                      ? challenge.isThumbnailLocal()
+                  child: challenge.hasThumbnail()
+                      ? mediaService.isUrlLocal(challenge.thumbnail!.url)
                           ? Transform.scale(
-                              scale: challenge.thumbnail.scale,
-                              child: Image.asset(challenge.getThumbnailPath(),
-                                  fit: challenge.thumbnail.fit.fit),
+                              scale: challenge.thumbnail!.scale,
+                              child: Image.asset(challenge.thumbnail!.url,
+                                  fit: challenge.thumbnail!.fit.fit),
                             )
                           : Transform.scale(
-                              scale: challenge.thumbnail.scale,
-                              child: Image.network(challenge.getThumbnailPath(),
-                                  fit: challenge.thumbnail.fit.fit),
+                              scale: challenge.thumbnail!.scale,
+                              child: Image.network(challenge.thumbnail!.url,
+                                  fit: challenge.thumbnail!.fit.fit),
                             )
                       : const Icon(Icons.question_mark, color: themeColor3)),
             ),

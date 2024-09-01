@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/challenge/title_with_percentage_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -38,14 +39,17 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   late int currentChallengeIndex = widget.initChallengeIndex;
 
+  final mediaService = MediaService();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     for (var challenge in widget.challenges) {
-      if (challenge.isThumbnailLocal()) {
+      if (!challenge.hasThumbnail() ||
+          mediaService.isUrlLocal(challenge.thumbnail!.url)) {
         continue;
       }
-      precacheImage(NetworkImage(challenge.getThumbnailPath()), context);
+      precacheImage(NetworkImage(challenge.thumbnail!.url), context);
     }
   }
 
