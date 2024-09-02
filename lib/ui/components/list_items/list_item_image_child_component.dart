@@ -39,7 +39,7 @@ class ListItemImageChildComponent extends StatelessWidget {
         children: [
           ContainerInContainerComponent(
               padding: const EdgeInsets.all(0),
-              margin: const EdgeInsets.only(right: 12),
+              margin: const EdgeInsets.only(right: 10),
               height: ListItemIconTextComponent.iconContainerSize,
               width: ListItemIconTextComponent.iconContainerSize,
               borderRadius: const BorderRadius.all(Radius.circular(

@@ -8,10 +8,11 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_component
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/account/settings/credits_page.dart';
 import 'package:challenge/ui/pages/account/settings/delete_account_page.dart';
-import 'package:challenge/ui/pages/account/settings/edit_account_page.dart';
+import 'package:challenge/ui/pages/account/settings/edit_account/edit_account_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -60,90 +61,57 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildList() {
     user = usersProvider.user;
-    int itemCount = 5;
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
       thumbColor: themeColor3,
       padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount: itemCount,
-          itemBuilder: (BuildContext content, int index) {
-            if (index == 0) {
-              return Column(
-                children: [
-                  ListItemImageChildComponent(
-                      onTap: onTapProfile,
-                      icon: IconEnum.profile.icon,
-                      url: user.profilePictureUrl,
-                      child: Text('@${user.username}')),
-                  const SpaceComponent()
-                ],
-              );
-            }
-
-            if (index == 1) {
-              return Column(
-                children: [
-                  ListItemIconTextComponent(
-                      onTap: onTapFeedback,
-                      icon: Icons.feedback_outlined,
-                      title: 'Feedback'),
-                  const SpaceComponent()
-                ],
-              );
-            }
-
-            if (index == 2) {
-              return Column(
-                children: [
-                  ListItemIconTextComponent(
-                      onTap: onTapCredits,
-                      icon: Icons.handshake_outlined,
-                      title: 'Credits'),
-                  const SpaceComponent()
-                ],
-              );
-            }
-
-            if (index == 3) {
-              return Column(
-                children: [
-                  ListItemIconTextComponent(
-                      onTap: onTapLogout,
-                      icon: Icons.logout_rounded,
-                      title: 'Log out'),
-                  const SpaceComponent()
-                ],
-              );
-            }
-
-            if (index == itemCount - 1) {
-              return Column(
-                children: [
-                  const SpaceComponent(
-                    heightMultiplier: 5,
-                  ),
-                  ListItemIconTextComponent(
-                      onTap: onTapDeleteAccount,
-                      icon: IconEnum.delete.icon,
-                      title: 'Delete Account',
-                      iconColor: Colors.red[300]!,
-                      textColor: Colors.red[300]!),
-                  const SpaceComponent()
-                ],
-              );
-            }
-
-            return Container();
-          }),
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        controller: scrollController,
+        children: [
+          SpaceColumnComponent(
+            child: ListItemImageChildComponent(
+                onTap: onTapEdit,
+                icon: IconEnum.profile.icon,
+                url: user.profilePictureUrl,
+                child: const Text('Edit')),
+          ),
+          SpaceColumnComponent(
+            child: ListItemIconTextComponent(
+                onTap: onTapFeedback,
+                icon: Icons.feedback_outlined,
+                title: 'Feedback'),
+          ),
+          SpaceColumnComponent(
+            child: ListItemIconTextComponent(
+                onTap: onTapCredits,
+                icon: Icons.handshake_outlined,
+                title: 'Credits'),
+          ),
+          SpaceColumnComponent(
+            child: ListItemIconTextComponent(
+                onTap: onTapLogout,
+                icon: Icons.logout_rounded,
+                title: 'Log out'),
+          ),
+          const SpaceComponent(),
+          SpaceColumnComponent(
+            child: ListItemIconTextComponent(
+                onTap: onTapDeleteAccount,
+                icon: IconEnum.delete.icon,
+                title: 'Delete',
+                iconColor: Colors.red[300]!,
+                textColor: Colors.red[300]!),
+          )
+        ],
+      ),
     );
   }
 
-  onTapLogout() {
-    authService.logout();
+  onTapLogout() async {
+    await authService.logout();
+    usersProvider.resetLocalUser();
   }
 
   onTapFeedback() async {
@@ -176,7 +144,7 @@ class _SettingsPageState extends State<SettingsPage> {
     ).then((_) => setState(() {}));
   }
 
-  void onTapProfile() {
+  void onTapEdit() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

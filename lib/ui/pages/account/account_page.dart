@@ -127,7 +127,9 @@ class _AccountPageState extends State<AccountPage> {
               ],
             ),
           )
-        : SpaceColumnComponent(child: bioComponent);
+        : user.bio != null && user.bio!.isNotEmpty
+            ? SpaceColumnComponent(child: bioComponent)
+            : Container();
   }
 
   challengesAndConnections(UserModel user) {

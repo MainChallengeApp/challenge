@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
 
   switchToRegistrationButton() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 150.0),
+      padding: const EdgeInsets.only(bottom: 150.0), // TODO: 150?
       child: GestureDetector(
         onTap: widget.onTapSwitchToRegistration,
         child: const Row(

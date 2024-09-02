@@ -6,8 +6,6 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:flutter/material.dart';
 
 class ThumbnailMaxComponent extends StatelessWidget {
-  static const double standardHeight = 180;
-
   final ChallengeModel challenge;
   final dynamic Function() onTapOpenMediaPage;
   final bool isMediaListVisible;
@@ -22,69 +20,72 @@ class ThumbnailMaxComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TapContainerComponent(
-      onTap: onTapOpenMediaPage,
-      backgroundColor: themeColor4,
-      padding: const EdgeInsets.all(0),
-      borderWidth: 0,
-      height: standardHeight,
-      child: Stack(
-        children: [
-          Center(
-            child: SizedBox(
-              width: double.infinity,
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                      Radius.circular(CustomContainerComponent.standardRadius)),
-                  child: challenge.hasThumbnail()
-                      ? mediaService.isUrlLocal(challenge.thumbnail!.url)
-                          ? Transform.scale(
-                              scale: challenge.thumbnail!.scale,
-                              child: Image.asset(challenge.thumbnail!.url,
-                                  fit: challenge.thumbnail!.fit.fit),
-                            )
-                          : Transform.scale(
-                              scale: challenge.thumbnail!.scale,
-                              child: Image.network(challenge.thumbnail!.url,
-                                  fit: challenge.thumbnail!.fit.fit),
-                            )
-                      : const Icon(Icons.question_mark, color: themeColor3)),
+    return AspectRatio(
+      aspectRatio: 1.75,
+      child: TapContainerComponent(
+        onTap: onTapOpenMediaPage,
+        backgroundColor: themeColor4,
+        padding: const EdgeInsets.all(0),
+        borderWidth: 0,
+        height: double.infinity,
+        child: Stack(
+          children: [
+            Center(
+              child: SizedBox(
+                width: double.infinity,
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        CustomContainerComponent.standardRadius)),
+                    child: challenge.hasThumbnail()
+                        ? mediaService.isUrlLocal(challenge.thumbnail!.url)
+                            ? Transform.scale(
+                                scale: challenge.thumbnail!.scale,
+                                child: Image.asset(challenge.thumbnail!.url,
+                                    fit: challenge.thumbnail!.fit.fit),
+                              )
+                            : Transform.scale(
+                                scale: challenge.thumbnail!.scale,
+                                child: Image.network(challenge.thumbnail!.url,
+                                    fit: challenge.thumbnail!.fit.fit),
+                              )
+                        : const Icon(Icons.question_mark, color: themeColor3)),
+              ),
             ),
-          ),
-          isMediaListVisible
-              ? Align(
-                  alignment: Alignment.bottomRight,
-                  child: Container(
-                    clipBehavior: Clip.none,
-                    margin: const EdgeInsets.all(10),
-                    padding: const EdgeInsets.all(5),
-                    decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        color: themeColor4),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${challenge.media.length}',
-                          textAlign: TextAlign.end,
-                          style: const TextStyle(
-                              color: themeColor3,
-                              // fontWeight: FontWeight.w100,
-                              fontSize: 10),
-                        ),
-                        const SizedBox(width: 2),
-                        const Icon(
-                          Icons.inventory_2_outlined,
-                          color: themeColor3,
-                          size: 10,
-                        )
-                      ],
+            isMediaListVisible
+                ? Align(
+                    alignment: Alignment.bottomRight,
+                    child: Container(
+                      clipBehavior: Clip.none,
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: themeColor4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            '${challenge.media.length}',
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                                color: themeColor3,
+                                // fontWeight: FontWeight.w100,
+                                fontSize: 10),
+                          ),
+                          const SizedBox(width: 2),
+                          const Icon(
+                            Icons.inventory_2_outlined,
+                            color: themeColor3,
+                            size: 10,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              : Container(),
-        ],
+                  )
+                : Container(),
+          ],
+        ),
       ),
     );
   }

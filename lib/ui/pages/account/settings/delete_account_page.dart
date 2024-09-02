@@ -23,7 +23,7 @@ class DeleteAccountPage extends StatefulWidget {
 class _DeleteAccountPageState extends State<DeleteAccountPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
-  final String titleText = 'Delete Account';
+  final String titleText = 'Delete';
 
   final TextEditingController emailTextEditingController =
       TextEditingController();
@@ -39,55 +39,61 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: titleText),
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
-      body: Column(
-        children: [
-          const SpaceColumnComponent(
-            heightMultiplier: 2,
-            child: CustomContainerComponent(
-              borderRadius: CardComponent.standardBorderRadius,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              height: 150,
-              child: Center(
-                child: Text(
-                  'Please enter your email and password to delete your Account.\n\n\nThis action will delete all your data and cannot be undone.',
-                  textAlign: TextAlign.center,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar:
+            AppBarComponent(preTitle: widget.preTitle, titleText: titleText),
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: Column(
+          children: [
+            const SpaceColumnComponent(
+              child: CustomContainerComponent(
+                borderRadius: CardComponent.standardBorderRadius,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                height: 150,
+                child: Center(
+                  child: Text(
+                    'This action will delete all your data and cannot be undone.\n\nPlease enter your email and password to delete your Account.',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
-          ),
-          SpaceColumnComponent(
-            child: ListItemEmailComponent(
-                textEditingController: emailTextEditingController,
-                errorText: emailErrorText,
-                onChangeTextField: (_) => setState(() {
-                      emailErrorText = null;
-                      passwordErrorText = null;
-                    })),
-          ),
-          SpaceColumnComponent(
-            child: ListItemPasswordComponent(
-                textEditingController: passwordTextEditingController,
-                errorText: passwordErrorText,
-                onChangeTextField: (_) => setState(() {
-                      emailErrorText = null;
-                      passwordErrorText = null;
-                    })),
-          ),
-          Expanded(child: Container()),
-          SpaceColumnComponent(
-            height: 20,
-            child: ListItemButtonComponent(
-                onTap: onTapDeleteAccount,
-                text: 'Delete Account',
-                isLoading: isLoading,
-                isMainButton: false,
-                textColor: Colors.red[300]!),
-          ),
-        ],
+            SpaceColumnComponent(
+              child: ListItemEmailComponent(
+                  textEditingController: emailTextEditingController,
+                  errorText: emailErrorText,
+                  onChangeTextField: (_) => setState(() {
+                        emailErrorText = null;
+                        passwordErrorText = null;
+                      })),
+            ),
+            SpaceColumnComponent(
+              heightMultiplier: 2,
+              child: ListItemPasswordComponent(
+                  textEditingController: passwordTextEditingController,
+                  errorText: passwordErrorText,
+                  onChangeTextField: (_) => setState(() {
+                        emailErrorText = null;
+                        passwordErrorText = null;
+                      })),
+            ),
+            Expanded(child: Container()),
+            SpaceColumnComponent(
+              height: 20,
+              child: ListItemButtonComponent(
+                  onTap: onTapDeleteAccount,
+                  text: 'Delete Account',
+                  isLoading: isLoading,
+                  isMainButton: false,
+                  textColor: Colors.red[300]!),
+            ),
+          ],
+        ),
       ),
     );
   }

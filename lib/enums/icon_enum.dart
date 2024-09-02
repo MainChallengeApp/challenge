@@ -8,6 +8,11 @@ enum IconEnum {
   search(Icons.search_rounded),
   edit(Icons.edit_rounded),
   profile(Icons.person_rounded),
+  email(Icons.email_rounded),
+  password(Icons.password_rounded),
+  bio(Icons.notes_rounded),
+  username(Icons.alternate_email_rounded),
+  picture(Icons.image_rounded),
   ;
 
   const IconEnum(this.icon);
