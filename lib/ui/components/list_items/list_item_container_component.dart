@@ -6,6 +6,7 @@ class ListItemContainerComponent extends StatefulWidget {
   static const double standardPadding = 12;
   static const double standardBorderRadius = 24;
   static const double standardHeight = 64;
+  static const double standardMargin = 20;
 
   final Widget child;
   final Color? backgroundColor;
@@ -74,8 +75,10 @@ class _ListItemContainerComponentState
                 width: double.infinity,
                 height:
                     widget.height ?? ListItemContainerComponent.standardHeight,
-                margin:
-                    widget.margin ?? const EdgeInsets.only(left: 20, right: 20),
+                margin: widget.margin ??
+                    const EdgeInsets.only(
+                        left: ListItemContainerComponent.standardMargin,
+                        right: ListItemContainerComponent.standardMargin),
                 padding: widget.padding ??
                     const EdgeInsets.all(
                         ListItemContainerComponent.standardPadding),

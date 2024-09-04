@@ -2,9 +2,11 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -63,12 +65,33 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 },
               ),
             ),
-            SpaceColumnComponent(
-                child: ListItemButtonComponent(
-              onTap: onTapSave,
-              text: 'Save',
-              isLoading: isLoading,
-            )),
+            Row(
+              children: [
+                Expanded(
+                  child: SpaceColumnComponent(
+                      child: ListItemButtonComponent(
+                    onTap: onTapCancel,
+                    text: 'Cancel',
+                    isMainButton: false,
+                    margin: const EdgeInsets.only(
+                        left: ListItemContainerComponent.standardMargin),
+                  )),
+                ),
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
+                ),
+                Expanded(
+                  child: SpaceColumnComponent(
+                      child: ListItemButtonComponent(
+                    margin: const EdgeInsets.only(
+                        right: ListItemContainerComponent.standardMargin),
+                    onTap: onTapSave,
+                    text: 'Save',
+                    isLoading: isLoading,
+                  )),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -89,6 +112,10 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
       isLoading = false;
     });
     // ignore: use_build_context_synchronously
+    Navigator.pop(context);
+  }
+
+  void onTapCancel() {
     Navigator.pop(context);
   }
 }
