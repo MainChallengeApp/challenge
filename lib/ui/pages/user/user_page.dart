@@ -11,27 +11,27 @@ import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/profile/bio_component.dart';
-import 'package:challenge/ui/components/profile/profile_picture_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
-import 'package:challenge/ui/pages/account/settings/settings_page.dart';
+import 'package:challenge/ui/components/user/bio_component.dart';
+import 'package:challenge/ui/components/user/user_picture_component.dart';
+import 'package:challenge/ui/pages/user/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({super.key, required this.title, this.onPush});
+class UserPage extends StatefulWidget {
+  const UserPage({super.key, required this.title, this.onPush});
   final String title;
   final ValueChanged<ChallengeModel>? onPush;
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<UserPage> createState() => _UserPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _UserPageState extends State<UserPage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();
@@ -70,7 +70,7 @@ class _AccountPageState extends State<AccountPage> {
           child: CardComponent(
             scrollPhysics: const AlwaysScrollableScrollPhysics(),
             children: [
-              profilePicture(user),
+              picture(user),
               userName(user),
               bio(user),
               challengesAndConnections(user),
@@ -99,11 +99,11 @@ class _AccountPageState extends State<AccountPage> {
     ];
   }
 
-  profilePicture(UserModel user) {
+  picture(UserModel user) {
     return SpaceColumnComponent(
       height: 11,
-      child: ProfilePictureMaxComponent(
-        profilePictureUrl: user.profilePictureUrl,
+      child: UserPictureMaxComponent(
+        userPictureUrl: user.pictureUrl,
       ),
     );
   }

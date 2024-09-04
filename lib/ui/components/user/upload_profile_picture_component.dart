@@ -6,18 +6,18 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 
-class UploadProfilePictureComponent extends StatefulWidget {
+class UploadUserPictureComponent extends StatefulWidget {
   final UserModel editUser;
 
-  const UploadProfilePictureComponent({super.key, required this.editUser});
+  const UploadUserPictureComponent({super.key, required this.editUser});
 
   @override
-  State<UploadProfilePictureComponent> createState() =>
-      _UploadProfilePictureComponentState();
+  State<UploadUserPictureComponent> createState() =>
+      _UploadUserPictureComponentState();
 }
 
-class _UploadProfilePictureComponentState
-    extends State<UploadProfilePictureComponent> {
+class _UploadUserPictureComponentState
+    extends State<UploadUserPictureComponent> {
   MediaService mediaService = MediaService();
 
   @override
@@ -29,7 +29,7 @@ class _UploadProfilePictureComponentState
             return;
           }
           setState(() {
-            widget.editUser.profilePictureUrl = media.source;
+            widget.editUser.pictureUrl = media.source;
           });
         },
         isQuadratic: true,
@@ -38,20 +38,20 @@ class _UploadProfilePictureComponentState
           child: SizedBox(
             width: CustomContainerComponent.standardHeight,
             height: CustomContainerComponent.standardHeight,
-            child: widget.editUser.hasProfilePicture()
-                ? mediaService.isUrlLocal(widget.editUser.profilePictureUrl!)
+            child: widget.editUser.hasPicture()
+                ? mediaService.isUrlLocal(widget.editUser.pictureUrl!)
                     ? ClipRRect(
                         borderRadius: const BorderRadius.all(
                             Radius.circular(13)), // TODO: 13?
                         child: Image.asset(
-                          widget.editUser.profilePictureUrl!,
+                          widget.editUser.pictureUrl!,
                           fit: BoxFit.cover,
                         ))
                     : ClipRRect(
                         borderRadius: const BorderRadius.all(
                             Radius.circular(13)), // TODO: 13?
                         child: Image.network(
-                          widget.editUser.profilePictureUrl!,
+                          widget.editUser.pictureUrl!,
                           fit: BoxFit.cover,
                         ))
                 : const Center(

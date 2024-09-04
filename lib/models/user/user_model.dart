@@ -10,8 +10,8 @@ class UserModel {
   String username;
   static const String usernameField = 'username';
 
-  String? profilePictureUrl;
-  static const String profilePictureUrlField = 'profilePictureUrl';
+  String? pictureUrl;
+  static const String pictureUrlField = 'pictureUrl';
 
   String? bio;
   static const String bioField = 'bio';
@@ -23,7 +23,7 @@ class UserModel {
       {required this.id,
       required this.email,
       required this.username,
-      this.profilePictureUrl,
+      this.pictureUrl,
       this.bio,
       this.connectionIds = const []});
 
@@ -31,7 +31,7 @@ class UserModel {
       : id = '',
         email = '',
         username = '',
-        profilePictureUrl = null,
+        pictureUrl = null,
         bio = null,
         connectionIds = [];
 
@@ -41,10 +41,9 @@ class UserModel {
           id: doc.id,
           email: doc[emailField],
           username: doc[usernameField],
-          profilePictureUrl:
-              (doc.data() as Map).containsKey(profilePictureUrlField)
-                  ? doc[profilePictureUrlField]
-                  : null,
+          pictureUrl: (doc.data() as Map).containsKey(pictureUrlField)
+              ? doc[pictureUrlField]
+              : null,
           bio: (doc.data() as Map).containsKey(bioField) ? doc[bioField] : null,
           connectionIds: (doc.data() as Map).containsKey(connectionIdsField)
               ? List.from(doc[connectionIdsField])
@@ -58,7 +57,7 @@ class UserModel {
     return {
       emailField: email,
       usernameField: username,
-      profilePictureUrlField: profilePictureUrl,
+      pictureUrlField: pictureUrl,
       bioField: bio,
       connectionIdsField: connectionIds
     };
@@ -69,12 +68,12 @@ class UserModel {
         id: id,
         email: email,
         username: username,
-        profilePictureUrl: profilePictureUrl,
+        pictureUrl: pictureUrl,
         bio: bio,
         connectionIds: List<String>.from(connectionIds));
   }
 
-  hasProfilePicture() {
-    return profilePictureUrl != null;
+  hasPicture() {
+    return pictureUrl != null;
   }
 }

@@ -11,19 +11,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class DeleteAccountPage extends StatefulWidget {
-  const DeleteAccountPage({super.key, required this.preTitle});
+class DeleteUserPage extends StatefulWidget {
+  const DeleteUserPage({super.key, required this.preTitle});
 
   final String preTitle;
 
   @override
-  State<DeleteAccountPage> createState() => _DeleteAccountPageState();
+  State<DeleteUserPage> createState() => _DeleteUserPageState();
 }
 
-class _DeleteAccountPageState extends State<DeleteAccountPage> {
+class _DeleteUserPageState extends State<DeleteUserPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
-  final String titleText = 'Delete Account';
+  final String titleText = 'Delete';
 
   final TextEditingController emailTextEditingController =
       TextEditingController();
@@ -60,7 +60,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
                         height: 150,
                         child: Center(
                           child: Text(
-                            'This action will delete all your data and cannot be undone.\n\nPlease enter your email and password to delete your Account.',
+                            'This action will delete all your data and cannot be undone.\n\nPlease enter your email and password to delete your user.',
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -92,8 +92,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
             SpaceColumnComponent(
               height: 20,
               child: ListItemButtonComponent(
-                  onTap: onTapDeleteAccount,
-                  text: 'Delete Account',
+                  onTap: onTapDeleteUser,
+                  text: 'Delete',
                   isLoading: isLoading,
                   isMainButton: false,
                   textColor: Colors.red[300]!),
@@ -104,7 +104,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     );
   }
 
-  void onTapDeleteAccount() async {
+  void onTapDeleteUser() async {
     if (isLoading) {
       return;
     }
@@ -116,7 +116,7 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
     try {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
-      await authService.deleteAccount();
+      await authService.deleteUser();
       usersProvider.resetLocalUser();
     } on FirebaseAuthException catch (e) {
       setState(() {

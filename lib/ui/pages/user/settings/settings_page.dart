@@ -9,9 +9,9 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/pages/account/settings/credits_page.dart';
-import 'package:challenge/ui/pages/account/settings/delete_account_page.dart';
-import 'package:challenge/ui/pages/account/settings/edit_account/edit_account_page.dart';
+import 'package:challenge/ui/pages/user/settings/credits_page.dart';
+import 'package:challenge/ui/pages/user/settings/delete_user_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -71,9 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
-                onTap: onTapEdit,
-                icon: IconEnum.edit.icon,
-                title: 'Edit Account'),
+                onTap: onTapEdit, icon: IconEnum.edit.icon, title: 'Edit'),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
@@ -96,9 +94,9 @@ class _SettingsPageState extends State<SettingsPage> {
           const SpaceComponent(),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
-                onTap: onTapDeleteAccount,
+                onTap: onTapDeleteUser,
                 icon: IconEnum.delete.icon,
-                title: 'Delete Account',
+                title: 'Delete',
                 iconColor: Colors.red[300]!,
                 textColor: Colors.red[300]!),
           )
@@ -147,16 +145,16 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) =>
-            EditAccountPage(preTitle: '${widget.preTitle}/$title'),
+            EditUserPage(preTitle: '${widget.preTitle}/$title'),
       ),
     );
   }
 
-  void onTapDeleteAccount() {
+  void onTapDeleteUser() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => DeleteAccountPage(
+        builder: (context) => DeleteUserPage(
           preTitle: '${widget.preTitle}/$title',
         ),
       ),

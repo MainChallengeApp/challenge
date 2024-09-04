@@ -3,7 +3,7 @@
 enum TabItemEnum {
   search(name: 'Search'),
   home(name: 'Home'),
-  account(name: 'Account');
+  user(name: 'User');
 
   const TabItemEnum({required this.name});
   final String name;

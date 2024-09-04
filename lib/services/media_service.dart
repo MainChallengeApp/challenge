@@ -59,15 +59,14 @@ class MediaService {
     }
   }
 
-  Future<String?> uploadLocalProfilePicture(UserModel user) async {
-    if (!user.hasProfilePicture() || !isUrlLocal(user.profilePictureUrl!)) {
-      return user.profilePictureUrl;
+  Future<String?> uploadLocalUserPicture(UserModel user) async {
+    if (!user.hasPicture() || !isUrlLocal(user.pictureUrl!)) {
+      return user.pictureUrl;
     }
-    String path =
-        '${UsersCollection.collectionName}/${user.id}/profile_picture';
+    String path = '${UsersCollection.collectionName}/${user.id}/user_picture';
     try {
       String imageUrl =
-          await storageService.uploadFile(File(user.profilePictureUrl!), path);
+          await storageService.uploadFile(File(user.pictureUrl!), path);
       return imageUrl;
     } on Exception {
       rethrow;

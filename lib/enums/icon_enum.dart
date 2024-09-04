@@ -7,7 +7,7 @@ enum IconEnum {
   shuffle(Icons.shuffle_rounded),
   search(Icons.search_rounded),
   edit(Icons.edit_rounded),
-  profile(Icons.person_rounded),
+  user(Icons.person_rounded),
   email(Icons.email_rounded),
   password(Icons.password_rounded),
   bio(Icons.notes_rounded),

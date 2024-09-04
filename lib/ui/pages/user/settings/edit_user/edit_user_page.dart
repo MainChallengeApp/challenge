@@ -11,23 +11,23 @@ import 'package:challenge/ui/components/navigation/no_animation_page_route_compo
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/pages/account/settings/edit_account/edit_username_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class EditAccountPage extends StatefulWidget {
+class EditUserPage extends StatefulWidget {
   final String preTitle;
 
-  const EditAccountPage({
+  const EditUserPage({
     super.key,
     required this.preTitle,
   });
 
   @override
-  State<EditAccountPage> createState() => _EditAccountPageState();
+  State<EditUserPage> createState() => _EditUserPageState();
 }
 
-class _EditAccountPageState extends State<EditAccountPage> {
+class _EditUserPageState extends State<EditUserPage> {
   bool isDescriptionExpanded = false;
 
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
@@ -36,7 +36,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   bool isLoading = false;
 
-  String title = 'Edit Account';
+  String title = 'Edit';
 
   var mediaService = MediaService();
 
@@ -116,28 +116,28 @@ class _EditAccountPageState extends State<EditAccountPage> {
                       child: ClipRRect(
                           borderRadius: const BorderRadius.all(Radius.circular(
                               ListItemIconTextComponent.standardIconRadius)),
-                          child: user.profilePictureUrl == null
+                          child: user.pictureUrl == null
                               ? Center(
-                                  child: Icon(IconEnum.profile.icon,
+                                  child: Icon(IconEnum.user.icon,
                                       color: themeColor3),
                                 )
-                              : mediaService.isUrlLocal(user.profilePictureUrl!)
-                                  ? Image.asset(user.profilePictureUrl!,
+                              : mediaService.isUrlLocal(user.pictureUrl!)
+                                  ? Image.asset(user.pictureUrl!,
                                       fit: BoxFitEnum.cover.fit,
-                                      errorBuilder: (context, error,
-                                              stackTrace) =>
-                                          Center(
-                                            child: Icon(IconEnum.profile.icon,
-                                                color: themeColor3),
-                                          ))
-                                  : Image.network(user.profilePictureUrl!,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Center(
+                                                child: Icon(IconEnum.user.icon,
+                                                    color: themeColor3),
+                                              ))
+                                  : Image.network(user.pictureUrl!,
                                       fit: BoxFitEnum.cover.fit,
-                                      errorBuilder: (context, error,
-                                              stackTrace) =>
-                                          Center(
-                                            child: Icon(IconEnum.profile.icon,
-                                                color: themeColor3),
-                                          )))),
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              Center(
+                                                child: Icon(IconEnum.user.icon,
+                                                    color: themeColor3),
+                                              )))),
                 ],
               ),
             ),
@@ -148,7 +148,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                 onTap: onTapUsername,
                 child: Row(
                   children: [
-                    const Text('Name'),
+                    const Text('Username'),
                     const SpaceComponent(
                       width: 10,
                     ),

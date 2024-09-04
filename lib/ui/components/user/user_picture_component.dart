@@ -3,11 +3,10 @@ import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePictureMaxComponent extends StatelessWidget {
-  final String? profilePictureUrl;
+class UserPictureMaxComponent extends StatelessWidget {
+  final String? userPictureUrl;
 
-  const ProfilePictureMaxComponent(
-      {super.key, required this.profilePictureUrl});
+  const UserPictureMaxComponent({super.key, required this.userPictureUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +19,12 @@ class ProfilePictureMaxComponent extends StatelessWidget {
         child: ClipRRect(
             borderRadius: const BorderRadius.all(
                 Radius.circular(CustomContainerComponent.standardRadius)),
-            child: profilePictureUrl == null
+            child: userPictureUrl == null
                 ? Icon(
-                    IconEnum.profile.icon,
+                    IconEnum.user.icon,
                     color: themeColor3,
                   )
-                : Image.network(profilePictureUrl!, fit: BoxFit.cover)),
+                : Image.network(userPictureUrl!, fit: BoxFit.cover)),
       ),
     );
   }

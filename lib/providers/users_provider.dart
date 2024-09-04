@@ -31,7 +31,7 @@ class UsersProvider with ChangeNotifier {
   }
 
   update(UserModel user) async {
-    user.profilePictureUrl = await mediaService.uploadLocalProfilePicture(user);
+    user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
     _user = user;
     usersCollection.update(user);
     notifyListeners();

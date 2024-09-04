@@ -36,7 +36,7 @@ class AuthService {
     await auth.signOut();
   }
 
-  Future<void> deleteAccount() async {
+  Future<void> deleteUser() async {
     try {
       await storageService.deleteUserFiles(getCurrentUserId());
       await databaseService.deleteUserDocuments(getCurrentUserId());

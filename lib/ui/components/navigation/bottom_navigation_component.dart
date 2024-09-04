@@ -57,7 +57,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                     destinations: <Widget>[
                       search(),
                       home(),
-                      profile(),
+                      user(),
                     ],
                   ),
                 ),
@@ -73,10 +73,10 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     context.read<TabProvider>().selectTab(TabItemEnum.values[index]);
   }
 
-  NavigationDestination profile() {
+  NavigationDestination user() {
     return NavigationDestination(
-      selectedIcon: Icon(IconEnum.profile.icon, color: Colors.white, size: 29),
-      icon: Icon(IconEnum.profile.icon, color: Colors.white, size: 29),
+      selectedIcon: Icon(IconEnum.user.icon, color: Colors.white, size: 29),
+      icon: Icon(IconEnum.user.icon, color: Colors.white, size: 29),
       label: '',
     );
   }
