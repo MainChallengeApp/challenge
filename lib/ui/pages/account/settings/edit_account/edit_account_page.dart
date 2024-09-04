@@ -1,9 +1,14 @@
+import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/account/settings/edit_account/edit_username_page.dart';
@@ -11,12 +16,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditAccountPage extends StatefulWidget {
-  final UserModel user;
   final String preTitle;
 
   const EditAccountPage({
     super.key,
-    required this.user,
     required this.preTitle,
   });
 
@@ -27,16 +30,19 @@ class EditAccountPage extends StatefulWidget {
 class _EditAccountPageState extends State<EditAccountPage> {
   bool isDescriptionExpanded = false;
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final listeningUsersProvider = Provider.of<UsersProvider>(context);
 
-  late UserModel editUser = widget.user.copy();
+  late UserModel user;
 
   bool isLoading = false;
 
-  String title = 'Edit';
+  String title = 'Edit Account';
+
+  var mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
+    user = listeningUsersProvider.user;
     return Scaffold(
       resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
       appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
@@ -44,69 +50,151 @@ class _EditAccountPageState extends State<EditAccountPage> {
       body: ListView(
         children: [
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
+            child: ListItemIconChildComponent(
               icon: IconEnum.email.icon,
-              title: 'Email',
               onTap: () {},
+              child: Row(
+                children: [
+                  const Text('Email'),
+                  const SpaceComponent(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      user.email,
+                      style: const TextStyle(color: themeColor3),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
+            child: ListItemIconChildComponent(
               icon: IconEnum.password.icon,
-              title: 'Password',
               onTap: () {},
+              child: const Row(
+                children: [
+                  Text('Password'),
+                  SpaceComponent(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Text(
+                      '******',
+                      style: TextStyle(color: themeColor3),
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           const SpaceComponent(),
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
+            child: ListItemIconChildComponent(
               icon: IconEnum.picture.icon,
-              title: 'Picture',
               onTap: () {},
+              child: Row(
+                children: [
+                  const Text('Picture'),
+                  const SpaceComponent(
+                    width: 10,
+                  ),
+                  Expanded(child: Container()),
+                  ContainerInContainerComponent(
+                      // TODO: merge with ListItemImageChildComponent
+                      padding: const EdgeInsets.all(0),
+                      margin: const EdgeInsets.all(0),
+                      height: ListItemIconTextComponent.iconContainerSize,
+                      width: ListItemIconTextComponent.iconContainerSize,
+                      borderRadius: const BorderRadius.all(Radius.circular(
+                          ListItemIconTextComponent.standardIconRadius)),
+                      child: ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(
+                              ListItemIconTextComponent.standardIconRadius)),
+                          child: user.profilePictureUrl == null
+                              ? Center(
+                                  child: Icon(IconEnum.profile.icon,
+                                      color: themeColor3),
+                                )
+                              : mediaService.isUrlLocal(user.profilePictureUrl!)
+                                  ? Image.asset(user.profilePictureUrl!,
+                                      fit: BoxFitEnum.cover.fit,
+                                      errorBuilder: (context, error,
+                                              stackTrace) =>
+                                          Center(
+                                            child: Icon(IconEnum.profile.icon,
+                                                color: themeColor3),
+                                          ))
+                                  : Image.network(user.profilePictureUrl!,
+                                      fit: BoxFitEnum.cover.fit,
+                                      errorBuilder: (context, error,
+                                              stackTrace) =>
+                                          Center(
+                                            child: Icon(IconEnum.profile.icon,
+                                                color: themeColor3),
+                                          )))),
+                ],
+              ),
             ),
           ),
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
-              icon: IconEnum.username.icon,
-              title: 'Username',
-              onTap: onTapUsername,
-            ),
+            child: ListItemIconChildComponent(
+                icon: IconEnum.username.icon,
+                onTap: onTapUsername,
+                child: Row(
+                  children: [
+                    const Text('Name'),
+                    const SpaceComponent(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Text(
+                        '@${user.username}',
+                        style: const TextStyle(color: themeColor3),
+                        textAlign: TextAlign.end,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                )),
           ),
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
-              icon: IconEnum.bio.icon,
-              title: 'Bio',
-              onTap: () {},
-            ),
+            child: ListItemIconChildComponent(
+                icon: IconEnum.bio.icon,
+                onTap: () {},
+                child: Row(
+                  children: [
+                    const Text('Bio'),
+                    const SpaceComponent(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Text(
+                        user.bio ?? '',
+                        style: const TextStyle(color: themeColor3),
+                        textAlign: TextAlign.end,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                )),
           )
         ],
       ),
     );
   }
 
-  void onTapSave() async {
-    if (isLoading) {
-      return;
-    }
-    setState(() {
-      isLoading = true;
-    });
-
-    await usersProvider.update(editUser);
-
-    setState(() {
-      isLoading = false;
-    });
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
-  }
-
   void onTapUsername() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => EditUsernamePage(
-            user: widget.user, preTitle: '${widget.preTitle}/$title'),
+        builder: (context) =>
+            EditUsernamePage(user: user, preTitle: '${widget.preTitle}/$title'),
       ),
     );
   }

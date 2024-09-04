@@ -5,7 +5,6 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -71,11 +70,10 @@ class _SettingsPageState extends State<SettingsPage> {
         controller: scrollController,
         children: [
           SpaceColumnComponent(
-            child: ListItemImageChildComponent(
+            child: ListItemIconTextComponent(
                 onTap: onTapEdit,
-                icon: IconEnum.profile.icon,
-                url: user.profilePictureUrl,
-                child: const Text('Edit')),
+                icon: IconEnum.edit.icon,
+                title: 'Edit Account'),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
@@ -100,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: ListItemIconTextComponent(
                 onTap: onTapDeleteAccount,
                 icon: IconEnum.delete.icon,
-                title: 'Delete',
+                title: 'Delete Account',
                 iconColor: Colors.red[300]!,
                 textColor: Colors.red[300]!),
           )
@@ -149,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) =>
-            EditAccountPage(user: user, preTitle: '${widget.preTitle}/$title'),
+            EditAccountPage(preTitle: '${widget.preTitle}/$title'),
       ),
     );
   }

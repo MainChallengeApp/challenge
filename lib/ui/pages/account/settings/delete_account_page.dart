@@ -23,7 +23,7 @@ class DeleteAccountPage extends StatefulWidget {
 class _DeleteAccountPageState extends State<DeleteAccountPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
-  final String titleText = 'Delete';
+  final String titleText = 'Delete Account';
 
   final TextEditingController emailTextEditingController =
       TextEditingController();
