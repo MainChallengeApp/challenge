@@ -1,3 +1,4 @@
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -8,6 +9,7 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class EditBioPage extends StatefulWidget {
@@ -51,7 +53,7 @@ class _EditBioPageState extends State<EditBioPage> {
           children: [
             Flexible(
               child: CustomContainerComponent(
-                isHeightDisabled: true,
+                isHeightDynamic: true,
                 borderRadius: CardComponent.standardBorderRadius,
                 margin: const EdgeInsets.only(
                     left: ListItemContainerComponent.standardMargin,
@@ -61,13 +63,29 @@ class _EditBioPageState extends State<EditBioPage> {
                   child: TextField(
                     controller: bioTextEditingController,
                     maxLines: null,
+                    style: const TextStyle(
+                      fontSize: basicFontSize,
+                      color: Colors.black,
+                    ),
                     decoration: const InputDecoration(
                       border: InputBorder.none,
                       hintText: 'Bio',
                     ),
-                    onChanged: (value) {
-                      editUser.bio = value;
-                    },
+                    inputFormatters: [
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        if (newValue.text.isNotEmpty &&
+                            newValue.text[0] == '\n') {
+                          final newText = newValue.text.substring(1);
+                          return TextEditingValue(
+                            text: newText,
+                            selection: TextSelection.collapsed(
+                                offset: newValue.selection.end - 1),
+                          );
+                        }
+                        return newValue;
+                      }),
+                    ],
+                    onChanged: (value) => editUser.bio = value,
                   ),
                 ),
               ),

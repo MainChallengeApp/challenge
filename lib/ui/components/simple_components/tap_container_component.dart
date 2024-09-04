@@ -20,6 +20,7 @@ class TapContainerComponent extends StatefulWidget {
   final Color? onTapColor;
   final double? borderWidth;
   final Color? borderColor;
+  final bool isHeightDynamic;
 
   const TapContainerComponent(
       {super.key,
@@ -37,7 +38,8 @@ class TapContainerComponent extends StatefulWidget {
       this.onLongPress,
       this.onLongPressUp,
       this.onLongPressCancel,
-      this.borderColor});
+      this.borderColor,
+      this.isHeightDynamic = false});
 
   @override
   State<TapContainerComponent> createState() => _TapContainerComponentState();
@@ -71,6 +73,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
       child: Stack(
         children: [
           CustomContainerComponent(
+            isHeightDynamic: widget.isHeightDynamic,
             heightFactor: widget.heightFactor,
             height: widget.height,
             padding: widget.padding,

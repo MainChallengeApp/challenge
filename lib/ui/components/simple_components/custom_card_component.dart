@@ -32,7 +32,7 @@ class CardComponent extends StatelessWidget {
                       right: standardSideMargin),
                   padding: const EdgeInsets.all(standardPadding),
                   width: double.infinity,
-                  // height: 100,
+                  height: 1, // just to make it static
                   decoration: BoxDecoration(
                       border: Border.all(
                           width: 1,
