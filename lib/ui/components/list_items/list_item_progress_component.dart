@@ -23,7 +23,8 @@ class ListItemProgressComponent extends StatefulWidget {
       required this.isFailed,
       this.isSlidable = false,
       this.onTapDeleteProgress,
-      this.isEditable = false});
+      this.isEditable = false,
+      this.margin});
 
   final ProgressModel progress;
   final String unit;
@@ -33,6 +34,7 @@ class ListItemProgressComponent extends StatefulWidget {
   final bool isSlidable;
   final void Function()? onTapDeleteProgress;
   final bool isEditable;
+  final EdgeInsetsGeometry? margin;
 
   @override
   State<ListItemProgressComponent> createState() =>
@@ -43,6 +45,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   @override
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
+      margin: widget.margin,
       endActionPane: widget.isSlidable ? endActionPane : null,
       onTap: widget.onTap,
       onHorizontalDragUpdate: widget.isEditable

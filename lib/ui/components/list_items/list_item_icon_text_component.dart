@@ -11,7 +11,8 @@ class ListItemIconTextComponent extends StatelessWidget {
       required this.icon,
       required this.title,
       this.textColor,
-      this.iconColor});
+      this.iconColor,
+      this.margin});
 
   final void Function()? onTap;
 
@@ -19,10 +20,12 @@ class ListItemIconTextComponent extends StatelessWidget {
   final String title;
   final Color? textColor;
   final Color? iconColor;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return ListItemIconChildComponent(
+        margin: margin,
         onTap: onTap,
         icon: icon,
         iconColor: iconColor,

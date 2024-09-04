@@ -109,6 +109,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
               ? SpaceComponent.staticHeight * 4
               : null,
           child: ListItemIconTextComponent(
+            margin: const EdgeInsets.only(left: 30, right: 20),
             icon: Icons.add_rounded,
             title: 'New Progress',
             onTap: () => onTapNewProgress(repetition),
@@ -120,6 +121,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
               ? SpaceComponent.staticHeight * 5
               : null,
           child: ListItemProgressComponent(
+            margin: const EdgeInsets.only(left: 30, right: 20),
             isFailed:
                 repetition.repetitionStatus == RepetitionStatusEnum.failed,
             onTap: () => onTapProgress(progress),

@@ -12,17 +12,20 @@ class ListItemIconChildComponent extends StatelessWidget {
       this.onTap,
       required this.icon,
       required this.child,
-      this.iconColor});
+      this.iconColor,
+      this.margin});
 
   final void Function()? onTap;
 
   final IconData icon;
   final Color? iconColor;
   final Widget child;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
+      margin: margin,
       onTap: onTap,
       child: Row(
         children: [
