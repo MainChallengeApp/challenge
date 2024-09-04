@@ -13,6 +13,8 @@ enum IconEnum {
   bio(Icons.notes_rounded),
   username(Icons.alternate_email_rounded),
   picture(Icons.image_rounded),
+  upload(Icons.upload_rounded),
+  remove(Icons.highlight_remove_rounded),
   ;
 
   const IconEnum(this.icon);

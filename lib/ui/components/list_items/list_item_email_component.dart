@@ -26,7 +26,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
         icon: IconEnum.email.icon,
         actionIcon: widget.textEditingController.text == ''
             ? null
-            : Icons.highlight_remove_rounded,
+            : IconEnum.remove.icon,
         onTap: onTapActionIcon,
         textEditingController: widget.textEditingController,
         onChangeTextField: widget.onChangeTextField,

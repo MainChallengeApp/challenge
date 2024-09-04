@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
@@ -148,7 +149,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               return SpaceColumnComponent(
                 child: ListItemIconTextComponent(
                     onTap: onTapUploadMedia,
-                    icon: Icons.upload_rounded,
+                    icon: IconEnum.upload.icon,
                     title: 'Upload Media'),
               );
             }

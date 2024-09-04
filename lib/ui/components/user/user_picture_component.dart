@@ -1,12 +1,22 @@
+import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:flutter/material.dart';
 
-class UserPictureMaxComponent extends StatelessWidget {
+class UserPictureMaxComponent extends StatefulWidget {
   final String? userPictureUrl;
 
   const UserPictureMaxComponent({super.key, required this.userPictureUrl});
+
+  @override
+  State<UserPictureMaxComponent> createState() =>
+      _UserPictureMaxComponentState();
+}
+
+class _UserPictureMaxComponentState extends State<UserPictureMaxComponent> {
+  var mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +29,24 @@ class UserPictureMaxComponent extends StatelessWidget {
         child: ClipRRect(
             borderRadius: const BorderRadius.all(
                 Radius.circular(CustomContainerComponent.standardRadius)),
-            child: userPictureUrl == null
+            child: widget.userPictureUrl == null
                 ? Icon(
                     IconEnum.user.icon,
                     color: themeColor3,
                   )
-                : Image.network(userPictureUrl!, fit: BoxFit.cover)),
+                : mediaService.isUrlLocal(widget.userPictureUrl!)
+                    ? Image.asset(widget.userPictureUrl!,
+                        fit: BoxFitEnum.cover.fit,
+                        errorBuilder: (context, error, stackTrace) => Center(
+                              child:
+                                  Icon(IconEnum.user.icon, color: themeColor3),
+                            ))
+                    : Image.network(widget.userPictureUrl!,
+                        fit: BoxFitEnum.cover.fit,
+                        errorBuilder: (context, error, stackTrace) => Center(
+                              child:
+                                  Icon(IconEnum.user.icon, color: themeColor3),
+                            ))),
       ),
     );
   }

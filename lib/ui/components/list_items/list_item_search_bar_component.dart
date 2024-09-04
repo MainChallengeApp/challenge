@@ -39,7 +39,7 @@ class _ListItemSearchBarComponentState
         icon: IconEnum.search.icon,
         actionIcon: widget.textEditingController.text == ''
             ? null
-            : Icons.highlight_remove_rounded,
+            : IconEnum.remove.icon,
         onTapActionIcon: onTapActionIcon,
         textEditingController: widget.textEditingController,
         isEnabled: widget.isEnabled,
