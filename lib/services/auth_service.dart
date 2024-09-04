@@ -51,7 +51,7 @@ class AuthService {
   }
 
   bool isValidPassword(String text) {
-    return text.isNotEmpty;
+    return text.length >= 6;
   }
 
   String? getPasswordErrorMessage(String code) {
