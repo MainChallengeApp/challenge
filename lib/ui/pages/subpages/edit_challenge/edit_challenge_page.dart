@@ -57,7 +57,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        setState(() {
+          isDescriptionExpanded = false;
+        });
+      },
       child: Scaffold(
           resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
           appBar: AppBarComponent(
