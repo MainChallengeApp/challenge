@@ -16,6 +16,7 @@ class CustomContainerComponent extends StatelessWidget {
   final double? borderRadius;
   final double? borderWidth;
   final Color? borderColor;
+  final bool isHeightDisabled;
 
   const CustomContainerComponent(
       {super.key,
@@ -28,7 +29,8 @@ class CustomContainerComponent extends StatelessWidget {
       this.height,
       this.borderRadius,
       this.borderWidth,
-      this.borderColor});
+      this.borderColor,
+      this.isHeightDisabled = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class CustomContainerComponent extends StatelessWidget {
       width: isQuadratic
           ? (height ?? standardHeight * heightFactor)
           : double.infinity,
-      height: height ?? standardHeight * heightFactor,
+      height: isHeightDisabled ? null : height ?? standardHeight * heightFactor,
       padding: padding,
       margin: margin,
       decoration: BoxDecoration(

@@ -11,6 +11,7 @@ import 'package:challenge/ui/components/navigation/no_animation_page_route_compo
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -166,7 +167,7 @@ class _EditUserPageState extends State<EditUserPage> {
           SpaceColumnComponent(
             child: ListItemIconChildComponent(
                 icon: IconEnum.bio.icon,
-                onTap: () {},
+                onTap: onTapBio,
                 child: Row(
                   children: [
                     const Text('Bio'),
@@ -175,9 +176,10 @@ class _EditUserPageState extends State<EditUserPage> {
                     ),
                     Expanded(
                       child: Text(
-                        user.bio ?? '',
+                        user.bio?.replaceAll('\n', ' ') ?? '',
                         style: const TextStyle(color: themeColor3),
                         textAlign: TextAlign.end,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -195,6 +197,16 @@ class _EditUserPageState extends State<EditUserPage> {
       NoAnimationPageRouteComponent(
         builder: (context) =>
             EditUsernamePage(user: user, preTitle: '${widget.preTitle}/$title'),
+      ),
+    );
+  }
+
+  void onTapBio() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) =>
+            EditBioPage(user: user, preTitle: '${widget.preTitle}/$title'),
       ),
     );
   }
