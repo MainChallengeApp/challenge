@@ -47,42 +47,48 @@ class _DeleteAccountPageState extends State<DeleteAccountPage> {
         appBar:
             AppBarComponent(preTitle: widget.preTitle, titleText: titleText),
         backgroundColor: Colors.white,
-        resizeToAvoidBottomInset: false,
         body: Column(
           children: [
-            const SpaceColumnComponent(
-              child: CustomContainerComponent(
-                borderRadius: CardComponent.standardBorderRadius,
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                height: 150,
-                child: Center(
-                  child: Text(
-                    'This action will delete all your data and cannot be undone.\n\nPlease enter your email and password to delete your Account.',
-                    textAlign: TextAlign.center,
-                  ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SpaceColumnComponent(
+                      child: CustomContainerComponent(
+                        borderRadius: CardComponent.standardBorderRadius,
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        height: 150,
+                        child: Center(
+                          child: Text(
+                            'This action will delete all your data and cannot be undone.\n\nPlease enter your email and password to delete your Account.',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SpaceColumnComponent(
+                      child: ListItemEmailComponent(
+                          textEditingController: emailTextEditingController,
+                          errorText: emailErrorText,
+                          onChangeTextField: (_) => setState(() {
+                                emailErrorText = null;
+                                passwordErrorText = null;
+                              })),
+                    ),
+                    SpaceColumnComponent(
+                      heightMultiplier: 2,
+                      child: ListItemPasswordComponent(
+                          textEditingController: passwordTextEditingController,
+                          errorText: passwordErrorText,
+                          onChangeTextField: (_) => setState(() {
+                                emailErrorText = null;
+                                passwordErrorText = null;
+                              })),
+                    ),
+                  ],
                 ),
               ),
             ),
-            SpaceColumnComponent(
-              child: ListItemEmailComponent(
-                  textEditingController: emailTextEditingController,
-                  errorText: emailErrorText,
-                  onChangeTextField: (_) => setState(() {
-                        emailErrorText = null;
-                        passwordErrorText = null;
-                      })),
-            ),
-            SpaceColumnComponent(
-              heightMultiplier: 2,
-              child: ListItemPasswordComponent(
-                  textEditingController: passwordTextEditingController,
-                  errorText: passwordErrorText,
-                  onChangeTextField: (_) => setState(() {
-                        emailErrorText = null;
-                        passwordErrorText = null;
-                      })),
-            ),
-            Expanded(child: Container()),
             SpaceColumnComponent(
               height: 20,
               child: ListItemButtonComponent(

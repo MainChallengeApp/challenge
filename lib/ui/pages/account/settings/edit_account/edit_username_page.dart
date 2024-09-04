@@ -45,10 +45,9 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
         appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
         backgroundColor: Colors.white,
         body: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SpaceColumnComponent(
-              heightMultiplier: 2,
               child: ListItemIconTextInputComponent(
                 icon: IconEnum.username.icon,
                 textEditingController: userNameTextEditingController,
