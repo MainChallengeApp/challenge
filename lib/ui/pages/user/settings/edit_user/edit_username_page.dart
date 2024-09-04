@@ -65,32 +65,33 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 },
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: SpaceColumnComponent(
-                      child: ListItemButtonComponent(
-                    onTap: onTapCancel,
-                    text: 'Cancel',
-                    isMainButton: false,
-                    margin: const EdgeInsets.only(
-                        left: ListItemContainerComponent.standardMargin),
-                  )),
-                ),
-                const SpaceComponent(
-                  width: ListItemContainerComponent.standardMargin,
-                ),
-                Expanded(
-                  child: SpaceColumnComponent(
-                      child: ListItemButtonComponent(
-                    margin: const EdgeInsets.only(
-                        right: ListItemContainerComponent.standardMargin),
-                    onTap: onTapSave,
-                    text: 'Save',
-                    isLoading: isLoading,
-                  )),
-                ),
-              ],
+            SpaceColumnComponent(
+              height: 20,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      onTap: onTapCancel,
+                      text: 'Cancel',
+                      isMainButton: false,
+                      margin: const EdgeInsets.only(
+                          left: ListItemContainerComponent.standardMargin),
+                    ),
+                  ),
+                  const SpaceComponent(
+                    width: ListItemContainerComponent.standardMargin,
+                  ),
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      margin: const EdgeInsets.only(
+                          right: ListItemContainerComponent.standardMargin),
+                      onTap: onTapSave,
+                      text: 'Save',
+                      isLoading: isLoading,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
