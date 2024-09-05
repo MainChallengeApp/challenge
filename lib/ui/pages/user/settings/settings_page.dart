@@ -91,7 +91,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 icon: Icons.logout_rounded,
                 title: 'Log out'),
           ),
-          const SpaceComponent(),
+          const SpaceComponent(
+            heightMultiplier: 3,
+          ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
                 onTap: onTapDeleteUser,
