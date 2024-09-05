@@ -3,6 +3,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -12,6 +13,7 @@ import 'package:challenge/ui/components/simple_components/container_in_container
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_email_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,20 @@ class _EditUserPageState extends State<EditUserPage> {
 
   var mediaService = MediaService();
 
+  var authService = AuthService();
+
+  String email = '';
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      email = authService.getCurrentUser() != null
+          ? authService.getCurrentUser()!.email!
+          : 'email not found';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
@@ -54,7 +70,7 @@ class _EditUserPageState extends State<EditUserPage> {
           SpaceColumnComponent(
             child: ListItemIconChildComponent(
               icon: IconEnum.email.icon,
-              onTap: () {},
+              onTap: onTapEmail,
               child: Row(
                 children: [
                   const Text('Email'),
@@ -63,7 +79,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   ),
                   Expanded(
                     child: Text(
-                      user.email,
+                      email,
                       style: const TextStyle(color: themeColor3),
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.ellipsis,
@@ -220,5 +236,25 @@ class _EditUserPageState extends State<EditUserPage> {
             EditPicturePage(user: user, preTitle: '${widget.preTitle}/$title'),
       ),
     );
+  }
+
+  void onTapEmail() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) =>
+            EditEmailPage(preTitle: '${widget.preTitle}/$title'),
+      ),
+    ).then((_) {
+      authService.getCurrentUser()?.reload().then((_) {
+        setState(() {
+          email = authService.getCurrentUser() != null
+              ? authService.getCurrentUser()!.email!
+              : 'email not found';
+        });
+      }, onError: (error) {
+        authService.logout();
+      });
+    });
   }
 }

@@ -12,12 +12,14 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
-import 'package:challenge/ui/components/user/user_picture_component.dart';
+import 'package:challenge/ui/components/user/user_picture_max_component.dart';
+import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/user/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,8 +72,9 @@ class _UserPageState extends State<UserPage> {
           child: CardComponent(
             scrollPhysics: const AlwaysScrollableScrollPhysics(),
             children: [
-              picture(user),
-              userName(user),
+              // picture(user),
+              // userName(user),
+              pictureAndUsername(user),
               bio(user),
               challengesAndConnections(user),
               expandedSpace(),
@@ -128,7 +131,10 @@ class _UserPageState extends State<UserPage> {
             ),
           )
         : user.bio != null && user.bio!.isNotEmpty
-            ? SpaceColumnComponent(child: bioComponent)
+            ? SpaceColumnComponent(
+                heightMultiplier: 2,
+                child: bioComponent,
+              )
             : Container();
   }
 
@@ -227,5 +233,26 @@ class _UserPageState extends State<UserPage> {
     }
 
     attemptFetchUser(0, initialDelay);
+  }
+
+  pictureAndUsername(UserModel user) {
+    return SpaceColumnComponent(
+      child: Row(
+        children: [
+          UserPictureMinComponent(
+            userPictureUrl: user.pictureUrl,
+          ),
+          const SpaceComponent(),
+          Expanded(
+              child: CustomContainerComponent(
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '@${user.username}',
+                        overflow: TextOverflow.ellipsis,
+                      )))),
+        ],
+      ),
+    );
   }
 }

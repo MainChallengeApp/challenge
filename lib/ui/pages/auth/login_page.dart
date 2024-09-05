@@ -124,16 +124,17 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    if (!authService.isValidEmail(emailTextEditingController.text)) {
+    if (!authService.isValidEmail(emailTextEditingController.text) ||
+        !authService.isValidPassword(passwordTextEditingController.text)) {
       setState(() {
-        emailErrorText = 'Invalid Email';
-      });
-      return;
-    }
-
-    if (!authService.isValidPassword(passwordTextEditingController.text)) {
-      setState(() {
-        passwordErrorText = 'Invalid Password';
+        emailErrorText =
+            authService.isValidEmail(emailTextEditingController.text)
+                ? null
+                : 'Invalid email';
+        passwordErrorText =
+            authService.isValidPassword(passwordTextEditingController.text)
+                ? null
+                : 'Invalid password';
       });
       return;
     }
@@ -145,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
-      usersProvider.getUser();
+      await usersProvider.getUser();
     } on FirebaseAuthException catch (e) {
       setState(() {
         emailErrorText = authService.getEmailErrorMessage(e.code);

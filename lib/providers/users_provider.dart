@@ -15,7 +15,6 @@ class UsersProvider with ChangeNotifier {
   Future<void> createUser({required String email, username}) async {
     final user = UserModel(
       id: authService.getCurrentUserId(),
-      email: email,
       username: username,
     );
     _user = user;

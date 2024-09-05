@@ -46,6 +46,36 @@ class AuthService {
     }
   }
 
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
+  Future<void> updatePassword(String password) async {
+    try {
+      if (auth.currentUser == null) {
+        throw FirebaseAuthException(code: 'user-not-found');
+      }
+      await auth.currentUser!.updatePassword(password);
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
+  Future<void> updateEmail(String email) async {
+    try {
+      if (auth.currentUser == null) {
+        throw FirebaseAuthException(code: 'user-not-found');
+      }
+      await auth.currentUser!.verifyBeforeUpdateEmail(email);
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+
   bool isValidEmail(String text) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(text);
   }

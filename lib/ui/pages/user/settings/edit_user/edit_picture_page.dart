@@ -11,7 +11,7 @@ import 'package:challenge/ui/components/simple_components/custom_card_component.
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/components/user/user_picture_component.dart';
+import 'package:challenge/ui/components/user/user_picture_max_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -9,11 +9,13 @@ class ListItemEmailComponent extends StatefulWidget {
       {super.key,
       this.onChangeTextField,
       required this.textEditingController,
-      this.errorText});
+      this.errorText,
+      this.hintText});
 
   final Function(String)? onChangeTextField;
   final TextEditingController textEditingController;
   final String? errorText;
+  final String? hintText;
 
   @override
   State<ListItemEmailComponent> createState() => _ListItemEmailComponentState();
@@ -32,7 +34,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
         onChangeTextField: widget.onChangeTextField,
         errorText: widget.errorText,
         keyboardType: TextInputType.emailAddress,
-        hintText: 'Email');
+        hintText: widget.hintText ?? 'Email');
   }
 
   onTapActionIcon() {

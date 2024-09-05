@@ -4,9 +4,6 @@ class UserModel {
   String id;
   static const String idField = 'id';
 
-  String email;
-  static const String emailField = 'email';
-
   String username;
   static const String usernameField = 'username';
 
@@ -21,7 +18,6 @@ class UserModel {
 
   UserModel(
       {required this.id,
-      required this.email,
       required this.username,
       this.pictureUrl,
       this.bio,
@@ -29,7 +25,6 @@ class UserModel {
 
   UserModel.empty()
       : id = '',
-        email = '',
         username = '',
         pictureUrl = null,
         bio = null,
@@ -39,7 +34,6 @@ class UserModel {
     try {
       return UserModel(
           id: doc.id,
-          email: doc[emailField],
           username: doc[usernameField],
           pictureUrl: (doc.data() as Map).containsKey(pictureUrlField)
               ? doc[pictureUrlField]
@@ -55,7 +49,6 @@ class UserModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      emailField: email,
       usernameField: username,
       pictureUrlField: pictureUrl,
       bioField: bio,
@@ -66,7 +59,6 @@ class UserModel {
   UserModel copy() {
     return UserModel(
         id: id,
-        email: email,
         username: username,
         pictureUrl: pictureUrl,
         bio: bio,
