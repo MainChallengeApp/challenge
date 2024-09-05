@@ -1,9 +1,13 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,11 +84,29 @@ class _EditEmailPageState extends State<EditEmailPage> {
                     ),
                     Visibility(
                         visible: isEmailSentMessageVisible,
-                        child: const SpaceColumnComponent(
-                            child: ListItemContainerComponent(
-                          child: Align(
-                              alignment: Alignment.center,
-                              child: Text('Click the link in your new email')),
+                        child: SpaceColumnComponent(
+                            child: CustomContainerComponent(
+                          padding: const EdgeInsets.all(
+                              ListItemContainerComponent.standardPadding),
+                          isHeightDynamic: true,
+                          borderRadius: CardComponent.standardBorderRadius,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: CardComponent.standardSideMargin),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              IconContainerInListItemComponent(
+                                  icon: IconEnum.info.icon),
+                              const Expanded(
+                                child: Text(
+                                  'Click the link in the email we sent you to confirm your new email address.',
+                                  maxLines: null,
+                                  softWrap: true,
+                                  overflow: TextOverflow.visible,
+                                ),
+                              )
+                            ],
+                          ),
                         )))
                   ],
                 ),
