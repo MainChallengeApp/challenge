@@ -55,38 +55,39 @@ class _EditBioPageState extends State<EditBioPage> {
               child: CustomContainerComponent(
                 isHeightDynamic: true,
                 borderRadius: CardComponent.standardBorderRadius,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ListItemContainerComponent.standardPadding,
+                    vertical: ListItemContainerComponent.standardPadding - 5),
                 margin: const EdgeInsets.only(
                     left: ListItemContainerComponent.standardMargin,
                     right: ListItemContainerComponent.standardMargin,
                     bottom: ListItemContainerComponent.standardMargin),
-                child: IntrinsicHeight(
-                  child: TextField(
-                    controller: bioTextEditingController,
-                    maxLines: null,
-                    style: const TextStyle(
-                      fontSize: basicFontSize,
-                      color: Colors.black,
-                    ),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Bio',
-                    ),
-                    inputFormatters: [
-                      TextInputFormatter.withFunction((oldValue, newValue) {
-                        if (newValue.text.isNotEmpty &&
-                            newValue.text[0] == '\n') {
-                          final newText = newValue.text.substring(1);
-                          return TextEditingValue(
-                            text: newText,
-                            selection: TextSelection.collapsed(
-                                offset: newValue.selection.end - 1),
-                          );
-                        }
-                        return newValue;
-                      }),
-                    ],
-                    onChanged: (value) => editUser.bio = value,
+                child: TextField(
+                  controller: bioTextEditingController,
+                  maxLines: null,
+                  style: const TextStyle(
+                    fontSize: basicFontSize,
+                    color: Colors.black,
                   ),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'Bio',
+                  ),
+                  inputFormatters: [
+                    TextInputFormatter.withFunction((oldValue, newValue) {
+                      if (newValue.text.isNotEmpty &&
+                          newValue.text[0] == '\n') {
+                        final newText = newValue.text.substring(1);
+                        return TextEditingValue(
+                          text: newText,
+                          selection: TextSelection.collapsed(
+                              offset: newValue.selection.end - 1),
+                        );
+                      }
+                      return newValue;
+                    }),
+                  ],
+                  onChanged: (value) => editUser.bio = value,
                 ),
               ),
             ),

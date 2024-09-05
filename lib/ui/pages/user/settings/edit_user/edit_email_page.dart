@@ -135,8 +135,10 @@ class _EditEmailPageState extends State<EditEmailPage> {
                       onTap: onTapSendLink,
                       text: 'Send Link',
                       isLoading: isLoading,
-                      isMainButton: authService
-                          .isValidPassword(passwordTextEditingController.text),
+                      isMainButton: authService.isValidPassword(
+                              passwordTextEditingController.text) &&
+                          authService
+                              .isValidEmail(newEmailTextEditingController.text),
                     ),
                   ),
                 ],
@@ -153,8 +155,14 @@ class _EditEmailPageState extends State<EditEmailPage> {
       return;
     }
 
-    if (!authService.isValidPassword(passwordTextEditingController.text)) {
+    if (!authService.isValidPassword(passwordTextEditingController.text) ||
+        !authService.isValidEmail(newEmailTextEditingController.text)) {
       setState(() {
+        newEmailError =
+            authService.isValidEmail(newEmailTextEditingController.text)
+                ? null
+                : 'Invalid email';
+
         passwordError =
             authService.isValidPassword(passwordTextEditingController.text)
                 ? null

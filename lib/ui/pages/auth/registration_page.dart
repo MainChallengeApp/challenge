@@ -44,18 +44,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              spacing(),
-              emailInput(),
-              passwordInput(),
-              registerButton(),
-              const Spacer(),
-              switchToLoginButton(),
-            ],
-          ),
+        child: Column(
+          children: [
+            spacing(),
+            emailInput(),
+            passwordInput(),
+            registerButton(),
+            switchToLoginButton(),
+          ],
         ),
       ),
     );
@@ -170,29 +166,26 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   switchToLoginButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 150.0),
-      child: GestureDetector(
-        onTap: widget.onTapSwitchToLogin,
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Already a member?',
-              style: TextStyle(color: themeColor3, fontSize: basicFontSize),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              ' Login here!',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: themeColor3,
-                  fontSize: basicFontSize),
-            ),
-          ],
-        ),
+    return GestureDetector(
+      onTap: widget.onTapSwitchToLogin,
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Already a member?',
+            style: TextStyle(color: themeColor3, fontSize: basicFontSize),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            ' Login here!',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: themeColor3,
+                fontSize: basicFontSize),
+          ),
+        ],
       ),
     );
   }

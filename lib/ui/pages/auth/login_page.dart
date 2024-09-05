@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:challenge/globals.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
@@ -47,31 +45,29 @@ class _LoginPageState extends State<LoginPage> {
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              spacing(),
-              emailInput(),
-              passwordInput(),
-              forGotPasswordButton(),
-              loginButton(),
-              const Spacer(),
-              switchToRegistrationButton(),
-            ],
-          ),
+        child: Column(
+          children: [
+            spacing(),
+            emailInput(),
+            passwordInput(),
+            forgotPasswordButton(),
+            loginButton(),
+            switchToRegistrationButton(),
+          ],
         ),
       ),
     );
   }
 
-  ListItemButtonComponent loginButton() {
-    return ListItemButtonComponent(
-      onTap: onTapLogin,
-      isMainButton: isMainButton(),
-      text: 'Login',
-      isLoading: isLoading,
+  SpaceColumnComponent loginButton() {
+    return SpaceColumnComponent(
+      heightMultiplier: 2,
+      child: ListItemButtonComponent(
+        onTap: onTapLogin,
+        isMainButton: isMainButton(),
+        text: 'Login',
+        isLoading: isLoading,
+      ),
     );
   }
 
@@ -171,37 +167,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   switchToRegistrationButton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 150.0), // TODO: 150?
-      child: GestureDetector(
-        onTap: widget.onTapSwitchToRegistration,
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Not a member yet?',
-              style: TextStyle(color: themeColor3, fontSize: basicFontSize),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              ' Register now!',
-              style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
-            ),
-          ],
-        ),
+    return GestureDetector(
+      onTap: widget.onTapSwitchToRegistration,
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Not a member yet?',
+            style: TextStyle(color: themeColor3, fontSize: basicFontSize),
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            ' Register now!',
+            style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
+          ),
+        ],
       ),
     );
   }
 
-  forGotPasswordButton() {
+  forgotPasswordButton() {
     return SpaceColumnComponent(
       heightMultiplier: 2,
       child: GestureDetector(
-        onTap: () {
-          log('Forgot password');
-        },
+        onTap: onTapForgotPassword,
         child: const Align(
           alignment: Alignment.centerRight,
           child: Padding(
@@ -219,5 +210,52 @@ class _LoginPageState extends State<LoginPage> {
   isMainButton() {
     return authService.isValidEmail(emailTextEditingController.text) &&
         authService.isValidPassword(passwordTextEditingController.text);
+  }
+
+  void onTapForgotPassword() async {
+    if (isLoading) {
+      return;
+    }
+
+    if (!authService.isValidEmail(emailTextEditingController.text)) {
+      setState(() {
+        emailErrorText =
+            authService.isValidEmail(emailTextEditingController.text)
+                ? null
+                : 'Invalid email';
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await authService.sendPasswordResetEmail(emailTextEditingController.text);
+      setState(() {
+        passwordErrorText = 'Password reset email sent';
+      });
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        emailErrorText = authService.getEmailErrorMessage(e.code);
+        passwordErrorText = authService.getPasswordErrorMessage(e.code);
+        if (emailErrorText == null && passwordErrorText == null) {
+          emailErrorText = 'Setting password failed';
+          passwordErrorText = 'Setting password failed';
+        }
+      });
+    } on Exception {
+      setState(() {
+        emailErrorText = 'Setting password failed';
+        passwordErrorText = 'Setting password failed';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }

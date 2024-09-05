@@ -22,7 +22,7 @@ class _UserPictureMinComponentState extends State<UserPictureMinComponent> {
   Widget build(BuildContext context) {
     return CustomContainerComponent(
       isQuadratic: true,
-      backgroundColor: themeColor4,
+      backgroundColor: Colors.white,
       padding: const EdgeInsets.all(0),
       child: ClipRRect(
           borderRadius: const BorderRadius.all(
