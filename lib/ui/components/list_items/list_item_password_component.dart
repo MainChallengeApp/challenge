@@ -9,11 +9,13 @@ class ListItemPasswordComponent extends StatefulWidget {
       {super.key,
       this.onChangeTextField,
       required this.textEditingController,
-      this.errorText});
+      this.errorText,
+      this.hintText});
 
   Function(String)? onChangeTextField;
   final TextEditingController textEditingController;
   String? errorText;
+  final String? hintText;
 
   @override
   State<ListItemPasswordComponent> createState() =>
@@ -36,7 +38,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
         onChangeTextField: widget.onChangeTextField,
         errorText: widget.errorText,
         keyboardType: TextInputType.visiblePassword,
-        hintText: 'Password');
+        hintText: widget.hintText ?? 'Password');
   }
 
   onTapActionIcon() {

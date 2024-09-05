@@ -1,7 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
@@ -25,8 +24,6 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
 
   final String titleText = 'Delete';
 
-  final TextEditingController emailTextEditingController =
-      TextEditingController();
   final TextEditingController passwordTextEditingController =
       TextEditingController();
 
@@ -60,20 +57,11 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                         height: 150,
                         child: Center(
                           child: Text(
-                            'This action will delete all your data and cannot be undone.\n\nPlease enter your email and password to delete your user.',
+                            'This action will delete all your data and cannot be undone.\n\nPlease enter your password to delete your user.',
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                    ),
-                    SpaceColumnComponent(
-                      child: ListItemEmailComponent(
-                          textEditingController: emailTextEditingController,
-                          errorText: emailErrorText,
-                          onChangeTextField: (_) => setState(() {
-                                emailErrorText = null;
-                                passwordErrorText = null;
-                              })),
                     ),
                     SpaceColumnComponent(
                       heightMultiplier: 2,
@@ -115,7 +103,8 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
 
     try {
       await authService.loginEmailPassword(
-          emailTextEditingController.text, passwordTextEditingController.text);
+          authService.getCurrentUser()?.email ?? '',
+          passwordTextEditingController.text);
       await authService.deleteUser();
       usersProvider.resetLocalUser();
     } on FirebaseAuthException catch (e) {

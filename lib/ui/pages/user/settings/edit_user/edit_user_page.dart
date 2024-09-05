@@ -14,6 +14,7 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_email_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_password_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +93,7 @@ class _EditUserPageState extends State<EditUserPage> {
           SpaceColumnComponent(
             child: ListItemIconChildComponent(
               icon: IconEnum.password.icon,
-              onTap: () {},
+              onTap: onTapPassword,
               child: const Row(
                 children: [
                   Text('Password'),
@@ -253,6 +254,20 @@ class _EditUserPageState extends State<EditUserPage> {
               : 'email not found';
         });
       }, onError: (error) {
+        authService.logout();
+      });
+    });
+  }
+
+  void onTapPassword() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) =>
+            EditPasswordPage(preTitle: '${widget.preTitle}/$title'),
+      ),
+    ).then((_) {
+      authService.getCurrentUser()?.reload().catchError((_) {
         authService.logout();
       });
     });
