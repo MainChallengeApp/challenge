@@ -87,18 +87,7 @@ class _UserPageState extends State<UserPage> {
 
   List<Widget> actions(UserModel user) {
     return [
-      GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                NoAnimationPageRouteComponent(
-                  builder: (context) => SettingsPage(
-                    preTitle: widget.title,
-                    user: user,
-                  ),
-                ));
-          },
-          child: Icon(IconEnum.inbox.icon)),
+      GestureDetector(onTap: () {}, child: Icon(IconEnum.inbox.icon)),
       const SpaceComponent(),
       GestureDetector(
           onTap: () {

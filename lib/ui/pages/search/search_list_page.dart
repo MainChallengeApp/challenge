@@ -1,15 +1,17 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_search_filter_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,22 +20,24 @@ import 'search_challenge_page.dart';
 
 class SearchListPage extends StatefulWidget {
   final String preTitle;
-  final String title;
+  final String? title;
   final ValueChanged<ChallengeModel>? onPush;
   final bool isFirstPageInRoute;
   final String initialSearchText;
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
+  final bool isUserSearchActive;
 
   const SearchListPage({
     super.key,
     this.preTitle = '',
-    required this.title,
+    this.title,
     this.onPush,
     this.isFirstPageInRoute = true,
     this.initialSearchText = '',
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
+    this.isUserSearchActive = false,
   });
 
   @override
@@ -42,10 +46,14 @@ class SearchListPage extends StatefulWidget {
 
 class _SearchListPageState extends State<SearchListPage> {
   late List<ChallengeModel> filteredChallenges;
+  late List<UserModel> filteredUsers;
+
   final ScrollController scrollController = ScrollController();
 
   late final searchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: false);
+
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
   int numberOfBuilds = 0;
 
@@ -68,12 +76,78 @@ class _SearchListPageState extends State<SearchListPage> {
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,
-          child: _buildList(),
+          child: _buildChallengesList(),
         ),
         bottomNavigationBar: const BottomNavigationComponent());
   }
 
-  Widget _buildList() {
+  Widget _buildChallengesList() {
+    filteredChallenges = searchChallengesProvider.searchChallenges
+        .where((element) =>
+            element.searchInChallenge(searchBarText) &&
+            element.isInCategories(widget.categories))
+        .toList();
+    filteredChallenges
+        .sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+    return Expanded(
+      child: RawScrollbar(
+        controller: scrollController,
+        radius: const Radius.circular(4),
+        thumbColor: themeColor3,
+        padding: const EdgeInsets.only(right: 4),
+        child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: scrollController,
+            itemCount: filteredChallenges.length +
+                1 +
+                1 +
+                1, // + 1 for searchBar + 1 for filter + 1 for new Challenge
+            itemBuilder: (BuildContext content, int index) {
+              numberOfBuilds++;
+              if (index == 0) {
+                return SpaceColumnComponent(
+                    child: ListItemSearchBarComponent(
+                  autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 1,
+                  changeList: changeList,
+                  textEditingController:
+                      TextEditingController(text: searchBarText),
+                  hintText: 'Search for Challenges and Users...',
+                ));
+              }
+
+              if (index == 1) {
+                return SpaceColumnComponent(
+                    child: ListItemSearchFilterComponent(
+                  onTapChallenges: () {},
+                  onTapUsers: () {},
+                ));
+              }
+
+              if (index == filteredChallenges.length + 1 + 1) {
+                return SpaceColumnComponent(
+                    child: ListItemIconTextComponent(
+                  onTap: onTapNewChallenge,
+                  icon: Icons.add,
+                  title: searchBarText == '' ? 'New Challenge' : searchBarText,
+                ));
+              }
+
+              ChallengeModel challenge = filteredChallenges[index - 1 - 1];
+              return SpaceColumnComponent(
+                child: ListItemChallengeSmallComponent(
+                  onTap: () => onTapChallenge(
+                      challenge: challenge,
+                      index: index), // widget.onPush?.call(challenge),
+                  challenge: challenge,
+                  isSearch: true,
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  Widget _buildUsersList() {
     filteredChallenges = searchChallengesProvider.searchChallenges
         .where((element) =>
             element.searchInChallenge(searchBarText) &&
@@ -89,43 +163,15 @@ class _SearchListPageState extends State<SearchListPage> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: filteredChallenges.length +
-              1 +
-              1, //  + 1 for searchBar + 1 for new Challenge
+          itemCount: filteredChallenges.length,
           itemBuilder: (BuildContext content, int index) {
             numberOfBuilds++;
-            if (index == 0) {
-              return Column(
-                children: [
-                  ListItemSearchBarComponent(
-                    autoFocus:
-                        widget.isSearchBarAutoFocus && numberOfBuilds == 1,
-                    changeList: changeList,
-                    textEditingController:
-                        TextEditingController(text: searchBarText),
-                    hintText: 'Search for new Challenges...',
-                  ),
-                  const SpaceComponent()
-                ],
-              );
-            }
-
-            if (index == filteredChallenges.length + 1) {
-              return SpaceColumnComponent(
-                  child: ListItemIconTextComponent(
-                onTap: onTapNewChallenge,
-                icon: Icons.add,
-                title: searchBarText == '' ? 'New Challenge' : searchBarText,
-              ));
-            }
-
-            ChallengeModel challenge =
-                filteredChallenges[index - 1]; // - 1 for searchBar
+            ChallengeModel challenge = filteredChallenges[index];
             return SpaceColumnComponent(
               child: ListItemChallengeSmallComponent(
                 onTap: () => onTapChallenge(
                     challenge: challenge,
-                    index: index - 1), // widget.onPush?.call(challenge),
+                    index: index), // widget.onPush?.call(challenge),
                 challenge: challenge,
                 isSearch: true,
               ),

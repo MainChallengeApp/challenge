@@ -12,6 +12,9 @@ class UsersProvider with ChangeNotifier {
   UserModel _user = UserModel.empty();
   UserModel get user => _user;
 
+  final List<UserModel> _searchUsers = [];
+  List<UserModel> get searchUsers => _searchUsers;
+
   Future<void> createUser({required String email, username}) async {
     final user = UserModel(
       id: authService.getCurrentUserId(),
@@ -39,5 +42,13 @@ class UsersProvider with ChangeNotifier {
   void resetLocalUser() {
     _user = UserModel.empty();
     notifyListeners();
+  }
+
+  Future<List<UserModel>> searchUsersByUsername(String username) async {
+    _searchUsers.clear();
+    _searchUsers
+        .addAll(await usersCollection.getAllByUsernameContains(username));
+    notifyListeners();
+    return _searchUsers;
   }
 }

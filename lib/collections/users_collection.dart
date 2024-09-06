@@ -28,6 +28,19 @@ class UsersCollection extends Collection {
     }
   }
 
+  Future<List<UserModel>> getAllByUsernameContains(String username) async {
+    try {
+      final querySnapshot = await db.collection(name).get();
+      return querySnapshot.docs
+          .where((doc) =>
+              (doc[UserModel.usernameField] as String).contains(username))
+          .map((doc) => UserModel.fromDoc(doc))
+          .toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
   void update(UserModel userCopy) {
     db.collection(name).doc(userCopy.id).set(userCopy.toDoc());
   }

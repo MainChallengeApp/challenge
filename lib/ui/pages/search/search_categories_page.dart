@@ -61,83 +61,75 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       backgroundColor: Colors.white,
       body: Container(
         color: Colors.white,
-        child: _buildList(),
+        child: _buildCategories(),
       ),
       bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 
-  Widget _buildList() {
-    List<ChallengeCategoryEnum> categories = ChallengeCategoryEnum.values;
+  Widget _buildCategories() {
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
       thumbColor: themeColor3,
       padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount: categories.length + 1, //  + 1 for searchBar
-          itemBuilder: (BuildContext content, int index) {
-            if (index == 0) {
-              return SpaceColumnComponent(
-                child: ListItemSearchBarComponent(
-                  onTap: onTapSearchBar,
-                  changeList: changeList,
-                  isEnabled: false,
-                  textEditingController:
-                      TextEditingController(text: searchBarText),
-                  hintText: 'Search for new Challenges...',
-                ),
-              );
-            } else if (index == 1) {
-              return SpaceColumnComponent(
-                  child: Row(
-                children: [
-                  const SpaceComponent(
-                    width: 20,
-                  ),
-                  mental(),
-                  const SpaceComponent(),
-                  physical(),
-                  const SpaceComponent(
-                    width: 20,
-                  ),
-                ],
-              ));
-            } else if (index == 2) {
-              return SpaceColumnComponent(
-                  child: Row(
-                children: [
-                  const SpaceComponent(
-                    width: 20,
-                  ),
-                  social(),
-                  const SpaceComponent(),
-                  other(),
-                  const SpaceComponent(
-                    width: 20,
-                  ),
-                ],
-              ));
-            } else if (index == 3) {
-              return SpaceColumnComponent(
-                  child: Row(
-                children: [
-                  const SpaceComponent(
-                    width: 20,
-                  ),
-                  newChallenge(),
-                  const SpaceComponent(),
-                  shuffle(),
-                  const SpaceComponent(
-                    width: 20,
-                  ),
-                ],
-              ));
-            }
-            return Container();
-          }),
+      child: ListView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        controller: scrollController,
+        children: [
+          SpaceColumnComponent(
+            child: ListItemSearchBarComponent(
+              onTap: onTapSearchBar,
+              changeList: changeList,
+              isEnabled: false,
+              textEditingController: TextEditingController(text: searchBarText),
+              hintText: 'Search for Challenges and Users...',
+            ),
+          ),
+          SpaceColumnComponent(
+              child: Row(
+            children: [
+              const SpaceComponent(
+                width: 20,
+              ),
+              mental(),
+              const SpaceComponent(),
+              physical(),
+              const SpaceComponent(
+                width: 20,
+              ),
+            ],
+          )),
+          SpaceColumnComponent(
+              child: Row(
+            children: [
+              const SpaceComponent(
+                width: 20,
+              ),
+              social(),
+              const SpaceComponent(),
+              other(),
+              const SpaceComponent(
+                width: 20,
+              ),
+            ],
+          )),
+          SpaceColumnComponent(
+              child: Row(
+            children: [
+              const SpaceComponent(
+                width: 20,
+              ),
+              newChallenge(),
+              const SpaceComponent(),
+              shuffle(),
+              const SpaceComponent(
+                width: 20,
+              ),
+            ],
+          ))
+        ],
+      ),
     );
   }
 
@@ -209,10 +201,10 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
-            title: 'All Challenges',
             preTitle: 'Search',
             isFirstPageInRoute: false,
             initialSearchText: searchBarText,
+            isUserSearchActive: true,
             isSearchBarAutoFocus: true),
       ),
     );
