@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
@@ -12,14 +13,15 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
-import 'package:challenge/ui/components/user/user_picture_max_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:challenge/ui/pages/user/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -72,13 +74,11 @@ class _UserPageState extends State<UserPage> {
           child: CardComponent(
             scrollPhysics: const AlwaysScrollableScrollPhysics(),
             children: [
-              // picture(user),
-              // userName(user),
               pictureAndUsername(user),
               bio(user),
               challengesAndConnections(user),
               expandedSpace(),
-              notifications(user)
+              edit(user)
             ],
           ),
         ),
@@ -98,17 +98,21 @@ class _UserPageState extends State<UserPage> {
                   ),
                 ));
           },
-          child: const Icon(Icons.settings_outlined))
+          child: Icon(IconEnum.inbox.icon)),
+      const SpaceComponent(),
+      GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                NoAnimationPageRouteComponent(
+                  builder: (context) => SettingsPage(
+                    preTitle: widget.title,
+                    user: user,
+                  ),
+                ));
+          },
+          child: Icon(IconEnum.settings.icon)),
     ];
-  }
-
-  picture(UserModel user) {
-    return SpaceColumnComponent(
-      height: 11,
-      child: UserPictureMaxComponent(
-        userPictureUrl: user.pictureUrl,
-      ),
-    );
   }
 
   bio(UserModel user) {
@@ -190,12 +194,12 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  notifications(UserModel user) {
+  edit(UserModel user) {
     return TapContainerComponent(
-      onTap: () {},
+      onTap: onTapEdit,
       child: const Center(
         child: Text(
-          'Notifications',
+          'Edit',
         ),
       ),
     );
@@ -241,10 +245,12 @@ class _UserPageState extends State<UserPage> {
         children: [
           UserPictureMinComponent(
             userPictureUrl: user.pictureUrl,
+            onTap: onTapPicture,
           ),
           const SpaceComponent(),
           Expanded(
-              child: CustomContainerComponent(
+              child: TapContainerComponent(
+                  onTap: onTapUsername,
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -254,5 +260,37 @@ class _UserPageState extends State<UserPage> {
         ],
       ),
     );
+  }
+
+  onTapPicture() {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => EditPicturePage(
+            preTitle: widget.title,
+            user: user,
+          ),
+        ));
+  }
+
+  onTapUsername() {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => EditUsernamePage(
+            preTitle: widget.title,
+            user: user,
+          ),
+        ));
+  }
+
+  onTapEdit() {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => EditUserPage(
+            preTitle: widget.title,
+          ),
+        ));
   }
 }

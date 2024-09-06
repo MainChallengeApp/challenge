@@ -3,12 +3,15 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 
 class UserPictureMinComponent extends StatefulWidget {
   final String? userPictureUrl;
+  final Function()? onTap;
 
-  const UserPictureMinComponent({super.key, required this.userPictureUrl});
+  const UserPictureMinComponent(
+      {super.key, required this.userPictureUrl, this.onTap});
 
   @override
   State<UserPictureMinComponent> createState() =>
@@ -20,13 +23,14 @@ class _UserPictureMinComponentState extends State<UserPictureMinComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomContainerComponent(
+    return TapContainerComponent(
+      onTap: widget.onTap,
       isQuadratic: true,
       backgroundColor: Colors.white,
       padding: const EdgeInsets.all(0),
       child: ClipRRect(
-          borderRadius: const BorderRadius.all(
-              Radius.circular(CustomContainerComponent.standardRadius)),
+          borderRadius: const BorderRadius.all(Radius.circular(
+              CustomContainerComponent.standardRadius - 2)), // TODO: -2 ?
           child: widget.userPictureUrl == null
               ? Icon(
                   IconEnum.user.icon,

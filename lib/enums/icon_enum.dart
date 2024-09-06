@@ -16,6 +16,8 @@ enum IconEnum {
   upload(Icons.upload_rounded),
   remove(Icons.highlight_remove_rounded),
   info(Icons.info_outline_rounded),
+  settings(Icons.settings_outlined),
+  inbox(Icons.mail_outline),
   ;
 
   const IconEnum(this.icon);
