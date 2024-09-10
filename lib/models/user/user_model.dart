@@ -13,7 +13,7 @@ class UserModel {
   String? bio;
   static const String bioField = 'bio';
 
-  List<String> connectionIds;
+  Set<String> connectionIds;
   static const String connectionIdsField = 'connectionIds';
 
   UserModel(
@@ -21,14 +21,14 @@ class UserModel {
       required this.username,
       this.pictureUrl,
       this.bio,
-      this.connectionIds = const []});
+      this.connectionIds = const {}});
 
   UserModel.empty()
       : id = '',
         username = '',
         pictureUrl = null,
         bio = null,
-        connectionIds = [];
+        connectionIds = {};
 
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
@@ -40,8 +40,8 @@ class UserModel {
               : null,
           bio: (doc.data() as Map).containsKey(bioField) ? doc[bioField] : null,
           connectionIds: (doc.data() as Map).containsKey(connectionIdsField)
-              ? List.from(doc[connectionIdsField])
-              : []);
+              ? Set.from(doc[connectionIdsField])
+              : {});
     } on Exception {
       rethrow;
     }
@@ -62,7 +62,7 @@ class UserModel {
         username: username,
         pictureUrl: pictureUrl,
         bio: bio,
-        connectionIds: List<String>.from(connectionIds));
+        connectionIds: Set<String>.from(connectionIds));
   }
 
   hasPicture() {
@@ -71,5 +71,13 @@ class UserModel {
 
   bool searchInUser(String searchBarText) {
     return username.toLowerCase().contains(searchBarText.toLowerCase());
+  }
+
+  void connect(String userId) {
+    connectionIds.add(userId);
+  }
+
+  void disconnect(String userId) {
+    connectionIds.remove(userId);
   }
 }

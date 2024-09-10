@@ -58,4 +58,16 @@ class UsersProvider with ChangeNotifier {
         .removeWhere((user) => user.id == authService.getCurrentUserId());
     notifyListeners();
   }
+
+  Future<void> connectToUser(String userId) async {
+    _user.connect(userId);
+    await usersCollection.update(_user);
+    notifyListeners();
+  }
+
+  Future<void> disconnectFromUser(String id) async {
+    _user.disconnect(id);
+    await usersCollection.update(_user);
+    notifyListeners();
+  }
 }

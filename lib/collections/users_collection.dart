@@ -41,7 +41,7 @@ class UsersCollection extends Collection {
     }
   }
 
-  void update(UserModel userCopy) {
-    db.collection(name).doc(userCopy.id).set(userCopy.toDoc());
+  Future<void> update(UserModel userCopy) async {
+    await db.collection(name).doc(userCopy.id).set(userCopy.toDoc());
   }
 }

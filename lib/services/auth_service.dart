@@ -39,7 +39,7 @@ class AuthService {
   Future<void> deleteUser() async {
     try {
       await storageService.deleteUserFiles(getCurrentUserId());
-      await databaseService.deleteUserDocuments(getCurrentUserId());
+      await databaseService.deleteUserFromDatabase(getCurrentUserId());
       await auth.currentUser!.delete();
     } on FirebaseAuthException {
       rethrow;

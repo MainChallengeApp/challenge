@@ -1,4 +1,5 @@
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
@@ -11,6 +12,7 @@ import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchUserPage extends StatefulWidget {
   const SearchUserPage(
@@ -36,6 +38,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
   late int currentUserIndex = widget.initUserIndex;
 
   final mediaService = MediaService();
+
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final listeningUsersProvider = Provider.of<UsersProvider>(context);
 
   @override
   void didChangeDependencies() {
@@ -165,11 +170,16 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   connect(UserModel user) {
-    return CustomButtonComponent(
-      onTap: onTapConnect,
-      isPrimaryButton: true,
-      text: 'Connect',
-    );
+    return listeningUsersProvider.user.connectionIds.contains(user.id)
+        ? CustomButtonComponent(
+            onTap: () => onTapDisconnect(user.id),
+            isPrimaryButton: false,
+            text: 'Disconnect')
+        : CustomButtonComponent(
+            onTap: () => onTapConnect(user.id),
+            isPrimaryButton: true,
+            text: 'Connect',
+          );
   }
 
   userName(UserModel user) {
@@ -230,7 +240,11 @@ class _SearchUserPageState extends State<SearchUserPage> {
     //     ));
   }
 
-  onTapConnect() {
-    print('onTapConnect');
+  onTapConnect(String userId) {
+    usersProvider.connectToUser(userId);
+  }
+
+  onTapDisconnect(String id) {
+    usersProvider.disconnectFromUser(id);
   }
 }
