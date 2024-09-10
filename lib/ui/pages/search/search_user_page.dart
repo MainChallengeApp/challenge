@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
@@ -217,7 +219,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   onTapPicture() {
-    print('onTapPicture');
+    log('onTapPicture');
     // Navigator.push(
     //     context,
     //     NoAnimationPageRouteComponent(
@@ -229,7 +231,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   onTapUsername() {
-    print('onTapUsername');
+    log('onTapUsername');
     // Navigator.push(
     //     context,
     //     NoAnimationPageRouteComponent(

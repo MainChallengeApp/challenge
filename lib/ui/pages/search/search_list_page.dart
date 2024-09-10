@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
@@ -174,7 +176,7 @@ class _SearchListPageState extends State<SearchListPage> {
                 user: user,
                 isSearch: true,
                 onTapConnect: () {
-                  print('onTapConnect');
+                  log('onTapConnect');
                 },
               ),
             );
