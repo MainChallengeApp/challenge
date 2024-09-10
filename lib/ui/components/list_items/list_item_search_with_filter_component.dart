@@ -62,8 +62,6 @@ class _ListItemSearchWithFilterComponentState
         ),
         ListItemSearchBarComponent(
           textEditingController: widget.textEditingController,
-          hintText:
-              'Search for ${isFilterOnChallenges ? 'new Challenges' : 'other Users'}...',
           changeList: widget.changeList,
           autoFocus: widget.autoFocus,
         )

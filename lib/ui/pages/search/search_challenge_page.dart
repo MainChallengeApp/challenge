@@ -18,11 +18,9 @@ class SearchChallengePage extends StatefulWidget {
   const SearchChallengePage(
       {super.key,
       required this.title,
-      required this.initChallenge,
       required this.challenges,
       required this.initChallengeIndex});
   final String title;
-  final ChallengeModel initChallenge;
   final List<ChallengeModel> challenges;
   final int initChallengeIndex;
 

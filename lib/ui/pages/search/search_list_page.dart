@@ -12,6 +12,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,6 @@ class SearchListPage extends StatefulWidget {
   final String initialSearchText;
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
-  final bool isUserSearchActive;
 
   const SearchListPage({
     super.key,
@@ -37,7 +37,6 @@ class SearchListPage extends StatefulWidget {
     this.initialSearchText = '',
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
-    this.isUserSearchActive = false,
   });
 
   @override
@@ -85,7 +84,7 @@ class _SearchListPageState extends State<SearchListPage> {
           children: [
             SpaceColumnComponent(
                 child: ListItemSearchWithFilterComponent(
-              autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 1,
+              autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 0,
               textEditingController: TextEditingController(text: searchBarText),
               changeList: changeList,
               isFilterOnChallenges: isFilterOnChallenges,
@@ -195,7 +194,6 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           title: '${widget.preTitle}/${widget.title}',
-          initChallenge: challenge,
           challenges: filteredChallenges,
           initChallengeIndex: index,
         ),
@@ -206,20 +204,18 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   onTapUser({required UserModel user, required int index}) {
-    print('onTapUser');
-    // Navigator.push(
-    //   context,
-    //   NoAnimationPageRouteComponent(
-    //     builder: (context) => SearchUserPage(
-    //       title: '${widget.preTitle}/${widget.title}',
-    //       initUser: user,
-    //       challenges: filteredChallenges,
-    //       initChallengeIndex: index,
-    //     ),
-    //   ),
-    // ).then((value) => setState(
-    //       () {},
-    //     ));
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchUserPage(
+          title: '${widget.preTitle}/${widget.title}',
+          users: filteredUsers,
+          initUserIndex: index,
+        ),
+      ),
+    ).then((value) => setState(
+          () {},
+        ));
   }
 
   onTapNewChallenge() {

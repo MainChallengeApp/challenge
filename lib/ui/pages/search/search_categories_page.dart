@@ -83,7 +83,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
               changeList: changeList,
               isEnabled: false,
               textEditingController: TextEditingController(text: searchBarText),
-              hintText: 'Search for new Challenges...',
             ),
           ),
           SpaceColumnComponent(
@@ -205,7 +204,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
             title: 'All',
             isFirstPageInRoute: false,
             initialSearchText: searchBarText,
-            isUserSearchActive: true,
             isSearchBarAutoFocus: true),
       ),
     );
@@ -234,7 +232,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           title: 'Search/Shuffle',
-          initChallenge: challengesCopy[0],
           challenges: challengesCopy,
           initChallengeIndex: 0,
         ),
