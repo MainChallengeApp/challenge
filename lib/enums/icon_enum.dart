@@ -18,6 +18,7 @@ enum IconEnum {
   info(Icons.info_outline_rounded),
   settings(Icons.settings_outlined),
   inbox(Icons.inbox_outlined),
+  connect(Icons.group_add_rounded),
   ;
 
   const IconEnum(this.icon);

@@ -18,6 +18,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final double? height;
   final double? borderRadius;
   final Color? onTapColor;
+  final bool isHeightDynamic;
 
   const ListItemContainerComponent(
       {super.key,
@@ -30,7 +31,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.margin,
       this.borderRadius,
       this.onHorizontalDragUpdate,
-      this.onTapColor});
+      this.onTapColor,
+      this.isHeightDynamic = false});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -73,8 +75,10 @@ class _ListItemContainerComponentState
             children: [
               Container(
                 width: double.infinity,
-                height:
-                    widget.height ?? ListItemContainerComponent.standardHeight,
+                height: widget.isHeightDynamic
+                    ? null
+                    : widget.height ??
+                        ListItemContainerComponent.standardHeight,
                 margin: widget.margin ??
                     const EdgeInsets.only(
                         left: ListItemContainerComponent.standardMargin,
@@ -94,8 +98,10 @@ class _ListItemContainerComponentState
                 visible: widget.onTap != null && isTapVisible,
                 child: Container(
                   width: double.infinity,
-                  height: widget.height ??
-                      ListItemContainerComponent.standardHeight,
+                  height: widget.isHeightDynamic
+                      ? null
+                      : widget.height ??
+                          ListItemContainerComponent.standardHeight,
                   margin: widget.margin ??
                       const EdgeInsets.only(left: 20, right: 20),
                   padding: widget.padding ??

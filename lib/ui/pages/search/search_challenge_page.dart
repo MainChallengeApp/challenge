@@ -5,7 +5,7 @@ import 'package:challenge/ui/components/challenge/title_with_percentage_componen
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/search_challenge/search_description_component.dart';
+import 'package:challenge/ui/components/search/search_description_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';

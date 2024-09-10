@@ -88,6 +88,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
           Visibility(
             visible: widget.onTap != null && isTapVisible,
             child: CustomContainerComponent(
+              isHeightDynamic: widget.isHeightDynamic,
               heightFactor: widget.heightFactor,
               height: widget.height,
               padding: widget.padding,

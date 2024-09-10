@@ -68,4 +68,8 @@ class UserModel {
   hasPicture() {
     return pictureUrl != null;
   }
+
+  bool searchInUser(String searchBarText) {
+    return username.toLowerCase().contains(searchBarText.toLowerCase());
+  }
 }

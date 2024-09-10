@@ -83,7 +83,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
               changeList: changeList,
               isEnabled: false,
               textEditingController: TextEditingController(text: searchBarText),
-              hintText: 'Search for Challenges and Users...',
+              hintText: 'Search for new Challenges...',
             ),
           ),
           SpaceColumnComponent(
@@ -202,6 +202,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
             preTitle: 'Search',
+            title: 'All',
             isFirstPageInRoute: false,
             initialSearchText: searchBarText,
             isUserSearchActive: true,

@@ -6,8 +6,8 @@ import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_search_filter_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_search_with_filter_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -52,18 +52,25 @@ class _SearchListPageState extends State<SearchListPage> {
 
   late final searchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: false);
+  late final listeningSearchChallengesProvider =
+      Provider.of<SearchChallengesProvider>(context, listen: true);
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final listeningUsersProvider =
+      Provider.of<UsersProvider>(context, listen: true);
 
   int numberOfBuilds = 0;
 
   String searchBarText = '';
+
+  bool isFilterOnChallenges = true;
 
   @override
   void initState() {
     super.initState();
     searchBarText = widget.initialSearchText;
     searchChallengesProvider.getAll();
+    usersProvider.getAll();
   }
 
   @override
@@ -74,81 +81,36 @@ class _SearchListPageState extends State<SearchListPage> {
             titleText: widget.title,
             isFirstPageInRoute: widget.isFirstPageInRoute),
         backgroundColor: Colors.white,
-        body: Container(
-          color: Colors.white,
-          child: _buildChallengesList(),
+        body: Column(
+          children: [
+            SpaceColumnComponent(
+                child: ListItemSearchWithFilterComponent(
+              autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 1,
+              textEditingController: TextEditingController(text: searchBarText),
+              changeList: changeList,
+              isFilterOnChallenges: isFilterOnChallenges,
+              onTapChallenges: () {
+                setState(() {
+                  isFilterOnChallenges = true;
+                });
+              },
+              onTapUsers: () {
+                setState(() {
+                  isFilterOnChallenges = false;
+                });
+              },
+            )),
+            Expanded(
+                child: isFilterOnChallenges
+                    ? _buildChallengesList()
+                    : _buildUsersList())
+          ],
         ),
         bottomNavigationBar: const BottomNavigationComponent());
   }
 
   Widget _buildChallengesList() {
-    filteredChallenges = searchChallengesProvider.searchChallenges
-        .where((element) =>
-            element.searchInChallenge(searchBarText) &&
-            element.isInCategories(widget.categories))
-        .toList();
-    filteredChallenges
-        .sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
-    return Expanded(
-      child: RawScrollbar(
-        controller: scrollController,
-        radius: const Radius.circular(4),
-        thumbColor: themeColor3,
-        padding: const EdgeInsets.only(right: 4),
-        child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
-            itemCount: filteredChallenges.length +
-                1 +
-                1 +
-                1, // + 1 for searchBar + 1 for filter + 1 for new Challenge
-            itemBuilder: (BuildContext content, int index) {
-              numberOfBuilds++;
-              if (index == 0) {
-                return SpaceColumnComponent(
-                    child: ListItemSearchBarComponent(
-                  autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 1,
-                  changeList: changeList,
-                  textEditingController:
-                      TextEditingController(text: searchBarText),
-                  hintText: 'Search for Challenges and Users...',
-                ));
-              }
-
-              if (index == 1) {
-                return SpaceColumnComponent(
-                    child: ListItemSearchFilterComponent(
-                  onTapChallenges: () {},
-                  onTapUsers: () {},
-                ));
-              }
-
-              if (index == filteredChallenges.length + 1 + 1) {
-                return SpaceColumnComponent(
-                    child: ListItemIconTextComponent(
-                  onTap: onTapNewChallenge,
-                  icon: Icons.add,
-                  title: searchBarText == '' ? 'New Challenge' : searchBarText,
-                ));
-              }
-
-              ChallengeModel challenge = filteredChallenges[index - 1 - 1];
-              return SpaceColumnComponent(
-                child: ListItemChallengeSmallComponent(
-                  onTap: () => onTapChallenge(
-                      challenge: challenge,
-                      index: index), // widget.onPush?.call(challenge),
-                  challenge: challenge,
-                  isSearch: true,
-                ),
-              );
-            }),
-      ),
-    );
-  }
-
-  Widget _buildUsersList() {
-    filteredChallenges = searchChallengesProvider.searchChallenges
+    filteredChallenges = listeningSearchChallengesProvider.searchChallenges
         .where((element) =>
             element.searchInChallenge(searchBarText) &&
             element.isInCategories(widget.categories))
@@ -163,9 +125,18 @@ class _SearchListPageState extends State<SearchListPage> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: filteredChallenges.length,
+          itemCount: filteredChallenges.length + 1, // + 1 for new Challenge
           itemBuilder: (BuildContext content, int index) {
             numberOfBuilds++;
+            if (index == filteredChallenges.length) {
+              return SpaceColumnComponent(
+                  child: ListItemIconTextComponent(
+                onTap: onTapNewChallenge,
+                icon: Icons.add,
+                title: searchBarText == '' ? 'New Challenge' : searchBarText,
+              ));
+            }
+
             ChallengeModel challenge = filteredChallenges[index];
             return SpaceColumnComponent(
               child: ListItemChallengeSmallComponent(
@@ -180,9 +151,40 @@ class _SearchListPageState extends State<SearchListPage> {
     );
   }
 
+  Widget _buildUsersList() {
+    filteredUsers = listeningUsersProvider.searchUsers
+        .where((element) => element.searchInUser(searchBarText))
+        .toList();
+    filteredUsers.sort(
+        (a, b) => a.username.toLowerCase().compareTo(b.username.toLowerCase()));
+    return RawScrollbar(
+      controller: scrollController,
+      radius: const Radius.circular(4),
+      thumbColor: themeColor3,
+      padding: const EdgeInsets.only(right: 4),
+      child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          itemCount: filteredUsers.length,
+          itemBuilder: (BuildContext content, int index) {
+            numberOfBuilds++;
+            UserModel user = filteredUsers[index];
+            return SpaceColumnComponent(
+              child: ListItemUserComponent(
+                onTap: () => onTapUser(user: user, index: index),
+                user: user,
+                isSearch: true,
+                onTapConnect: () {
+                  print('onTapConnect');
+                },
+              ),
+            );
+          }),
+    );
+  }
+
   changeList(String value) {
     setState(() {
-      // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
   }
@@ -201,6 +203,23 @@ class _SearchListPageState extends State<SearchListPage> {
     ).then((value) => setState(
           () {},
         ));
+  }
+
+  onTapUser({required UserModel user, required int index}) {
+    print('onTapUser');
+    // Navigator.push(
+    //   context,
+    //   NoAnimationPageRouteComponent(
+    //     builder: (context) => SearchUserPage(
+    //       title: '${widget.preTitle}/${widget.title}',
+    //       initUser: user,
+    //       challenges: filteredChallenges,
+    //       initChallengeIndex: index,
+    //     ),
+    //   ),
+    // ).then((value) => setState(
+    //       () {},
+    //     ));
   }
 
   onTapNewChallenge() {

@@ -32,8 +32,6 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
 
 class _ListItemChallengeSmallComponentState
     extends State<ListItemChallengeSmallComponent> {
-  late BuildContext context2;
-
   final mediaService = MediaService();
 
   @override

@@ -4,7 +4,7 @@ import 'package:challenge/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class SearchChallengesProvider with ChangeNotifier {
-  final searchChallengesDatabase = SearchChallengesCollection();
+  final searchChallengesCollection = SearchChallengesCollection();
   final authService = AuthService();
 
   List<ChallengeModel> _searchChallenges = [];
@@ -12,7 +12,7 @@ class SearchChallengesProvider with ChangeNotifier {
 
   Future<List<ChallengeModel>> getAll() async {
     try {
-      _searchChallenges = await searchChallengesDatabase.getAll();
+      _searchChallenges = await searchChallengesCollection.getAll();
       notifyListeners();
       return _searchChallenges;
     } on Exception {

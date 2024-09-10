@@ -12,7 +12,7 @@ class UsersProvider with ChangeNotifier {
   UserModel _user = UserModel.empty();
   UserModel get user => _user;
 
-  final List<UserModel> _searchUsers = [];
+  List<UserModel> _searchUsers = [];
   List<UserModel> get searchUsers => _searchUsers;
 
   Future<void> createUser({required String email, username}) async {
@@ -50,5 +50,12 @@ class UsersProvider with ChangeNotifier {
         .addAll(await usersCollection.getAllByUsernameContains(username));
     notifyListeners();
     return _searchUsers;
+  }
+
+  void getAll() async {
+    _searchUsers = await usersCollection.getAll();
+    _searchUsers
+        .removeWhere((user) => user.id == authService.getCurrentUserId());
+    notifyListeners();
   }
 }
