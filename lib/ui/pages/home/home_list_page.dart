@@ -62,38 +62,40 @@ class _HomeListPageState extends State<HomeListPage> {
         ChallengeModel.sortChallengeList(challenges: filteredUserChallenges)
             as List<UserChallengeModel>;
 
-    return RawScrollbar(
-      controller: scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: themeColor3,
-      padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount: filteredUserChallenges.length +
-              1 +
-              1, // +1 for new Challenge listItem + 1 for searchBar
-          itemBuilder: (BuildContext content, int index) {
-            if (index == 0) {
-              return searchBar();
-            }
-            if (index == 1) {
-              return newChallenge();
-            }
-            UserChallengeModel challenge = filteredUserChallenges[index -
-                1 -
-                1]; // -1 for new Challenge listItem - 1 for searchBar
+    return Column(
+      children: [
+        searchBar(),
+        Expanded(
+          child: RawScrollbar(
+            controller: scrollController,
+            radius: const Radius.circular(4),
+            thumbColor: themeColor3,
+            padding: const EdgeInsets.only(right: 4),
+            child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: scrollController,
+                itemCount: filteredUserChallenges.length +
+                    1, // +1 for new Challenge listItem
+                itemBuilder: (BuildContext content, int index) {
+                  if (index == 0) {
+                    return newChallenge();
+                  }
+                  UserChallengeModel challenge = filteredUserChallenges[
+                      index - 1]; // -1 for new Challenge listItem
 
-            challenge.checkChallengeStatus();
-            return SpaceColumnComponent(
-              child: ListItemChallengeSmallComponent(
-                onTap: () => push(context,
-                    userChallenge: challenge, index: index - 1 - 1),
-                challenge: challenge,
-                onTapDeleteChallenge: () => deleteChallenge(challenge),
-              ),
-            );
-          }),
+                  challenge.checkChallengeStatus();
+                  return SpaceColumnComponent(
+                    child: ListItemChallengeSmallComponent(
+                      onTap: () => push(context,
+                          userChallenge: challenge, index: index - 1),
+                      challenge: challenge,
+                      onTapDeleteChallenge: () => deleteChallenge(challenge),
+                    ),
+                  );
+                }),
+          ),
+        ),
+      ],
     );
   }
 

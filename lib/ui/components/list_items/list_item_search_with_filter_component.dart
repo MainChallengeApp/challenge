@@ -64,6 +64,7 @@ class _ListItemSearchWithFilterComponentState
           textEditingController: widget.textEditingController,
           changeList: widget.changeList,
           autoFocus: widget.autoFocus,
+          hintText: 'Search for Challenges or Users...',
         )
       ],
     );

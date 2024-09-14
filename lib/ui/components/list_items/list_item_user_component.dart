@@ -1,4 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
@@ -77,7 +78,7 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
         child: Center(
             child: Icon(
           IconEnum.connect.icon,
-          color: Colors.black,
+          color: themeColor3,
         )),
       ),
     );

@@ -73,9 +73,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       radius: const Radius.circular(4),
       thumbColor: themeColor3,
       padding: const EdgeInsets.only(right: 4),
-      child: ListView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: scrollController,
+      child: Column(
         children: [
           SpaceColumnComponent(
             child: ListItemSearchBarComponent(
@@ -83,50 +81,59 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
               changeList: changeList,
               isEnabled: false,
               textEditingController: TextEditingController(text: searchBarText),
+              hintText: 'Search for Challenges or Users...',
             ),
           ),
-          SpaceColumnComponent(
-              child: Row(
-            children: [
-              const SpaceComponent(
-                width: 20,
-              ),
-              mental(),
-              const SpaceComponent(),
-              physical(),
-              const SpaceComponent(
-                width: 20,
-              ),
-            ],
-          )),
-          SpaceColumnComponent(
-              child: Row(
-            children: [
-              const SpaceComponent(
-                width: 20,
-              ),
-              social(),
-              const SpaceComponent(),
-              other(),
-              const SpaceComponent(
-                width: 20,
-              ),
-            ],
-          )),
-          SpaceColumnComponent(
-              child: Row(
-            children: [
-              const SpaceComponent(
-                width: 20,
-              ),
-              newChallenge(),
-              const SpaceComponent(),
-              shuffle(),
-              const SpaceComponent(
-                width: 20,
-              ),
-            ],
-          ))
+          Expanded(
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: scrollController,
+              children: [
+                SpaceColumnComponent(
+                    child: Row(
+                  children: [
+                    const SpaceComponent(
+                      width: 20,
+                    ),
+                    mental(),
+                    const SpaceComponent(),
+                    physical(),
+                    const SpaceComponent(
+                      width: 20,
+                    ),
+                  ],
+                )),
+                SpaceColumnComponent(
+                    child: Row(
+                  children: [
+                    const SpaceComponent(
+                      width: 20,
+                    ),
+                    social(),
+                    const SpaceComponent(),
+                    other(),
+                    const SpaceComponent(
+                      width: 20,
+                    ),
+                  ],
+                )),
+                SpaceColumnComponent(
+                    child: Row(
+                  children: [
+                    const SpaceComponent(
+                      width: 20,
+                    ),
+                    newChallenge(),
+                    const SpaceComponent(),
+                    shuffle(),
+                    const SpaceComponent(
+                      width: 20,
+                    ),
+                  ],
+                ))
+              ],
+            ),
+          ),
         ],
       ),
     );

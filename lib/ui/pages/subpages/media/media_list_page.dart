@@ -56,64 +56,60 @@ class _MediaListPageState extends State<MediaListPage> {
             element.title.toLowerCase().contains(searchBarText.toLowerCase()))
         .toList();
 
-    return RawScrollbar(
-      controller: scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: themeColor3,
-      padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount:
-              mediaList.length + 1 + 1, // + 1 for searchBar + 1 for new Media
-          itemBuilder: (BuildContext content, int index) {
-            if (index == 0) {
-              return SpaceColumnComponent(
-                child: ListItemSearchBarComponent(
-                  changeList: changeList,
-                  textEditingController:
-                      TextEditingController(text: searchBarText),
-                ),
-              );
-            }
+    return Column(
+      children: [
+        SpaceColumnComponent(
+          child: ListItemSearchBarComponent(
+            changeList: changeList,
+            textEditingController: TextEditingController(text: searchBarText),
+            hintText: 'Search in your Media...',
+          ),
+        ),
+        Expanded(
+          child: RawScrollbar(
+            controller: scrollController,
+            radius: const Radius.circular(4),
+            thumbColor: themeColor3,
+            padding: const EdgeInsets.only(right: 4),
+            child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                controller: scrollController,
+                itemCount: mediaList.length + 1, //+ 1 for new Media
+                itemBuilder: (BuildContext content, int index) {
+                  if (index == 0) {
+                    return SpaceColumnComponent(
+                      child: ListItemIconTextComponent(
+                        icon: Icons.file_upload_rounded,
+                        title: 'Upload Media',
+                        onTap: onTapUploadMedia,
+                      ),
+                    );
+                  }
+                  return SpaceColumnComponent(
+                    child: ListItemMediaSmallComponent(
+                      onTap: () => push(context, index: index - 1),
+                      media: mediaList.reversed.elementAt(index - 1),
+                      onTapDeleteMedia: () {
+                        MediaModel media =
+                            mediaList.reversed.elementAt(index - 1);
 
-            if (index == 1) {
-              return SpaceColumnComponent(
-                child: ListItemIconTextComponent(
-                  icon: Icons.file_upload_rounded,
-                  title: 'Upload Media',
-                  onTap: onTapUploadMedia,
-                ),
-              );
-            }
-            // if (index == 1) {
-            //   return ListItemIconSmall(
-            //     onTap: () => 0, // not yet implemented
-            //     icon: Icons.add_rounded,
-            //     title: 'Upload Media',
-            //   );
-            // }
-            return SpaceColumnComponent(
-              child: ListItemMediaSmallComponent(
-                onTap: () => push(context, index: index - 1 - 1),
-                media: mediaList.reversed.elementAt(index - 1 - 1),
-                onTapDeleteMedia: () {
-                  MediaModel media =
-                      mediaList.reversed.elementAt(index - 1 - 1);
+                        mediaService.deleteMedia(media);
+                        widget.userChallenge.removeMedia(media);
+                        userChallengesProvider.update(widget.userChallenge);
 
-                  mediaService.deleteMedia(media);
-                  widget.userChallenge.removeMedia(media);
-                  userChallengesProvider.update(widget.userChallenge);
+                        setState(() {
+                          mediaList
+                              .removeWhere((element) => element.id == media.id);
+                        });
 
-                  setState(() {
-                    mediaList.removeWhere((element) => element.id == media.id);
-                  });
-
-                  return;
-                },
-              ),
-            );
-          }),
+                        return;
+                      },
+                    ),
+                  );
+                }),
+          ),
+        ),
+      ],
     );
   }
 
