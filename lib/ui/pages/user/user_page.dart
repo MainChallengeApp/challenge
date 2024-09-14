@@ -19,6 +19,7 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
+import 'package:challenge/ui/pages/user/connections_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
@@ -163,7 +164,7 @@ class _UserPageState extends State<UserPage> {
             const SpaceComponent(),
             Expanded(
               child: TapContainerComponent(
-                onTap: () {},
+                onTap: onTapConnections,
                 child: Column(
                   children: [
                     Text(
@@ -279,6 +280,17 @@ class _UserPageState extends State<UserPage> {
         NoAnimationPageRouteComponent(
           builder: (context) => EditUserPage(
             preTitle: widget.title,
+          ),
+        ));
+  }
+
+  onTapConnections() {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => ConnectionsPage(
+            preTitle: widget.title,
+            connectionIds: user.connectionIds,
           ),
         ));
   }

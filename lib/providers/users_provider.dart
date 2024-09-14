@@ -15,6 +15,9 @@ class UsersProvider with ChangeNotifier {
   List<UserModel> _searchUsers = [];
   List<UserModel> get searchUsers => _searchUsers;
 
+  final Set<UserModel> _connections = {};
+  Set<UserModel> get connections => _connections;
+
   Future<void> createUser({required String email, username}) async {
     final user = UserModel(
       id: authService.getCurrentUserId(),
@@ -68,6 +71,13 @@ class UsersProvider with ChangeNotifier {
   Future<void> disconnectFromUser(String id) async {
     _user.disconnect(id);
     await usersCollection.update(_user);
+    notifyListeners();
+  }
+
+  Future<void> getConnections() async {
+    _connections.clear();
+    _connections
+        .addAll(await usersCollection.getByUserIds(_user.connectionIds));
     notifyListeners();
   }
 }
