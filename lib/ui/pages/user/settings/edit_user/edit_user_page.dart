@@ -5,8 +5,9 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -69,141 +70,74 @@ class _EditUserPageState extends State<EditUserPage> {
       body: ListView(
         children: [
           SpaceColumnComponent(
-            child: ListItemIconChildComponent(
+            child: ListItemIconTextTextComponent(
               icon: IconEnum.email.icon,
               onTap: onTapEmail,
-              child: Row(
-                children: [
-                  const Text('Email'),
-                  const SpaceComponent(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      email,
-                      style: const TextStyle(color: themeColor3),
-                      textAlign: TextAlign.end,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
+              text: 'Email',
+              text2: email,
             ),
           ),
           SpaceColumnComponent(
-            child: ListItemIconChildComponent(
+            child: ListItemIconTextTextComponent(
               icon: IconEnum.password.icon,
               onTap: onTapPassword,
-              child: const Row(
-                children: [
-                  Text('Password'),
-                  SpaceComponent(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      '******',
-                      style: TextStyle(color: themeColor3),
-                      textAlign: TextAlign.end,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
+              text: 'Password',
+              text2: '******',
             ),
           ),
           const SpaceComponent(),
           SpaceColumnComponent(
-            child: ListItemIconChildComponent(
+            child: ListItemIconTextChildComponent(
               icon: IconEnum.picture.icon,
               onTap: onTapPicture,
-              child: Row(
-                children: [
-                  const Text('Picture'),
-                  const SpaceComponent(
-                    width: 10,
-                  ),
-                  Expanded(child: Container()),
-                  ContainerInContainerComponent(
-                      // TODO: merge with ListItemImageChildComponent
-                      padding: const EdgeInsets.all(0),
-                      margin: const EdgeInsets.all(0),
-                      height: ListItemIconTextComponent.iconContainerSize,
-                      width: ListItemIconTextComponent.iconContainerSize,
+              text: 'Picture',
+              child: ContainerInContainerComponent(
+                  // TODO: merge with ListItemImageChildComponent
+                  padding: const EdgeInsets.all(0),
+                  margin: const EdgeInsets.all(0),
+                  height: ListItemIconTextComponent.iconContainerSize,
+                  width: ListItemIconTextComponent.iconContainerSize,
+                  borderRadius: const BorderRadius.all(Radius.circular(
+                      ListItemIconTextComponent.standardIconRadius)),
+                  child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(
                           ListItemIconTextComponent.standardIconRadius)),
-                      child: ClipRRect(
-                          borderRadius: const BorderRadius.all(Radius.circular(
-                              ListItemIconTextComponent.standardIconRadius)),
-                          child: user.pictureUrl == null
-                              ? Center(
-                                  child: Icon(IconEnum.user.icon,
-                                      color: themeColor3),
-                                )
-                              : mediaService.isUrlLocal(user.pictureUrl!)
-                                  ? Image.asset(user.pictureUrl!,
-                                      fit: BoxFitEnum.cover.fit,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Center(
-                                                child: Icon(IconEnum.user.icon,
-                                                    color: themeColor3),
-                                              ))
-                                  : Image.network(user.pictureUrl!,
-                                      fit: BoxFitEnum.cover.fit,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Center(
-                                                child: Icon(IconEnum.user.icon,
-                                                    color: themeColor3),
-                                              )))),
-                ],
-              ),
+                      child: user.pictureUrl == null
+                          ? Center(
+                              child:
+                                  Icon(IconEnum.user.icon, color: themeColor3),
+                            )
+                          : mediaService.isUrlLocal(user.pictureUrl!)
+                              ? Image.asset(user.pictureUrl!,
+                                  fit: BoxFitEnum.cover.fit,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Center(
+                                        child: Icon(IconEnum.user.icon,
+                                            color: themeColor3),
+                                      ))
+                              : Image.network(user.pictureUrl!,
+                                  fit: BoxFitEnum.cover.fit,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Center(
+                                        child: Icon(IconEnum.user.icon,
+                                            color: themeColor3),
+                                      )))),
             ),
           ),
           SpaceColumnComponent(
-            child: ListItemIconChildComponent(
+            child: ListItemIconTextTextComponent(
                 icon: IconEnum.username.icon,
                 onTap: onTapUsername,
-                child: Row(
-                  children: [
-                    const Text('Username'),
-                    const SpaceComponent(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        '@${user.username}',
-                        style: const TextStyle(color: themeColor3),
-                        textAlign: TextAlign.end,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                )),
+                text: 'Username',
+                text2: '@${user.username}'),
           ),
           SpaceColumnComponent(
-            child: ListItemIconChildComponent(
+            child: ListItemIconTextTextComponent(
                 icon: IconEnum.bio.icon,
                 onTap: onTapBio,
-                child: Row(
-                  children: [
-                    const Text('Bio'),
-                    const SpaceComponent(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Text(
-                        user.bio?.replaceAll('\n', ' ') ?? '',
-                        style: const TextStyle(color: themeColor3),
-                        textAlign: TextAlign.end,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                )),
-          )
+                text: 'Bio',
+                text2: user.bio?.replaceAll('\n', ' ') ?? ''),
+          ),
         ],
       ),
     );

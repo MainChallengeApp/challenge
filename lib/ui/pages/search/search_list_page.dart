@@ -210,9 +210,9 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
-          title: '${widget.preTitle}/${widget.title}',
+          preTitle: '${widget.preTitle}/${widget.title}',
           users: filteredUsers,
-          initUserIndex: index,
+          initUserId: user.id,
         ),
       ),
     ).then((value) => setState(

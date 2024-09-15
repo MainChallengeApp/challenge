@@ -28,17 +28,19 @@ class UsersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<UserModel> getUser() async {
+  Future<UserModel> getUser({bool notify = true}) async {
     final user = await usersCollection.getById(authService.getCurrentUserId());
     _user = user;
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
     return user;
   }
 
   update(UserModel user) async {
     user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
     _user = user;
-    usersCollection.update(user);
+    usersCollection.update(_user);
     notifyListeners();
   }
 
@@ -65,16 +67,25 @@ class UsersProvider with ChangeNotifier {
   Future<void> connectToUser(String userId) async {
     _user.connect(userId);
     await usersCollection.update(_user);
+    await getConnections();
     notifyListeners();
   }
 
   Future<void> disconnectFromUser(String id) async {
+    UserModel otherUser = await usersCollection.getById(id);
+
     _user.disconnect(id);
+    otherUser.disconnect(_user.id);
+
     await usersCollection.update(_user);
+    await usersCollection.update(otherUser);
+
+    await getConnections();
     notifyListeners();
   }
 
   Future<void> getConnections() async {
+    await getUser(notify: false);
     _connections.clear();
     _connections
         .addAll(await usersCollection.getByUserIds(_user.connectionIds));

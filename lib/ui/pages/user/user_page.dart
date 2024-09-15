@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/globals.dart';
@@ -19,7 +17,7 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
-import 'package:challenge/ui/pages/user/connections_page.dart';
+import 'package:challenge/ui/pages/user/connections/connections_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
@@ -51,18 +49,23 @@ class _UserPageState extends State<UserPage> {
 
   int amountOfChallenges = 0;
 
+  Set<UserModel> connections = {};
+
   bool isBioExpanded = false;
 
   @override
   void initState() {
     super.initState();
-    fetchUser();
+    usersProvider.getUser().then((_) {
+      usersProvider.getConnections();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
     amountOfChallenges = listeningUserChallengesProvider.userChallenges.length;
+    connections = listeningUsersProvider.connections;
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.title,
@@ -168,7 +171,11 @@ class _UserPageState extends State<UserPage> {
                 child: Column(
                   children: [
                     Text(
-                      user.connectionIds.length.toString(),
+                      connections
+                          .where((connection) =>
+                              connection.isConnectedWith(user.id))
+                          .length
+                          .toString(),
                     ),
                     const Text(
                       'Connections',
@@ -204,29 +211,6 @@ class _UserPageState extends State<UserPage> {
 
   expandedSpace() {
     return isBioExpanded ? Container() : Expanded(child: Container());
-  }
-
-  void fetchUser() {
-    const int maxRetries = 3;
-    const Duration initialDelay = Duration(seconds: 2);
-
-    Future<void> attemptFetchUser(int retryCount, Duration delay) async {
-      try {
-        var user = await usersProvider.getUser();
-        setState(() {
-          this.user = user;
-        });
-      } catch (error) {
-        if (retryCount < maxRetries) {
-          await Future.delayed(delay);
-          attemptFetchUser(retryCount + 1, delay * 2); // Exponential backoff
-        } else {
-          log('Failed to fetch user after $maxRetries attempts: $error');
-        }
-      }
-    }
-
-    attemptFetchUser(0, initialDelay);
   }
 
   pictureAndUsername(UserModel user) {
@@ -290,7 +274,7 @@ class _UserPageState extends State<UserPage> {
         NoAnimationPageRouteComponent(
           builder: (context) => ConnectionsPage(
             preTitle: widget.title,
-            connectionIds: user.connectionIds,
+            connections: connections,
           ),
         ));
   }

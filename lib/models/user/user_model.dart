@@ -80,4 +80,8 @@ class UserModel {
   void disconnect(String userId) {
     connectionIds.remove(userId);
   }
+
+  bool isConnectedWith(String userId) {
+    return connectionIds.contains(userId);
+  }
 }

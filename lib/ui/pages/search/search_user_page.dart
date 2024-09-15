@@ -19,12 +19,12 @@ import 'package:provider/provider.dart';
 class SearchUserPage extends StatefulWidget {
   const SearchUserPage(
       {super.key,
-      required this.title,
+      required this.preTitle,
       required this.users,
-      required this.initUserIndex});
-  final String title;
+      required this.initUserId});
+  final String preTitle;
   final List<UserModel> users;
-  final int initUserIndex;
+  final String initUserId;
 
   @override
   State<SearchUserPage> createState() => _SearchUserPageState();
@@ -32,12 +32,11 @@ class SearchUserPage extends StatefulWidget {
 
 class _SearchUserPageState extends State<SearchUserPage> {
   bool isBioExpanded = false;
-  late PageController pageController =
-      PageController(initialPage: widget.initUserIndex);
+  late PageController pageController = PageController(
+      initialPage:
+          widget.users.indexWhere((user) => user.id == widget.initUserId));
 
   bool isKeyboardUp = false;
-
-  late int currentUserIndex = widget.initUserIndex;
 
   final mediaService = MediaService();
 
@@ -59,7 +58,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBarComponent(preTitle: widget.title),
+      appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
       body: Center(
         child: PageView(
@@ -93,7 +92,6 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   void onPageChanged(int value) {
     setState(() {
-      currentUserIndex = value;
       pageController = PageController(initialPage: value);
       isBioExpanded = false;
     });

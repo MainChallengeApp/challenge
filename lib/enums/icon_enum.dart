@@ -19,6 +19,9 @@ enum IconEnum {
   settings(Icons.settings_outlined),
   inbox(Icons.inbox_outlined),
   connect(Icons.group_add_rounded),
+  disconnect(Icons.group_remove_rounded),
+  openRequests(Icons.move_to_inbox_rounded),
+  openResponses(Icons.outbox_rounded),
   ;
 
   const IconEnum(this.icon);
