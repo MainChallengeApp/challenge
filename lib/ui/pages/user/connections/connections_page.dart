@@ -42,6 +42,8 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   Set<UserModel> confirmedConnections = {};
   Set<UserModel> openConnectionResponses = {};
 
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     allConnections = listeningUsersProvider.connections;
@@ -75,11 +77,13 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   connectionsList() {
     return Expanded(
-      child: RefreshIndicator(
+      child: RefreshIndicator.adaptive(
         color: themeColor1,
         displacement: 0,
         onRefresh: onRefreshList,
         child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
           itemCount: confirmedConnections.length +
               1 +
               1, // +1 for openRequests +1 for openConnectionResponses
@@ -107,7 +111,14 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   }
 
   Future<void> onRefreshList() async {
+    await scrollController.animateTo(-35,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linearToEaseOut);
+    scrollController.animateTo(0,
+        duration: const Duration(minutes: 1), curve: Curves.easeInOut);
     await usersProvider.getConnections();
+    scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
   openConnectionRequestsListItem() {
