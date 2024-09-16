@@ -11,6 +11,7 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
   final Function(String) changeList;
   final bool autoFocus;
   final bool isFilterOnChallenges;
+  final bool isUserSearchActive;
 
   const ListItemSearchWithFilterComponent(
       {super.key,
@@ -19,7 +20,8 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
       required this.textEditingController,
       required this.changeList,
       this.autoFocus = false,
-      required this.isFilterOnChallenges});
+      required this.isFilterOnChallenges,
+      this.isUserSearchActive = false});
 
   @override
   State<ListItemSearchWithFilterComponent> createState() =>
@@ -38,33 +40,37 @@ class _ListItemSearchWithFilterComponentState
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ListItemContainerComponent(
-          padding: const EdgeInsets.all(0),
-          height: ListItemContainerComponent.standardHeight + 40,
-          child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Row(
-                children: [
-                  filterContainer('Challenges', () {
-                    setState(() {
-                      isFilterOnChallenges = true;
-                    });
-                    widget.onTapChallenges.call();
-                  }, isFilterOnChallenges),
-                  filterContainer('Users', () {
-                    setState(() {
-                      isFilterOnChallenges = false;
-                    });
-                    widget.onTapUsers.call();
-                  }, !isFilterOnChallenges),
-                ],
-              )),
+        Visibility(
+          visible: widget.isUserSearchActive,
+          child: ListItemContainerComponent(
+            padding: const EdgeInsets.all(0),
+            height: ListItemContainerComponent.standardHeight + 40,
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  children: [
+                    filterContainer('Challenges', () {
+                      setState(() {
+                        isFilterOnChallenges = true;
+                      });
+                      widget.onTapChallenges.call();
+                    }, isFilterOnChallenges),
+                    filterContainer('Users', () {
+                      setState(() {
+                        isFilterOnChallenges = false;
+                      });
+                      widget.onTapUsers.call();
+                    }, !isFilterOnChallenges),
+                  ],
+                )),
+          ),
         ),
         ListItemSearchBarComponent(
           textEditingController: widget.textEditingController,
           changeList: widget.changeList,
           autoFocus: widget.autoFocus,
-          hintText: 'Search for Challenges or Users...',
+          hintText:
+              'Search for Challenges${widget.isUserSearchActive ? ' or Users' : ''}...',
         )
       ],
     );

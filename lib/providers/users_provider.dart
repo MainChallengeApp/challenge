@@ -67,7 +67,7 @@ class UsersProvider with ChangeNotifier {
   Future<void> connectToUser(String userId) async {
     _user.connect(userId);
     await usersCollection.update(_user);
-    await getConnections();
+    await getConnections(notify: false);
     notifyListeners();
   }
 
@@ -80,15 +80,18 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await usersCollection.update(otherUser);
 
-    await getConnections();
+    await getConnections(notify: false);
     notifyListeners();
   }
 
-  Future<void> getConnections() async {
+  Future<void> getConnections({bool notify = true}) async {
     await getUser(notify: false);
     _connections.clear();
     _connections
         .addAll(await usersCollection.getByUserIds(_user.connectionIds));
-    notifyListeners();
+
+    if (notify) {
+      notifyListeners();
+    }
   }
 }

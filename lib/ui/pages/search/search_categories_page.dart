@@ -211,6 +211,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
             title: 'All',
             isFirstPageInRoute: false,
             initialSearchText: searchBarText,
+            isUserSearchActive: true,
             isSearchBarAutoFocus: true),
       ),
     );

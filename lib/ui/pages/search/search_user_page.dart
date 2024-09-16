@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
@@ -42,6 +40,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
+
+  bool isLoading = false;
 
   @override
   void didChangeDependencies() {
@@ -174,9 +174,14 @@ class _SearchUserPageState extends State<SearchUserPage> {
         ? CustomButtonComponent(
             onTap: () => onTapDisconnect(user.id),
             isPrimaryButton: false,
-            text: 'Disconnect')
+            isLoading: isLoading,
+            text: user.isConnectedWith(usersProvider.user.id)
+                ? 'Disconnect'
+                : 'Cancel Request',
+          )
         : CustomButtonComponent(
             onTap: () => onTapConnect(user.id),
+            isLoading: isLoading,
             isPrimaryButton: true,
             text: 'Connect',
           );
@@ -199,12 +204,10 @@ class _SearchUserPageState extends State<SearchUserPage> {
         children: [
           UserPictureMinComponent(
             userPictureUrl: user.pictureUrl,
-            onTap: onTapPicture,
           ),
           const SpaceComponent(),
           Expanded(
               child: TapContainerComponent(
-                  onTap: onTapUsername,
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -216,35 +219,23 @@ class _SearchUserPageState extends State<SearchUserPage> {
     );
   }
 
-  onTapPicture() {
-    log('onTapPicture');
-    // Navigator.push(
-    //     context,
-    //     NoAnimationPageRouteComponent(
-    //       builder: (context) => EditPicturePage(
-    //         preTitle: widget.title,
-    //         user: user,
-    //       ),
-    //     ));
+  onTapConnect(String userId) async {
+    setState(() {
+      isLoading = true;
+    });
+    await usersProvider.connectToUser(userId);
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  onTapUsername() {
-    log('onTapUsername');
-    // Navigator.push(
-    //     context,
-    //     NoAnimationPageRouteComponent(
-    //       builder: (context) => EditUsernamePage(
-    //         preTitle: widget.title,
-    //         user: user,
-    //       ),
-    //     ));
-  }
-
-  onTapConnect(String userId) {
-    usersProvider.connectToUser(userId);
-  }
-
-  onTapDisconnect(String id) {
-    usersProvider.disconnectFromUser(id);
+  onTapDisconnect(String id) async {
+    setState(() {
+      isLoading = true;
+    });
+    await usersProvider.disconnectFromUser(id);
+    setState(() {
+      isLoading = false;
+    });
   }
 }

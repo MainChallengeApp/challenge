@@ -29,6 +29,7 @@ class SearchListPage extends StatefulWidget {
   final String initialSearchText;
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
+  final bool isUserSearchActive;
 
   const SearchListPage({
     super.key,
@@ -39,6 +40,7 @@ class SearchListPage extends StatefulWidget {
     this.initialSearchText = '',
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
+    this.isUserSearchActive = false,
   });
 
   @override
@@ -90,6 +92,7 @@ class _SearchListPageState extends State<SearchListPage> {
               textEditingController: TextEditingController(text: searchBarText),
               changeList: changeList,
               isFilterOnChallenges: isFilterOnChallenges,
+              isUserSearchActive: widget.isUserSearchActive,
               onTapChallenges: () {
                 setState(() {
                   isFilterOnChallenges = true;

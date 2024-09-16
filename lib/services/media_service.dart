@@ -80,6 +80,11 @@ class MediaService {
         file.delete();
       }
     });
+
+    if (isUrlLocal(media.source)) {
+      return;
+    }
+
     storageService.deleteFileByUrl(media.source);
   }
 
