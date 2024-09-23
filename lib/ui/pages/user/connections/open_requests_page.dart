@@ -29,6 +29,8 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
 
   TextEditingController searchTextEditingController = TextEditingController();
 
+  ScrollController scrollController = ScrollController();
+
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
@@ -65,13 +67,14 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
 
   connectionsList() {
     return Expanded(
-      child: RefreshIndicator(
+      child: RefreshIndicator.adaptive(
         color: themeColor1,
-        onRefresh: () async {
-          await usersProvider.getConnections();
-        },
+        displacement: 0,
+        onRefresh: onRefreshList,
         child: ListView.builder(
           itemCount: openConnectionRequests.length,
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
           itemBuilder: (context, index) {
             UserModel connection = openConnectionRequests.elementAt(index);
             return SpaceColumnComponent(
@@ -97,5 +100,16 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
         ),
       ),
     );
+  }
+
+  Future<void> onRefreshList() async {
+    await scrollController.animateTo(-35,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.linearToEaseOut);
+    scrollController.animateTo(0,
+        duration: const Duration(minutes: 1), curve: Curves.easeInOut);
+    await usersProvider.getConnections();
+    scrollController.animateTo(0,
+        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 }
