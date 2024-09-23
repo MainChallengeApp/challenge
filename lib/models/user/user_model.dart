@@ -13,22 +13,29 @@ class UserModel {
   String? bio;
   static const String bioField = 'bio';
 
-  Set<String> connectionIds;
-  static const String connectionIdsField = 'connectionIds';
+  List<String> outgoingConnectionIds;
+  static const String outgoingConnectionIdsField = 'outgoingConnectionIds';
 
-  UserModel(
-      {required this.id,
-      required this.username,
-      this.pictureUrl,
-      this.bio,
-      this.connectionIds = const {}});
+  List<String> incomingConnectionIds;
+  static const String incomingConnectionIdsField = 'incomingConnectionIds';
+
+  UserModel({
+    required this.id,
+    required this.username,
+    this.pictureUrl,
+    this.bio,
+    List<String>? outgoingConnectionIds,
+    List<String>? incomingConnectionIds,
+  })  : outgoingConnectionIds = outgoingConnectionIds ?? [],
+        incomingConnectionIds = incomingConnectionIds ?? [];
 
   UserModel.empty()
       : id = '',
         username = '',
         pictureUrl = null,
         bio = null,
-        connectionIds = {};
+        outgoingConnectionIds = [],
+        incomingConnectionIds = [];
 
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
@@ -39,9 +46,14 @@ class UserModel {
               ? doc[pictureUrlField]
               : null,
           bio: (doc.data() as Map).containsKey(bioField) ? doc[bioField] : null,
-          connectionIds: (doc.data() as Map).containsKey(connectionIdsField)
-              ? Set.from(doc[connectionIdsField])
-              : {});
+          outgoingConnectionIds:
+              (doc.data() as Map).containsKey(outgoingConnectionIdsField)
+                  ? List.from(doc[outgoingConnectionIdsField])
+                  : [],
+          incomingConnectionIds:
+              (doc.data() as Map).containsKey(incomingConnectionIdsField)
+                  ? List.from(doc[incomingConnectionIdsField])
+                  : []);
     } on Exception {
       rethrow;
     }
@@ -52,7 +64,8 @@ class UserModel {
       usernameField: username,
       pictureUrlField: pictureUrl,
       bioField: bio,
-      connectionIdsField: connectionIds
+      outgoingConnectionIdsField: outgoingConnectionIds,
+      incomingConnectionIdsField: incomingConnectionIds
     };
   }
 
@@ -62,7 +75,7 @@ class UserModel {
         username: username,
         pictureUrl: pictureUrl,
         bio: bio,
-        connectionIds: Set<String>.from(connectionIds));
+        outgoingConnectionIds: List<String>.from(outgoingConnectionIds));
   }
 
   hasPicture() {
@@ -73,15 +86,17 @@ class UserModel {
     return username.toLowerCase().contains(searchBarText.toLowerCase());
   }
 
-  void connect(String userId) {
-    connectionIds.add(userId);
+  void connect(UserModel user) {
+    outgoingConnectionIds.add(user.id);
+    user.incomingConnectionIds.add(id);
   }
 
   void disconnect(String userId) {
-    connectionIds.remove(userId);
+    outgoingConnectionIds.remove(userId);
+    incomingConnectionIds.remove(userId);
   }
 
   bool isConnectedWith(String userId) {
-    return connectionIds.contains(userId);
+    return outgoingConnectionIds.contains(userId);
   }
 }

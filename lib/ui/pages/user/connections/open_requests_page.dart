@@ -12,12 +12,10 @@ import 'package:provider/provider.dart';
 
 class OpenRequestsPage extends StatefulWidget {
   final String preTitle;
-  final Set<UserModel> openConnectionRequests;
 
   const OpenRequestsPage({
     super.key,
     required this.preTitle,
-    required this.openConnectionRequests,
   });
 
   @override
@@ -35,16 +33,14 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
-  late Set<UserModel> allConnections = widget.openConnectionRequests;
-  Set<UserModel> openConnectionRequests = {};
+  List<UserModel> openConnectionRequests = [];
 
   @override
   Widget build(BuildContext context) {
-    allConnections = listeningUsersProvider.connections;
-    openConnectionRequests = allConnections
+    openConnectionRequests = listeningUsersProvider.outgoingConnections
         .where(
             (connection) => !connection.isConnectedWith(usersProvider.user.id))
-        .toSet();
+        .toList();
 
     return Scaffold(
       appBar: AppBarComponent(

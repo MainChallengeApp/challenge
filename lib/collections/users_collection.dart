@@ -45,8 +45,8 @@ class UsersCollection extends Collection {
     await db.collection(name).doc(userCopy.id).update(userCopy.toDoc());
   }
 
-  Future<Set<UserModel>> getByUserIds(Set<String> userIds) async {
-    Set<UserModel> users = {};
+  Future<List<UserModel>> getByUserIds(List<String> userIds) async {
+    List<UserModel> users = [];
     try {
       for (String userId in userIds) {
         final doc = await db.collection(name).doc(userId).get();

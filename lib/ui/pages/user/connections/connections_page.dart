@@ -16,12 +16,10 @@ import 'package:provider/provider.dart';
 
 class ConnectionsPage extends StatefulWidget {
   final String preTitle;
-  final Set<UserModel> connections;
 
   const ConnectionsPage({
     super.key,
     required this.preTitle,
-    required this.connections,
   });
 
   @override
@@ -37,24 +35,26 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
-  late Set<UserModel> allConnections = widget.connections;
-  Set<UserModel> openConnectionRequests = {};
-  Set<UserModel> confirmedConnections = {};
-  Set<UserModel> openConnectionResponses = {};
+  List<UserModel> openConnectionRequests = [];
+  List<UserModel> openConnectionResponses = [];
+  List<UserModel> confirmedConnections = [];
 
   ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    allConnections = listeningUsersProvider.connections;
-    openConnectionRequests = allConnections
+    openConnectionRequests = listeningUsersProvider.outgoingConnections
         .where(
             (connection) => !connection.isConnectedWith(usersProvider.user.id))
-        .toSet();
-    confirmedConnections = allConnections
+        .toList();
+    openConnectionResponses = listeningUsersProvider.incomingConnections
+        .where(
+            (connection) => !usersProvider.user.isConnectedWith(connection.id))
+        .toList();
+    confirmedConnections = listeningUsersProvider.outgoingConnections
         .where(
             (connection) => connection.isConnectedWith(usersProvider.user.id))
-        .toSet();
+        .toList();
 
     return Scaffold(
       appBar: AppBarComponent(
@@ -140,7 +140,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
       child: SpaceColumnComponent(
         child: ListItemIconTextTextComponent(
             icon: IconEnum.openResponses.icon,
-            text: 'Open Requests',
+            text: 'Open Responses',
             text2: openConnectionResponses.length.toString(),
             onTap: onTapOpenConnectionResponses),
       ),
@@ -153,7 +153,6 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => OpenRequestsPage(
           preTitle: '${widget.preTitle}/$title',
-          openConnectionRequests: openConnectionRequests,
         ),
       ),
     );
@@ -165,7 +164,6 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => OpenResponsesPage(
           preTitle: '${widget.preTitle}/$title',
-          connections: openConnectionResponses,
         ),
       ),
     );
@@ -178,7 +176,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         builder: (context) => SearchUserPage(
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
-          users: confirmedConnections.toList(),
+          users: confirmedConnections,
         ),
       ),
     );

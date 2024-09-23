@@ -15,8 +15,11 @@ class UsersProvider with ChangeNotifier {
   List<UserModel> _searchUsers = [];
   List<UserModel> get searchUsers => _searchUsers;
 
-  final Set<UserModel> _connections = {};
-  Set<UserModel> get connections => _connections;
+  final List<UserModel> _outgoingConnections = [];
+  List<UserModel> get outgoingConnections => _outgoingConnections;
+
+  final List<UserModel> _incomingConnections = [];
+  List<UserModel> get incomingConnections => _incomingConnections;
 
   Future<void> createUser({required String email, username}) async {
     final user = UserModel(
@@ -65,8 +68,10 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> connectToUser(String userId) async {
-    _user.connect(userId);
+    UserModel otherUser = await usersCollection.getById(userId);
+    _user.connect(otherUser);
     await usersCollection.update(_user);
+    await usersCollection.update(otherUser);
     await getConnections(notify: false);
     notifyListeners();
   }
@@ -86,9 +91,12 @@ class UsersProvider with ChangeNotifier {
 
   Future<void> getConnections({bool notify = true}) async {
     await getUser(notify: false);
-    _connections.clear();
-    _connections
-        .addAll(await usersCollection.getByUserIds(_user.connectionIds));
+    _outgoingConnections.clear();
+    _outgoingConnections.addAll(
+        await usersCollection.getByUserIds(_user.outgoingConnectionIds));
+    _incomingConnections.clear();
+    _incomingConnections.addAll(
+        await usersCollection.getByUserIds(_user.incomingConnectionIds));
 
     if (notify) {
       notifyListeners();

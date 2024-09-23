@@ -41,7 +41,8 @@ class DatabaseService {
       String currentUserId, WriteBatch batch) async {
     QuerySnapshot querySnapshot = await db
         .collection(UsersCollection.collectionName)
-        .where(UserModel.connectionIdsField, arrayContains: currentUserId)
+        .where(UserModel.outgoingConnectionIdsField,
+            arrayContains: currentUserId)
         .get();
 
     for (QueryDocumentSnapshot doc in querySnapshot.docs) {

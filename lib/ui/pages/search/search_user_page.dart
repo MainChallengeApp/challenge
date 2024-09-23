@@ -170,7 +170,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   connect(UserModel user) {
-    return listeningUsersProvider.user.connectionIds.contains(user.id)
+    return listeningUsersProvider.user.outgoingConnectionIds.contains(user.id)
         ? CustomButtonComponent(
             onTap: () => onTapDisconnect(user.id),
             isPrimaryButton: false,

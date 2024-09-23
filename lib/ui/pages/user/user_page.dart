@@ -49,7 +49,7 @@ class _UserPageState extends State<UserPage> {
 
   int amountOfChallenges = 0;
 
-  Set<UserModel> connections = {};
+  List<UserModel> connections = [];
 
   bool isBioExpanded = false;
 
@@ -65,7 +65,7 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
     amountOfChallenges = listeningUserChallengesProvider.userChallenges.length;
-    connections = listeningUsersProvider.connections;
+    connections = listeningUsersProvider.outgoingConnections;
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.title,
@@ -274,7 +274,6 @@ class _UserPageState extends State<UserPage> {
         NoAnimationPageRouteComponent(
           builder: (context) => ConnectionsPage(
             preTitle: widget.title,
-            connections: connections,
           ),
         ));
   }
