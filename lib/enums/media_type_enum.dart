@@ -9,8 +9,8 @@ enum MediaTypeEnum {
 
   final String type;
 
-  static MediaTypeEnum fromString(String type) {
-    return MediaTypeEnum.values.firstWhere((e) => e.type == type,
-        orElse: () => throw MediaTypeIsNotSupportedException(type));
+  static MediaTypeEnum fromString(String? string) {
+    return MediaTypeEnum.values.firstWhere((e) => e.type == string,
+        orElse: () => throw MediaTypeIsNotSupportedException(string));
   }
 }
