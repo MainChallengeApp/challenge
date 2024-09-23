@@ -33,12 +33,18 @@ class _OpenResponsesPageState extends State<OpenResponsesPage> {
       Provider.of<UsersProvider>(context, listen: true);
 
   List<UserModel> openConnectionResponses = [];
+  List<UserModel> filteredOpenConnectionResponses = [];
 
   @override
   Widget build(BuildContext context) {
     openConnectionResponses = listeningUsersProvider.incomingConnections
         .where(
             (connection) => !usersProvider.user.isConnectedWith(connection.id))
+        .toList();
+    filteredOpenConnectionResponses = openConnectionResponses
+        .where((connection) => connection.username
+            .toLowerCase()
+            .contains(searchTextEditingController.text.toLowerCase()))
         .toList();
 
     return Scaffold(
@@ -56,7 +62,9 @@ class _OpenResponsesPageState extends State<OpenResponsesPage> {
   searchBar() {
     return SpaceColumnComponent(
       child: ListItemSearchBarComponent(
-          textEditingController: searchTextEditingController),
+        textEditingController: searchTextEditingController,
+        changeList: (_) => setState(() {}),
+      ),
     );
   }
 
@@ -67,11 +75,12 @@ class _OpenResponsesPageState extends State<OpenResponsesPage> {
         displacement: 0,
         onRefresh: onRefreshList,
         child: ListView.builder(
-          itemCount: openConnectionResponses.length,
+          itemCount: filteredOpenConnectionResponses.length,
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemBuilder: (context, index) {
-            UserModel connection = openConnectionResponses.elementAt(index);
+            UserModel connection =
+                filteredOpenConnectionResponses.elementAt(index);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
                   onTap: () => onTapConnection(connection),
@@ -91,7 +100,7 @@ class _OpenResponsesPageState extends State<OpenResponsesPage> {
         builder: (context) => SearchUserPage(
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
-          users: openConnectionResponses.toList(),
+          users: filteredOpenConnectionResponses,
         ),
       ),
     );

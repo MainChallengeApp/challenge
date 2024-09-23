@@ -38,6 +38,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   List<UserModel> openConnectionRequests = [];
   List<UserModel> openConnectionResponses = [];
   List<UserModel> confirmedConnections = [];
+  List<UserModel> filteredConfirmedConnections = [];
 
   ScrollController scrollController = ScrollController();
 
@@ -71,11 +72,18 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   searchBar() {
     return SpaceColumnComponent(
       child: ListItemSearchBarComponent(
-          textEditingController: searchTextEditingController),
+        textEditingController: searchTextEditingController,
+        changeList: changeList,
+      ),
     );
   }
 
   connectionsList() {
+    filteredConfirmedConnections = confirmedConnections
+        .where((connection) => connection.username
+            .toLowerCase()
+            .contains(searchTextEditingController.text.toLowerCase()))
+        .toList();
     return Expanded(
       child: RefreshIndicator.adaptive(
         color: themeColor1,
@@ -84,7 +92,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: confirmedConnections.length +
+          itemCount: filteredConfirmedConnections.length +
               1 +
               1, // +1 for openRequests +1 for openConnectionResponses
           itemBuilder: (context, index) {
@@ -97,7 +105,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
             }
 
             UserModel connection =
-                confirmedConnections.elementAt(index - 1 - 1);
+                filteredConfirmedConnections.elementAt(index - 1 - 1);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
                   onTap: () => onTapConnection(connection),
@@ -176,9 +184,13 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         builder: (context) => SearchUserPage(
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
-          users: confirmedConnections,
+          users: filteredConfirmedConnections,
         ),
       ),
     );
+  }
+
+  changeList(String p1) {
+    setState(() {});
   }
 }

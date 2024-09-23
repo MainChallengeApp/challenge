@@ -34,12 +34,18 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
       Provider.of<UsersProvider>(context, listen: true);
 
   List<UserModel> openConnectionRequests = [];
+  List<UserModel> filteredOpenConnectionRequests = [];
 
   @override
   Widget build(BuildContext context) {
     openConnectionRequests = listeningUsersProvider.outgoingConnections
         .where(
             (connection) => !connection.isConnectedWith(usersProvider.user.id))
+        .toList();
+    filteredOpenConnectionRequests = openConnectionRequests
+        .where((connectionRequest) => connectionRequest.username
+            .toLowerCase()
+            .contains(searchTextEditingController.text.toLowerCase()))
         .toList();
 
     return Scaffold(
@@ -57,7 +63,9 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
   searchBar() {
     return SpaceColumnComponent(
       child: ListItemSearchBarComponent(
-          textEditingController: searchTextEditingController),
+        textEditingController: searchTextEditingController,
+        changeList: changeList,
+      ),
     );
   }
 
@@ -68,11 +76,12 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
         displacement: 0,
         onRefresh: onRefreshList,
         child: ListView.builder(
-          itemCount: openConnectionRequests.length,
+          itemCount: filteredOpenConnectionRequests.length,
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
           itemBuilder: (context, index) {
-            UserModel connection = openConnectionRequests.elementAt(index);
+            UserModel connection =
+                filteredOpenConnectionRequests.elementAt(index);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
                   onTap: () => onTapConnection(connection),
@@ -92,7 +101,7 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
         builder: (context) => SearchUserPage(
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
-          users: openConnectionRequests.toList(),
+          users: filteredOpenConnectionRequests,
         ),
       ),
     );
@@ -107,5 +116,9 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
     await usersProvider.getConnections();
     scrollController.animateTo(0,
         duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+  }
+
+  changeList(String p1) {
+    setState(() {});
   }
 }
