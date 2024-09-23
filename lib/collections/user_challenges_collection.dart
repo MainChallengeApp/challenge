@@ -24,8 +24,10 @@ class UserChallengesCollection extends Collection {
   Future<List<UserChallengeModel>> getAllByUserId(
       {required String userId}) async {
     try {
-      final querySnapshot =
-          await db.collection(name).where('userId', isEqualTo: userId).get();
+      final querySnapshot = await db
+          .collection(name)
+          .where(UserChallengeModel.userIdField, isEqualTo: userId)
+          .get();
       return querySnapshot.docs
           .map((doc) => UserChallengeModel.fromDoc(doc))
           .toList();
