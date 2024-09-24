@@ -1,8 +1,15 @@
 import 'package:challenge/collections/collection.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserChallengesCollection extends Collection {
   static String collectionName = 'user_challenges';
+
+  late CollectionReference<UserChallengeModel> collection = db
+      .collection(collectionName)
+      .withConverter<UserChallengeModel>(
+          fromFirestore: (snapshot, _) => UserChallengeModel.fromDoc(snapshot),
+          toFirestore: (userChallenge, _) => userChallenge.toDoc());
 
   UserChallengesCollection() : super(name: collectionName);
 
@@ -24,13 +31,10 @@ class UserChallengesCollection extends Collection {
   Future<List<UserChallengeModel>> getAllByUserId(
       {required String userId}) async {
     try {
-      final querySnapshot = await db
-          .collection(name)
+      final querySnapshot = await collection
           .where(UserChallengeModel.userIdField, isEqualTo: userId)
           .get();
-      return querySnapshot.docs
-          .map((doc) => UserChallengeModel.fromDoc(doc))
-          .toList();
+      return querySnapshot.docs.map((doc) => doc.data()).toList();
     } on Exception {
       rethrow;
     }

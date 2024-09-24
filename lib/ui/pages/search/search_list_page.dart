@@ -10,6 +10,8 @@ import 'package:challenge/ui/components/list_items/list_item_challenge_small_com
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_with_filter_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
+import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
+import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -72,8 +74,15 @@ class _SearchListPageState extends State<SearchListPage> {
   void initState() {
     super.initState();
     searchBarText = widget.initialSearchText;
-    searchChallengesProvider.getAll();
+    searchChallengesProvider.getAllPaginated();
     usersProvider.getAll();
+
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        searchChallengesProvider.getAllPaginated();
+      }
+    });
   }
 
   @override
@@ -121,37 +130,51 @@ class _SearchListPageState extends State<SearchListPage> {
         .toList();
     filteredChallenges
         .sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
-    return RawScrollbar(
-      controller: scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: themeColor3,
-      padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount: filteredChallenges.length + 1, // + 1 for new Challenge
-          itemBuilder: (BuildContext content, int index) {
-            numberOfBuilds++;
-            if (index == filteredChallenges.length) {
-              return SpaceColumnComponent(
-                  child: ListItemIconTextComponent(
-                onTap: onTapNewChallenge,
-                icon: Icons.add,
-                title: searchBarText == '' ? 'New Challenge' : searchBarText,
-              ));
-            }
+    return RefreshIndicatorComponent(
+      scrollController: scrollController,
+      onRefresh: () async {
+        await searchChallengesProvider.refresh();
+      },
+      child: RawScrollbar(
+        controller: scrollController,
+        radius: const Radius.circular(4),
+        thumbColor: themeColor3,
+        padding: const EdgeInsets.only(right: 4),
+        child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: scrollController,
+            itemCount: filteredChallenges.length +
+                1, // + 1 for loading circle or  new Challenge
+            itemBuilder: (BuildContext content, int index) {
+              numberOfBuilds++;
+              if (index == filteredChallenges.length) {
+                return listeningSearchChallengesProvider.isEndOfListReached
+                    ? SpaceColumnComponent(
+                        child: ListItemIconTextComponent(
+                        onTap: onTapNewChallenge,
+                        icon: Icons.add,
+                        title: searchBarText == ''
+                            ? 'New Challenge'
+                            : searchBarText,
+                      ))
+                    : const Center(
+                        child: SpaceColumnComponent(
+                            child: LoadingCircleComponent()),
+                      );
+              }
 
-            ChallengeModel challenge = filteredChallenges[index];
-            return SpaceColumnComponent(
-              child: ListItemChallengeSmallComponent(
-                onTap: () => onTapChallenge(
-                    challenge: challenge,
-                    index: index), // widget.onPush?.call(challenge),
-                challenge: challenge,
-                isSearch: true,
-              ),
-            );
-          }),
+              ChallengeModel challenge = filteredChallenges[index];
+              return SpaceColumnComponent(
+                child: ListItemChallengeSmallComponent(
+                  onTap: () => onTapChallenge(
+                      challenge: challenge,
+                      index: index), // widget.onPush?.call(challenge),
+                  challenge: challenge,
+                  isSearch: true,
+                ),
+              );
+            }),
+      ),
     );
   }
 

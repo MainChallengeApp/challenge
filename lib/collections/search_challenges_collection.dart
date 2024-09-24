@@ -22,7 +22,53 @@ class SearchChallengesCollection extends Collection {
 
   Future<List<ChallengeModel>> getAll() async {
     try {
-      final querySnapshot = await db.collection(name).get();
+      final querySnapshot =
+          await db.collection(name).orderBy(ChallengeModel.titleField).get();
+      return querySnapshot.docs
+          .map((doc) => ChallengeModel.fromDoc(doc))
+          .toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<ChallengeModel>> getAllPaginated(
+      {ChallengeModel? lastSearchChallenge, int limit = 10}) async {
+    try {
+      if (lastSearchChallenge == null) {
+        final querySnapshot = await db
+            .collection(name)
+            .orderBy(ChallengeModel.titleField)
+            .limit(limit)
+            .get();
+        return querySnapshot.docs
+            .map((doc) => ChallengeModel.fromDoc(doc))
+            .toList();
+      }
+      final querySnapshot = await db
+          .collection(name)
+          .orderBy(ChallengeModel.titleField)
+          .startAfter([lastSearchChallenge.title])
+          .limit(limit)
+          .get();
+      return querySnapshot.docs
+          .map((doc) => ChallengeModel.fromDoc(doc))
+          .toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<ChallengeModel>> refresh(
+      {ChallengeModel? lastSearchChallenge}) async {
+    try {
+      if (lastSearchChallenge == null) {
+        return await getAllPaginated();
+      }
+      final querySnapshot = await db
+          .collection(name)
+          .orderBy(ChallengeModel.titleField)
+          .endAt([lastSearchChallenge.title]).get();
       return querySnapshot.docs
           .map((doc) => ChallengeModel.fromDoc(doc))
           .toList();

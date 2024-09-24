@@ -40,18 +40,18 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   @override
   void initState() {
     super.initState();
-    searchChallengesProvider.getAll().then((searchChallenges) {
-      for (var searchChallenge in searchChallenges) {
-        if (!searchChallenge.hasThumbnail() ||
-            mediaService.isUrlLocal(searchChallenge.thumbnail!.url)) {
-          continue;
-        }
-        precacheImage(
-            NetworkImage(searchChallenge.thumbnail!.url),
-            // ignore: use_build_context_synchronously
-            context);
-      }
-    });
+    // searchChallengesProvider.getAll().then((searchChallenges) {
+    //   for (var searchChallenge in searchChallenges) {
+    //     if (!searchChallenge.hasThumbnail() ||
+    //         mediaService.isUrlLocal(searchChallenge.thumbnail!.url)) {
+    //       continue;
+    //     }
+    //     precacheImage(
+    //         NetworkImage(searchChallenge.thumbnail!.url),
+    //         // ignore: use_build_context_synchronously
+    //         context);
+    //   }
+    // });
   }
 
   @override
