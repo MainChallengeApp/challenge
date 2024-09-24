@@ -1,8 +1,8 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
+import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -70,10 +70,9 @@ class _OpenResponsesPageState extends State<OpenResponsesPage> {
 
   connectionsList() {
     return Expanded(
-      child: RefreshIndicator.adaptive(
-        color: themeColor1,
-        displacement: 0,
+      child: RefreshIndicatorComponent(
         onRefresh: onRefreshList,
+        scrollController: scrollController,
         child: ListView.builder(
           itemCount: filteredOpenConnectionResponses.length,
           physics: const AlwaysScrollableScrollPhysics(),

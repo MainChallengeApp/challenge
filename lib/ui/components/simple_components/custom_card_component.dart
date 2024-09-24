@@ -8,17 +8,20 @@ class CardComponent extends StatelessWidget {
 
   final List<Widget> children;
   final ScrollPhysics scrollPhysics;
+  final ScrollController? scrollController;
 
   const CardComponent(
       {super.key,
       this.children = const [],
-      this.scrollPhysics = const NeverScrollableScrollPhysics()});
+      this.scrollPhysics = const NeverScrollableScrollPhysics(),
+      this.scrollController});
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: CustomScrollView(
         physics: scrollPhysics,
+        controller: scrollController,
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,

@@ -7,6 +7,7 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -75,15 +76,23 @@ class _UserPageState extends State<UserPage> {
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,
-          child: CardComponent(
-            scrollPhysics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              pictureAndUsername(user),
-              bio(user),
-              challengesAndConnections(user),
-              expandedSpace(),
-              edit(user)
-            ],
+          child: RefreshIndicatorComponent(
+            onRefresh: () async {
+              await usersProvider.getUser();
+              await usersProvider.getConnections();
+            },
+            scrollController: scrollController,
+            child: CardComponent(
+              scrollPhysics: const AlwaysScrollableScrollPhysics(),
+              scrollController: scrollController,
+              children: [
+                pictureAndUsername(user),
+                bio(user),
+                challengesAndConnections(user),
+                expandedSpace(),
+                edit(user)
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: const BottomNavigationComponent());
