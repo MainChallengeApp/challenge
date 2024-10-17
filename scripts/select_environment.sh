@@ -1,6 +1,7 @@
 #!/bin/bash
-# this script is used to select the environment
+# this script is used to select the firebase environment
 # and needs to be executed before building the project
+# it gets executed in xcode at Runner > Build Phases > Run Script
 
 script_dir=$(dirname "$(realpath "$0")")
 
