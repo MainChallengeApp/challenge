@@ -189,6 +189,7 @@ void main() {
         Map<String, dynamic> json = {
           'status': 'inProgress',
           'title': 'Challenge Title',
+          'titleLowerCase': 'challenge title',
           'description': 'Challenge Description',
           'thumbnail': {
             'url': 'assets/images/test.png',
