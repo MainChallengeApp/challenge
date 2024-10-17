@@ -7,21 +7,21 @@ import 'package:flutter/material.dart';
 class ListItemSearchBarComponent extends StatefulWidget {
   final String hintText;
   Function(String)? changeList;
-  String searchBarText;
   TextEditingController textEditingController;
   final bool isEnabled;
   final bool autoFocus;
   final Function()? onTap;
+  final Function()? onTapActionIcon;
 
   ListItemSearchBarComponent(
       {super.key,
       this.changeList,
-      this.searchBarText = '',
       required this.textEditingController,
       this.isEnabled = true,
       this.autoFocus = false,
       this.hintText = 'Search...',
-      this.onTap});
+      this.onTap,
+      this.onTapActionIcon});
 
   @override
   State<ListItemSearchBarComponent> createState() =>
@@ -44,18 +44,20 @@ class _ListItemSearchBarComponentState
         textEditingController: widget.textEditingController,
         isEnabled: widget.isEnabled,
         hintText: widget.hintText,
+        textInputAction: TextInputAction.search,
         autoFocus: widget.autoFocus,
         onChangeTextField: (value) {
           setState(() {
-            widget.searchBarText = value;
             widget.changeList?.call(value);
           });
         });
   }
 
   onTapActionIcon() {
-    widget.textEditingController.clear();
-    widget.changeList?.call('');
-    widget.searchBarText = '';
+    setState(() {
+      widget.textEditingController.clear();
+      widget.changeList?.call('');
+      widget.onTapActionIcon?.call();
+    });
   }
 }

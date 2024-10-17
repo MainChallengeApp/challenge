@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/challenge/title_with_percentage_component.dart';
@@ -13,15 +14,12 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchChallengePage extends StatefulWidget {
   const SearchChallengePage(
-      {super.key,
-      required this.title,
-      required this.challenges,
-      required this.initChallengeIndex});
+      {super.key, required this.title, required this.initChallengeIndex});
   final String title;
-  final List<ChallengeModel> challenges;
   final int initChallengeIndex;
 
   @override
@@ -39,10 +37,13 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   final mediaService = MediaService();
 
+  late final listeningSearchChallengeProvider =
+      Provider.of<SearchChallengesProvider>(context);
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (var challenge in widget.challenges) {
+    for (var challenge in listeningSearchChallengeProvider.searchChallenges) {
       if (!challenge.hasThumbnail() ||
           mediaService.isUrlLocal(challenge.thumbnail!.url)) {
         continue;
@@ -62,13 +63,15 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
             controller: pageController,
             onPageChanged: onPageChanged,
             scrollDirection: Axis.vertical,
-            children: widget.challenges.map(
+            children: listeningSearchChallengeProvider.searchChallenges.map(
               (challenge) {
                 return Builder(builder: (context) {
                   return CardComponent(
                     scrollPhysics: isKeyboardUp
                         ? const AlwaysScrollableScrollPhysics()
-                        : widget.challenges.length == 1
+                        : listeningSearchChallengeProvider
+                                    .searchChallenges.length ==
+                                1
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
                     children: [

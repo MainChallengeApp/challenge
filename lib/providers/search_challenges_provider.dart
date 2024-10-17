@@ -10,46 +10,72 @@ class SearchChallengesProvider with ChangeNotifier {
   List<ChallengeModel> _searchChallenges = [];
   List<ChallengeModel> get searchChallenges => _searchChallenges;
 
-  bool _isEndOfListReached = false;
-  bool get isEndOfListReached => _isEndOfListReached;
+  bool _isEndOfSearchedListReached = false;
+  bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
 
-  Future<List<ChallengeModel>> getAll() async {
+  int paginationLimit = 20;
+
+  Future<void> getSearchedPaginated({String searchText = ''}) async {
     try {
-      _searchChallenges = await searchChallengesCollection.getAll();
-      _isEndOfListReached = true;
-      notifyListeners();
-      return _searchChallenges;
+      if (!_isEndOfSearchedListReached) {
+        final fetchedSearchChallenges =
+            await searchChallengesCollection.getSearchedPaginated(
+                limit: paginationLimit,
+                lastSearchChallenge: _searchChallenges.isNotEmpty
+                    ? _searchChallenges.last
+                    : null,
+                searchText: searchText);
+
+        _isEndOfSearchedListReached =
+            fetchedSearchChallenges.length < paginationLimit;
+
+        _searchChallenges.addAll(fetchedSearchChallenges);
+
+        notifyListeners();
+      }
     } on Exception {
       rethrow;
     }
   }
 
-  Future<void> getAllPaginated({int limit = 10}) async {
-    if (_isEndOfListReached) {
-      return;
-    }
+  Future<void> getRandomPaginated() async {
     try {
-      final fetchedSearchChallenges =
-          await searchChallengesCollection.getAllPaginated(
-              lastSearchChallenge:
-                  searchChallenges.isNotEmpty ? searchChallenges.last : null);
+      if (!_isEndOfSearchedListReached) {
+        List<ChallengeModel> copySearchChallenges =
+            List.from(_searchChallenges);
+        copySearchChallenges.sort((a, b) => a.id.compareTo(b.id));
+        final fetchedSearchChallenges =
+            await searchChallengesCollection.getRandomPaginated(
+                limit: paginationLimit,
+                lastSearchChallenge: copySearchChallenges.isNotEmpty
+                    ? copySearchChallenges.last
+                    : null);
 
-      if (fetchedSearchChallenges.length < limit) {
-        _isEndOfListReached = true;
+        _isEndOfSearchedListReached =
+            fetchedSearchChallenges.length < paginationLimit;
+
+        _searchChallenges.addAll(fetchedSearchChallenges);
+
+        notifyListeners();
       }
-
-      _searchChallenges.addAll(fetchedSearchChallenges);
-      notifyListeners();
     } on Exception {
       rethrow;
     }
+  }
+
+  resetEndOfSearchedList() {
+    _isEndOfSearchedListReached = false;
+  }
+
+  emptySearchChallenges() {
+    _searchChallenges.clear();
+    notifyListeners();
   }
 
   Future<void> refresh() async {
     try {
       _searchChallenges = await searchChallengesCollection.refresh(
-          lastSearchChallenge:
-              _searchChallenges.isEmpty ? null : _searchChallenges.last);
+          loadedSearchChallenges: _searchChallenges);
       notifyListeners();
     } on Exception {
       rethrow;

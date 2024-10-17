@@ -12,9 +12,11 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   String? hintText;
   bool? isHidden;
   TextInputType? keyboardType;
+  TextInputAction? textInputAction;
   final IconData? actionIcon;
   final Function()? onTapActionIcon;
   final Function()? onTap;
+  final Function(String)? onSubmit;
   final bool? isEnabled;
   final bool? autoFocus;
 
@@ -27,11 +29,13 @@ class ListItemIconTextInputComponent extends StatefulWidget {
       this.hintText,
       this.isHidden,
       this.keyboardType,
+      this.textInputAction,
       this.actionIcon,
       this.onTapActionIcon,
       this.onTap,
       this.isEnabled,
-      this.autoFocus});
+      this.autoFocus,
+      this.onSubmit});
 
   @override
   State<ListItemIconTextInputComponent> createState() =>
@@ -53,8 +57,10 @@ class _ListItemIconTextInputComponentState
                 controller: widget.textEditingController,
                 obscureText: widget.isHidden ?? false,
                 onChanged: widget.onChangeTextField,
+                onSubmitted: widget.onSubmit,
                 textAlignVertical: TextAlignVertical.center,
                 textAlign: TextAlign.start,
+                textInputAction: widget.textInputAction,
                 keyboardType: widget.keyboardType,
                 style: const TextStyle(fontSize: basicFontSize),
                 enabled: widget.isEnabled,

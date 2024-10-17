@@ -1,44 +1,25 @@
 import 'package:challenge/collections/collection.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SearchChallengesCollection extends Collection {
   static String collectionName = 'search_challenges';
 
   SearchChallengesCollection() : super(name: collectionName);
 
-  Future<void> create(ChallengeModel challenge) async {
-    challenge.id = db.collection(name).doc().id;
-    await db.collection(name).doc().set(challenge.toDoc());
-  }
-
-  Future<void> createMany(List<ChallengeModel> challenges) async {
-    final batch = db.batch();
-    for (var challenge in challenges) {
-      final ref = db.collection(name).doc();
-      batch.set(ref, challenge.toDoc());
-    }
-    await batch.commit();
-  }
-
-  Future<List<ChallengeModel>> getAll() async {
-    try {
-      final querySnapshot =
-          await db.collection(name).orderBy(ChallengeModel.titleField).get();
-      return querySnapshot.docs
-          .map((doc) => ChallengeModel.fromDoc(doc))
-          .toList();
-    } on Exception {
-      rethrow;
-    }
-  }
-
-  Future<List<ChallengeModel>> getAllPaginated(
-      {ChallengeModel? lastSearchChallenge, int limit = 10}) async {
+  Future<List<ChallengeModel>> getSearchedPaginated(
+      {ChallengeModel? lastSearchChallenge,
+      int limit = 10,
+      String searchText = ''}) async {
     try {
       if (lastSearchChallenge == null) {
         final querySnapshot = await db
             .collection(name)
-            .orderBy(ChallengeModel.titleField)
+            .orderBy(ChallengeModel.titleLowerCaseField)
+            .where(ChallengeModel.titleLowerCaseField,
+                isGreaterThanOrEqualTo: searchText.toLowerCase())
+            .where(ChallengeModel.titleLowerCaseField,
+                isLessThan: '${searchText.toLowerCase()}z')
             .limit(limit)
             .get();
         return querySnapshot.docs
@@ -47,8 +28,12 @@ class SearchChallengesCollection extends Collection {
       }
       final querySnapshot = await db
           .collection(name)
-          .orderBy(ChallengeModel.titleField)
-          .startAfter([lastSearchChallenge.title])
+          .orderBy(ChallengeModel.titleLowerCaseField)
+          .where(ChallengeModel.titleLowerCaseField,
+              isGreaterThanOrEqualTo: searchText.toLowerCase())
+          .where(ChallengeModel.titleLowerCaseField,
+              isLessThan: '${searchText.toLowerCase()}z')
+          .startAfter([lastSearchChallenge.titleLowerCase])
           .limit(limit)
           .get();
       return querySnapshot.docs
@@ -59,28 +44,42 @@ class SearchChallengesCollection extends Collection {
     }
   }
 
-  Future<List<ChallengeModel>> refresh(
-      {ChallengeModel? lastSearchChallenge}) async {
-    try {
-      if (lastSearchChallenge == null) {
-        return await getAllPaginated();
-      }
-      final querySnapshot = await db
-          .collection(name)
-          .orderBy(ChallengeModel.titleField)
-          .endAt([lastSearchChallenge.title]).get();
-      return querySnapshot.docs
-          .map((doc) => ChallengeModel.fromDoc(doc))
-          .toList();
-    } on Exception {
-      rethrow;
-    }
+  Future<List<ChallengeModel>> getRandomPaginated(
+      {required int limit, ChallengeModel? lastSearchChallenge}) async {
+    final querySnapshot = await db
+        .collection(name)
+        .orderBy(FieldPath.documentId)
+        .startAfter([lastSearchChallenge?.id ?? '0'])
+        .limit(limit)
+        .get();
+    List<ChallengeModel> challenges =
+        querySnapshot.docs.map((doc) => ChallengeModel.fromDoc(doc)).toList();
+    challenges.shuffle();
+    return challenges;
   }
 
-  Future<ChallengeModel> getById(String id) async {
+  Future<List<ChallengeModel>> refresh(
+      {required List<ChallengeModel> loadedSearchChallenges}) async {
     try {
-      final doc = await db.collection(name).doc(id).get();
-      return ChallengeModel.fromDoc(doc);
+      final idsToFetch =
+          loadedSearchChallenges.take(10).map((e) => e.id).toList();
+
+      final querySnapshot = await db
+          .collection(name)
+          .where(FieldPath.documentId, whereIn: idsToFetch)
+          .get();
+
+      // Create a map of id to ChallengeModel for quick lookup
+      final challengesMap = {
+        for (var doc in querySnapshot.docs) doc.id: ChallengeModel.fromDoc(doc)
+      };
+
+      // Reconstruct the list in the original order
+      return idsToFetch
+          .map((id) => challengesMap[id])
+          .where((challenge) => challenge != null)
+          .cast<ChallengeModel>()
+          .toList();
     } on Exception {
       rethrow;
     }

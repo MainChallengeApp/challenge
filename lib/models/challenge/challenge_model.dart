@@ -23,6 +23,9 @@ class ChallengeModel {
   String title;
   static const String titleField = 'title';
 
+  String titleLowerCase; // only for search
+  static const String titleLowerCaseField = 'titleLowerCase';
+
   String description;
   static const String descriptionField = 'description';
 
@@ -57,6 +60,7 @@ class ChallengeModel {
     required this.id,
     required this.status,
     required this.title,
+    required this.titleLowerCase,
     required this.description,
     required this.thumbnail,
     this.startDate,
@@ -73,6 +77,7 @@ class ChallengeModel {
     this.id = '',
     this.status = ChallengeStatusEnum.backlog,
     this.title = '',
+    this.titleLowerCase = '',
     this.description = '',
     this.repetitions = const [],
     this.media = const [],
@@ -93,6 +98,7 @@ class ChallengeModel {
         id: doc.id,
         status: ChallengeStatusEnum.fromString(doc[statusField]),
         title: doc[titleField],
+        titleLowerCase: doc[titleLowerCaseField],
         description: doc[descriptionField],
         thumbnail: doc[thumbnailField] == null
             ? null
@@ -122,6 +128,7 @@ class ChallengeModel {
     return {
       statusField: status.status,
       titleField: title,
+      titleLowerCaseField: title.toLowerCase(),
       descriptionField: description,
       thumbnailField: thumbnail?.toDoc(),
       startDateField: startDate,
@@ -141,6 +148,7 @@ class ChallengeModel {
         id: withId ? id : '',
         status: isTryAgain ? ChallengeStatusEnum.backlog : status,
         title: title,
+        titleLowerCase: titleLowerCase,
         startDate: isTryAgain ? null : startDate,
         endDate: isTryAgain ? null : endDate,
         description: description,

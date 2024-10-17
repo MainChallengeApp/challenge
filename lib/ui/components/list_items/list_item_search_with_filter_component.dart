@@ -8,20 +8,24 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
   final Function() onTapChallenges;
   final Function() onTapUsers;
   final TextEditingController textEditingController;
-  final Function(String) changeList;
   final bool autoFocus;
   final bool isFilterOnChallenges;
   final bool isUserSearchActive;
+  final Function()? onTapActionIcon;
 
-  const ListItemSearchWithFilterComponent(
-      {super.key,
-      required this.onTapChallenges,
-      required this.onTapUsers,
-      required this.textEditingController,
-      required this.changeList,
-      this.autoFocus = false,
-      required this.isFilterOnChallenges,
-      this.isUserSearchActive = false});
+  final Function(String)? onChangeList;
+
+  const ListItemSearchWithFilterComponent({
+    super.key,
+    required this.onTapChallenges,
+    required this.onTapUsers,
+    required this.textEditingController,
+    required this.isFilterOnChallenges,
+    this.isUserSearchActive = false,
+    this.autoFocus = false,
+    this.onTapActionIcon,
+    this.onChangeList,
+  });
 
   @override
   State<ListItemSearchWithFilterComponent> createState() =>
@@ -67,10 +71,11 @@ class _ListItemSearchWithFilterComponentState
         ),
         ListItemSearchBarComponent(
           textEditingController: widget.textEditingController,
-          changeList: widget.changeList,
           autoFocus: widget.autoFocus,
           hintText:
               'Search for Challenges${widget.isUserSearchActive ? ' or Users' : ''}...',
+          onTapActionIcon: widget.onTapActionIcon,
+          changeList: widget.onChangeList,
         )
       ],
     );

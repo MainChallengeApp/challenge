@@ -66,21 +66,22 @@ class _SearchListPageState extends State<SearchListPage> {
 
   int numberOfBuilds = 0;
 
-  String searchBarText = '';
+  late TextEditingController textEditingController =
+      TextEditingController(text: widget.initialSearchText);
 
   bool isFilterOnChallenges = true;
 
   @override
   void initState() {
     super.initState();
-    searchBarText = widget.initialSearchText;
-    searchChallengesProvider.getAllPaginated();
+    searchChallengesProvider.getSearchedPaginated();
     usersProvider.getAll();
 
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        searchChallengesProvider.getAllPaginated();
+        searchChallengesProvider.getSearchedPaginated(
+            searchText: textEditingController.text);
       }
     });
   }
@@ -98,10 +99,11 @@ class _SearchListPageState extends State<SearchListPage> {
             SpaceColumnComponent(
                 child: ListItemSearchWithFilterComponent(
               autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 0,
-              textEditingController: TextEditingController(text: searchBarText),
-              changeList: changeList,
+              textEditingController: textEditingController,
               isFilterOnChallenges: isFilterOnChallenges,
               isUserSearchActive: widget.isUserSearchActive,
+              onTapActionIcon: onTapActionIcon,
+              onChangeList: onChangeList,
               onTapChallenges: () {
                 setState(() {
                   isFilterOnChallenges = true;
@@ -125,7 +127,7 @@ class _SearchListPageState extends State<SearchListPage> {
   Widget _buildChallengesList() {
     filteredChallenges = listeningSearchChallengesProvider.searchChallenges
         .where((element) =>
-            element.searchInChallenge(searchBarText) &&
+            element.searchInChallenge(textEditingController.text) &&
             element.isInCategories(widget.categories))
         .toList();
     filteredChallenges
@@ -148,14 +150,15 @@ class _SearchListPageState extends State<SearchListPage> {
             itemBuilder: (BuildContext content, int index) {
               numberOfBuilds++;
               if (index == filteredChallenges.length) {
-                return listeningSearchChallengesProvider.isEndOfListReached
+                return listeningSearchChallengesProvider
+                        .isEndOfSearchedListReached
                     ? SpaceColumnComponent(
                         child: ListItemIconTextComponent(
                         onTap: onTapNewChallenge,
                         icon: Icons.add,
-                        title: searchBarText == ''
+                        title: textEditingController.text == ''
                             ? 'New Challenge'
-                            : searchBarText,
+                            : textEditingController.text,
                       ))
                     : const Center(
                         child: SpaceColumnComponent(
@@ -180,7 +183,7 @@ class _SearchListPageState extends State<SearchListPage> {
 
   Widget _buildUsersList() {
     filteredUsers = listeningUsersProvider.searchUsers
-        .where((element) => element.searchInUser(searchBarText))
+        .where((element) => element.searchInUser(textEditingController.text))
         .toList();
     filteredUsers.sort(
         (a, b) => a.username.toLowerCase().compareTo(b.username.toLowerCase()));
@@ -210,19 +213,12 @@ class _SearchListPageState extends State<SearchListPage> {
     );
   }
 
-  changeList(String value) {
-    setState(() {
-      searchBarText = value;
-    });
-  }
-
   onTapChallenge({required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           title: '${widget.preTitle}/${widget.title}',
-          challenges: filteredChallenges,
           initChallengeIndex: index,
         ),
       ),
@@ -252,11 +248,28 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
           preTitle: '${widget.preTitle}/${widget.title}',
-          challenge: ChallengeModel.empty(title: searchBarText),
+          challenge: ChallengeModel.empty(title: textEditingController.text),
           isNewChallenge: true,
           isSearchNewChallenge: true,
         ),
       ),
     ).then((_) => setState(() {}));
+  }
+
+  onSubmit(String searchText) {
+    searchText = searchText.trim();
+    searchChallengesProvider.getSearchedPaginated(searchText: searchText);
+  }
+
+  onTapActionIcon() {
+    searchChallengesProvider.resetEndOfSearchedList();
+    searchChallengesProvider.emptySearchChallenges();
+    searchChallengesProvider.getSearchedPaginated();
+  }
+
+  onChangeList(String p1) {
+    searchChallengesProvider.resetEndOfSearchedList();
+    searchChallengesProvider.emptySearchChallenges();
+    searchChallengesProvider.getSearchedPaginated(searchText: p1);
   }
 }

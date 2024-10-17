@@ -232,15 +232,14 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   }
 
   void onTapRandom() {
-    List<ChallengeModel> challengesCopy =
-        searchChallengesProvider.searchChallenges;
-    challengesCopy.shuffle();
+    searchChallengesProvider.resetEndOfSearchedList();
+    searchChallengesProvider.emptySearchChallenges();
+    searchChallengesProvider.getRandomPaginated();
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => SearchChallengePage(
+        builder: (context) => const SearchChallengePage(
           title: 'Search/Shuffle',
-          challenges: challengesCopy,
           initChallengeIndex: 0,
         ),
       ),

@@ -63,14 +63,6 @@ class UserChallengesProvider with ChangeNotifier {
     }
   }
 
-  Future<UserChallengeModel> getById(String id) async {
-    try {
-      return await userChallengesCollection.getById(id);
-    } on Exception {
-      rethrow;
-    }
-  }
-
   update(UserChallengeModel userChallenge) async {
     try {
       if (userChallenge.hasThumbnail() &&

@@ -14,18 +14,10 @@ class UserChallengesCollection extends Collection {
   UserChallengesCollection() : super(name: collectionName);
 
   Future<UserChallengeModel> create(UserChallengeModel userChallenge) async {
+    userChallenge.titleLowerCase = userChallenge.title.toLowerCase();
     final userChallengeDoc =
         await db.collection(name).add(userChallenge.toDoc());
     return UserChallengeModel.fromDoc(await userChallengeDoc.get());
-  }
-
-  Future<void> createMany(List<UserChallengeModel> userChallenges) async {
-    final batch = db.batch();
-    for (var userChallenge in userChallenges) {
-      final ref = db.collection(name).doc();
-      batch.set(ref, userChallenge.toDoc());
-    }
-    await batch.commit();
   }
 
   Future<List<UserChallengeModel>> getAllByUserId(
@@ -40,16 +32,8 @@ class UserChallengesCollection extends Collection {
     }
   }
 
-  Future<UserChallengeModel> getById(String id) async {
-    try {
-      final doc = await db.collection(name).doc(id).get();
-      return UserChallengeModel.fromDoc(doc);
-    } on Exception {
-      rethrow;
-    }
-  }
-
   Future<void> update(UserChallengeModel userChallenge) async {
+    userChallenge.titleLowerCase = userChallenge.title.toLowerCase();
     try {
       await db
           .collection(name)

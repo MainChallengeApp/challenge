@@ -24,6 +24,7 @@ void main() {
         id: '1',
         status: status,
         title: 'Challenge Title',
+        titleLowerCase: 'challenge title',
         description: 'Challenge Description',
         thumbnail: ThumbnailModel(
             url: 'assets/images/test.png', scale: 0.8, fit: BoxFitEnum.cover),
