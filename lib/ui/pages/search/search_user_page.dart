@@ -15,14 +15,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchUserPage extends StatefulWidget {
+  final String preTitle;
+  final List<UserModel> users;
+  final String initUserId;
+  final String searchText;
+  final bool isListPaginated;
+
   const SearchUserPage(
       {super.key,
       required this.preTitle,
       required this.users,
-      required this.initUserId});
-  final String preTitle;
-  final List<UserModel> users;
-  final String initUserId;
+      required this.initUserId,
+      required this.searchText,
+      this.isListPaginated = true});
 
   @override
   State<SearchUserPage> createState() => _SearchUserPageState();
@@ -92,9 +97,13 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   void onPageChanged(int value) {
     setState(() {
-      pageController = PageController(initialPage: value);
       isBioExpanded = false;
     });
+    if (!widget.isListPaginated ||
+        value != usersProvider.searchUsers.length - 1) {
+      return;
+    }
+    usersProvider.getSearchedPaginated(searchText: widget.searchText);
   }
 
   bio(UserModel user) {

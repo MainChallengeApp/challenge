@@ -21,6 +21,11 @@ class UsersProvider with ChangeNotifier {
   final List<UserModel> _incomingConnections = [];
   List<UserModel> get incomingConnections => _incomingConnections;
 
+  bool _isEndOfSearchedListReached = false;
+  bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
+
+  final int paginationLimit = 5;
+
   Future<void> createUser({required String email, username}) async {
     final user = UserModel(
       id: authService.getCurrentUserId(),
@@ -100,6 +105,47 @@ class UsersProvider with ChangeNotifier {
 
     if (notify) {
       notifyListeners();
+    }
+  }
+
+  Future<void> getSearchedPaginated({String searchText = ''}) async {
+    try {
+      if (!_isEndOfSearchedListReached) {
+        final fetchedSearchUsers = await usersCollection.getSearchedPaginated(
+            limit: paginationLimit,
+            userId: _user.id,
+            lastSearchedUser:
+                _searchUsers.isNotEmpty ? _searchUsers.last : null,
+            searchText: searchText);
+
+        _isEndOfSearchedListReached =
+            fetchedSearchUsers.length < paginationLimit;
+
+        _searchUsers.addAll(fetchedSearchUsers);
+
+        notifyListeners();
+      }
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  void resetEndOfSearchedList() {
+    _isEndOfSearchedListReached = false;
+  }
+
+  void emptySearchUsers() {
+    _searchUsers.clear();
+  }
+
+  Future<void> refresh() async {
+    try {
+      resetEndOfSearchedList();
+      _searchUsers =
+          await usersCollection.refresh(loadedSearchUsers: _searchUsers);
+      notifyListeners();
+    } on Exception {
+      rethrow;
     }
   }
 }

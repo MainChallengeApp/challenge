@@ -100,6 +100,8 @@ class _OpenResponsesPageState extends State<OpenResponsesPage> {
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
           users: filteredOpenConnectionResponses,
+          searchText: searchTextEditingController.text,
+          isListPaginated: false,
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:challenge/collections/collection.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UsersCollection extends Collection {
   static String collectionName = 'users';
@@ -53,6 +54,53 @@ class UsersCollection extends Collection {
         users.add(UserModel.fromDoc(doc));
       }
       return users;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<UserModel>> getSearchedPaginated(
+      {required int limit,
+      required String userId,
+      UserModel? lastSearchedUser,
+      required String searchText}) async {
+    try {
+      final querySnapshot = await db
+          .collection(name)
+          .orderBy(UserModel.usernameField)
+          .where(FieldPath.documentId, isNotEqualTo: userId)
+          .where(UserModel.usernameField, isGreaterThanOrEqualTo: searchText)
+          .where(UserModel.usernameField, isLessThanOrEqualTo: '${searchText}z')
+          .startAfter([lastSearchedUser?.username ?? ''])
+          .limit(limit)
+          .get();
+      return querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<UserModel>> refresh(
+      {required List<UserModel> loadedSearchUsers}) async {
+    try {
+      final idsToFetch = loadedSearchUsers.take(10).map((e) => e.id).toList();
+
+      final querySnapshot = await db
+          .collection(name)
+          .where(FieldPath.documentId, whereIn: idsToFetch)
+          .get();
+
+      // Create a map of id to ChallengeModel for quick lookup
+      final usersMap = {
+        for (var doc in querySnapshot.docs) doc.id: UserModel.fromDoc(doc)
+      };
+
+      // Reconstruct the list in the original order
+      return idsToFetch
+          .map((id) => usersMap[id])
+          .where((user) => user != null)
+          .cast<UserModel>()
+          .toList();
     } on Exception {
       rethrow;
     }

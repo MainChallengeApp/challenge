@@ -51,7 +51,7 @@ class SearchListPage extends StatefulWidget {
 
 class _SearchListPageState extends State<SearchListPage> {
   late List<ChallengeModel> searchChallenges;
-  late List<UserModel> filteredUsers;
+  late List<UserModel> searchedUsers;
 
   final ScrollController scrollController = ScrollController();
 
@@ -78,14 +78,21 @@ class _SearchListPageState extends State<SearchListPage> {
     searchChallengesProvider.emptySearchChallenges();
     searchChallengesProvider.getSearchedPaginated(
         categories: widget.categories);
-    usersProvider.getAll();
+    usersProvider.resetEndOfSearchedList();
+    usersProvider.emptySearchUsers();
+    usersProvider.getSearchedPaginated();
 
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        searchChallengesProvider.getSearchedPaginated(
-            searchText: textEditingController.text,
-            categories: widget.categories);
+        if (isFilterOnChallenges) {
+          searchChallengesProvider.getSearchedPaginated(
+              searchText: textEditingController.text,
+              categories: widget.categories);
+        } else {
+          usersProvider.getSearchedPaginated(
+              searchText: textEditingController.text);
+        }
       }
     });
   }
@@ -180,34 +187,46 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Widget _buildUsersList() {
-    filteredUsers = listeningUsersProvider.searchUsers
-        .where((element) => element.searchInUser(textEditingController.text))
-        .toList();
-    filteredUsers.sort(
-        (a, b) => a.username.toLowerCase().compareTo(b.username.toLowerCase()));
-    return RawScrollbar(
-      controller: scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: themeColor3,
-      padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount: filteredUsers.length,
-          itemBuilder: (BuildContext content, int index) {
-            numberOfBuilds++;
-            UserModel user = filteredUsers[index];
-            return SpaceColumnComponent(
-              child: ListItemUserComponent(
-                onTap: () => onTapUser(user: user, index: index),
-                user: user,
-                isSearch: true,
-                onTapConnect: () {
-                  log('onTapConnect');
-                },
-              ),
-            );
-          }),
+    searchedUsers = listeningUsersProvider.searchUsers;
+    return RefreshIndicatorComponent(
+      scrollController: scrollController,
+      onRefresh: () async {
+        await usersProvider.refresh();
+      },
+      child: RawScrollbar(
+        controller: scrollController,
+        radius: const Radius.circular(4),
+        thumbColor: themeColor3,
+        padding: const EdgeInsets.only(right: 4),
+        child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: scrollController,
+            itemCount: searchedUsers.length + 1, // + 1 for loading circle
+            itemBuilder: (BuildContext content, int index) {
+              numberOfBuilds++;
+
+              if (index == searchedUsers.length) {
+                return listeningUsersProvider.isEndOfSearchedListReached
+                    ? const SizedBox()
+                    : const Center(
+                        child: SpaceColumnComponent(
+                            child: LoadingCircleComponent()),
+                      );
+              }
+
+              UserModel user = searchedUsers[index];
+              return SpaceColumnComponent(
+                child: ListItemUserComponent(
+                  onTap: () => onTapUser(user: user, index: index),
+                  user: user,
+                  isSearch: true,
+                  onTapConnect: () {
+                    log('onTapConnect');
+                  },
+                ),
+              );
+            }),
+      ),
     );
   }
 
@@ -233,8 +252,9 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
           preTitle: '${widget.preTitle}/${widget.title}',
-          users: filteredUsers,
+          users: searchedUsers,
           initUserId: user.id,
+          searchText: textEditingController.text,
         ),
       ),
     ).then((value) => setState(
@@ -257,9 +277,15 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   onChangeList(String searchText) {
-    searchChallengesProvider.resetEndOfSearchedList();
-    searchChallengesProvider.emptySearchChallenges();
-    searchChallengesProvider.getSearchedPaginated(
-        searchText: searchText, categories: widget.categories);
+    if (isFilterOnChallenges) {
+      searchChallengesProvider.resetEndOfSearchedList();
+      searchChallengesProvider.emptySearchChallenges();
+      searchChallengesProvider.getSearchedPaginated(
+          searchText: searchText, categories: widget.categories);
+    } else {
+      usersProvider.resetEndOfSearchedList();
+      usersProvider.emptySearchUsers();
+      usersProvider.getSearchedPaginated(searchText: searchText);
+    }
   }
 }

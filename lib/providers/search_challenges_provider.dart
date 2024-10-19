@@ -14,7 +14,7 @@ class SearchChallengesProvider with ChangeNotifier {
   bool _isEndOfSearchedListReached = false;
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
 
-  int paginationLimit = 20;
+  final int paginationLimit = 20;
 
   Future<void> getSearchedPaginated(
       {String searchText = '',

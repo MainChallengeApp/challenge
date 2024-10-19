@@ -136,6 +136,11 @@ class UserChallengesProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void resetLocalList() {
+    _userChallenges = [];
+    notifyListeners();
+  }
+
   Future<int> getAmountOfChallengesByUserId(String userId) async {
     return await userChallengesCollection.getAmountOfChallengesByUserId(userId);
   }

@@ -101,6 +101,8 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
           users: filteredOpenConnectionRequests,
+          searchText: searchTextEditingController.text,
+          isListPaginated: false,
         ),
       ),
     );

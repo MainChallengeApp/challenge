@@ -107,7 +107,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
                 filteredConfirmedConnections.elementAt(index - 1 - 1);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
-                  onTap: () => onTapConnection(connection),
+                  onTap: () => onTapUser(connection),
                   user: connection,
                   onTapConnect: () {}),
             );
@@ -118,14 +118,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   }
 
   Future<void> onRefreshList() async {
-    await scrollController.animateTo(-35,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.linearToEaseOut);
-    scrollController.animateTo(0,
-        duration: const Duration(minutes: 1), curve: Curves.easeInOut);
     await usersProvider.getConnections();
-    scrollController.animateTo(0,
-        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
   openConnectionRequestsListItem() {
@@ -176,7 +169,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
     );
   }
 
-  onTapConnection(UserModel user) {
+  onTapUser(UserModel user) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -184,6 +177,8 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
           users: filteredConfirmedConnections,
+          searchText: searchTextEditingController.text,
+          isListPaginated: false,
         ),
       ),
     );
