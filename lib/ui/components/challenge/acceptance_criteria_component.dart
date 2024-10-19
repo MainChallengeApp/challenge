@@ -100,11 +100,13 @@ class _AcceptanceCriteriaComponentState
         child: ContainerInContainerComponent(
             padding: const EdgeInsets.symmetric(horizontal: 7),
             margin: const EdgeInsets.only(left: 10),
+            color: Colors.white,
+            border: Border.all(color: themeColor5, width: 1),
             child: Center(
               child: Icon(
                 IconEnum.newChallenge.icon,
                 size: 20,
-                color: themeColor3,
+                color: Colors.black,
               ),
             )),
       ),
