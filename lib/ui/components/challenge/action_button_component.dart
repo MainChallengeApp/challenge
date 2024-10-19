@@ -25,11 +25,6 @@ class ActionButtonComponent extends StatefulWidget {
 }
 
 class _ActionButtonComponentState extends State<ActionButtonComponent> {
-  TextEditingController frequencyAmountTextEditingController =
-      TextEditingController();
-
-  bool isKeyboardUp = false;
-
   late FrequencyModel frequency = widget.userChallenge.frequency;
 
   @override

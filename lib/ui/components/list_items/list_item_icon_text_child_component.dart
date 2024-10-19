@@ -28,12 +28,12 @@ class ListItemIconTextChildComponent extends StatelessWidget {
         margin: margin,
         iconColor: iconColor,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(text),
             const SpaceComponent(
               width: 10,
             ),
-            Expanded(child: Container()),
             child,
           ],
         ));

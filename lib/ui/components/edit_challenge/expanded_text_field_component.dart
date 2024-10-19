@@ -6,7 +6,12 @@ import 'package:flutter/material.dart';
 class ExpandedTextFieldComponent extends StatelessWidget {
   final ChallengeModel editChallenge;
 
-  const ExpandedTextFieldComponent({
+  late final TextEditingController textEditingController =
+      TextEditingController(text: editChallenge.title)
+        ..selection =
+            TextSelection.collapsed(offset: editChallenge.title.length);
+
+  ExpandedTextFieldComponent({
     super.key,
     required this.editChallenge,
   });
@@ -18,13 +23,19 @@ class ExpandedTextFieldComponent extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
-            style: const TextStyle(fontSize: basicFontSize),
-            onChanged: (value) => editChallenge.title = value,
-            decoration: const InputDecoration.collapsed(hintText: 'Title'),
-            controller: TextEditingController()
-              ..text = editChallenge.title
-              ..selection =
-                  TextSelection.collapsed(offset: editChallenge.title.length)),
+          style: const TextStyle(fontSize: basicFontSize),
+          onChanged: (value) => editChallenge.title = value,
+          decoration: const InputDecoration.collapsed(hintText: 'Title'),
+          controller: textEditingController,
+          onSubmitted: (value) {
+            textEditingController.text = value.trim();
+            editChallenge.title = value.trim();
+          },
+          onTapOutside: (_) {
+            textEditingController.text = textEditingController.text.trim();
+            editChallenge.title = textEditingController.text.trim();
+          },
+        ),
       ),
     ));
   }

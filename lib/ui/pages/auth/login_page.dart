@@ -36,24 +36,29 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const AppBarComponent(
-        preTitle: 'Login',
-        isFirstPageInRoute: true,
-        leadingIcon: LeadingAppIconComponent(),
-      ),
-      resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            spacing(),
-            emailInput(),
-            passwordInput(),
-            forgotPasswordButton(),
-            loginButton(),
-            switchToRegistrationButton(),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const AppBarComponent(
+          preTitle: 'Login',
+          isFirstPageInRoute: true,
+          leadingIcon: LeadingAppIconComponent(),
+        ),
+        resizeToAvoidBottomInset: true,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              spacing(),
+              emailInput(),
+              passwordInput(),
+              forgotPasswordButton(),
+              loginButton(),
+              switchToRegistrationButton(),
+            ],
+          ),
         ),
       ),
     );

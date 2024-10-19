@@ -9,7 +9,6 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class EditBioPage extends StatefulWidget {
@@ -73,21 +72,16 @@ class _EditBioPageState extends State<EditBioPage> {
                     border: InputBorder.none,
                     hintText: 'Bio',
                   ),
-                  inputFormatters: [
-                    TextInputFormatter.withFunction((oldValue, newValue) {
-                      if (newValue.text.isNotEmpty &&
-                          newValue.text[0] == '\n') {
-                        final newText = newValue.text.substring(1);
-                        return TextEditingValue(
-                          text: newText,
-                          selection: TextSelection.collapsed(
-                              offset: newValue.selection.end - 1),
-                        );
-                      }
-                      return newValue;
-                    }),
-                  ],
                   onChanged: (value) => editUser.bio = value,
+                  onSubmitted: (value) {
+                    bioTextEditingController.text = value.trim();
+                    editUser.bio = value.trim();
+                  },
+                  onTapOutside: (_) {
+                    bioTextEditingController.text =
+                        bioTextEditingController.text.trim();
+                    editUser.bio = bioTextEditingController.text.trim();
+                  },
                 ),
               ),
             ),

@@ -16,26 +16,25 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final IconData? actionIcon;
   final Function()? onTapActionIcon;
   final Function()? onTap;
-  final Function(String)? onSubmit;
   final bool? isEnabled;
   final bool? autoFocus;
 
-  ListItemIconTextInputComponent(
-      {super.key,
-      this.onChangeTextField,
-      required this.icon,
-      required this.textEditingController,
-      this.errorText,
-      this.hintText,
-      this.isHidden,
-      this.keyboardType,
-      this.textInputAction,
-      this.actionIcon,
-      this.onTapActionIcon,
-      this.onTap,
-      this.isEnabled,
-      this.autoFocus,
-      this.onSubmit});
+  ListItemIconTextInputComponent({
+    super.key,
+    this.onChangeTextField,
+    required this.icon,
+    required this.textEditingController,
+    this.errorText,
+    this.hintText,
+    this.isHidden,
+    this.keyboardType,
+    this.textInputAction,
+    this.actionIcon,
+    this.onTapActionIcon,
+    this.onTap,
+    this.isEnabled,
+    this.autoFocus,
+  });
 
   @override
   State<ListItemIconTextInputComponent> createState() =>
@@ -44,6 +43,26 @@ class ListItemIconTextInputComponent extends StatefulWidget {
 
 class _ListItemIconTextInputComponentState
     extends State<ListItemIconTextInputComponent> {
+  FocusNode focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(() {
+      if (!focusNode.hasFocus &&
+          widget.keyboardType != TextInputType.visiblePassword) {
+        widget.textEditingController.text =
+            widget.textEditingController.text.trim();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    focusNode.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListItemIconChildComponent(
@@ -57,7 +76,6 @@ class _ListItemIconTextInputComponentState
                 controller: widget.textEditingController,
                 obscureText: widget.isHidden ?? false,
                 onChanged: widget.onChangeTextField,
-                onSubmitted: widget.onSubmit,
                 textAlignVertical: TextAlignVertical.center,
                 textAlign: TextAlign.start,
                 textInputAction: widget.textInputAction,
@@ -65,6 +83,7 @@ class _ListItemIconTextInputComponentState
                 style: const TextStyle(fontSize: basicFontSize),
                 enabled: widget.isEnabled,
                 autofocus: widget.autoFocus ?? false,
+                focusNode: focusNode,
                 decoration: InputDecoration(
                     isCollapsed:
                         true, // somehow needed to vertically center the text

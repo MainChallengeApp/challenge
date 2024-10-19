@@ -27,13 +27,15 @@ class ListItemIconTextTextComponent extends StatelessWidget {
         text: text,
         onTap: onTap,
         margin: margin,
-        child: Text(
-          text2,
-          style: const TextStyle(
-            color: themeColor3,
+        child: Expanded(
+          child: Text(
+            text2,
+            style: const TextStyle(
+              color: themeColor3,
+            ),
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
           ),
-          textAlign: TextAlign.end,
-          overflow: TextOverflow.ellipsis,
         ));
   }
 }

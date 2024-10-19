@@ -83,6 +83,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
               setState(() {
                 if (value != null && value != '') {
                   widget.acceptanceCriteria.unit = value;
+                  unitTextEditingController.text = value;
                 }
               });
               widget.onReloadSearchListPage?.call();
@@ -100,9 +101,18 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
           child: TextField(
             style: const TextStyle(fontSize: basicFontSize),
             decoration: const InputDecoration.collapsed(hintText: 'Unit'),
-            controller: TextEditingController()
-              ..text = widget.acceptanceCriteria.unit,
+            controller: unitTextEditingController,
             onChanged: (value) => widget.acceptanceCriteria.unit = value,
+            onSubmitted: (String value) {
+              widget.acceptanceCriteria.unit = value.trim();
+              unitTextEditingController.text = value.trim();
+            },
+            onTapOutside: (_) {
+              widget.acceptanceCriteria.unit =
+                  unitTextEditingController.text.trim();
+              unitTextEditingController.text =
+                  unitTextEditingController.text.trim();
+            },
           ))
     ];
 

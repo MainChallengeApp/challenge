@@ -34,7 +34,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
   String title = 'Username';
 
   late var userNameTextEditingController = TextEditingController(
-    text: '@${editUser.username}',
+    text: editUser.username,
   );
 
   @override
@@ -54,15 +54,17 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 icon: IconEnum.username.icon,
                 textEditingController: userNameTextEditingController,
                 onChangeTextField: (value) {
-                  String newValue = '';
-                  if (!value.startsWith('@')) {
-                    newValue = value;
-                  } else {
-                    newValue = value.substring(1);
-                  }
-                  userNameTextEditingController.text = '@$newValue';
-                  editUser.username = newValue;
+                  editUser.username = value;
                 },
+                // onSubmit: (String value) {
+                //   userNameTextEditingController.text = value.trim();
+                //   editUser.username = value.trim();
+                // },
+                // onTapOutside: (_) {
+                //   userNameTextEditingController.text =
+                //       userNameTextEditingController.text.trim();
+                //   editUser.username = userNameTextEditingController.text.trim();
+                // },
               ),
             ),
             SpaceColumnComponent(
@@ -106,7 +108,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     setState(() {
       isLoading = true;
     });
-
+    editUser.username = editUser.username.trim();
     await usersProvider.update(editUser);
 
     setState(() {

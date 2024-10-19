@@ -27,6 +27,9 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
         widget.challenge.description.isEmpty ? Colors.grey[700] : Colors.black,
   );
 
+  late final TextEditingController textEditingController =
+      TextEditingController(text: widget.challenge.description);
+
   @override
   Widget build(BuildContext context) {
     const padding = EdgeInsets.only(
@@ -50,11 +53,20 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
                       fontSize: basicFontSize,
                     ),
                     onChanged: (value) => widget.challenge.description = value,
-                    controller: TextEditingController()
-                      ..text = widget.challenge.description,
+                    controller: textEditingController,
                     decoration: const InputDecoration.collapsed(
                         hintText: 'Description'),
                     keyboardType: TextInputType.multiline,
+                    onSubmitted: (value) {
+                      textEditingController.text = value.trim();
+                      widget.challenge.description = value.trim();
+                    },
+                    onTapOutside: (_) {
+                      textEditingController.text =
+                          textEditingController.text.trim();
+                      widget.challenge.description =
+                          textEditingController.text.trim();
+                    },
                   ),
                 ),
                 const Align(
