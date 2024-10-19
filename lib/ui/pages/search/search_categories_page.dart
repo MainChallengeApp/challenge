@@ -239,8 +239,11 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => const SearchChallengePage(
-          title: 'Search/Shuffle',
+          preTitle: 'Search/Shuffle',
           initChallengeIndex: 0,
+          searchText: '',
+          categories: [],
+          isRandom: true,
         ),
       ),
     );

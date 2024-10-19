@@ -1,4 +1,5 @@
 import 'package:challenge/collections/collection.dart';
+import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -10,30 +11,21 @@ class SearchChallengesCollection extends Collection {
   Future<List<ChallengeModel>> getSearchedPaginated(
       {ChallengeModel? lastSearchChallenge,
       int limit = 10,
-      String searchText = ''}) async {
+      String searchText = '',
+      List<ChallengeCategoryEnum> categories = const []}) async {
     try {
-      if (lastSearchChallenge == null) {
-        final querySnapshot = await db
-            .collection(name)
-            .orderBy(ChallengeModel.titleLowerCaseField)
-            .where(ChallengeModel.titleLowerCaseField,
-                isGreaterThanOrEqualTo: searchText.toLowerCase())
-            .where(ChallengeModel.titleLowerCaseField,
-                isLessThan: '${searchText.toLowerCase()}z')
-            .limit(limit)
-            .get();
-        return querySnapshot.docs
-            .map((doc) => ChallengeModel.fromDoc(doc))
-            .toList();
-      }
       final querySnapshot = await db
           .collection(name)
           .orderBy(ChallengeModel.titleLowerCaseField)
+          .where(ChallengeModel.categoriesField,
+              arrayContainsAny: categories.isEmpty
+                  ? ChallengeCategoryEnum.toDocs(ChallengeCategoryEnum.values)
+                  : ChallengeCategoryEnum.toDocs(categories))
           .where(ChallengeModel.titleLowerCaseField,
               isGreaterThanOrEqualTo: searchText.toLowerCase())
           .where(ChallengeModel.titleLowerCaseField,
-              isLessThan: '${searchText.toLowerCase()}z')
-          .startAfter([lastSearchChallenge.titleLowerCase])
+              isLessThanOrEqualTo: '${searchText.toLowerCase()}z')
+          .startAfter([lastSearchChallenge?.titleLowerCase ?? ''])
           .limit(limit)
           .get();
       return querySnapshot.docs

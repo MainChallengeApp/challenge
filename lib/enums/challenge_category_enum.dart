@@ -24,6 +24,10 @@ enum ChallengeCategoryEnum {
     return list;
   }
 
+  static List<String> toDocs(List<ChallengeCategoryEnum> categories) {
+    return categories.map((category) => category.category).toList();
+  }
+
   static List<ChallengeCategoryEnum> copyCategoryList(
       List<ChallengeCategoryEnum> list) {
     List<ChallengeCategoryEnum> newList = [];

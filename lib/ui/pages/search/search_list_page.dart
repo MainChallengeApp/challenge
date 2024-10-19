@@ -50,7 +50,7 @@ class SearchListPage extends StatefulWidget {
 }
 
 class _SearchListPageState extends State<SearchListPage> {
-  late List<ChallengeModel> filteredChallenges;
+  late List<ChallengeModel> searchChallenges;
   late List<UserModel> filteredUsers;
 
   final ScrollController scrollController = ScrollController();
@@ -74,14 +74,18 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   void initState() {
     super.initState();
-    searchChallengesProvider.getSearchedPaginated();
+    searchChallengesProvider.resetEndOfSearchedList();
+    searchChallengesProvider.emptySearchChallenges();
+    searchChallengesProvider.getSearchedPaginated(
+        categories: widget.categories);
     usersProvider.getAll();
 
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
         searchChallengesProvider.getSearchedPaginated(
-            searchText: textEditingController.text);
+            searchText: textEditingController.text,
+            categories: widget.categories);
       }
     });
   }
@@ -102,7 +106,6 @@ class _SearchListPageState extends State<SearchListPage> {
               textEditingController: textEditingController,
               isFilterOnChallenges: isFilterOnChallenges,
               isUserSearchActive: widget.isUserSearchActive,
-              onTapActionIcon: onTapActionIcon,
               onChangeList: onChangeList,
               onTapChallenges: () {
                 setState(() {
@@ -125,13 +128,8 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Widget _buildChallengesList() {
-    filteredChallenges = listeningSearchChallengesProvider.searchChallenges
-        .where((element) =>
-            element.searchInChallenge(textEditingController.text) &&
-            element.isInCategories(widget.categories))
-        .toList();
-    filteredChallenges
-        .sort((a, b) => a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+    searchChallenges = listeningSearchChallengesProvider.searchChallenges;
+
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
@@ -145,11 +143,11 @@ class _SearchListPageState extends State<SearchListPage> {
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
-            itemCount: filteredChallenges.length +
+            itemCount: searchChallenges.length +
                 1, // + 1 for loading circle or  new Challenge
             itemBuilder: (BuildContext content, int index) {
               numberOfBuilds++;
-              if (index == filteredChallenges.length) {
+              if (index == searchChallenges.length) {
                 return listeningSearchChallengesProvider
                         .isEndOfSearchedListReached
                     ? SpaceColumnComponent(
@@ -166,7 +164,7 @@ class _SearchListPageState extends State<SearchListPage> {
                       );
               }
 
-              ChallengeModel challenge = filteredChallenges[index];
+              ChallengeModel challenge = searchChallenges[index];
               return SpaceColumnComponent(
                 child: ListItemChallengeSmallComponent(
                   onTap: () => onTapChallenge(
@@ -218,8 +216,10 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
-          title: '${widget.preTitle}/${widget.title}',
+          preTitle: '${widget.preTitle}/${widget.title}',
           initChallengeIndex: index,
+          searchText: textEditingController.text,
+          categories: widget.categories,
         ),
       ),
     ).then((value) => setState(
@@ -256,20 +256,10 @@ class _SearchListPageState extends State<SearchListPage> {
     ).then((_) => setState(() {}));
   }
 
-  onSubmit(String searchText) {
-    searchText = searchText.trim();
-    searchChallengesProvider.getSearchedPaginated(searchText: searchText);
-  }
-
-  onTapActionIcon() {
+  onChangeList(String searchText) {
     searchChallengesProvider.resetEndOfSearchedList();
     searchChallengesProvider.emptySearchChallenges();
-    searchChallengesProvider.getSearchedPaginated();
-  }
-
-  onChangeList(String p1) {
-    searchChallengesProvider.resetEndOfSearchedList();
-    searchChallengesProvider.emptySearchChallenges();
-    searchChallengesProvider.getSearchedPaginated(searchText: p1);
+    searchChallengesProvider.getSearchedPaginated(
+        searchText: searchText, categories: widget.categories);
   }
 }

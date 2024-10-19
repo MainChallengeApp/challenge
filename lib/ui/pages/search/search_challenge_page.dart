@@ -1,3 +1,4 @@
+import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
@@ -17,26 +18,34 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchChallengePage extends StatefulWidget {
-  const SearchChallengePage(
-      {super.key, required this.title, required this.initChallengeIndex});
-  final String title;
+  final String preTitle;
   final int initChallengeIndex;
+  final String searchText;
+  final List<ChallengeCategoryEnum> categories;
+  final bool isRandom;
+
+  const SearchChallengePage(
+      {super.key,
+      required this.preTitle,
+      required this.initChallengeIndex,
+      required this.searchText,
+      required this.categories,
+      this.isRandom = false});
 
   @override
   State<SearchChallengePage> createState() => _SearchChallengePageState();
 }
 
 class _SearchChallengePageState extends State<SearchChallengePage> {
-  bool isDescriptionExpanded = false;
   late PageController pageController =
       PageController(initialPage: widget.initChallengeIndex);
 
   bool isKeyboardUp = false;
 
-  late int currentChallengeIndex = widget.initChallengeIndex;
-
   final mediaService = MediaService();
 
+  late final searchChallengeProvider =
+      Provider.of<SearchChallengesProvider>(context, listen: false);
   late final listeningSearchChallengeProvider =
       Provider.of<SearchChallengesProvider>(context);
 
@@ -56,7 +65,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBarComponent(preTitle: widget.title),
+      appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
       body: Center(
         child: PageView(
@@ -91,13 +100,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   selectButton(ChallengeModel challenge) {
-    return isDescriptionExpanded
-        ? Container()
-        : CustomButtonComponent(
-            onTap: () => onTapSelect(challenge),
-            isPrimaryButton: true,
-            text: 'Select',
-          );
+    return CustomButtonComponent(
+      onTap: () => onTapSelect(challenge),
+      isPrimaryButton: true,
+      text: 'Select',
+    );
   }
 
   thumbnail(ChallengeModel challenge, BuildContext context) {
@@ -123,11 +130,16 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   void onPageChanged(int value) {
-    setState(() {
-      currentChallengeIndex = value;
-      pageController = PageController(initialPage: value);
-      isDescriptionExpanded = false;
-    });
+    if (value != searchChallengeProvider.searchChallenges.length - 1) {
+      return;
+    }
+
+    if (widget.isRandom) {
+      searchChallengeProvider.getRandomPaginated();
+      return;
+    }
+    searchChallengeProvider.getSearchedPaginated(
+        searchText: widget.searchText, categories: widget.categories);
   }
 
   void onTapSelect(ChallengeModel challenge) {
@@ -135,9 +147,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: widget.title,
+          preTitle: widget.preTitle,
           challenge: challenge,
           isSearchEdit: true,
+          isNewChallenge: true,
         ),
       ),
     ).then((_) => setState(() {}));

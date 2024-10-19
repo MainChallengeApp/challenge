@@ -138,7 +138,7 @@ class ChallengeModel {
       repetitionsField:
           repetitions.map((repetition) => repetition.toDoc()).toList(),
       mediaField: media.map((media) => media.toDoc()).toList(),
-      categoriesField: categories.map((category) => category.category).toList(),
+      categoriesField: ChallengeCategoryEnum.toDocs(categories),
       createdAtField: createdAt
     };
   }

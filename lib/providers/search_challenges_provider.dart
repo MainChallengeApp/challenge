@@ -1,4 +1,5 @@
 import 'package:challenge/collections/search_challenges_collection.dart';
+import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,9 @@ class SearchChallengesProvider with ChangeNotifier {
 
   int paginationLimit = 20;
 
-  Future<void> getSearchedPaginated({String searchText = ''}) async {
+  Future<void> getSearchedPaginated(
+      {String searchText = '',
+      List<ChallengeCategoryEnum> categories = const []}) async {
     try {
       if (!_isEndOfSearchedListReached) {
         final fetchedSearchChallenges =
@@ -24,7 +27,8 @@ class SearchChallengesProvider with ChangeNotifier {
                 lastSearchChallenge: _searchChallenges.isNotEmpty
                     ? _searchChallenges.last
                     : null,
-                searchText: searchText);
+                searchText: searchText,
+                categories: categories);
 
         _isEndOfSearchedListReached =
             fetchedSearchChallenges.length < paginationLimit;
@@ -69,11 +73,11 @@ class SearchChallengesProvider with ChangeNotifier {
 
   emptySearchChallenges() {
     _searchChallenges.clear();
-    notifyListeners();
   }
 
   Future<void> refresh() async {
     try {
+      resetEndOfSearchedList();
       _searchChallenges = await searchChallengesCollection.refresh(
           loadedSearchChallenges: _searchChallenges);
       notifyListeners();

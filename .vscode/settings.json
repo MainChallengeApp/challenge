@@ -27,5 +27,6 @@
     "unfocus",
     "uuid"
   ],
-  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"]
+  "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
+  "conventionalCommits.scopes": ["pagination"]
 }
