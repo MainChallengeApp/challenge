@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemContainerComponent extends StatefulWidget {
+  // edited line
   static const double standardPadding = 12;
   static const double standardBorderRadius = 24;
   static const double standardHeight = 64;

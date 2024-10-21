@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SliderComponent extends StatelessWidget {
-  static const double standardBorderRadius = 24;
-  static const double standardBottomMargin = 16;
-  static const double standardSideMargin = 20;
-
   final List<Widget> children;
   final ScrollPhysics scrollPhysics;
   final Function? onTap;

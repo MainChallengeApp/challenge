@@ -13,7 +13,6 @@ import 'package:challenge/ui/components/list_items/list_item_repetition_expanded
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -104,9 +103,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
     var progressListItems = [
       SpaceColumnComponent(
-          height: repetition.progressList.isEmpty
-              ? SpaceComponent.staticHeight * 4
-              : null,
+          heightMultiplier: repetition.progressList.isEmpty ? 4 : null,
           child: ListItemIconTextComponent(
             margin: const EdgeInsets.only(left: 30, right: 20),
             icon: Icons.add_rounded,
@@ -116,9 +113,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
     ];
     for (var progress in repetition.progressList.reversed) {
       progressListItems.add(SpaceColumnComponent(
-          height: progress == repetition.progressList.first
-              ? SpaceComponent.staticHeight * 5
-              : null,
+          heightMultiplier:
+              progress == repetition.progressList.first ? 5 : null,
           child: ListItemProgressComponent(
             margin: const EdgeInsets.only(left: 30, right: 20),
             isFailed:
@@ -142,7 +138,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
     Column item = Column(
       children: <SpaceColumnComponent>[
         SpaceColumnComponent(
-          height: isRepetitionExpanded ? null : SpaceComponent.staticHeight,
           child: Column(
             children: [
               isRepetitionExpanded

@@ -2,9 +2,6 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:flutter/material.dart';
 
 class TapContainerComponent extends StatefulWidget {
-  static const double standardHeight = 55;
-  static const double standardPadding = 10;
-
   final double heightFactor;
   final Color backgroundColor;
   final Widget child;
@@ -29,7 +26,7 @@ class TapContainerComponent extends StatefulWidget {
       this.backgroundColor = Colors.white,
       this.margin,
       this.isQuadratic = false,
-      this.padding = const EdgeInsets.all(standardPadding),
+      this.padding,
       this.height,
       this.borderRadius,
       this.onTap,

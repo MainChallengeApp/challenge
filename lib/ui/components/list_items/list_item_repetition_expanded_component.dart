@@ -75,7 +75,7 @@ class _ListItemRepetitionExpandedComponentState
           borderRadius: ListItemContainerComponent.standardBorderRadius + 1,
           child: Column(
             children: [
-              Container(
+              const SpaceComponent(
                 height: ListItemContainerComponent.standardHeight -
                     1, // -1 for the border
               ),

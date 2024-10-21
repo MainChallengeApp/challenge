@@ -2,8 +2,7 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ContainerInContainerComponent extends StatelessWidget {
-  static const double standardPadding = 10;
-  static const double standardRadius = 10;
+  final double standardRadius = 10;
 
   final Widget child;
   final Color? color;
@@ -36,8 +35,8 @@ class ContainerInContainerComponent extends StatelessWidget {
           color: color ?? Theme.of(context).colorScheme.themeColor4,
           border: border,
           borderRadius: borderRadius ??
-              const BorderRadius.all(Radius.circular(standardRadius))),
-      child: child, // TODO: maybe center?
+              BorderRadius.all(Radius.circular(standardRadius))),
+      child: child,
     );
   }
 }

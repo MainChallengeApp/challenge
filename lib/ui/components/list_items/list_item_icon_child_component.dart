@@ -3,9 +3,6 @@ import 'package:challenge/ui/components/simple_components/icon_container_in_list
 import 'package:flutter/material.dart';
 
 class ListItemIconChildComponent extends StatelessWidget {
-  static const double iconContainerSize = 40;
-  static const double standardIconRadius = 12;
-
   const ListItemIconChildComponent(
       {super.key,
       this.onTap,

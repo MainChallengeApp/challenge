@@ -25,7 +25,7 @@ class CustomContainerComponent extends StatelessWidget {
       this.backgroundColor = Colors.white,
       this.margin,
       this.isQuadratic = false,
-      this.padding = const EdgeInsets.all(standardPadding),
+      this.padding,
       this.height,
       this.borderRadius,
       this.borderWidth,
@@ -39,7 +39,7 @@ class CustomContainerComponent extends StatelessWidget {
           ? (height ?? standardHeight * heightFactor)
           : double.infinity,
       height: isHeightDynamic ? null : height ?? standardHeight * heightFactor,
-      padding: padding,
+      padding: padding ?? const EdgeInsets.all(standardPadding),
       margin: margin,
       decoration: BoxDecoration(
           color: backgroundColor,
