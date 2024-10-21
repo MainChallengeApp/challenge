@@ -163,15 +163,18 @@ class ChallengeModel {
   }
 
   bool searchInChallenge(String searchText) {
-    if (title.toLowerCase().contains(searchText.toLowerCase())) return true;
-    if (description.toLowerCase().contains(searchText.toLowerCase())) {
-      return true;
-    }
-    if (acceptanceCriteria.unit
-        .toLowerCase()
-        .contains(searchText.toLowerCase())) {
-      return true;
-    }
+    if (title.toLowerCase().startsWith(searchText.toLowerCase())) return true;
+
+    // too advanced for a free Firebase plan
+    // TODO: we should implement the search better when we use the paid subscription
+    // if (description.toLowerCase().contains(searchText.toLowerCase())) {
+    //   return true;
+    // }
+    // if (acceptanceCriteria.unit
+    //     .toLowerCase()
+    //     .contains(searchText.toLowerCase())) {
+    //   return true;
+    // }
     return false;
   }
 
