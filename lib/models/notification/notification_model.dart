@@ -9,6 +9,9 @@ abstract class NotificationModel {
   String userId;
   static const String userIdField = 'userId';
 
+  String title;
+  static const String titleField = 'title';
+
   NotificationTypeEnum type;
   static const String typeField = 'type';
 
@@ -18,6 +21,7 @@ abstract class NotificationModel {
   NotificationModel(
       {String? id,
       required this.userId,
+      required this.title,
       required this.type,
       DateTime? createDate})
       : id = id ?? '',
@@ -32,7 +36,8 @@ abstract class NotificationModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      idField: id,
+      userIdField: userId,
+      titleField: title,
       typeField: type.type,
       createDateField: createDate,
     };

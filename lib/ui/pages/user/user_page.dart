@@ -18,6 +18,7 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/user/connections/connections_page.dart';
+import 'package:challenge/ui/pages/user/notifications/notifications_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
@@ -80,8 +81,9 @@ class _UserPageState extends State<UserPage> {
           color: Colors.white,
           child: RefreshIndicatorComponent(
             onRefresh: () async {
-              await usersProvider.getUser();
-              await usersProvider.getConnections();
+              await usersProvider.getUser().then((_) async {
+                await usersProvider.getConnections();
+              });
             },
             scrollController: scrollController,
             child: CardComponent(
@@ -102,19 +104,12 @@ class _UserPageState extends State<UserPage> {
 
   List<Widget> actions(UserModel user) {
     return [
-      GestureDetector(onTap: () {}, child: Icon(IconEnum.inbox.icon)),
+      GestureDetector(
+          onTap: () => onTapNotifications(user),
+          child: Icon(IconEnum.inbox.icon)),
       const SpaceComponent(),
       GestureDetector(
-          onTap: () {
-            Navigator.push(
-                context,
-                NoAnimationPageRouteComponent(
-                  builder: (context) => SettingsPage(
-                    preTitle: widget.title,
-                    user: user,
-                  ),
-                ));
-          },
+          onTap: () => onTapSettings(user),
           child: Icon(IconEnum.settings.icon)),
     ];
   }
@@ -277,6 +272,27 @@ class _UserPageState extends State<UserPage> {
         NoAnimationPageRouteComponent(
           builder: (context) => ConnectionsPage(
             preTitle: widget.title,
+          ),
+        ));
+  }
+
+  void onTapNotifications(UserModel user) {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => NotificationsPage(
+            preTitle: widget.title,
+          ),
+        ));
+  }
+
+  void onTapSettings(UserModel user) {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => SettingsPage(
+            preTitle: widget.title,
+            user: user,
           ),
         ));
   }

@@ -30,7 +30,7 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
             : Colors.transparent,
         textColor: challenge.isFailed() || challenge.isSucceeded()
             ? Colors.white
-            : null,
+            : Theme.of(context).colorScheme.tertiary,
         text: isVisible
             ? '${(min(challenge.getCurrentPercentage(), 1) * 100).floor()} %'
             : '',

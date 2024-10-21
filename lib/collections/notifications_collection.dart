@@ -20,6 +20,7 @@ class NotificationsCollection extends Collection {
       final querySnapshot = await db
           .collection(name)
           .where(NotificationModel.userIdField, isEqualTo: userId)
+          .orderBy(NotificationModel.createDateField, descending: true)
           .get();
       notifications = querySnapshot.docs
           .map((doc) => NotificationModel.fromDoc(doc.data()))

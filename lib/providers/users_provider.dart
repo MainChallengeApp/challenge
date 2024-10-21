@@ -1,5 +1,7 @@
 import 'package:challenge/collections/users_collection.dart';
+import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,10 @@ class UsersProvider with ChangeNotifier {
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
 
   final int paginationLimit = 5;
+
+  NotificationsProvider notificationsProvider;
+
+  UsersProvider({required this.notificationsProvider});
 
   Future<void> createUser({required String email, username}) async {
     final user = UserModel(
@@ -78,6 +84,14 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await usersCollection.update(otherUser);
     await getConnections(notify: false);
+
+    RequestConnectionNotificationModel notification =
+        RequestConnectionNotificationModel(
+            title: '@${_user.username} wants to connect with you',
+            userId: otherUser.id,
+            fromUserId: _user.id);
+    await notificationsProvider.createNotification(notification);
+
     notifyListeners();
   }
 

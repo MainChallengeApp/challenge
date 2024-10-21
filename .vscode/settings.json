@@ -30,6 +30,7 @@
   "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
   "conventionalCommits.scopes": [
     "pagination",
-    "general"
+    "general",
+    "notifications"
   ]
 }
