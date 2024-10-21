@@ -63,7 +63,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
                 child: Text(
                   visibleTitleText,
                   textAlign: TextAlign.right,
-                  style: TextStyle(color: textColor, fontSize: appBarFontSize),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
             ),

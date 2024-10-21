@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
@@ -258,9 +257,14 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         height: 55,
         // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
-            color: isRecording ? themeColor1 : Colors.white,
+            color: isRecording
+                ? Theme.of(context).colorScheme.primary
+                : Colors.white,
             border: Border.all(
-                width: 1, color: isRecording ? themeColor1 : Colors.white),
+                width: 1,
+                color: isRecording
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.white),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
         child: Center(
             child: Icon(
@@ -292,10 +296,14 @@ class _CameraStateMedia extends State<MediaCameraPage> {
         height: 40,
         // margin: const EdgeInsets.only(bottom: 50),
         decoration: BoxDecoration(
-            color: flashMode == FlashMode.off ? Colors.white : themeColor1,
+            color: flashMode == FlashMode.off
+                ? Colors.white
+                : Theme.of(context).colorScheme.primary,
             border: Border.all(
                 width: 1,
-                color: flashMode == FlashMode.off ? Colors.white : themeColor1),
+                color: flashMode == FlashMode.off
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.primary),
             borderRadius: const BorderRadius.all(Radius.circular(16))),
         child: Center(
             child: Icon(

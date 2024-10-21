@@ -1,5 +1,5 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,9 +28,10 @@ class SearchDescriptionComponent extends StatelessWidget {
           options: const LinkifyOptions(removeWww: true, humanize: true),
           text: text,
           textAlign: TextAlign.justify,
-          style: const TextStyle(fontSize: basicFontSize, color: themeColor3),
-          linkStyle: TextStyle(
-              decorationColor: Colors.blue[500], color: Colors.blue[500]),
+          style: Theme.of(context).textTheme.bodyMedium,
+          linkStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              decorationColor: Theme.of(context).colorScheme.linkColor,
+              color: Theme.of(context).colorScheme.linkColor),
         ));
   }
 

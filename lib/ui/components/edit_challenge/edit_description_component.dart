@@ -1,7 +1,7 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class EditDescriptionComponent extends StatefulWidget {
@@ -21,12 +21,6 @@ class EditDescriptionComponent extends StatefulWidget {
 }
 
 class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
-  late TextStyle commonTextStyle = TextStyle(
-    fontSize: basicFontSize,
-    color:
-        widget.challenge.description.isEmpty ? Colors.grey[700] : Colors.black,
-  );
-
   late final TextEditingController textEditingController =
       TextEditingController(text: widget.challenge.description);
 
@@ -49,13 +43,13 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
                   child: TextField(
                     autofocus: true,
                     maxLines: null,
-                    style: const TextStyle(
-                      fontSize: basicFontSize,
-                    ),
+                    style: Theme.of(context).textTheme.textInputSmall,
                     onChanged: (value) => widget.challenge.description = value,
                     controller: textEditingController,
-                    decoration: const InputDecoration.collapsed(
-                        hintText: 'Description'),
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Description',
+                      hintStyle: Theme.of(context).textTheme.textInputHintSmall,
+                    ),
                     keyboardType: TextInputType.multiline,
                     onSubmitted: (value) {
                       textEditingController.text = value.trim();
@@ -69,12 +63,11 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
                     },
                   ),
                 ),
-                const Align(
+                Align(
                     alignment: Alignment.bottomRight,
                     child: Text(
                       'show less',
-                      style: TextStyle(
-                          fontSize: basicFontSize, color: themeColor3),
+                      style: Theme.of(context).textTheme.textInputHintSmall,
                     ))
               ],
             ),
@@ -90,7 +83,9 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
                   ? 'Description'
                   : widget.challenge.description,
               maxLines: 2,
-              style: commonTextStyle,
+              style: widget.challenge.description.isEmpty
+                  ? Theme.of(context).textTheme.textInputHintSmall
+                  : Theme.of(context).textTheme.textInputSmall,
             ));
   }
 }

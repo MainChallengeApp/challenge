@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
@@ -61,8 +60,9 @@ class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
                             fit: widget.editChallenge.thumbnail!.fit.fit,
                           ),
                         ))
-                : const Center(
-                    child: Icon(Icons.file_upload_rounded, color: themeColor3),
+                : Center(
+                    child: Icon(Icons.file_upload_rounded,
+                        color: Theme.of(context).colorScheme.tertiary),
                   ),
           ),
         ));

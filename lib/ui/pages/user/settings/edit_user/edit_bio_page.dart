@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -8,6 +7,7 @@ import 'package:challenge/ui/components/simple_components/custom_card_component.
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,13 +64,11 @@ class _EditBioPageState extends State<EditBioPage> {
                 child: TextField(
                   controller: bioTextEditingController,
                   maxLines: null,
-                  style: const TextStyle(
-                    fontSize: basicFontSize,
-                    color: Colors.black,
-                  ),
-                  decoration: const InputDecoration(
+                  style: Theme.of(context).textTheme.textInputSmall,
+                  decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Bio',
+                    hintStyle: Theme.of(context).textTheme.textInputHintSmall,
                   ),
                   onChanged: (value) => editUser.bio = value,
                   onSubmitted: (value) {

@@ -68,7 +68,7 @@ class _ListItemRepetitionExpandedComponentState
           ),
         ),
         ListItemContainerComponent(
-          height: 140,
+          isHeightDynamic: true,
           onTap: widget.onTap,
           backgroundColor: Colors.transparent,
           padding: const EdgeInsets.all(0),
@@ -79,9 +79,7 @@ class _ListItemRepetitionExpandedComponentState
                 height: ListItemContainerComponent.standardHeight -
                     1, // -1 for the border
               ),
-              const SpaceComponent(
-                height: 10,
-              ),
+              const SpaceComponent(),
               Row(
                 children: [
                   Expanded(
@@ -90,7 +88,7 @@ class _ListItemRepetitionExpandedComponentState
                     child: widget.repetition.startDate == null
                         ? Padding(
                             padding: const EdgeInsets.only(
-                                left: 10, bottom: 10, right: 5),
+                                left: 16, bottom: 16, right: 8),
                             child: ActionButtonComponent(
                               userChallenge: widget.userChallenge,
                               onTapAgain: (_) => {},
@@ -101,9 +99,11 @@ class _ListItemRepetitionExpandedComponentState
                           )
                         : Padding(
                             padding: const EdgeInsets.only(
-                                left: 10, bottom: 10, right: 5),
+                                left: 16, bottom: 16, right: 8),
                             child: DateComponent(
                                 date: widget.repetition.startDate,
+                                textColor:
+                                    Theme.of(context).colorScheme.tertiary,
                                 text: 'Start'),
                           ),
                   )),
@@ -114,7 +114,7 @@ class _ListItemRepetitionExpandedComponentState
                               widget.repetition.isInProgress()
                           ? Padding(
                               padding: const EdgeInsets.only(
-                                  left: 5, bottom: 10, right: 10),
+                                  left: 8, bottom: 16, right: 16),
                               child: ActionButtonComponent(
                                   userChallenge: widget.userChallenge,
                                   onTapStart: onTapStart,
@@ -124,9 +124,13 @@ class _ListItemRepetitionExpandedComponentState
                             )
                           : Padding(
                               padding: const EdgeInsets.only(
-                                  left: 5, bottom: 10, right: 10),
+                                  left: 8, bottom: 16, right: 16),
                               child: DateComponent(
-                                  date: widget.repetition.endDate, text: 'End'),
+                                textColor:
+                                    Theme.of(context).colorScheme.tertiary,
+                                date: widget.repetition.endDate,
+                                text: 'End',
+                              ),
                             ),
                     ),
                   ),

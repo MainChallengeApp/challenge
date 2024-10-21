@@ -1,8 +1,8 @@
 import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class UserPictureMaxComponent extends StatefulWidget {
@@ -23,7 +23,7 @@ class _UserPictureMaxComponentState extends State<UserPictureMaxComponent> {
     return AspectRatio(
       aspectRatio: 1,
       child: CustomContainerComponent(
-        backgroundColor: themeColor4,
+        backgroundColor: Theme.of(context).colorScheme.themeColor4,
         borderWidth: 0,
         padding: const EdgeInsets.all(0),
         child: ClipRRect(
@@ -32,20 +32,22 @@ class _UserPictureMaxComponentState extends State<UserPictureMaxComponent> {
             child: widget.userPictureUrl == null
                 ? Icon(
                     IconEnum.user.icon,
-                    color: themeColor3,
+                    color: Theme.of(context).colorScheme.tertiary,
                   )
                 : mediaService.isUrlLocal(widget.userPictureUrl!)
                     ? Image.asset(widget.userPictureUrl!,
                         fit: BoxFitEnum.cover.fit,
                         errorBuilder: (context, error, stackTrace) => Center(
-                              child:
-                                  Icon(IconEnum.user.icon, color: themeColor3),
+                              child: Icon(IconEnum.user.icon,
+                                  color:
+                                      Theme.of(context).colorScheme.tertiary),
                             ))
                     : Image.network(widget.userPictureUrl!,
                         fit: BoxFitEnum.cover.fit,
                         errorBuilder: (context, error, stackTrace) => Center(
-                              child:
-                                  Icon(IconEnum.user.icon, color: themeColor3),
+                              child: Icon(IconEnum.user.icon,
+                                  color:
+                                      Theme.of(context).colorScheme.tertiary),
                             ))),
       ),
     );

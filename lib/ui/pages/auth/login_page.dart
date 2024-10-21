@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -174,19 +173,20 @@ class _LoginPageState extends State<LoginPage> {
   switchToRegistrationButton() {
     return GestureDetector(
       onTap: widget.onTapSwitchToRegistration,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Not a member yet?',
-            style: TextStyle(color: themeColor3, fontSize: basicFontSize),
-          ),
-          SizedBox(
+          Text('Not a member yet?',
+              style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(
             width: 5,
           ),
           Text(
             ' Register now!',
-            style: TextStyle(fontWeight: FontWeight.bold, color: themeColor3),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -198,13 +198,13 @@ class _LoginPageState extends State<LoginPage> {
       heightMultiplier: 2,
       child: GestureDetector(
         onTap: onTapForgotPassword,
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(right: 20.0),
             child: Text(
               'Forgot password?',
-              style: TextStyle(color: themeColor3, fontSize: basicFontSize),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
         ),

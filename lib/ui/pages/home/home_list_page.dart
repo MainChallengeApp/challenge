@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -76,7 +75,7 @@ class _HomeListPageState extends State<HomeListPage> {
             child: RawScrollbar(
               controller: scrollController,
               radius: const Radius.circular(4),
-              thumbColor: themeColor3,
+              thumbColor: Theme.of(context).colorScheme.tertiary,
               padding: const EdgeInsets.only(right: 4),
               child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),

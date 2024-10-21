@@ -1,4 +1,4 @@
-import 'package:challenge/globals.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomContainerComponent extends StatelessWidget {
@@ -44,7 +44,8 @@ class CustomContainerComponent extends StatelessWidget {
       decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(
-              width: borderWidth ?? 1, color: borderColor ?? themeColor5),
+              width: borderWidth ?? 1,
+              color: borderColor ?? Theme.of(context).colorScheme.themeColor5),
           borderRadius: BorderRadius.all(
               Radius.circular(borderRadius ?? standardRadius))),
       child: child,

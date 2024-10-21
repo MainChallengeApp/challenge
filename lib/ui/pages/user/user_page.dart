@@ -1,6 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -11,11 +10,11 @@ import 'package:challenge/ui/components/loading_circle/refresh_indicator_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
-import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/user/connections/connections_page.dart';
@@ -23,6 +22,7 @@ import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dar
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:challenge/ui/pages/user/settings/settings_page.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +45,8 @@ class _UserPageState extends State<UserPage> {
 
   late final listeningUserChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: true);
+
+  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   late UserModel user;
 
@@ -155,8 +157,8 @@ class _UserPageState extends State<UserPage> {
                 onTap: () {
                   context.read<TabProvider>().selectTab(TabItemEnum.home);
 
-                  var homeNavigator =
-                      navigatorKeys[TabItemEnum.home]!.currentState!;
+                  var homeNavigator = tabProvider
+                      .navigatorKeys[TabItemEnum.home]!.currentState!;
 
                   homeNavigator.popUntil((route) => route.isFirst);
                 },
@@ -164,10 +166,11 @@ class _UserPageState extends State<UserPage> {
                   children: [
                     Text(
                       amountOfChallenges.toString(),
+                      style: Theme.of(context).textTheme.bodyMediumBlack,
                     ),
-                    const Text(
+                    Text(
                       'Challenges',
-                      style: TextStyle(fontSize: 9),
+                      style: Theme.of(context).textTheme.subTitle,
                     ),
                   ],
                 ),
@@ -185,10 +188,11 @@ class _UserPageState extends State<UserPage> {
                               outgoingConnection.isConnectedWith(user.id))
                           .length
                           .toString(),
+                      style: Theme.of(context).textTheme.bodyMediumBlack,
                     ),
-                    const Text(
+                    Text(
                       'Connections',
-                      style: TextStyle(fontSize: 9),
+                      style: Theme.of(context).textTheme.subTitle,
                     ),
                   ],
                 ),
@@ -201,20 +205,9 @@ class _UserPageState extends State<UserPage> {
   }
 
   edit(UserModel user) {
-    return TapContainerComponent(
+    return CustomButtonComponent(
       onTap: onTapEdit,
-      child: const Center(
-        child: Text(
-          'Edit',
-        ),
-      ),
-    );
-  }
-
-  userName(UserModel user) {
-    return SpaceColumnComponent(
-      height: 11,
-      child: TitleComponent(title: '@${user.username}'),
+      text: 'Edit',
     );
   }
 
@@ -239,6 +232,7 @@ class _UserPageState extends State<UserPage> {
                       child: Text(
                         '@${user.username}',
                         overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.textInputSmall,
                       )))),
         ],
       ),

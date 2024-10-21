@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -42,7 +41,9 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('end'),
         date: widget.editChallenge.endDate,
         text: 'End',
-        textColor: widget.isLocked ? themeColor3 : Colors.black,
+        textColor: widget.isLocked
+            ? Theme.of(context).colorScheme.tertiary
+            : Colors.black,
       ),
     );
   }
@@ -53,7 +54,9 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('start'),
         date: widget.editChallenge.startDate,
         text: 'Start',
-        textColor: widget.isLocked ? themeColor3 : Colors.black,
+        textColor: widget.isLocked
+            ? Theme.of(context).colorScheme.tertiary
+            : Colors.black,
       ),
     );
   }

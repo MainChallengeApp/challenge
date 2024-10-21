@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,9 @@ class ListItemButtonComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
-      backgroundColor: isMainButton ? themeColor2 : Colors.white,
+      backgroundColor: isMainButton
+          ? Theme.of(context).colorScheme.secondary
+          : Theme.of(context).colorScheme.surface,
       onTap: onTap,
       onTapColor: isMainButton ? Colors.white.withAlpha(20) : null,
       margin: margin,
@@ -34,15 +35,16 @@ class ListItemButtonComponent extends StatelessWidget {
       child: Center(
           child: isLoading
               ? LoadingCircleComponent(
-                  color: isMainButton ? Colors.white : null,
+                  color: isMainButton
+                      ? Theme.of(context).colorScheme.onSecondary
+                      : null,
                 )
-              : Text(
-                  text,
-                  style: TextStyle(
+              : Text(text,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: textColor ??
-                          (isMainButton ? Colors.white : Colors.black),
-                      fontSize: basicFontSize),
-                )),
+                          (isMainButton
+                              ? Theme.of(context).colorScheme.onSecondary
+                              : Theme.of(context).colorScheme.onSurface)))),
     );
   }
 }

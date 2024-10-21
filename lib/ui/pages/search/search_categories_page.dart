@@ -1,6 +1,5 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
@@ -71,7 +70,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
-      thumbColor: themeColor3,
+      thumbColor: Theme.of(context).colorScheme.tertiary,
       padding: const EdgeInsets.only(right: 4),
       child: Column(
         children: [

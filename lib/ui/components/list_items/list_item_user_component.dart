@@ -1,5 +1,4 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
@@ -49,6 +48,7 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
                 '@${widget.user.username}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
           ],
@@ -91,7 +91,7 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
         child: Center(
             child: Icon(
           isConnected ? IconEnum.disconnect.icon : IconEnum.connect.icon,
-          color: themeColor3,
+          color: Theme.of(context).colorScheme.tertiary,
         )),
       ),
     );

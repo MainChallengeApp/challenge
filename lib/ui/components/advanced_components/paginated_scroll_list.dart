@@ -40,7 +40,7 @@
 //       child: RawScrollbar(
 //         controller: scrollController,
 //         radius: const Radius.circular(4),
-//         thumbColor: themeColor3,
+//         thumbColor: Theme.of(context).colorScheme.tertiary,
 //         padding: const EdgeInsets.only(right: 4),
 //         child: ListView.builder(
 //             physics: const AlwaysScrollableScrollPhysics(),

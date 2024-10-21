@@ -1,7 +1,7 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -38,19 +38,20 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   scrollDirection: Axis.vertical,
                   child: Linkify(
-                    onOpen: (link) {
-                      _launchURL(link.url);
-                    },
-                    options:
-                        const LinkifyOptions(removeWww: true, humanize: true),
-                    text: widget.challenge.description,
-                    textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                        fontSize: basicFontSize, color: themeColor3),
-                    linkStyle: TextStyle(
-                        decorationColor: Colors.blue[500],
-                        color: Colors.blue[500]),
-                  ),
+                      onOpen: (link) {
+                        _launchURL(link.url);
+                      },
+                      options:
+                          const LinkifyOptions(removeWww: true, humanize: true),
+                      text: widget.challenge.description,
+                      textAlign: TextAlign.justify,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      linkStyle:
+                          Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.linkColor,
+                                decorationColor:
+                                    Theme.of(context).colorScheme.linkColor,
+                              )),
                 ),
               )
             : TapContainerComponent(
@@ -71,11 +72,12 @@ class _DescriptionComponentState extends State<DescriptionComponent> {
                   maxLines: 2,
                   textDirection: TextDirection.ltr,
                   textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                      fontSize: basicFontSize, color: themeColor3),
-                  linkStyle: TextStyle(
-                      decorationColor: Colors.blue[500],
-                      color: Colors.blue[500]),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  linkStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.linkColor,
+                        decorationColor:
+                            Theme.of(context).colorScheme.linkColor,
+                      ),
                 ))
         : Container();
   }

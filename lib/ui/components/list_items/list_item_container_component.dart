@@ -1,4 +1,4 @@
-import 'package:challenge/globals.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -88,7 +88,9 @@ class _ListItemContainerComponentState
                         ListItemContainerComponent.standardPadding),
                 decoration: BoxDecoration(
                     color: widget.backgroundColor,
-                    border: Border.all(width: 1, color: themeColor5),
+                    border: Border.all(
+                        width: 1,
+                        color: Theme.of(context).colorScheme.themeColor5),
                     borderRadius: BorderRadius.all(Radius.circular(
                         widget.borderRadius ??
                             ListItemContainerComponent.standardBorderRadius))),
@@ -108,8 +110,11 @@ class _ListItemContainerComponentState
                       const EdgeInsets.all(
                           ListItemContainerComponent.standardPadding),
                   decoration: BoxDecoration(
-                      color: widget.onTapColor ?? themeColor1.withAlpha(15),
-                      border: Border.all(width: 1, color: themeColor5),
+                      color: widget.onTapColor ??
+                          Theme.of(context).colorScheme.primary.withAlpha(15),
+                      border: Border.all(
+                          width: 1,
+                          color: Theme.of(context).colorScheme.themeColor5),
                       borderRadius: BorderRadius.all(Radius.circular(widget
                               .borderRadius ??
                           ListItemContainerComponent.standardBorderRadius))),

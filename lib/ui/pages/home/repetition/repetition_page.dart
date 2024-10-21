@@ -1,5 +1,4 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
@@ -72,7 +71,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
-      thumbColor: themeColor3,
+      thumbColor: Theme.of(context).colorScheme.tertiary,
       padding: const EdgeInsets.only(right: 4),
       child: ListView.builder(
           controller: scrollController,
@@ -185,7 +184,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           height: 55,
           margin: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-              color: themeColor2,
+              color: Theme.of(context).colorScheme.secondary,
               border: Border.all(
                   width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
               borderRadius: const BorderRadius.all(Radius.circular(16))),

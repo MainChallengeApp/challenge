@@ -1,8 +1,8 @@
 import 'dart:math';
 
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ChallengeTotalPercentageComponent extends StatelessWidget {
@@ -23,9 +23,9 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
         padding: padding,
         color: isVisible
             ? (challenge.isFailed()
-                ? red
+                ? Theme.of(context).colorScheme.red
                 : challenge.isSucceeded()
-                    ? green
+                    ? Theme.of(context).colorScheme.green
                     : null)
             : Colors.transparent,
         textColor: challenge.isFailed() || challenge.isSucceeded()
@@ -33,6 +33,7 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
             : null,
         text: isVisible
             ? '${(min(challenge.getCurrentPercentage(), 1) * 100).floor()} %'
-            : '');
+            : '',
+        textStyle: Theme.of(context).textTheme.titleSmall);
   }
 }

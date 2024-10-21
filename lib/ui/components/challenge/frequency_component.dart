@@ -1,9 +1,9 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -56,8 +56,11 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         underline: Container(),
         value: frequency.type.toString().split('.')[1],
         icon: const Icon(Icons.expand_more),
-        style: const TextStyle(color: Colors.black, fontSize: basicFontSize),
-        hint: const Text('Frequency'),
+        style: Theme.of(context).textTheme.textInputSmall,
+        hint: Text(
+          'Frequency',
+          style: Theme.of(context).textTheme.textInputHintSmall,
+        ),
         onChanged: (String? value) {
           // This is called when the user selects an item.
           setState(() {
@@ -72,7 +75,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
               value: e.key.text,
               child: Text(
                 frequency.amount != 1 ? '${e.value}s' : e.value,
-                style: const TextStyle(fontSize: basicFontSize),
+                style: Theme.of(context).textTheme.textInputSmall,
               ));
         }).toList(),
       )),
@@ -102,7 +105,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         child: Align(
           alignment: Alignment.centerLeft,
           child: TextField(
-            style: const TextStyle(fontSize: basicFontSize),
+            style: Theme.of(context).textTheme.textInputSmall,
             textAlign: TextAlign.end,
             controller:
                 frequencyAmountTextEditingController, // somehow TextEditingController()..text = does not work anymore!?
@@ -126,7 +129,9 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             onTap: () => setState(() {
               widget.setIsKeyboardUp?.call(true);
             }),
-            decoration: const InputDecoration.collapsed(hintText: '∞'),
+            decoration: InputDecoration.collapsed(
+                hintText: '∞',
+                hintStyle: Theme.of(context).textTheme.textInputHintSmall),
           ),
         ),
       ),
@@ -146,14 +151,14 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
   }
 
   frequencyFrequencyDropDown() {
-    return const Expanded(
+    return Expanded(
         flex: 2,
         child: CustomContainerComponent(
             child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Every Day',
-            style: TextStyle(fontSize: basicFontSize),
+            style: Theme.of(context).textTheme.textInputSmall,
           ),
         )));
   }

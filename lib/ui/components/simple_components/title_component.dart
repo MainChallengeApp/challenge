@@ -17,7 +17,7 @@ class TitleComponent extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0 + 1),
           child: Text(title,
-              style: const TextStyle(fontSize: 20),
+              style: Theme.of(context).textTheme.titleLarge,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left),
         ),

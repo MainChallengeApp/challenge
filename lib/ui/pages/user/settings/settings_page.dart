@@ -1,5 +1,4 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -13,6 +12,7 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/credits_page.dart';
 import 'package:challenge/ui/pages/user/settings/delete_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -66,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
-      thumbColor: themeColor3,
+      thumbColor: Theme.of(context).colorScheme.tertiary,
       padding: const EdgeInsets.only(right: 4),
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -102,8 +102,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: onTapDeleteUser,
                 icon: IconEnum.delete.icon,
                 title: 'Delete',
-                iconColor: Colors.red[300]!,
-                textColor: Colors.red[300]!),
+                iconColor: Theme.of(context).colorScheme.red.withAlpha(200),
+                textColor: Theme.of(context).colorScheme.red.withAlpha(200)),
           )
         ],
       ),

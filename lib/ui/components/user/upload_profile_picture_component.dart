@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/media_service.dart';
@@ -54,8 +53,9 @@ class _UploadUserPictureComponentState
                           widget.editUser.pictureUrl!,
                           fit: BoxFit.cover,
                         ))
-                : const Center(
-                    child: Icon(Icons.file_upload_rounded, color: themeColor3),
+                : Center(
+                    child: Icon(Icons.file_upload_rounded,
+                        color: Theme.of(context).colorScheme.tertiary),
                   ),
           ),
         ));

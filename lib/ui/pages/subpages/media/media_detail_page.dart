@@ -1,11 +1,11 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/pages/subpages/media/video_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class MediaDetailPage extends StatefulWidget {
@@ -59,23 +59,27 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
                             ? Image.asset(media.source,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
-                                    const Center(
+                                    Center(
                                       child: SizedBox(
                                         width: 20,
                                         height: 20,
                                         child: Icon(Icons.question_mark,
-                                            color: themeColor3),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary),
                                       ),
                                     ))
                             : Image.network(media.source,
                                 fit: BoxFit.contain,
                                 errorBuilder: (context, error, stackTrace) =>
-                                    const Center(
+                                    Center(
                                       child: SizedBox(
                                         width: 20,
                                         height: 20,
                                         child: Icon(Icons.question_mark,
-                                            color: themeColor3),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary),
                                       ),
                                     )),
                       ),
@@ -139,7 +143,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
         child: Center(
             child: Icon(
           IconEnum.delete.icon,
-          color: red,
+          color: Theme.of(context).colorScheme.red,
         )),
       ),
     );

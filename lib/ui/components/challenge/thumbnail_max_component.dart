@@ -1,8 +1,9 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ThumbnailMaxComponent extends StatelessWidget {
@@ -24,7 +25,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
       aspectRatio: 1.75,
       child: TapContainerComponent(
         onTap: onTapOpenMediaPage,
-        backgroundColor: themeColor4,
+        backgroundColor: Theme.of(context).colorScheme.themeColor4,
         padding: const EdgeInsets.all(0),
         borderWidth: 0,
         height: double.infinity,
@@ -48,41 +49,38 @@ class ThumbnailMaxComponent extends StatelessWidget {
                                 child: Image.network(challenge.thumbnail!.url,
                                     fit: challenge.thumbnail!.fit.fit),
                               )
-                        : const Icon(Icons.question_mark, color: themeColor3)),
+                        : Icon(Icons.question_mark,
+                            color: Theme.of(context).colorScheme.tertiary)),
               ),
             ),
             isMediaListVisible
                 ? Align(
                     alignment: Alignment.bottomRight,
-                    child: Container(
-                      clipBehavior: Clip.none,
-                      margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(5),
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          color: themeColor4),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '${challenge.media.length}',
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                                color: themeColor3,
-                                // fontWeight: FontWeight.w100,
-                                fontSize: 10),
-                          ),
-                          const SizedBox(width: 2),
-                          const Icon(
-                            Icons.inventory_2_outlined,
-                            color: themeColor3,
-                            size: 10,
-                          )
-                        ],
-                      ),
-                    ),
-                  )
+                    child: ContainerInContainerComponent(
+                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(5),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '${challenge.media.length}',
+                              textAlign: TextAlign.end,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            const SizedBox(width: 2),
+                            Icon(
+                              Icons.inventory_2_outlined,
+                              color: Theme.of(context).colorScheme.tertiary,
+                              size: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.fontSize,
+                            )
+                          ],
+                        )))
                 : Container(),
           ],
         ),

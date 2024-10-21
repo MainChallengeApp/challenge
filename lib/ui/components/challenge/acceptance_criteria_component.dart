@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class AcceptanceCriteriaComponent extends StatefulWidget {
@@ -50,8 +50,8 @@ class _AcceptanceCriteriaComponentState
               decoration: BoxDecoration(
                   color:
                       widget.userChallenge.status == ChallengeStatusEnum.failed
-                          ? red
-                          : green,
+                          ? Theme.of(context).colorScheme.red
+                          : Theme.of(context).colorScheme.green,
                   borderRadius: const BorderRadius.all(Radius.circular(
                       CustomContainerComponent.standardRadius))),
             ),
@@ -76,10 +76,8 @@ class _AcceptanceCriteriaComponentState
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          // progressPercentage(widget.challenge.acceptanceCriteria),
                           repetition(),
                           repetitionProgressAbsolute(),
-                          // amountOfProgress(),
                         ],
                       ),
                     ),
@@ -101,7 +99,8 @@ class _AcceptanceCriteriaComponentState
             padding: const EdgeInsets.symmetric(horizontal: 7),
             margin: const EdgeInsets.only(left: 10),
             color: Colors.white,
-            border: Border.all(color: themeColor5, width: 1),
+            border: Border.all(
+                color: Theme.of(context).colorScheme.themeColor5, width: 1),
             child: Center(
               child: Icon(
                 IconEnum.newChallenge.icon,
@@ -139,37 +138,6 @@ class _AcceptanceCriteriaComponentState
             : ContainerInContainerTextComponent(
                 text:
                     '${UtilService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}')
-        : Container();
-  }
-
-  percentageDone() {
-    return ContainerInContainerTextComponent(
-        text:
-            '${UtilService.doubleAsIntString((widget.userChallenge.getCurrentPercentage() * 100).roundToDouble())} %');
-  }
-
-  repetitionPercentage() {
-    return ContainerInContainerTextComponent(
-        text:
-            '${UtilService.doubleAsIntString((widget.userChallenge.getCurrentRepetitionProgressPercentage() * 100).roundToDouble())} %');
-  }
-
-  amountOfProgress() {
-    return widget.userChallenge.isInProgress() ||
-            !widget.userChallenge.isInBacklog() &&
-                widget.userChallenge.frequency.amount == 1
-        ? ContainerInContainerComponent(
-            child: Row(children: [
-            Text(
-              '${widget.userChallenge.getCurrentRepetition()?.progressList.length ?? 0} ',
-              style: const TextStyle(fontSize: 10, color: themeColor3),
-            ),
-            Icon(
-              IconEnum.progress.icon,
-              size: 10,
-              color: themeColor3,
-            )
-          ]))
         : Container();
   }
 }

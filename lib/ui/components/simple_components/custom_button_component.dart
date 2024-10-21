@@ -1,6 +1,6 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomButtonComponent extends StatelessWidget {
@@ -26,7 +26,9 @@ class CustomButtonComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return TapContainerComponent(
       onTap: onTap,
-      backgroundColor: isPrimaryButton ? themeColor2 : Colors.white,
+      backgroundColor: isPrimaryButton
+          ? Theme.of(context).colorScheme.secondary
+          : Colors.white,
       onTapColor: isPrimaryButton ? Colors.white.withAlpha(20) : null,
       padding: padding,
       margin: margin,
@@ -39,9 +41,8 @@ class CustomButtonComponent extends StatelessWidget {
                   )
                 : Text(
                     text,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: isPrimaryButton ? Colors.white : Colors.black),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: isPrimaryButton ? Colors.white : null),
                   ),
           ),
           subText != null
@@ -49,10 +50,10 @@ class CustomButtonComponent extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: Text(
                     subText!,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 9,
-                        color: isPrimaryButton ? Colors.white : Colors.black),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subTitle
+                        .copyWith(color: isPrimaryButton ? Colors.white : null),
                   ),
                 )
               : Container(),

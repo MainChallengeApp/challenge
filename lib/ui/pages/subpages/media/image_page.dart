@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -56,13 +56,13 @@ class _ImagePageState extends State<ImagePage> {
                   alignment: Alignment.topCenter,
                   child: Image.asset(media.source,
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Center(
+                      errorBuilder: (context, error, stackTrace) => Center(
                             child: SizedBox(
                               width: 20,
                               height: 20,
-                              child:
-                                  Icon(Icons.question_mark, color: themeColor3),
+                              child: Icon(Icons.question_mark,
+                                  color:
+                                      Theme.of(context).colorScheme.tertiary),
                             ),
                           )),
                 ),
@@ -123,7 +123,7 @@ class _ImagePageState extends State<ImagePage> {
         child: Center(
             child: Icon(
           IconEnum.delete.icon,
-          color: red,
+          color: Theme.of(context).colorScheme.red,
         )),
       ),
     );

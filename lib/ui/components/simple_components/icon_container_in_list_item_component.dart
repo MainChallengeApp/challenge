@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class IconContainerInListItemComponent extends StatelessWidget {
           child: Icon(
             icon,
             size: size,
-            color: iconColor ?? themeColor3,
+            color: iconColor ?? Theme.of(context).colorScheme.tertiary,
           ),
         ));
   }

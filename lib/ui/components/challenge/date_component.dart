@@ -1,6 +1,6 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class DateComponent extends StatefulWidget {
@@ -29,8 +29,8 @@ class _DateComponentState extends State<DateComponent> {
         padding: const EdgeInsets.only(
             left: CustomContainerComponent.standardPadding,
             right: CustomContainerComponent.standardPadding,
-            top: CustomContainerComponent.standardPadding - 2,
-            bottom: CustomContainerComponent.standardPadding - 2),
+            top: 5,
+            bottom: 5),
         child: Stack(
           children: [
             Align(
@@ -40,15 +40,17 @@ class _DateComponentState extends State<DateComponent> {
                 children: [
                   Text(
                     widget.text,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: basicFontSize,
-                        color: widget.textColor ?? Colors.black),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall
+                        ?.copyWith(color: widget.textColor),
                   ),
                   Text(
                     (widget.date != null ? _dateFormat(widget.date!) : '-'),
-                    style: const TextStyle(
-                        color: themeColor3, fontSize: basicFontSize),
+                    style: Theme.of(context)
+                        .textTheme
+                        .textInputSmall
+                        .copyWith(color: widget.textColor),
                   )
                 ],
               ),
@@ -57,7 +59,10 @@ class _DateComponentState extends State<DateComponent> {
                 alignment: Alignment.bottomRight,
                 child: Text(
                   widget.date != null ? _timeFormat(widget.date!) : '',
-                  style: const TextStyle(fontSize: 8, color: themeColor3),
+                  style: Theme.of(context)
+                      .textTheme
+                      .subTitle
+                      .copyWith(color: widget.textColor),
                 ))
           ],
         ));

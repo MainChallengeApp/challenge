@@ -31,7 +31,7 @@ class TitleWithPercentageComponent extends StatelessWidget {
           child: ChallengeTotalPercentageComponent(
               challenge: challenge,
               isVisible: !isSearch,
-              padding: const EdgeInsets.all(8)),
+              padding: const EdgeInsets.all(7)),
         )
       ],
     );

@@ -1,6 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,14 +27,14 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
           child: Container(
             height: 81,
             // width: 450,
-            decoration: const BoxDecoration(
-              color: themeColor1,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary,
             ),
             child: Container(
               height: 81,
-              decoration: const BoxDecoration(
-                color: themeColor1,
-                borderRadius: BorderRadius.all(Radius.circular(24)),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: const BorderRadius.all(Radius.circular(24)),
               ),
               child: Container(
                 padding: const EdgeInsets.only(top: 12),
@@ -44,13 +43,13 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                       parent: NeverScrollableScrollPhysics()),
                   child: NavigationBar(
                     onDestinationSelected: onTapIcon,
-                    indicatorColor: themeColor2,
+                    indicatorColor: Theme.of(context).colorScheme.secondary,
                     indicatorShape: const RoundedRectangleBorder(
                         side: BorderSide(
                           width: 0,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(16))),
-                    backgroundColor: themeColor1,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     selectedIndex:
                         context.watch<TabProvider>().currentTab.index,
                     elevation: 0,

@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -27,6 +26,7 @@ import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_list_page.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -175,7 +175,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     return SliderComponent(
         icon: IconEnum.delete.icon,
         label: 'Delete',
-        foregroundColor: red,
+        foregroundColor: Theme.of(context).colorScheme.red.withAlpha(150),
         onTap: () => onTapDeleteChallenge(userChallenge));
   }
 

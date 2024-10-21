@@ -1,5 +1,5 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ListItemIconTextTextComponent extends StatelessWidget {
@@ -30,9 +30,7 @@ class ListItemIconTextTextComponent extends StatelessWidget {
         child: Expanded(
           child: Text(
             text2,
-            style: const TextStyle(
-              color: themeColor3,
-            ),
+            style: Theme.of(context).textTheme.titleMediaNormalTertiary,
             textAlign: TextAlign.end,
             overflow: TextOverflow.ellipsis,
           ),

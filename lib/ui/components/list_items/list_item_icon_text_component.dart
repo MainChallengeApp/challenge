@@ -32,7 +32,10 @@ class ListItemIconTextComponent extends StatelessWidget {
         child: Text(
           title,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: textColor ?? Colors.black),
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(color: textColor),
         ));
   }
 }

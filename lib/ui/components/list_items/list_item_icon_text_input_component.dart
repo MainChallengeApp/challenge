@@ -1,7 +1,7 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ListItemIconTextInputComponent extends StatefulWidget {
@@ -80,7 +80,7 @@ class _ListItemIconTextInputComponentState
                 textAlign: TextAlign.start,
                 textInputAction: widget.textInputAction,
                 keyboardType: widget.keyboardType,
-                style: const TextStyle(fontSize: basicFontSize),
+                style: Theme.of(context).textTheme.bodyMediumBlack,
                 enabled: widget.isEnabled,
                 autofocus: widget.autoFocus ?? false,
                 focusNode: focusNode,
@@ -89,7 +89,7 @@ class _ListItemIconTextInputComponentState
                         true, // somehow needed to vertically center the text
                     border: InputBorder.none,
                     hintText: widget.hintText,
-                    hintStyle: const TextStyle(color: themeColor3),
+                    hintStyle: Theme.of(context).textTheme.bodyMedium,
                     errorText: widget.errorText),
               ),
             ),
@@ -97,7 +97,8 @@ class _ListItemIconTextInputComponentState
                 visible: widget.actionIcon != null,
                 child: GestureDetector(
                     onTap: widget.onTapActionIcon,
-                    child: Icon(widget.actionIcon, color: themeColor3)))
+                    child: Icon(widget.actionIcon,
+                        color: Theme.of(context).colorScheme.tertiary)))
           ],
         ));
   }

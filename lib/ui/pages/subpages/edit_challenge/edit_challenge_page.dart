@@ -1,5 +1,4 @@
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -48,6 +47,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
+
+  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   late ChallengeModel editChallenge = widget.challenge
       .copyChallenge(isTryAgain: widget.isTryAgain, withId: true);
@@ -197,7 +198,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.home);
 
-    var homeNavigator = navigatorKeys[TabItemEnum.home]!.currentState!;
+    var homeNavigator =
+        tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
 
     homeNavigator.popUntil((route) => route.isFirst);
 

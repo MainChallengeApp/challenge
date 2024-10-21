@@ -1,6 +1,4 @@
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
@@ -8,6 +6,7 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_component
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -49,6 +48,7 @@ class _ListItemChallengeSmallComponentState
                 widget.challenge.title,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
             // progressRecurring(),
@@ -60,9 +60,9 @@ class _ListItemChallengeSmallComponentState
 
   Container miniThumbnail() {
     return Container(
-      decoration: const BoxDecoration(
-          color: themeColor4,
-          borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.themeColor4,
+          borderRadius: const BorderRadius.all(
               Radius.circular(ListItemIconTextComponent.standardIconRadius))),
       width: ListItemIconTextComponent.iconContainerSize,
       height: ListItemIconTextComponent.iconContainerSize,
@@ -85,33 +85,16 @@ class _ListItemChallengeSmallComponentState
                         fit: widget.challenge.thumbnail!.fit.fit,
                       ),
                     )
-              : const Center(
-                  child: Icon(Icons.question_mark, color: themeColor3),
+              : Center(
+                  child: Icon(Icons.question_mark,
+                      color: Theme.of(context).colorScheme.tertiary),
                 )),
     );
   }
 
-  Container progressCircle() {
-    return widget.challenge.status != ChallengeStatusEnum.backlog
-        ? Container(
-            width: 25,
-            height: 25,
-            margin: const EdgeInsets.only(right: 7, left: 10),
-            child: CircularProgressIndicator(
-              backgroundColor: themeColor5,
-              strokeCap: StrokeCap.round,
-              value: widget.challenge.acceptanceCriteria.amount <= 0
-                  ? 1
-                  : widget.challenge.getCurrentRepetitionProgressPercentage(),
-              color: widget.challenge.status == ChallengeStatusEnum.failed
-                  ? red
-                  : green,
-            ))
-        : Container();
-  }
-
   percentageDone() {
     return ChallengeTotalPercentageComponent(
+      padding: const EdgeInsets.all(7),
       challenge: widget.challenge,
       isVisible: !widget.isSearch && !widget.challenge.isInBacklog(),
     );
@@ -148,7 +131,7 @@ class _ListItemChallengeSmallComponentState
         child: Center(
             child: Icon(
           IconEnum.delete.icon,
-          color: red,
+          color: Theme.of(context).colorScheme.red,
         )),
       ),
     );

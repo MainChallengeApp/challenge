@@ -28,5 +28,8 @@
     "uuid"
   ],
   "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
-  "conventionalCommits.scopes": ["pagination"]
+  "conventionalCommits.scopes": [
+    "pagination",
+    "general"
+  ]
 }

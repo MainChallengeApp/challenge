@@ -1,5 +1,5 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -45,7 +45,9 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: widget.isFailed ? red : green,
+                  color: widget.isFailed
+                      ? Theme.of(context).colorScheme.red
+                      : Theme.of(context).colorScheme.green,
                   borderRadius: const BorderRadius.all(Radius.circular(
                       ListItemContainerComponent.standardBorderRadius))),
             ),

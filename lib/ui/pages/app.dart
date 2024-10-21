@@ -1,10 +1,9 @@
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
-import 'package:challenge/ui/pages/user/user_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
+import 'package:challenge/ui/pages/user/user_tab_navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +17,8 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
+
+  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   @override
   void initState() {
@@ -56,7 +57,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: currentTab != tabItem,
           child: SearchTabNavigator(
-            navigatorKey: navigatorKeys[tabItem],
+            navigatorKey: tabProvider.navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );
@@ -64,7 +65,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: currentTab != tabItem,
           child: HomeTabNavigator(
-            navigatorKey: navigatorKeys[tabItem],
+            navigatorKey: tabProvider.navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );
@@ -72,7 +73,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: currentTab != tabItem,
           child: UserTabNavigator(
-            navigatorKey: navigatorKeys[tabItem],
+            navigatorKey: tabProvider.navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );

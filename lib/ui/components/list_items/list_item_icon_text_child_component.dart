@@ -30,7 +30,10 @@ class ListItemIconTextChildComponent extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(text),
+            Text(
+              text,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SpaceComponent(
               width: 10,
             ),

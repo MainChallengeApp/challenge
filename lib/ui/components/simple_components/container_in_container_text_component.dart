@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +9,7 @@ class ContainerInContainerTextComponent extends StatelessWidget {
   final Border? border;
   final EdgeInsets? padding;
   final BorderRadius? borderRadius;
+  final TextStyle? textStyle;
 
   const ContainerInContainerTextComponent(
       {super.key,
@@ -19,7 +19,8 @@ class ContainerInContainerTextComponent extends StatelessWidget {
       this.margin,
       this.border,
       this.padding,
-      this.borderRadius});
+      this.borderRadius,
+      this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,11 @@ class ContainerInContainerTextComponent extends StatelessWidget {
         border: border,
         borderRadius: borderRadius,
         child: Text(text,
-            style: TextStyle(fontSize: 10, color: textColor ?? themeColor3),
+            style: textStyle?.copyWith(color: textColor) ??
+                Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: textColor),
             overflow: TextOverflow.ellipsis));
   }
 }

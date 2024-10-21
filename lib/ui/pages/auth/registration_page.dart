@@ -1,4 +1,3 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -168,22 +167,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
   switchToLoginButton() {
     return GestureDetector(
       onTap: widget.onTapSwitchToLogin,
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             'Already a member?',
-            style: TextStyle(color: themeColor3, fontSize: basicFontSize),
+            style: Theme.of(context).textTheme.bodyMedium,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
             ' Login here!',
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: themeColor3,
-                fontSize: basicFontSize),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
         ],
       ),

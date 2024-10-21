@@ -1,5 +1,4 @@
 import 'package:challenge/enums/box_fit_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -51,20 +50,27 @@ class ListItemImageChildComponent extends StatelessWidget {
                     scale: scale ?? 1,
                     child: url == null
                         ? Center(
-                            child: Icon(icon, color: themeColor3),
+                            child: Icon(icon,
+                                color: Theme.of(context).colorScheme.tertiary),
                           )
                         : mediaService.isUrlLocal(url!)
                             ? Image.asset(url!,
                                 fit: fit ?? BoxFitEnum.cover.fit,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Center(
-                                      child: Icon(icon, color: themeColor3),
+                                      child: Icon(icon,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary),
                                     ))
                             : Image.network(url!,
                                 fit: fit ?? BoxFitEnum.cover.fit,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Center(
-                                      child: Icon(icon, color: themeColor3),
+                                      child: Icon(icon,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary),
                                     )),
                   ))),
           Expanded(

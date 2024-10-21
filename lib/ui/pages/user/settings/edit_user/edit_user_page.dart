@@ -1,6 +1,5 @@
 import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
@@ -104,8 +103,9 @@ class _EditUserPageState extends State<EditUserPage> {
                           ListItemIconTextComponent.standardIconRadius)),
                       child: user.pictureUrl == null
                           ? Center(
-                              child:
-                                  Icon(IconEnum.user.icon, color: themeColor3),
+                              child: Icon(IconEnum.user.icon,
+                                  color:
+                                      Theme.of(context).colorScheme.tertiary),
                             )
                           : mediaService.isUrlLocal(user.pictureUrl!)
                               ? Image.asset(user.pictureUrl!,
@@ -113,14 +113,18 @@ class _EditUserPageState extends State<EditUserPage> {
                                   errorBuilder: (context, error, stackTrace) =>
                                       Center(
                                         child: Icon(IconEnum.user.icon,
-                                            color: themeColor3),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary),
                                       ))
                               : Image.network(user.pictureUrl!,
                                   fit: BoxFitEnum.cover.fit,
                                   errorBuilder: (context, error, stackTrace) =>
                                       Center(
                                         child: Icon(IconEnum.user.icon,
-                                            color: themeColor3),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary),
                                       )))),
             ),
           ),

@@ -1,13 +1,13 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class ListItemMediaSmallComponent extends StatelessWidget {
+class ListItemMediaSmallComponent extends StatefulWidget {
   const ListItemMediaSmallComponent(
       {super.key,
       required this.onTap,
@@ -19,14 +19,21 @@ class ListItemMediaSmallComponent extends StatelessWidget {
   final MediaModel media;
 
   @override
+  State<ListItemMediaSmallComponent> createState() =>
+      _ListItemMediaSmallComponentState();
+}
+
+class _ListItemMediaSmallComponentState
+    extends State<ListItemMediaSmallComponent> {
+  @override
   Widget build(BuildContext context) {
     return ListItemImageChildComponent(
         endActionPane: endActionPane,
-        onTap: onTap,
-        url: media.source,
+        onTap: widget.onTap,
+        url: widget.media.source,
         child: Text(
-          media.title,
-          style: const TextStyle(overflow: TextOverflow.ellipsis),
+          widget.media.title,
+          overflow: TextOverflow.ellipsis,
         ));
 
     // ListItemContainerComponent(
@@ -36,7 +43,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
     //     children: [
     //       Container(
     //         decoration: const BoxDecoration(
-    //             color: themeColor4,
+    //             color: Theme.of(context).colorScheme.themeColor4,
     //             borderRadius: BorderRadius.all(Radius.circular(
     //                 ListItemIconTextComponent.standardIconRadius))),
     //         width: 40,
@@ -52,20 +59,20 @@ class ListItemMediaSmallComponent extends StatelessWidget {
     //                         errorBuilder: (context, error, stackTrace) =>
     //                             const Center(
     //                               child: Icon(Icons.question_mark,
-    //                                   color: themeColor3),
+    //                                   color: Theme.of(context).colorScheme.tertiary),
     //                             ))
     //                     : Image.network(media.source,
     //                         fit: BoxFit.cover,
     //                         errorBuilder: (context, error, stackTrace) =>
     //                             const Center(
     //                               child: Icon(Icons.question_mark,
-    //                                   color: themeColor3),
+    //                                   color: Theme.of(context).colorScheme.tertiary),
     //                             ))
     //                 : null),
     //       ),
     //       Text(
     //         media.title,
-    //         style: const TextStyle(overflow: TextOverflow.ellipsis),
+    //         overflow: TextOverflow.ellipsis,
     //       )
     //     ],
     //   ),
@@ -81,7 +88,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
           child: GestureDetector(
             onTap: () async {
               await closeSlidable();
-              onTapDeleteMedia?.call();
+              widget.onTapDeleteMedia?.call();
             },
             child: Container(
               decoration: BoxDecoration(
@@ -93,7 +100,7 @@ class ListItemMediaSmallComponent extends StatelessWidget {
               child: Center(
                   child: Icon(
                 IconEnum.delete.icon,
-                color: red,
+                color: Theme.of(context).colorScheme.red,
               )),
             ),
           ),

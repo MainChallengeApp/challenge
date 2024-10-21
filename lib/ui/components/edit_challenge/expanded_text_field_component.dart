@@ -1,6 +1,6 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ExpandedTextFieldComponent extends StatelessWidget {
@@ -23,9 +23,11 @@ class ExpandedTextFieldComponent extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
-          style: const TextStyle(fontSize: basicFontSize),
+          style: Theme.of(context).textTheme.textInputSmall,
           onChanged: (value) => editChallenge.title = value,
-          decoration: const InputDecoration.collapsed(hintText: 'Title'),
+          decoration: InputDecoration.collapsed(
+              hintText: 'Title',
+              hintStyle: Theme.of(context).textTheme.textInputHintSmall),
           controller: textEditingController,
           onSubmitted: (value) {
             textEditingController.text = value.trim();

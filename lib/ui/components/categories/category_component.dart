@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable
 
-import 'package:challenge/globals.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class CategoryComponent extends StatelessWidget {
@@ -37,16 +37,16 @@ class CategoryComponent extends StatelessWidget {
           Align(
               alignment: Alignment.topLeft,
               child: Container(
-                decoration: const BoxDecoration(
-                    color: themeColor4,
-                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.themeColor4,
+                    borderRadius: const BorderRadius.all(Radius.circular(12))),
                 width: 70,
                 height: 70,
                 child: icon != null
                     ? Center(
                         child: Icon(
                           icon,
-                          color: themeColor3,
+                          color: Theme.of(context).colorScheme.tertiary,
                           size: 30,
                         ),
                       )
@@ -74,10 +74,7 @@ class CategoryComponent extends StatelessWidget {
                 child: Text(
                   text,
                   textAlign: TextAlign.end,
-                  style: const TextStyle(
-                      color: themeColor1,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700),
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
               )),
         ]));

@@ -1,9 +1,9 @@
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/unit_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -75,9 +75,11 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
             underline: Container(),
             value: '',
             icon: const Icon(Icons.expand_more),
-            style:
-                const TextStyle(color: Colors.black, fontSize: basicFontSize),
-            hint: const Text('Unit'),
+            style: Theme.of(context).textTheme.textInputSmall,
+            hint: Text(
+              'Unit',
+              style: Theme.of(context).textTheme.textInputHintSmall,
+            ),
             onChanged: (String? value) {
               // This is called when the user selects an item.
               setState(() {
@@ -99,8 +101,10 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
       DropdownMenuItem<String>(
           value: '',
           child: TextField(
-            style: const TextStyle(fontSize: basicFontSize),
-            decoration: const InputDecoration.collapsed(hintText: 'Unit'),
+            style: Theme.of(context).textTheme.textInputSmall,
+            decoration: InputDecoration.collapsed(
+                hintText: 'Unit',
+                hintStyle: Theme.of(context).textTheme.textInputHintSmall),
             controller: unitTextEditingController,
             onChanged: (value) => widget.acceptanceCriteria.unit = value,
             onSubmitted: (String value) {
@@ -121,7 +125,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
           value: e,
           child: Text(
             e,
-            style: const TextStyle(fontSize: basicFontSize),
+            style: Theme.of(context).textTheme.textInputSmall,
           ));
     }).toList());
     return unitDropDownMenu;
@@ -133,7 +137,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
-          style: const TextStyle(fontSize: basicFontSize),
+          style: Theme.of(context).textTheme.textInputSmall,
           textAlign: TextAlign.end,
           controller:
               amountTextEditingController, // somehow TextEditingController()..text = does not work anymore!?
@@ -161,7 +165,9 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
             });
           },
           onTap: () => widget.setIsKeyboardUp?.call(true),
-          decoration: const InputDecoration.collapsed(hintText: '1'),
+          decoration: InputDecoration.collapsed(
+              hintText: '1',
+              hintStyle: Theme.of(context).textTheme.textInputHintSmall),
         ),
       ),
     ));

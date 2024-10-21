@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
@@ -10,7 +9,6 @@ import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
-import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -18,11 +16,10 @@ import 'package:challenge/ui/components/list_items/list_item_progress_component.
 import 'package:challenge/ui/components/list_items/list_item_progress_controller_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
@@ -71,8 +68,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               : 0)
           : 0);
 
-  BuildContext? context2;
-
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 
@@ -105,7 +100,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return RawScrollbar(
       controller: scrollController,
       radius: const Radius.circular(4),
-      thumbColor: themeColor3,
+      thumbColor: Theme.of(context).colorScheme.tertiary,
       padding: const EdgeInsets.only(right: 4),
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -121,9 +116,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               widget.repetition ??= widget.userChallenge.addRepetition();
               return SpaceColumnComponent(
                   child: ListItemProgressComponent(
-                onTap: !widget.isSaveInsteadOfEditButtonVisible
-                    ? null
-                    : onTapProgressBar,
                 progress: editProgress,
                 challenge: widget.userChallenge,
                 isEditable: widget.isSaveInsteadOfEditButtonVisible,
@@ -138,7 +130,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             if (index == 1 && widget.isSaveInsteadOfEditButtonVisible) {
               return SpaceColumnComponent(
                 child: ListItemProgressControllerComponent(
-                  challenge: widget.userChallenge,
                   editProgress: editProgress,
                   progressListSetState: () => setState(() {}),
                 ),
@@ -264,7 +255,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Delete',
-        textColor: red.withAlpha(200),
+        textColor: Theme.of(context).colorScheme.red.withAlpha(200),
         onTap: onTapDelete,
         isMainButton: false,
         margin: const EdgeInsets.only(left: 20, right: 10),
@@ -272,39 +263,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     );
   }
 
-  dialogSaveButton() {
-    return GestureDetector(
-      onTap: onTapSave,
-      child: widget.isSaveInsteadOfEditButtonVisible
-          ? Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 55,
-                margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                decoration: BoxDecoration(
-                    color: themeColor2,
-                    border: Border.all(
-                        width: 1,
-                        color: const Color.fromRGBO(226, 232, 240, 1)),
-                    borderRadius: const BorderRadius.all(Radius.circular(16))),
-                child: Center(
-                    child: Text(
-                  widget.isSaveInsteadOfEditButtonVisible ? 'Save' : 'Edit',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.white),
-                )),
-              ),
-            )
-          : Container(),
-    );
-  }
-
   void onTapSave() async {
     if (widget.isSaveInsteadOfEditButtonVisible) {
-      if (context2 != null) {
-        Navigator.pop(context2!);
-      }
-
       if (widget.userChallenge.isInBacklog() && editProgress.progress > 0) {
         widget.userChallenge.start();
         widget.repetition = widget.userChallenge.getLastRepetition();
@@ -345,189 +305,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         widget.isSaveInsteadOfEditButtonVisible = true;
       });
     }
-  }
-
-  void onTapProgressBar() {
-    if (widget.isSaveInsteadOfEditButtonVisible) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          context2 = context;
-          return GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: Dialog(
-              insetPadding: const EdgeInsets.only(
-                  top: 150, bottom: 120, left: 50, right: 50),
-              alignment: Alignment.center,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
-              child: SingleChildScrollView(
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(24))),
-                  child: Column(
-                    children: [
-                      amountAndUnit(),
-                      setProgressButtons(),
-                      dialogSaveButton()
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ).whenComplete(() => context2 = null);
-    }
-  }
-
-  Widget setProgressButtons() {
-    return SpaceColumnComponent(
-      child: Row(
-        children: [
-          const SizedBox(
-            width: 16,
-          ),
-          Expanded(
-              flex: 1,
-              child: GestureDetector(
-                  onTap: () => setState(() {
-                        if (editProgress.progress - 1 >= 0) {
-                          editProgress.progress -= 1;
-                          amountTextEditingController.text =
-                              UtilService.doubleAsIntString(
-                                      editProgress.progress)
-                                  .toString();
-                        } else {
-                          editProgress.progress = 0;
-                          amountTextEditingController.text =
-                              UtilService.doubleAsIntString(
-                                      editProgress.progress)
-                                  .toString();
-                        }
-                      }),
-                  child: const CustomContainerComponent(
-                      child: Center(
-                    child: Text('-1'),
-                  )))),
-          const SizedBox(
-            width: 16,
-          ),
-          Expanded(
-              flex: 1,
-              child: GestureDetector(
-                  onTap: () => setState(() {
-                        editProgress.progress += 1;
-                        amountTextEditingController.text =
-                            UtilService.doubleAsIntString(editProgress.progress)
-                                .toString();
-                      }),
-                  child: const CustomContainerComponent(
-                      child: Center(
-                    child: Text('+1'),
-                  )))),
-          const SizedBox(
-            width: 16,
-          ),
-          Expanded(
-              flex: 2,
-              child: GestureDetector(
-                  onTap: () => setState(() {
-                        editProgress.progress =
-                            widget.userChallenge.acceptanceCriteria.amount;
-                        amountTextEditingController.text =
-                            UtilService.doubleAsIntString(editProgress.progress)
-                                .toString();
-                      }),
-                  child: const CustomContainerComponent(
-                      child: Center(
-                    child: Text('100%'),
-                  )))),
-          const SizedBox(
-            width: 16,
-          ),
-        ],
-      ),
-    );
-  }
-
-  amountAndUnit() {
-    return SpaceColumnComponent(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-        child: Row(
-          children: [
-            Expanded(
-                flex: 1,
-                child: CustomContainerComponent(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: TextField(
-                      textAlign: TextAlign.end,
-                      controller: amountTextEditingController
-                        ..text =
-                            UtilService.doubleAsIntString(editProgress.progress)
-                                .toString(),
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),
-                        TextInputFormatter.withFunction(
-                          (oldValue, newValue) => newValue.copyWith(
-                            text: newValue.text.replaceAll(',', '.'),
-                          ),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          double number = 0;
-                          if (value.endsWith('.')) {
-                            number = double.parse(value.split('.')[0]);
-                            editProgress.progress = number;
-                          } else if (value == '') {
-                            editProgress.progress = 0;
-                          } else {
-                            number = double.parse(value);
-                            editProgress.progress = number;
-                          }
-                        });
-                      },
-                      decoration:
-                          const InputDecoration.collapsed(hintText: '0'),
-                    ),
-                  ),
-                )),
-            const SizedBox(
-              width: 16,
-              child: Center(
-                child: Text(
-                  '/',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-            Expanded(
-                flex: 2,
-                child: CustomContainerComponent(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: TextField(
-                      enabled: false,
-                      style: const TextStyle(color: Colors.grey),
-                      controller: TextEditingController()
-                        ..text =
-                            '${UtilService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}',
-                      decoration:
-                          const InputDecoration.collapsed(hintText: 'Unit'),
-                    ),
-                  ),
-                )),
-          ],
-        ),
-      ),
-    );
   }
 
   onTapUploadMedia() async {

@@ -1,5 +1,4 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/globals.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/services/util_service.dart';
@@ -9,6 +8,7 @@ import 'package:challenge/ui/components/simple_components/container_in_container
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 // import 'dart:math';
@@ -111,12 +111,12 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
         child: Row(children: [
       Text(
         '${widget.progress.mediaIds.length} ',
-        style: const TextStyle(fontSize: 10, color: themeColor3),
+        style: Theme.of(context).textTheme.bodySmall,
       ),
-      const Icon(
+      Icon(
         Icons.inventory_2_outlined,
-        size: 10,
-        color: themeColor3,
+        size: Theme.of(context).textTheme.bodySmall?.fontSize,
+        color: Theme.of(context).colorScheme.tertiary,
       ),
     ]));
   }
@@ -142,7 +142,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
               child: Center(
                   child: Icon(
                 IconEnum.delete.icon,
-                color: red,
+                color: Theme.of(context).colorScheme.red,
               )),
             ),
           ),

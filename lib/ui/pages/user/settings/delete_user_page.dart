@@ -6,6 +6,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +85,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                   text: 'Delete',
                   isLoading: isLoading,
                   isMainButton: false,
-                  textColor: Colors.red[300]!),
+                  textColor: Theme.of(context).colorScheme.red.withAlpha(200)),
             ),
           ],
         ),
