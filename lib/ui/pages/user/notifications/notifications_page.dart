@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_notification_component.dart';
@@ -60,7 +62,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           return SpaceColumnComponent(
             child: ListItemNotificationComponent(
               notification: notification,
-              onTap: () => print('Notification tapped'),
+              onTap: () => log('Notification tapped'),
             ),
           );
         },
