@@ -31,6 +31,7 @@
   "conventionalCommits.scopes": [
     "pagination",
     "general",
-    "notifications"
+    "notifications",
+    "block_user"
   ]
 }

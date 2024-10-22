@@ -1,6 +1,8 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -13,6 +15,7 @@ import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SearchUserPage extends StatefulWidget {
   final String preTitle;
@@ -48,6 +51,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   bool isLoading = false;
 
+  final panelController = PanelController();
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -61,38 +66,51 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBarComponent(preTitle: widget.preTitle),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: PageView(
-            controller: pageController,
-            onPageChanged: onPageChanged,
-            scrollDirection: Axis.vertical,
-            children: widget.users.map(
-              (user) {
-                return Builder(builder: (context) {
-                  return CardComponent(
-                    scrollPhysics: isKeyboardUp
-                        ? const AlwaysScrollableScrollPhysics()
-                        : widget.users.length == 1
-                            ? const AlwaysScrollableScrollPhysics()
-                            : const NeverScrollableScrollPhysics(),
-                    children: [
-                      profilePicture(user),
-                      usernameAndMore(user),
-                      bio(user),
-                      challengesAndConnections(user),
-                      expandedSpace(),
-                      connect(user)
-                    ],
-                  );
-                });
-              },
-            ).toList()),
+    BorderRadiusGeometry radius = const BorderRadius.only(
+      topLeft: Radius.circular(24.0),
+      topRight: Radius.circular(24.0),
+    );
+    return SlidingUpPanel(
+      controller: panelController,
+      minHeight: 0,
+      maxHeight: MediaQuery.of(context).size.height * 0.3,
+      backdropEnabled: true,
+      panel: panel(),
+      borderRadius: radius,
+      padding: const EdgeInsets.only(top: 10),
+      body: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBarComponent(preTitle: widget.preTitle),
+        backgroundColor: Colors.white,
+        body: Center(
+          child: PageView(
+              controller: pageController,
+              onPageChanged: onPageChanged,
+              scrollDirection: Axis.vertical,
+              children: widget.users.map(
+                (user) {
+                  return Builder(builder: (context) {
+                    return CardComponent(
+                      scrollPhysics: isKeyboardUp
+                          ? const AlwaysScrollableScrollPhysics()
+                          : widget.users.length == 1
+                              ? const AlwaysScrollableScrollPhysics()
+                              : const NeverScrollableScrollPhysics(),
+                      children: [
+                        profilePicture(user),
+                        usernameAndMore(user),
+                        bio(user),
+                        challengesAndConnections(user),
+                        expandedSpace(),
+                        connect(user)
+                      ],
+                    );
+                  });
+                },
+              ).toList()),
+        ),
+        bottomNavigationBar: const BottomNavigationComponent(),
       ),
-      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 
@@ -222,9 +240,10 @@ class _SearchUserPageState extends State<SearchUserPage> {
           const SpaceComponent(),
           TapContainerComponent(
             isQuadratic: true,
+            onTap: onTapMore,
             child: Center(
               child: Icon(
-                Icons.more_horiz_rounded,
+                IconEnum.more.icon,
                 color: Theme.of(context).colorScheme.tertiary,
               ),
             ),
@@ -260,6 +279,36 @@ class _SearchUserPageState extends State<SearchUserPage> {
         userPictureUrl: user.pictureUrl,
         size: 100,
       ),
+    );
+  }
+
+  onTapMore() {
+    panelController.open();
+  }
+
+  panel() {
+    return Column(
+      children: [
+        const SpaceComponent(
+          height: 5,
+        ),
+        SpaceColumnComponent(
+          child: Center(
+              child: Container(
+            width: 40,
+            height: 5,
+            decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiary,
+                borderRadius: const BorderRadius.all(Radius.circular(24))),
+          )),
+        ),
+        SpaceColumnComponent(
+            child: ListItemIconTextComponent(
+                icon: IconEnum.blockedUsers.icon, title: 'Block User')),
+        SpaceColumnComponent(
+            child: ListItemIconTextComponent(
+                icon: IconEnum.reportUser.icon, title: 'Report User')),
+      ],
     );
   }
 }

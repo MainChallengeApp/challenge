@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 class BottomNavigationComponent extends StatefulWidget {
   static const double standardMargin = 24;
+  static const double standardBorderRadius = 24;
 
   const BottomNavigationComponent({super.key});
 
@@ -34,7 +35,8 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
               height: 81,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.primary,
-                borderRadius: const BorderRadius.all(Radius.circular(24)),
+                borderRadius: const BorderRadius.all(Radius.circular(
+                    BottomNavigationComponent.standardBorderRadius)),
               ),
               child: Container(
                 padding: const EdgeInsets.only(top: 12),

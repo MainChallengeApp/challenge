@@ -9,6 +9,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/user/settings/blocked_users_page.dart';
 import 'package:challenge/ui/pages/user/settings/credits_page.dart';
 import 'package:challenge/ui/pages/user/settings/delete_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
@@ -88,6 +89,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: 'Credits'),
           ),
           SpaceColumnComponent(
+              child: ListItemIconTextComponent(
+            icon: IconEnum.blockedUsers.icon,
+            title: 'Blocked Users',
+            onTap: onTapBlockedUsers,
+          )),
+          SpaceColumnComponent(
             child: ListItemIconTextComponent(
                 onTap: onTapLogout,
                 icon: Icons.logout_rounded,
@@ -160,6 +167,17 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => DeleteUserPage(
+          preTitle: '${widget.preTitle}/$title',
+        ),
+      ),
+    );
+  }
+
+  void onTapBlockedUsers() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => BlockedUsersPage(
           preTitle: '${widget.preTitle}/$title',
         ),
       ),

@@ -90,7 +90,8 @@ class _UserPageState extends State<UserPage> {
               scrollPhysics: const AlwaysScrollableScrollPhysics(),
               scrollController: scrollController,
               children: [
-                pictureAndUsername(user),
+                profilePicture(user),
+                username(user),
                 bio(user),
                 challengesAndConnections(user),
                 expandedSpace(),
@@ -135,7 +136,6 @@ class _UserPageState extends State<UserPage> {
           )
         : user.bio != null && user.bio!.isNotEmpty
             ? SpaceColumnComponent(
-                heightMultiplier: 2,
                 child: bioComponent,
               )
             : Container();
@@ -210,27 +210,17 @@ class _UserPageState extends State<UserPage> {
     return isBioExpanded ? Container() : Expanded(child: Container());
   }
 
-  pictureAndUsername(UserModel user) {
+  username(UserModel user) {
     return SpaceColumnComponent(
-      child: Row(
-        children: [
-          UserPictureMinComponent(
-            userPictureUrl: user.pictureUrl,
-            onTap: onTapPicture,
-          ),
-          const SpaceComponent(),
-          Expanded(
-              child: TapContainerComponent(
-                  onTap: onTapUsername,
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        '@${user.username}',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.textInputSmall,
-                      )))),
-        ],
-      ),
+      child: TapContainerComponent(
+          onTap: onTapUsername,
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '@${user.username}',
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.textInputSmall,
+              ))),
     );
   }
 
@@ -295,5 +285,15 @@ class _UserPageState extends State<UserPage> {
             user: user,
           ),
         ));
+  }
+
+  profilePicture(UserModel user) {
+    return SpaceColumnComponent(
+      child: UserPictureMinComponent(
+        userPictureUrl: user.pictureUrl,
+        onTap: onTapPicture,
+        size: 100,
+      ),
+    );
   }
 }
