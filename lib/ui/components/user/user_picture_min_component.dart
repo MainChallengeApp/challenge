@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 
 class UserPictureMinComponent extends StatefulWidget {
   final String? userPictureUrl;
+  final double? size;
   final Function()? onTap;
 
   const UserPictureMinComponent(
-      {super.key, required this.userPictureUrl, this.onTap});
+      {super.key, required this.userPictureUrl, this.onTap, this.size});
 
   @override
   State<UserPictureMinComponent> createState() =>
@@ -25,6 +26,7 @@ class _UserPictureMinComponentState extends State<UserPictureMinComponent> {
     return TapContainerComponent(
       onTap: widget.onTap,
       isQuadratic: true,
+      height: widget.size,
       backgroundColor: Colors.white,
       padding: const EdgeInsets.all(0),
       child: ClipRRect(

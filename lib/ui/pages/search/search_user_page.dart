@@ -80,7 +80,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
                             ? const AlwaysScrollableScrollPhysics()
                             : const NeverScrollableScrollPhysics(),
                     children: [
-                      pictureAndUsername(user),
+                      profilePicture(user),
+                      usernameAndMore(user),
                       bio(user),
                       challengesAndConnections(user),
                       expandedSpace(),
@@ -127,7 +128,6 @@ class _SearchUserPageState extends State<SearchUserPage> {
           )
         : user.bio != null && user.bio!.isNotEmpty
             ? SpaceColumnComponent(
-                heightMultiplier: 2,
                 child: bioComponent,
               )
             : Container();
@@ -149,7 +149,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
                     ),
                     Text(
                       'Challenges',
-                      style: TextStyle(fontSize: 9),
+                      style: TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -166,7 +166,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
                     ),
                     Text(
                       'Connections',
-                      style: TextStyle(fontSize: 9),
+                      style: TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -207,14 +207,10 @@ class _SearchUserPageState extends State<SearchUserPage> {
     return isBioExpanded ? Container() : Expanded(child: Container());
   }
 
-  pictureAndUsername(UserModel user) {
+  usernameAndMore(UserModel user) {
     return SpaceColumnComponent(
       child: Row(
         children: [
-          UserPictureMinComponent(
-            userPictureUrl: user.pictureUrl,
-          ),
-          const SpaceComponent(),
           Expanded(
               child: TapContainerComponent(
                   child: Align(
@@ -223,6 +219,16 @@ class _SearchUserPageState extends State<SearchUserPage> {
                         '@${user.username}',
                         overflow: TextOverflow.ellipsis,
                       )))),
+          const SpaceComponent(),
+          TapContainerComponent(
+            isQuadratic: true,
+            child: Center(
+              child: Icon(
+                Icons.more_horiz_rounded,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -246,5 +252,14 @@ class _SearchUserPageState extends State<SearchUserPage> {
     setState(() {
       isLoading = false;
     });
+  }
+
+  profilePicture(UserModel user) {
+    return SpaceColumnComponent(
+      child: UserPictureMinComponent(
+        userPictureUrl: user.pictureUrl,
+        size: 100,
+      ),
+    );
   }
 }
