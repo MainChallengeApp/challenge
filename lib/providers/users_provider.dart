@@ -26,7 +26,7 @@ class UsersProvider with ChangeNotifier {
   bool _isEndOfSearchedListReached = false;
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
 
-  final int paginationLimit = 5;
+  final int paginationLimit = 10;
 
   NotificationsProvider notificationsProvider;
 

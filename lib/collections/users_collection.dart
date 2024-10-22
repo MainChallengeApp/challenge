@@ -85,6 +85,11 @@ class UsersCollection extends Collection {
     try {
       final idsToFetch = loadedSearchUsers.take(10).map((e) => e.id).toList();
 
+      if (idsToFetch.isEmpty) {
+        idsToFetch.add('123'); // Add an string to prevent an error
+        idsToFetch.add('456'); // Add an string to prevent an error
+      }
+
       final querySnapshot = await db
           .collection(name)
           .where(FieldPath.documentId, whereIn: idsToFetch)
