@@ -24,8 +24,10 @@ void main() async {
           notificationsProvider:
               Provider.of<NotificationsProvider>(context, listen: false),
         ),
-        update: (context, notificationsProvider, previousUsersProvider) =>
-            UsersProvider(notificationsProvider: notificationsProvider),
+        update: (context, notificationsProvider, previousUsersProvider) {
+          return previousUsersProvider ??
+              UsersProvider(notificationsProvider: notificationsProvider);
+        },
       ),
     ],
     child: const MyApp(),

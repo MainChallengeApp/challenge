@@ -34,6 +34,7 @@ class _ListItemMediaSmallComponentState
         child: Text(
           widget.media.title,
           overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.titleMedium,
         ));
 
     // ListItemContainerComponent(

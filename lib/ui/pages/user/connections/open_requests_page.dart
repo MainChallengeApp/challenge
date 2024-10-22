@@ -4,6 +4,7 @@ import 'package:challenge/ui/components/list_items/list_item_search_bar_componen
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/search/search_user_page.dart';
@@ -57,6 +58,7 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
       body: Column(
         children: [searchBar(), connectionsList()],
       ),
+      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 

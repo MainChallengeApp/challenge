@@ -51,15 +51,16 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const SpaceColumnComponent(
+                    SpaceColumnComponent(
                       child: CustomContainerComponent(
                         borderRadius: CardComponent.standardBorderRadius,
-                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        margin: const EdgeInsets.symmetric(horizontal: 20),
                         height: 150,
                         child: Center(
                           child: Text(
                             'This action will delete all your data and cannot be undone.\n\nPlease enter your password to delete your user.',
                             textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ),
                       ),

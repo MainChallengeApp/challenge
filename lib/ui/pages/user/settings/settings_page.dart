@@ -32,8 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
   ScrollController scrollController = ScrollController();
 
   AuthService authService = AuthService();
-  late final UsersProvider usersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: true);
   late UserChallengesProvider userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
 
