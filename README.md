@@ -18,6 +18,11 @@ run `flutter test`
 
 run `./scripts/test_watch.sh`
 
+### Upload to TestFlight
+
+1. [update the version](#updating-version)
+2. push to test
+
 ## Updating Version
 
 1. run `./scripts/update_version.sh <'major' | 'minor' | 'patch'| 'build'>`
@@ -26,18 +31,20 @@ run `./scripts/test_watch.sh`
 
 ### Apple AppStore
 
-1. open the project in Xcode
-2. select 'Any iOS Device (arm64)' as Runner
-3. click on Product>Archive
-4. click through and wait till its done
-5. login to https://appstoreconnect.apple.com/
-6. create new version
-7. select the new build version (this can take a while)
-8. adjust every other field
+1. [update the version](#updating-version)
+2. push to prod
+3. login to [AppStore Connect](https://appstoreconnect.apple.com/)
+4. create new version
+5. select the new build version (this can take a while)
+6. adjust every other field
 
 ### Google PlayStore
 
 1. to be implemented...
+
+## CI/CD or just Pipelines
+
+We use [CodeMagic](https://codemagic.io/)
 
 ## Common Errors
 
@@ -47,7 +54,7 @@ run `./scripts/test_watch.sh`
 
 first: try opening the xcode project with the file **ios/Runner.xcworkspace**.
 
-else: https://stackoverflow.com/questions/76595364/flutter-parse-issue-xcode-module-camera-avfoundation-not-found
+else: [StackOverflow](https://stackoverflow.com/questions/76595364/flutter-parse-issue-xcode-module-camera-avfoundation-not-found)
 
 - Backup the current native folders(renaming./android and ./iOS)
 - Close Xcode
