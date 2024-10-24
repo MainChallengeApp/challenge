@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -21,7 +23,7 @@ class SearchUserPage extends StatefulWidget {
   final String preTitle;
   final List<UserModel> users;
   final String initUserId;
-  final String searchText;
+  final String? searchText;
   final bool isListPaginated;
 
   const SearchUserPage(
@@ -29,7 +31,7 @@ class SearchUserPage extends StatefulWidget {
       required this.preTitle,
       required this.users,
       required this.initUserId,
-      required this.searchText,
+      this.searchText,
       this.isListPaginated = true});
 
   @override
@@ -66,17 +68,16 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    BorderRadiusGeometry radius = const BorderRadius.only(
-      topLeft: Radius.circular(24.0),
-      topRight: Radius.circular(24.0),
-    );
     return SlidingUpPanel(
       controller: panelController,
       minHeight: 0,
       maxHeight: MediaQuery.of(context).size.height * 0.3,
       backdropEnabled: true,
       panel: panel(),
-      borderRadius: radius,
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(24.0),
+        topRight: Radius.circular(24.0),
+      ),
       padding: const EdgeInsets.only(top: 10),
       body: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -102,7 +103,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
                         bio(user),
                         challengesAndConnections(user),
                         expandedSpace(),
-                        connect(user)
+                        actionButton(user)
                       ],
                     );
                   });
@@ -289,6 +290,14 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   panel() {
+    if (widget.users.isEmpty) {
+      return;
+    }
+    String userId = pageController.hasClients
+        ? widget
+            .users[min(pageController.page!.round(), widget.users.length - 1)]
+            .id
+        : widget.initUserId;
     return Column(
       children: [
         const SpaceComponent(
@@ -305,10 +314,15 @@ class _SearchUserPageState extends State<SearchUserPage> {
           )),
         ),
         SpaceColumnComponent(
-            child: ListItemIconTextComponent(
-                icon: IconEnum.blockedUsers.icon,
-                title: 'Block User',
-                onTap: onTapBlockUser)),
+            child: usersProvider.user.isBlocked(userId)
+                ? ListItemIconTextComponent(
+                    icon: IconEnum.blockedUsers.icon,
+                    title: 'Unblock User',
+                    onTap: () => onTapUnblock(userId))
+                : ListItemIconTextComponent(
+                    icon: IconEnum.blockedUsers.icon,
+                    title: 'Block User',
+                    onTap: () => onTapBlockUser(userId))),
         SpaceColumnComponent(
             child: ListItemIconTextComponent(
                 icon: IconEnum.reportUser.icon, title: 'Report User')),
@@ -316,9 +330,38 @@ class _SearchUserPageState extends State<SearchUserPage> {
     );
   }
 
-  void onTapBlockUser() {
+  void onTapBlockUser(String userId) {
     panelController.close();
-    String userId = usersProvider.searchUsers[pageController.page!.round()].id;
     usersProvider.blockUser(userId);
+  }
+
+  Future<void> onTapUnblock(String userId) async {
+    setState(() {
+      isLoading = true;
+    });
+    await usersProvider.unblockUser(userId);
+    if (widget.users.isEmpty) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      return;
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  actionButton(UserModel user) {
+    return usersProvider.user.isBlocked(user.id)
+        ? unblock(user)
+        : connect(user);
+  }
+
+  unblock(UserModel user) {
+    return CustomButtonComponent(
+      onTap: () => onTapUnblock(user.id),
+      isPrimaryButton: true,
+      isLoading: isLoading,
+      text: 'Unblock',
+    );
   }
 }

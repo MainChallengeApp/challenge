@@ -5,7 +5,9 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_component
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +21,8 @@ class BlockedUsersPage extends StatefulWidget {
 }
 
 class _BlockedUsersPageState extends State<BlockedUsersPage> {
+  String title = 'Blocked Users';
+
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
 
@@ -33,8 +37,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(
-          preTitle: widget.preTitle, titleText: 'Blocked Users'),
+      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
       backgroundColor: Colors.white,
       body: RefreshIndicatorComponent(
         onRefresh: () async {
@@ -60,7 +63,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
             UserModel user = listeningUsersProvider.blockedUsers[index - 1];
             return SpaceColumnComponent(
                 child: ListItemUserComponent(
-              onTap: () => {},
+              onTap: () => onTapUser(user),
               user: user,
             ));
           },
@@ -72,5 +75,18 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
   // TODO: Implement onTapAddBlockedUser
   void onTapAddBlockedUser() {
     throw UnimplementedError();
+  }
+
+  onTapUser(UserModel user) {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchUserPage(
+          preTitle: '${widget.preTitle}/$title',
+          users: listeningUsersProvider.blockedUsers,
+          initUserId: user.id,
+        ),
+      ),
+    );
   }
 }

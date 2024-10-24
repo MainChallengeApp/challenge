@@ -34,13 +34,22 @@ class UsersCollection extends Collection {
     }
   }
 
-  Future<List<UserModel>> getIncomingConnections(String userId) async {
+  Future<List<UserModel>> getIncomingConnections(
+      String userId, List<String> blockedUserIds) async {
     try {
       final querySnapshot = await db
           .collection(name)
           .where(UserModel.connectionIdsField, arrayContains: userId)
           .get();
-      return querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
+      List<UserModel> users =
+          querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
+      return users.map((user) {
+        // Filter out blocked users
+        if (blockedUserIds.contains(user.id)) {
+          return UserModel.empty();
+        }
+        return user;
+      }).toList();
     } on Exception {
       rethrow;
     }
@@ -65,9 +74,8 @@ class UsersCollection extends Collection {
       List<UserModel> users =
           querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
       return users.map((user) {
-        // Filter out blocked and blocking users
-        if (blockedUserIds.contains(user.id) ||
-            user.blockedUserIds.contains(userId)) {
+        // Filter out blocked users
+        if (blockedUserIds.contains(user.id)) {
           return UserModel.empty();
         }
         return user;

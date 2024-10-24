@@ -106,6 +106,10 @@ class UserModel {
     blockedUserIds.add(userId);
   }
 
+  void unblockUser(String userId) {
+    blockedUserIds.remove(userId);
+  }
+
   bool isEmpty() {
     // used for filtering out blocked users
     return id.isEmpty;

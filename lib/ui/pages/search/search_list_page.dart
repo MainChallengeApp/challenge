@@ -139,7 +139,14 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        await searchChallengesProvider.refresh();
+        if (isFilterOnChallenges) {
+          await searchChallengesProvider.getSearchedPaginated(
+              searchText: textEditingController.text,
+              categories: widget.categories);
+        } else {
+          await usersProvider.getSearchedPaginated(
+              searchText: textEditingController.text);
+        }
       },
       child: RawScrollbar(
         controller: scrollController,

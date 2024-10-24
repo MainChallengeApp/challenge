@@ -89,7 +89,7 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await usersCollection.update(otherUser);
 
-    await getConnections(notify: false);
+    await getConnections();
     notifyListeners();
   }
 
@@ -97,14 +97,15 @@ class UsersProvider with ChangeNotifier {
     await getUser(notify: false);
     _outgoingConnections =
         await usersCollection.getByUserIds(_user.connectionIds);
-    _incomingConnections =
-        await usersCollection.getIncomingConnections(_user.id);
+    _incomingConnections = await usersCollection.getIncomingConnections(
+        _user.id, _user.blockedUserIds);
+    _incomingConnections.removeWhere((user) => user.isEmpty());
     if (notify) {
       notifyListeners();
     }
   }
 
-  Future<void> getSearchedPaginated({String searchText = ''}) async {
+  Future<void> getSearchedPaginated({String? searchText}) async {
     try {
       if (!_isEndOfSearchedListReached) {
         final fetchedSearchUsers = await usersCollection.getSearchedPaginated(
@@ -113,7 +114,7 @@ class UsersProvider with ChangeNotifier {
             userId: _user.id,
             lastSearchedUser:
                 _searchUsers.isNotEmpty ? _searchUsers.last : null,
-            searchText: searchText);
+            searchText: searchText ?? '');
 
         _isEndOfSearchedListReached =
             fetchedSearchUsers.length < paginationLimit;
@@ -156,6 +157,13 @@ class UsersProvider with ChangeNotifier {
 
     blockedUsers.add(await usersCollection.getById(userId));
     _searchUsers.removeWhere((user) => user.id == userId);
+    notifyListeners();
+  }
+
+  Future<void> unblockUser(String userId) async {
+    _user.unblockUser(userId);
+    await usersCollection.update(_user);
+    blockedUsers.removeWhere((user) => user.id == userId);
     notifyListeners();
   }
 
