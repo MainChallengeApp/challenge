@@ -86,8 +86,8 @@ class UserModel {
     return username.toLowerCase().contains(searchBarText.toLowerCase());
   }
 
-  void connect(UserModel user) {
-    connectionIds.add(user.id);
+  void connect(String userId) {
+    connectionIds.add(userId);
   }
 
   void disconnect(String userId) {

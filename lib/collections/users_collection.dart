@@ -20,8 +20,8 @@ class UsersCollection extends Collection {
     }
   }
 
-  Future<void> update(UserModel userCopy) async {
-    await db.collection(name).doc(userCopy.id).update(userCopy.toDoc());
+  Future<void> update(UserModel user) async {
+    await db.collection(name).doc(user.id).update(user.toDoc());
   }
 
   Future<List<UserModel>> getByUserIds(List<String> userIds) async {

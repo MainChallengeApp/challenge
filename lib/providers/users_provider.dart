@@ -65,17 +65,15 @@ class UsersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> connectToUser(String userId) async {
-    UserModel otherUser = await usersCollection.getById(userId);
-    _user.connect(otherUser);
+  Future<void> connectToUser(String otherUserId) async {
+    _user.connect(otherUserId);
     await usersCollection.update(_user);
-    await usersCollection.update(otherUser);
     await getConnections(notify: false);
 
     RequestConnectionNotificationModel notification =
         RequestConnectionNotificationModel(
             title: '@${_user.username} wants to connect with you',
-            userId: otherUser.id,
+            userId: otherUserId,
             fromUserId: _user.id);
     await notificationsProvider.createNotification(notification);
 
