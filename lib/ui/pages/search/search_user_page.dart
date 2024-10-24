@@ -197,7 +197,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   connect(UserModel user) {
-    return listeningUsersProvider.user.outgoingConnectionIds.contains(user.id)
+    return listeningUsersProvider.outgoingConnections
+            .map((user) => user.id)
+            .contains(user.id)
         ? CustomButtonComponent(
             onTap: () => onTapDisconnect(user.id),
             isPrimaryButton: false,
@@ -304,11 +306,19 @@ class _SearchUserPageState extends State<SearchUserPage> {
         ),
         SpaceColumnComponent(
             child: ListItemIconTextComponent(
-                icon: IconEnum.blockedUsers.icon, title: 'Block User')),
+                icon: IconEnum.blockedUsers.icon,
+                title: 'Block User',
+                onTap: onTapBlockUser)),
         SpaceColumnComponent(
             child: ListItemIconTextComponent(
                 icon: IconEnum.reportUser.icon, title: 'Report User')),
       ],
     );
+  }
+
+  void onTapBlockUser() {
+    panelController.close();
+    String userId = usersProvider.searchUsers[pageController.page!.round()].id;
+    usersProvider.blockUser(userId);
   }
 }

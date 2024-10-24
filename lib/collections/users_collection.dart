@@ -20,47 +20,35 @@ class UsersCollection extends Collection {
     }
   }
 
-  Future<List<UserModel>> getAll() async {
+  Future<void> update(UserModel userCopy) async {
+    await db.collection(name).doc(userCopy.id).update(userCopy.toDoc());
+  }
+
+  Future<List<UserModel>> getByUserIds(List<String> userIds) async {
     try {
-      final querySnapshot = await db.collection(name).get();
+      List<DocumentSnapshot> docs = await Future.wait(
+          userIds.map((id) => db.collection(name).doc(id).get()));
+      return docs.map((doc) => UserModel.fromDoc(doc)).toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<UserModel>> getIncomingConnections(String userId) async {
+    try {
+      final querySnapshot = await db
+          .collection(name)
+          .where(UserModel.connectionIdsField, arrayContains: userId)
+          .get();
       return querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
     } on Exception {
       rethrow;
     }
   }
 
-  Future<List<UserModel>> getAllByUsernameContains(String username) async {
-    try {
-      final querySnapshot = await db.collection(name).get();
-      return querySnapshot.docs
-          .where((doc) =>
-              (doc[UserModel.usernameField] as String).contains(username))
-          .map((doc) => UserModel.fromDoc(doc))
-          .toList();
-    } on Exception {
-      rethrow;
-    }
-  }
-
-  Future<void> update(UserModel userCopy) async {
-    await db.collection(name).doc(userCopy.id).update(userCopy.toDoc());
-  }
-
-  Future<List<UserModel>> getByUserIds(List<String> userIds) async {
-    List<UserModel> users = [];
-    try {
-      for (String userId in userIds) {
-        final doc = await db.collection(name).doc(userId).get();
-        users.add(UserModel.fromDoc(doc));
-      }
-      return users;
-    } on Exception {
-      rethrow;
-    }
-  }
-
   Future<List<UserModel>> getSearchedPaginated(
-      {required int limit,
+      {required List<String> blockedUserIds,
+      required int limit,
       required String userId,
       UserModel? lastSearchedUser,
       required String searchText}) async {
@@ -74,7 +62,16 @@ class UsersCollection extends Collection {
           .startAfter([lastSearchedUser?.username ?? ''])
           .limit(limit)
           .get();
-      return querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
+      List<UserModel> users =
+          querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
+      return users.map((user) {
+        // Filter out blocked and blocking users
+        if (blockedUserIds.contains(user.id) ||
+            user.blockedUserIds.contains(userId)) {
+          return UserModel.empty();
+        }
+        return user;
+      }).toList();
     } on Exception {
       rethrow;
     }
@@ -83,7 +80,10 @@ class UsersCollection extends Collection {
   Future<List<UserModel>> refresh(
       {required List<UserModel> loadedSearchUsers}) async {
     try {
-      final idsToFetch = loadedSearchUsers.take(10).map((e) => e.id).toList();
+      final idsToFetch = loadedSearchUsers
+          .take(10)
+          .map((e) => e.id)
+          .toList(); // 10 is the limit of firebase
 
       if (idsToFetch.isEmpty) {
         idsToFetch.add('123'); // Add an string to prevent an error
@@ -109,5 +109,46 @@ class UsersCollection extends Collection {
     } on Exception {
       rethrow;
     }
+  }
+
+  // not used but maybe pagination for the future
+  Future<List<UserModel>> getUsersByIdsPaginated(
+      List<String> userIds, String? lastUserId) async {
+    final idsToFetch =
+        _getNextTenUsers(userIds, lastUserId); // 10 is the limit of firebase
+
+    if (idsToFetch.isEmpty) {
+      userIds.add('123'); // Add an string to prevent an error
+      userIds.add('456'); // Add an string to prevent an error
+    }
+
+    try {
+      final querySnapshot = await db
+          .collection(name)
+          .where(FieldPath.documentId, whereIn: userIds)
+          .get();
+      // Create a map of id to ChallengeModel for quick lookup
+      final usersMap = {
+        for (var doc in querySnapshot.docs) doc.id: UserModel.fromDoc(doc)
+      };
+
+      return idsToFetch
+          .map((id) => usersMap[id])
+          .where((user) => user != null)
+          .cast<UserModel>()
+          .toList();
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  List<String> _getNextTenUsers(List<String> userIds, String? lastUserId) {
+    if (lastUserId == null || !userIds.contains(lastUserId)) {
+      // If lastUserId is null or not in the list, return the first 10 entries (or less if the list is shorter)
+      return userIds.take(10).toList();
+    }
+
+    int startIndex = userIds.indexOf(lastUserId) + 1;
+    return userIds.skip(startIndex).take(10).toList();
   }
 }

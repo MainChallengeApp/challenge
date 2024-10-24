@@ -16,15 +16,17 @@ class UsersProvider with ChangeNotifier {
 
   List<UserModel> _searchUsers = [];
   List<UserModel> get searchUsers => _searchUsers;
-
-  final List<UserModel> _outgoingConnections = [];
-  List<UserModel> get outgoingConnections => _outgoingConnections;
-
-  final List<UserModel> _incomingConnections = [];
-  List<UserModel> get incomingConnections => _incomingConnections;
-
   bool _isEndOfSearchedListReached = false;
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
+
+  List<UserModel> _outgoingConnections = [];
+  List<UserModel> get outgoingConnections => _outgoingConnections;
+
+  List<UserModel> _incomingConnections = [];
+  List<UserModel> get incomingConnections => _incomingConnections;
+
+  List<UserModel> _blockedUsers = [];
+  List<UserModel> get blockedUsers => _blockedUsers;
 
   final int paginationLimit = 10;
 
@@ -63,21 +65,6 @@ class UsersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<UserModel>> searchUsersByUsername(String username) async {
-    _searchUsers.clear();
-    _searchUsers
-        .addAll(await usersCollection.getAllByUsernameContains(username));
-    notifyListeners();
-    return _searchUsers;
-  }
-
-  void getAll() async {
-    _searchUsers = await usersCollection.getAll();
-    _searchUsers
-        .removeWhere((user) => user.id == authService.getCurrentUserId());
-    notifyListeners();
-  }
-
   Future<void> connectToUser(String userId) async {
     UserModel otherUser = await usersCollection.getById(userId);
     _user.connect(otherUser);
@@ -110,13 +97,10 @@ class UsersProvider with ChangeNotifier {
 
   Future<void> getConnections({bool notify = true}) async {
     await getUser(notify: false);
-    _outgoingConnections.clear();
-    _outgoingConnections.addAll(
-        await usersCollection.getByUserIds(_user.outgoingConnectionIds));
-    _incomingConnections.clear();
-    _incomingConnections.addAll(
-        await usersCollection.getByUserIds(_user.incomingConnectionIds));
-
+    _outgoingConnections =
+        await usersCollection.getByUserIds(_user.connectionIds);
+    _incomingConnections =
+        await usersCollection.getIncomingConnections(_user.id);
     if (notify) {
       notifyListeners();
     }
@@ -126,6 +110,7 @@ class UsersProvider with ChangeNotifier {
     try {
       if (!_isEndOfSearchedListReached) {
         final fetchedSearchUsers = await usersCollection.getSearchedPaginated(
+            blockedUserIds: _user.blockedUserIds,
             limit: paginationLimit,
             userId: _user.id,
             lastSearchedUser:
@@ -134,6 +119,8 @@ class UsersProvider with ChangeNotifier {
 
         _isEndOfSearchedListReached =
             fetchedSearchUsers.length < paginationLimit;
+
+        fetchedSearchUsers.removeWhere((user) => user.isEmpty());
 
         _searchUsers.addAll(fetchedSearchUsers);
 
@@ -161,5 +148,23 @@ class UsersProvider with ChangeNotifier {
     } on Exception {
       rethrow;
     }
+  }
+
+  Future<void> blockUser(String userId) async {
+    await disconnectFromUser(userId);
+
+    _user.blockUser(userId);
+    await usersCollection.update(_user);
+
+    blockedUsers.add(await usersCollection.getById(userId));
+    _searchUsers.removeWhere((user) => user.id == userId);
+    notifyListeners();
+  }
+
+  // TODO: maybe paginate in future
+  Future<void> getBlockedUser() async {
+    await getUser(notify: false);
+    _blockedUsers = await usersCollection.getByUserIds(_user.blockedUserIds);
+    notifyListeners();
   }
 }

@@ -94,7 +94,7 @@ class _ListItemChallengeSmallComponentState
 
   percentageDone() {
     return ChallengeTotalPercentageComponent(
-      padding: const EdgeInsets.all(7),
+      padding: const EdgeInsets.all(8),
       challenge: widget.challenge,
       isVisible: !widget.isSearch && !widget.challenge.isInBacklog(),
     );

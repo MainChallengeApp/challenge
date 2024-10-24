@@ -482,7 +482,7 @@ class ChallengeModel {
         getCurrentRepetitionNumber() != frequency.getMaxAmountOfRepetitions();
   }
 
-  endsIn() {
+  String endsIn() {
     if (frequency.type == FrequencyTypeEnum.daily) {
       RepetitionModel? currentRepetition = getCurrentRepetition();
       Duration difference = currentRepetition?.endDate != null

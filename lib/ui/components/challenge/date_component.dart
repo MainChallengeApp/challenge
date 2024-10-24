@@ -42,8 +42,8 @@ class _DateComponentState extends State<DateComponent> {
                     widget.text,
                     style: Theme.of(context)
                         .textTheme
-                        .titleSmall
-                        ?.copyWith(color: widget.textColor),
+                        .textInputSmall
+                        .copyWith(color: widget.textColor),
                   ),
                   Text(
                     (widget.date != null ? _dateFormat(widget.date!) : '-'),

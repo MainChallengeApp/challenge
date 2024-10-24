@@ -30,7 +30,7 @@ ThemeData lightTheme = ThemeData(
     titleMedium: TextStyle(
         fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
     titleSmall: TextStyle(
-        fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
+        fontSize: 11, fontWeight: FontWeight.bold, color: Colors.black),
     bodyMedium: TextStyle(
         fontSize: 13, fontWeight: FontWeight.normal, color: _themeColor3),
     bodySmall: TextStyle(

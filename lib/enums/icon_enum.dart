@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 enum IconEnum {
+  add(Icons.add_rounded),
   bio(Icons.notes_rounded),
   blockedUsers(Icons.block_rounded),
   connect(Icons.group_add_rounded),

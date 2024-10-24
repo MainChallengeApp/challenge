@@ -13,47 +13,46 @@ class UserModel {
   String? bio;
   static const String bioField = 'bio';
 
-  List<String> outgoingConnectionIds;
-  static const String outgoingConnectionIdsField = 'outgoingConnectionIds';
+  List<String> connectionIds;
+  static const String connectionIdsField = 'connectionIds';
 
-  List<String> incomingConnectionIds;
-  static const String incomingConnectionIdsField = 'incomingConnectionIds';
+  List<String> blockedUserIds;
+  static const String blockedUserIdsField = 'blockedUserIds';
 
   UserModel({
     required this.id,
     required this.username,
     this.pictureUrl,
     this.bio,
-    List<String>? outgoingConnectionIds,
-    List<String>? incomingConnectionIds,
-  })  : outgoingConnectionIds = outgoingConnectionIds ?? [],
-        incomingConnectionIds = incomingConnectionIds ?? [];
+    List<String>? connectionIds,
+    List<String>? blockedUserIds,
+  })  : connectionIds = connectionIds ?? [],
+        blockedUserIds = blockedUserIds ?? [];
 
   UserModel.empty()
       : id = '',
         username = '',
         pictureUrl = null,
         bio = null,
-        outgoingConnectionIds = [],
-        incomingConnectionIds = [];
+        connectionIds = [],
+        blockedUserIds = [];
 
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
-      return UserModel(
+      var user = UserModel(
           id: doc.id,
           username: doc[usernameField],
           pictureUrl: (doc.data() as Map).containsKey(pictureUrlField)
               ? doc[pictureUrlField]
               : null,
           bio: (doc.data() as Map).containsKey(bioField) ? doc[bioField] : null,
-          outgoingConnectionIds:
-              (doc.data() as Map).containsKey(outgoingConnectionIdsField)
-                  ? List.from(doc[outgoingConnectionIdsField])
-                  : [],
-          incomingConnectionIds:
-              (doc.data() as Map).containsKey(incomingConnectionIdsField)
-                  ? List.from(doc[incomingConnectionIdsField])
-                  : []);
+          connectionIds: (doc.data() as Map).containsKey(connectionIdsField)
+              ? List.from(doc[connectionIdsField])
+              : [],
+          blockedUserIds: (doc.data() as Map).containsKey(blockedUserIdsField)
+              ? List.from(doc[blockedUserIdsField])
+              : []);
+      return user;
     } on Exception {
       rethrow;
     }
@@ -64,8 +63,8 @@ class UserModel {
       usernameField: username,
       pictureUrlField: pictureUrl,
       bioField: bio,
-      outgoingConnectionIdsField: outgoingConnectionIds,
-      incomingConnectionIdsField: incomingConnectionIds
+      connectionIdsField: connectionIds,
+      blockedUserIdsField: blockedUserIds
     };
   }
 
@@ -75,7 +74,8 @@ class UserModel {
         username: username,
         pictureUrl: pictureUrl,
         bio: bio,
-        outgoingConnectionIds: List<String>.from(outgoingConnectionIds));
+        connectionIds: List<String>.from(connectionIds),
+        blockedUserIds: List<String>.from(blockedUserIds));
   }
 
   hasPicture() {
@@ -87,16 +87,27 @@ class UserModel {
   }
 
   void connect(UserModel user) {
-    outgoingConnectionIds.add(user.id);
-    user.incomingConnectionIds.add(id);
+    connectionIds.add(user.id);
   }
 
   void disconnect(String userId) {
-    outgoingConnectionIds.remove(userId);
-    incomingConnectionIds.remove(userId);
+    connectionIds.remove(userId);
   }
 
   bool isConnectedWith(String userId) {
-    return outgoingConnectionIds.contains(userId);
+    return connectionIds.contains(userId);
+  }
+
+  bool isBlocked(String userId) {
+    return blockedUserIds.contains(userId);
+  }
+
+  void blockUser(String userId) {
+    blockedUserIds.add(userId);
+  }
+
+  bool isEmpty() {
+    // used for filtering out blocked users
+    return id.isEmpty;
   }
 }

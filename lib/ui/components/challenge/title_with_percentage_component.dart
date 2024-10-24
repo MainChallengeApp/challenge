@@ -26,13 +26,10 @@ class TitleWithPercentageComponent extends StatelessWidget {
         const SpaceComponent(
           width: CardComponent.standardPadding,
         ),
-        Visibility(
-          visible: !challenge.isInBacklog(),
-          child: ChallengeTotalPercentageComponent(
-              challenge: challenge,
-              isVisible: !isSearch,
-              padding: const EdgeInsets.all(7)),
-        )
+        ChallengeTotalPercentageComponent(
+            challenge: challenge,
+            isVisible: !isSearch && !challenge.isInBacklog(),
+            padding: const EdgeInsets.all(8))
       ],
     );
   }

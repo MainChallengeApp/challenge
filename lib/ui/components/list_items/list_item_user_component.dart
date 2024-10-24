@@ -15,11 +15,11 @@ class ListItemUserComponent extends StatefulWidget {
     required this.onTap,
     required this.user,
     this.isSearch = false,
-    required this.onTapConnect,
+    this.onTapConnect,
   });
 
   final dynamic Function() onTap;
-  final Function() onTapConnect;
+  final Function()? onTapConnect;
   final UserModel user;
   final bool isSearch;
 
@@ -56,20 +56,22 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
   }
 
   ActionPane? endActionPane(Function closeSlidable) {
-    return ActionPane(
-        extentRatio: 0.22,
-        motion: const ScrollMotion(),
-        // dismissible: DismissiblePane(
-        //   onDismissed: () {
-        //     log('delete');
-        //   },
-        // ),
-        children: [
-          connectSlider(closeSlidable),
-          const SpaceComponent(
-            width: 20,
-          )
-        ]);
+    return widget.onTapConnect == null
+        ? null
+        : ActionPane(
+            extentRatio: 0.22,
+            motion: const ScrollMotion(),
+            // dismissible: DismissiblePane(
+            //   onDismissed: () {
+            //     log('delete');
+            //   },
+            // ),
+            children: [
+                connectSlider(closeSlidable),
+                const SpaceComponent(
+                  width: 20,
+                )
+              ]);
   }
 
   connectSlider(Function closeSlidable) {
@@ -86,7 +88,7 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
           } else {
             usersProvider.connectToUser(widget.user.id);
           }
-          widget.onTapConnect.call();
+          widget.onTapConnect?.call();
         },
         child: Center(
             child: Icon(

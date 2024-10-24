@@ -10,9 +10,9 @@ class DatabaseService {
   Future<void> deleteUserFromDatabase(String currentUserId) async {
     WriteBatch batch = db.batch();
 
-    deleteUser(currentUserId, batch);
-
     deleteUserConnections(currentUserId, batch);
+
+    deleteUser(currentUserId, batch);
 
     await deleteUserChallenges(currentUserId, batch);
 
@@ -41,8 +41,7 @@ class DatabaseService {
       String currentUserId, WriteBatch batch) async {
     QuerySnapshot querySnapshot = await db
         .collection(UsersCollection.collectionName)
-        .where(UserModel.outgoingConnectionIdsField,
-            arrayContains: currentUserId)
+        .where(UserModel.connectionIdsField, arrayContains: currentUserId)
         .get();
 
     for (QueryDocumentSnapshot doc in querySnapshot.docs) {
