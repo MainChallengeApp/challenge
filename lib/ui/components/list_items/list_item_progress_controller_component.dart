@@ -115,6 +115,9 @@ class _ListItemProgressControllerComponentState
         flex: 1,
         child: TapContainerComponent(
             onLongPress: () {
+							if(widget.editProgress.progress >= widget.editProgress.goal) {
+								return;
+							}
               timer = Timer.periodic(
                   Duration(
                       milliseconds: (200 * log(widget.editProgress.goal)) ~/
