@@ -292,7 +292,6 @@ class _UserPageState extends State<UserPage> {
       child: UserPictureMinComponent(
         userPictureUrl: user.pictureUrl,
         onTap: onTapPicture,
-        size: 100,
       ),
     );
   }

@@ -280,7 +280,6 @@ class _SearchUserPageState extends State<SearchUserPage> {
     return SpaceColumnComponent(
       child: UserPictureMinComponent(
         userPictureUrl: user.pictureUrl,
-        size: 100,
       ),
     );
   }
