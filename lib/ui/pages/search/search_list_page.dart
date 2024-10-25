@@ -203,7 +203,12 @@ class _SearchListPageState extends State<SearchListPage> {
 
               if (index == searchedUsers.length) {
                 return listeningUsersProvider.isEndOfSearchedListReached
-                    ? const SizedBox()
+                    ? SpaceColumnComponent(
+                        child: ListItemIconTextComponent(
+                        onTap: () => {},
+                        icon: Icons.add,
+                        title: 'Invite Friend',
+                      ))
                     : const Center(
                         child: SpaceColumnComponent(
                             child: LoadingCircleComponent()),
