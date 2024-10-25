@@ -34,16 +34,12 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
-  List<UserModel> openConnectionRequests = [];
   List<UserModel> filteredOpenConnectionRequests = [];
 
   @override
   Widget build(BuildContext context) {
-    openConnectionRequests = listeningUsersProvider.outgoingConnections
-        .where(
-            (connection) => !connection.isConnectedWith(usersProvider.user.id))
-        .toList();
-    filteredOpenConnectionRequests = openConnectionRequests
+    filteredOpenConnectionRequests = listeningUsersProvider
+        .openConnectionRequests
         .where((connectionRequest) => connectionRequest.username
             .toLowerCase()
             .contains(searchTextEditingController.text.toLowerCase()))
@@ -102,7 +98,7 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
         builder: (context) => SearchUserPage(
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
-          users: filteredOpenConnectionRequests,
+          getUsersList: () => listeningUsersProvider.openConnectionRequests,
           searchText: searchTextEditingController.text,
           isListPaginated: false,
         ),

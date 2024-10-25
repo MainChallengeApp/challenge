@@ -94,8 +94,8 @@ class UserModel {
     connectionIds.remove(userId);
   }
 
-  bool isConnectedWith(String userId) {
-    return connectionIds.contains(userId);
+  bool isConnectedWith(UserModel user) {
+    return connectionIds.contains(user.id) && user.connectionIds.contains(id);
   }
 
   bool isBlocked(String userId) {

@@ -2,7 +2,6 @@ import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/categories/category_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -32,27 +31,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   late final searchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: false);
 
-  String searchBarText = '';
-
-  final mediaService = MediaService();
-
-  @override
-  void initState() {
-    super.initState();
-    // searchChallengesProvider.getAll().then((searchChallenges) {
-    //   for (var searchChallenge in searchChallenges) {
-    //     if (!searchChallenge.hasThumbnail() ||
-    //         mediaService.isUrlLocal(searchChallenge.thumbnail!.url)) {
-    //       continue;
-    //     }
-    //     precacheImage(
-    //         NetworkImage(searchChallenge.thumbnail!.url),
-    //         // ignore: use_build_context_synchronously
-    //         context);
-    //   }
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,9 +55,8 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           SpaceColumnComponent(
             child: ListItemSearchBarComponent(
               onTap: onTapSearchBar,
-              changeList: changeList,
               isEnabled: false,
-              textEditingController: TextEditingController(text: searchBarText),
+              textEditingController: TextEditingController(),
               hintText: 'Search for Challenges or Users...',
             ),
           ),
@@ -195,21 +172,13 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     ));
   }
 
-  changeList(String value) {
-    setState(() {
-      searchBarText = value;
-    });
-  }
-
   void onTapSearchBar() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
+        builder: (context) => const SearchListPage(
             preTitle: 'Search',
             title: 'All',
-            isFirstPageInRoute: false,
-            initialSearchText: searchBarText,
             isUserSearchActive: true,
             isSearchBarAutoFocus: true),
       ),
@@ -223,7 +192,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => SearchListPage(
           title: title,
           preTitle: 'Search',
-          isFirstPageInRoute: false,
           categories: categories,
         ),
       ),

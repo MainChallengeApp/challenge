@@ -75,8 +75,7 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
   }
 
   connectSlider(Function closeSlidable) {
-    bool isConnected =
-        listeningUsersProvider.user.isConnectedWith(widget.user.id);
+    bool isConnected = listeningUsersProvider.user.isConnectedWith(widget.user);
     return Expanded(
       child: TapContainerComponent(
         height: double.infinity,

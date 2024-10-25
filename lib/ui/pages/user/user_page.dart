@@ -51,10 +51,6 @@ class _UserPageState extends State<UserPage> {
 
   late UserModel user;
 
-  int amountOfChallenges = 0;
-
-  List<UserModel> outgoingConnections = [];
-
   bool isBioExpanded = false;
 
   @override
@@ -68,8 +64,6 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
-    amountOfChallenges = listeningUserChallengesProvider.userChallenges.length;
-    outgoingConnections = listeningUsersProvider.outgoingConnections;
     return Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.title,
@@ -160,7 +154,8 @@ class _UserPageState extends State<UserPage> {
                 child: Column(
                   children: [
                     Text(
-                      amountOfChallenges.toString(),
+                      listeningUserChallengesProvider.userChallenges.length
+                          .toString(),
                       style: Theme.of(context).textTheme.bodyMediumBlack,
                     ),
                     Text(
@@ -178,10 +173,7 @@ class _UserPageState extends State<UserPage> {
                 child: Column(
                   children: [
                     Text(
-                      outgoingConnections
-                          .where((outgoingConnection) =>
-                              outgoingConnection.isConnectedWith(user.id))
-                          .length
+                      listeningUsersProvider.confirmedConnections.length
                           .toString(),
                       style: Theme.of(context).textTheme.bodyMediumBlack,
                     ),

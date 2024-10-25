@@ -83,7 +83,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
           preTitle: '${widget.preTitle}/$title',
-          users: listeningUsersProvider.blockedUsers,
+          getUsersList: () => listeningUsersProvider.blockedUsers,
           initUserId: user.id,
         ),
       ),

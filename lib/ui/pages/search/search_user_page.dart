@@ -21,30 +21,32 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SearchUserPage extends StatefulWidget {
   final String preTitle;
-  final List<UserModel> users;
   final String initUserId;
   final String? searchText;
   final bool isListPaginated;
+  final List<UserModel> Function() getUsersList;
 
   const SearchUserPage(
       {super.key,
       required this.preTitle,
-      required this.users,
       required this.initUserId,
       this.searchText,
-      this.isListPaginated = true});
+      this.isListPaginated = true,
+      required this.getUsersList});
 
   @override
   State<SearchUserPage> createState() => _SearchUserPageState();
 }
 
 class _SearchUserPageState extends State<SearchUserPage> {
+  List<UserModel> get users => widget
+      .getUsersList()
+      .where((user) => user.searchInUser(widget.searchText ?? ''))
+      .toList();
+
   bool isBioExpanded = false;
   late PageController pageController = PageController(
-      initialPage:
-          widget.users.indexWhere((user) => user.id == widget.initUserId));
-
-  bool isKeyboardUp = false;
+      initialPage: users.indexWhere((user) => user.id == widget.initUserId));
 
   final mediaService = MediaService();
 
@@ -58,7 +60,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (var user in widget.users) {
+    for (var user in users) {
       if (!user.hasPicture() || mediaService.isUrlLocal(user.pictureUrl!)) {
         continue;
       }
@@ -88,15 +90,13 @@ class _SearchUserPageState extends State<SearchUserPage> {
               controller: pageController,
               onPageChanged: onPageChanged,
               scrollDirection: Axis.vertical,
-              children: widget.users.map(
+              children: users.map(
                 (user) {
                   return Builder(builder: (context) {
                     return CardComponent(
-                      scrollPhysics: isKeyboardUp
+                      scrollPhysics: users.length == 1
                           ? const AlwaysScrollableScrollPhysics()
-                          : widget.users.length == 1
-                              ? const AlwaysScrollableScrollPhysics()
-                              : const NeverScrollableScrollPhysics(),
+                          : const NeverScrollableScrollPhysics(),
                       children: [
                         profilePicture(user),
                         usernameAndMore(user),
@@ -197,20 +197,21 @@ class _SearchUserPageState extends State<SearchUserPage> {
     );
   }
 
-  connect(UserModel user) {
-    return listeningUsersProvider.outgoingConnections
-            .map((user) => user.id)
-            .contains(user.id)
+  connect(UserModel otherUser) {
+    return listeningUsersProvider.openConnectionRequests
+                .map((user) => user.id)
+                .contains(otherUser.id) ||
+            listeningUsersProvider.user.isConnectedWith(otherUser)
         ? CustomButtonComponent(
-            onTap: () => onTapDisconnect(user.id),
+            onTap: () => onTapDisconnect(otherUser.id),
             isPrimaryButton: false,
             isLoading: isLoading,
-            text: user.isConnectedWith(usersProvider.user.id)
+            text: otherUser.isConnectedWith(listeningUsersProvider.user)
                 ? 'Disconnect'
                 : 'Cancel Request',
           )
         : CustomButtonComponent(
-            onTap: () => onTapConnect(user.id),
+            onTap: () => onTapConnect(otherUser.id),
             isLoading: isLoading,
             isPrimaryButton: true,
             text: 'Connect',
@@ -261,6 +262,11 @@ class _SearchUserPageState extends State<SearchUserPage> {
       isLoading = true;
     });
     await usersProvider.connectToUser(userId);
+    if (users.isEmpty) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      return;
+    }
     setState(() {
       isLoading = false;
     });
@@ -271,6 +277,11 @@ class _SearchUserPageState extends State<SearchUserPage> {
       isLoading = true;
     });
     await usersProvider.disconnectFromUser(id);
+    if (users.isEmpty) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      return;
+    }
     setState(() {
       isLoading = false;
     });
@@ -289,13 +300,11 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   panel() {
-    if (widget.users.isEmpty) {
-      return;
+    if (users.isEmpty) {
+      return Container();
     }
     String userId = pageController.hasClients
-        ? widget
-            .users[min(pageController.page!.round(), widget.users.length - 1)]
-            .id
+        ? users[min(pageController.page!.round(), users.length - 1)].id
         : widget.initUserId;
     return Column(
       children: [
@@ -329,9 +338,14 @@ class _SearchUserPageState extends State<SearchUserPage> {
     );
   }
 
-  void onTapBlockUser(String userId) {
-    panelController.close();
-    usersProvider.blockUser(userId);
+  Future<void> onTapBlockUser(String userId) async {
+    await panelController.close();
+    await usersProvider.blockUser(userId);
+    if (users.isEmpty) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      return;
+    }
   }
 
   Future<void> onTapUnblock(String userId) async {
@@ -339,7 +353,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
       isLoading = true;
     });
     await usersProvider.unblockUser(userId);
-    if (widget.users.isEmpty) {
+    if (users.isEmpty) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
       return;

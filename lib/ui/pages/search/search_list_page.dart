@@ -25,9 +25,6 @@ import 'search_challenge_page.dart';
 class SearchListPage extends StatefulWidget {
   final String preTitle;
   final String? title;
-  final ValueChanged<ChallengeModel>? onPush;
-  final bool isFirstPageInRoute;
-  final String initialSearchText;
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
   final bool isUserSearchActive;
@@ -36,9 +33,6 @@ class SearchListPage extends StatefulWidget {
     super.key,
     this.preTitle = '',
     this.title,
-    this.onPush,
-    this.isFirstPageInRoute = true,
-    this.initialSearchText = '',
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
     this.isUserSearchActive = false,
@@ -65,8 +59,7 @@ class _SearchListPageState extends State<SearchListPage> {
 
   int numberOfBuilds = 0;
 
-  late TextEditingController textEditingController =
-      TextEditingController(text: widget.initialSearchText);
+  final textEditingController = TextEditingController();
 
   bool isFilterOnChallenges = true;
 
@@ -99,10 +92,8 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarComponent(
-            preTitle: widget.preTitle,
-            titleText: widget.title,
-            isFirstPageInRoute: widget.isFirstPageInRoute),
+        appBar:
+            AppBarComponent(preTitle: widget.preTitle, titleText: widget.title),
         backgroundColor: Colors.white,
         body: Column(
           children: [
@@ -180,9 +171,8 @@ class _SearchListPageState extends State<SearchListPage> {
               ChallengeModel challenge = searchChallenges[index];
               return SpaceColumnComponent(
                 child: ListItemChallengeSmallComponent(
-                  onTap: () => onTapChallenge(
-                      challenge: challenge,
-                      index: index), // widget.onPush?.call(challenge),
+                  onTap: () =>
+                      onTapChallenge(challenge: challenge, index: index),
                   challenge: challenge,
                   isSearch: true,
                 ),
@@ -258,7 +248,7 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
           preTitle: '${widget.preTitle}/${widget.title}',
-          users: searchedUsers,
+          getUsersList: () => searchedUsers,
           initUserId: user.id,
           searchText: textEditingController.text,
         ),

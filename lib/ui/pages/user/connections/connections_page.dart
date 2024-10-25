@@ -36,9 +36,6 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
-  List<UserModel> openConnectionRequests = [];
-  List<UserModel> openConnectionResponses = [];
-  List<UserModel> confirmedConnections = [];
   List<UserModel> filteredConfirmedConnections = [];
 
   ScrollController scrollController = ScrollController();
@@ -51,19 +48,6 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    openConnectionRequests = listeningUsersProvider.outgoingConnections
-        .where(
-            (connection) => !connection.isConnectedWith(usersProvider.user.id))
-        .toList();
-    openConnectionResponses = listeningUsersProvider.incomingConnections
-        .where(
-            (connection) => !usersProvider.user.isConnectedWith(connection.id))
-        .toList();
-    confirmedConnections = listeningUsersProvider.outgoingConnections
-        .where(
-            (connection) => connection.isConnectedWith(usersProvider.user.id))
-        .toList();
-
     return Scaffold(
       appBar: AppBarComponent(
         preTitle: widget.preTitle,
@@ -87,7 +71,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   }
 
   connectionsList() {
-    filteredConfirmedConnections = confirmedConnections
+    filteredConfirmedConnections = listeningUsersProvider.confirmedConnections
         .where((connection) => connection.username
             .toLowerCase()
             .contains(searchTextEditingController.text.toLowerCase()))
@@ -131,12 +115,13 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   openConnectionRequestsListItem() {
     return Visibility(
-      visible: openConnectionRequests.isNotEmpty,
+      visible: listeningUsersProvider.openConnectionRequests.isNotEmpty,
       child: SpaceColumnComponent(
         child: ListItemIconTextTextComponent(
             icon: IconEnum.openRequests.icon,
             text: 'Open Requests',
-            text2: openConnectionRequests.length.toString(),
+            text2:
+                listeningUsersProvider.openConnectionRequests.length.toString(),
             onTap: onTapOpenConnectionRequests),
       ),
     );
@@ -144,12 +129,13 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   openConnectionResponsesListItem() {
     return Visibility(
-      visible: openConnectionResponses.isNotEmpty,
+      visible: listeningUsersProvider.openConnectionResponses.isNotEmpty,
       child: SpaceColumnComponent(
         child: ListItemIconTextTextComponent(
             icon: IconEnum.openResponses.icon,
             text: 'Open Responses',
-            text2: openConnectionResponses.length.toString(),
+            text2: listeningUsersProvider.openConnectionResponses.length
+                .toString(),
             onTap: onTapOpenConnectionResponses),
       ),
     );
@@ -184,7 +170,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         builder: (context) => SearchUserPage(
           initUserId: user.id,
           preTitle: '${widget.preTitle}/$title',
-          users: filteredConfirmedConnections,
+          getUsersList: () => listeningUsersProvider.confirmedConnections,
           searchText: searchTextEditingController.text,
           isListPaginated: false,
         ),

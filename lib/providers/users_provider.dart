@@ -19,11 +19,14 @@ class UsersProvider with ChangeNotifier {
   bool _isEndOfSearchedListReached = false;
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
 
-  List<UserModel> _outgoingConnections = [];
-  List<UserModel> get outgoingConnections => _outgoingConnections;
+  List<UserModel> _confirmedConnections = [];
+  List<UserModel> get confirmedConnections => _confirmedConnections;
 
-  List<UserModel> _incomingConnections = [];
-  List<UserModel> get incomingConnections => _incomingConnections;
+  List<UserModel> _openConnectionRequests = [];
+  List<UserModel> get openConnectionRequests => _openConnectionRequests;
+
+  List<UserModel> _openConnectionResponses = [];
+  List<UserModel> get openConnectionResponses => _openConnectionResponses;
 
   List<UserModel> _blockedUsers = [];
   List<UserModel> get blockedUsers => _blockedUsers;
@@ -68,7 +71,7 @@ class UsersProvider with ChangeNotifier {
   Future<void> connectToUser(String otherUserId) async {
     _user.connect(otherUserId);
     await usersCollection.update(_user);
-    await getConnections(notify: false);
+    await getConnections();
 
     RequestConnectionNotificationModel notification =
         RequestConnectionNotificationModel(
@@ -95,11 +98,25 @@ class UsersProvider with ChangeNotifier {
 
   Future<void> getConnections({bool notify = true}) async {
     await getUser(notify: false);
-    _outgoingConnections =
+
+    List<UserModel> outgoingConnections =
         await usersCollection.getByUserIds(_user.connectionIds);
-    _incomingConnections = await usersCollection.getIncomingConnections(
-        _user.id, _user.blockedUserIds);
-    _incomingConnections.removeWhere((user) => user.isEmpty());
+    List<UserModel> incomingConnections = await usersCollection
+        .getIncomingConnections(_user.id, user.blockedUserIds);
+    incomingConnections.removeWhere((user) => user.isEmpty());
+
+    _confirmedConnections = outgoingConnections
+        .where((connection) => connection.isConnectedWith(_user))
+        .toList();
+
+    _openConnectionRequests = outgoingConnections
+        .where((connection) => !connection.isConnectedWith(_user))
+        .toList();
+
+    _openConnectionResponses = incomingConnections
+        .where((connection) => !_user.isConnectedWith(connection))
+        .toList();
+
     if (notify) {
       notifyListeners();
     }
