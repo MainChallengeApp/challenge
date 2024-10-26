@@ -178,9 +178,4 @@ class UsersProvider with ChangeNotifier {
     _blockedUsers = await usersCollection.getByUserIds(_user.blockedUserIds);
     notifyListeners();
   }
-
-  reportUser(String userId, String reason) async {
-    print('Reported user $userId for reason: $reason');
-    await Future.delayed(const Duration(seconds: 4));
-  }
 }

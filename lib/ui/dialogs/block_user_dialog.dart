@@ -31,7 +31,7 @@ class BlockUserDialog extends StatefulWidget {
   }
 
   @override
-  _BlockUserDialogState createState() => _BlockUserDialogState();
+  State<BlockUserDialog> createState() => _BlockUserDialogState();
 }
 
 class _BlockUserDialogState extends State<BlockUserDialog> {

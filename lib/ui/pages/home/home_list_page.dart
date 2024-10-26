@@ -165,10 +165,8 @@ class _HomeListPageState extends State<HomeListPage> {
     DeleteChallengeDialog.show(
       context: context,
       challengeTitle: userChallenge.title,
-      onTapYes: () {
-        setState(() async {
-          await userChallengesProvider.delete(userChallenge);
-        });
+      onTapYes: () async {
+        await userChallengesProvider.delete(userChallenge);
       },
     );
   }

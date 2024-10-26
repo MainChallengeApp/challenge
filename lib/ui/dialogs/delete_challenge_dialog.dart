@@ -30,7 +30,7 @@ class DeleteChallengeDialog extends StatefulWidget {
   }
 
   @override
-  _DeleteChallengeDialogState createState() => _DeleteChallengeDialogState();
+  State<DeleteChallengeDialog> createState() => _DeleteChallengeDialogState();
 }
 
 class _DeleteChallengeDialogState extends State<DeleteChallengeDialog> {

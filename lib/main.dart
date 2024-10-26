@@ -1,4 +1,5 @@
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/providers/reports_provider.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
@@ -19,6 +20,7 @@ void main() async {
       ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
       ChangeNotifierProvider(create: (_) => UserChallengesProvider()),
       ChangeNotifierProvider(create: (_) => NotificationsProvider()),
+      ChangeNotifierProvider(create: (_) => ReportsProvider()),
       ChangeNotifierProxyProvider<NotificationsProvider, UsersProvider>(
         create: (context) => UsersProvider(
           notificationsProvider:

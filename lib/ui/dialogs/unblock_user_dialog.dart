@@ -31,7 +31,7 @@ class UnblockUserDialog extends StatefulWidget {
   }
 
   @override
-  _UnblockUserDialogState createState() => _UnblockUserDialogState();
+  State<UnblockUserDialog> createState() => _UnblockUserDialogState();
 }
 
 class _UnblockUserDialogState extends State<UnblockUserDialog> {

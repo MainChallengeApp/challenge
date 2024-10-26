@@ -38,7 +38,7 @@ class ReportUserDialog extends StatefulWidget {
   }
 
   @override
-  _ReportUserDialogState createState() => _ReportUserDialogState();
+  State<ReportUserDialog> createState() => _ReportUserDialogState();
 }
 
 class _ReportUserDialogState extends State<ReportUserDialog> {
@@ -64,7 +64,7 @@ class _ReportUserDialogState extends State<ReportUserDialog> {
             maxLines: 3,
             style: Theme.of(context).textTheme.textInputSmall,
             decoration: InputDecoration.collapsed(
-              hintText: 'Reason for report',
+              hintText: 'Reason',
               hintStyle: Theme.of(context).textTheme.textInputHintSmall,
             ),
           ),

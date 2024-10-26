@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/reports_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -56,6 +57,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
+
+  late final reportsProvider =
+      Provider.of<ReportsProvider>(context, listen: false);
 
   bool isLoading = false;
 
@@ -405,7 +409,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
         context: context,
         user: user,
         onTapYes: (String reason) async {
-          await usersProvider.reportUser(user.id, reason);
+          await reportsProvider.createReport(user.id, reason);
           SnackBarComponent.showSnackBar(context, 'Report sent successfully');
         });
   }
