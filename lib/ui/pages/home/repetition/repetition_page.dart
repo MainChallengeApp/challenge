@@ -273,6 +273,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     void onTapEndChallenge() {
       EndChallengeDialog.show(
           context: context,
+          challengeTitle: widget.userChallenge.title,
           onTapYes: () {
             userChallengesProvider.end(widget.userChallenge);
           });

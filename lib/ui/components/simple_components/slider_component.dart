@@ -10,6 +10,7 @@ class SliderComponent extends StatelessWidget {
   final IconData icon;
   final String label;
   final Color? foregroundColor;
+  final Duration duration;
 
   const SliderComponent(
       {super.key,
@@ -18,7 +19,8 @@ class SliderComponent extends StatelessWidget {
       this.onTap,
       required this.icon,
       required this.label,
-      this.foregroundColor});
+      this.foregroundColor,
+      this.duration = Duration.zero});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class SliderComponent extends StatelessWidget {
             children: [
               SlidableAction(
                   onPressed: (context) {
-                    Slidable.of(context)!.close(duration: Duration.zero);
+                    Slidable.of(context)!.close(duration: duration);
                     onTap?.call();
                   },
                   borderRadius: BorderRadius.circular(

@@ -14,7 +14,7 @@ class UsersProvider with ChangeNotifier {
   UserModel _user = UserModel.empty();
   UserModel get user => _user;
 
-  List<UserModel> _searchUsers = [];
+  final List<UserModel> _searchUsers = [];
   List<UserModel> get searchUsers => _searchUsers;
   bool _isEndOfSearchedListReached = false;
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
@@ -155,17 +155,6 @@ class UsersProvider with ChangeNotifier {
     _searchUsers.clear();
   }
 
-  Future<void> refresh() async {
-    try {
-      resetEndOfSearchedList();
-      _searchUsers =
-          await usersCollection.refresh(loadedSearchUsers: _searchUsers);
-      notifyListeners();
-    } on Exception {
-      rethrow;
-    }
-  }
-
   Future<void> blockUser(String userId) async {
     await disconnectFromUser(userId);
 
@@ -173,7 +162,6 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
 
     blockedUsers.add(await usersCollection.getById(userId));
-    _searchUsers.removeWhere((user) => user.id == userId);
     notifyListeners();
   }
 
@@ -189,5 +177,10 @@ class UsersProvider with ChangeNotifier {
     await getUser(notify: false);
     _blockedUsers = await usersCollection.getByUserIds(_user.blockedUserIds);
     notifyListeners();
+  }
+
+  reportUser(String userId, String reason) async {
+    print('Reported user $userId for reason: $reason');
+    await Future.delayed(const Duration(seconds: 4));
   }
 }

@@ -20,6 +20,7 @@ import 'package:challenge/ui/components/simple_components/slider_component.dart'
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
@@ -176,6 +177,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         icon: IconEnum.delete.icon,
         label: 'Delete',
         foregroundColor: Theme.of(context).colorScheme.red.withAlpha(150),
+        duration: Durations.short1,
         onTap: () => onTapDeleteChallenge(userChallenge));
   }
 
@@ -317,20 +319,24 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   }
 
   void onTapDeleteChallenge(UserChallengeModel userChallenge) async {
-    Slidable.of(context)?.close(duration: Duration.zero);
-    await userChallengesProvider.delete(userChallenge);
+    DeleteChallengeDialog.show(
+        context: context,
+        challengeTitle: userChallenge.title,
+        onTapYes: () async {
+          await userChallengesProvider.delete(userChallenge);
 
-    setState(() {
-      if (currentChallengeIndex >=
-          userChallengesProvider.userChallenges.length) {
-        currentChallengeIndex =
-            userChallengesProvider.userChallenges.length - 1;
-      }
-    });
-    if (userChallengesProvider.userChallenges.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
-    }
+          setState(() {
+            if (currentChallengeIndex >=
+                userChallengesProvider.userChallenges.length) {
+              currentChallengeIndex =
+                  userChallengesProvider.userChallenges.length - 1;
+            }
+          });
+          if (userChallengesProvider.userChallenges.isEmpty) {
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+          }
+        });
   }
 
   void onTapOpenMediaPage(UserChallengeModel userChallenge) {
@@ -404,6 +410,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
     EndChallengeDialog.show(
         context: context,
+        challengeTitle: userChallenge.title,
         onTapYes: () {
           userChallengesProvider.end(userChallenge);
         });

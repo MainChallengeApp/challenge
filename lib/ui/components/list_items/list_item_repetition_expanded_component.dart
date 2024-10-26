@@ -156,6 +156,7 @@ class _ListItemRepetitionExpandedComponentState
   onTapEnd(UserChallengeModel userChallenge) {
     EndChallengeDialog.show(
         context: pageContext,
+        challengeTitle: userChallenge.title,
         onTapYes: () {
           userChallengesProvider.end(userChallenge);
         });

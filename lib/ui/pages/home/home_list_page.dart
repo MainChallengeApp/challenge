@@ -9,6 +9,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
@@ -95,7 +96,8 @@ class _HomeListPageState extends State<HomeListPage> {
                         onTap: () => push(context,
                             userChallenge: challenge, index: index - 1),
                         challenge: challenge,
-                        onTapDeleteChallenge: () => deleteChallenge(challenge),
+                        onTapDeleteChallenge: () =>
+                            onTapDeleteChallenge(challenge),
                       ),
                     );
                   }),
@@ -159,9 +161,15 @@ class _HomeListPageState extends State<HomeListPage> {
     ).then((_) => setState(() {}));
   }
 
-  void deleteChallenge(UserChallengeModel userChallenge) {
-    setState(() {
-      userChallengesProvider.delete(userChallenge);
-    });
+  void onTapDeleteChallenge(UserChallengeModel userChallenge) {
+    DeleteChallengeDialog.show(
+      context: context,
+      challengeTitle: userChallenge.title,
+      onTapYes: () {
+        setState(() async {
+          await userChallengesProvider.delete(userChallenge);
+        });
+      },
+    );
   }
 }

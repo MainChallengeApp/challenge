@@ -9,12 +9,16 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
+import 'package:challenge/ui/dialogs/block_user_dialog.dart';
+import 'package:challenge/ui/dialogs/report_user_dialog.dart';
+import 'package:challenge/ui/dialogs/unblock_user_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -303,9 +307,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
     if (users.isEmpty) {
       return Container();
     }
-    String userId = pageController.hasClients
-        ? users[min(pageController.page!.round(), users.length - 1)].id
-        : widget.initUserId;
+    UserModel user = pageController.hasClients
+        ? users[min(pageController.page!.round(), users.length - 1)]
+        : users.firstWhere((user) => user.id == widget.initUserId);
     return Column(
       children: [
         const SpaceComponent(
@@ -322,45 +326,60 @@ class _SearchUserPageState extends State<SearchUserPage> {
           )),
         ),
         SpaceColumnComponent(
-            child: usersProvider.user.isBlocked(userId)
+            child: usersProvider.user.isBlocked(user.id)
                 ? ListItemIconTextComponent(
                     icon: IconEnum.blockedUsers.icon,
                     title: 'Unblock User',
-                    onTap: () => onTapUnblock(userId))
+                    onTap: () => onTapUnblock(user))
                 : ListItemIconTextComponent(
                     icon: IconEnum.blockedUsers.icon,
                     title: 'Block User',
-                    onTap: () => onTapBlockUser(userId))),
+                    onTap: () => onTapBlockUser(user))),
         SpaceColumnComponent(
             child: ListItemIconTextComponent(
-                icon: IconEnum.reportUser.icon, title: 'Report User')),
+                onTap: () => onTapReport(user),
+                icon: IconEnum.reportUser.icon,
+                title: 'Report User')),
       ],
     );
   }
 
-  Future<void> onTapBlockUser(String userId) async {
+  Future<void> onTapBlockUser(UserModel user) async {
     await panelController.close();
-    await usersProvider.blockUser(userId);
-    if (users.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
-    }
+    BlockUserDialog.show(
+        // ignore: use_build_context_synchronously
+        context: context,
+        user: user,
+        onTapYes: () async {
+          await usersProvider.blockUser(user.id);
+          if (users.isEmpty) {
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pop();
+            return;
+          }
+        });
   }
 
-  Future<void> onTapUnblock(String userId) async {
-    setState(() {
-      isLoading = true;
-    });
-    await usersProvider.unblockUser(userId);
-    if (users.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
-    }
-    setState(() {
-      isLoading = false;
-    });
+  Future<void> onTapUnblock(UserModel user) async {
+    await panelController.close();
+    UnblockUserDialog.show(
+        // ignore: use_build_context_synchronously
+        context: context,
+        user: user,
+        onTapYes: () async {
+          setState(() {
+            isLoading = true;
+          });
+          await usersProvider.unblockUser(user.id);
+          if (users.isEmpty) {
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pop();
+            return;
+          }
+          setState(() {
+            isLoading = false;
+          });
+        });
   }
 
   actionButton(UserModel user) {
@@ -371,10 +390,23 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   unblock(UserModel user) {
     return CustomButtonComponent(
-      onTap: () => onTapUnblock(user.id),
+      onTap: () => onTapUnblock(user),
       isPrimaryButton: true,
       isLoading: isLoading,
       text: 'Unblock',
     );
+  }
+
+  onTapReport(UserModel user) async {
+    await panelController.close();
+
+    ReportUserDialog.show(
+        // ignore: use_build_context_synchronously
+        context: context,
+        user: user,
+        onTapYes: (String reason) async {
+          await usersProvider.reportUser(user.id, reason);
+          SnackBarComponent.showSnackBar(context, 'Report sent successfully');
+        });
   }
 }

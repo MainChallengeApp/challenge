@@ -128,6 +128,6 @@ class _ListItemContainerComponentState
   }
 
   closeSlidable() async {
-    await Slidable.of(context2)?.close();
+    await Slidable.of(context2)?.close(duration: Durations.short4);
   }
 }

@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 
 class EndChallengeDialog {
   static Future<void> show(
-      {required BuildContext context, required Function onTapYes}) async {
+      {required BuildContext context,
+      required String challengeTitle,
+      required Function onTapYes}) async {
     await showDialog(
       context: context,
       builder: (context) {
         return CustomDialog(
+            title: 'End $challengeTitle?',
             text:
                 'Do you really want to end this Challenge?\n\nThis action can not be undone.\n',
             buttons: [
@@ -26,10 +29,10 @@ class EndChallengeDialog {
       alignment: Alignment.bottomCenter,
       child: CustomButtonComponent(
         onTap: () {
-          Navigator.pop(context);
           onTapYes.call();
+          Navigator.pop(context);
         },
-        text: 'Yes',
+        text: 'End',
       ),
     );
   }
@@ -41,7 +44,7 @@ class EndChallengeDialog {
         onTap: () {
           Navigator.pop(context);
         },
-        text: 'No',
+        text: 'Cancel',
         isPrimaryButton: true,
       ),
     );
