@@ -196,6 +196,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
 
     // ignore: use_build_context_synchronously
+    context.read<TabProvider>().selectTab(TabItemEnum.search);
+    // ignore: use_build_context_synchronously
     context.read<TabProvider>().selectTab(TabItemEnum.home);
 
     var homeNavigator =

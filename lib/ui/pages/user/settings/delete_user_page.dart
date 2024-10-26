@@ -58,7 +58,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                         height: 150,
                         child: Center(
                           child: Text(
-                            'This action will delete all your data and cannot be undone.\n\nPlease enter your password to delete your user.',
+                            'This action will delete all your data and cannot be undone.\n\nEnter your password to delete your user.',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),

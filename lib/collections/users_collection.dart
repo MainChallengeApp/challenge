@@ -75,7 +75,8 @@ class UsersCollection extends Collection {
           querySnapshot.docs.map((doc) => UserModel.fromDoc(doc)).toList();
       return users.map((user) {
         // Filter out blocked users
-        if (blockedUserIds.contains(user.id)) {
+        if (blockedUserIds.contains(user.id) ||
+            user.blockedUserIds.contains(userId)) {
           return UserModel.empty();
         }
         return user;

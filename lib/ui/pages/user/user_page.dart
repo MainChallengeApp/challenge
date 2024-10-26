@@ -209,7 +209,7 @@ class _UserPageState extends State<UserPage> {
           child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '@${user.username}',
+                user.username,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.textInputSmall,
               ))),

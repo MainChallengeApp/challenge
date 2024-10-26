@@ -1,7 +1,7 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -119,13 +119,11 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
-                topLeft:
-                    Radius.circular(CustomContainerComponent.standardRadius),
-                topRight:
-                    Radius.circular(CustomContainerComponent.standardRadius),
+                topLeft: Radius.circular(CardComponent.standardBorderRadius),
+                topRight: Radius.circular(CardComponent.standardBorderRadius),
               ),
             ),
-            height: size.height * 0.27,
+            height: size.height * 0.3,
             child: CupertinoDatePicker(
               maximumDate: startOrEnd == 'start' &&
                       widget.editChallenge.frequency.amount == null &&

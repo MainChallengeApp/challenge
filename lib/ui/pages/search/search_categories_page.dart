@@ -178,7 +178,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const SearchListPage(
             preTitle: 'Search',
-            title: 'All',
             isUserSearchActive: true,
             isSearchBarAutoFocus: true),
       ),

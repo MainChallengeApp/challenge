@@ -70,9 +70,11 @@ class _SearchListPageState extends State<SearchListPage> {
     searchChallengesProvider.emptySearchChallenges();
     searchChallengesProvider.getSearchedPaginated(
         categories: widget.categories);
-    usersProvider.resetEndOfSearchedList();
-    usersProvider.emptySearchUsers();
-    usersProvider.getSearchedPaginated();
+    if (widget.isUserSearchActive) {
+      usersProvider.resetEndOfSearchedList();
+      usersProvider.emptySearchUsers();
+      usersProvider.getSearchedPaginated();
+    }
 
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
@@ -187,7 +189,9 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        await usersProvider.refresh();
+        usersProvider.resetEndOfSearchedList();
+        usersProvider.emptySearchUsers();
+        await usersProvider.getSearchedPaginated();
       },
       child: RawScrollbar(
         controller: scrollController,
@@ -236,7 +240,8 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
-          preTitle: '${widget.preTitle}/${widget.title}',
+          preTitle:
+              '${widget.preTitle}${widget.title == null ? '' : '/${widget.title}'}',
           initChallengeIndex: index,
           searchText: textEditingController.text,
           categories: widget.categories,
@@ -252,7 +257,8 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
-          preTitle: '${widget.preTitle}/${widget.title}',
+          preTitle:
+              '${widget.preTitle}${widget.title == null ? '' : '/${widget.title}'}',
           getUsersList: () => searchedUsers,
           initUserId: user.id,
           searchText: textEditingController.text,
@@ -268,7 +274,8 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: '${widget.preTitle}/${widget.title}',
+          preTitle:
+              '${widget.preTitle}${widget.title == null ? '' : '/${widget.title}'}',
           challenge: ChallengeModel.empty(title: textEditingController.text),
           isNewChallenge: true,
           isSearchNewChallenge: true,

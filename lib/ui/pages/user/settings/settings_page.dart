@@ -117,9 +117,9 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   onTapLogout() async {
-    await authService.logout();
     usersProvider.resetLocalUser();
     userChallengesProvider.resetLocalList();
+    await authService.logout();
   }
 
   onTapFeedback() async {
