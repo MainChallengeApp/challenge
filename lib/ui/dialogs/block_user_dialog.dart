@@ -61,6 +61,7 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
           });
           await widget.onTapYes.call();
           if (mounted) {
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
           }
         },

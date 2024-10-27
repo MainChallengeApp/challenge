@@ -36,7 +36,8 @@ void main() {
         // Assert
         expect(progress[0].progress, equals(1.0));
         expect(progress[0].mediaIds, equals(['1', '2', '3']));
-        expect(progress[0].date, equals(date));
+        expect(
+            progress[0].date.toIso8601String(), equals(date.toIso8601String()));
         expect(progress[0].repetitionNumber, equals(1));
         expect(progress[0].goal, equals(1.0));
       });

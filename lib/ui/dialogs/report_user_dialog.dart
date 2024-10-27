@@ -84,6 +84,7 @@ class _ReportUserDialogState extends State<ReportUserDialog> {
           });
           await widget.onTapYes.call(textEditingController.text);
           if (mounted) {
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
           }
         },

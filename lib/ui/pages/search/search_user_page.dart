@@ -408,6 +408,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
         user: user,
         onTapYes: (String reason) async {
           await reportsProvider.createReport(user.id, reason);
+          // ignore: use_build_context_synchronously
           SnackBarComponent.showSnackBar(context, 'Report sent successfully');
         });
   }
