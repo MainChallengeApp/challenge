@@ -73,6 +73,11 @@ class UsersProvider with ChangeNotifier {
     return _notificationsUser;
   }
 
+  UserModel getNotificationUserById(String userId) {
+    return _notificationsUser.firstWhere((user) => user.id == userId,
+        orElse: UserModel.empty);
+  }
+
   update(UserModel user) async {
     user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
     _user = user;

@@ -1,14 +1,12 @@
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/exceptions/notification_type_is_not_supported_exception.dart';
 import 'package:challenge/models/notification/notification_model.dart';
-import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/user/notifications/cards/connection_accepted_card.dart';
+import 'package:challenge/ui/pages/user/notifications/cards/connection_request_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,10 +31,6 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
       Provider.of<NotificationsProvider>(context);
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider = Provider.of<UsersProvider>(context);
-
-  bool isLoadingAcceptButton = false;
-  bool isLoadingDeclineButton = false;
 
   @override
   void initState() {
@@ -59,9 +53,16 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
             .map((NotificationModel notification) {
           switch (notification.type) {
             case NotificationTypeEnum.connectionRequest:
-              return connectionRequestCard(notification);
+              return ConnectionRequestCard(
+                notification: notification,
+                fromUser: usersProvider
+                    .getNotificationUserById(notification.fromUserId),
+              );
             case NotificationTypeEnum.connectionAccepted:
-              return connectionAcceptedCard(notification);
+              return ConnectionAcceptedCard(
+                  notification: notification,
+                  fromUser: usersProvider
+                      .getNotificationUserById(notification.fromUserId));
             default:
               throw NotificationTypeIsNotSupportedException(
                   notification.type.toString());
@@ -69,101 +70,6 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
         }).toList(),
       ),
       bottomNavigationBar: const BottomNavigationComponent(),
-    );
-  }
-
-  CardComponent connectionRequestCard(NotificationModel notification) {
-    UserModel fromUser = listeningUsersProvider.notificationsUser.firstWhere(
-        (notificationUser) => notificationUser.id == notification.fromUserId,
-        orElse: UserModel.empty);
-    return CardComponent(
-      children: [
-        Text('${fromUser.username} ${notification.body}'),
-        const Expanded(child: SizedBox()),
-        Row(
-          children: [
-            Expanded(
-              child: CustomButtonComponent(
-                text: 'Decline',
-                isLoading: isLoadingAcceptButton,
-                onTap: () async {
-                  setState(() {
-                    isLoadingDeclineButton = true;
-                  });
-                  await usersProvider.disconnectFromUser(fromUser.id);
-                  await notificationsProvider
-                      .deleteNotification(notification.id);
-                  if (listeningNotificationsProvider
-                      .userNotifications.isEmpty) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                },
-              ),
-            ),
-            const SpaceComponent(),
-            Expanded(
-              child: CustomButtonComponent(
-                text: 'Accept',
-                isLoading: isLoadingAcceptButton,
-                isPrimaryButton: true,
-                onTap: () async {
-                  setState(() {
-                    isLoadingAcceptButton = true;
-                  });
-                  await usersProvider.connectToUser(fromUser.id);
-                  await notificationsProvider
-                      .deleteNotification(notification.id);
-                  if (listeningNotificationsProvider
-                      .userNotifications.isEmpty) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  CardComponent connectionAcceptedCard(NotificationModel notification) {
-    UserModel fromUser = listeningUsersProvider.notificationsUser.firstWhere(
-        (notificationUser) => notificationUser.id == notification.fromUserId,
-        orElse: UserModel.empty);
-
-    return CardComponent(
-      children: [
-        Text('${fromUser.username} ${notification.body}'),
-        const Expanded(child: SizedBox()),
-        Row(
-          children: [
-            Expanded(
-              child: CustomButtonComponent(
-                text: 'Accept',
-                isLoading: isLoadingAcceptButton,
-                isPrimaryButton: true,
-                onTap: () async {
-                  setState(() {
-                    isLoadingAcceptButton = true;
-                  });
-                  await notificationsProvider
-                      .deleteNotification(notification.id);
-                  if (listeningNotificationsProvider
-                      .userNotifications.isEmpty) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
     );
   }
 }
