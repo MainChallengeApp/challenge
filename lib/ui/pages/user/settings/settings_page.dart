@@ -1,11 +1,13 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -36,6 +38,8 @@ class _SettingsPageState extends State<SettingsPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: true);
   late UserChallengesProvider userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
+  late final notificationsProvider =
+      Provider.of<NotificationsProvider>(context, listen: false);
 
   late String title = 'Settings';
 
@@ -58,6 +62,7 @@ class _SettingsPageState extends State<SettingsPage> {
         color: Colors.white,
         child: _buildList(),
       ),
+      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 
@@ -119,6 +124,7 @@ class _SettingsPageState extends State<SettingsPage> {
   onTapLogout() async {
     usersProvider.resetLocalUser();
     userChallengesProvider.resetLocalList();
+    notificationsProvider.resetLocalList();
     await authService.logout();
   }
 

@@ -18,6 +18,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final Function()? onTap;
   final bool? isEnabled;
   final bool? autoFocus;
+  final FocusNode? focusNode;
 
   ListItemIconTextInputComponent({
     super.key,
@@ -34,6 +35,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.onTap,
     this.isEnabled,
     this.autoFocus,
+    this.focusNode,
   });
 
   @override
@@ -43,7 +45,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
 
 class _ListItemIconTextInputComponentState
     extends State<ListItemIconTextInputComponent> {
-  FocusNode focusNode = FocusNode();
+  late FocusNode focusNode = widget.focusNode ?? FocusNode();
 
   @override
   void initState() {

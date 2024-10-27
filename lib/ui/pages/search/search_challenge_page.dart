@@ -40,8 +40,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   late PageController pageController =
       PageController(initialPage: widget.initChallengeIndex);
 
-  bool isKeyboardUp = false;
-
   final mediaService = MediaService();
 
   late final searchChallengeProvider =
@@ -72,17 +70,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
             controller: pageController,
             onPageChanged: onPageChanged,
             scrollDirection: Axis.vertical,
+            physics: const AlwaysScrollableScrollPhysics(),
             children: listeningSearchChallengeProvider.searchChallenges.map(
               (challenge) {
                 return Builder(builder: (context) {
                   return CardComponent(
-                    scrollPhysics: isKeyboardUp
-                        ? const AlwaysScrollableScrollPhysics()
-                        : listeningSearchChallengeProvider
-                                    .searchChallenges.length ==
-                                1
-                            ? const AlwaysScrollableScrollPhysics()
-                            : const NeverScrollableScrollPhysics(),
                     children: [
                       thumbnail(challenge, context),
                       title(challenge),

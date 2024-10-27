@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ReportModel {
   String id;
   static const String idField = 'id';
 
-  String reportedByUserId;
-  static const String reportedByUserIdField = 'reportedByUserId';
+  String userId;
+  static const String userIdField = 'userId';
 
   String reportedUserId;
   static const String reportedUserIdField = 'reportedUserId';
@@ -15,7 +17,7 @@ class ReportModel {
   static const String createdAtField = 'createdAt';
 
   ReportModel(
-      {required this.reportedByUserId,
+      {required this.userId,
       required this.reportedUserId,
       required this.reason,
       DateTime? createdAt,
@@ -25,20 +27,20 @@ class ReportModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      reportedByUserIdField: reportedByUserId,
+      userIdField: userId,
       reportedUserIdField: reportedUserId,
       reasonField: reason,
       createdAtField: createdAt,
     };
   }
 
-  factory ReportModel.fromDoc(Map<String, dynamic> doc) {
+  factory ReportModel.fromDoc(DocumentSnapshot doc) {
     return ReportModel(
-      id: doc['id'],
-      reportedByUserId: doc['reportedByUserId'],
-      reportedUserId: doc['reportedUserId'],
-      reason: doc['reason'],
-      createdAt: doc['createdAt'],
+      id: doc.id,
+      userId: doc[userIdField],
+      reportedUserId: doc[reportedUserIdField],
+      reason: doc[reasonField],
+      createdAt: doc[createdAtField],
     );
   }
 }

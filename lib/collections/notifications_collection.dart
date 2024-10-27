@@ -20,14 +20,32 @@ class NotificationsCollection extends Collection {
       final querySnapshot = await db
           .collection(name)
           .where(NotificationModel.userIdField, isEqualTo: userId)
-          .orderBy(NotificationModel.createDateField, descending: true)
           .get();
       notifications = querySnapshot.docs
-          .map((doc) => NotificationModel.fromDoc(doc.data()))
+          .map((doc) => NotificationModel.fromDoc(doc))
           .toList();
+      notifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return notifications;
     } on Exception {
       rethrow;
     }
+  }
+
+  deleteById(String notificationId) async {
+    await db.collection(name).doc(notificationId).delete();
+  }
+
+  Future<void> deleteNotificationsBetweenUsers(
+      String currentUser, String otherUser) async {
+    await db
+        .collection(name)
+        .where(NotificationModel.userIdField, isEqualTo: otherUser)
+        .where(NotificationModel.fromUserIdField, isEqualTo: currentUser)
+        .get()
+        .then((snapshot) {
+      for (var doc in snapshot.docs) {
+        doc.reference.delete();
+      }
+    });
   }
 }

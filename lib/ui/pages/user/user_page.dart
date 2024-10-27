@@ -18,7 +18,7 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/user/connections/connections_page.dart';
-import 'package:challenge/ui/pages/user/notifications/notifications_page.dart';
+import 'package:challenge/ui/pages/user/notifications/notifications_list_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
@@ -262,7 +262,7 @@ class _UserPageState extends State<UserPage> {
     Navigator.push(
         context,
         NoAnimationPageRouteComponent(
-          builder: (context) => NotificationsPage(
+          builder: (context) => NotificationsListPage(
             preTitle: widget.title,
           ),
         ));

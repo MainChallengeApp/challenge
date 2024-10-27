@@ -133,7 +133,7 @@ class _EditUserPageState extends State<EditUserPage> {
                 icon: IconEnum.username.icon,
                 onTap: onTapUsername,
                 text: 'Username',
-                text2: '@${user.username}'),
+                text2: user.username),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextTextComponent(

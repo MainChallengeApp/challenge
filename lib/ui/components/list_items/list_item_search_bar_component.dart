@@ -30,6 +30,21 @@ class ListItemSearchBarComponent extends StatefulWidget {
 
 class _ListItemSearchBarComponentState
     extends State<ListItemSearchBarComponent> {
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
+
+  // TODO: prevent error idk if this is good :)
+  // @override
+  // void dispose() {
+  //   _focusNode.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     widget.textEditingController.selection = TextSelection.collapsed(
@@ -46,6 +61,7 @@ class _ListItemSearchBarComponentState
         hintText: widget.hintText,
         textInputAction: TextInputAction.search,
         autoFocus: widget.autoFocus,
+        focusNode: _focusNode,
         onChangeTextField: (value) {
           setState(() {
             widget.changeList?.call(value);
@@ -58,6 +74,7 @@ class _ListItemSearchBarComponentState
       widget.textEditingController.clear();
       widget.changeList?.call('');
       widget.onTapActionIcon?.call();
+      _focusNode.requestFocus();
     });
   }
 }

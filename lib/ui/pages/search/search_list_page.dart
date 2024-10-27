@@ -93,37 +93,40 @@ class _SearchListPageState extends State<SearchListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar:
-            AppBarComponent(preTitle: widget.preTitle, titleText: widget.title),
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            SpaceColumnComponent(
-                child: ListItemSearchWithFilterComponent(
-              autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 0,
-              textEditingController: textEditingController,
-              isFilterOnChallenges: isFilterOnChallenges,
-              isUserSearchActive: widget.isUserSearchActive,
-              onChangeList: onChangeList,
-              onTapChallenges: () {
-                setState(() {
-                  isFilterOnChallenges = true;
-                });
-              },
-              onTapUsers: () {
-                setState(() {
-                  isFilterOnChallenges = false;
-                });
-              },
-            )),
-            Expanded(
-                child: isFilterOnChallenges
-                    ? _buildChallengesList()
-                    : _buildUsersList())
-          ],
-        ),
-        bottomNavigationBar: const BottomNavigationComponent());
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+          appBar: AppBarComponent(
+              preTitle: widget.preTitle, titleText: widget.title),
+          backgroundColor: Colors.white,
+          body: Column(
+            children: [
+              SpaceColumnComponent(
+                  child: ListItemSearchWithFilterComponent(
+                autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 0,
+                textEditingController: textEditingController,
+                isFilterOnChallenges: isFilterOnChallenges,
+                isUserSearchActive: widget.isUserSearchActive,
+                onChangeList: onChangeList,
+                onTapChallenges: () {
+                  setState(() {
+                    isFilterOnChallenges = true;
+                  });
+                },
+                onTapUsers: () {
+                  setState(() {
+                    isFilterOnChallenges = false;
+                  });
+                },
+              )),
+              Expanded(
+                  child: isFilterOnChallenges
+                      ? _buildChallengesList()
+                      : _buildUsersList())
+            ],
+          ),
+          bottomNavigationBar: const BottomNavigationComponent()),
+    );
   }
 
   Widget _buildChallengesList() {

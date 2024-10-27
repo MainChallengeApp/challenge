@@ -98,13 +98,11 @@ class _SearchUserPageState extends State<SearchUserPage> {
               controller: pageController,
               onPageChanged: onPageChanged,
               scrollDirection: Axis.vertical,
+              physics: const AlwaysScrollableScrollPhysics(),
               children: users.map(
                 (user) {
                   return Builder(builder: (context) {
                     return CardComponent(
-                      scrollPhysics: users.length == 1
-                          ? const AlwaysScrollableScrollPhysics()
-                          : const NeverScrollableScrollPhysics(),
                       children: [
                         profilePicture(user),
                         usernameAndMore(user),
@@ -246,7 +244,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '@${user.username}',
+                        user.username,
                         overflow: TextOverflow.ellipsis,
                       )))),
           const SpaceComponent(),

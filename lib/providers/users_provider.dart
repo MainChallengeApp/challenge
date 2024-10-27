@@ -1,5 +1,5 @@
 import 'package:challenge/collections/users_collection.dart';
-import 'package:challenge/models/notification/request_connection_notification_model.dart';
+import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/auth_service.dart';
@@ -31,6 +31,9 @@ class UsersProvider with ChangeNotifier {
   List<UserModel> _blockedUsers = [];
   List<UserModel> get blockedUsers => _blockedUsers;
 
+  List<UserModel> _notificationsUser = [];
+  List<UserModel> get notificationsUser => _notificationsUser;
+
   final int paginationLimit = 10;
 
   NotificationsProvider notificationsProvider;
@@ -56,6 +59,20 @@ class UsersProvider with ChangeNotifier {
     return user;
   }
 
+  Future<UserModel> getUserById(String id) async {
+    return await usersCollection.getById(id);
+  }
+
+  Future<List<UserModel>> getNotificationsUsers() async {
+    _notificationsUser = await usersCollection.getByUserIds(
+        notificationsProvider.userNotifications
+            .map((notification) => notification.fromUserId)
+            .toList());
+
+    notifyListeners();
+    return _notificationsUser;
+  }
+
   update(UserModel user) async {
     user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
     _user = user;
@@ -73,13 +90,22 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await getConnections();
 
-    RequestConnectionNotificationModel notification =
-        RequestConnectionNotificationModel(
-            title: '@${_user.username} wants to connect with you',
-            userId: otherUserId,
-            fromUserId: _user.id);
-    await notificationsProvider.createNotification(notification);
+    UserModel otherUser = await usersCollection.getById(otherUserId);
+    if (otherUser.connectionIds.contains(_user.id)) {
+      await notificationsProvider.createNotification(
+          otherUserId, _user.id, NotificationTypeEnum.connectionAccepted);
+    } else {
+      await notificationsProvider.createNotification(
+          otherUserId, _user.id, NotificationTypeEnum.connectionRequest);
+    }
+    notifyListeners();
+  }
 
+  Future<void> acceptConnectionRequest(String otherUserId) async {
+    _user.connect(otherUserId);
+    await usersCollection.update(_user);
+
+    await getConnections();
     notifyListeners();
   }
 
@@ -91,6 +117,8 @@ class UsersProvider with ChangeNotifier {
 
     await usersCollection.update(_user);
     await usersCollection.update(otherUser);
+
+    await notificationsProvider.deleteNotificationsBetweenUsers(_user.id, id);
 
     await getConnections();
     notifyListeners();

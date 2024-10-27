@@ -101,6 +101,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           controller: pageController,
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
+          physics: const AlwaysScrollableScrollPhysics(),
           children: filteredUserChallenges.map((userChallenge) {
             userChallenge.checkChallengeStatus();
             return Slidable(
@@ -109,9 +110,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
               endActionPane: endActionPane(userChallenge),
               child: Builder(builder: (context) {
                 return CardComponent(
-                  scrollPhysics: filteredUserChallenges.length == 1
-                      ? const AlwaysScrollableScrollPhysics()
-                      : const NeverScrollableScrollPhysics(),
                   children: [
                     thumbnail(userChallenge),
                     title(userChallenge),

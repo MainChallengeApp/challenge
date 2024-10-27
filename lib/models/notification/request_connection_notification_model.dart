@@ -1,36 +1,22 @@
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/models/notification/notification_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RequestConnectionNotificationModel extends NotificationModel {
-  String fromUserId;
-  static const String fromUserIdField = 'fromUserId';
+  RequestConnectionNotificationModel({
+    super.id,
+    required super.userId,
+    required super.fromUserId,
+    super.type = NotificationTypeEnum.connectionRequest,
+    super.createdAt,
+  }) : super(title: '', body: 'wants to connect with you');
 
-  RequestConnectionNotificationModel(
-      {super.id,
-      required super.userId,
-      required this.fromUserId,
-      super.type = NotificationTypeEnum.connectionRequest,
-      super.createDate,
-      required super.title});
-
-  factory RequestConnectionNotificationModel.fromDoc(Map<String, dynamic> doc) {
+  factory RequestConnectionNotificationModel.fromDoc(DocumentSnapshot doc) {
     return RequestConnectionNotificationModel(
-      id: doc[NotificationModel.idField],
+      id: doc.id,
       userId: doc[NotificationModel.userIdField],
-      title: doc[NotificationModel.titleField],
-      fromUserId: doc[fromUserIdField],
-      createDate: doc[NotificationModel.createDateField].toDate(),
+      fromUserId: doc[NotificationModel.fromUserIdField],
+      createdAt: doc[NotificationModel.createdAtField].toDate(),
     );
-  }
-
-  @override
-  Map<String, dynamic> toDoc() {
-    return {
-      NotificationModel.userIdField: userId,
-      NotificationModel.titleField: title,
-      NotificationModel.typeField: type.type,
-      NotificationModel.createDateField: createDate,
-      fromUserIdField: fromUserId,
-    };
   }
 }

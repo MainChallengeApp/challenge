@@ -43,14 +43,17 @@ class _HomeListPageState extends State<HomeListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarComponent(
-        preTitle: widget.title,
-        isFirstPageInRoute: true,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBarComponent(
+          preTitle: widget.title,
+          isFirstPageInRoute: true,
+        ),
+        backgroundColor: Colors.white,
+        body: _buildList(),
+        bottomNavigationBar: const BottomNavigationComponent(),
       ),
-      backgroundColor: Colors.white,
-      body: _buildList(),
-      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 

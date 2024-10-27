@@ -9,7 +9,7 @@ class ReportsProvider with ChangeNotifier {
 
   Future<void> createReport(String userId, String reason) async {
     final report = ReportModel(
-      reportedByUserId: authService.getCurrentUserId(),
+      userId: authService.getCurrentUserId(),
       reportedUserId: userId,
       reason: reason,
     );

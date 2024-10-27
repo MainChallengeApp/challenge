@@ -1,6 +1,7 @@
 import 'package:challenge/exceptions/notification_type_is_not_supported_exception.dart';
 
 enum NotificationTypeEnum {
+  connectionAccepted(type: 'connectionAccepted'),
   connectionRequest(type: 'connectionRequest'),
   ;
 
