@@ -45,11 +45,13 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              widget.user.username,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-              style: Theme.of(context).textTheme.titleMedium,
+            Expanded(
+              child: Text(
+                widget.user.username,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
             const SpaceComponent(
               width: 10,

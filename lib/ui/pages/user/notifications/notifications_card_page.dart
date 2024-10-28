@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/exceptions/notification_type_is_not_supported_exception.dart';
 import 'package:challenge/models/notification/notification_model.dart';
@@ -32,6 +34,13 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
+  late PageController pageController = PageController(
+      initialPage: max(
+          notificationsProvider.userNotifications.indexWhere(
+              (NotificationModel notification) =>
+                  notification.id == widget.initialNotificationId),
+          0));
+
   @override
   void initState() {
     super.initState();
@@ -49,20 +58,22 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
       body: PageView(
         scrollDirection: Axis.vertical,
         physics: const AlwaysScrollableScrollPhysics(),
+        controller: pageController,
         children: listeningNotificationsProvider.userNotifications
             .map((NotificationModel notification) {
           switch (notification.type) {
             case NotificationTypeEnum.connectionRequest:
               return ConnectionRequestCard(
-                notification: notification,
-                fromUser: usersProvider
-                    .getNotificationUserById(notification.fromUserId),
-              );
+                  notification: notification,
+                  fromUser: usersProvider
+                      .getNotificationUserById(notification.fromUserId),
+                  onEmptyList: onEmptyList);
             case NotificationTypeEnum.connectionAccepted:
               return ConnectionAcceptedCard(
                   notification: notification,
                   fromUser: usersProvider
-                      .getNotificationUserById(notification.fromUserId));
+                      .getNotificationUserById(notification.fromUserId),
+                  onEmptyList: onEmptyList);
             default:
               throw NotificationTypeIsNotSupportedException(
                   notification.type.toString());
@@ -71,5 +82,11 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
       ),
       bottomNavigationBar: const BottomNavigationComponent(),
     );
+  }
+
+  void onEmptyList() {
+    if (notificationsProvider.userNotifications.isEmpty) {
+      Navigator.of(context).pop();
+    }
   }
 }

@@ -105,6 +105,10 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await getConnections();
 
+    await notificationsProvider.deleteNotificationsBetweenUsers(
+        currentUser: _user.id,
+        otherUser: otherUserId,
+        type: NotificationTypeEnum.connectionRequest);
     UserModel otherUser = await usersCollection.getById(otherUserId);
     if (otherUser.connectionIds.contains(_user.id)) {
       await notificationsProvider.createNotification(
@@ -113,14 +117,6 @@ class UsersProvider with ChangeNotifier {
       await notificationsProvider.createNotification(
           otherUserId, _user.id, NotificationTypeEnum.connectionRequest);
     }
-    notifyListeners();
-  }
-
-  Future<void> acceptConnectionRequest(String otherUserId) async {
-    _user.connect(otherUserId);
-    await usersCollection.update(_user);
-
-    await getConnections();
     notifyListeners();
   }
 
@@ -133,7 +129,8 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await usersCollection.update(otherUser);
 
-    await notificationsProvider.deleteNotificationsBetweenUsers(_user.id, id);
+    await notificationsProvider.deleteNotificationsBetweenUsers(
+        currentUser: _user.id, otherUser: id);
 
     await getConnections();
     notifyListeners();

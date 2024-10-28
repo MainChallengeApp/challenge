@@ -14,11 +14,13 @@ import 'package:provider/provider.dart';
 class ConnectionRequestCard extends StatefulWidget {
   final NotificationModel notification;
   final UserModel fromUser;
+  final void Function() onEmptyList;
 
   const ConnectionRequestCard({
     super.key,
     required this.notification,
     required this.fromUser,
+    required this.onEmptyList,
   });
 
   @override
@@ -79,15 +81,14 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
       isLoadingDeclineButton = true;
     });
     await usersProvider.disconnectFromUser(widget.fromUser.id);
-    await notificationsProvider.deleteNotification(widget.notification.id);
-    setState(() {
-      isLoadingDeclineButton = false;
-    });
-    if (notificationsProvider.userNotifications.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
+    // await notificationsProvider.deleteNotification(widget.notification.id);
+
+    if (mounted) {
+      setState(() {
+        isLoadingDeclineButton = false;
+      });
     }
+    widget.onEmptyList();
   }
 
   void onTapAccept() async {
@@ -95,14 +96,12 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
       isLoadingAcceptButton = true;
     });
     await usersProvider.connectToUser(widget.fromUser.id);
-    await notificationsProvider.deleteNotification(widget.notification.id);
-    setState(() {
-      isLoadingAcceptButton = false;
-    });
-    if (notificationsProvider.userNotifications.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
+    // await notificationsProvider.deleteNotification(widget.notification.id);
+    if (mounted) {
+      setState(() {
+        isLoadingAcceptButton = false;
+      });
     }
+    widget.onEmptyList();
   }
 }

@@ -27,7 +27,8 @@ class AppState extends State<App> {
 
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
-  bool isLoading = true;
+  bool isLoadingUser = true;
+  bool isLoadingUserChallenges = true;
 
   @override
   void initState() {
@@ -35,7 +36,7 @@ class AppState extends State<App> {
 
     usersProvider.getUser().then((_) {
       setState(() {
-        isLoading = false;
+        isLoadingUser = false;
       });
     });
 
@@ -45,12 +46,15 @@ class AppState extends State<App> {
       } else {
         tabProvider.selectTab(TabItemEnum.home);
       }
+      setState(() {
+        isLoadingUserChallenges = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
+    return isLoadingUser || isLoadingUserChallenges
         ? const Scaffold(
             body: Center(
               child: LoadingCircleComponent(),

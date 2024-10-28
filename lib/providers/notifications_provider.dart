@@ -43,8 +43,18 @@ class NotificationsProvider with ChangeNotifier {
     _userNotifications = [];
   }
 
-  deleteNotificationsBetweenUsers(String currentUser, String otherUser) {
-    notificationsCollection.deleteNotificationsBetweenUsers(
-        currentUser, otherUser);
+  Future<void> deleteNotificationsBetweenUsers(
+      {required String currentUser,
+      required String otherUser,
+      NotificationTypeEnum? type}) async {
+    await notificationsCollection.deleteNotifications(
+        currentUser, otherUser, type);
+    _userNotifications.removeWhere((notification) =>
+        ((notification.userId == currentUser &&
+                notification.fromUserId == otherUser) ||
+            (notification.userId == otherUser &&
+                notification.fromUserId == currentUser)) &&
+        (type == null || notification.type == type));
+    notifyListeners();
   }
 }

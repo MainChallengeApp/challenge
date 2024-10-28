@@ -112,11 +112,13 @@ class _SearchListPageState extends State<SearchListPage> {
                   setState(() {
                     isFilterOnChallenges = true;
                   });
+                  onChangeList(textEditingController.text);
                 },
                 onTapUsers: () {
                   setState(() {
                     isFilterOnChallenges = false;
                   });
+                  onChangeList(textEditingController.text);
                 },
               )),
               Expanded(
@@ -194,7 +196,8 @@ class _SearchListPageState extends State<SearchListPage> {
       onRefresh: () async {
         usersProvider.resetEndOfSearchedList();
         usersProvider.emptySearchUsers();
-        await usersProvider.getSearchedPaginated();
+        await usersProvider.getSearchedPaginated(
+            searchText: textEditingController.text);
       },
       child: RawScrollbar(
         controller: scrollController,

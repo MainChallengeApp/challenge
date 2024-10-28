@@ -12,11 +12,13 @@ import 'package:provider/provider.dart';
 class ConnectionAcceptedCard extends StatefulWidget {
   final NotificationModel notification;
   final UserModel fromUser;
+  final void Function() onEmptyList;
 
   const ConnectionAcceptedCard({
     super.key,
     required this.notification,
     required this.fromUser,
+    required this.onEmptyList,
   });
 
   @override
@@ -66,13 +68,11 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
       isLoadingAcceptButton = true;
     });
     await notificationsProvider.deleteNotification(widget.notification.id);
-    setState(() {
-      isLoadingAcceptButton = false;
-    });
-    if (notificationsProvider.userNotifications.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
+    if (mounted) {
+      setState(() {
+        isLoadingAcceptButton = false;
+      });
     }
+    widget.onEmptyList();
   }
 }

@@ -35,6 +35,7 @@ class _ListItemNotificationComponentState
             padding: const EdgeInsets.all(0),
             child: Text(
               widget.fromUser.username,
+              overflow: TextOverflow.ellipsis,
               textHeightBehavior: const TextHeightBehavior(
                   applyHeightToFirstAscent: false,
                   applyHeightToLastDescent: false),
@@ -45,6 +46,7 @@ class _ListItemNotificationComponentState
             padding: const EdgeInsets.all(0),
             child: Text(
               widget.notification.body,
+              overflow: TextOverflow.ellipsis,
               textHeightBehavior: const TextHeightBehavior(
                   applyHeightToFirstAscent: false,
                   applyHeightToLastDescent: false),

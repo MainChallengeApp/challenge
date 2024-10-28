@@ -87,6 +87,9 @@ class UserModel {
   }
 
   void connect(String userId) {
+    if (connectionIds.contains(userId)) {
+      return;
+    }
     connectionIds.add(userId);
   }
 
@@ -103,6 +106,9 @@ class UserModel {
   }
 
   void blockUser(String userId) {
+    if (blockedUserIds.contains(userId)) {
+      return;
+    }
     blockedUserIds.add(userId);
   }
 
