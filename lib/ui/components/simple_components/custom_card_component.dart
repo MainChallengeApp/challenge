@@ -25,28 +25,22 @@ class CardComponent extends StatelessWidget {
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
-            child: Column(
-              children: <Widget>[
-                Expanded(
-                    child: Container(
-                  margin: const EdgeInsets.only(
-                      bottom: standardBottomMargin,
-                      left: standardSideMargin,
-                      right: standardSideMargin),
-                  padding: const EdgeInsets.all(standardPadding),
-                  width: double.infinity,
-                  height: 1, // just to make it static
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          width: 1,
-                          color: const Color.fromRGBO(226, 232, 240, 1)),
-                      borderRadius: const BorderRadius.all(
-                          Radius.circular(standardBorderRadius))),
-                  child: Column(
-                    children: children,
-                  ),
-                )),
-              ],
+            child: Container(
+              margin: const EdgeInsets.only(
+                  bottom: standardBottomMargin,
+                  left: standardSideMargin,
+                  right: standardSideMargin),
+              padding: const EdgeInsets.all(standardPadding),
+              width: null,
+              height: null, // just to make it static
+              decoration: BoxDecoration(
+                  border: Border.all(
+                      width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+                  borderRadius: const BorderRadius.all(
+                      Radius.circular(standardBorderRadius))),
+              child: Column(
+                children: children,
+              ),
             ),
           ),
         ],
