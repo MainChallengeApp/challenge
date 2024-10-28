@@ -18,11 +18,13 @@ import 'package:provider/provider.dart';
 class EditPicturePage extends StatefulWidget {
   final UserModel user;
   final String preTitle;
+  final bool isRegistration;
 
   const EditPicturePage({
     super.key,
     required this.user,
     required this.preTitle,
+    this.isRegistration = false,
   });
 
   @override
@@ -47,40 +49,47 @@ class _EditPicturePageState extends State<EditPicturePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        appBar: AppBarComponent(
+            preTitle: widget.preTitle,
+            titleText: title,
+            isFirstPageInRoute: widget.isRegistration),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                SpaceColumnComponent(
-                  child: CustomContainerComponent(
-                    borderRadius: CardComponent.standardBorderRadius,
-                    isHeightDynamic: true,
-                    margin: const EdgeInsets.only(
-                      left: ListItemContainerComponent.standardMargin,
-                      right: ListItemContainerComponent.standardMargin,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SpaceColumnComponent(
+                      child: CustomContainerComponent(
+                        borderRadius: CardComponent.standardBorderRadius,
+                        isHeightDynamic: true,
+                        margin: const EdgeInsets.only(
+                          left: ListItemContainerComponent.standardMargin,
+                          right: ListItemContainerComponent.standardMargin,
+                        ),
+                        padding:
+                            const EdgeInsets.all(CardComponent.standardPadding),
+                        child: UserPictureMaxComponent(
+                            userPictureUrl: editUser.pictureUrl),
+                      ),
                     ),
-                    padding:
-                        const EdgeInsets.all(CardComponent.standardPadding),
-                    child: UserPictureMaxComponent(
-                        userPictureUrl: editUser.pictureUrl),
-                  ),
+                    SpaceColumnComponent(
+                      child: ListItemIconTextComponent(
+                          onTap: onTapUpload,
+                          icon: IconEnum.upload.icon,
+                          title: 'Upload'),
+                    ),
+                    SpaceColumnComponent(
+                      child: ListItemIconTextComponent(
+                          onTap: onTapRemove,
+                          icon: IconEnum.remove.icon,
+                          title: 'Remove'),
+                    )
+                  ],
                 ),
-                SpaceColumnComponent(
-                  child: ListItemIconTextComponent(
-                      onTap: onTapUpload,
-                      icon: IconEnum.upload.icon,
-                      title: 'Upload'),
-                ),
-                SpaceColumnComponent(
-                  child: ListItemIconTextComponent(
-                      onTap: onTapRemove,
-                      icon: IconEnum.remove.icon,
-                      title: 'Remove'),
-                )
-              ],
+              ),
             ),
             SpaceColumnComponent(
               height: 20,

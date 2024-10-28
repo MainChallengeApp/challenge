@@ -5,19 +5,24 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class EditUsernamePage extends StatefulWidget {
   final UserModel user;
   final String preTitle;
+  final bool isRegistration;
 
   const EditUsernamePage({
     super.key,
     required this.user,
     required this.preTitle,
+    this.isRegistration = false,
   });
 
   @override
@@ -37,6 +42,8 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     text: editUser.username,
   );
 
+  String? errorText;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,7 +51,11 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        appBar: AppBarComponent(
+          preTitle: widget.preTitle,
+          titleText: title,
+          isFirstPageInRoute: widget.isRegistration,
+        ),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -53,31 +64,40 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
               child: ListItemIconTextInputComponent(
                 icon: IconEnum.username.icon,
                 textEditingController: userNameTextEditingController,
+                hintText: 'Username',
+                errorText: errorText,
+                inputFormatters: [
+                  TextInputFormatter.withFunction(
+                    (TextEditingValue oldValue, TextEditingValue newValue) {
+                      return TextEditingValue(
+                        text: newValue.text.toLowerCase().replaceAll(' ', '_'),
+                        selection: newValue.selection,
+                      );
+                    },
+                  ),
+                ],
                 onChangeTextField: (value) {
-                  editUser.username = value;
+                  setState(() {
+                    editUser.username = value;
+                    errorText = null;
+                  });
                 },
-                // onSubmit: (String value) {
-                //   userNameTextEditingController.text = value.trim();
-                //   editUser.username = value.trim();
-                // },
-                // onTapOutside: (_) {
-                //   userNameTextEditingController.text =
-                //       userNameTextEditingController.text.trim();
-                //   editUser.username = userNameTextEditingController.text.trim();
-                // },
               ),
             ),
             SpaceColumnComponent(
               height: 20,
               child: Row(
                 children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: onTapCancel,
-                      text: 'Cancel',
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(
-                          left: ListItemContainerComponent.standardMargin),
+                  Visibility(
+                    visible: !widget.isRegistration,
+                    child: Expanded(
+                      child: ListItemButtonComponent(
+                        onTap: onTapCancel,
+                        text: 'Cancel',
+                        isMainButton: false,
+                        margin: const EdgeInsets.only(
+                            left: ListItemContainerComponent.standardMargin),
+                      ),
                     ),
                   ),
                   const SpaceComponent(
@@ -88,6 +108,8 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                       margin: const EdgeInsets.only(
                           right: ListItemContainerComponent.standardMargin),
                       onTap: onTapSave,
+                      isMainButton:
+                          userNameTextEditingController.text.trim().isNotEmpty,
                       text: 'Save',
                       isLoading: isLoading,
                     ),
@@ -105,15 +127,50 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     if (isLoading) {
       return;
     }
+
+    editUser.username = editUser.username.trim();
+    if (editUser.username.isEmpty) {
+      setState(() {
+        errorText = 'Username cannot be empty';
+      });
+      return;
+    }
+
+    if (editUser.username == widget.user.username) {
+      setState(() {
+        errorText = 'Username cannot be the same';
+      });
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
-    editUser.username = editUser.username.trim();
-    await usersProvider.update(editUser);
+    var result = await usersProvider.updateUsername(editUser);
 
     setState(() {
       isLoading = false;
+      if (!result) {
+        errorText = 'Username already taken';
+      }
     });
+    if (!result) {
+      return;
+    }
+
+    if (widget.isRegistration) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+      Navigator.push(
+          context,
+          NoAnimationPageRouteComponent(
+              builder: (builder) => EditPicturePage(
+                  user: editUser,
+                  preTitle: 'Registration',
+                  isRegistration: true)));
+      return;
+    }
+
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }

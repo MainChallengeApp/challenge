@@ -3,6 +3,7 @@
 import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ListItemIconTextInputComponent extends StatefulWidget {
   Function(String)? onChangeTextField;
@@ -19,6 +20,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final bool? isEnabled;
   final bool? autoFocus;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
 
   ListItemIconTextInputComponent({
     super.key,
@@ -36,6 +38,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.isEnabled,
     this.autoFocus,
     this.focusNode,
+    this.inputFormatters,
   });
 
   @override
@@ -81,6 +84,7 @@ class _ListItemIconTextInputComponentState
                 textAlignVertical: TextAlignVertical.center,
                 textAlign: TextAlign.start,
                 textInputAction: widget.textInputAction,
+                inputFormatters: widget.inputFormatters,
                 keyboardType: widget.keyboardType,
                 style: Theme.of(context).textTheme.bodyMediumBlack,
                 enabled: widget.isEnabled,

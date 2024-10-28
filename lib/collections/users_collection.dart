@@ -24,6 +24,15 @@ class UsersCollection extends Collection {
     await db.collection(name).doc(user.id).update(user.toDoc());
   }
 
+  Future<bool> isUsernameUnique(String username) async {
+    final querySnapshot = await db
+        .collection(name)
+        .where(UserModel.usernameField, isEqualTo: username)
+        .count()
+        .get();
+    return querySnapshot.count == 0;
+  }
+
   Future<List<UserModel>> getByUserIds(List<String> userIds) async {
     try {
       List<DocumentSnapshot> docs = await Future.wait(

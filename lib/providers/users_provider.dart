@@ -81,8 +81,18 @@ class UsersProvider with ChangeNotifier {
   update(UserModel user) async {
     user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
     _user = user;
-    usersCollection.update(_user);
+    await usersCollection.update(_user);
     notifyListeners();
+  }
+
+  updateUsername(UserModel editUser) async {
+    if (!(await usersCollection.isUsernameUnique(editUser.username))) {
+      return false;
+    }
+    _user.username = editUser.username;
+    await usersCollection.update(_user);
+    notifyListeners();
+    return true;
   }
 
   void resetLocalUser() {
