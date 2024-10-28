@@ -1,3 +1,4 @@
+import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/pages/app.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +15,7 @@ class AuthGatePage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: LoadingCircleComponent());
           } else if (snapshot.hasData) {
             return const App();
           } else {

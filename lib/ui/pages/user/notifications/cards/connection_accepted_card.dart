@@ -3,6 +3,7 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,14 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
         SpaceColumnComponent(
             child: UserPictureMinComponent(
                 userPictureUrl: widget.fromUser.pictureUrl)),
-        Text('${widget.fromUser.username} ${widget.notification.body}'),
+        SpaceColumnComponent(
+            child: CustomContainerComponent(
+                isHeightDynamic: true,
+                child: Center(
+                    child: Text(
+                        '${widget.fromUser.username} ${widget.notification.body}',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium)))),
         const Expanded(child: SizedBox()),
         Row(
           children: [
@@ -58,6 +66,9 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
       isLoadingAcceptButton = true;
     });
     await notificationsProvider.deleteNotification(widget.notification.id);
+    setState(() {
+      isLoadingAcceptButton = false;
+    });
     if (notificationsProvider.userNotifications.isEmpty) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();

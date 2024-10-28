@@ -88,16 +88,13 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
               height: 20,
               child: Row(
                 children: [
-                  Visibility(
-                    visible: !widget.isRegistration,
-                    child: Expanded(
-                      child: ListItemButtonComponent(
-                        onTap: onTapCancel,
-                        text: 'Cancel',
-                        isMainButton: false,
-                        margin: const EdgeInsets.only(
-                            left: ListItemContainerComponent.standardMargin),
-                      ),
+                  Expanded(
+                    child: ListItemButtonComponent(
+                      onTap: onTapCancel,
+                      text: 'Cancel',
+                      isMainButton: false,
+                      margin: const EdgeInsets.only(
+                          left: ListItemContainerComponent.standardMargin),
                     ),
                   ),
                   const SpaceComponent(
@@ -137,9 +134,12 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     }
 
     if (editUser.username == widget.user.username) {
-      setState(() {
-        errorText = 'Username cannot be the same';
-      });
+      if (widget.isRegistration) {
+        nextInRegistration();
+        return;
+      }
+
+      Navigator.pop(context);
       return;
     }
 
@@ -159,15 +159,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     }
 
     if (widget.isRegistration) {
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
-      Navigator.push(
-          context,
-          NoAnimationPageRouteComponent(
-              builder: (builder) => EditPicturePage(
-                  user: editUser,
-                  preTitle: 'Registration',
-                  isRegistration: true)));
+      nextInRegistration();
       return;
     }
 
@@ -175,7 +167,35 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     Navigator.pop(context);
   }
 
+  void nextInRegistration() {
+    // ignore: use_build_context_synchronously
+    Navigator.popUntil(context, (route) => route.isFirst);
+    Navigator.push(
+        //      ignore: use_build_context_synchronously
+        context,
+        NoAnimationPageRouteComponent(
+            disableSwipeBack: true,
+            builder: (builder) => EditUsernamePage(
+                user: editUser,
+                preTitle: 'Registration',
+                isRegistration: true)));
+
+    Navigator.push(
+        // ignore: use_build_context_synchronously
+        context,
+        NoAnimationPageRouteComponent(
+            builder: (builder) => EditPicturePage(
+                user: editUser,
+                preTitle: 'Registration',
+                isRegistration: true)));
+    return;
+  }
+
   void onTapCancel() {
+    if (widget.isRegistration) {
+      usersProvider.logout();
+      return;
+    }
     Navigator.pop(context);
   }
 }

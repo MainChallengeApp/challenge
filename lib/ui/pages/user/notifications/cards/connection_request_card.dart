@@ -43,8 +43,11 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
         SpaceColumnComponent(
             child: CustomContainerComponent(
                 child: Center(
-          child:
-              Text('${widget.fromUser.username} ${widget.notification.body}'),
+          child: Text(
+            '${widget.fromUser.username} ${widget.notification.body}',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         ))),
         const Expanded(child: SizedBox()),
         Row(
@@ -77,6 +80,9 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
     });
     await usersProvider.disconnectFromUser(widget.fromUser.id);
     await notificationsProvider.deleteNotification(widget.notification.id);
+    setState(() {
+      isLoadingDeclineButton = false;
+    });
     if (notificationsProvider.userNotifications.isEmpty) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
@@ -90,6 +96,9 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
     });
     await usersProvider.connectToUser(widget.fromUser.id);
     await notificationsProvider.deleteNotification(widget.notification.id);
+    setState(() {
+      isLoadingAcceptButton = false;
+    });
     if (notificationsProvider.userNotifications.isEmpty) {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop();

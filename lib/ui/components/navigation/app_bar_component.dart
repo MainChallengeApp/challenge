@@ -32,8 +32,11 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
     ScrollController scrollController = ScrollController();
 
-    Future.delayed(Duration.zero, () {
-      scrollController.jumpTo(scrollController.position.maxScrollExtent);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (scrollController.hasClients &&
+          scrollController.position.hasContentDimensions) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      }
     });
 
     return Padding(

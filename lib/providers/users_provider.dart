@@ -40,10 +40,10 @@ class UsersProvider with ChangeNotifier {
 
   UsersProvider({required this.notificationsProvider});
 
-  Future<void> createUser({required String email, username}) async {
+  Future<void> createUser() async {
     final user = UserModel(
       id: authService.getCurrentUserId(),
-      username: username,
+      username: '',
     );
     _user = user;
     await usersCollection.create(user);
@@ -220,5 +220,10 @@ class UsersProvider with ChangeNotifier {
     await getUser(notify: false);
     _blockedUsers = await usersCollection.getByUserIds(_user.blockedUserIds);
     notifyListeners();
+  }
+
+  void logout() {
+    resetLocalUser();
+    authService.logout();
   }
 }

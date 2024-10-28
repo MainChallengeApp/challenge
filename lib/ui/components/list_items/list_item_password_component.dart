@@ -26,6 +26,12 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
   bool isHidden = true;
 
   @override
+  void initState() {
+    super.initState();
+    isHidden = true;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
         icon: IconEnum.password.icon,

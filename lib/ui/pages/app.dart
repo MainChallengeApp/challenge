@@ -2,7 +2,7 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
@@ -22,54 +22,58 @@ class AppState extends State<App> {
       Provider.of<UserChallengesProvider>(context, listen: false);
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final listeningUsersProvider =
+      Provider.of<UsersProvider>(context, listen: true);
 
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
 
-    usersProvider.getUser().then((user) {
-      if (user.username == '') {
-        // ignore: use_build_context_synchronously
-        context.read<TabProvider>().selectTab(TabItemEnum.user);
-        Navigator.push(
-            // ignore: use_build_context_synchronously
-            context,
-            NoAnimationPageRouteComponent(
-                builder: (context) => EditUsernamePage(
-                      user: user,
-                      preTitle: 'Registration',
-                      isRegistration: true,
-                    )));
-        return;
-      }
-
-      userChallengesProvider.getAllOfUser().then((value) {
-        if (value.isEmpty) {
-          context.read<TabProvider>().selectTab(TabItemEnum.search);
-        } else {
-          context.read<TabProvider>().selectTab(TabItemEnum.home);
-        }
+    usersProvider.getUser().then((_) {
+      setState(() {
+        isLoading = false;
       });
+    });
+
+    userChallengesProvider.getAllOfUser().then((value) {
+      if (value.isEmpty) {
+        tabProvider.selectTab(TabItemEnum.search);
+      } else {
+        tabProvider.selectTab(TabItemEnum.home);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: <Widget>[
-            _buildOffstageNavigator(TabItemEnum.search),
-            _buildOffstageNavigator(TabItemEnum.home),
-            _buildOffstageNavigator(TabItemEnum.user),
-          ],
-        ),
-        backgroundColor: Colors.white,
-      ),
-    );
+    return isLoading
+        ? const Scaffold(
+            body: Center(
+              child: LoadingCircleComponent(),
+            ),
+          )
+        : listeningUsersProvider.user.username == ''
+            ? EditUsernamePage(
+                user: listeningUsersProvider.user,
+                preTitle: 'Registration',
+                isRegistration: true)
+            : ScaffoldMessenger(
+                child: Scaffold(
+                  resizeToAvoidBottomInset: false,
+                  body: Stack(
+                    children: <Widget>[
+                      _buildOffstageNavigator(TabItemEnum.search),
+                      _buildOffstageNavigator(TabItemEnum.home),
+                      _buildOffstageNavigator(TabItemEnum.user),
+                    ],
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.surface,
+                ),
+              );
   }
 
   Widget _buildOffstageNavigator(TabItemEnum tabItem) {

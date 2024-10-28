@@ -15,7 +15,7 @@ class TabProvider with ChangeNotifier {
 
   void selectTab(TabItemEnum tabItem) {
     if (tabItem == _currentTab) {
-      _navigatorKeys[tabItem]!.currentState!.popUntil((route) => route.isFirst);
+      _navigatorKeys[tabItem]!.currentState?.popUntil((route) => route.isFirst);
     } else {
       _currentTab = tabItem;
     }

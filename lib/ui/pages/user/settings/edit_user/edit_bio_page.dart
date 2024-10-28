@@ -14,11 +14,13 @@ import 'package:provider/provider.dart';
 class EditBioPage extends StatefulWidget {
   final UserModel user;
   final String preTitle;
+  final bool isRegistration;
 
   const EditBioPage({
     super.key,
     required this.user,
     required this.preTitle,
+    this.isRegistration = false,
   });
 
   @override
@@ -27,7 +29,6 @@ class EditBioPage extends StatefulWidget {
 
 class _EditBioPageState extends State<EditBioPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-
   late UserModel editUser = widget.user.copy();
 
   bool isLoading = false;
@@ -89,8 +90,8 @@ class _EditBioPageState extends State<EditBioPage> {
                 children: [
                   Expanded(
                     child: ListItemButtonComponent(
-                      onTap: onTapCancel,
-                      text: 'Cancel',
+                      onTap: widget.isRegistration ? onTapSkip : onTapCancel,
+                      text: widget.isRegistration ? 'Skip' : 'Cancel',
                       isMainButton: false,
                       margin: const EdgeInsets.only(
                           left: ListItemContainerComponent.standardMargin),
@@ -130,11 +131,25 @@ class _EditBioPageState extends State<EditBioPage> {
     setState(() {
       isLoading = false;
     });
+
+    if (widget.isRegistration) {
+      nextInRegistration();
+      return;
+    }
+
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
   void onTapCancel() {
     Navigator.pop(context);
+  }
+
+  void onTapSkip() {
+    nextInRegistration();
+  }
+
+  void nextInRegistration() {
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

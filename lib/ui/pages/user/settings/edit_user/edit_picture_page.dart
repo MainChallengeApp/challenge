@@ -7,11 +7,13 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/user/user_picture_max_component.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,10 +51,7 @@ class _EditPicturePageState extends State<EditPicturePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(
-            preTitle: widget.preTitle,
-            titleText: title,
-            isFirstPageInRoute: widget.isRegistration),
+        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,8 +96,8 @@ class _EditPicturePageState extends State<EditPicturePage> {
                 children: [
                   Expanded(
                     child: ListItemButtonComponent(
-                      onTap: onTapCancel,
-                      text: 'Cancel',
+                      onTap: widget.isRegistration ? onTapSkip : onTapCancel,
+                      text: widget.isRegistration ? 'Skip' : 'Cancel',
                       isMainButton: false,
                       margin: const EdgeInsets.only(
                           left: ListItemContainerComponent.standardMargin),
@@ -140,12 +139,22 @@ class _EditPicturePageState extends State<EditPicturePage> {
     setState(() {
       isLoading = false;
     });
+
+    if (widget.isRegistration) {
+      nextInRegistration();
+      return;
+    }
+
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
   }
 
   void onTapCancel() {
     Navigator.pop(context);
+  }
+
+  void onTapSkip() {
+    nextInRegistration();
   }
 
   void onTapUpload() async {
@@ -162,5 +171,16 @@ class _EditPicturePageState extends State<EditPicturePage> {
     setState(() {
       editUser.pictureUrl = null;
     });
+  }
+
+  void nextInRegistration() {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+            builder: (builder) => EditBioPage(
+                  user: editUser,
+                  preTitle: 'Registration',
+                  isRegistration: true,
+                )));
   }
 }
