@@ -9,7 +9,8 @@ class ChangeSearchChallengeDateTypesMigration extends Migration {
       : super(
             migrationNumber: 4,
             description:
-                'Change search challenge date types from String to DateTime');
+                'Change search challenge date types from String to DateTime',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

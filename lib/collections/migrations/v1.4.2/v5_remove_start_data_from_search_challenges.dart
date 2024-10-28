@@ -8,7 +8,8 @@ class RemoveStartDataFromSearchChallenges extends Migration {
   RemoveStartDataFromSearchChallenges()
       : super(
             migrationNumber: 5,
-            description: 'Remove startData from search_challenges');
+            description: 'Remove startData from search_challenges',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

@@ -7,7 +7,8 @@ class V4ConnectionsAndBlocked extends Migration {
   V4ConnectionsAndBlocked()
       : super(
             migrationNumber: 4,
-            description: 'add connections and blocked to users');
+            description: 'add connections and blocked to users',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

@@ -11,7 +11,8 @@ class V1UseThumbnailModel extends Migration {
   V1UseThumbnailModel()
       : super(
             migrationNumber: 1,
-            description: 'use thumbnail model for search challenges');
+            description: 'use thumbnail model for search challenges',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

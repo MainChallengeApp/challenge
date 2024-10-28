@@ -2,13 +2,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Migration {
   final int migrationNumber;
+  static const migrationNumberField = 'migrationNumber';
+
   final String description;
+  static const descriptionField = 'description';
+
+  final String appVersion;
+  static const appVersionField = 'appVersion';
+
   DateTime createdAt;
+  static const createdAtField = 'createdAt';
+
   final db = FirebaseFirestore.instance;
 
   Migration(
       {required this.migrationNumber,
       required this.description,
+      required this.appVersion,
       DateTime? createdAt})
       : createdAt = createdAt ?? DateTime.now();
 
@@ -18,18 +28,20 @@ class Migration {
 
   Map<String, dynamic> toDoc() {
     return {
-      'migrationNumber': migrationNumber,
-      'createdAt': createdAt,
-      'description': description,
+      migrationNumberField: migrationNumber,
+      createdAtField: createdAt,
+      descriptionField: description,
+      appVersionField: appVersion,
     };
   }
 
   static fromDoc(QueryDocumentSnapshot<Map<String, dynamic>> doc) {
     try {
       return Migration(
-        migrationNumber: doc['migrationNumber'],
-        createdAt: (doc['createdAt'] as Timestamp).toDate(),
-        description: doc['description'],
+        migrationNumber: doc[migrationNumberField],
+        createdAt: (doc[createdAtField] as Timestamp).toDate(),
+        description: doc[descriptionField],
+        appVersion: doc[appVersionField],
       );
     } on Exception {
       rethrow;

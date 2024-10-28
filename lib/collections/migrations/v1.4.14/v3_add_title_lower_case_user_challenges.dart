@@ -7,7 +7,8 @@ class V3AddTitleLowerCaseUserChallenges extends Migration {
   V3AddTitleLowerCaseUserChallenges()
       : super(
             migrationNumber: 3,
-            description: 'add title lower case to user challenges');
+            description: 'add title lower case to user challenges',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

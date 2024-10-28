@@ -11,7 +11,8 @@ class V8ChangeToThumbnailModelMigration extends Migration {
   V8ChangeToThumbnailModelMigration()
       : super(
             migrationNumber: 9,
-            description: 'change search challenges thumbnail model');
+            description: 'change search challenges thumbnail model',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

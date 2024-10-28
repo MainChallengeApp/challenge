@@ -8,7 +8,8 @@ class ChangeEndDateTypeMigration extends Migration {
   ChangeEndDateTypeMigration()
       : super(
             migrationNumber: 3,
-            description: 'Change endDate type from String to DateTime');
+            description: 'Change endDate type from String to DateTime',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

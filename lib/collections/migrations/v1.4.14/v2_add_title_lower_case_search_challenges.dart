@@ -7,7 +7,8 @@ class V2AddTitleLowerCaseSearchChallenges extends Migration {
   V2AddTitleLowerCaseSearchChallenges()
       : super(
             migrationNumber: 2,
-            description: 'add title lower case to search challenges');
+            description: 'add title lower case to search challenges',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

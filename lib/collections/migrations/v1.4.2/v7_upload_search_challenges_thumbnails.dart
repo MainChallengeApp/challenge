@@ -14,7 +14,8 @@ class V7UploadSearchChallengesThumbnailsMigration extends Migration {
   V7UploadSearchChallengesThumbnailsMigration()
       : super(
             migrationNumber: 11,
-            description: 'upload search challenges thumbnails 2.0');
+            description: 'upload search challenges thumbnails 2.0',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

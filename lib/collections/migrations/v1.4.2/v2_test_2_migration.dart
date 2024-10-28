@@ -8,7 +8,8 @@ class Test2Migration extends Migration {
   Test2Migration()
       : super(
             migrationNumber: 2,
-            description: 'Change startDate type from String to DateTime');
+            description: 'Change startDate type from String to DateTime',
+            appVersion: '1.5.3');
 
   @override
   Future<void> run() async {

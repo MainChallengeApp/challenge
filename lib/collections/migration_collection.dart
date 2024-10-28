@@ -2,13 +2,14 @@ import 'package:challenge/collections/collection.dart';
 import 'package:challenge/collections/migrations/migration.dart';
 
 class MigrationCollection extends Collection {
-  MigrationCollection() : super(name: 'migrations');
+  static String collectionName = 'migrations';
+  MigrationCollection() : super(name: collectionName);
 
   Future<void> create(Migration migration) async {
     await db.collection(name).add(migration.toDoc());
   }
 
-  Future<int> getNewestMigrationNumber() async {
+  Future<Migration?> getNewestMigration() async {
     try {
       final querySnapshot = await db
           .collection(name)
@@ -17,13 +18,10 @@ class MigrationCollection extends Collection {
           .get();
 
       if (querySnapshot.docs.isEmpty) {
-        return 0;
+        return null;
       }
 
-      return querySnapshot.docs
-          .map((doc) => Migration.fromDoc(doc))
-          .first
-          .migrationNumber;
+      return querySnapshot.docs.map((doc) => Migration.fromDoc(doc)).first;
     } on Exception {
       rethrow;
     }
