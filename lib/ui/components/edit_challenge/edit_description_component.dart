@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -41,6 +42,12 @@ class _EditDescriptionComponentState extends State<EditDescriptionComponent> {
               children: [
                 Expanded(
                   child: TextField(
+                    maxLength: DatabaseService.maxCharactersLong,
+                    buildCounter: (_,
+                            {required currentLength,
+                            required isFocused,
+                            required maxLength}) =>
+                        null,
                     autofocus: true,
                     maxLines: null,
                     style: Theme.of(context).textTheme.textInputSmall,

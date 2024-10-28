@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,12 @@ class ExpandedTextFieldComponent extends StatelessWidget {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
+          maxLength: DatabaseService.maxCharactersShort,
+          buildCounter: (_,
+                  {required currentLength,
+                  required isFocused,
+                  required maxLength}) =>
+              null,
           style: Theme.of(context).textTheme.textInputSmall,
           onChanged: (value) => editChallenge.title = value,
           decoration: InputDecoration.collapsed(

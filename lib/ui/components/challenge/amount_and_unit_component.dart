@@ -1,5 +1,6 @@
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/unit_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -101,6 +102,12 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
       DropdownMenuItem<String>(
           value: '',
           child: TextField(
+            maxLength: DatabaseService.maxCharactersShort,
+            buildCounter: (_,
+                    {required currentLength,
+                    required isFocused,
+                    required maxLength}) =>
+                null,
             style: Theme.of(context).textTheme.textInputSmall,
             decoration: InputDecoration.collapsed(
                 hintText: 'Unit',
@@ -137,6 +144,7 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: TextField(
+          maxLength: DatabaseService.maxCharactersShort,
           style: Theme.of(context).textTheme.textInputSmall,
           textAlign: TextAlign.end,
           controller:

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -51,6 +52,12 @@ class _ListItemProgressControllerComponentState
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: TextField(
+            maxLength: DatabaseService.maxCharactersShort,
+            buildCounter: (_,
+                    {required currentLength,
+                    required isFocused,
+                    required maxLength}) =>
+                null,
             controller: progressTextEditingController,
             style: Theme.of(context).textTheme.textInputSmall,
             textAlign: TextAlign.center,
@@ -115,9 +122,9 @@ class _ListItemProgressControllerComponentState
         flex: 1,
         child: TapContainerComponent(
             onLongPress: () {
-							if(widget.editProgress.progress >= widget.editProgress.goal) {
-								return;
-							}
+              if (widget.editProgress.progress >= widget.editProgress.goal) {
+                return;
+              }
               timer = Timer.periodic(
                   Duration(
                       milliseconds: (200 * log(widget.editProgress.goal)) ~/

@@ -1,6 +1,7 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -105,6 +106,12 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         child: Align(
           alignment: Alignment.centerLeft,
           child: TextField(
+            maxLength: DatabaseService.maxCharactersShort,
+            buildCounter: (_,
+                    {required currentLength,
+                    required isFocused,
+                    required maxLength}) =>
+                null,
             style: Theme.of(context).textTheme.textInputSmall,
             textAlign: TextAlign.end,
             controller:

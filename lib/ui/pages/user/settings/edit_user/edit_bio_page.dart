@@ -1,5 +1,6 @@
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -64,6 +65,7 @@ class _EditBioPageState extends State<EditBioPage> {
                     bottom: ListItemContainerComponent.standardMargin),
                 child: TextField(
                   controller: bioTextEditingController,
+                  maxLength: DatabaseService.maxCharactersMedium,
                   maxLines: null,
                   style: Theme.of(context).textTheme.textInputSmall,
                   decoration: InputDecoration(

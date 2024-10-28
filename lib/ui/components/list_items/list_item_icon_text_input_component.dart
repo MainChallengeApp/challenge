@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -78,6 +79,12 @@ class _ListItemIconTextInputComponentState
           children: [
             Expanded(
               child: TextField(
+                maxLength: DatabaseService.maxCharactersMedium,
+                buildCounter: (_,
+                        {required currentLength,
+                        required isFocused,
+                        required maxLength}) =>
+                    null,
                 controller: widget.textEditingController,
                 obscureText: widget.isHidden ?? false,
                 onChanged: widget.onChangeTextField,

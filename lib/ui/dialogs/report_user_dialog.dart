@@ -1,4 +1,5 @@
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -60,6 +61,7 @@ class _ReportUserDialogState extends State<ReportUserDialog> {
         child: CustomContainerComponent(
           isHeightDynamic: true,
           child: TextField(
+            maxLength: DatabaseService.maxCharactersLong,
             controller: textEditingController,
             maxLines: 3,
             style: Theme.of(context).textTheme.textInputSmall,
