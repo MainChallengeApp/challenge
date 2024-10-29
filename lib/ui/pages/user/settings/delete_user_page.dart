@@ -55,7 +55,8 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                       child: CustomContainerComponent(
                         borderRadius: CardComponent.standardBorderRadius,
                         margin: const EdgeInsets.symmetric(horizontal: 20),
-                        height: 150,
+                        padding: const EdgeInsets.all(20),
+                        isHeightDynamic: true,
                         child: Center(
                           child: Text(
                             'This action will delete all your data and cannot be undone.\n\nEnter your password to delete your user.',

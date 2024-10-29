@@ -18,19 +18,20 @@ class CustomContainerComponent extends StatelessWidget {
   final Color? borderColor;
   final bool isHeightDynamic;
 
-  const CustomContainerComponent(
-      {super.key,
-      this.child,
-      this.heightFactor = 1,
-      this.backgroundColor = Colors.white,
-      this.margin,
-      this.isQuadratic = false,
-      this.padding,
-      this.height,
-      this.borderRadius,
-      this.borderWidth,
-      this.borderColor,
-      this.isHeightDynamic = false});
+  const CustomContainerComponent({
+    super.key,
+    this.child,
+    this.heightFactor = 1,
+    this.backgroundColor = Colors.white,
+    this.margin,
+    this.isQuadratic = false,
+    this.padding,
+    this.height,
+    this.borderRadius,
+    this.borderWidth,
+    this.borderColor,
+    this.isHeightDynamic = false,
+  });
 
   @override
   Widget build(BuildContext context) {

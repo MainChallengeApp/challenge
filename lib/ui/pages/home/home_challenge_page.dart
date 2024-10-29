@@ -20,6 +20,7 @@ import 'package:challenge/ui/components/simple_components/slider_component.dart'
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
@@ -157,7 +158,9 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   title(ChallengeModel challenge) {
     return SpaceColumnComponent(
       height: 11,
-      child: TitleWithPercentageComponent(challenge: challenge),
+      child: challenge is UserChallengeModel
+          ? TitleWithPercentageComponent(userChallenge: challenge)
+          : TitleComponent(title: challenge.title),
     );
   }
 

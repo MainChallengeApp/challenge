@@ -62,9 +62,8 @@ class _HomeListPageState extends State<HomeListPage> {
         .where((element) => element.searchInChallenge(searchBarText))
         .toList();
 
-    filteredUserChallenges =
-        ChallengeModel.sortChallengeList(challenges: filteredUserChallenges)
-            as List<UserChallengeModel>;
+    filteredUserChallenges = UserChallengeModel.sortChallengeList(
+        userChallenges: filteredUserChallenges);
 
     return Column(
       children: [

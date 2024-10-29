@@ -3,7 +3,6 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/ui/components/challenge/title_with_percentage_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -13,6 +12,7 @@ import 'package:challenge/ui/components/simple_components/custom_card_component.
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -151,9 +151,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   title(ChallengeModel challenge) {
     return SpaceColumnComponent(
       height: 11,
-      child: TitleWithPercentageComponent(
-        challenge: challenge,
-        isSearch: true,
+      child: TitleComponent(
+        title: challenge.title,
       ),
     );
   }

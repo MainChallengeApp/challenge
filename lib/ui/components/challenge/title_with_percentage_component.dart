@@ -1,4 +1,4 @@
-import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -6,12 +6,12 @@ import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:flutter/material.dart';
 
 class TitleWithPercentageComponent extends StatelessWidget {
-  final ChallengeModel challenge;
+  final UserChallengeModel userChallenge;
   final bool isSearch;
 
   const TitleWithPercentageComponent({
     super.key,
-    required this.challenge,
+    required this.userChallenge,
     this.isSearch = false,
   });
 
@@ -21,14 +21,14 @@ class TitleWithPercentageComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: TitleComponent(title: challenge.title),
+          child: TitleComponent(title: userChallenge.title),
         ),
         const SpaceComponent(
           width: CardComponent.standardPadding,
         ),
         ChallengeTotalPercentageComponent(
-            challenge: challenge,
-            isVisible: !isSearch && !challenge.isInBacklog(),
+            userChallenge: userChallenge,
+            isVisible: !isSearch && !userChallenge.isInBacklog(),
             padding: const EdgeInsets.all(8))
       ],
     );

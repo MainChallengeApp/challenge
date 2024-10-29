@@ -145,6 +145,11 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
         alignment: Alignment.centerLeft,
         child: TextField(
           maxLength: DatabaseService.maxCharactersShort,
+          buildCounter: (context,
+                  {required currentLength,
+                  required isFocused,
+                  required maxLength}) =>
+              null,
           style: Theme.of(context).textTheme.textInputSmall,
           textAlign: TextAlign.end,
           controller:

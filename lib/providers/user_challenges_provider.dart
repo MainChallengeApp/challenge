@@ -20,6 +20,7 @@ class UserChallengesProvider with ChangeNotifier {
     final userChallenge = UserChallengeModel.fromChallengeModel(
       challenge: challenge,
       userId: authService.getCurrentUserId(),
+      repetitions: [],
     );
     _userChallenges.insert(0, userChallenge);
     sortLocalList();
@@ -119,20 +120,9 @@ class UserChallengesProvider with ChangeNotifier {
     update(userChallenge);
   }
 
-  void insertToLocalList(ChallengeModel challengeCopy) {
-    _userChallenges.insert(
-        0,
-        UserChallengeModel.fromChallengeModel(
-          challenge: challengeCopy,
-          userId: authService.getCurrentUserId(),
-        ));
-    sortLocalList();
-  }
-
   void sortLocalList() {
     _userChallenges =
-        ChallengeModel.sortChallengeList(challenges: _userChallenges)
-            as List<UserChallengeModel>;
+        UserChallengeModel.sortChallengeList(userChallenges: _userChallenges);
     notifyListeners();
   }
 

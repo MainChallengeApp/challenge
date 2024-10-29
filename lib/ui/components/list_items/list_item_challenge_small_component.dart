@@ -1,5 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -93,11 +94,13 @@ class _ListItemChallengeSmallComponentState
   }
 
   percentageDone() {
-    return ChallengeTotalPercentageComponent(
-      padding: const EdgeInsets.all(8),
-      challenge: widget.challenge,
-      isVisible: !widget.isSearch && !widget.challenge.isInBacklog(),
-    );
+    return widget.challenge is UserChallengeModel
+        ? ChallengeTotalPercentageComponent(
+            padding: const EdgeInsets.all(8),
+            userChallenge: widget.challenge as UserChallengeModel,
+            isVisible: !widget.challenge.isInBacklog(),
+          )
+        : Container();
   }
 
   ActionPane? endActionPane(Function closeSlidable) {

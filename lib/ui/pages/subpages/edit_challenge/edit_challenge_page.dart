@@ -9,10 +9,10 @@ import 'package:challenge/ui/components/challenge/start_and_end_date_component.d
 import 'package:challenge/ui/components/edit_challenge/edit_description_component.dart';
 import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
 import 'package:challenge/ui/components/edit_challenge/upload_thumbnail_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -70,57 +70,87 @@ class _EditChallengePageState extends State<EditChallengePage> {
               preTitle: widget.preTitle,
               titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
           backgroundColor: Colors.white,
-          body: CardComponent(
-            scrollPhysics: const AlwaysScrollableScrollPhysics(),
+          body: Column(
             children: [
-              thumbnailUploadAndTitle(),
-              description(),
-              amountAndUnit(),
-              frequency(),
-              startAndEndDate(),
-              Visibility(
-                  visible: !isDescriptionExpanded,
-                  child: Expanded(child: Container())),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      dynamicCard(
+                        children: [
+                          thumbnailUploadAndTitle(),
+                          description(),
+                        ],
+                      ),
+                      Visibility(
+                        visible: !isDescriptionExpanded,
+                        child: dynamicCard(children: [
+                          amountAndUnit(),
+                          frequency(),
+                          startAndEndDate(),
+                        ]),
+                      ),
+                      Visibility(
+                        visible: !isDescriptionExpanded,
+                        child: dynamicCard(children: [
+                          addMember(),
+                        ]),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               cancelAndSaveOrAcceptButton()
             ],
-          ),
-          bottomNavigationBar: const BottomNavigationComponent()),
+          )),
     );
   }
 
   cancelAndSaveOrAcceptButton() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: Row(
-        children: [
-          Expanded(
-            child: CustomButtonComponent(
-              onTap: onTapCancel,
-              text: 'Cancel',
+      child: SpaceColumnComponent(
+        height: BottomNavigationComponent.standardMargin,
+        child: Row(
+          children: [
+            Expanded(
+              child: ListItemButtonComponent(
+                onTap: onTapCancel,
+                isMainButton: false,
+                text: 'Cancel',
+                margin: const EdgeInsets.only(
+                    left: CardComponent.standardSideMargin,
+                    right: CardComponent.standardSideMargin / 2),
+              ),
             ),
-          ),
-          const SpaceComponent(),
-          widget.isSearchEdit ||
-                  widget.isSearchNewChallenge ||
-                  widget.isNewChallenge ||
-                  widget.isTryAgain
-              ? Expanded(
-                  child: CustomButtonComponent(
-                    onTap: onTapAccept,
-                    text: 'Accept',
-                    isPrimaryButton: true,
-                    isLoading: isLoading,
+            widget.isSearchEdit ||
+                    widget.isSearchNewChallenge ||
+                    widget.isNewChallenge ||
+                    widget.isTryAgain
+                ? Expanded(
+                    child: ListItemButtonComponent(
+                      onTap: onTapAccept,
+                      text: 'Accept',
+                      isMainButton: true,
+                      isLoading: isLoading,
+                      margin: const EdgeInsets.only(
+                          left: CardComponent.standardSideMargin / 2,
+                          right: CardComponent.standardSideMargin),
+                    ),
+                  )
+                : Expanded(
+                    child: ListItemButtonComponent(
+                      onTap: onTapSave,
+                      text: 'Save',
+                      isMainButton: true,
+                      isLoading: isLoading,
+                      margin: const EdgeInsets.only(
+                          left: CardComponent.standardSideMargin / 2,
+                          right: CardComponent.standardSideMargin),
+                    ),
                   ),
-                )
-              : Expanded(
-                  child: CustomButtonComponent(
-                    onTap: onTapSave,
-                    text: 'Save',
-                    isPrimaryButton: true,
-                    isLoading: isLoading,
-                  ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -128,13 +158,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
   startAndEndDate() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: SpaceColumnComponent(
-        heightMultiplier: 2,
-        child: StartAndEndDateComponent(
-          editChallenge: editChallenge,
-          reloadSearchChallengePage: () => setState(
-            () {},
-          ),
+      child: StartAndEndDateComponent(
+        editChallenge: editChallenge,
+        reloadSearchChallengePage: () => setState(
+          () {},
         ),
       ),
     );
@@ -150,14 +177,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
     return isDescriptionExpanded
         ? Expanded(child: descriptionComponent)
-        : Column(
-            children: [
-              descriptionComponent,
-              const SpaceComponent(
-                heightMultiplier: 2,
-              )
-            ],
-          );
+        : descriptionComponent;
   }
 
   thumbnailUploadAndTitle() {
@@ -274,5 +294,34 @@ class _EditChallengePageState extends State<EditChallengePage> {
         ),
       ),
     );
+  }
+
+  dynamicCard({required List<Widget> children}) {
+    return SpaceColumnComponent(
+      child: CustomContainerComponent(
+        borderRadius: CardComponent.standardBorderRadius,
+        margin: const EdgeInsets.only(
+            left: CardComponent.standardSideMargin,
+            right: CardComponent.standardSideMargin),
+        padding: const EdgeInsets.all(CardComponent.standardPadding),
+        isHeightDynamic: true,
+        child: Column(
+          children: children,
+        ),
+      ),
+    );
+  }
+
+  addMember() {
+    return const SpaceColumnComponent(
+        child: CustomContainerComponent(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Add Member'),
+          Icon(Icons.arrow_forward_ios_rounded),
+        ],
+      ),
+    ));
   }
 }
