@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
@@ -13,10 +14,12 @@ import 'package:challenge/ui/components/edit_challenge/edit_description_componen
 import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
 import 'package:challenge/ui/components/edit_challenge/upload_thumbnail_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -64,10 +67,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   bool isLoading = false;
 
-  late List<UserModel> members = [
-    usersProvider.user,
-    ...usersProvider.confirmedConnections
-  ];
+  late List<UserModel> members = [];
 
   @override
   Widget build(BuildContext context) {
@@ -105,9 +105,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                       ),
                       Visibility(
                         visible: !isDescriptionExpanded,
-                        child: dynamicCard(children: [
-                          addMember(),
-                        ]),
+                        child: addMember(),
                       ),
                     ],
                   ),
@@ -189,7 +187,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       }),
     );
     return isDescriptionExpanded
-        ? Expanded(child: descriptionComponent)
+        ? Flexible(fit: FlexFit.loose, child: descriptionComponent)
         : descriptionComponent;
   }
 
@@ -319,6 +317,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
         padding: const EdgeInsets.all(CardComponent.standardPadding),
         isHeightDynamic: true,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: children,
         ),
       ),
@@ -326,26 +325,36 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   addMember() {
-    return Column(
-      children: [
-        SpaceColumnComponent(
-            child: AddMemberOverviewComponent(members: members)),
-        TapContainerComponent(
-          onTap: onTapAddMembers,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Add Members',
-                  style: Theme.of(context).textTheme.textInputSmall),
-              Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: Theme.of(context).textTheme.textInputSmall.fontSize,
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+    return members.isEmpty
+        ? ListItemIconTextComponent(
+            onTap: onTapAddMembers,
+            title: 'Add Members',
+            icon: IconEnum.add.icon,
+          )
+        : ListItemContainerComponent(
+            isHeightDynamic: true,
+            child: Column(
+              children: [
+                SpaceColumnComponent(
+                    child: AddMemberOverviewComponent(members: members)),
+                TapContainerComponent(
+                  onTap: onTapAddMembers,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Add Members',
+                          style: Theme.of(context).textTheme.textInputSmall),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size:
+                            Theme.of(context).textTheme.textInputSmall.fontSize,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 
   onTapAddMembers() {

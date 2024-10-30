@@ -34,6 +34,7 @@
     "notifications",
     "block_user",
     "group_challenges",
-    "migrations"
+    "migrations",
+    "rename"
   ]
 }

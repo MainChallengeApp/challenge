@@ -11,11 +11,13 @@ class AppVersionService {
   }
 
   static Future<String> getLatestNecessaryMigrationAppVersion() async {
-    Migration? newestMigration = await migrationCollection.getNewestMigration();
-    if (newestMigration == null) {
-      throw Exception('No migrations found');
+    try {
+      Migration newestMigration =
+          await migrationCollection.getNewestMigration();
+      return newestMigration.appVersion;
+    } catch (e) {
+      rethrow;
     }
-    return newestMigration.appVersion;
   }
 
   static Future<bool> isDeviceAppVersionUpToDate() async {

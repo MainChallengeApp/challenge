@@ -1,4 +1,4 @@
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';

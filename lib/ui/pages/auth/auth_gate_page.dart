@@ -1,7 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/app_version_service.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/app.dart';

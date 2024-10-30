@@ -10,8 +10,8 @@ import 'package:challenge/ui/components/loading_circle/refresh_indicator_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';

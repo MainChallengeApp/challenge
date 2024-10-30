@@ -4,7 +4,7 @@ import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';

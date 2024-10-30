@@ -1,7 +1,7 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_card_component.dart';
+import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
