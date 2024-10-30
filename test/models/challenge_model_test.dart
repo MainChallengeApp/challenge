@@ -2,12 +2,9 @@ import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
-import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
-import 'package:challenge/models/challenge/progress_model.dart';
-import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -34,30 +31,6 @@ void main() {
         startDate: startDate ?? DateTime.now(),
         endDate: endDate ?? DateTime.now().add(const Duration(days: 1)),
       );
-    }
-
-    RepetitionModel createMockRepetitionModel(
-        {double goalAmount = 1,
-        int? progress,
-        RepetitionStatusEnum? repetitionStatus = RepetitionStatusEnum.success,
-        List<ProgressModel>? progressList = const [],
-        DateTime? startDate,
-        DateTime? endDate,
-        int repetitionNumber = 1}) {
-      return RepetitionModel(
-          startDate: DateTime.now(),
-          endDate: DateTime.now().add(const Duration(days: 1)),
-          repetitionNumber: repetitionNumber,
-          goalAmount: goalAmount,
-          progressList: [
-            ProgressModel(
-                progress: 1,
-                mediaIds: [],
-                date: DateTime.now(),
-                repetitionNumber: repetitionNumber,
-                goal: goalAmount)
-          ],
-          repetitionStatus: RepetitionStatusEnum.success);
     }
 
     group('empty()', () {
