@@ -79,41 +79,62 @@ class _EditChallengePageState extends State<EditChallengePage> {
         });
       },
       child: Scaffold(
-          resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-          appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      dynamicCard(
-                        children: [
-                          thumbnailUploadAndTitle(),
-                          description(),
-                        ],
-                      ),
-                      Visibility(
-                        visible: !isDescriptionExpanded,
-                        child: dynamicCard(children: [
-                          amountAndUnit(),
-                          frequency(),
-                          startAndEndDate(),
-                        ]),
-                      ),
-                      Visibility(
-                        visible: !isDescriptionExpanded,
-                        child: addMember(),
-                      ),
-                    ],
+        resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
+        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Column(
+                      children: [
+                        Flexible(
+                          fit: FlexFit.loose,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                fit: FlexFit.loose,
+                                child: ListItemContainerComponent(
+                                  isHeightDynamic: true,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      thumbnailUploadAndTitle(),
+                                      description()
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SpaceComponent()
+                            ],
+                          ),
+                        ),
+                        Visibility(
+                          visible: !isDescriptionExpanded,
+                          child: dynamicCard(children: [
+                            amountAndUnit(),
+                            frequency(),
+                            startAndEndDate(),
+                          ]),
+                        ),
+                        Visibility(
+                          visible: !isDescriptionExpanded,
+                          child: addMember(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ],
               ),
-              cancelAndSaveOrAcceptButton()
-            ],
-          )),
+            ),
+            cancelAndSaveOrAcceptButton(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -187,7 +208,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       }),
     );
     return isDescriptionExpanded
-        ? Flexible(fit: FlexFit.loose, child: descriptionComponent)
+        ? Expanded(child: descriptionComponent)
         : descriptionComponent;
   }
 
@@ -309,15 +330,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   dynamicCard({required List<Widget> children}) {
     return SpaceColumnComponent(
-      child: CustomContainerComponent(
-        borderRadius: CardComponent.standardBorderRadius,
-        margin: const EdgeInsets.only(
-            left: CardComponent.standardSideMargin,
-            right: CardComponent.standardSideMargin),
-        padding: const EdgeInsets.all(CardComponent.standardPadding),
+      child: ListItemContainerComponent(
         isHeightDynamic: true,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: children,
         ),
       ),
