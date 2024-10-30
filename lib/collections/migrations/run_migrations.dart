@@ -26,14 +26,21 @@ Future<void> main() async {
   try {
     debugPrint('[${DateTime.now()}]: start database migration...');
 
+    debugPrint('[${DateTime.now()}]: start initializing backend...');
     await BackendService.initializeBackend();
+    debugPrint('[${DateTime.now()}]: backend initialized');
 
+    debugPrint('[${DateTime.now()}]: logging in migration user...');
     Dotenv dotenv = await Dotenv.create();
     var authService = AuthService();
     await authService.loginEmailPassword(
         dotenv.migrationUserEmail, dotenv.migrationUserPassword);
+    debugPrint(
+        '[${DateTime.now()}]: migration user logged in ${authService.getCurrentUserId()}');
 
+    debugPrint('[${DateTime.now()}]: filtering migrations to run...');
     await filterMigrationsToRun();
+    debugPrint('[${DateTime.now()}]: filtered migrations to run');
 
     for (var migrationScript in migrationScripts) {
       debugPrint(
@@ -44,6 +51,8 @@ Future<void> main() async {
     }
 
     debugPrint('[${DateTime.now()}] end database migration');
+  } catch (e) {
+    debugPrint('[${DateTime.now()}]: error running migrations: $e');
   } finally {
     exit(0);
   }
@@ -51,20 +60,25 @@ Future<void> main() async {
 
 filterMigrationsToRun() async {
   int newestMigrationNumber = 0;
-  Migration? newestMigration = await migrationCollection.getNewestMigration();
-  if (newestMigration != null) {
+  debugPrint('[${DateTime.now()}]: getting newest migration number...');
+  try {
+    Migration newestMigration = await migrationCollection.getNewestMigration();
     newestMigrationNumber = newestMigration.migrationNumber;
-  }
 
-  debugPrint(
-      '[${DateTime.now()}]: newestMigrationNumber is $newestMigrationNumber');
-  migrationScripts
-      .sort((a, b) => a.migrationNumber.compareTo(b.migrationNumber));
-  migrationScripts.removeWhere(
-      (migration) => migration.migrationNumber <= newestMigrationNumber);
+    debugPrint(
+        '[${DateTime.now()}]: newestMigrationNumber is $newestMigrationNumber');
+    migrationScripts
+        .sort((a, b) => a.migrationNumber.compareTo(b.migrationNumber));
+    migrationScripts.removeWhere(
+        (migration) => migration.migrationNumber <= newestMigrationNumber);
 
-  if (migrationScripts.isEmpty) {
-    debugPrint('[${DateTime.now()}]: no migration scripts to run.');
+    if (migrationScripts.isEmpty) {
+      debugPrint('[${DateTime.now()}]: no migration scripts to run.');
+      exit(0);
+    }
+  } catch (e) {
+    debugPrint(
+        '[${DateTime.now()}]: error getting newest migration number: $e');
     exit(0);
   }
 }

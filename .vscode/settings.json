@@ -33,6 +33,7 @@
     "general",
     "notifications",
     "block_user",
-    "group_challenges"
+    "group_challenges",
+    "migrations"
   ]
 }

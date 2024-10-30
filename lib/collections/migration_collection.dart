@@ -9,17 +9,13 @@ class MigrationCollection extends Collection {
     await db.collection(name).add(migration.toDoc());
   }
 
-  Future<Migration?> getNewestMigration() async {
+  Future<Migration> getNewestMigration() async {
     try {
       final querySnapshot = await db
           .collection(name)
           .orderBy('migrationNumber', descending: true)
           .limit(1)
           .get();
-
-      if (querySnapshot.docs.isEmpty) {
-        return null;
-      }
 
       return querySnapshot.docs.map((doc) => Migration.fromDoc(doc)).first;
     } on Exception {
