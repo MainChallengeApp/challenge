@@ -5,6 +5,7 @@ import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,12 +17,14 @@ class ListItemUserComponent extends StatefulWidget {
     required this.user,
     this.isSearch = false,
     this.onTapConnect,
+    this.isSelected = false,
   });
 
   final dynamic Function() onTap;
   final Function()? onTapConnect;
   final UserModel user;
   final bool isSearch;
+  final bool isSelected;
 
   @override
   State<ListItemUserComponent> createState() => _ListItemUserComponentState();
@@ -59,11 +62,12 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
             GestureDetector(
               onTap: onTapConnect,
               child: Visibility(
-                visible:
-                    !listeningUsersProvider.user.isBlocked(widget.user.id) &&
-                        !listeningUsersProvider.user.connectionIds.contains(
-                            widget.user.id), // different from isConnectedWith()
-                child: ContainerInContainerComponent(
+                visible: !listeningUsersProvider.user
+                        .isBlocked(widget.user.id) &&
+                    !listeningUsersProvider.user.connectionIds.contains(
+                        widget.user.id) && // different from isConnectedWith()
+                    widget.onTapConnect != null,
+                child: ContainerInListItemComponent(
                   margin: const EdgeInsets.all(0),
                   child: Center(
                       child: loadingAction
@@ -75,7 +79,18 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
                             )),
                 ),
               ),
-            )
+            ),
+            Visibility(
+                visible: widget.isSelected,
+                child: ContainerInListItemComponent(
+                    margin: const EdgeInsets.only(
+                        left: ContainerInContainerComponent.standardMargin),
+                    child: Center(
+                        child: Icon(
+                      IconEnum.select.icon,
+                      color: Theme.of(context).colorScheme.tertiary,
+                      size: 20,
+                    )))),
           ],
         ));
   }

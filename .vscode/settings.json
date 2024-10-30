@@ -32,6 +32,7 @@
     "pagination",
     "general",
     "notifications",
-    "block_user"
+    "block_user",
+    "group_challenges"
   ]
 }

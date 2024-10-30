@@ -2,7 +2,9 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ContainerInContainerComponent extends StatelessWidget {
-  final double standardRadius = 10;
+  static const double standardRadius = 10;
+  static const double standardPadding = 10;
+  static const double standardMargin = 10;
 
   final Widget child;
   final Color? color;
@@ -27,15 +29,15 @@ class ContainerInContainerComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin ?? const EdgeInsets.only(right: 10),
-      padding: padding ?? const EdgeInsets.all(10),
+      margin: margin ?? const EdgeInsets.only(right: standardMargin),
+      padding: padding ?? const EdgeInsets.all(standardPadding),
       height: height,
       width: width,
       decoration: BoxDecoration(
           color: color ?? Theme.of(context).colorScheme.themeColor4,
           border: border,
           borderRadius: borderRadius ??
-              BorderRadius.all(Radius.circular(standardRadius))),
+              const BorderRadius.all(Radius.circular(standardRadius))),
       child: child,
     );
   }

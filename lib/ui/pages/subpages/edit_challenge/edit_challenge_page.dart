@@ -1,11 +1,14 @@
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
 import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
+import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
 import 'package:challenge/ui/components/edit_challenge/edit_description_component.dart';
 import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
 import 'package:challenge/ui/components/edit_challenge/upload_thumbnail_component.dart';
@@ -17,7 +20,10 @@ import 'package:challenge/ui/components/simple_components/custom_card_component.
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/add_members_page.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +50,7 @@ class EditChallengePage extends StatefulWidget {
 
 class _EditChallengePageState extends State<EditChallengePage> {
   bool isDescriptionExpanded = false;
+  late String title = widget.isNewChallenge ? 'New Challenge' : 'Edit';
 
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
@@ -53,7 +60,14 @@ class _EditChallengePageState extends State<EditChallengePage> {
   late ChallengeModel editChallenge = widget.challenge
       .copyChallenge(isTryAgain: widget.isTryAgain, withId: true);
 
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+
   bool isLoading = false;
+
+  late List<UserModel> members = [
+    usersProvider.user,
+    ...usersProvider.confirmedConnections
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +80,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-          appBar: AppBarComponent(
-              preTitle: widget.preTitle,
-              titleText: widget.isNewChallenge ? 'New Challenge' : 'Edit'),
+          appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
           backgroundColor: Colors.white,
           body: Column(
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
                       dynamicCard(
@@ -313,15 +326,39 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   addMember() {
-    return const SpaceColumnComponent(
-        child: CustomContainerComponent(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text('Add Member'),
-          Icon(Icons.arrow_forward_ios_rounded),
-        ],
+    return Column(
+      children: [
+        SpaceColumnComponent(
+            child: AddMemberOverviewComponent(members: members)),
+        TapContainerComponent(
+          onTap: onTapAddMembers,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Add Members',
+                  style: Theme.of(context).textTheme.textInputSmall),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: Theme.of(context).textTheme.textInputSmall.fontSize,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  onTapAddMembers() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => AddMembersPage(
+          preTitle: '${widget.preTitle}/$title',
+          members: members,
+        ),
       ),
-    ));
+    ).then((_) {
+      setState(() {});
+    });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/unit_model.dart';
 import 'package:challenge/services/database_service.dart';
@@ -75,7 +76,10 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
             isExpanded: true,
             underline: Container(),
             value: '',
-            icon: const Icon(Icons.expand_more),
+            icon: Icon(
+              IconEnum.arrowDown.icon,
+              size: Theme.of(context).textTheme.titleLarge?.fontSize,
+            ),
             style: Theme.of(context).textTheme.textInputSmall,
             hint: Text(
               'Unit',

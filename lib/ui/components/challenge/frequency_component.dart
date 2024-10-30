@@ -1,4 +1,5 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/services/database_service.dart';
@@ -56,7 +57,8 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
         isExpanded: true,
         underline: Container(),
         value: frequency.type.toString().split('.')[1],
-        icon: const Icon(Icons.expand_more),
+        icon: Icon(IconEnum.arrowDown.icon,
+            size: Theme.of(context).textTheme.titleLarge?.fontSize),
         style: Theme.of(context).textTheme.textInputSmall,
         hint: Text(
           'Frequency',

@@ -1,8 +1,6 @@
-import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
-import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
+import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -36,43 +34,8 @@ class ListItemImageChildComponent extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          ContainerInContainerComponent(
-              padding: const EdgeInsets.all(0),
-              margin: const EdgeInsets.only(right: 10),
-              height: ListItemIconTextComponent.iconContainerSize,
-              width: ListItemIconTextComponent.iconContainerSize,
-              borderRadius: const BorderRadius.all(Radius.circular(
-                  ListItemIconTextComponent.standardIconRadius)),
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                      ListItemIconTextComponent.standardIconRadius)),
-                  child: Transform.scale(
-                    scale: scale ?? 1,
-                    child: url == null
-                        ? Center(
-                            child: Icon(icon,
-                                color: Theme.of(context).colorScheme.tertiary),
-                          )
-                        : mediaService.isUrlLocal(url!)
-                            ? Image.asset(url!,
-                                fit: fit ?? BoxFitEnum.cover.fit,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(
-                                      child: Icon(icon,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary),
-                                    ))
-                            : Image.network(url!,
-                                fit: fit ?? BoxFitEnum.cover.fit,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(
-                                      child: Icon(icon,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary),
-                                    )),
-                  ))),
+          ImageInListItemComponent(
+              icon: icon, url: url, fit: fit, scale: scale),
           Expanded(
             child: child,
           )
