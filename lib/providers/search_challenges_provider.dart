@@ -8,7 +8,7 @@ class SearchChallengesProvider with ChangeNotifier {
   final searchChallengesCollection = SearchChallengesCollection();
   final authService = AuthService();
 
-  List<ChallengeModel> _searchChallenges = [];
+  final List<ChallengeModel> _searchChallenges = [];
   List<ChallengeModel> get searchChallenges => _searchChallenges;
 
   bool _isEndOfSearchedListReached = false;
@@ -42,6 +42,14 @@ class SearchChallengesProvider with ChangeNotifier {
     }
   }
 
+  initSearchChallenges(
+      {String? searchText, List<ChallengeCategoryEnum>? categories}) async {
+    _searchChallenges.clear();
+    _isEndOfSearchedListReached = false;
+    await getSearchedPaginated(
+        searchText: searchText ?? '', categories: categories ?? []);
+  }
+
   Future<void> getRandomPaginated() async {
     try {
       if (!_isEndOfSearchedListReached) {
@@ -67,22 +75,9 @@ class SearchChallengesProvider with ChangeNotifier {
     }
   }
 
-  resetEndOfSearchedList() {
-    _isEndOfSearchedListReached = false;
-  }
-
-  emptySearchChallenges() {
+  initRandomChallenges() async {
     _searchChallenges.clear();
-  }
-
-  Future<void> refresh() async {
-    try {
-      resetEndOfSearchedList();
-      _searchChallenges = await searchChallengesCollection.refresh(
-          loadedSearchChallenges: _searchChallenges);
-      notifyListeners();
-    } on Exception {
-      rethrow;
-    }
+    _isEndOfSearchedListReached = false;
+    await getRandomPaginated();
   }
 }

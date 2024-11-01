@@ -187,12 +187,10 @@ class UsersProvider with ChangeNotifier {
     }
   }
 
-  void resetEndOfSearchedList() {
-    _isEndOfSearchedListReached = false;
-  }
-
-  void emptySearchUsers() {
+  Future<void> initSearchUsers({String? searchText}) async {
     _searchUsers.clear();
+    _isEndOfSearchedListReached = false;
+    await getSearchedPaginated(searchText: searchText);
   }
 
   Future<void> blockUser(String userId) async {

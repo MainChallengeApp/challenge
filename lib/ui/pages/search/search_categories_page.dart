@@ -198,9 +198,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   }
 
   void onTapRandom() {
-    searchChallengesProvider.resetEndOfSearchedList();
-    searchChallengesProvider.emptySearchChallenges();
-    searchChallengesProvider.getRandomPaginated();
+    searchChallengesProvider.initRandomChallenges();
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

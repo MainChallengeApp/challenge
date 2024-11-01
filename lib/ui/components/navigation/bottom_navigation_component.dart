@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavigationComponent extends StatefulWidget {
-  static const double standardMargin = 24;
+  static const double standardMargin = 20;
   static const double standardBorderRadius = 24;
 
   const BottomNavigationComponent({super.key});
@@ -21,8 +21,11 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding:
-            const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20, top: 0),
+        padding: const EdgeInsets.only(
+            left: BottomNavigationComponent.standardMargin,
+            right: BottomNavigationComponent.standardMargin,
+            bottom: BottomNavigationComponent.standardMargin,
+            top: 0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(24.0),
           child: Container(

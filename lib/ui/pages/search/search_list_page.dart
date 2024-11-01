@@ -66,14 +66,10 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   void initState() {
     super.initState();
-    searchChallengesProvider.resetEndOfSearchedList();
-    searchChallengesProvider.emptySearchChallenges();
-    searchChallengesProvider.getSearchedPaginated(
+    searchChallengesProvider.initSearchChallenges(
         categories: widget.categories);
     if (widget.isUserSearchActive) {
-      usersProvider.resetEndOfSearchedList();
-      usersProvider.emptySearchUsers();
-      usersProvider.getSearchedPaginated();
+      usersProvider.initSearchUsers();
     }
 
     scrollController.addListener(() {
@@ -194,9 +190,7 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        usersProvider.resetEndOfSearchedList();
-        usersProvider.emptySearchUsers();
-        await usersProvider.getSearchedPaginated(
+        await usersProvider.initSearchUsers(
             searchText: textEditingController.text);
       },
       child: RawScrollbar(
@@ -292,14 +286,10 @@ class _SearchListPageState extends State<SearchListPage> {
 
   onChangeList(String searchText) {
     if (isFilterOnChallenges) {
-      searchChallengesProvider.resetEndOfSearchedList();
-      searchChallengesProvider.emptySearchChallenges();
-      searchChallengesProvider.getSearchedPaginated(
+      searchChallengesProvider.initSearchChallenges(
           searchText: searchText, categories: widget.categories);
     } else {
-      usersProvider.resetEndOfSearchedList();
-      usersProvider.emptySearchUsers();
-      usersProvider.getSearchedPaginated(searchText: searchText);
+      usersProvider.initSearchUsers(searchText: searchText);
     }
   }
 }
