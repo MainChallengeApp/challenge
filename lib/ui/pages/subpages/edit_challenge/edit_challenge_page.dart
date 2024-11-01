@@ -20,13 +20,12 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/card_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/add_members_page.dart';
-import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -99,6 +98,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
                               Flexible(
                                 fit: FlexFit.loose,
                                 child: ListItemContainerComponent(
+                                  padding: const EdgeInsets.all(
+                                      CardComponent.standardPadding),
                                   isHeightDynamic: true,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -141,48 +142,53 @@ class _EditChallengePageState extends State<EditChallengePage> {
   cancelAndSaveOrAcceptButton() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: SpaceColumnComponent(
-        height: BottomNavigationComponent.standardMargin,
-        child: Row(
-          children: [
-            Expanded(
-              child: ListItemButtonComponent(
-                onTap: onTapCancel,
-                isMainButton: false,
-                text: 'Cancel',
-                margin: const EdgeInsets.only(
-                    left: CardComponent.standardSideMargin,
-                    right: CardComponent.standardSideMargin / 2),
-              ),
-            ),
-            widget.isSearchEdit ||
-                    widget.isSearchNewChallenge ||
-                    widget.isNewChallenge ||
-                    widget.isTryAgain
-                ? Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: onTapAccept,
-                      text: 'Accept',
-                      isMainButton: true,
-                      isLoading: isLoading,
-                      margin: const EdgeInsets.only(
-                          left: CardComponent.standardSideMargin / 2,
-                          right: CardComponent.standardSideMargin),
-                    ),
-                  )
-                : Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: onTapSave,
-                      text: 'Save',
-                      isMainButton: true,
-                      isLoading: isLoading,
-                      margin: const EdgeInsets.only(
-                          left: CardComponent.standardSideMargin / 2,
-                          right: CardComponent.standardSideMargin),
-                    ),
+      child: Column(
+        children: [
+          const SpaceComponent(),
+          SpaceColumnComponent(
+            height: BottomNavigationComponent.standardMargin,
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListItemButtonComponent(
+                    onTap: onTapCancel,
+                    isMainButton: false,
+                    text: 'Cancel',
+                    margin: const EdgeInsets.only(
+                        left: CardComponent.standardSideMargin,
+                        right: CardComponent.standardSideMargin / 2),
                   ),
-          ],
-        ),
+                ),
+                widget.isSearchEdit ||
+                        widget.isSearchNewChallenge ||
+                        widget.isNewChallenge ||
+                        widget.isTryAgain
+                    ? Expanded(
+                        child: ListItemButtonComponent(
+                          onTap: onTapAccept,
+                          text: 'Accept',
+                          isMainButton: true,
+                          isLoading: isLoading,
+                          margin: const EdgeInsets.only(
+                              left: CardComponent.standardSideMargin / 2,
+                              right: CardComponent.standardSideMargin),
+                        ),
+                      )
+                    : Expanded(
+                        child: ListItemButtonComponent(
+                          onTap: onTapSave,
+                          text: 'Save',
+                          isMainButton: true,
+                          isLoading: isLoading,
+                          margin: const EdgeInsets.only(
+                              left: CardComponent.standardSideMargin / 2,
+                              right: CardComponent.standardSideMargin),
+                        ),
+                      ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -332,6 +338,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return SpaceColumnComponent(
       child: ListItemContainerComponent(
         isHeightDynamic: true,
+        padding: const EdgeInsets.all(CardComponent.standardPadding),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -350,24 +357,15 @@ class _EditChallengePageState extends State<EditChallengePage> {
           )
         : ListItemContainerComponent(
             isHeightDynamic: true,
+            padding: const EdgeInsets.all(CardComponent.standardPadding),
             child: Column(
               children: [
                 SpaceColumnComponent(
                     child: AddMemberOverviewComponent(members: members)),
-                TapContainerComponent(
+                CustomButtonComponent(
                   onTap: onTapAddMembers,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Add Members',
-                          style: Theme.of(context).textTheme.textInputSmall),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size:
-                            Theme.of(context).textTheme.textInputSmall.fontSize,
-                      ),
-                    ],
-                  ),
+                  text: 'Edit Members',
+                  isPrimaryButton: false,
                 ),
               ],
             ),

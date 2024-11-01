@@ -5,7 +5,7 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
-  static int maxCharactersShort = 30;
+  static int maxCharactersShort = 50;
   static int maxCharactersMedium = 100;
   static int maxCharactersLong = 500;
 

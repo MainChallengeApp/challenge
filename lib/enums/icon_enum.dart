@@ -21,6 +21,7 @@ enum IconEnum {
   picture(Icons.image_rounded),
   progress(Icons.bolt_rounded),
   remove(Icons.highlight_remove_rounded),
+  removeFullCircle(Icons.cancel_rounded),
   reportUser(Icons.report_gmailerrorred_rounded),
   search(Icons.search_rounded),
   select(Icons.check_rounded),

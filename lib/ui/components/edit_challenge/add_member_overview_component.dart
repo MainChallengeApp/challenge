@@ -8,9 +8,13 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class AddMemberOverviewComponent extends StatefulWidget {
-  final List<UserModel> members;
+  static const double removeMemberExtraSpace = 7;
 
-  const AddMemberOverviewComponent({super.key, required this.members});
+  final List<UserModel> members;
+  final Function(String)? onRemoveMember;
+
+  const AddMemberOverviewComponent(
+      {super.key, required this.members, this.onRemoveMember});
 
   @override
   State<AddMemberOverviewComponent> createState() =>
@@ -31,38 +35,95 @@ class _AddMemberOverviewComponentState
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: widget.members
-                  .map((user) => Container(
-                        margin: const EdgeInsets.only(
-                            right: SpaceComponent.staticWidth),
-                        width: ListItemIconTextComponent.iconContainerSize,
-                        child: Column(
-                          children: [
-                            ImageInListItemComponent(
-                              icon: IconEnum.user.icon,
-                              url: user.pictureUrl,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                            const SpaceComponent(
-                              height: 5,
-                            ),
-                            Text(
-                              user.username,
-                              overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleSmall
-                                  ?.copyWith(fontWeight: FontWeight.normal),
-                            ),
-                          ],
-                        ),
-                      ))
+                  .map((user) => userPicture(user, context))
                   .toList(),
             ),
           ),
         ),
         const SpaceComponent(),
+        currentAmountAndMaxAmount(context),
+      ],
+    );
+  }
+
+  GestureDetector userPicture(UserModel user, BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onRemoveMember != null
+          ? () => widget.onRemoveMember!(user.id)
+          : null,
+      child: Padding(
+        padding: EdgeInsets.only(
+            right: widget.onRemoveMember != null
+                ? SpaceComponent.staticWidth -
+                    AddMemberOverviewComponent.removeMemberExtraSpace
+                : SpaceComponent.staticWidth),
+        child: Stack(
+          children: [
+            Padding(
+              padding: widget.onRemoveMember != null
+                  ? const EdgeInsets.only(
+                      right: AddMemberOverviewComponent.removeMemberExtraSpace,
+                      top: AddMemberOverviewComponent.removeMemberExtraSpace)
+                  : const EdgeInsets.all(0),
+              child: SizedBox(
+                width: ListItemIconTextComponent.iconContainerSize,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ImageInListItemComponent(
+                      icon: IconEnum.user.icon,
+                      url: user.pictureUrl,
+                      margin: const EdgeInsets.all(0),
+                    ),
+                    Text(
+                      user.username,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            removeUserIcon(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Visibility removeUserIcon(BuildContext context) {
+    return Visibility(
+      visible: widget.onRemoveMember != null,
+      child: Positioned(
+        right: 0,
+        top: 0,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(100), // circle
+          ),
+          child: Icon(
+            IconEnum.removeFullCircle.icon,
+            color: Theme.of(context).colorScheme.tertiary,
+            size: 20,
+            weight: 10,
+          ),
+        ),
+      ),
+    );
+  }
+
+  currentAmountAndMaxAmount(BuildContext context) {
+    return Column(
+      children: [
         ContainerInListItemComponent(
-          margin: const EdgeInsets.all(0),
+          margin: widget.onRemoveMember != null
+              ? const EdgeInsets.all(0).copyWith(
+                  top: AddMemberOverviewComponent.removeMemberExtraSpace)
+              : const EdgeInsets.all(0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -70,9 +131,6 @@ class _AddMemberOverviewComponentState
                 Text(
                   widget.members.length.toString(),
                   overflow: TextOverflow.ellipsis,
-                  // textHeightBehavior: const TextHeightBehavior(
-                  //     applyHeightToFirstAscent: false,
-                  //     applyHeightToLastDescent: false),
                   style: Theme.of(context)
                       .textTheme
                       .textInputSmall
@@ -88,9 +146,6 @@ class _AddMemberOverviewComponentState
                 Text(
                   '100',
                   overflow: TextOverflow.ellipsis,
-                  // textHeightBehavior: const TextHeightBehavior(
-                  //     applyHeightToFirstAscent: false,
-                  //     applyHeightToLastDescent: false),
                   style: Theme.of(context)
                       .textTheme
                       .textInputSmall
@@ -100,6 +155,15 @@ class _AddMemberOverviewComponentState
             ),
           ),
         ),
+        Text(
+          // just to not make it jump
+          ' ',
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context)
+              .textTheme
+              .titleSmall
+              ?.copyWith(fontWeight: FontWeight.normal),
+        )
       ],
     );
   }
