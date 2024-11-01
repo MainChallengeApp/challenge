@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -11,6 +12,7 @@ import 'package:challenge/ui/components/loading_circle/loading_circle_component.
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
@@ -131,7 +133,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
   SpaceColumnComponent inviteFriends() {
     return SpaceColumnComponent(
         child: ListItemIconTextComponent(
-            icon: IconEnum.add.icon, title: 'Invite Friends'));
+            icon: IconEnum.add.icon, title: 'Invite Friends', onTap: () {}));
   }
 
   SpaceColumnComponent addMemberOverview() {
@@ -161,7 +163,11 @@ class _AddMembersPageState extends State<AddMembersPage> {
         editMembers.removeWhere((user) => user.id == tappedUser.id);
         return;
       }
-
+      if (editMembers.length >= DatabaseService.maxGroupChallengeMember) {
+        SnackBarComponent.showSnackBar(context,
+            'You can only add up to ${DatabaseService.maxGroupChallengeMember} members');
+        return;
+      }
       editMembers.add(tappedUser);
     });
   }
@@ -257,12 +263,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
 
     if (newIndex == usersProvider.searchUsers.length + 1) {
       return usersProvider.isEndOfSearchedListReached
-          ? SpaceColumnComponent(
-              child: ListItemIconTextComponent(
-              onTap: () => {},
-              icon: Icons.add,
-              title: 'Invite Friend',
-            ))
+          ? inviteFriends()
           : const Center(
               child: SpaceColumnComponent(child: LoadingCircleComponent()),
             );

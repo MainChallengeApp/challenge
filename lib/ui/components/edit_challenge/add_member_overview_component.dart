@@ -1,5 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
@@ -144,7 +145,7 @@ class _AddMemberOverviewComponentState
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
                 Text(
-                  '100',
+                  DatabaseService.maxGroupChallengeMember.toString(),
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
