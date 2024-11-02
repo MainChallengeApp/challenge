@@ -3,8 +3,11 @@ import 'dart:math';
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/description_component.dart';
@@ -53,47 +56,70 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   late PageController pageController = PageController(
       initialPage: max(
-          filteredUserChallenges.indexWhere((userChallenge) =>
+          filteredChallenges.indexWhere((userChallenge) =>
               userChallenge.id == widget.initialUserChallengeId),
           0));
 
   late int currentChallengeIndex = max(
-      filteredUserChallenges.indexWhere(
+      filteredChallenges.indexWhere(
           (userChallenge) => userChallenge.id == widget.initialUserChallengeId),
       0);
 
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
-
-  late final listeningProvider =
+  late final listeningUserChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: true);
 
+  late final groupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: false);
+  late final listeningGroupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: true);
+
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+
   List<UserChallengeModel> filteredUserChallenges = [];
+  List<GroupChallengeModel> filteredGroupChallenges = [];
+  List<ChallengeModel> filteredChallenges = [];
 
   @override
   Widget build(BuildContext context) {
-    if (filteredUserChallenges.isEmpty) {
-      filteredUserChallenges = listeningProvider.userChallenges
-          .where(
-              (challenge) => challenge.searchInChallenge(widget.filterOptions))
-          .toList();
-    }
-    UserChallengeModel currentChallenge =
-        filteredUserChallenges[currentChallengeIndex];
-
-    filteredUserChallenges = listeningProvider.userChallenges
-        .where((challenge) => challenge.searchInChallenge(widget.filterOptions))
+    filteredUserChallenges = listeningUserChallengesProvider.userChallenges
+        .where((element) => element.searchInChallenge(widget.filterOptions))
         .toList();
 
-    int index =
-        filteredUserChallenges.indexWhere((c) => c.id == currentChallenge.id);
+    filteredGroupChallenges = listeningGroupChallengesProvider.groupChallenges
+        .where((element) => element.searchInChallenge(widget.filterOptions))
+        .toList();
 
-    if (index != currentChallengeIndex && index != -1) {
-      currentChallengeIndex = index;
-      // setState(() {
-      pageController.jumpToPage(index);
-      // });
-    }
+    filteredChallenges = [];
+
+    filteredChallenges.addAll(filteredUserChallenges);
+    filteredChallenges.addAll(filteredGroupChallenges);
+    filteredChallenges =
+        ChallengeModel.sortChallengeList(challenges: filteredChallenges);
+
+    // if (filteredUserChallenges.isEmpty) {
+    //   filteredUserChallenges = listeningUserChallengesProvider.userChallenges
+    //       .where(
+    //           (challenge) => challenge.searchInChallenge(widget.filterOptions))
+    //       .toList();
+    // }
+    // UserChallengeModel currentChallenge =
+    //     filteredUserChallenges[currentChallengeIndex];
+
+    // filteredUserChallenges = listeningUserChallengesProvider.userChallenges
+    //     .where((challenge) => challenge.searchInChallenge(widget.filterOptions))
+    //     .toList();
+
+    // int index =
+    //     filteredUserChallenges.indexWhere((c) => c.id == currentChallenge.id);
+
+    // if (index != currentChallengeIndex && index != -1) {
+    //   currentChallengeIndex = index;
+    //   // setState(() {
+    //   pageController.jumpToPage(index);
+    //   // });
+    // }
 
     return Scaffold(
       appBar: AppBarComponent(preTitle: widget.preTitle),
@@ -103,23 +129,23 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           onPageChanged: onPageChanged,
           scrollDirection: Axis.vertical,
           physics: const AlwaysScrollableScrollPhysics(),
-          children: filteredUserChallenges.map((userChallenge) {
-            userChallenge.checkChallengeStatus();
+          children: filteredChallenges.map((challenge) {
+            challenge.checkChallengeStatus();
             return Slidable(
               closeOnScroll: true,
-              key: ObjectKey(userChallenge),
-              endActionPane: endActionPane(userChallenge),
+              key: ObjectKey(challenge),
+              endActionPane: endActionPane(challenge),
               child: Builder(builder: (context) {
                 return CardComponent(
                   children: [
-                    thumbnail(userChallenge),
-                    title(userChallenge),
-                    description(userChallenge),
-                    startAndEndDate(userChallenge),
-                    acceptanceCriteria(userChallenge),
+                    thumbnail(challenge),
+                    title(challenge),
+                    description(challenge),
+                    startAndEndDate(challenge),
+                    acceptanceCriteria(challenge),
                     expandedSpace(),
-                    documentationButtons(context, userChallenge),
-                    startEndTryAcceptAgainButton(userChallenge)
+                    documentationButtons(context, challenge),
+                    startEndTryAcceptAgainButton(challenge)
                   ],
                 );
               }),
@@ -129,14 +155,14 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  endActionPane(UserChallengeModel userChallenge) {
+  endActionPane(ChallengeModel challenge) {
     return ActionPane(
-      extentRatio: (userChallenge.isEditable()) ? 0.5 : 0.25,
+      extentRatio: (challenge.isEditable()) ? 0.5 : 0.25,
       motion: const ScrollMotion(),
       children: [
-        editSlider(userChallenge),
-        separator(userChallenge),
-        deleteSlider(userChallenge),
+        editSlider(challenge),
+        separator(challenge),
+        deleteSlider(challenge),
         const SpaceComponent(
           width: 20,
         ),
@@ -164,49 +190,55 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  thumbnail(UserChallengeModel userChallenge) {
+  thumbnail(ChallengeModel challenge) {
     return SpaceColumnComponent(
       height: 11,
       child: ThumbnailMaxComponent(
-          challenge: userChallenge,
-          onTapOpenMediaPage: () => onTapOpenMediaPage(userChallenge)),
+          challenge: challenge,
+          onTapOpenMediaPage: () => onTapOpenMediaPage(challenge)),
     );
   }
 
-  deleteSlider(UserChallengeModel userChallenge) {
+  deleteSlider(ChallengeModel challenge) {
     return SliderComponent(
         icon: IconEnum.delete.icon,
         label: 'Delete',
         foregroundColor: Theme.of(context).colorScheme.red.withAlpha(150),
         duration: Durations.short1,
-        onTap: () => onTapDeleteChallenge(userChallenge));
+        onTap: () => onTapDeleteChallenge(challenge));
   }
 
-  editSlider(UserChallengeModel userChallenge) {
+  editSlider(ChallengeModel challenge) {
     return Visibility(
-      visible: userChallenge.isEditable(),
+      visible: challenge.isEditable(),
       child: SliderComponent(
           icon: IconEnum.edit.icon,
           label: 'Edit',
           onTap: () {
-            onTapEditChallenge(userChallenge);
+            onTapEditChallenge(challenge);
           }),
     );
   }
 
-  startEndTryAcceptAgainButton(UserChallengeModel userChallenge) {
-    return ActionButtonComponent(
-      userChallenge: userChallenge,
-      onTapStart: onTapStart,
-      onTapEnd: onTapEnd,
-      onTapAgain: onTapAgain,
-      onTapNext: onTapNext,
-    );
+  startEndTryAcceptAgainButton(ChallengeModel challenge) {
+    if (challenge is GroupChallengeModel) {
+      return Container();
+    } else if (challenge is UserChallengeModel) {
+      return ActionButtonComponent(
+        userChallenge: challenge,
+        onTapStart: onTapStart,
+        onTapEnd: onTapEnd,
+        onTapAgain: onTapAgain,
+        onTapNext: onTapNext,
+      );
+    } else {
+      throw Exception('Challenge type not supported');
+    }
   }
 
-  documentationButtons(BuildContext context, UserChallengeModel userChallenge) {
+  documentationButtons(BuildContext context, ChallengeModel challenge) {
     return Visibility(
-      visible: !isDescriptionExpanded && userChallenge.isInProgress(),
+      visible: !isDescriptionExpanded && challenge.isInProgress(),
       child: SpaceColumnComponent(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -231,7 +263,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
             ),
             DocumentationButtonComponent(
                 iconData: Icons.camera_alt_outlined,
-                onTap: () => onTapCamera(userChallenge)),
+                onTap: () => onTapCamera(challenge)),
           ],
         ),
       ),
@@ -295,58 +327,67 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     );
   }
 
-  acceptanceCriteria(UserChallengeModel userChallenge) {
+  acceptanceCriteria(ChallengeModel challenge) {
     return isDescriptionExpanded
         ? Container()
         : AcceptanceCriteriaComponent(
-            onTap: () => onTapAcceptanceCriteria(userChallenge),
-            onTapNewProgress: () => onTapNewProgress(userChallenge),
-            userChallenge: userChallenge);
+            onTap: () => onTapAcceptanceCriteria(challenge),
+            onTapNewProgress: () => onTapNewProgress(challenge),
+            challenge: challenge);
   }
 
-  void onTapEditChallenge(UserChallengeModel userChallenge) {
-    if (userChallenge.isEditable()) {
+  void onTapEditChallenge(ChallengeModel challenge) {
+    if (challenge.isEditable()) {
       // currentChallengeIndex = widget.challenges.indexOf(challenge);
       Navigator.push(
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
-            preTitle: '${widget.preTitle}/${userChallenge.title}',
-            challenge: userChallenge,
+            preTitle: '${widget.preTitle}/${challenge.title}',
+            challenge: challenge,
           ),
         ),
       ).then((_) => {setState(() {})});
     }
   }
 
-  void onTapDeleteChallenge(UserChallengeModel userChallenge) async {
+  void onTapDeleteChallenge(ChallengeModel challenge) async {
     DeleteChallengeDialog.show(
         context: context,
-        challengeTitle: userChallenge.title,
+        challengeTitle: challenge.title,
         onTapYes: () async {
-          await userChallengesProvider.delete(userChallenge);
-
+          if (challenge is UserChallengeModel) {
+            await userChallengesProvider.delete(challenge);
+          } else if (challenge is GroupChallengeModel) {
+            await groupChallengesProvider.delete(challenge);
+          }
           setState(() {
-            if (currentChallengeIndex >=
-                userChallengesProvider.userChallenges.length) {
-              currentChallengeIndex =
-                  userChallengesProvider.userChallenges.length - 1;
+            if (currentChallengeIndex >= filteredChallenges.length) {
+              currentChallengeIndex = filteredChallenges.length - 1;
             }
           });
-          if (userChallengesProvider.userChallenges.isEmpty) {
+          if (filteredChallenges.length == 1) {
             // ignore: use_build_context_synchronously
             Navigator.pop(context);
           }
         });
   }
 
-  void onTapOpenMediaPage(UserChallengeModel userChallenge) {
+  void onTapOpenMediaPage(ChallengeModel challenge) {
+    if (challenge is GroupChallengeModel &&
+        challenge.toUserChallengeModel(usersProvider.user.id) == null) {
+      return;
+    }
+
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
-          preTitle: '${widget.preTitle}/${userChallenge.title}',
-          userChallenge: userChallenge,
+          preTitle: '${widget.preTitle}/${challenge.title}',
+          userChallenge: challenge is UserChallengeModel
+              ? challenge
+              : (challenge as GroupChallengeModel)
+                  .toUserChallengeModel(usersProvider.user.id)!,
         ),
       ),
     ).then((_) => setState(() {}));
@@ -360,22 +401,33 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     });
   }
 
-  onTapAcceptanceCriteria(UserChallengeModel userChallenge) {
-    if (userChallenge.frequency.amount != null &&
-        userChallenge.frequency.amount! <= 0) {
+  onTapAcceptanceCriteria(ChallengeModel challenge) {
+    if (challenge is GroupChallengeModel) {
       return;
+    } else if (challenge is UserChallengeModel) {
+      if (challenge.frequency.amount != null &&
+          challenge.frequency.amount! <= 0) {
+        return;
+      }
+      Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => RepetitionPage(
+              preTitle: '${widget.preTitle}/${challenge.title}',
+              userChallenge: challenge),
+        ),
+      );
+    } else {
+      throw Exception('Challenge type not supported');
     }
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => RepetitionPage(
-            preTitle: '${widget.preTitle}/${userChallenge.title}',
-            userChallenge: userChallenge),
-      ),
-    );
   }
 
-  onTapCamera(UserChallengeModel userChallenge) async {
+  onTapCamera(ChallengeModel challenge) async {
+    if (challenge is GroupChallengeModel &&
+        challenge.toUserChallengeModel(usersProvider.user.id) == null) {
+      return;
+    }
+
     // Ensure that plugin services are initialized so that `availableCameras()`
     // can be called before `runApp()`
     WidgetsFlutterBinding.ensureInitialized();
@@ -390,9 +442,12 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
           cameras: cameras,
-          preTitle: '${widget.preTitle}/${userChallenge.title}',
-          mediaList: userChallenge.media,
-          userChallenge: userChallenge,
+          preTitle: '${widget.preTitle}/${challenge.title}',
+          mediaList: challenge.media,
+          userChallenge: challenge is UserChallengeModel
+              ? challenge
+              : (challenge as GroupChallengeModel)
+                  .toUserChallengeModel(usersProvider.user.id)!,
         ),
       ),
     );
@@ -439,23 +494,25 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     userChallengesProvider.update(userChallenge);
   }
 
-  void onTapNewProgress(UserChallengeModel userChallenge) {
-    if (userChallenge.getCurrentRepetition() == null) {
+  void onTapNewProgress(ChallengeModel challenge) {
+    if (challenge is GroupChallengeModel) {
       return;
-    }
+    } else if (challenge is UserChallengeModel) {
+      if (challenge.getCurrentRepetition() == null) {
+        return;
+      }
 
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => ProgressMediaListPage(
-          preTitle: '${widget.preTitle}/${userChallenge.title}',
-          repetition: userChallenge.getCurrentRepetition()!,
-          userChallenge: userChallenge,
-          isSaveInsteadOfEditButtonVisible: true,
+      Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => ProgressMediaListPage(
+            preTitle: '${widget.preTitle}/${challenge.title}',
+            repetition: challenge.getCurrentRepetition()!,
+            userChallenge: challenge,
+            isSaveInsteadOfEditButtonVisible: true,
+          ),
         ),
-      ),
-    ).then((_) => setState(() {
-          // context.read<DesignProvider>().setIsBottomNavBarVisible(true);
-        }));
+      ).then((_) => setState(() {}));
+    }
   }
 }
