@@ -24,6 +24,7 @@ class GroupChallengesProvider with ChangeNotifier {
     );
     _groupChallenges.insert(0, groupChallenge);
     // sortLocalList();
+    notifyListeners();
     try {
       await createOnline(groupChallenge);
     } on Exception {
@@ -57,11 +58,15 @@ class GroupChallengesProvider with ChangeNotifier {
       _groupChallenges = await groupChallengesCollection.getAllByUserId(
           userId: authService.getCurrentUserId());
       // sortLocalList();
+      notifyListeners();
       return _groupChallenges;
     } on Exception {
       rethrow;
     }
   }
+
+  // TODO
+  delete(GroupChallengeModel challenge) {}
 
   // update(UserChallengeModel userChallenge) async {
   //   try {
@@ -121,7 +126,7 @@ class GroupChallengesProvider with ChangeNotifier {
 
   // void sortLocalList() {
   //   _groupChallenges =
-  //       UserChallengeModel.sortChallengeList(userChallenges: _groupChallenges);
+  //       GroupChallengeModel.sortChallengeList(challenges: _groupChallenges);
   //   notifyListeners();
   // }
 

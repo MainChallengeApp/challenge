@@ -6,7 +6,7 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ChallengeTotalPercentageComponent extends StatelessWidget {
-  final UserChallengeModel userChallenge;
+  final UserChallengeModel? userChallenge;
   final bool isVisible;
   final EdgeInsets? padding;
 
@@ -18,22 +18,24 @@ class ChallengeTotalPercentageComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ContainerInContainerTextComponent(
-        margin: const EdgeInsets.all(0),
-        padding: padding,
-        color: isVisible
-            ? (userChallenge.isFailed()
-                ? Theme.of(context).colorScheme.red
-                : userChallenge.isSucceeded()
-                    ? Theme.of(context).colorScheme.green
-                    : null)
-            : Colors.transparent,
-        textColor: userChallenge.isFailed() || userChallenge.isSucceeded()
-            ? Colors.white
-            : Theme.of(context).colorScheme.tertiary,
-        text: isVisible
-            ? '${(min(userChallenge.getCurrentPercentage(), 1) * 100).floor()} %'
-            : '',
-        textStyle: Theme.of(context).textTheme.titleSmall);
+    return userChallenge == null
+        ? Container()
+        : ContainerInContainerTextComponent(
+            margin: const EdgeInsets.all(0),
+            padding: padding,
+            color: isVisible
+                ? (userChallenge!.isFailed()
+                    ? Theme.of(context).colorScheme.red
+                    : userChallenge!.isSucceeded()
+                        ? Theme.of(context).colorScheme.green
+                        : null)
+                : Colors.transparent,
+            textColor: userChallenge!.isFailed() || userChallenge!.isSucceeded()
+                ? Colors.white
+                : Theme.of(context).colorScheme.tertiary,
+            text: isVisible
+                ? '${(min(userChallenge!.getCurrentPercentage(), 1) * 100).floor()} %'
+                : '',
+            textStyle: Theme.of(context).textTheme.titleSmall);
   }
 }

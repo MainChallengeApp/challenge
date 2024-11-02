@@ -125,4 +125,11 @@ class GroupChallengeModel extends ChallengeModel {
     return GroupChallengeModel.fromChallengeModelWithMembers(
         challenge: ChallengeModel.empty(), userId: '', members: []);
   }
+
+  @override
+  checkChallengeStatus() {
+    for (var userChallenge in userChallenges) {
+      userChallenge.checkChallengeStatus();
+    }
+  }
 }

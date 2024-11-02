@@ -223,4 +223,21 @@ class ChallengeModel {
     return status == ChallengeStatusEnum.backlog ||
         status == ChallengeStatusEnum.inProgress;
   }
+
+  // TODO: complete the sorting
+  static List<ChallengeModel> sortChallengeList(
+      {required List<ChallengeModel> challenges}) {
+    challenges.sort((a, b) {
+      if (a.status == b.status) {
+        return a.title.compareTo(b.title);
+      } else {
+        return a.status.status.compareTo(b.status.status);
+      }
+    });
+    return challenges;
+  }
+
+  checkChallengeStatus() {
+    throw UnimplementedError();
+  }
 }

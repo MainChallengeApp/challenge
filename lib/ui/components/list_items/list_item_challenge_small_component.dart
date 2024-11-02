@@ -1,6 +1,8 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -10,6 +12,7 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
 class ListItemChallengeSmallComponent extends StatefulWidget {
   const ListItemChallengeSmallComponent({
@@ -33,6 +36,8 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
 class _ListItemChallengeSmallComponentState
     extends State<ListItemChallengeSmallComponent> {
   final mediaService = MediaService();
+
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +105,17 @@ class _ListItemChallengeSmallComponentState
             userChallenge: widget.challenge as UserChallengeModel,
             isVisible: !widget.challenge.isInBacklog(),
           )
-        : Container();
+        : widget.challenge is GroupChallengeModel
+            ? ChallengeTotalPercentageComponent(
+                padding: const EdgeInsets.all(8),
+                userChallenge: (widget.challenge as GroupChallengeModel)
+                    .toUserChallengeModel(usersProvider.user.id),
+                isVisible: !((widget.challenge as GroupChallengeModel)
+                        .toUserChallengeModel(usersProvider.user.id)
+                        ?.isInBacklog() ??
+                    true),
+              )
+            : Container();
   }
 
   ActionPane? endActionPane(Function closeSlidable) {

@@ -217,6 +217,7 @@ class UserChallengeModel extends ChallengeModel {
     return true;
   }
 
+  @override
   ChallengeStatusEnum checkChallengeStatus() {
     if (isCompleted() && endDate != null && endDate!.isBefore(DateTime.now())) {
       status = ChallengeStatusEnum.success;
