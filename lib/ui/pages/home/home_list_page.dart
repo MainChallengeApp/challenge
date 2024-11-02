@@ -1,5 +1,6 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -29,6 +30,9 @@ class _HomeListPageState extends State<HomeListPage> {
       Provider.of<UserChallengesProvider>(context, listen: false);
   late final listeningProvider = Provider.of<UserChallengesProvider>(context);
 
+  late final groupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: false);
+
   late List<UserChallengeModel> filteredUserChallenges;
 
   ScrollController scrollController = ScrollController();
@@ -39,6 +43,7 @@ class _HomeListPageState extends State<HomeListPage> {
   void initState() {
     super.initState();
     userChallengesProvider.getAllOfUser();
+    groupChallengesProvider.getAllOfUser();
   }
 
   @override

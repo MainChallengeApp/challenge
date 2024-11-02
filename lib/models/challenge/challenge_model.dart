@@ -131,7 +131,7 @@ class ChallengeModel {
   }
 
   ChallengeModel copyChallenge({bool isTryAgain = false, bool withId = false}) {
-    ChallengeModel challengeCopy = ChallengeModel(
+    return ChallengeModel(
         id: withId ? id : '',
         status: isTryAgain ? ChallengeStatusEnum.backlog : status,
         title: title,
@@ -144,7 +144,6 @@ class ChallengeModel {
         frequency: frequency.copy(),
         media: isTryAgain ? [] : MediaModel.copyMediaList(media),
         categories: ChallengeCategoryEnum.copyCategoryList(categories));
-    return challengeCopy;
   }
 
   bool searchInChallenge(String searchText) {

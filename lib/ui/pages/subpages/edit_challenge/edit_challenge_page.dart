@@ -3,6 +3,7 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -56,6 +57,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
+
+  late final groupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: false);
 
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
@@ -247,7 +251,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
     ChallengeModel challengeCopy = editChallenge.copyChallenge();
     challengeCopy.createdAt = DateTime.now();
 
-    await userChallengesProvider.create(challengeCopy);
+    if (members.isEmpty) {
+      await userChallengesProvider.create(challengeCopy);
+    } else {
+      await groupChallengesProvider
+          .create(challengeCopy, [...members, usersProvider.user]);
+    }
 
     setState(() {
       isLoading = false;
