@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:challenge/collections/search_challenges_collection.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
@@ -15,6 +17,14 @@ class SearchChallengesProvider with ChangeNotifier {
   bool get isEndOfSearchedListReached => _isEndOfSearchedListReached;
 
   final int paginationLimit = 20;
+
+  Timer? _debounceTimer; // necessary to prevent duplicate list items
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
 
   Future<void> getSearchedPaginated(
       {String searchText = '',
@@ -34,7 +44,6 @@ class SearchChallengesProvider with ChangeNotifier {
             fetchedSearchChallenges.length < paginationLimit;
 
         _searchChallenges.addAll(fetchedSearchChallenges);
-
         notifyListeners();
       }
     } on Exception {
@@ -44,10 +53,13 @@ class SearchChallengesProvider with ChangeNotifier {
 
   initSearchChallenges(
       {String? searchText, List<ChallengeCategoryEnum>? categories}) async {
-    _searchChallenges.clear();
-    _isEndOfSearchedListReached = false;
-    await getSearchedPaginated(
-        searchText: searchText ?? '', categories: categories ?? []);
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 100), () async {
+      _searchChallenges.clear();
+      _isEndOfSearchedListReached = false;
+      await getSearchedPaginated(
+          searchText: searchText ?? '', categories: categories ?? []);
+    });
   }
 
   Future<void> getRandomPaginated() async {

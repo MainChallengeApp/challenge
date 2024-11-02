@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -38,7 +40,15 @@ class UsersProvider with ChangeNotifier {
 
   NotificationsProvider notificationsProvider;
 
+  Timer? _debounceTimer;
+
   UsersProvider({required this.notificationsProvider});
+
+  @override
+  void dispose() {
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
 
   Future<void> createUser() async {
     final user = UserModel(
@@ -188,9 +198,13 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> initSearchUsers({String? searchText}) async {
-    _searchUsers.clear();
-    _isEndOfSearchedListReached = false;
-    await getSearchedPaginated(searchText: searchText);
+    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
+
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () async {
+      _searchUsers.clear();
+      _isEndOfSearchedListReached = false;
+      await getSearchedPaginated(searchText: searchText);
+    });
   }
 
   Future<void> blockUser(String userId) async {
