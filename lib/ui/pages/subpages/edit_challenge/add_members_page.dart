@@ -110,7 +110,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
                 filteredConnections.length +
                 1 +
                 usersProvider.searchUsers.length +
-                1 +
+                (filteredConnections.isEmpty ? 0 : 1) +
                 1, // +1 for 'Connections' title and +1 for 'Other Users' title +1 for 'Invite Friends' button and loading circle
             itemBuilder: (context, index) {
               if (index == 0) {
@@ -255,8 +255,9 @@ class _AddMembersPageState extends State<AddMembersPage> {
   }
 
   allUsersSearchList(int index) {
-    int newIndex =
-        index - filteredConnections.length - 1; // -1 for 'Connections' title
+    int newIndex = index -
+        filteredConnections.length -
+        (filteredConnections.isEmpty ? 0 : 1); // -1 for 'Connections' title
     if (newIndex == 0) {
       return listSubTitle('All Users');
     }
