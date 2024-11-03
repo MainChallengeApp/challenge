@@ -1,7 +1,7 @@
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
-import 'package:challenge/ui/components/simple_components/card_component.dart';
+import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';

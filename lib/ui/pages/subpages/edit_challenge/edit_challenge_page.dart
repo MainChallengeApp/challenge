@@ -7,6 +7,7 @@ import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
 import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
@@ -20,7 +21,6 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_component
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/simple_components/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
