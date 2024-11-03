@@ -69,7 +69,7 @@ class _SearchListPageState extends State<SearchListPage> {
     searchChallengesProvider.initSearchChallenges(
         categories: widget.categories);
     if (widget.isUserSearchActive) {
-      usersProvider.initSearchUsers();
+      usersProvider.getSearchedPaginated(isInit: true);
     }
 
     scrollController.addListener(() {
@@ -191,8 +191,8 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        await usersProvider.initSearchUsers(
-            searchText: textEditingController.text);
+        await usersProvider.getSearchedPaginated(
+            searchText: textEditingController.text, isInit: true);
       },
       child: RawScrollbar(
         controller: scrollController,
@@ -290,7 +290,7 @@ class _SearchListPageState extends State<SearchListPage> {
       searchChallengesProvider.getSearchedPaginated(
           searchText: searchText, categories: widget.categories, isInit: true);
     } else {
-      usersProvider.initSearchUsers(searchText: searchText);
+      usersProvider.getSearchedPaginated(searchText: searchText, isInit: true);
     }
   }
 }

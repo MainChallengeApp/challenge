@@ -8,7 +8,6 @@ import 'package:challenge/ui/components/list_items/list_item_container_component
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
-import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
@@ -46,18 +45,10 @@ class _AddMembersPageState extends State<AddMembersPage> {
   @override
   void initState() {
     super.initState();
-    usersProvider.initSearchUsers().then((_) {
+    usersProvider.getConnections().then((_) {
       setState(() {
         filteredConnections = List.from(usersProvider.confirmedConnections);
       });
-    });
-    usersProvider.getConnections();
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        usersProvider.getSearchedPaginated(
-            searchText: textEditingController.text);
-      }
     });
   }
 
@@ -93,25 +84,19 @@ class _AddMembersPageState extends State<AddMembersPage> {
       child: RefreshIndicatorComponent(
         scrollController: scrollController,
         onRefresh: () async {
-          await usersProvider
-              .initSearchUsers(searchText: textEditingController.text)
-              .then((_) {
+          await usersProvider.getConnections().then((_) {
             setState(() {
               filteredConnections =
                   List.from(usersProvider.confirmedConnections);
             });
           });
-          await usersProvider.getConnections();
         },
         child: ListView.builder(
-            shrinkWrap: true,
+            physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
             itemCount: 1 + // 1 + for Invite Friends button
                 filteredConnections.length +
-                1 +
-                usersProvider.searchUsers.length +
-                (filteredConnections.isEmpty ? 0 : 1) +
-                1, // +1 for 'Connections' title and +1 for 'Other Users' title +1 for 'Invite Friends' button and loading circle
+                1, // +1 for 'Connections' title
             itemBuilder: (context, index) {
               if (index == 0) {
                 return inviteFriends();
@@ -119,12 +104,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
 
               int newIndex = index - 1; // -1 for 'Invite Friends' button
 
-              if (filteredConnections.isNotEmpty &&
-                  newIndex < filteredConnections.length + 1) {
-                // +1 for 'Connections' title
-                return connectionsSearchList(newIndex);
-              }
-              return allUsersSearchList(newIndex);
+              return connectionsSearchList(newIndex);
             }),
       ),
     );
@@ -254,35 +234,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
     );
   }
 
-  allUsersSearchList(int index) {
-    int newIndex = index -
-        filteredConnections.length -
-        (filteredConnections.isEmpty ? 0 : 1); // -1 for 'Connections' title
-    if (newIndex == 0) {
-      return listSubTitle('All Users');
-    }
-
-    if (newIndex == usersProvider.searchUsers.length + 1) {
-      return usersProvider.isEndOfSearchedListReached
-          ? inviteFriends()
-          : const Center(
-              child: SpaceColumnComponent(child: LoadingCircleComponent()),
-            );
-    }
-
-    final user =
-        usersProvider.searchUsers[newIndex - 1]; // -1 for 'All Users' title
-    return SpaceColumnComponent(
-      child: ListItemUserComponent(
-        onTap: () => onTapUser(user),
-        user: user,
-        isSelected: editMembers.any((member) => member.id == user.id),
-      ),
-    );
-  }
-
   changeList(String searchText) {
-    usersProvider.initSearchUsers(searchText: searchText);
     filteredConnections = usersProvider.confirmedConnections.where((user) {
       return user.username.toLowerCase().startsWith(searchText.toLowerCase());
     }).toList();
