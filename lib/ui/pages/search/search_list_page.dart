@@ -136,7 +136,8 @@ class _SearchListPageState extends State<SearchListPage> {
         if (isFilterOnChallenges) {
           await searchChallengesProvider.getSearchedPaginated(
               searchText: textEditingController.text,
-              categories: widget.categories);
+              categories: widget.categories,
+              isInit: true);
         } else {
           await usersProvider.getSearchedPaginated(
               searchText: textEditingController.text);
@@ -286,8 +287,8 @@ class _SearchListPageState extends State<SearchListPage> {
 
   onChangeList(String searchText) {
     if (isFilterOnChallenges) {
-      searchChallengesProvider.initSearchChallenges(
-          searchText: searchText, categories: widget.categories);
+      searchChallengesProvider.getSearchedPaginated(
+          searchText: searchText, categories: widget.categories, isInit: true);
     } else {
       usersProvider.initSearchUsers(searchText: searchText);
     }

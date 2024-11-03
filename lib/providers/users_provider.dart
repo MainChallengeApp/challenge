@@ -40,15 +40,7 @@ class UsersProvider with ChangeNotifier {
 
   NotificationsProvider notificationsProvider;
 
-  Timer? _debounceTimer;
-
   UsersProvider({required this.notificationsProvider});
-
-  @override
-  void dispose() {
-    _debounceTimer?.cancel();
-    super.dispose();
-  }
 
   Future<void> createUser() async {
     final user = UserModel(
@@ -172,19 +164,24 @@ class UsersProvider with ChangeNotifier {
     }
   }
 
-  Future<void> getSearchedPaginated({String? searchText}) async {
+  Future<void> getSearchedPaginated(
+      {String? searchText, bool isInit = false}) async {
     try {
-      if (!_isEndOfSearchedListReached) {
+      if (!_isEndOfSearchedListReached || isInit) {
         final fetchedSearchUsers = await usersCollection.getSearchedPaginated(
             blockedUserIds: _user.blockedUserIds,
             limit: paginationLimit,
             userId: _user.id,
             lastSearchedUser:
-                _searchUsers.isNotEmpty ? _searchUsers.last : null,
+                isInit || _searchUsers.isEmpty ? null : _searchUsers.last,
             searchText: searchText ?? '');
 
         _isEndOfSearchedListReached =
             fetchedSearchUsers.length < paginationLimit;
+
+        if (isInit) {
+          _searchUsers.clear();
+        }
 
         fetchedSearchUsers.removeWhere((user) => user.isEmpty());
 
@@ -198,13 +195,9 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> initSearchUsers({String? searchText}) async {
-    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () async {
-      _searchUsers.clear();
-      _isEndOfSearchedListReached = false;
-      await getSearchedPaginated(searchText: searchText);
-    });
+    _searchUsers.clear();
+    _isEndOfSearchedListReached = false;
+    await getSearchedPaginated(searchText: searchText);
   }
 
   Future<void> blockUser(String userId) async {

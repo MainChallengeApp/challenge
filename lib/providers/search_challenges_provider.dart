@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:challenge/collections/search_challenges_collection.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
@@ -18,30 +19,29 @@ class SearchChallengesProvider with ChangeNotifier {
 
   final int paginationLimit = 20;
 
-  Timer? _debounceTimer; // necessary to prevent duplicate list items
-
-  @override
-  void dispose() {
-    _debounceTimer?.cancel();
-    super.dispose();
-  }
+  CancelableOperation? _operation;
 
   Future<void> getSearchedPaginated(
       {String searchText = '',
-      List<ChallengeCategoryEnum> categories = const []}) async {
+      List<ChallengeCategoryEnum> categories = const [],
+      bool isInit = false}) async {
     try {
-      if (!_isEndOfSearchedListReached) {
+      if (!_isEndOfSearchedListReached || isInit) {
         final fetchedSearchChallenges =
             await searchChallengesCollection.getSearchedPaginated(
                 limit: paginationLimit,
-                lastSearchChallenge: _searchChallenges.isNotEmpty
-                    ? _searchChallenges.last
-                    : null,
+                lastSearchChallenge: isInit || _searchChallenges.isEmpty
+                    ? null
+                    : _searchChallenges.last,
                 searchText: searchText,
                 categories: categories);
 
         _isEndOfSearchedListReached =
             fetchedSearchChallenges.length < paginationLimit;
+
+        if (isInit) {
+          _searchChallenges.clear();
+        }
 
         _searchChallenges.addAll(fetchedSearchChallenges);
         notifyListeners();
@@ -51,15 +51,15 @@ class SearchChallengesProvider with ChangeNotifier {
     }
   }
 
-  initSearchChallenges(
+  Future<void> initSearchChallenges(
       {String? searchText, List<ChallengeCategoryEnum>? categories}) async {
-    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 100), () async {
-      _searchChallenges.clear();
-      _isEndOfSearchedListReached = false;
-      await getSearchedPaginated(
-          searchText: searchText ?? '', categories: categories ?? []);
-    });
+    _operation?.cancel();
+
+    _searchChallenges.clear();
+    _isEndOfSearchedListReached = false;
+
+    _operation = CancelableOperation.fromFuture(getSearchedPaginated(
+        searchText: searchText ?? '', categories: categories ?? []));
   }
 
   Future<void> getRandomPaginated() async {
