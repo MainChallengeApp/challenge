@@ -54,9 +54,8 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
             if (index == 0) {
               return SpaceColumnComponent(
                 child: ListItemIconTextComponent(
-                  icon: IconEnum.add.icon,
-                  title: 'Add Blocked User',
-                  onTap: onTapAddBlockedUser,
+                  icon: IconEnum.info.icon,
+                  title: 'You do not have any blocked users',
                 ),
               );
             }
@@ -72,11 +71,6 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
       ),
       bottomNavigationBar: const BottomNavigationComponent(),
     );
-  }
-
-  // TODO: Implement onTapAddBlockedUser
-  void onTapAddBlockedUser() {
-    throw UnimplementedError();
   }
 
   onTapUser(UserModel user) {

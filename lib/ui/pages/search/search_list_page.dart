@@ -28,6 +28,7 @@ class SearchListPage extends StatefulWidget {
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
   final bool isUserSearchActive;
+  final bool initIsFilterOnChallenges;
 
   const SearchListPage({
     super.key,
@@ -36,6 +37,7 @@ class SearchListPage extends StatefulWidget {
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
     this.isUserSearchActive = false,
+    this.initIsFilterOnChallenges = true,
   });
 
   @override
@@ -61,7 +63,7 @@ class _SearchListPageState extends State<SearchListPage> {
 
   final textEditingController = TextEditingController();
 
-  bool isFilterOnChallenges = true;
+  late bool isFilterOnChallenges = widget.initIsFilterOnChallenges;
 
   @override
   void initState() {

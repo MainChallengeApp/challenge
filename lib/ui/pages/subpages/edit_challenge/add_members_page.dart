@@ -95,8 +95,12 @@ class _AddMembersPageState extends State<AddMembersPage> {
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
             itemCount: 1 + // 1 + for Invite Friends button
+                1 + // +1 for 'Connections' title
                 filteredConnections.length +
-                1, // +1 for 'Connections' title
+                (filteredConnections
+                        .isEmpty // +1 for 'No Connections' list item
+                    ? 1
+                    : 0),
             itemBuilder: (context, index) {
               if (index == 0) {
                 return inviteFriends();
@@ -222,6 +226,16 @@ class _AddMembersPageState extends State<AddMembersPage> {
   connectionsSearchList(int index) {
     if (index == 0) {
       return listSubTitle('Connections');
+    }
+
+    if (filteredConnections.isEmpty) {
+      return SpaceColumnComponent(
+        child: ListItemIconTextComponent(
+          icon: IconEnum.info.icon,
+          title: 'Connect to users to add them here',
+          onTap: () {},
+        ),
+      );
     }
 
     final user = filteredConnections[index - 1];

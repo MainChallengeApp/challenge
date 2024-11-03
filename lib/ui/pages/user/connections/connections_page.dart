@@ -1,6 +1,9 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
@@ -9,6 +12,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/pages/search/search_list_page.dart';
 import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:challenge/ui/pages/user/connections/open_requests_page.dart';
 import 'package:challenge/ui/pages/user/connections/open_responses_page.dart';
@@ -35,6 +39,8 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
+
+  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   List<UserModel> filteredConfirmedConnections = [];
 
@@ -85,18 +91,29 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
           controller: scrollController,
           itemCount: filteredConfirmedConnections.length +
               1 +
+              1 +
               1, // +1 for openRequests +1 for openConnectionResponses
           itemBuilder: (context, index) {
             if (index == 0) {
-              return openConnectionRequestsListItem();
+              return SpaceColumnComponent(
+                child: ListItemIconTextComponent(
+                  icon: IconEnum.add.icon,
+                  title: 'Add Connection',
+                  onTap: onTapAddConnection,
+                ),
+              );
             }
 
             if (index == 1) {
+              return openConnectionRequestsListItem();
+            }
+
+            if (index == 2) {
               return openConnectionResponsesListItem();
             }
 
             UserModel connection =
-                filteredConfirmedConnections.elementAt(index - 1 - 1);
+                filteredConfirmedConnections.elementAt(index - 1 - 1 - 1);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
                   onTap: () => onTapUser(connection),
@@ -180,5 +197,23 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   changeList(String p1) {
     setState(() {});
+  }
+
+  void onTapAddConnection() {
+    var searchNavigator =
+        tabProvider.navigatorKeys[TabItemEnum.search]!.currentState!;
+
+    searchNavigator.popUntil((route) => route.isFirst);
+
+    searchNavigator.push(
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchListPage(
+          preTitle: TabItemEnum.search.name,
+          isUserSearchActive: true,
+          initIsFilterOnChallenges: false,
+        ),
+      ),
+    );
+    tabProvider.selectTab(TabItemEnum.search);
   }
 }
