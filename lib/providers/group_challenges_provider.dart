@@ -68,6 +68,11 @@ class GroupChallengesProvider with ChangeNotifier {
   // TODO
   delete(GroupChallengeModel challenge) {}
 
+  void resetLocalList() {
+    _groupChallenges = [];
+    notifyListeners();
+  }
+
   // update(UserChallengeModel userChallenge) async {
   //   try {
   //     if (userChallenge.hasThumbnail() &&

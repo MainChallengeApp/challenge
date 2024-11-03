@@ -112,12 +112,12 @@ class GroupChallengeModel extends ChallengeModel {
   //       userChallenges: userChallenges.map((userChallenge) => userChallenge.copyChallenge()).toList());
   // }
 
-  UserChallengeModel? toUserChallengeModel(String userId) {
+  UserChallengeModel toUserChallengeModel(String userId) {
     try {
       return userChallenges
           .firstWhere((userChallenge) => userChallenge.userId == userId);
     } catch (e) {
-      return null;
+      throw Exception('UserChallengeModel not found');
     }
   }
 

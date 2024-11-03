@@ -276,7 +276,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           preTitle: 'Home',
-          initialUserChallengeId: challengeCopy.id,
+          initialChallengeId: challengeCopy.id,
         ),
       ),
     );

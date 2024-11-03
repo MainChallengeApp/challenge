@@ -29,18 +29,18 @@ class HomeListPage extends StatefulWidget {
 class _HomeListPageState extends State<HomeListPage> {
   late final userChallengesProvider =
       Provider.of<UserChallengesProvider>(context, listen: false);
-  late final listeningUserChallengesProvider =
+  late final _listeningUserChallengesProvider =
       Provider.of<UserChallengesProvider>(context);
 
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
-  late final listeningGroupChallengesProvider =
+  late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context);
 
   late List<UserChallengeModel> filteredUserChallenges;
   late List<GroupChallengeModel> filteredGroupChallenges;
 
-  List<ChallengeModel> filteredChallenges = [];
+  List<ChallengeModel> _filteredChallenges = [];
 
   ScrollController scrollController = ScrollController();
 
@@ -70,20 +70,7 @@ class _HomeListPageState extends State<HomeListPage> {
   }
 
   Widget _buildList() {
-    filteredUserChallenges = listeningUserChallengesProvider.userChallenges
-        .where((element) => element.searchInChallenge(searchBarText))
-        .toList();
-
-    filteredGroupChallenges = listeningGroupChallengesProvider.groupChallenges
-        .where((element) => element.searchInChallenge(searchBarText))
-        .toList();
-
-    filteredChallenges = [];
-
-    filteredChallenges.addAll(filteredUserChallenges);
-    filteredChallenges.addAll(filteredGroupChallenges);
-    filteredChallenges =
-        ChallengeModel.sortChallengeList(challenges: filteredChallenges);
+    _mergeAndSortChallenges();
 
     return Column(
       children: [
@@ -93,7 +80,7 @@ class _HomeListPageState extends State<HomeListPage> {
             scrollController: scrollController,
             onRefresh: () async {
               await userChallengesProvider.getAllOfUser();
-              setState(() {});
+              await groupChallengesProvider.getAllOfUser();
             },
             child: RawScrollbar(
               controller: scrollController,
@@ -103,13 +90,13 @@ class _HomeListPageState extends State<HomeListPage> {
               child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: scrollController,
-                  itemCount: filteredChallenges.length +
+                  itemCount: _filteredChallenges.length +
                       1, // +1 for new Challenge listItem
                   itemBuilder: (BuildContext content, int index) {
                     if (index == 0) {
                       return newChallenge();
                     }
-                    ChallengeModel challenge = filteredChallenges[
+                    ChallengeModel challenge = _filteredChallenges[
                         index - 1]; // -1 for new Challenge listItem
 
                     challenge.checkChallengeStatus();
@@ -128,6 +115,18 @@ class _HomeListPageState extends State<HomeListPage> {
         ),
       ],
     );
+  }
+
+  void _mergeAndSortChallenges() {
+    _filteredChallenges.clear();
+    _filteredChallenges.addAll(_listeningUserChallengesProvider.userChallenges);
+    _filteredChallenges
+        .addAll(_listeningGroupChallengesProvider.groupChallenges);
+    _filteredChallenges = _filteredChallenges
+        .where((element) => element.searchInChallenge(searchBarText))
+        .toList();
+    _filteredChallenges =
+        ChallengeModel.sortChallengeList(challenges: _filteredChallenges);
   }
 
   SpaceColumnComponent newChallenge() {
@@ -163,7 +162,7 @@ class _HomeListPageState extends State<HomeListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           preTitle: widget.title,
-          initialUserChallengeId: challenge.id,
+          initialChallengeId: challenge.id,
           filterOptions: searchBarText,
         ),
       ),

@@ -111,9 +111,8 @@ class _ListItemChallengeSmallComponentState
                 userChallenge: (widget.challenge as GroupChallengeModel)
                     .toUserChallengeModel(usersProvider.user.id),
                 isVisible: !((widget.challenge as GroupChallengeModel)
-                        .toUserChallengeModel(usersProvider.user.id)
-                        ?.isInBacklog() ??
-                    true),
+                    .toUserChallengeModel(usersProvider.user.id)
+                    .isInBacklog()),
               )
             : Container();
   }
