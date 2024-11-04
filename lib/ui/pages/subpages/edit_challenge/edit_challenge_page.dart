@@ -94,42 +94,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     hasScrollBody: false,
                     child: Column(
                       children: [
-                        Flexible(
-                          fit: FlexFit.loose,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Flexible(
-                                fit: FlexFit.loose,
-                                child: ListItemContainerComponent(
-                                  padding: const EdgeInsets.all(
-                                      CardComponent.standardPadding),
-                                  isHeightDynamic: true,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      thumbnailUploadAndTitle(),
-                                      description()
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SpaceComponent()
-                            ],
-                          ),
-                        ),
-                        Visibility(
-                          visible: !isDescriptionExpanded,
-                          child: dynamicCard(children: [
-                            amountAndUnit(),
-                            frequency(),
-                            startAndEndDate(),
-                          ]),
-                        ),
-                        Visibility(
-                          visible: !isDescriptionExpanded,
-                          child: addMember(),
-                        ),
+                        _header(),
+                        _details(),
+                        _member(),
                       ],
                     ),
                   ),
@@ -139,6 +106,47 @@ class _EditChallengePageState extends State<EditChallengePage> {
             cancelAndSaveOrAcceptButton(),
           ],
         ),
+      ),
+    );
+  }
+
+  Visibility _member() {
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: addMember(),
+    );
+  }
+
+  Visibility _details() {
+    return Visibility(
+      visible: !isDescriptionExpanded,
+      child: dynamicCard(children: [
+        amountAndUnit(),
+        frequency(),
+        startAndEndDate(),
+      ]),
+    );
+  }
+
+  Flexible _header() {
+    return Flexible(
+      fit: FlexFit.loose,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            fit: FlexFit.loose,
+            child: ListItemContainerComponent(
+              padding: const EdgeInsets.all(CardComponent.standardPadding),
+              isHeightDynamic: true,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [thumbnailUploadAndTitle(), description()],
+              ),
+            ),
+          ),
+          const SpaceComponent()
+        ],
       ),
     );
   }
@@ -226,6 +234,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UploadThumbnailComponent(editChallenge: editChallenge),
             const SpaceComponent(),
