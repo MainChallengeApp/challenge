@@ -117,7 +117,7 @@ class GroupChallengeModel extends ChallengeModel {
       return userChallenges
           .firstWhere((userChallenge) => userChallenge.userId == userId);
     } catch (e) {
-      throw Exception('UserChallengeModel not found');
+      throw Exception('UserChallengeModel for current user not found');
     }
   }
 

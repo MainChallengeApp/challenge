@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 enum IconEnum {
   add(Icons.add_rounded),
+  arrowDown(Icons.keyboard_arrow_down_rounded),
+  arrowRight(Icons.keyboard_arrow_right_rounded),
   bio(Icons.notes_rounded),
   blockedUsers(Icons.block_rounded),
   connect(Icons.group_add_rounded),
@@ -9,8 +11,7 @@ enum IconEnum {
   disconnect(Icons.group_remove_rounded),
   edit(Icons.edit_rounded),
   email(Icons.email_rounded),
-  arrowDown(Icons.keyboard_arrow_down_rounded),
-  arrowRight(Icons.keyboard_arrow_right_rounded),
+  groupChallenge(Icons.groups_rounded),
   inbox(Icons.inbox_outlined),
   info(Icons.info_outline_rounded),
   more(Icons.more_horiz_rounded),

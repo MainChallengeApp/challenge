@@ -123,7 +123,7 @@ class _UserChallengeCardComponentState
   _title() {
     return SpaceColumnComponent(
       height: 11,
-      child: TitleWithPercentageComponent(userChallenge: widget.userChallenge),
+      child: TitleWithPercentageComponent(challenge: widget.userChallenge),
     );
   }
 
@@ -313,11 +313,11 @@ class _UserChallengeCardComponentState
     );
   }
 
-  _onTapStart(UserChallengeModel userChallenge) {
+  void _onTapStart(UserChallengeModel userChallenge) {
     _userChallengesProvider.start(userChallenge);
   }
 
-  _onTapEnd(UserChallengeModel userChallenge) {
+  void _onTapEnd(UserChallengeModel userChallenge) {
     if (userChallenge.canEndRepetition()) {
       userChallenge.endRepetition();
       _userChallengesProvider.update(userChallenge);
@@ -332,7 +332,7 @@ class _UserChallengeCardComponentState
         });
   }
 
-  _onTapAgain(ChallengeModel challenge) {
+  void _onTapAgain(ChallengeModel challenge) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -349,7 +349,7 @@ class _UserChallengeCardComponentState
     );
   }
 
-  _onTapNext(UserChallengeModel userChallenge) {
+  void _onTapNext(UserChallengeModel userChallenge) {
     userChallenge.endRepetition();
     _userChallengesProvider.update(userChallenge);
   }

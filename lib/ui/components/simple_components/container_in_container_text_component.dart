@@ -10,6 +10,7 @@ class ContainerInContainerTextComponent extends StatelessWidget {
   final EdgeInsets? padding;
   final BorderRadius? borderRadius;
   final TextStyle? textStyle;
+  final double? height;
 
   const ContainerInContainerTextComponent(
       {super.key,
@@ -20,22 +21,26 @@ class ContainerInContainerTextComponent extends StatelessWidget {
       this.border,
       this.padding,
       this.borderRadius,
-      this.textStyle});
+      this.textStyle,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
     return ContainerInContainerComponent(
         margin: margin,
         padding: padding,
+        height: height,
         color: color,
         border: border,
         borderRadius: borderRadius,
-        child: Text(text,
-            style: textStyle?.copyWith(color: textColor) ??
-                Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: textColor),
-            overflow: TextOverflow.ellipsis));
+        child: Center(
+          child: Text(text,
+              style: textStyle?.copyWith(color: textColor) ??
+                  Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: textColor),
+              overflow: TextOverflow.ellipsis),
+        ));
   }
 }

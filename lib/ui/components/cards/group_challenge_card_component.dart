@@ -127,7 +127,7 @@ class _GroupChallengeCardComponentState
   _title() {
     return SpaceColumnComponent(
       height: 11,
-      child: TitleWithPercentageComponent(userChallenge: _userChallenge),
+      child: TitleWithPercentageComponent(challenge: widget.groupChallenge),
     );
   }
 

@@ -1,17 +1,18 @@
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/ui/components/cards/card_component.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:flutter/material.dart';
 
 class TitleWithPercentageComponent extends StatelessWidget {
-  final UserChallengeModel userChallenge;
+  final ChallengeModel challenge;
   final bool isSearch;
 
   const TitleWithPercentageComponent({
     super.key,
-    required this.userChallenge,
+    required this.challenge,
     this.isSearch = false,
   });
 
@@ -21,15 +22,19 @@ class TitleWithPercentageComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: TitleComponent(title: userChallenge.title),
+          child: TitleComponent(title: challenge.title),
         ),
-        const SpaceComponent(
-          width: CardComponent.standardPadding,
-        ),
-        ChallengeTotalPercentageComponent(
-            userChallenge: userChallenge,
-            isVisible: !isSearch && !userChallenge.isInBacklog(),
-            padding: const EdgeInsets.all(8))
+        Visibility(
+            visible: challenge is! GroupChallengeModel,
+            child: GroupChallengeIconComponent(challenge: challenge)),
+        Visibility(
+          visible: !isSearch && !challenge.isInBacklog(),
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: CustomContainerComponent.standardPadding),
+            child: ChallengeTotalPercentageComponent(challenge: challenge),
+          ),
+        )
       ],
     );
   }
