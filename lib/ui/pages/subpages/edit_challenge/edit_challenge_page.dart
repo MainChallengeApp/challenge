@@ -1,16 +1,15 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
+import 'package:challenge/ui/components/challenge/challenge_start_and_end_date_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
-import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
 import 'package:challenge/ui/components/edit_challenge/edit_description_component.dart';
 import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
@@ -55,16 +54,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
   bool isDescriptionExpanded = false;
   late String title = widget.isNewChallenge ? 'New Challenge' : 'Edit';
 
-  late final userChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: false);
-
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
 
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
-  late ChallengeModel editChallenge = widget.challenge
-      .copyChallenge(isTryAgain: widget.isTryAgain, withId: true);
+  late ChallengeModel editChallenge =
+      widget.challenge.copy(isTryAgain: widget.isTryAgain, withId: true);
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
@@ -208,7 +204,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   startAndEndDate() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: StartAndEndDateComponent(
+      child: ChallengeStartAndEndDateComponent(
         editChallenge: editChallenge,
         reloadSearchChallengePage: () => setState(
           () {},
@@ -257,15 +253,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
     setState(() {
       isLoading = true;
     });
-    ChallengeModel challengeCopy = editChallenge.copyChallenge();
+    ChallengeModel challengeCopy = editChallenge.copy();
     challengeCopy.createdAt = DateTime.now();
 
-    if (members.isEmpty) {
-      await userChallengesProvider.create(challengeCopy);
-    } else {
-      await groupChallengesProvider
-          .create(challengeCopy, [...members, usersProvider.user]);
-    }
+    challengeCopy.id = await groupChallengesProvider
+        .create(challengeCopy, [...members, usersProvider.user]);
 
     setState(() {
       isLoading = false;
@@ -298,12 +290,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
     setState(() {
       isLoading = true;
     });
-    UserChallengeModel userChallengeCopy =
-        editChallenge.copyChallenge(withId: true) as UserChallengeModel;
+    GroupChallengeModel groupChallengeCopy =
+        editChallenge.copy(withId: true) as GroupChallengeModel;
 
-    userChallengeCopy.setGoals(editChallenge.acceptanceCriteria.amount);
+    groupChallengeCopy.setGoals(editChallenge.acceptanceCriteria.amount);
 
-    await userChallengesProvider.update(userChallengeCopy);
+    await groupChallengesProvider.update(groupChallengeCopy);
     setState(() {
       isLoading = false;
     });

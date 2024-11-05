@@ -1,10 +1,11 @@
 import 'dart:io';
 
-import 'package:challenge/collections/user_challenges_collection.dart';
+import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,11 +29,11 @@ class MediaService {
     return media;
   }
 
-  Future<MediaModel?> uploadLocalMedia(
-      MediaModel media, UserChallengeModel userChallenge) async {
+  Future<MediaModel?> uploadLocalMedia(MediaModel media,
+      GroupChallengeModel groupChallenge, String userId) async {
     try {
       String path =
-          '${UserChallengesCollection.collectionName}/${userChallenge.id}/${media.title}';
+          '${GroupChallengesCollection.collectionName}/${groupChallenge.id}/$userId/${media.title}';
 
       String imageUrl =
           await storageService.uploadFile(File(media.source), path);
@@ -46,10 +47,10 @@ class MediaService {
   }
 
   Future<String> uploadLocalThumbnail(
-      String userChallengeId, String url) async {
+      String groupChallengeId, String url) async {
     try {
       String path =
-          '${UserChallengesCollection.collectionName}/$userChallengeId/thumbnail';
+          '${GroupChallengesCollection.collectionName}/$groupChallengeId/thumbnail';
 
       String imageUrl = await storageService.uploadFile(File(url), path);
 
@@ -88,12 +89,11 @@ class MediaService {
     storageService.deleteFileByUrl(media.source);
   }
 
-  deleteMediaInChallengeByIds(
-      List<String> mediaIds, UserChallengeModel userChallenge) {
+  deleteMediaInChallengeByIds(List<String> mediaIds, AttemptModel attempt) {
     for (var mediaId in mediaIds) {
       MediaModel media =
-          userChallenge.media.firstWhere((element) => element.id == mediaId);
-      userChallenge.removeMedia(media);
+          attempt.media.firstWhere((element) => element.id == mediaId);
+      attempt.removeMedia(media);
       deleteMedia(media);
     }
   }

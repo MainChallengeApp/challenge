@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +15,18 @@ class ImagePage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
-  final UserChallengeModel userChallenge;
+  final AttemptModel attempt;
+  final GroupChallengeModel groupChallenge;
+  final ParticipantModel participant;
 
   const ImagePage(
       {super.key,
       required this.preTitle,
       required this.mediaList,
       required this.initialMediaIndex,
-      required this.userChallenge});
+      required this.attempt,
+      required this.groupChallenge,
+      required this.participant});
 
   @override
   State<ImagePage> createState() => _ImagePageState();
@@ -32,8 +38,8 @@ class _ImagePageState extends State<ImagePage> {
   late String currentTitle = widget.mediaList[widget.initialMediaIndex].title;
   late int currentMediaIndex = widget.initialMediaIndex;
 
-  late final userChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: false);
+  late final groupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: false);
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +104,10 @@ class _ImagePageState extends State<ImagePage> {
         });
 
         widget.mediaList.removeWhere((element) => element.id == media.id);
-        widget.userChallenge.removeMedia(media);
+        widget.attempt.removeMedia(media);
 
-        userChallengesProvider.update(widget.userChallenge);
+        groupChallengesProvider.updateAttempt(
+            widget.groupChallenge, widget.participant, widget.attempt);
 
         setState(() {
           if (currentMediaIndex >= widget.mediaList.length) {

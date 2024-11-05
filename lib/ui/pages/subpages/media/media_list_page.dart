@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -19,10 +21,14 @@ class MediaListPage extends StatefulWidget {
       {super.key,
       required this.preTitle,
       this.tapOnNewChallenge,
-      required this.userChallenge});
+      required this.attempt,
+      required this.groupChallenge,
+      required this.participant});
   final String preTitle;
   final Function? tapOnNewChallenge;
-  final UserChallengeModel userChallenge;
+  final AttemptModel attempt;
+  final GroupChallengeModel groupChallenge;
+  final ParticipantModel participant;
 
   @override
   State<MediaListPage> createState() => _MediaListPageState();
@@ -33,8 +39,8 @@ class _MediaListPageState extends State<MediaListPage> {
 
   ScrollController scrollController = ScrollController();
 
-  late final userChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: false);
+  late final groupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: false);
 
   MediaService mediaService = MediaService();
 
@@ -50,7 +56,7 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   _buildList() {
-    List<MediaModel> mediaList = widget.userChallenge.media
+    List<MediaModel> mediaList = widget.attempt.media
         .where((element) =>
             element.title.toLowerCase().contains(searchBarText.toLowerCase()))
         .toList();
@@ -93,8 +99,11 @@ class _MediaListPageState extends State<MediaListPage> {
                             mediaList.reversed.elementAt(index - 1);
 
                         mediaService.deleteMedia(media);
-                        widget.userChallenge.removeMedia(media);
-                        userChallengesProvider.update(widget.userChallenge);
+                        widget.attempt.removeMedia(media);
+                        groupChallengesProvider.updateAttempt(
+                            widget.groupChallenge,
+                            widget.participant,
+                            widget.attempt);
 
                         setState(() {
                           mediaList
@@ -124,12 +133,12 @@ class _MediaListPageState extends State<MediaListPage> {
       context,
       NoAnimationPageRouteComponent(
           builder: (context) => MediaDetailPage(
-                mediaList: widget.userChallenge.media
+                mediaList: widget.attempt.media
                     .where((element) => element.title.contains(searchBarText))
                     .toList(),
                 preTitle: '${widget.preTitle}/Media',
                 initialMediaIndex: index,
-                userChallenge: widget.userChallenge,
+                attempt: widget.attempt,
                 onTap: onTapDeleteMedia,
               )),
     ).then((_) => setState(() {}));
@@ -142,17 +151,18 @@ class _MediaListPageState extends State<MediaListPage> {
     }
 
     setState(() {
-      widget.userChallenge.media.add(media);
+      widget.attempt.media.add(media);
     });
 
-    MediaModel? mediaWithUrl =
-        await mediaService.uploadLocalMedia(media, widget.userChallenge);
+    MediaModel? mediaWithUrl = await mediaService.uploadLocalMedia(
+        media, widget.groupChallenge, widget.participant.userId);
 
     if (mediaWithUrl == null) {
       return;
     }
 
-    userChallengesProvider.update(widget.userChallenge);
+    groupChallengesProvider.updateAttempt(
+        widget.groupChallenge, widget.participant, widget.attempt);
   }
 
   onTapDeleteMedia(MediaModel media) {
@@ -164,8 +174,9 @@ class _MediaListPageState extends State<MediaListPage> {
         }
       });
 
-      widget.userChallenge.removeMedia(media);
-      userChallengesProvider.update(widget.userChallenge);
+      widget.attempt.removeMedia(media);
+      groupChallengesProvider.updateAttempt(
+          widget.groupChallenge, widget.participant, widget.attempt);
 
       setState(() {});
     }

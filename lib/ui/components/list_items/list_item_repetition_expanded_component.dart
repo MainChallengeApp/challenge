@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -20,11 +22,15 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
       {super.key,
       required this.repetition,
       this.onTap,
-      required this.userChallenge,
-      required this.onTapNextRepetition});
+      required this.attempt,
+      required this.onTapNextRepetition,
+      required this.groupChallenge,
+      required this.participant});
 
   final RepetitionModel repetition;
-  final UserChallengeModel userChallenge;
+  final AttemptModel attempt;
+  final GroupChallengeModel groupChallenge;
+  final ParticipantModel participant;
   final void Function()? onTap;
   final void Function(int repetitionNumber) onTapNextRepetition;
 
@@ -35,12 +41,13 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
 
 class _ListItemRepetitionExpandedComponentState
     extends State<ListItemRepetitionExpandedComponent> {
-  late final userChallengesProvider = Provider.of<UserChallengesProvider>(
+  late final groupChallengesProvider = Provider.of<GroupChallengesProvider>(
     context,
     listen: false,
   );
 
-  late final listeningProvider = Provider.of<UserChallengesProvider>(
+  late final listeningGroupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(
     context,
     listen: true,
   );
@@ -49,7 +56,7 @@ class _ListItemRepetitionExpandedComponentState
 
   @override
   Widget build(BuildContext context) {
-    listeningProvider.userChallenges;
+    listeningGroupChallengesProvider.groupChallenges;
 
     pageContext = context;
     widget.repetition.evaluateRepetitionStatus();
@@ -58,7 +65,7 @@ class _ListItemRepetitionExpandedComponentState
         ListItemFractionComponent(
           initialProgress:
               min(1, widget.repetition.getLastProgressPercentage()),
-          isFailed: widget.userChallenge.isFailed(),
+          isFailed: widget.attempt.isFailed(),
           onTap: widget.onTap,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -90,8 +97,8 @@ class _ListItemRepetitionExpandedComponentState
                             padding: const EdgeInsets.only(
                                 left: 16, bottom: 16, right: 8),
                             child: ActionButtonComponent(
-                              userChallenge: widget.userChallenge,
-                              onTapAgain: (_) => {},
+                              attempt: widget.attempt,
+                              onTapAgain: () => {},
                               onTapEnd: (_) => {},
                               onTapNext: (_) => {},
                               onTapStart: onTapStart,
@@ -116,10 +123,10 @@ class _ListItemRepetitionExpandedComponentState
                               padding: const EdgeInsets.only(
                                   left: 8, bottom: 16, right: 16),
                               child: ActionButtonComponent(
-                                  userChallenge: widget.userChallenge,
+                                  attempt: widget.attempt,
                                   onTapStart: onTapStart,
                                   onTapEnd: onTapEnd,
-                                  onTapAgain: (_) => {},
+                                  onTapAgain: () => {},
                                   onTapNext: onTapNext),
                             )
                           : Padding(
@@ -144,38 +151,41 @@ class _ListItemRepetitionExpandedComponentState
     );
   }
 
-  onTapNext(UserChallengeModel userChallenge) {
+  onTapNext(AttemptModel attempt) {
     setState(() {
-      userChallenge.endRepetition();
+      attempt.endRepetition();
       widget.onTapNextRepetition
-          .call(userChallenge.getLastRepetition()!.repetitionNumber);
+          .call(attempt.getLastRepetition()!.repetitionNumber);
     });
-    userChallengesProvider.update(userChallenge);
+    groupChallengesProvider.updateAttempt(
+        widget.groupChallenge, widget.participant, attempt);
   }
 
-  onTapEnd(UserChallengeModel userChallenge) {
+  onTapEnd(AttemptModel attempt) {
     EndChallengeDialog.show(
         context: pageContext,
-        challengeTitle: userChallenge.title,
+        challengeTitle: widget.groupChallenge.title,
         onTapYes: () {
-          userChallengesProvider.end(userChallenge);
+          groupChallengesProvider.endAttempt(
+              widget.groupChallenge, widget.participant, attempt);
         });
   }
 
-  onTapStart(userChallenge) {
-    userChallengesProvider.start(userChallenge);
+  onTapStart(AttemptModel attempt) {
+    groupChallengesProvider.startAttempt(
+        widget.groupChallenge, widget.participant, attempt);
   }
 
   repetition() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.repetition.repetitionNumber}/${widget.userChallenge.frequency.amount ?? '∞'} ${widget.userChallenge.frequency.typeToString()}');
+            '${widget.repetition.repetitionNumber}/${widget.attempt.frequency.amount ?? '∞'} ${widget.attempt.frequency.typeToString()}');
   }
 
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.userChallenge.acceptanceCriteria.amount)} ${widget.userChallenge.acceptanceCriteria.unit}');
+            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.attempt.acceptanceCriteria.unit}');
   }
 
   repetitionIcon() {

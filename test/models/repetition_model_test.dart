@@ -472,7 +472,7 @@ void main() {
         repetition.endDate = repetitionEndDate;
         repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
         // Act
-        RepetitionModel result = repetition.copyRepetition();
+        RepetitionModel result = repetition.copy();
         // Assert
         expect(result.repetitionNumber, equals(repetition.repetitionNumber));
         expect(result.goalAmount, equals(repetition.goalAmount));
@@ -510,8 +510,7 @@ void main() {
 
         List<RepetitionModel> repetitions = [repetition1, repetition2];
         // Act
-        List<RepetitionModel> result =
-            RepetitionModel.copyRepetitionList(repetitions);
+        List<RepetitionModel> result = RepetitionModel.copyList(repetitions);
         // Assert
         expect(result.length, equals(2));
         expect(

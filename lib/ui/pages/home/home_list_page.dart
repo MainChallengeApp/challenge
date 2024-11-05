@@ -1,8 +1,7 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
@@ -27,20 +26,15 @@ class HomeListPage extends StatefulWidget {
 }
 
 class _HomeListPageState extends State<HomeListPage> {
-  late final userChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: false);
-  late final _listeningUserChallengesProvider =
-      Provider.of<UserChallengesProvider>(context);
-
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
   late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context);
 
-  late List<UserChallengeModel> filteredUserChallenges;
-  late List<GroupChallengeModel> filteredGroupChallenges;
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
-  List<ChallengeModel> _filteredChallenges = [];
+  List<GroupChallengeModel> _filteredChallenges = [];
 
   ScrollController scrollController = ScrollController();
 
@@ -49,7 +43,6 @@ class _HomeListPageState extends State<HomeListPage> {
   @override
   void initState() {
     super.initState();
-    userChallengesProvider.getAllOfUser();
     groupChallengesProvider.getAllOfUser();
   }
 
@@ -79,7 +72,6 @@ class _HomeListPageState extends State<HomeListPage> {
           child: RefreshIndicatorComponent(
             scrollController: scrollController,
             onRefresh: () async {
-              await userChallengesProvider.getAllOfUser();
               await groupChallengesProvider.getAllOfUser();
             },
             child: RawScrollbar(
@@ -96,17 +88,20 @@ class _HomeListPageState extends State<HomeListPage> {
                     if (index == 0) {
                       return newChallenge();
                     }
-                    ChallengeModel challenge = _filteredChallenges[
+                    GroupChallengeModel groupChallenge = _filteredChallenges[
                         index - 1]; // -1 for new Challenge listItem
 
-                    challenge.checkChallengeStatus();
+                    groupChallenge.checkStatus();
                     return SpaceColumnComponent(
                       child: ListItemChallengeSmallComponent(
                         onTap: () => onTapChallenge(context,
-                            challenge: challenge, index: index - 1),
-                        challenge: challenge,
+                            challenge: groupChallenge, index: index - 1),
+                        challenge: groupChallenge,
+                        attempt: groupChallenge
+                            .getParticipant(_usersProvider.user.id)
+                            .getLatestAttempt(),
                         onTapDeleteChallenge: () =>
-                            onTapDeleteChallenge(challenge),
+                            onTapDeleteChallenge(groupChallenge),
                       ),
                     );
                   }),
@@ -119,14 +114,13 @@ class _HomeListPageState extends State<HomeListPage> {
 
   void _mergeAndSortChallenges() {
     _filteredChallenges.clear();
-    _filteredChallenges.addAll(_listeningUserChallengesProvider.userChallenges);
     _filteredChallenges
         .addAll(_listeningGroupChallengesProvider.groupChallenges);
     _filteredChallenges = _filteredChallenges
         .where((element) => element.searchInChallenge(searchBarText))
         .toList();
-    _filteredChallenges =
-        ChallengeModel.sortChallengeList(challenges: _filteredChallenges);
+    _filteredChallenges = GroupChallengeModel.sortChallengeList(
+        groupChallenges: _filteredChallenges, userId: _usersProvider.user.id);
   }
 
   SpaceColumnComponent newChallenge() {
@@ -182,16 +176,12 @@ class _HomeListPageState extends State<HomeListPage> {
     ).then((_) => setState(() {}));
   }
 
-  void onTapDeleteChallenge(ChallengeModel challenge) {
+  void onTapDeleteChallenge(GroupChallengeModel groupChallenge) {
     DeleteChallengeDialog.show(
       context: context,
-      challengeTitle: challenge.title,
+      challengeTitle: groupChallenge.title,
       onTapYes: () async {
-        if (challenge is UserChallengeModel) {
-          await userChallengesProvider.delete(challenge);
-        } else if (challenge is GroupChallengeModel) {
-          await groupChallengesProvider.delete(challenge);
-        }
+        await groupChallengesProvider.deleteParticipant(groupChallenge);
       },
     );
   }

@@ -188,7 +188,7 @@ void main() {
         ChallengeModel challenge = createMockChallengeModel();
 
         // Act
-        ChallengeModel copiedChallenge = challenge.copyChallenge(withId: true);
+        ChallengeModel copiedChallenge = challenge.copy(withId: true);
 
         // Assert
         expect(copiedChallenge.id, equals(challenge.id));
@@ -216,7 +216,7 @@ void main() {
         ChallengeModel challenge = createMockChallengeModel();
 
         // Act
-        ChallengeModel copiedChallenge = challenge.copyChallenge(withId: false);
+        ChallengeModel copiedChallenge = challenge.copy(withId: false);
 
         // Assert
         expect(copiedChallenge.id, isNot(equals(challenge.id)));
@@ -244,8 +244,7 @@ void main() {
         ChallengeModel challenge = createMockChallengeModel();
 
         // Act
-        ChallengeModel copiedChallenge =
-            challenge.copyChallenge(isTryAgain: true);
+        ChallengeModel copiedChallenge = challenge.copy(isTryAgain: true);
 
         // Assert
         expect(copiedChallenge.id, isNot(equals(challenge.id)));

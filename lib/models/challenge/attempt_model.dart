@@ -3,86 +3,103 @@ import 'dart:math';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class UserChallengeModel extends ChallengeModel {
-  String userId;
-  static const String userIdField = 'userId';
+class AttemptModel {
+  int number;
+  static const String numberField = 'number';
+
+  DateTime? startDate;
+  static const String startDateField = 'startDate';
+
+  DateTime? endDate;
+  static const String endDateField = 'endDate';
+
+  ChallengeStatusEnum status;
+  static const String statusField = 'status';
+
+  AcceptanceCriteriaModel acceptanceCriteria;
+  static const String acceptanceCriteriaField = 'acceptanceCriteria';
+
+  FrequencyModel frequency;
+  static const String frequencyField = 'frequency';
+
+  List<MediaModel> media;
+  static const String mediaField = 'media';
 
   List<RepetitionModel> repetitions;
   static const String repetitionsField = 'repetitions';
 
-  UserChallengeModel({
-    required super.id,
-    required this.userId,
+  DateTime createdAt;
+  static const String createdAtField = 'createdAt';
+
+  AttemptModel({
+    required this.number,
+    this.startDate,
+    this.endDate,
+    required this.status,
+    required this.acceptanceCriteria,
+    required this.frequency,
+    required this.media,
     required this.repetitions,
-    required super.status,
-    required super.title,
-    required super.titleLowerCase,
-    required super.description,
-    required super.thumbnail,
-    super.startDate,
-    super.endDate,
-    required super.acceptanceCriteria,
-    required super.frequency,
-    required super.media,
-    super.categories = const [],
+    required this.createdAt,
   });
 
-  UserChallengeModel.fromChallengeModel({
-    required ChallengeModel challenge,
-    required this.userId,
-    required this.repetitions,
-  }) : super(
-          id: challenge.id,
-          status: challenge.status,
-          title: challenge.title,
-          titleLowerCase: challenge.titleLowerCase,
-          description: challenge.description,
-          thumbnail: challenge.thumbnail,
-          startDate: challenge.startDate,
-          endDate: challenge.endDate,
-          acceptanceCriteria: challenge.acceptanceCriteria,
-          frequency: challenge.frequency,
-          media: challenge.media,
-          categories: challenge.categories,
-          createdAt: challenge.createdAt,
-        );
+  static fromChallengeModel({required ChallengeModel challenge}) {
+    return AttemptModel(
+      number: 1,
+      startDate: challenge.startDate,
+      endDate: challenge.endDate,
+      status: ChallengeStatusEnum.backlog,
+      acceptanceCriteria: challenge.acceptanceCriteria,
+      frequency: challenge.frequency,
+      media: [],
+      repetitions: [],
+      createdAt: DateTime.now(),
+    );
+  }
 
-  @override
   Map<String, dynamic> toDoc() {
     return {
-      ...super.toDoc(),
-      userIdField: userId,
+      numberField: number,
+      startDateField: startDate,
+      endDateField: endDate,
+      statusField: status.toString(),
+      acceptanceCriteriaField: acceptanceCriteria.toDoc(),
+      frequencyField: frequency.toDoc(),
+      mediaField: media.map((media) => media.toDoc()).toList(),
       repetitionsField:
           repetitions.map((repetition) => repetition.toDoc()).toList(),
+      createdAtField: createdAt,
     };
   }
 
-  static UserChallengeModel fromDoc(DocumentSnapshot doc) {
+  static AttemptModel fromDoc(Map<String, dynamic> doc) {
     try {
-      ChallengeModel challenge = ChallengeModel.fromDoc(doc);
-      return UserChallengeModel.fromChallengeModel(
-          challenge: challenge,
-          userId: doc[userIdField],
-          repetitions: RepetitionModel.fromDocs(doc[repetitionsField]));
+      return AttemptModel(
+          number: doc[numberField],
+          startDate: doc[startDateField] == null
+              ? null
+              : (doc[startDateField] as Timestamp).toDate(),
+          endDate: doc[endDateField] == null
+              ? null
+              : (doc[endDateField] as Timestamp).toDate(),
+          status: ChallengeStatusEnum.values
+              .firstWhere((e) => e.toString() == doc[statusField]),
+          acceptanceCriteria:
+              AcceptanceCriteriaModel.fromDoc(doc[acceptanceCriteriaField]),
+          frequency: FrequencyModel.fromDoc(doc[frequencyField]),
+          media: MediaModel.fromDocs(doc[mediaField]),
+          repetitions: RepetitionModel.fromDocs(doc[repetitionsField]),
+          createdAt: (doc[createdAtField] as Timestamp).toDate());
     } on Exception {
       rethrow;
     }
-  }
-
-  @override
-  UserChallengeModel copyChallenge(
-      {bool isTryAgain = false, bool withId = false}) {
-    return UserChallengeModel.fromChallengeModel(
-      challenge: super.copyChallenge(isTryAgain: isTryAgain, withId: withId),
-      userId: userId,
-      repetitions:
-          isTryAgain ? [] : RepetitionModel.copyRepetitionList(repetitions),
-    );
   }
 
   // TODO: refactor this function
@@ -217,8 +234,19 @@ class UserChallengeModel extends ChallengeModel {
     return true;
   }
 
-  @override
-  ChallengeStatusEnum checkChallengeStatus() {
+  bool isSucceeded() {
+    return status == ChallengeStatusEnum.success;
+  }
+
+  bool isFailed() {
+    return status == ChallengeStatusEnum.failed;
+  }
+
+  bool isInBacklog() {
+    return status == ChallengeStatusEnum.backlog;
+  }
+
+  ChallengeStatusEnum checkStatus() {
     if (isCompleted() && endDate != null && endDate!.isBefore(DateTime.now())) {
       status = ChallengeStatusEnum.success;
     } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
@@ -285,6 +313,37 @@ class UserChallengeModel extends ChallengeModel {
     currentRepetition.start();
   }
 
+  setEndDate() {
+    if (startDate != null &&
+        frequency.type == FrequencyTypeEnum.daily &&
+        frequency.amount != null) {
+      endDate = startDate!.add(Duration(days: frequency.amount!));
+    } else if (frequency.type == FrequencyTypeEnum.daily &&
+        frequency.amount == null) {
+      endDate = null;
+    }
+  }
+
+  setFrequencyAmount() {
+    if (startDate == null && endDate == null) return;
+
+    if (startDate != null &&
+        endDate != null &&
+        frequency.type == FrequencyTypeEnum.daily) {
+      int amount = endDate!.difference(startDate!).inDays +
+          (endDate!.difference(startDate!).inSeconds -
+                      endDate!.difference(startDate!).inDays * 24 * 60 * 60 >
+                  0
+              ? 1
+              : 0); // if there is not a whole day difference, add one day
+      if (amount >= 0) {
+        frequency.amount = amount;
+      }
+    } else if (frequency.type == FrequencyTypeEnum.daily && endDate == null) {
+      frequency.amount = null;
+    }
+  }
+
   end() {
     if (isInProgress()) {
       endDate = DateTime.now();
@@ -299,6 +358,10 @@ class UserChallengeModel extends ChallengeModel {
         status = ChallengeStatusEnum.failed;
       }
     }
+  }
+
+  bool isInProgress() {
+    return status == ChallengeStatusEnum.inProgress;
   }
 
   double getCurrentPercentage() {
@@ -362,68 +425,21 @@ class UserChallengeModel extends ChallengeModel {
     return acceptanceCriteria.amount;
   }
 
-  // Challenge List Functions
+  static copyList(List<AttemptModel> attempts) {
+    return List<AttemptModel>.from(attempts.map((attempt) => attempt.copy()));
+  }
 
-  static List<UserChallengeModel> sortChallengeList(
-      {required List<UserChallengeModel> userChallenges}) {
-    for (UserChallengeModel userChallenge in userChallenges) {
-      userChallenge.checkChallengeStatus();
-    }
-    userChallenges.sort((a, b) {
-      // Check if a is succeeded or failed and b is not
-      if ((a.isSucceeded() || a.isFailed()) &&
-          !(b.isSucceeded() || b.isFailed())) {
-        return 1;
-      }
-
-      // Check if b is succeeded or failed and a is not
-      if ((b.isSucceeded() || b.isFailed()) &&
-          !(a.isSucceeded() || a.isFailed())) {
-        return -1;
-      }
-
-      // Check if a is in progress and b is in backlog
-      if (a.isInProgress() && b.isInBacklog()) {
-        return 1;
-      }
-
-      // Check if b is in progress and a is in backlog
-      if (b.isInProgress() && a.isInBacklog()) {
-        return -1;
-      }
-
-      // Compare by current percentage
-      if (a.getCurrentPercentage().compareTo(b.getCurrentPercentage()) > 0) {
-        return 1;
-      }
-
-      if (b.getCurrentPercentage().compareTo(a.getCurrentPercentage()) > 0) {
-        return -1;
-      }
-
-      if ((a.isSucceeded() || a.isFailed()) &&
-          (b.isSucceeded() || b.isFailed()) &&
-          a.endDate != null &&
-          b.endDate != null) {
-        if (a.endDate!.compareTo(b.endDate!) > 0) {
-          return -1;
-        }
-
-        if (b.endDate!.compareTo(a.endDate!) > 0) {
-          return 1;
-        }
-      }
-
-      if (a.createdAt.compareTo(b.createdAt) > 0) {
-        return -1;
-      }
-
-      if (b.createdAt.compareTo(a.createdAt) > 0) {
-        return 1;
-      }
-
-      return 0;
-    });
-    return userChallenges;
+  copy({bool isTryAgain = false}) {
+    return AttemptModel(
+      number: isTryAgain ? number + 1 : number,
+      startDate: isTryAgain ? null : startDate,
+      endDate: isTryAgain ? null : endDate,
+      status: isTryAgain ? ChallengeStatusEnum.backlog : status,
+      acceptanceCriteria: acceptanceCriteria.copy(),
+      frequency: frequency.copy(),
+      media: isTryAgain ? [] : MediaModel.copyList(media),
+      repetitions: isTryAgain ? [] : RepetitionModel.copyList(repetitions),
+      createdAt: isTryAgain ? DateTime.now() : createdAt,
+    );
   }
 }

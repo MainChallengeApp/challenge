@@ -154,7 +154,7 @@ class RepetitionModel {
     return list;
   }
 
-  copyRepetition() {
+  copy() {
     RepetitionModel repetitionCopy = RepetitionModel(
         repetitionNumber: repetitionNumber,
         goalAmount: goalAmount,
@@ -166,10 +166,10 @@ class RepetitionModel {
     return repetitionCopy;
   }
 
-  static copyRepetitionList(List<RepetitionModel> repetitionList) {
+  static copyList(List<RepetitionModel> repetitionList) {
     List<RepetitionModel> repetitionListCopy = [];
     for (var repetition in repetitionList) {
-      repetitionListCopy.add(repetition.copyRepetition());
+      repetitionListCopy.add(repetition.copy());
     }
     return repetitionListCopy;
   }

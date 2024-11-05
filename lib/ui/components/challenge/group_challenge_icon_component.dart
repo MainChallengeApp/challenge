@@ -22,8 +22,8 @@ class _GroupChallengeIconComponentState
         margin: const EdgeInsets.only(
             left: CustomContainerComponent.standardPadding),
         padding: const EdgeInsets.all(0),
-        height: CustomContainerComponent.standardHeight * 0.6,
-        width: CustomContainerComponent.standardHeight * 0.6,
+        height: CustomContainerComponent.standardHeight * 0.55,
+        width: CustomContainerComponent.standardHeight * 0.55,
         child: Center(
           child: Icon(
             IconEnum.groupChallenge.icon,

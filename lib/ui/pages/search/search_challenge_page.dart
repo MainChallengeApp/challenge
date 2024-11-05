@@ -104,7 +104,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       height: 11,
       child: ThumbnailMaxComponent(
         challenge: challenge,
-        isMediaListVisible: false,
         onTapOpenMediaPage: () => onTapOpenMediaPage(context),
       ),
     );

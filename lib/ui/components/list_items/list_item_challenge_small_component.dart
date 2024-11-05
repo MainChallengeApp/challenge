@@ -1,4 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -19,6 +20,7 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
     super.key,
     required this.onTap,
     required this.challenge,
+    this.attempt,
     this.isSearch = false,
     this.onTapDeleteChallenge,
   });
@@ -26,6 +28,7 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
   final dynamic Function() onTap;
   final ChallengeModel challenge;
   final bool isSearch;
+  final AttemptModel? attempt;
   final void Function()? onTapDeleteChallenge;
 
   @override
@@ -65,13 +68,15 @@ class _ListItemChallengeSmallComponentState
 
   _percentageDone() {
     return Visibility(
-        visible: !widget.isSearch && !widget.challenge.isInBacklog(),
+        visible: widget.attempt != null && !widget.attempt!.isInBacklog(),
         child: Padding(
           padding: const EdgeInsets.only(
               left: ListItemContainerComponent.standardPadding),
-          child: ChallengeTotalPercentageComponent(
-            challenge: widget.challenge,
-          ),
+          child: widget.attempt == null
+              ? Container()
+              : ChallengeTotalPercentageComponent(
+                  attempt: widget.attempt!,
+                ),
         ));
   }
 
@@ -114,7 +119,8 @@ class _ListItemChallengeSmallComponentState
 
   _groupChallengeIcon() {
     return Visibility(
-        visible: widget.challenge is GroupChallengeModel,
+        visible: widget.challenge is GroupChallengeModel &&
+            (widget.challenge as GroupChallengeModel).participants.length > 1,
         child: GroupChallengeIconComponent(challenge: widget.challenge));
   }
 }

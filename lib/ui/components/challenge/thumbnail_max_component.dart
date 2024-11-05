@@ -1,3 +1,4 @@
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 class ThumbnailMaxComponent extends StatelessWidget {
   final ChallengeModel challenge;
   final dynamic Function() onTapOpenMediaPage;
-  final bool isMediaListVisible;
+  final AttemptModel? attempt;
 
   final mediaService = MediaService();
 
@@ -17,7 +18,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
       {super.key,
       required this.challenge,
       required this.onTapOpenMediaPage,
-      this.isMediaListVisible = true});
+      this.attempt});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                             color: Theme.of(context).colorScheme.tertiary)),
               ),
             ),
-            isMediaListVisible
+            attempt != null
                 ? Align(
                     alignment: Alignment.bottomRight,
                     child: ContainerInContainerComponent(
@@ -66,7 +67,7 @@ class ThumbnailMaxComponent extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              '${challenge.media.length}',
+                              '${attempt!.media.length}',
                               textAlign: TextAlign.end,
                               style: Theme.of(context).textTheme.bodySmall,
                             ),

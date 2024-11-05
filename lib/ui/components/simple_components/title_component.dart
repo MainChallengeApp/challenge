@@ -1,3 +1,4 @@
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:flutter/material.dart';
 
 class TitleComponent extends StatelessWidget {
@@ -16,10 +17,14 @@ class TitleComponent extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0 + 1),
-          child: Text(title,
-              style: Theme.of(context).textTheme.titleLarge,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left),
+          child: SizedBox(
+            height: CustomContainerComponent.standardHeight *
+                0.55, // to prevent jumping on start
+            child: Text(title,
+                style: Theme.of(context).textTheme.titleLarge,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left),
+          ),
         ),
       ),
     );

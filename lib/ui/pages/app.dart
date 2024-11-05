@@ -1,6 +1,6 @@
 import 'package:challenge/enums/tab_item_enum.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
@@ -18,8 +18,8 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  late final userChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: false);
+  late final groupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: false);
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
@@ -40,7 +40,7 @@ class AppState extends State<App> {
       });
     });
 
-    userChallengesProvider.getAllOfUser().then((value) {
+    groupChallengesProvider.getAllOfUser().then((value) {
       if (value.isEmpty) {
         tabProvider.selectTab(TabItemEnum.search);
       } else {

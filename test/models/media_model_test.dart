@@ -117,7 +117,7 @@ void main() {
             source: 'abc/title')
       ]);
       // Act
-      List<MediaModel> mediaListCopy = MediaModel.copyMediaList(mediaList);
+      List<MediaModel> mediaListCopy = MediaModel.copyList(mediaList);
       // Assert
       expect(mediaListCopy[0].id, equals('1'));
       expect(mediaListCopy[0].type, equals(MediaTypeEnum.image));

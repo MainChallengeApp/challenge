@@ -51,7 +51,7 @@ class MediaModel {
     return mediaIdListCopy;
   }
 
-  static copyMediaList(List<MediaModel> mediaList) {
+  static copyList(List<MediaModel> mediaList) {
     List<MediaModel> mediaListCopy = [];
     for (var media in mediaList) {
       mediaListCopy.add(MediaModel(

@@ -6,23 +6,24 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class StartAndEndDateComponent extends StatefulWidget {
+class ChallengeStartAndEndDateComponent extends StatefulWidget {
   final ChallengeModel editChallenge;
   final bool isLocked;
   final Function? reloadSearchChallengePage;
 
-  const StartAndEndDateComponent(
+  const ChallengeStartAndEndDateComponent(
       {super.key,
       required this.editChallenge,
       this.isLocked = false,
       this.reloadSearchChallengePage});
 
   @override
-  State<StartAndEndDateComponent> createState() =>
-      _StartAndEndDateComponentState();
+  State<ChallengeStartAndEndDateComponent> createState() =>
+      _ChallengeStartAndEndDateComponentState();
 }
 
-class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
+class _ChallengeStartAndEndDateComponentState
+    extends State<ChallengeStartAndEndDateComponent> {
   @override
   Widget build(BuildContext context) {
     return Row(

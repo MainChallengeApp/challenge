@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:challenge/collections/migration_collection.dart';
 import 'package:challenge/collections/migrations/migration.dart';
 import 'package:challenge/collections/migrations/v1.4.14/v2_add_title_lower_case_search_challenges.dart';
-import 'package:challenge/collections/migrations/v1.4.14/v3_add_title_lower_case_user_challenges.dart';
 import 'package:challenge/collections/migrations/v1.4.7/v1_use_thumbnail_model.dart';
 import 'package:challenge/collections/migrations/v1.5/v4_connections_and_blocked.dart';
 import 'package:challenge/collections/migrations/v1.5/v5_add_app_version_to_migrations.dart';
@@ -15,7 +14,6 @@ import 'package:flutter/material.dart';
 List<Migration> migrationScripts = [
   V1UseThumbnailModel(),
   V2AddTitleLowerCaseSearchChallenges(),
-  V3AddTitleLowerCaseUserChallenges(),
   V4ConnectionsAndBlocked(),
   V5AddAppVersionToMigrations(),
 ];

@@ -1,4 +1,4 @@
-import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
@@ -7,13 +7,13 @@ import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:flutter/material.dart';
 
 class TitleWithPercentageComponent extends StatelessWidget {
-  final ChallengeModel challenge;
-  final bool isSearch;
+  final GroupChallengeModel groupChallenge;
+  final AttemptModel attempt;
 
   const TitleWithPercentageComponent({
     super.key,
-    required this.challenge,
-    this.isSearch = false,
+    required this.groupChallenge,
+    required this.attempt,
   });
 
   @override
@@ -22,17 +22,17 @@ class TitleWithPercentageComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: TitleComponent(title: challenge.title),
+          child: TitleComponent(title: groupChallenge.title),
         ),
         Visibility(
-            visible: challenge is! GroupChallengeModel,
-            child: GroupChallengeIconComponent(challenge: challenge)),
+            visible: groupChallenge.participants.length > 1,
+            child: GroupChallengeIconComponent(challenge: groupChallenge)),
         Visibility(
-          visible: !isSearch && !challenge.isInBacklog(),
+          visible: !attempt.isInBacklog(),
           child: Padding(
             padding: const EdgeInsets.only(
                 left: CustomContainerComponent.standardPadding),
-            child: ChallengeTotalPercentageComponent(challenge: challenge),
+            child: ChallengeTotalPercentageComponent(attempt: attempt),
           ),
         )
       ],

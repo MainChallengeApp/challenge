@@ -130,7 +130,7 @@ class ChallengeModel {
     };
   }
 
-  ChallengeModel copyChallenge({bool isTryAgain = false, bool withId = false}) {
+  ChallengeModel copy({bool isTryAgain = false, bool withId = false}) {
     return ChallengeModel(
         id: withId ? id : '',
         status: isTryAgain ? ChallengeStatusEnum.backlog : status,
@@ -142,7 +142,7 @@ class ChallengeModel {
         thumbnail: thumbnail?.copy(),
         acceptanceCriteria: acceptanceCriteria.copy(),
         frequency: frequency.copy(),
-        media: isTryAgain ? [] : MediaModel.copyMediaList(media),
+        media: isTryAgain ? [] : MediaModel.copyList(media),
         categories: ChallengeCategoryEnum.copyCategoryList(categories));
   }
 
@@ -237,7 +237,7 @@ class ChallengeModel {
     return challenges;
   }
 
-  checkChallengeStatus() {
+  checkStatus() {
     throw UnimplementedError();
   }
 }

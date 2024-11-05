@@ -53,7 +53,7 @@ Firebase throws an error if an index is needed. The error contains a link to cre
 1. `cd firebase`
 2. `firebase login`
 3. `firebase use dev`
-4. `firebase firestore:indexes > firestore.indexes.json`
+4. `firebase firestore:indexes > firebase/firestore.indexes.json`
 5. `firebase deploy --only firestore:indexes --project=test`
 6. `firebase deploy --only firestore:indexes --project=prod`
 

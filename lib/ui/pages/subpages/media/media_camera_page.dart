@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -18,13 +20,17 @@ class MediaCameraPage extends StatefulWidget {
     required this.cameras,
     required this.preTitle,
     required this.mediaList,
-    required this.userChallenge,
+    required this.attempt,
+    required this.groupChallengeModel,
+    required this.participantModel,
   });
 
   final List<CameraDescription> cameras;
   final String preTitle;
   final List<MediaModel> mediaList;
-  final UserChallengeModel userChallenge;
+  final AttemptModel attempt;
+  final GroupChallengeModel groupChallengeModel;
+  final ParticipantModel participantModel;
 
   @override
   State<MediaCameraPage> createState() => _CameraStateMedia();
@@ -325,8 +331,10 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             builder: (context) => ProgressMediaListPage(
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
-              userChallenge: widget.userChallenge,
-              repetition: widget.userChallenge.getCurrentRepetition(),
+              attempt: widget.attempt,
+              groupChallenge: widget.groupChallengeModel,
+              participant: widget.participantModel,
+              repetition: widget.attempt.getCurrentRepetition(),
               amountOfPops: 2,
             ),
           ),

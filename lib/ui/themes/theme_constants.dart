@@ -70,4 +70,6 @@ extension CustomColorTheme on ColorScheme {
   Color get themeColor5 => _themeColor5;
   Color get green => _green;
   Color get red => _red;
+  Color get redWithAlpha => _red.withAlpha(150);
+  Color get greenWithAlpha => _green.withAlpha(150);
 }

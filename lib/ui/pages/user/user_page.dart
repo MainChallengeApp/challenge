@@ -2,8 +2,8 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -44,8 +44,8 @@ class _UserPageState extends State<UserPage> {
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
-  late final listeningUserChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: true);
+  late final listeningGroupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(context, listen: true);
 
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
@@ -154,7 +154,7 @@ class _UserPageState extends State<UserPage> {
                 child: Column(
                   children: [
                     Text(
-                      listeningUserChallengesProvider.userChallenges.length
+                      listeningGroupChallengesProvider.groupChallenges.length
                           .toString(),
                       style: Theme.of(context).textTheme.bodyMediumBlack,
                     ),

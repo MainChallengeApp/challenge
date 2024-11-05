@@ -1,5 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -18,7 +18,7 @@ class ListItemProgressComponent extends StatefulWidget {
       {super.key,
       required this.progress,
       required this.unit,
-      required this.challenge,
+      required this.attempt,
       this.onTap,
       required this.isFailed,
       this.isSlidable = false,
@@ -28,7 +28,7 @@ class ListItemProgressComponent extends StatefulWidget {
 
   final ProgressModel progress;
   final String unit;
-  final ChallengeModel challenge;
+  final AttemptModel attempt;
   final void Function()? onTap;
   final bool isFailed;
   final bool isSlidable;
@@ -64,7 +64,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                 //                     : 0))
                 //         .round();
 
-                newProgress = (widget.challenge.acceptanceCriteria.amount *
+                newProgress = (widget.attempt.acceptanceCriteria.amount *
                         ((details.localPosition.dx - 50) /
                             MediaQuery.of(context).size.width) *
                         (0.5 +
@@ -72,8 +72,8 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                                 MediaQuery.of(context).size.width)))
                     .roundToDouble();
 
-                if (newProgress > widget.challenge.acceptanceCriteria.amount) {
-                  newProgress = widget.challenge.acceptanceCriteria.amount;
+                if (newProgress > widget.attempt.acceptanceCriteria.amount) {
+                  newProgress = widget.attempt.acceptanceCriteria.amount;
                 } else if (newProgress <= 0) {
                   newProgress = 0;
                 }
@@ -84,7 +84,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       initialProgress: widget.progress.getPercentProgress() <= 1
           ? widget.progress.getPercentProgress()
           : 1,
-      isFailed: widget.challenge.isFailed(),
+      isFailed: widget.attempt.isFailed(),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -97,7 +97,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.challenge.acceptanceCriteria.amount)} ${widget.unit}');
+            '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.unit}');
   }
 
   progressIcon() {

@@ -3,10 +3,7 @@ import 'dart:math';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
-import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
@@ -14,17 +11,16 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AcceptanceCriteriaComponent extends StatefulWidget {
   final void Function() onTap;
-  final ChallengeModel challenge;
+  final AttemptModel attempt;
   final void Function() onTapNewProgress;
 
   const AcceptanceCriteriaComponent(
       {super.key,
       required this.onTap,
-      required this.challenge,
+      required this.attempt,
       required this.onTapNewProgress});
 
   @override
@@ -34,36 +30,23 @@ class AcceptanceCriteriaComponent extends StatefulWidget {
 
 class _AcceptanceCriteriaComponentState
     extends State<AcceptanceCriteriaComponent> {
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-
-  late UserChallengeModel? userChallenge =
-      widget.challenge is UserChallengeModel
-          ? widget.challenge as UserChallengeModel
-          : widget.challenge is GroupChallengeModel
-              ? (widget.challenge as GroupChallengeModel)
-                  .toUserChallengeModel(usersProvider.user.id)
-              : null;
-
   @override
   Widget build(BuildContext context) {
-    if (userChallenge == null) {
-      return Container();
-    }
     return SizedBox(
       height: 55,
       child: Stack(
         children: [
           FractionallySizedBox(
-            widthFactor: !userChallenge!.isInProgress()
-                ? min(userChallenge!.getCurrentPercentage(), 1)
+            widthFactor: !widget.attempt.isInProgress()
+                ? min(widget.attempt.getCurrentPercentage(), 1)
                 : min(
-                    userChallenge!.getCurrentRepetitionProgressPercentage(), 1),
+                    widget.attempt.getCurrentRepetitionProgressPercentage(), 1),
             heightFactor: 1,
             child: Container(
               // width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: userChallenge!.status == ChallengeStatusEnum.failed
+                  color: widget.attempt.status == ChallengeStatusEnum.failed
                       ? Theme.of(context).colorScheme.red
                       : Theme.of(context).colorScheme.green,
                   borderRadius: const BorderRadius.all(Radius.circular(
@@ -106,7 +89,7 @@ class _AcceptanceCriteriaComponentState
 
   Visibility newProgress() {
     return Visibility(
-      visible: userChallenge!.isInProgress(),
+      visible: widget.attempt.isInProgress(),
       child: GestureDetector(
         onTap: widget.onTapNewProgress,
         child: ContainerInContainerComponent(
@@ -127,31 +110,31 @@ class _AcceptanceCriteriaComponentState
   }
 
   repetition() {
-    return (userChallenge!.frequency.amount == 1 &&
-            userChallenge!.frequency.type == FrequencyTypeEnum.time)
+    return (widget.attempt.frequency.amount == 1 &&
+            widget.attempt.frequency.type == FrequencyTypeEnum.time)
         ? Container()
-        : userChallenge!.isInBacklog()
+        : widget.attempt.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${userChallenge!.frequency.amount ?? '∞'} ${userChallenge!.frequency.typeToString()}')
+                    '${widget.attempt.frequency.amount ?? '∞'} ${widget.attempt.frequency.typeToString()}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${userChallenge!.getCurrentRepetitionNumber()}/${userChallenge!.frequency.amount ?? '∞'} ${userChallenge!.frequency.typeToString()}');
+                    '${widget.attempt.getCurrentRepetitionNumber()}/${widget.attempt.frequency.amount ?? '∞'} ${widget.attempt.frequency.typeToString()}');
   }
 
   repetitionProgressAbsolute() {
-    return userChallenge!.acceptanceCriteria.unit != '' ||
-            userChallenge!.acceptanceCriteria.amount != 0
-        ? userChallenge!.isInProgress() ||
-                (userChallenge!.frequency.amount != null &&
-                        userChallenge!.frequency.amount! == 1) &&
-                    !userChallenge!.isInBacklog()
+    return widget.attempt.acceptanceCriteria.unit != '' ||
+            widget.attempt.acceptanceCriteria.amount != 0
+        ? widget.attempt.isInProgress() ||
+                (widget.attempt.frequency.amount != null &&
+                        widget.attempt.frequency.amount! == 1) &&
+                    !widget.attempt.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${UtilService.doubleAsIntString(userChallenge!.getCurrentRepetitionProgressAbsolute())}/${UtilService.doubleAsIntString(userChallenge!.acceptanceCriteria.amount)} ${userChallenge!.acceptanceCriteria.unit}')
+                    '${UtilService.doubleAsIntString(widget.attempt.getCurrentRepetitionProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.attempt.acceptanceCriteria.unit}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${UtilService.doubleAsIntString(userChallenge!.acceptanceCriteria.amount)} ${userChallenge!.acceptanceCriteria.unit}')
+                    '${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.attempt.acceptanceCriteria.unit}')
         : Container();
   }
 }

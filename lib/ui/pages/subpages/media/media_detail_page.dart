@@ -1,7 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/pages/subpages/media/video_component.dart';
@@ -12,7 +12,7 @@ class MediaDetailPage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
-  final UserChallengeModel userChallenge;
+  final AttemptModel attempt;
   final void Function(MediaModel)? onTap;
 
   const MediaDetailPage(
@@ -20,7 +20,7 @@ class MediaDetailPage extends StatefulWidget {
       required this.preTitle,
       required this.mediaList,
       required this.initialMediaIndex,
-      required this.userChallenge,
+      required this.attempt,
       this.onTap});
 
   @override

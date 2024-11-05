@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:challenge/collections/user_challenges_collection.dart';
+import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/exceptions/could_not_delete_file_exception.dart';
-import 'package:challenge/models/challenge/user_challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageService {
   final firebaseStorage = FirebaseStorage.instance;
-  final userChallengesCollection = UserChallengesCollection();
 
   Future<String> uploadFile(File file, String path) async {
     final ref = firebaseStorage.ref().child(path);
@@ -44,14 +44,15 @@ class StorageService {
   }
 
   deleteUserFiles(String currentUserId) async {
+    final groupChallengesCollection = getIt<GroupChallengesCollection>();
     await deleteFolderByPath(
         '${UsersCollection.collectionName}/$currentUserId');
 
-    List<UserChallengeModel> userChallenges =
-        await userChallengesCollection.getAllByUserId(userId: currentUserId);
-    for (var userChallenge in userChallenges) {
+    List<GroupChallengeModel> groupChallenges =
+        await groupChallengesCollection.getAllByUserId(userId: currentUserId);
+    for (var groupChallenge in groupChallenges) {
       await deleteFolderByPath(
-          '${UserChallengesCollection.collectionName}/${userChallenge.id}');
+          '${GroupChallengesCollection.collectionName}/${groupChallenge.id}/$currentUserId');
     }
   }
 }

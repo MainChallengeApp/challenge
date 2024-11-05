@@ -3,7 +3,6 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
-import 'package:challenge/providers/user_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -37,8 +36,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   AuthService authService = AuthService();
   late final usersProvider = Provider.of<UsersProvider>(context, listen: true);
-  late UserChallengesProvider userChallengesProvider =
-      Provider.of<UserChallengesProvider>(context, listen: false);
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
   late final notificationsProvider =
@@ -112,13 +109,13 @@ class _SettingsPageState extends State<SettingsPage> {
             heightMultiplier: 3,
           ),
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
-                onTap: onTapDeleteUser,
-                icon: IconEnum.delete.icon,
-                title: 'Delete',
-                iconColor: Theme.of(context).colorScheme.red.withAlpha(200),
-                textColor: Theme.of(context).colorScheme.red.withAlpha(200)),
-          )
+              child: ListItemIconTextComponent(
+            onTap: onTapDeleteUser,
+            icon: IconEnum.delete.icon,
+            title: 'Delete',
+            iconColor: Theme.of(context).colorScheme.redWithAlpha,
+            textColor: Theme.of(context).colorScheme.redWithAlpha,
+          ))
         ],
       ),
     );
@@ -126,7 +123,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   onTapLogout() async {
     usersProvider.resetLocalUser();
-    userChallengesProvider.resetLocalList();
     groupChallengesProvider.resetLocalList();
     notificationsProvider.resetLocalList();
     await authService.logout();
