@@ -14,11 +14,12 @@ class AmountAndUnitComponent extends StatefulWidget {
   final Function(bool)? setIsKeyboardUp;
   final Function()? onReloadSearchListPage;
 
-  const AmountAndUnitComponent(
-      {super.key,
-      required this.acceptanceCriteria,
-      this.setIsKeyboardUp,
-      this.onReloadSearchListPage});
+  const AmountAndUnitComponent({
+    super.key,
+    required this.acceptanceCriteria,
+    this.setIsKeyboardUp,
+    this.onReloadSearchListPage,
+  });
 
   @override
   State<AmountAndUnitComponent> createState() => _AmountAndUnitComponentState();

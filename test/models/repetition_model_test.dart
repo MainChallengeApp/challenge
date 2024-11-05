@@ -1,8 +1,34 @@
+import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/exceptions/repetition_status_is_not_supported_exception.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+GroupChallengeModel mockGroupChallenge =
+    GroupChallengeModel.fromChallengeWithParticipantUsers(
+        challenge: ChallengeModel.empty(),
+        participantUsers: [],
+        userId: 'userId',
+        groupChallengeOptions:
+            GroupChallengeOptionsModel(isProgressIndividuell: true));
+
+AttemptModel mockAttempt = AttemptModel(
+    acceptanceCriteria: AcceptanceCriteriaModel(amount: 1, unit: 'unit'),
+    createdAt: DateTime.now(),
+    frequency: FrequencyModel.empty(),
+    media: [],
+    number: 1,
+    status: ChallengeStatusEnum.inProgress,
+    endDate: null,
+    startDate: DateTime.now(),
+    repetitions: [RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1)]);
 
 void main() {
   group('RepetitionModel', () {
@@ -257,7 +283,8 @@ void main() {
         RepetitionModel repetition =
             RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
         // Act
-        double result = repetition.getLastProgressPercentage();
+        double result = repetition.getLastProgressPercentage(
+            mockGroupChallenge, mockAttempt);
         // Assert
         expect(result, equals(0));
       });
@@ -271,7 +298,8 @@ void main() {
         repetition.progressList.add(ProgressModel.empty(
             repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
         // Act
-        double result = repetition.getLastProgressPercentage();
+        double result = repetition.getLastProgressPercentage(
+            mockGroupChallenge, mockAttempt);
         // Assert
         expect(result, equals(0.5));
       });

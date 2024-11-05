@@ -158,8 +158,9 @@ class GroupChallengesCollection extends Collection {
             .removeWhere((participant) => participant.userId == participantId);
         groupChallenge.participants.sort((a, b) => a
             .getLatestAttempt()
-            .getCurrentPercentage()
-            .compareTo(b.getLatestAttempt().getCurrentPercentage()));
+            .getCurrentPercentage(groupChallenge)
+            .compareTo(
+                b.getLatestAttempt().getCurrentPercentage(groupChallenge)));
         groupChallenge.userId = groupChallenge.participants.last.userId;
         await update(groupChallenge);
       }

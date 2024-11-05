@@ -1,15 +1,18 @@
 import 'dart:math';
 
 import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ChallengeTotalPercentageComponent extends StatefulWidget {
+  final GroupChallengeModel groupChallenge;
   final AttemptModel attempt;
 
-  const ChallengeTotalPercentageComponent({super.key, required this.attempt});
+  const ChallengeTotalPercentageComponent(
+      {super.key, required this.attempt, required this.groupChallenge});
 
   @override
   State<ChallengeTotalPercentageComponent> createState() =>
@@ -33,7 +36,7 @@ class _ChallengeTotalPercentageComponentState
             ? Theme.of(context).colorScheme.surface
             : Theme.of(context).colorScheme.tertiary,
         text:
-            '${(min(widget.attempt.getCurrentPercentage(), 1) * 100).floor()} %',
+            '${(min(widget.attempt.getCurrentPercentage(widget.groupChallenge), 1) * 100).floor()} %',
         textStyle: Theme.of(context).textTheme.titleSmall);
   }
 }

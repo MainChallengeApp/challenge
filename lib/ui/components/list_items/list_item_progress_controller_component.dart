@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/services/database_service.dart';
 import 'package:challenge/services/util_service.dart';
@@ -14,12 +16,16 @@ class ListItemProgressControllerComponent extends StatefulWidget {
   final ProgressModel editProgress;
   final Function() progressListSetState;
   final Function(bool)? setIsKeyboardUp;
+  final GroupChallengeModel groupChallenge;
+  final AttemptModel attempt;
 
   const ListItemProgressControllerComponent(
       {super.key,
       required this.editProgress,
       required this.progressListSetState,
-      this.setIsKeyboardUp});
+      this.setIsKeyboardUp,
+      required this.groupChallenge,
+      required this.attempt});
 
   @override
   State<ListItemProgressControllerComponent> createState() =>
@@ -98,7 +104,8 @@ class _ListItemProgressControllerComponentState
         flex: 1,
         child: TapContainerComponent(
             onTap: () => setState(() {
-                  widget.editProgress.progress = widget.editProgress.goal;
+                  widget.editProgress.progress = widget.editProgress
+                      .getGoal(widget.groupChallenge, widget.attempt);
                   widget.progressListSetState();
                   progressTextEditingController.text =
                       UtilService.doubleAsIntString(
@@ -122,19 +129,26 @@ class _ListItemProgressControllerComponentState
         flex: 1,
         child: TapContainerComponent(
             onLongPress: () {
-              if (widget.editProgress.progress >= widget.editProgress.goal) {
+              if (widget.editProgress.progress >=
+                  widget.editProgress
+                      .getGoal(widget.groupChallenge, widget.attempt)) {
                 return;
               }
               timer = Timer.periodic(
                   Duration(
-                      milliseconds: (200 * log(widget.editProgress.goal)) ~/
-                          widget.editProgress.goal), (t) {
+                      milliseconds: (200 *
+                              log(widget.editProgress.getGoal(
+                                  widget.groupChallenge, widget.attempt))) ~/
+                          widget.editProgress.getGoal(
+                              widget.groupChallenge, widget.attempt)), (t) {
                 setState(() {
                   if (widget.editProgress.progress + 1 <=
-                      widget.editProgress.goal) {
+                      widget.editProgress
+                          .getGoal(widget.groupChallenge, widget.attempt)) {
                     addOneToProgress();
                   } else {
-                    widget.editProgress.progress = widget.editProgress.goal;
+                    widget.editProgress.progress = widget.editProgress
+                        .getGoal(widget.groupChallenge, widget.attempt);
                   }
                 });
               });
@@ -164,13 +178,18 @@ class _ListItemProgressControllerComponentState
         flex: 1,
         child: TapContainerComponent(
             onLongPress: () {
-              if (widget.editProgress.goal == 0) {
+              if (widget.editProgress
+                      .getGoal(widget.groupChallenge, widget.attempt) ==
+                  0) {
                 return;
               }
               timer = Timer.periodic(
                   Duration(
-                      milliseconds: (((200 * log(widget.editProgress.goal)) ~/
-                          widget.editProgress.goal))), (t) {
+                      milliseconds: (((200 *
+                              log(widget.editProgress.getGoal(
+                                  widget.groupChallenge, widget.attempt))) ~/
+                          widget.editProgress.getGoal(
+                              widget.groupChallenge, widget.attempt)))), (t) {
                 setState(() {
                   subOneFromProgress();
                 });

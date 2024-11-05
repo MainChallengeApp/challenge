@@ -1,3 +1,5 @@
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 
 class ProgressModel {
@@ -31,8 +33,13 @@ class ProgressModel {
     date = DateTime.now();
   }
 
-  getPercentProgress() {
-    return goal == 0 ? 1.0 : progress / goal;
+  double getGoal(GroupChallengeModel groupChallenge, AttemptModel attempt) {
+    return attempt.getAcceptanceCriteria(groupChallenge).amount;
+  }
+
+  getPercentProgress(GroupChallengeModel groupChallenge, AttemptModel attempt) {
+    double challengeGoal = getGoal(groupChallenge, attempt);
+    return challengeGoal == 0 ? 1.0 : progress / challengeGoal;
   }
 
   updateProgress(ProgressModel newProgress) {

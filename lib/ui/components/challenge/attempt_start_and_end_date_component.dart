@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -10,12 +11,14 @@ class AttemptStartAndEndDateComponent extends StatefulWidget {
   final AttemptModel attempt;
   final bool isLocked;
   final Function? reloadSearchChallengePage;
+  final GroupChallengeModel groupChallenge;
 
   const AttemptStartAndEndDateComponent(
       {super.key,
       required this.attempt,
       this.isLocked = false,
-      this.reloadSearchChallengePage});
+      this.reloadSearchChallengePage,
+      required this.groupChallenge});
 
   @override
   State<AttemptStartAndEndDateComponent> createState() =>
@@ -79,7 +82,7 @@ class _AttemptStartAndEndDateComponentState
         widget.attempt.startDate = null;
       } else if (startOrEnd == 'end') {
         widget.attempt.endDate = null;
-        widget.attempt.setFrequencyAmount();
+        widget.attempt.setFrequencyAmount(widget.groupChallenge);
         widget.reloadSearchChallengePage?.call();
       }
     });
@@ -97,9 +100,9 @@ class _AttemptStartAndEndDateComponentState
                 if (!isDateTimeChanged) {
                   widget.attempt.startDate = initialDateTime ?? DateTime.now();
                   if (widget.attempt.endDate == null) {
-                    widget.attempt.setEndDate();
+                    widget.attempt.setEndDate(widget.groupChallenge);
                   }
-                  widget.attempt.setFrequencyAmount();
+                  widget.attempt.setFrequencyAmount(widget.groupChallenge);
                   widget.reloadSearchChallengePage?.call();
                 }
               });
@@ -109,7 +112,7 @@ class _AttemptStartAndEndDateComponentState
                   widget.attempt.endDate = initialDateTime ??
                       UtilService.dateWithoutTime(DateTime.now()).add(
                           const Duration(hours: 23, minutes: 59, seconds: 59));
-                  widget.attempt.setFrequencyAmount();
+                  widget.attempt.setFrequencyAmount(widget.groupChallenge);
                   widget.reloadSearchChallengePage?.call();
                 }
               });
@@ -126,7 +129,10 @@ class _AttemptStartAndEndDateComponentState
             height: size.height * 0.3,
             child: CupertinoDatePicker(
               maximumDate: startOrEnd == 'start' &&
-                      widget.attempt.frequency.amount == null &&
+                      widget.attempt
+                              .getFrequency(widget.groupChallenge)
+                              .amount ==
+                          null &&
                       widget.attempt.startDate != null
                   ? widget.attempt.endDate
                   : null,
@@ -143,10 +149,10 @@ class _AttemptStartAndEndDateComponentState
                 setState(() {
                   if (startOrEnd == 'start') {
                     widget.attempt.startDate = value;
-                    widget.attempt.setEndDate();
+                    widget.attempt.setEndDate(widget.groupChallenge);
                   } else if (startOrEnd == 'end') {
                     widget.attempt.endDate = value;
-                    widget.attempt.setFrequencyAmount();
+                    widget.attempt.setFrequencyAmount(widget.groupChallenge);
                     widget.reloadSearchChallengePage?.call();
                   }
                 });

@@ -32,7 +32,10 @@ class TitleWithPercentageComponent extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(
                 left: CustomContainerComponent.standardPadding),
-            child: ChallengeTotalPercentageComponent(attempt: attempt),
+            child: ChallengeTotalPercentageComponent(
+              attempt: attempt,
+              groupChallenge: groupChallenge,
+            ),
           ),
         )
       ],

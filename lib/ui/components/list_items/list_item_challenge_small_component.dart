@@ -72,11 +72,13 @@ class _ListItemChallengeSmallComponentState
         child: Padding(
           padding: const EdgeInsets.only(
               left: ListItemContainerComponent.standardPadding),
-          child: widget.attempt == null
-              ? Container()
-              : ChallengeTotalPercentageComponent(
-                  attempt: widget.attempt!,
-                ),
+          child:
+              widget.attempt == null && widget.challenge is! GroupChallengeModel
+                  ? Container()
+                  : ChallengeTotalPercentageComponent(
+                      groupChallenge: widget.challenge as GroupChallengeModel,
+                      attempt: widget.attempt!,
+                    ),
         ));
   }
 

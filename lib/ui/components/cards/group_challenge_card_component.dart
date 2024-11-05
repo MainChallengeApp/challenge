@@ -177,6 +177,7 @@ class _GroupChallengeCardComponentState
         : SpaceColumnComponent(
             child: AttemptStartAndEndDateComponent(
               attempt: _latestAttempt,
+              groupChallenge: widget.groupChallenge,
               isLocked: true,
             ),
           );
@@ -189,6 +190,7 @@ class _GroupChallengeCardComponentState
             onTap: _onTapAcceptanceCriteria,
             onTapNewProgress: _onTapNewProgress,
             attempt: _latestAttempt,
+            groupChallenge: widget.groupChallenge,
           );
   }
 
@@ -231,6 +233,7 @@ class _GroupChallengeCardComponentState
 
   _startEndTryAcceptAgainButton() {
     return ActionButtonComponent(
+      groupChallenge: widget.groupChallenge,
       attempt: _latestAttempt,
       onTapStart: _onTapStart,
       onTapEnd: _onTapEnd,
@@ -245,8 +248,8 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapEnd(AttemptModel attempt) async {
-    if (attempt.canEndRepetition()) {
-      attempt.endRepetition();
+    if (attempt.canEndRepetition(widget.groupChallenge)) {
+      attempt.endRepetition(widget.groupChallenge);
       await _groupChallengesProvider.updateAttempt(
           widget.groupChallenge, _participant, attempt);
       return;
@@ -285,7 +288,7 @@ class _GroupChallengeCardComponentState
   // }
 
   void _onTapNext(AttemptModel attempt) {
-    attempt.endRepetition();
+    attempt.endRepetition(widget.groupChallenge);
     _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, _participant, attempt);
   }
@@ -330,8 +333,8 @@ class _GroupChallengeCardComponentState
   }
 
   _onTapAcceptanceCriteria() {
-    if (_latestAttempt.frequency.amount != null &&
-        _latestAttempt.frequency.amount! <= 0) {
+    if (_latestAttempt.getFrequency(widget.groupChallenge).amount != null &&
+        _latestAttempt.getFrequency(widget.groupChallenge).amount! <= 0) {
       return;
     }
     Navigator.push(
@@ -348,7 +351,7 @@ class _GroupChallengeCardComponentState
   }
 
   void _onTapNewProgress() {
-    if (_latestAttempt.getCurrentRepetition() == null) {
+    if (_latestAttempt.getCurrentRepetition(widget.groupChallenge) == null) {
       return;
     }
 
@@ -357,7 +360,8 @@ class _GroupChallengeCardComponentState
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
           preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-          repetition: _latestAttempt.getCurrentRepetition()!,
+          repetition:
+              _latestAttempt.getCurrentRepetition(widget.groupChallenge)!,
           attempt: _latestAttempt,
           groupChallenge: widget.groupChallenge,
           participant: _participant,
@@ -385,7 +389,7 @@ class _GroupChallengeCardComponentState
           preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
           mediaList: _latestAttempt.media,
           attempt: _latestAttempt,
-          groupChallengeModel: widget.groupChallenge,
+          groupChallenge: widget.groupChallenge,
           participantModel: _participant,
         ),
       ),

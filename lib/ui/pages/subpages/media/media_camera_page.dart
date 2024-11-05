@@ -21,7 +21,7 @@ class MediaCameraPage extends StatefulWidget {
     required this.preTitle,
     required this.mediaList,
     required this.attempt,
-    required this.groupChallengeModel,
+    required this.groupChallenge,
     required this.participantModel,
   });
 
@@ -29,7 +29,7 @@ class MediaCameraPage extends StatefulWidget {
   final String preTitle;
   final List<MediaModel> mediaList;
   final AttemptModel attempt;
-  final GroupChallengeModel groupChallengeModel;
+  final GroupChallengeModel groupChallenge;
   final ParticipantModel participantModel;
 
   @override
@@ -332,9 +332,10 @@ class _CameraStateMedia extends State<MediaCameraPage> {
               preTitle: '${widget.preTitle}/Camera',
               initialMediaList: currentMedia,
               attempt: widget.attempt,
-              groupChallenge: widget.groupChallengeModel,
+              groupChallenge: widget.groupChallenge,
               participant: widget.participantModel,
-              repetition: widget.attempt.getCurrentRepetition(),
+              repetition:
+                  widget.attempt.getCurrentRepetition(widget.groupChallenge),
               amountOfPops: 2,
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -11,7 +12,6 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-// import 'dart:math';
 
 class ListItemProgressComponent extends StatefulWidget {
   const ListItemProgressComponent(
@@ -24,11 +24,13 @@ class ListItemProgressComponent extends StatefulWidget {
       this.isSlidable = false,
       this.onTapDeleteProgress,
       this.isEditable = false,
-      this.margin});
+      this.margin,
+      required this.groupChallenge});
 
   final ProgressModel progress;
   final String unit;
   final AttemptModel attempt;
+  final GroupChallengeModel groupChallenge;
   final void Function()? onTap;
   final bool isFailed;
   final bool isSlidable;
@@ -64,7 +66,9 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                 //                     : 0))
                 //         .round();
 
-                newProgress = (widget.attempt.acceptanceCriteria.amount *
+                newProgress = (widget.attempt
+                            .getAcceptanceCriteria(widget.groupChallenge)
+                            .amount *
                         ((details.localPosition.dx - 50) /
                             MediaQuery.of(context).size.width) *
                         (0.5 +
@@ -72,8 +76,13 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                                 MediaQuery.of(context).size.width)))
                     .roundToDouble();
 
-                if (newProgress > widget.attempt.acceptanceCriteria.amount) {
-                  newProgress = widget.attempt.acceptanceCriteria.amount;
+                if (newProgress >
+                    widget.attempt
+                        .getAcceptanceCriteria(widget.groupChallenge)
+                        .amount) {
+                  newProgress = widget.attempt
+                      .getAcceptanceCriteria(widget.groupChallenge)
+                      .amount;
                 } else if (newProgress <= 0) {
                   newProgress = 0;
                 }
@@ -81,8 +90,11 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
               });
             }
           : null,
-      initialProgress: widget.progress.getPercentProgress() <= 1
-          ? widget.progress.getPercentProgress()
+      initialProgress: widget.progress
+                  .getPercentProgress(widget.groupChallenge, widget.attempt) <=
+              1
+          ? widget.progress
+              .getPercentProgress(widget.groupChallenge, widget.attempt)
           : 1,
       isFailed: widget.attempt.isFailed(),
       child: SingleChildScrollView(
@@ -97,7 +109,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.unit}');
+            '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.unit}');
   }
 
   progressIcon() {

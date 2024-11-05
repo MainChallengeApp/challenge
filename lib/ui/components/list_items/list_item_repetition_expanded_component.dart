@@ -63,8 +63,10 @@ class _ListItemRepetitionExpandedComponentState
     return Stack(
       children: [
         ListItemFractionComponent(
-          initialProgress:
-              min(1, widget.repetition.getLastProgressPercentage()),
+          initialProgress: min(
+              1,
+              widget.repetition.getLastProgressPercentage(
+                  widget.groupChallenge, widget.attempt)),
           isFailed: widget.attempt.isFailed(),
           onTap: widget.onTap,
           child: SingleChildScrollView(
@@ -97,6 +99,7 @@ class _ListItemRepetitionExpandedComponentState
                             padding: const EdgeInsets.only(
                                 left: 16, bottom: 16, right: 8),
                             child: ActionButtonComponent(
+                              groupChallenge: widget.groupChallenge,
                               attempt: widget.attempt,
                               onTapAgain: () => {},
                               onTapEnd: (_) => {},
@@ -123,6 +126,7 @@ class _ListItemRepetitionExpandedComponentState
                               padding: const EdgeInsets.only(
                                   left: 8, bottom: 16, right: 16),
                               child: ActionButtonComponent(
+                                  groupChallenge: widget.groupChallenge,
                                   attempt: widget.attempt,
                                   onTapStart: onTapStart,
                                   onTapEnd: onTapEnd,
@@ -153,9 +157,9 @@ class _ListItemRepetitionExpandedComponentState
 
   onTapNext(AttemptModel attempt) {
     setState(() {
-      attempt.endRepetition();
-      widget.onTapNextRepetition
-          .call(attempt.getLastRepetition()!.repetitionNumber);
+      attempt.endRepetition(widget.groupChallenge);
+      widget.onTapNextRepetition.call(
+          attempt.getLastRepetition(widget.groupChallenge)!.repetitionNumber);
     });
     groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, attempt);
@@ -179,13 +183,13 @@ class _ListItemRepetitionExpandedComponentState
   repetition() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.repetition.repetitionNumber}/${widget.attempt.frequency.amount ?? '∞'} ${widget.attempt.frequency.typeToString()}');
+            '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
 
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.attempt.acceptanceCriteria.unit}');
+            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}');
   }
 
   repetitionIcon() {

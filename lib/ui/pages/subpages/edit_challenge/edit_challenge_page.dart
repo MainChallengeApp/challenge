@@ -2,6 +2,8 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_options_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -21,7 +23,6 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
@@ -66,7 +67,32 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   bool isLoading = false;
 
-  late List<UserModel> members = [];
+  List<UserModel> members = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.challenge is GroupChallengeModel &&
+        (widget.challenge as GroupChallengeModel).participants.length > 1) {
+      _initializeMembers();
+    } else {
+      members = [];
+    }
+  }
+
+  Future<void> _initializeMembers() async {
+    final groupChallenge = widget.challenge as GroupChallengeModel;
+    List<ParticipantModel> participants = groupChallenge.participants
+        .where((participant) => participant.userId != usersProvider.user.id)
+        .toList();
+
+    final futures = participants
+        .map((participant) => usersProvider.getUserById(participant.userId))
+        .toList();
+
+    members = await Future.wait(futures);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -256,8 +282,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     ChallengeModel challengeCopy = editChallenge.copy();
     challengeCopy.createdAt = DateTime.now();
 
-    challengeCopy.id = await groupChallengesProvider
-        .create(challengeCopy, [...members, usersProvider.user]);
+    challengeCopy.id = await groupChallengesProvider.create(challengeCopy,
+        [...members, usersProvider.user], GroupChallengeOptionsModel());
 
     setState(() {
       isLoading = false;
@@ -308,7 +334,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
       visible: !isDescriptionExpanded,
       child: SpaceColumnComponent(
         child: AmountAndUnitComponent(
-            acceptanceCriteria: editChallenge.acceptanceCriteria),
+          acceptanceCriteria: editChallenge.acceptanceCriteria,
+        ),
       ),
     );
   }
@@ -321,23 +348,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
           challenge: editChallenge,
           reloadSearchChallengePage: () => setState(
             () {},
-          ),
-        ),
-      ),
-    );
-  }
-
-  member() {
-    return Visibility(
-      visible: !isDescriptionExpanded,
-      child: const SpaceColumnComponent(
-        child: CustomContainerComponent(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Add Member'),
-              Icon(Icons.arrow_forward_ios_rounded),
-            ],
           ),
         ),
       ),

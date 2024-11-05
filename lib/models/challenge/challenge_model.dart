@@ -143,7 +143,8 @@ class ChallengeModel {
         acceptanceCriteria: acceptanceCriteria.copy(),
         frequency: frequency.copy(),
         media: isTryAgain ? [] : MediaModel.copyList(media),
-        categories: ChallengeCategoryEnum.copyCategoryList(categories));
+        categories: ChallengeCategoryEnum.copyCategoryList(categories),
+        createdAt: createdAt);
   }
 
   bool searchInChallenge(String searchText) {

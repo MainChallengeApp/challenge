@@ -62,11 +62,15 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
-      max(1, widget.attempt.getCurrentRepetitionNumber()),
+      max(1, widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)),
       widget.repetition != null
           ? widget.repetition!.goalAmount
           : widget.attempt.getCalculatedRepetitionGoal(
-              max(1, widget.attempt.getCurrentRepetitionNumber())),
+              max(
+                  1,
+                  widget.attempt
+                      .getCurrentRepetitionNumber(widget.groupChallenge)),
+              widget.groupChallenge),
       mediaList.map((e) => e.id!).toList(),
       widget.repetition != null
           ? (widget.repetition!.getLastProgress() != null
@@ -121,11 +125,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           , // +1 for progress bar +1 for upload Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              widget.repetition ??= widget.attempt.addRepetition();
+              widget.repetition ??=
+                  widget.attempt.addRepetition(widget.groupChallenge);
               return SpaceColumnComponent(
                   child: ListItemProgressComponent(
                 progress: editProgress,
                 attempt: widget.attempt,
+                groupChallenge: widget.groupChallenge,
                 isEditable: widget.isSaveInsteadOfEditButtonVisible,
                 isFailed: widget.repetition != null
                     ? widget.repetition!.repetitionStatus ==
@@ -139,6 +145,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               return SpaceColumnComponent(
                 child: ListItemProgressControllerComponent(
                   editProgress: editProgress,
+                  groupChallenge: widget.groupChallenge,
+                  attempt: widget.attempt,
                   progressListSetState: () => setState(() {}),
                 ),
               );
@@ -274,17 +282,21 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   void onTapSave() async {
     if (widget.isSaveInsteadOfEditButtonVisible) {
       if (widget.attempt.isInBacklog() && editProgress.progress > 0) {
-        widget.attempt.start();
-        widget.repetition = widget.attempt.getLastRepetition();
+        widget.attempt.start(widget.groupChallenge);
+        widget.repetition =
+            widget.attempt.getLastRepetition(widget.groupChallenge);
       } else if (widget.attempt.isInProgress() &&
-          widget.attempt.getCurrentRepetition() != null &&
-          widget.attempt.getCurrentRepetition()!.isInBacklog() &&
+          widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
+          widget.attempt
+              .getCurrentRepetition(widget.groupChallenge)!
+              .isInBacklog() &&
           editProgress.progress > 0) {
-        widget.attempt.getCurrentRepetition()!.start();
-        widget.repetition = widget.attempt.getCurrentRepetition();
+        widget.attempt.getCurrentRepetition(widget.groupChallenge)!.start();
+        widget.repetition =
+            widget.attempt.getCurrentRepetition(widget.groupChallenge);
       }
 
-      widget.repetition ??= widget.attempt.addRepetition();
+      widget.repetition ??= widget.attempt.addRepetition(widget.groupChallenge);
 
       if (widget.progress == null) {
         widget.repetition!.addProgress(progress: editProgress);

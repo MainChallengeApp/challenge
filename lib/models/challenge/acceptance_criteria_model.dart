@@ -1,3 +1,5 @@
+import 'package:challenge/models/challenge/group_challenge_model.dart';
+
 class AcceptanceCriteriaModel {
   double amount;
   static const String amountField = 'amount';
@@ -12,7 +14,8 @@ class AcceptanceCriteriaModel {
   static AcceptanceCriteriaModel fromDoc(doc) {
     try {
       return AcceptanceCriteriaModel(
-          amount: doc[amountField], unit: doc[unitField]);
+          amount: (doc[amountField] as num?)?.toDouble() ?? 0.0,
+          unit: doc[unitField]);
     } on Exception {
       rethrow;
     }
@@ -30,5 +33,11 @@ class AcceptanceCriteriaModel {
       amount: amount,
       unit: unit,
     );
+  }
+
+  double getAmount(GroupChallengeModel groupChallenge) {
+    return groupChallenge.groupChallengeOptions.isProgressIndividuell
+        ? amount
+        : groupChallenge.acceptanceCriteria.amount;
   }
 }

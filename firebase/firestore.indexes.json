@@ -31,7 +31,7 @@
   ],
   "fieldOverrides": [
     {
-      "collectionGroup": "group_challenge_user_challenges",
+      "collectionGroup": "participants",
       "fieldPath": "userId",
       "ttl": false,
       "indexes": [

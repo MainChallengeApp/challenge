@@ -1,4 +1,6 @@
 import 'package:challenge/enums/repetition_status_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 
 class RepetitionModel {
@@ -86,11 +88,12 @@ class RepetitionModel {
     return repetitionStatus;
   }
 
-  double getLastProgressPercentage() {
+  double getLastProgressPercentage(
+      GroupChallengeModel groupChallenge, AttemptModel attempt) {
     if (progressList.isEmpty) {
       return 0;
     }
-    return progressList.last.getPercentProgress();
+    return progressList.last.getPercentProgress(groupChallenge, attempt);
   }
 
   double getLastProgressAbsolute() {

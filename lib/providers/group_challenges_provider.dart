@@ -2,6 +2,7 @@ import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
@@ -17,12 +18,15 @@ class GroupChallengesProvider with ChangeNotifier {
   List<GroupChallengeModel> get groupChallenges => _groupChallenges;
 
   Future<String> create(
-      ChallengeModel challenge, List<UserModel> participantUsers) async {
+      ChallengeModel challenge,
+      List<UserModel> participantUsers,
+      GroupChallengeOptionsModel groupChallengeOptions) async {
     final groupChallenge =
         GroupChallengeModel.fromChallengeWithParticipantUsers(
       challenge: challenge,
       userId: _authService.getCurrentUserId(),
       participantUsers: participantUsers,
+      groupChallengeOptions: groupChallengeOptions,
     );
     _groupChallenges.insert(0, groupChallenge);
     sortLocalList();
@@ -80,18 +84,19 @@ class GroupChallengesProvider with ChangeNotifier {
 
   Future<void> startAttempt(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
-    attempt.start();
+    attempt.start(groupChallenge);
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
   Future<void> endAttempt(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
-    attempt.end();
+    attempt.end(groupChallenge);
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
   Future<void> update(GroupChallengeModel groupChallengeCopy) async {
     await _groupChallengesCollection.update(groupChallengeCopy);
+    updateLocalList(groupChallengeCopy);
   }
 
   Future<void> updateParticipant(

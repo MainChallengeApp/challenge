@@ -2,6 +2,7 @@ import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -13,6 +14,9 @@ class GroupChallengeModel extends ChallengeModel {
 
   late List<ParticipantModel> participants;
   static const String participantsField = 'participants';
+
+  GroupChallengeOptionsModel groupChallengeOptions;
+  static const String groupChallengeOptionsField = 'groupChallengeOptions';
 
   GroupChallengeModel({
     required super.id,
@@ -29,12 +33,15 @@ class GroupChallengeModel extends ChallengeModel {
     required super.frequency,
     required super.media,
     super.categories = const [],
+    required this.groupChallengeOptions,
+    super.createdAt,
   });
 
   GroupChallengeModel.fromChallengeWithParticipantUsers({
     required ChallengeModel challenge,
     required this.userId,
     required List<UserModel> participantUsers,
+    required this.groupChallengeOptions,
   }) : super(
           id: challenge.id,
           status: challenge.status,
@@ -60,6 +67,7 @@ class GroupChallengeModel extends ChallengeModel {
     required ChallengeModel challenge,
     required this.userId,
     required this.participants,
+    required this.groupChallengeOptions,
   }) : super(
           id: challenge.id,
           status: challenge.status,
@@ -81,6 +89,7 @@ class GroupChallengeModel extends ChallengeModel {
     return {
       ...super.toDoc(),
       userIdField: userId,
+      groupChallengeOptionsField: groupChallengeOptions.toDoc(),
     };
   }
 
@@ -94,7 +103,9 @@ class GroupChallengeModel extends ChallengeModel {
     return GroupChallengeModel.fromChallengeWithParticipants(
         challenge: challenge,
         userId: groupChallengeDoc[userIdField],
-        participants: participants);
+        participants: participants,
+        groupChallengeOptions: GroupChallengeOptionsModel.fromDoc(
+            groupChallengeDoc[groupChallengeOptionsField]));
   }
 
   ParticipantModel getParticipant(String userId) {
@@ -122,24 +133,20 @@ class GroupChallengeModel extends ChallengeModel {
         media: isTryAgain ? [] : MediaModel.copyList(media),
         categories: ChallengeCategoryEnum.copyCategoryList(categories),
         userId: userId,
-        participants: ParticipantModel.copyList(participants));
+        participants: ParticipantModel.copyList(participants),
+        groupChallengeOptions: groupChallengeOptions.copy(),
+        createdAt: createdAt);
   }
 
   void setGoals(double amount) {
-    for (var participant in participants) {
-      for (var attempt in participant.attempts) {
-        for (var repetition in attempt.repetitions) {
-          repetition.goalAmount = amount;
-        }
-      }
-    }
+    acceptanceCriteria.amount = amount;
   }
 
   @override
   checkStatus() {
     for (var participant in participants) {
       for (var attempt in participant.attempts) {
-        attempt.checkStatus();
+        attempt.checkStatus(this);
       }
     }
   }
@@ -178,15 +185,15 @@ class GroupChallengeModel extends ChallengeModel {
 
       // Compare by current percentage
       if (aAttempt
-              .getCurrentPercentage()
-              .compareTo(bAttempt.getCurrentPercentage()) >
+              .getCurrentPercentage(a)
+              .compareTo(bAttempt.getCurrentPercentage(b)) >
           0) {
         return 1;
       }
 
       if (bAttempt
-              .getCurrentPercentage()
-              .compareTo(aAttempt.getCurrentPercentage()) >
+              .getCurrentPercentage(b)
+              .compareTo(aAttempt.getCurrentPercentage(a)) >
           0) {
         return -1;
       }

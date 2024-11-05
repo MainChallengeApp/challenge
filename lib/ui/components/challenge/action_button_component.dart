@@ -1,6 +1,7 @@
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,7 @@ class ActionButtonComponent extends StatefulWidget {
   final Function(AttemptModel) onTapEnd;
   final Function() onTapAgain;
   final Function(AttemptModel) onTapNext;
+  final GroupChallengeModel groupChallenge;
 
   const ActionButtonComponent({
     super.key,
@@ -18,6 +20,7 @@ class ActionButtonComponent extends StatefulWidget {
     required this.onTapEnd,
     required this.onTapAgain,
     required this.onTapNext,
+    required this.groupChallenge,
   });
 
   @override
@@ -25,7 +28,8 @@ class ActionButtonComponent extends StatefulWidget {
 }
 
 class _ActionButtonComponentState extends State<ActionButtonComponent> {
-  late FrequencyModel frequency = widget.attempt.frequency;
+  late FrequencyModel frequency =
+      widget.attempt.getFrequency(widget.groupChallenge);
 
   bool _loading = false;
 
@@ -50,12 +54,17 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
     if (widget.attempt.isInBacklog()) {
       return true;
     }
-    if (widget.attempt.getCurrentRepetition() == null &&
+    if (widget.attempt.getCurrentRepetition(widget.groupChallenge) == null &&
         widget.attempt.isInProgress()) {
       return true;
     } else {
-      widget.attempt.getCurrentRepetition()?.evaluateRepetitionStatus();
-      return (widget.attempt.getCurrentRepetition()?.isInBacklog() ?? false) &&
+      widget.attempt
+          .getCurrentRepetition(widget.groupChallenge)
+          ?.evaluateRepetitionStatus();
+      return (widget.attempt
+                  .getCurrentRepetition(widget.groupChallenge)
+                  ?.isInBacklog() ??
+              false) &&
           frequency.type == FrequencyTypeEnum.time;
     }
   }
@@ -87,16 +96,20 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       return false;
     }
 
-    return (widget.attempt.getCurrentRepetition() != null &&
+    return (widget.attempt.getCurrentRepetition(widget.groupChallenge) !=
+                        null &&
                     widget.attempt
-                        .getCurrentRepetition()!
+                        .getCurrentRepetition(widget.groupChallenge)!
                         .progressList
                         .isEmpty ||
-                widget.attempt.getCurrentRepetitionNumber() ==
+                widget.attempt
+                        .getCurrentRepetitionNumber(widget.groupChallenge) ==
                     frequency.getMaxAmountOfRepetitions()) &&
             widget.attempt.isInProgress() ||
-        widget.attempt.getCurrentRepetition() != null &&
-            widget.attempt.getCurrentRepetition()!.isInProgress();
+        widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
+            widget.attempt
+                .getCurrentRepetition(widget.groupChallenge)!
+                .isInProgress();
   }
 
   bool _shouldShowNextButton() {
@@ -104,7 +117,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       return false;
     }
 
-    if (widget.attempt.getCurrentRepetitionNumber() ==
+    if (widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge) ==
         widget.attempt.frequency.getMaxAmountOfRepetitions()) {
       return false;
     }
@@ -114,7 +127,10 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       return false;
     }
 
-    return widget.attempt.getCurrentRepetition()?.progressList.isNotEmpty ??
+    return widget.attempt
+            .getCurrentRepetition(widget.groupChallenge)
+            ?.progressList
+            .isNotEmpty ??
         false;
   }
 
@@ -135,12 +151,14 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
           });
         }
       },
-      isPrimaryButton:
-          (widget.attempt.getCurrentRepetition()?.isComplete() ?? false) &&
-              frequency.type == FrequencyTypeEnum.time,
+      isPrimaryButton: (widget.attempt
+                  .getCurrentRepetition(widget.groupChallenge)
+                  ?.isComplete() ??
+              false) &&
+          frequency.type == FrequencyTypeEnum.time,
       text: frequency.type == FrequencyTypeEnum.time
           ? 'Next'
-          : 'Next in ${widget.attempt.endsIn()}',
+          : 'Next in ${widget.attempt.endsIn(widget.groupChallenge)}',
       isLoading: _loading,
     );
   }
@@ -164,17 +182,20 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       text: 'End',
       subText: frequency.type == FrequencyTypeEnum.daily &&
               (frequency.amount == null ||
-                  widget.attempt.getCurrentRepetitionNumber() <
+                  widget.attempt
+                          .getCurrentRepetitionNumber(widget.groupChallenge) <
                       frequency.getMaxAmountOfRepetitions()!)
-          ? 'Next in ${widget.attempt.endsIn()}'
+          ? 'Next in ${widget.attempt.endsIn(widget.groupChallenge)}'
           : frequency.type != FrequencyTypeEnum.time &&
-                  widget.attempt.getCurrentRepetitionNumber() ==
+                  widget.attempt
+                          .getCurrentRepetitionNumber(widget.groupChallenge) ==
                       frequency.getMaxAmountOfRepetitions()
-              ? 'Ends in ${widget.attempt.endsIn()}'
+              ? 'Ends in ${widget.attempt.endsIn(widget.groupChallenge)}'
               : null,
-      isPrimaryButton:
-          widget.attempt.getCurrentRepetitionProgressPercentage() >= 1 &&
-              frequency.type == FrequencyTypeEnum.time,
+      isPrimaryButton: widget.attempt.getCurrentRepetitionProgressPercentage(
+                  widget.groupChallenge) >=
+              1 &&
+          frequency.type == FrequencyTypeEnum.time,
       padding: const EdgeInsets.all(5),
       isLoading: _loading,
     );

@@ -42,7 +42,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
 
   late final expandedRepetitionIndexList = [
-    widget.attempt.getCurrentRepetitionNumber()
+    widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)
   ];
 
   late final groupChallengeProvider =
@@ -82,18 +82,28 @@ class _RepetitionPageState extends State<RepetitionPage> {
       child: ListView.builder(
           controller: scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: widget.attempt.getCurrentRepetitionNumber(),
+          itemCount:
+              widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge),
           itemBuilder: (BuildContext content, int index) {
             RepetitionModel repetition;
-            if ((widget.attempt.getCurrentRepetitionNumber() - 1 - index) <
+            if ((widget.attempt
+                            .getCurrentRepetitionNumber(widget.groupChallenge) -
+                        1 -
+                        index) <
                     widget.attempt.repetitions.length &&
-                (widget.attempt.getCurrentRepetitionNumber() - 1 - index) >=
+                (widget.attempt
+                            .getCurrentRepetitionNumber(widget.groupChallenge) -
+                        1 -
+                        index) >=
                     0) {
-              repetition = widget.attempt.getAllRepetitions()[
-                  widget.attempt.getCurrentRepetitionNumber() - 1 - index];
+              repetition = widget.attempt
+                  .getAllRepetitions(widget.groupChallenge)[widget.attempt
+                      .getCurrentRepetitionNumber(widget.groupChallenge) -
+                  1 -
+                  index];
               repetition.evaluateRepetitionStatus();
             } else {
-              repetition = widget.attempt.addRepetition();
+              repetition = widget.attempt.addRepetition(widget.groupChallenge);
             }
             repetition.evaluateRepetitionStatus();
             return repetitionListItem(repetition);
@@ -126,6 +136,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 onTapDeleteProgress(repetition, progress),
             progress: progress,
             attempt: widget.attempt,
+            groupChallenge: widget.groupChallenge,
             unit: widget.attempt.acceptanceCriteria.unit,
           )));
     }
@@ -159,6 +170,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
                       attempt: widget.attempt,
+                      groupChallenge: widget.groupChallenge,
                     ),
             ],
           ),
@@ -303,7 +315,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
               : ListItemButtonComponent(
                   onTap: onTapEndChallenge,
                   text: 'End Challenge',
-                  isMainButton: widget.attempt.isCompleted(),
+                  isMainButton:
+                      widget.attempt.isCompleted(widget.groupChallenge),
                 ),
         ));
   }

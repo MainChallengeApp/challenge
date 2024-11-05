@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
@@ -10,10 +11,15 @@ import 'package:flutter/material.dart';
 
 class ListItemRepetitionComponent extends StatefulWidget {
   const ListItemRepetitionComponent(
-      {super.key, required this.repetition, this.onTap, required this.attempt});
+      {super.key,
+      required this.repetition,
+      this.onTap,
+      required this.attempt,
+      required this.groupChallenge});
 
   final RepetitionModel repetition;
   final AttemptModel attempt;
+  final GroupChallengeModel groupChallenge;
   final void Function()? onTap;
 
   @override
@@ -29,8 +35,10 @@ class _ListItemRepetitionComponentState
     return Column(
       children: [
         ListItemFractionComponent(
-          initialProgress:
-              min(1, widget.repetition.getLastProgressPercentage()),
+          initialProgress: min(
+              1,
+              widget.repetition.getLastProgressPercentage(
+                  widget.groupChallenge, widget.attempt)),
           isFailed: widget.attempt.isFailed(),
           onTap: widget.onTap,
           child: SingleChildScrollView(
@@ -47,13 +55,13 @@ class _ListItemRepetitionComponentState
   repetition() {
     return ContainerInContainerTextComponent(
         text:
-            '${widget.repetition.repetitionNumber}/${widget.attempt.frequency.amount ?? '∞'} ${widget.attempt.frequency.typeToString()}');
+            '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
 
   progress() {
     return ContainerInContainerTextComponent(
         text:
-            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.acceptanceCriteria.amount)} ${widget.attempt.acceptanceCriteria.unit}');
+            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}');
   }
 
   repetitionIcon() {
