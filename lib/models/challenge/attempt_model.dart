@@ -459,9 +459,9 @@ class AttemptModel {
     }
   }
 
-  getCalculatedRepetitionGoal(
+  double getCalculatedRepetitionGoal(
       int repetitionNumber, GroupChallengeModel groupChallenge) {
-    return getAcceptanceCriteria(groupChallenge);
+    return getAcceptanceCriteria(groupChallenge).amount;
   }
 
   static List<AttemptModel> copyList(List<AttemptModel> attempts) {
