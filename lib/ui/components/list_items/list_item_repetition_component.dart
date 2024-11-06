@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
@@ -29,9 +30,24 @@ class ListItemRepetitionComponent extends StatefulWidget {
 
 class _ListItemRepetitionComponentState
     extends State<ListItemRepetitionComponent> {
+  DateTime now = DateTime.now();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    TimeService.now().then((value) {
+      if (mounted) {
+        setState(() {
+          now = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    widget.repetition.evaluateRepetitionStatus();
+    widget.repetition.evaluateRepetitionStatus(now: now);
     return Column(
       children: [
         ListItemFractionComponent(

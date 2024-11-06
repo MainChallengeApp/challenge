@@ -73,8 +73,8 @@ class ChallengeModel {
     this.description = '',
     this.media = const [],
     this.categories = const [],
-    DateTime? createdAt,
     this.thumbnail,
+    DateTime? createdAt,
   }) : createdAt = createdAt ?? DateTime.now() {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();

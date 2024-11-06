@@ -149,7 +149,8 @@ class GroupChallengesProvider with ChangeNotifier {
   void sortLocalList() async {
     _groupChallenges = GroupChallengeModel.sortChallengeList(
         groupChallenges: _groupChallenges,
-        userId: _authService.getCurrentUserId());
+        userId: _authService.getCurrentUserId(),
+        now: await TimeService.now());
     notifyListeners();
   }
 

@@ -55,12 +55,26 @@ class _ListItemRepetitionExpandedComponentState
 
   late BuildContext pageContext;
 
+  DateTime now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    TimeService.now().then((value) {
+      if (mounted) {
+        setState(() {
+          now = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     listeningGroupChallengesProvider.groupChallenges;
 
     pageContext = context;
-    widget.repetition.evaluateRepetitionStatus();
+    widget.repetition.evaluateRepetitionStatus(now: now);
     return Stack(
       children: [
         ListItemFractionComponent(
@@ -158,9 +172,13 @@ class _ListItemRepetitionExpandedComponentState
 
   onTapNext(AttemptModel attempt) async {
     setState(() async {
-      attempt.endRepetition(widget.groupChallenge, await TimeService.now());
+      DateTime now = await TimeService.now();
+      attempt.endRepetition(widget.groupChallenge, now);
       widget.onTapNextRepetition.call(
-          attempt.getLastRepetition(widget.groupChallenge)!.repetitionNumber);
+        attempt
+            .getLastRepetition(widget.groupChallenge, now: now)!
+            .repetitionNumber,
+      );
     });
     groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, attempt);

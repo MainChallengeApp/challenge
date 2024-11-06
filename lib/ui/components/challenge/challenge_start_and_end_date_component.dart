@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -24,6 +25,20 @@ class ChallengeStartAndEndDateComponent extends StatefulWidget {
 
 class _ChallengeStartAndEndDateComponentState
     extends State<ChallengeStartAndEndDateComponent> {
+  DateTime now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    TimeService.now().then((value) {
+      if (mounted) {
+        setState(() {
+          now = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -95,8 +110,7 @@ class _ChallengeStartAndEndDateComponentState
             if (startOrEnd == 'start') {
               setState(() {
                 if (!isDateTimeChanged) {
-                  widget.editChallenge.startDate =
-                      initialDateTime ?? DateTime.now();
+                  widget.editChallenge.startDate = initialDateTime ?? now;
                   if (widget.editChallenge.endDate == null) {
                     widget.editChallenge.setEndDate();
                   }
@@ -108,7 +122,7 @@ class _ChallengeStartAndEndDateComponentState
               setState(() {
                 if (!isDateTimeChanged) {
                   widget.editChallenge.endDate = initialDateTime ??
-                      UtilService.dateWithoutTime(DateTime.now()).add(
+                      UtilService.dateWithoutTime(now).add(
                           const Duration(hours: 23, minutes: 59, seconds: 59));
                   widget.editChallenge.setFrequencyAmount();
                   widget.reloadSearchChallengePage?.call();
@@ -136,7 +150,7 @@ class _ChallengeStartAndEndDateComponentState
                       ? widget.editChallenge.startDate
                       : null
                   : null,
-              initialDateTime: initialDateTime,
+              initialDateTime: initialDateTime ?? now,
               mode: CupertinoDatePickerMode.dateAndTime,
               use24hFormat: true,
               onDateTimeChanged: (value) {

@@ -98,26 +98,30 @@ class _ListItemContainerComponentState
               ),
               Visibility(
                 visible: widget.onTap != null && isTapVisible,
-                child: Container(
-                  width: double.infinity,
-                  height: widget.isHeightDynamic
-                      ? null
-                      : widget.height ??
-                          ListItemContainerComponent.standardHeight,
-                  margin: widget.margin ??
-                      const EdgeInsets.only(left: 20, right: 20),
-                  padding: widget.padding ??
-                      const EdgeInsets.all(
-                          ListItemContainerComponent.standardPadding),
-                  decoration: BoxDecoration(
-                      color: widget.onTapColor ??
-                          Theme.of(context).colorScheme.primary.withAlpha(15),
-                      border: Border.all(
-                          width: 1,
-                          color: Theme.of(context).colorScheme.themeColor5),
-                      borderRadius: BorderRadius.all(Radius.circular(widget
-                              .borderRadius ??
-                          ListItemContainerComponent.standardBorderRadius))),
+                child: Positioned.fill(
+                  child: Container(
+                    width: double.infinity,
+                    height: widget.isHeightDynamic
+                        ? null
+                        : widget.height ??
+                            ListItemContainerComponent.standardHeight,
+                    margin: widget.margin ??
+                        const EdgeInsets.only(
+                            left: ListItemContainerComponent.standardMargin,
+                            right: ListItemContainerComponent.standardMargin),
+                    padding: widget.padding ??
+                        const EdgeInsets.all(
+                            ListItemContainerComponent.standardPadding),
+                    decoration: BoxDecoration(
+                        color: widget.onTapColor ??
+                            Theme.of(context).colorScheme.primary.withAlpha(15),
+                        border: Border.all(
+                            width: 1,
+                            color: Theme.of(context).colorScheme.themeColor5),
+                        borderRadius: BorderRadius.all(Radius.circular(widget
+                                .borderRadius ??
+                            ListItemContainerComponent.standardBorderRadius))),
+                  ),
                 ),
               )
             ],

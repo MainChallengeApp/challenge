@@ -5,6 +5,7 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
@@ -33,6 +34,20 @@ class AcceptanceCriteriaComponent extends StatefulWidget {
 
 class _AcceptanceCriteriaComponentState
     extends State<AcceptanceCriteriaComponent> {
+  DateTime now = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    TimeService.now().then((value) {
+      if (mounted) {
+        setState(() {
+          now = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -42,11 +57,13 @@ class _AcceptanceCriteriaComponentState
           FractionallySizedBox(
             widthFactor: !widget.attempt.isInProgress()
                 ? min(
-                    widget.attempt.getCurrentPercentage(widget.groupChallenge),
+                    widget.attempt
+                        .getCurrentPercentage(widget.groupChallenge, now: now),
                     1)
                 : min(
                     widget.attempt.getCurrentRepetitionProgressPercentage(
-                        widget.groupChallenge),
+                        widget.groupChallenge,
+                        now: now),
                     1),
             heightFactor: 1,
             child: Container(
@@ -127,7 +144,7 @@ class _AcceptanceCriteriaComponentState
                     '${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}')
             : ContainerInContainerTextComponent(
                 text:
-                    '${widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
+                    '${widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge, now: now)}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
 
   repetitionProgressAbsolute() {
@@ -147,7 +164,7 @@ class _AcceptanceCriteriaComponentState
                     !widget.attempt.isInBacklog()
             ? ContainerInContainerTextComponent(
                 text:
-                    '${UtilService.doubleAsIntString(widget.attempt.getCurrentRepetitionProgressAbsolute(widget.groupChallenge))}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
+                    '${UtilService.doubleAsIntString(widget.attempt.getCurrentRepetitionProgressAbsolute(widget.groupChallenge, now: now))}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
             : ContainerInContainerTextComponent(
                 text:
                     '${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')

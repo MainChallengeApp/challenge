@@ -421,7 +421,7 @@ class AttemptModel {
 
   double getCurrentPercentage(GroupChallengeModel groupChallenge,
       {DateTime? now}) {
-    now = now ?? DateTime.now();
+    now ??= DateTime.now();
     if (getCurrentRepetitionNumber(groupChallenge, now: now) == 0) {
       return 0;
     }

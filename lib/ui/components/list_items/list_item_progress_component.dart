@@ -120,17 +120,19 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
 
   mediaItemAmount() {
     return ContainerInContainerComponent(
-        child: Row(children: [
-      Text(
-        '${widget.progress.mediaIds.length} ',
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
-      Icon(
-        Icons.inventory_2_outlined,
-        size: Theme.of(context).textTheme.bodySmall?.fontSize,
-        color: Theme.of(context).colorScheme.tertiary,
-      ),
-    ]));
+        child: Center(
+      child: Row(children: [
+        Text(
+          '${widget.progress.mediaIds.length} ',
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        Icon(
+          Icons.inventory_2_outlined,
+          size: Theme.of(context).textTheme.bodySmall?.fontSize,
+          color: Theme.of(context).colorScheme.tertiary,
+        ),
+      ]),
+    ));
   }
 
   ActionPane endActionPane(Function closeSlidable) {

@@ -288,9 +288,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       if (widget.attempt.isInBacklog() && editProgress.progress > 0) {
         widget.attempt.start(widget.groupChallenge, now);
         widget.repetition =
-            widget.attempt.getLastRepetition(widget.groupChallenge);
+            widget.attempt.getLastRepetition(widget.groupChallenge, now: now);
       } else if (widget.attempt.isInProgress() &&
-          widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
+          widget.attempt
+                  .getCurrentRepetition(widget.groupChallenge, now: now) !=
+              null &&
           widget.attempt
               .getCurrentRepetition(widget.groupChallenge, now: now)!
               .isInBacklog() &&

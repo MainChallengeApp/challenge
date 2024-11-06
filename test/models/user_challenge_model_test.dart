@@ -1431,5 +1431,5 @@ void main() {
   //       expect(goalAmount, equals(challenge.acceptanceCriteria.amount));
   //     });
   //   });
-  // });
+  // }, skip: 'UserChallengeModel is not used anymore but AttemptModel is similar');
 }
