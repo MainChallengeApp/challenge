@@ -131,7 +131,8 @@ class _AcceptanceCriteriaComponentState
   }
 
   repetitionProgressAbsolute() {
-    return widget.attempt.acceptanceCriteria.unit != '' ||
+    return widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit !=
+                '' ||
             widget.attempt
                     .getAcceptanceCriteria(widget.groupChallenge)
                     .amount !=

@@ -1,6 +1,7 @@
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ParticipantModel {
@@ -20,10 +21,14 @@ class ParticipantModel {
   });
 
   static ParticipantModel fromChallengeModel(
-      {required ChallengeModel challenge, required String userId}) {
+      {required ChallengeModel challenge,
+      required String userId,
+      required DateTime now}) {
     return ParticipantModel(
       userId: userId,
-      attempts: [AttemptModel.fromChallengeModel(challenge: challenge)],
+      attempts: [
+        AttemptModel.fromChallengeModel(challenge: challenge, now: now)
+      ],
     );
   }
 
@@ -65,18 +70,19 @@ class ParticipantModel {
     return participants.map((participant) => participant.copy()).toList();
   }
 
-  void addAttempt() {
+  void addAttempt(GroupChallengeModel groupChallenge, DateTime now) {
     AttemptModel lastAttempt = getLatestAttempt();
     attempts.add(AttemptModel(
       number: lastAttempt.number + 1,
       startDate: null,
       endDate: null,
       status: ChallengeStatusEnum.backlog,
-      acceptanceCriteria: lastAttempt.acceptanceCriteria.copy(),
-      frequency: lastAttempt.frequency.copy(),
+      acceptanceCriteria:
+          lastAttempt.getAcceptanceCriteria(groupChallenge).copy(),
+      frequency: lastAttempt.getFrequency(groupChallenge).copy(),
       media: [],
       repetitions: [],
-      createdAt: DateTime.now(),
+      createdAt: now,
     ));
   }
 }

@@ -62,8 +62,8 @@ class ChallengeModel {
     required this.frequency,
     required this.media,
     this.categories = const [],
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
+    required this.createdAt,
+  });
 
   ChallengeModel.empty({
     this.id = '',
@@ -236,9 +236,5 @@ class ChallengeModel {
       }
     });
     return challenges;
-  }
-
-  checkStatus() {
-    throw UnimplementedError();
   }
 }

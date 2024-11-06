@@ -5,6 +5,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
@@ -248,14 +249,16 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapEnd(AttemptModel attempt) async {
-    if (attempt.canEndRepetition(widget.groupChallenge)) {
-      attempt.endRepetition(widget.groupChallenge);
+    DateTime now = await TimeService.now();
+    if (attempt.canEndRepetition(widget.groupChallenge, now)) {
+      attempt.endRepetition(widget.groupChallenge, now);
       await _groupChallengesProvider.updateAttempt(
           widget.groupChallenge, _participant, attempt);
       return;
     }
 
     EndChallengeDialog.show(
+        // ignore: use_build_context_synchronously
         context: context,
         challengeTitle: widget.groupChallenge.title,
         onTapYes: () {
@@ -265,7 +268,7 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapAgain() async {
-    _participant.addAttempt();
+    _participant.addAttempt(widget.groupChallenge, await TimeService.now());
     await _groupChallengesProvider.updateParticipant(
         widget.groupChallenge, _participant);
   }
@@ -287,8 +290,8 @@ class _GroupChallengeCardComponentState
   //   );
   // }
 
-  void _onTapNext(AttemptModel attempt) {
-    attempt.endRepetition(widget.groupChallenge);
+  void _onTapNext(AttemptModel attempt) async {
+    attempt.endRepetition(widget.groupChallenge, await TimeService.now());
     _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, _participant, attempt);
   }
@@ -350,18 +353,23 @@ class _GroupChallengeCardComponentState
     );
   }
 
-  void _onTapNewProgress() {
-    if (_latestAttempt.getCurrentRepetition(widget.groupChallenge) == null) {
+  void _onTapNewProgress() async {
+    if (_latestAttempt.getCurrentRepetition(widget.groupChallenge,
+            now: await TimeService.now()) ==
+        null) {
       return;
     }
 
+    DateTime now = await TimeService.now();
+
     Navigator.push(
+      // ignore: use_build_context_synchronously
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
           preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-          repetition:
-              _latestAttempt.getCurrentRepetition(widget.groupChallenge)!,
+          repetition: _latestAttempt.getCurrentRepetition(widget.groupChallenge,
+              now: now)!,
           attempt: _latestAttempt,
           groupChallenge: widget.groupChallenge,
           participant: _participant,

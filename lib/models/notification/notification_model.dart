@@ -33,8 +33,7 @@ class NotificationModel {
       this.title = '',
       this.body = '',
       required this.type,
-      DateTime? createdAt})
-      : createdAt = createdAt ?? DateTime.now();
+      required this.createdAt});
 
   factory NotificationModel.fromDoc(DocumentSnapshot doc) {
     if (doc[typeField] == NotificationTypeEnum.connectionRequest.type) {

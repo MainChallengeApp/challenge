@@ -2,6 +2,7 @@ import 'package:challenge/collections/notifications_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsProvider with ChangeNotifier {
@@ -18,6 +19,7 @@ class NotificationsProvider with ChangeNotifier {
       userId: toUserId,
       fromUserId: fromUserId,
       type: type,
+      createdAt: await TimeService.now(),
     );
     await notificationsCollection.create(notification);
   }

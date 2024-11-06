@@ -3,6 +3,7 @@ import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
@@ -38,6 +39,13 @@ class AppState extends State<App> {
       setState(() {
         isLoadingUser = false;
       });
+    }).catchError((error) {
+      setState(() {
+        isLoadingUser = false;
+      });
+      usersProvider.logout();
+      // ignore: use_build_context_synchronously
+      ErrorOccurredDialog.show(context: context);
     });
 
     groupChallengesProvider.getAllOfUser().then((value) {

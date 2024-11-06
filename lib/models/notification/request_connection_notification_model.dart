@@ -8,7 +8,7 @@ class RequestConnectionNotificationModel extends NotificationModel {
     required super.userId,
     required super.fromUserId,
     super.type = NotificationTypeEnum.connectionRequest,
-    super.createdAt,
+    required super.createdAt,
   }) : super(title: '', body: 'wants to connect with you');
 
   factory RequestConnectionNotificationModel.fromDoc(DocumentSnapshot doc) {

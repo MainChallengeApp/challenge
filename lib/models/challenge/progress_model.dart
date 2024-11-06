@@ -3,7 +3,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 
 class ProgressModel {
-  late DateTime date;
+  DateTime date;
   static const String dateField = 'date';
 
   int repetitionNumber;
@@ -29,9 +29,9 @@ class ProgressModel {
       {required this.repetitionNumber,
       required this.goal,
       this.progress = 0,
-      this.mediaIds = const []}) {
-    date = DateTime.now();
-  }
+      this.mediaIds = const [],
+      DateTime? date})
+      : date = date ?? DateTime.now();
 
   double getGoal(GroupChallengeModel groupChallenge, AttemptModel attempt) {
     return attempt.getAcceptanceCriteria(groupChallenge).amount;
@@ -91,13 +91,16 @@ class ProgressModel {
   }
 
   static copyOrCreateProgress(ProgressModel? progress, int repetitionNumber,
-      double goal, List<String> mediaIds, double progressProgress) {
+      double goal, List<String> mediaIds, double progressProgress,
+      {DateTime? now}) {
     if (progress == null) {
+      now = now ?? DateTime.now();
       return ProgressModel.empty(
           repetitionNumber: repetitionNumber,
           goal: goal,
           mediaIds: mediaIds,
-          progress: progressProgress);
+          progress: progressProgress,
+          date: now);
     }
     return progress.copyProgress();
   }

@@ -19,6 +19,7 @@ import 'package:challenge/ui/components/edit_challenge/upload_thumbnail_componen
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -104,32 +105,43 @@ class _EditChallengePageState extends State<EditChallengePage> {
         });
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
-        backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Column(
-                      children: [
-                        _header(),
-                        _details(),
-                        _member(),
-                      ],
+          resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
+          appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+          backgroundColor: Colors.white,
+          body: isUserAbleToEditChallenge()
+              ? Column(
+                  children: [
+                    Expanded(
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Column(
+                              children: [
+                                _header(),
+                                _details(),
+                                _member(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            cancelAndSaveOrAcceptButton(),
-          ],
-        ),
-      ),
+                    cancelAndSaveOrAcceptButton(),
+                  ],
+                )
+              : notAbleToEdit()),
     );
+  }
+
+  bool isUserAbleToEditChallenge() {
+    if (widget.challenge is GroupChallengeModel) {
+      GroupChallengeModel groupChallenge =
+          widget.challenge as GroupChallengeModel;
+      return groupChallenge.userId == usersProvider.user.id ||
+          groupChallenge.groupChallengeOptions.isProgressIndividuell;
+    }
+    return true;
   }
 
   Visibility _member() {
@@ -280,7 +292,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
       isLoading = true;
     });
     ChallengeModel challengeCopy = editChallenge.copy();
-    challengeCopy.createdAt = DateTime.now();
 
     challengeCopy.id = await groupChallengesProvider.create(challengeCopy,
         [...members, usersProvider.user], GroupChallengeOptionsModel());
@@ -404,5 +415,14 @@ class _EditChallengePageState extends State<EditChallengePage> {
     ).then((_) {
       setState(() {});
     });
+  }
+
+  notAbleToEdit() {
+    return ListView(
+      children: const [
+        ListItemInfoComponent(
+            text: 'Only the admin of this challenge can edit it.')
+      ],
+    );
   }
 }

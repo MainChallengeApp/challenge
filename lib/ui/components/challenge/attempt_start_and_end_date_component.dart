@@ -43,7 +43,7 @@ class _AttemptStartAndEndDateComponentState
     return Expanded(
       child: DateComponent(
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('end'),
-        date: widget.attempt.endDate,
+        date: widget.attempt.getEndDate(widget.groupChallenge),
         text: 'End',
         textColor: widget.isLocked
             ? Theme.of(context).colorScheme.tertiary
@@ -56,7 +56,7 @@ class _AttemptStartAndEndDateComponentState
     return Expanded(
       child: DateComponent(
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('start'),
-        date: widget.attempt.startDate,
+        date: widget.attempt.getStartDate(widget.groupChallenge),
         text: 'Start',
         textColor: widget.isLocked
             ? Theme.of(context).colorScheme.tertiary
@@ -69,12 +69,14 @@ class _AttemptStartAndEndDateComponentState
     if (widget.isLocked) return;
 
     DateTime? initialDateTime = startOrEnd == 'start'
-        ? widget.attempt.startDate
-        : widget.attempt.endDate != null
-            ? UtilService.dateWithoutTime(widget.attempt.endDate!)
+        ? widget.attempt.getStartDate(widget.groupChallenge)
+        : widget.attempt.getEndDate(widget.groupChallenge) != null
+            ? UtilService.dateWithoutTime(
+                    widget.attempt.getEndDate(widget.groupChallenge)!)
                 .add(const Duration(hours: 23, minutes: 59, seconds: 59))
-            : widget.attempt.startDate != null
-                ? UtilService.dateWithoutTime(widget.attempt.startDate!)
+            : widget.attempt.getStartDate(widget.groupChallenge) != null
+                ? UtilService.dateWithoutTime(
+                        widget.attempt.getStartDate(widget.groupChallenge)!)
                     .add(const Duration(hours: 23, minutes: 59, seconds: 59))
                 : null;
     setState(() {
@@ -96,10 +98,11 @@ class _AttemptStartAndEndDateComponentState
         return GestureDetector(
           onTap: () {
             if (startOrEnd == 'start') {
-              setState(() {
+              setState(() async {
                 if (!isDateTimeChanged) {
                   widget.attempt.startDate = initialDateTime ?? DateTime.now();
-                  if (widget.attempt.endDate == null) {
+                  if (widget.attempt.getEndDate(widget.groupChallenge) ==
+                      null) {
                     widget.attempt.setEndDate(widget.groupChallenge);
                   }
                   widget.attempt.setFrequencyAmount(widget.groupChallenge);
@@ -107,7 +110,7 @@ class _AttemptStartAndEndDateComponentState
                 }
               });
             } else if (startOrEnd == 'end') {
-              setState(() {
+              setState(() async {
                 if (!isDateTimeChanged) {
                   widget.attempt.endDate = initialDateTime ??
                       UtilService.dateWithoutTime(DateTime.now()).add(
@@ -133,12 +136,12 @@ class _AttemptStartAndEndDateComponentState
                               .getFrequency(widget.groupChallenge)
                               .amount ==
                           null &&
-                      widget.attempt.startDate != null
-                  ? widget.attempt.endDate
+                      widget.attempt.getStartDate(widget.groupChallenge) != null
+                  ? widget.attempt.getEndDate(widget.groupChallenge)
                   : null,
               minimumDate: startOrEnd == 'end'
                   ? initialDateTime != null
-                      ? widget.attempt.startDate
+                      ? widget.attempt.getStartDate(widget.groupChallenge)
                       : null
                   : null,
               initialDateTime: initialDateTime,

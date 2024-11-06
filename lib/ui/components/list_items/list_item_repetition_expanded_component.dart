@@ -5,6 +5,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -155,9 +156,9 @@ class _ListItemRepetitionExpandedComponentState
     );
   }
 
-  onTapNext(AttemptModel attempt) {
-    setState(() {
-      attempt.endRepetition(widget.groupChallenge);
+  onTapNext(AttemptModel attempt) async {
+    setState(() async {
+      attempt.endRepetition(widget.groupChallenge, await TimeService.now());
       widget.onTapNextRepetition.call(
           attempt.getLastRepetition(widget.groupChallenge)!.repetitionNumber);
     });

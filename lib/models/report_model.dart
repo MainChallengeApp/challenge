@@ -20,10 +20,9 @@ class ReportModel {
       {required this.userId,
       required this.reportedUserId,
       required this.reason,
-      DateTime? createdAt,
+      required this.createdAt,
       String? id})
-      : createdAt = createdAt ?? DateTime.now(),
-        id = id ?? '';
+      : id = id ?? '';
 
   Map<String, dynamic> toDoc() {
     return {

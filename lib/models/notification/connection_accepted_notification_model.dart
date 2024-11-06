@@ -8,7 +8,7 @@ class ConnectionAcceptedNotificationModel extends NotificationModel {
     required super.userId,
     required super.fromUserId,
     super.type = NotificationTypeEnum.connectionAccepted,
-    super.createdAt,
+    required super.createdAt,
   }) : super(title: '', body: 'accepted your connection request');
 
   factory ConnectionAcceptedNotificationModel.fromDoc(DocumentSnapshot doc) {

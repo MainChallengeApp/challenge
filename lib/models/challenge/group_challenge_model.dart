@@ -34,7 +34,7 @@ class GroupChallengeModel extends ChallengeModel {
     required super.media,
     super.categories = const [],
     required this.groupChallengeOptions,
-    super.createdAt,
+    required super.createdAt,
   });
 
   GroupChallengeModel.fromChallengeWithParticipantUsers({
@@ -42,6 +42,7 @@ class GroupChallengeModel extends ChallengeModel {
     required this.userId,
     required List<UserModel> participantUsers,
     required this.groupChallengeOptions,
+    required DateTime now,
   }) : super(
           id: challenge.id,
           status: challenge.status,
@@ -55,11 +56,11 @@ class GroupChallengeModel extends ChallengeModel {
           frequency: challenge.frequency,
           media: challenge.media,
           categories: challenge.categories,
-          createdAt: challenge.createdAt,
+          createdAt: now,
         ) {
     participants = participantUsers
         .map((participantUser) => ParticipantModel.fromChallengeModel(
-            challenge: challenge, userId: participantUser.id))
+            challenge: challenge, userId: participantUser.id, now: now))
         .toList();
   }
 
@@ -142,20 +143,23 @@ class GroupChallengeModel extends ChallengeModel {
     acceptanceCriteria.amount = amount;
   }
 
-  @override
-  checkStatus() {
+  checkStatus({DateTime? now}) {
+    now ??= DateTime.now();
     for (var participant in participants) {
       for (var attempt in participant.attempts) {
-        attempt.checkStatus(this);
+        attempt.checkStatus(this, now: now);
       }
     }
   }
 
   static List<GroupChallengeModel> sortChallengeList(
       {required List<GroupChallengeModel> groupChallenges,
-      required String userId}) {
+      required String userId,
+      DateTime? now}) {
+    now ??= DateTime.now();
+
     for (var groupChallenge in groupChallenges) {
-      groupChallenge.checkStatus();
+      groupChallenge.checkStatus(now: now);
     }
     groupChallenges.sort((a, b) {
       AttemptModel aAttempt = a.getParticipant(userId).getLatestAttempt();
@@ -185,15 +189,15 @@ class GroupChallengeModel extends ChallengeModel {
 
       // Compare by current percentage
       if (aAttempt
-              .getCurrentPercentage(a)
-              .compareTo(bAttempt.getCurrentPercentage(b)) >
+              .getCurrentPercentage(a, now: now)
+              .compareTo(bAttempt.getCurrentPercentage(b, now: now)) >
           0) {
         return 1;
       }
 
       if (bAttempt
-              .getCurrentPercentage(b)
-              .compareTo(aAttempt.getCurrentPercentage(a)) >
+              .getCurrentPercentage(b, now: now)
+              .compareTo(aAttempt.getCurrentPercentage(a, now: now)) >
           0) {
         return -1;
       }

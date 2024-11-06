@@ -7,6 +7,7 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:flutter/material.dart';
 
 class GroupChallengesProvider with ChangeNotifier {
@@ -27,6 +28,7 @@ class GroupChallengesProvider with ChangeNotifier {
       userId: _authService.getCurrentUserId(),
       participantUsers: participantUsers,
       groupChallengeOptions: groupChallengeOptions,
+      now: await TimeService.now(),
     );
     _groupChallenges.insert(0, groupChallenge);
     sortLocalList();
@@ -84,13 +86,13 @@ class GroupChallengesProvider with ChangeNotifier {
 
   Future<void> startAttempt(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
-    attempt.start(groupChallenge);
+    attempt.start(groupChallenge, await TimeService.now());
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
   Future<void> endAttempt(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
-    attempt.end(groupChallenge);
+    attempt.end(groupChallenge, await TimeService.now());
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
@@ -144,7 +146,7 @@ class GroupChallengesProvider with ChangeNotifier {
     }
   }
 
-  void sortLocalList() {
+  void sortLocalList() async {
     _groupChallenges = GroupChallengeModel.sortChallengeList(
         groupChallenges: _groupChallenges,
         userId: _authService.getCurrentUserId());

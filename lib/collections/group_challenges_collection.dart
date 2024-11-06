@@ -2,6 +2,7 @@ import 'package:challenge/collections/collection.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/storage_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GroupChallengesCollection extends Collection {
@@ -153,14 +154,17 @@ class GroupChallengesCollection extends Collection {
         return await delete(groupChallenge.id);
       }
 
+      DateTime now = await TimeService.now();
+
       if (groupChallenge.userId == participantId) {
         groupChallenge.participants
             .removeWhere((participant) => participant.userId == participantId);
         groupChallenge.participants.sort((a, b) => a
             .getLatestAttempt()
-            .getCurrentPercentage(groupChallenge)
-            .compareTo(
-                b.getLatestAttempt().getCurrentPercentage(groupChallenge)));
+            .getCurrentPercentage(groupChallenge, now: now)
+            .compareTo(b
+                .getLatestAttempt()
+                .getCurrentPercentage(groupChallenge, now: now)));
         groupChallenge.userId = groupChallenge.participants.last.userId;
         await update(groupChallenge);
       }

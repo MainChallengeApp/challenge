@@ -51,7 +51,8 @@ class AttemptModel {
     required this.createdAt,
   });
 
-  static fromChallengeModel({required ChallengeModel challenge}) {
+  static fromChallengeModel(
+      {required ChallengeModel challenge, required DateTime now}) {
     return AttemptModel(
       number: 1,
       startDate: challenge.startDate,
@@ -61,7 +62,7 @@ class AttemptModel {
       frequency: challenge.frequency,
       media: [],
       repetitions: [],
-      createdAt: DateTime.now(),
+      createdAt: now,
     );
   }
 
@@ -104,87 +105,100 @@ class AttemptModel {
   }
 
   // TODO: refactor this function
-  List<RepetitionModel> getAllRepetitions(GroupChallengeModel groupChallenge) {
+  List<RepetitionModel> getAllRepetitions(GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
     repetitions
         .sort((a, b) => a.repetitionNumber.compareTo(b.repetitionNumber));
 
     List<RepetitionModel> allRepetitions = [...repetitions];
 
-    if (repetitions.length == getCurrentRepetitionNumber(groupChallenge)) {
+    if (repetitions.length ==
+        getCurrentRepetitionNumber(groupChallenge, now: now)) {
       return allRepetitions;
     }
 
     for (int repetitionNumber = repetitions.length + 1;
-        repetitionNumber <= getCurrentRepetitionNumber(groupChallenge);
+        repetitionNumber <=
+            getCurrentRepetitionNumber(groupChallenge, now: now);
         repetitionNumber++) {
       allRepetitions.insert(
           repetitionNumber - 1,
           RepetitionModel.empty(
-              startDate:
-                  getFrequency(groupChallenge).type == FrequencyTypeEnum.daily
-                      ? startDate?.add(Duration(days: repetitionNumber - 1))
-                      : getFrequency(groupChallenge).type ==
-                                  FrequencyTypeEnum.time &&
-                              startDate != null &&
-                              repetitionNumber == 1
-                          ? startDate
-                          : null,
+              startDate: getFrequency(groupChallenge).type ==
+                      FrequencyTypeEnum.daily
+                  ? getStartDate(groupChallenge)
+                      ?.add(Duration(days: repetitionNumber - 1))
+                  : getFrequency(groupChallenge).type == FrequencyTypeEnum.time &&
+                          getStartDate(groupChallenge) != null &&
+                          repetitionNumber == 1
+                      ? getStartDate(groupChallenge)
+                      : null,
               endDate: getFrequency(groupChallenge).type ==
                           FrequencyTypeEnum.daily &&
-                      startDate != null &&
+                      getStartDate(groupChallenge) != null &&
                       getFrequency(groupChallenge).amount == null
-                  ? startDate!.add(Duration(days: repetitionNumber))
+                  ? getStartDate(groupChallenge)!
+                      .add(Duration(days: repetitionNumber))
                   : getFrequency(groupChallenge).type ==
                               FrequencyTypeEnum.daily &&
                           repetitionNumber <=
-                              getCurrentRepetitionNumber(groupChallenge) &&
-                          startDate != null
-                      ? startDate!
+                              getCurrentRepetitionNumber(groupChallenge,
+                                  now: now) &&
+                          getStartDate(groupChallenge) != null
+                      ? getStartDate(groupChallenge)!
                                   .add(Duration(days: repetitionNumber))
                                   .difference(endDate!)
                                   .inMilliseconds <=
                               0
-                          ? startDate!.add(Duration(days: repetitionNumber))
+                          ? getStartDate(groupChallenge)!
+                              .add(Duration(days: repetitionNumber))
                           : endDate
                       : null,
               repetitionNumber: repetitionNumber,
               goalAmount:
                   getCalculatedRepetitionGoal(repetitionNumber, groupChallenge),
-              repetitionStatus:
-                  repetitionNumber < getCurrentRepetitionNumber(groupChallenge)
-                      ? RepetitionStatusEnum.failed
-                      : isInProgress() &&
-                              repetitionNumber ==
-                                  getCurrentRepetitionNumber(groupChallenge)
-                          ? RepetitionStatusEnum.inProgress
-                          : RepetitionStatusEnum.backlog));
+              repetitionStatus: repetitionNumber <
+                      getCurrentRepetitionNumber(groupChallenge, now: now)
+                  ? RepetitionStatusEnum.failed
+                  : isInProgress() &&
+                          repetitionNumber ==
+                              getCurrentRepetitionNumber(groupChallenge, now: now)
+                      ? RepetitionStatusEnum.inProgress
+                      : RepetitionStatusEnum.backlog));
     }
 
     repetitions = allRepetitions;
     return allRepetitions;
   }
 
-  RepetitionModel? getLastRepetition(GroupChallengeModel groupChallenge) {
-    if (getAllRepetitions(groupChallenge).isEmpty) {
+  RepetitionModel? getLastRepetition(GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
+    if (getAllRepetitions(groupChallenge, now: now).isEmpty) {
       return null;
     }
-    return getAllRepetitions(groupChallenge).last;
+    return getAllRepetitions(groupChallenge, now: now).last;
   }
 
-  RepetitionModel? getCurrentRepetition(GroupChallengeModel groupChallenge) {
-    if (getCurrentRepetitionNumber(groupChallenge) == 0) {
+  RepetitionModel? getCurrentRepetition(GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
+    if (getCurrentRepetitionNumber(groupChallenge, now: now) == 0) {
       return null;
     }
-    RepetitionModel currentRepetition = getAllRepetitions(groupChallenge)
-        .firstWhere((repetition) =>
+    RepetitionModel currentRepetition =
+        getAllRepetitions(groupChallenge, now: now).firstWhere((repetition) =>
             repetition.repetitionNumber ==
-            getCurrentRepetitionNumber(groupChallenge));
+            getCurrentRepetitionNumber(groupChallenge, now: now));
     return currentRepetition;
   }
 
   double getCurrentRepetitionProgressAbsolute(
-      GroupChallengeModel groupChallenge) {
-    var currentRepetition = getCurrentRepetition(groupChallenge);
+      GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
+    var currentRepetition = getCurrentRepetition(groupChallenge, now: now);
 
     if (currentRepetition == null) {
       return 0;
@@ -194,8 +208,10 @@ class AttemptModel {
   }
 
   double getCurrentRepetitionProgressPercentage(
-      GroupChallengeModel groupChallenge) {
-    var currentRepetition = getCurrentRepetition(groupChallenge);
+      GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
+    var currentRepetition = getCurrentRepetition(groupChallenge, now: now);
     if (currentRepetition == null) {
       return 0;
     }
@@ -203,8 +219,10 @@ class AttemptModel {
     return currentRepetition.getLastProgressPercentage(groupChallenge, this);
   }
 
-  addRepetition(GroupChallengeModel groupChallenge) {
-    RepetitionModel? lastRepetition = getLastRepetition(groupChallenge);
+  addRepetition(GroupChallengeModel groupChallenge, {DateTime? now}) {
+    now ??= DateTime.now();
+    RepetitionModel? lastRepetition =
+        getLastRepetition(groupChallenge, now: now);
     if (lastRepetition == null ||
         getFrequency(groupChallenge).amount == null ||
         lastRepetition.repetitionNumber <
@@ -220,21 +238,24 @@ class AttemptModel {
     }
   }
 
-  void endRepetition(groupChallenge) {
-    if (canEndRepetition(groupChallenge)) {
-      RepetitionModel? currentRepetition = getCurrentRepetition(groupChallenge);
-      currentRepetition?.end();
-      currentRepetition?.evaluateRepetitionStatus();
-      addRepetition(groupChallenge);
+  void endRepetition(groupChallenge, DateTime now) {
+    if (canEndRepetition(groupChallenge, now)) {
+      RepetitionModel? currentRepetition =
+          getCurrentRepetition(groupChallenge, now: now);
+      currentRepetition?.end(now);
+      currentRepetition?.evaluateRepetitionStatus(now: now);
+      addRepetition(groupChallenge, now: now);
     }
   }
 
-  bool isCompleted(GroupChallengeModel groupChallenge) {
+  bool isCompleted(GroupChallengeModel groupChallenge, {DateTime? now}) {
+    now ??= DateTime.now();
     if (getFrequency(groupChallenge).amount != null &&
-            getCurrentRepetitionNumber(groupChallenge) <
+            getCurrentRepetitionNumber(groupChallenge, now: now) <
                 getFrequency(groupChallenge).getMaxAmountOfRepetitions()! ||
         getFrequency(groupChallenge).amount != null &&
-            repetitions.length < getCurrentRepetitionNumber(groupChallenge)) {
+            repetitions.length <
+                getCurrentRepetitionNumber(groupChallenge, now: now)) {
       return false;
     }
 
@@ -258,14 +279,17 @@ class AttemptModel {
     return status == ChallengeStatusEnum.backlog;
   }
 
-  ChallengeStatusEnum checkStatus(GroupChallengeModel groupChallenge) {
-    if (isCompleted(groupChallenge) &&
+  ChallengeStatusEnum checkStatus(GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
+    if (isCompleted(groupChallenge, now: now) &&
         endDate != null &&
-        endDate!.isBefore(DateTime.now())) {
+        endDate!.isBefore(now)) {
       status = ChallengeStatusEnum.success;
-    } else if (endDate != null && endDate!.isBefore(DateTime.now())) {
+    } else if (endDate != null && endDate!.isBefore(now)) {
       status = ChallengeStatusEnum.failed;
-    } else if (startDate == null || DateTime.now().isBefore(startDate!)) {
+    } else if (getStartDate(groupChallenge) == null ||
+        now.isBefore(getStartDate(groupChallenge)!)) {
       status = ChallengeStatusEnum.backlog;
     } else {
       status = ChallengeStatusEnum.inProgress;
@@ -274,25 +298,32 @@ class AttemptModel {
   }
 
   // TODO: refactor this function
-  int getCurrentRepetitionNumber(GroupChallengeModel groupChallenge) {
+  int getCurrentRepetitionNumber(GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now ??= DateTime.now();
     if (getFrequency(groupChallenge).type == FrequencyTypeEnum.daily) {
-      if (startDate == null) {
+      if (getStartDate(groupChallenge) == null) {
         return 0;
-      } else if (DateTime.now().isBefore(startDate!)) {
+      } else if (now.isBefore(getStartDate(groupChallenge)!)) {
         return 0;
       }
 
-      if (endDate != null && endDate!.isBefore(DateTime.now())) {
-        var days = endDate!.difference(startDate!).inDays +
-            (endDate!.difference(startDate!).inSeconds -
-                        endDate!.difference(startDate!).inDays * 24 * 60 * 60 >
+      if (endDate != null && endDate!.isBefore(now)) {
+        var days = endDate!.difference(getStartDate(groupChallenge)!).inDays +
+            (endDate!.difference(getStartDate(groupChallenge)!).inSeconds -
+                        endDate!
+                                .difference(getStartDate(groupChallenge)!)
+                                .inDays *
+                            24 *
+                            60 *
+                            60 >
                     0
                 ? 1
                 : 0);
         return days;
       }
 
-      var days = DateTime.now().difference(startDate!).inDays + 1;
+      var days = now.difference(getStartDate(groupChallenge)!).inDays + 1;
       if (getFrequency(groupChallenge).amount == null) {
         return days;
       }
@@ -302,8 +333,9 @@ class AttemptModel {
         return 0;
       }
       return repetitions.isEmpty &&
-              startDate != null &&
-              startDate!.isBefore(DateTime.now())
+              getStartDate(groupChallenge) != null &&
+              (getStartDate(groupChallenge)!.isBefore(now) ||
+                  getStartDate(groupChallenge)!.isAtSameMomentAs(now))
           ? 1
           : repetitions.length;
     } else {
@@ -311,8 +343,8 @@ class AttemptModel {
     }
   }
 
-  void start(GroupChallengeModel groupChallenge) {
-    startDate = DateTime.now();
+  void start(GroupChallengeModel groupChallenge, DateTime now) {
+    startDate = now;
     if (endDate == null || getFrequency(groupChallenge).amount != null) {
       setEndDate(groupChallenge);
     } else {
@@ -322,17 +354,17 @@ class AttemptModel {
       return;
     }
     status = ChallengeStatusEnum.inProgress;
-    RepetitionModel currentRepetition = getCurrentRepetition(
-        groupChallenge)!; // not null because start date is set above
-    currentRepetition.start();
+    RepetitionModel currentRepetition = getCurrentRepetition(groupChallenge,
+        now: now)!; // not null because start date is set above
+    currentRepetition.start(now);
   }
 
   setEndDate(GroupChallengeModel groupChallenge) {
-    if (startDate != null &&
+    if (getStartDate(groupChallenge) != null &&
         getFrequency(groupChallenge).type == FrequencyTypeEnum.daily &&
         getFrequency(groupChallenge).amount != null) {
-      endDate =
-          startDate!.add(Duration(days: getFrequency(groupChallenge).amount!));
+      endDate = getStartDate(groupChallenge)!
+          .add(Duration(days: getFrequency(groupChallenge).amount!));
     } else if (getFrequency(groupChallenge).type == FrequencyTypeEnum.daily &&
         getFrequency(groupChallenge).amount == null) {
       endDate = null;
@@ -340,14 +372,19 @@ class AttemptModel {
   }
 
   setFrequencyAmount(GroupChallengeModel groupChallenge) {
-    if (startDate == null && endDate == null) return;
+    if (getStartDate(groupChallenge) == null && endDate == null) return;
 
-    if (startDate != null &&
+    if (getStartDate(groupChallenge) != null &&
         endDate != null &&
         getFrequency(groupChallenge).type == FrequencyTypeEnum.daily) {
-      int amount = endDate!.difference(startDate!).inDays +
-          (endDate!.difference(startDate!).inSeconds -
-                      endDate!.difference(startDate!).inDays * 24 * 60 * 60 >
+      int amount = endDate!.difference(getStartDate(groupChallenge)!).inDays +
+          (endDate!.difference(getStartDate(groupChallenge)!).inSeconds -
+                      endDate!
+                              .difference(getStartDate(groupChallenge)!)
+                              .inDays *
+                          24 *
+                          60 *
+                          60 >
                   0
               ? 1
               : 0); // if there is not a whole day difference, add one day
@@ -360,16 +397,17 @@ class AttemptModel {
     }
   }
 
-  end(GroupChallengeModel groupChallenge) {
+  end(GroupChallengeModel groupChallenge, DateTime now) {
     if (isInProgress()) {
-      endDate = DateTime.now();
+      endDate = now;
       acceptanceCriteria.amount = getAcceptanceCriteria(groupChallenge).amount;
 
-      if (getCurrentRepetition(groupChallenge)?.isInProgress() ?? false) {
-        getCurrentRepetition(groupChallenge)!.end();
+      if (getCurrentRepetition(groupChallenge, now: now)?.isInProgress() ??
+          false) {
+        getCurrentRepetition(groupChallenge, now: now)!.end(now);
       }
 
-      if (isCompleted(groupChallenge)) {
+      if (isCompleted(groupChallenge, now: now)) {
         status = ChallengeStatusEnum.success;
       } else {
         status = ChallengeStatusEnum.failed;
@@ -381,8 +419,10 @@ class AttemptModel {
     return status == ChallengeStatusEnum.inProgress;
   }
 
-  double getCurrentPercentage(GroupChallengeModel groupChallenge) {
-    if (getCurrentRepetitionNumber(groupChallenge) == 0) {
+  double getCurrentPercentage(GroupChallengeModel groupChallenge,
+      {DateTime? now}) {
+    now = now ?? DateTime.now();
+    if (getCurrentRepetitionNumber(groupChallenge, now: now) == 0) {
       return 0;
     }
 
@@ -396,7 +436,7 @@ class AttemptModel {
     }
 
     if (getFrequency(groupChallenge).amount == null) {
-      return percentage / getCurrentRepetitionNumber(groupChallenge);
+      return percentage / getCurrentRepetitionNumber(groupChallenge, now: now);
     }
 
     double currentPercentage =
@@ -404,19 +444,24 @@ class AttemptModel {
     return currentPercentage;
   }
 
-  bool canEndRepetition(GroupChallengeModel groupChallenge) {
+  bool canEndRepetition(GroupChallengeModel groupChallenge, DateTime now) {
     return getFrequency(groupChallenge).type == FrequencyTypeEnum.time &&
-        (getCurrentRepetition(groupChallenge)?.isInProgress() ?? false) &&
-        getCurrentRepetition(groupChallenge)!.progressList.isNotEmpty &&
-        getCurrentRepetitionNumber(groupChallenge) !=
+        (getCurrentRepetition(groupChallenge, now: now)?.isInProgress() ??
+            false) &&
+        getCurrentRepetition(groupChallenge, now: now)!
+            .progressList
+            .isNotEmpty &&
+        getCurrentRepetitionNumber(groupChallenge, now: now) !=
             getFrequency(groupChallenge).getMaxAmountOfRepetitions();
   }
 
-  String endsIn(GroupChallengeModel groupChallenge) {
+  String endsIn(GroupChallengeModel groupChallenge, {DateTime? now}) {
+    now ??= DateTime.now();
     if (getFrequency(groupChallenge).type == FrequencyTypeEnum.daily) {
-      RepetitionModel? currentRepetition = getCurrentRepetition(groupChallenge);
+      RepetitionModel? currentRepetition =
+          getCurrentRepetition(groupChallenge, now: now);
       Duration difference = currentRepetition?.endDate != null
-          ? currentRepetition!.endDate!.difference(DateTime.now())
+          ? currentRepetition!.endDate!.difference(now)
           : Duration.zero;
       if (difference.inHours <= 0) {
         return '${difference.inMinutes} min';
@@ -452,6 +497,24 @@ class AttemptModel {
         : groupChallenge.frequency;
   }
 
+  DateTime? getEndDate(GroupChallengeModel groupChallenge) {
+    if (groupChallenge.endDate == null || endDate == null) {
+      return groupChallenge.endDate ?? endDate;
+    }
+    return groupChallenge.endDate!.isBefore(endDate!)
+        ? groupChallenge.endDate
+        : endDate;
+  }
+
+  DateTime? getStartDate(GroupChallengeModel groupChallenge) {
+    if (groupChallenge.startDate == null || startDate == null) {
+      return groupChallenge.startDate ?? startDate;
+    }
+    return groupChallenge.startDate!.isAfter(startDate!)
+        ? groupChallenge.startDate
+        : startDate;
+  }
+
   void setGoals(double goal) {
     acceptanceCriteria.amount = goal;
     for (RepetitionModel repetition in repetitions) {
@@ -468,7 +531,11 @@ class AttemptModel {
     return List<AttemptModel>.from(attempts.map((attempt) => attempt.copy()));
   }
 
-  copy({bool isTryAgain = false}) {
+  copy({bool isTryAgain = false, DateTime? now}) {
+    if (isTryAgain && now == null) {
+      throw Exception('now must be set when isTryAgain is true');
+    }
+
     return AttemptModel(
       number: isTryAgain ? number + 1 : number,
       startDate: isTryAgain ? null : startDate,
@@ -478,7 +545,7 @@ class AttemptModel {
       frequency: frequency.copy(),
       media: isTryAgain ? [] : MediaModel.copyList(media),
       repetitions: isTryAgain ? [] : RepetitionModel.copyList(repetitions),
-      createdAt: isTryAgain ? DateTime.now() : createdAt,
+      createdAt: isTryAgain ? now! : createdAt,
     );
   }
 }

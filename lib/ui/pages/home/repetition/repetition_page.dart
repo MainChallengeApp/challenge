@@ -137,7 +137,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
             progress: progress,
             attempt: widget.attempt,
             groupChallenge: widget.groupChallenge,
-            unit: widget.attempt.acceptanceCriteria.unit,
+            unit: widget.attempt
+                .getAcceptanceCriteria(widget.groupChallenge)
+                .unit,
           )));
     }
     return progressListItems;

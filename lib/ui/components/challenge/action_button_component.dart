@@ -118,12 +118,16 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
     }
 
     if (widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge) ==
-        widget.attempt.frequency.getMaxAmountOfRepetitions()) {
+        widget.attempt
+            .getFrequency(widget.groupChallenge)
+            .getMaxAmountOfRepetitions()) {
       return false;
     }
 
-    if (widget.attempt.frequency.type == FrequencyTypeEnum.daily ||
-        widget.attempt.frequency.type == FrequencyTypeEnum.weekday) {
+    if (widget.attempt.getFrequency(widget.groupChallenge).type ==
+            FrequencyTypeEnum.daily ||
+        widget.attempt.getFrequency(widget.groupChallenge).type ==
+            FrequencyTypeEnum.weekday) {
       return false;
     }
 

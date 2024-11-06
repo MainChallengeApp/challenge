@@ -11,6 +11,7 @@ import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -137,7 +138,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                     ? widget.repetition!.repetitionStatus ==
                         RepetitionStatusEnum.failed
                     : false,
-                unit: widget.attempt.acceptanceCriteria.unit,
+                unit: widget.attempt
+                    .getAcceptanceCriteria(widget.groupChallenge)
+                    .unit,
               ));
             }
 
@@ -280,26 +283,30 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   void onTapSave() async {
+    DateTime now = await TimeService.now();
     if (widget.isSaveInsteadOfEditButtonVisible) {
       if (widget.attempt.isInBacklog() && editProgress.progress > 0) {
-        widget.attempt.start(widget.groupChallenge);
+        widget.attempt.start(widget.groupChallenge, now);
         widget.repetition =
             widget.attempt.getLastRepetition(widget.groupChallenge);
       } else if (widget.attempt.isInProgress() &&
           widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
           widget.attempt
-              .getCurrentRepetition(widget.groupChallenge)!
+              .getCurrentRepetition(widget.groupChallenge, now: now)!
               .isInBacklog() &&
           editProgress.progress > 0) {
-        widget.attempt.getCurrentRepetition(widget.groupChallenge)!.start();
-        widget.repetition =
-            widget.attempt.getCurrentRepetition(widget.groupChallenge);
+        widget.attempt
+            .getCurrentRepetition(widget.groupChallenge, now: now)!
+            .start(now);
+        widget.repetition = widget.attempt
+            .getCurrentRepetition(widget.groupChallenge, now: now);
       }
 
-      widget.repetition ??= widget.attempt.addRepetition(widget.groupChallenge);
+      widget.repetition ??=
+          widget.attempt.addRepetition(widget.groupChallenge, now: now);
 
       if (widget.progress == null) {
-        widget.repetition!.addProgress(progress: editProgress);
+        widget.repetition!.addProgress(progress: editProgress, now: now);
       } else {
         widget.progress!.updateProgress(editProgress);
       }

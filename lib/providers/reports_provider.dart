@@ -1,6 +1,7 @@
 import 'package:challenge/collections/reports_collection.dart';
 import 'package:challenge/models/report_model.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:flutter/material.dart';
 
 class ReportsProvider with ChangeNotifier {
@@ -12,6 +13,7 @@ class ReportsProvider with ChangeNotifier {
       userId: authService.getCurrentUserId(),
       reportedUserId: userId,
       reason: reason,
+      createdAt: await TimeService.now(),
     );
     await reportsCollection.create(report);
   }

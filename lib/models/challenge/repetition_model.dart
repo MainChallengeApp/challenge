@@ -57,25 +57,24 @@ class RepetitionModel {
         startDate == null;
   }
 
-  void start() {
-    startDate = DateTime.now();
+  void start(DateTime now) {
+    startDate = now;
     repetitionStatus = RepetitionStatusEnum.inProgress;
   }
 
-  void end() {
-    endDate = DateTime.now();
+  void end(DateTime now) {
+    endDate = now;
     repetitionStatus = isComplete()
         ? RepetitionStatusEnum.success
         : RepetitionStatusEnum.failed;
   }
 
-  evaluateRepetitionStatus() {
-    if (isComplete() && endDate != null && endDate!.isBefore(DateTime.now())) {
+  evaluateRepetitionStatus({DateTime? now}) {
+    now ??= DateTime.now();
+    if (isComplete() && endDate != null && endDate!.isBefore(now)) {
       repetitionStatus = RepetitionStatusEnum.success;
       return repetitionStatus;
-    } else if (!isComplete() &&
-        endDate != null &&
-        endDate!.isBefore(DateTime.now())) {
+    } else if (!isComplete() && endDate != null && endDate!.isBefore(now)) {
       repetitionStatus = RepetitionStatusEnum.failed;
       return repetitionStatus;
     }
@@ -111,12 +110,15 @@ class RepetitionModel {
   }
 
   ProgressModel addProgress(
-      {ProgressModel? progress, mediaIds = const <String>[]}) {
+      {ProgressModel? progress,
+      mediaIds = const <String>[],
+      required DateTime now}) {
     if (progress == null) {
       ProgressModel emptyProgress = ProgressModel.empty(
           repetitionNumber: repetitionNumber,
           goal: goalAmount,
-          mediaIds: mediaIds);
+          mediaIds: mediaIds,
+          date: now);
       progressList.add(emptyProgress);
       return emptyProgress;
     }
