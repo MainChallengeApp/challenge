@@ -448,7 +448,7 @@ class AttemptModel {
     return groupChallenge.groupChallengeOptions.isProgressIndividuell ||
             status == ChallengeStatusEnum.failed ||
             status == ChallengeStatusEnum.success
-        ? getFrequency(groupChallenge)
+        ? frequency
         : groupChallenge.frequency;
   }
 
