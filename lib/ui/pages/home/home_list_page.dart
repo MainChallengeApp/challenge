@@ -2,7 +2,6 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
@@ -41,20 +40,10 @@ class _HomeListPageState extends State<HomeListPage> {
 
   String searchBarText = '';
 
-  DateTime now = DateTime.now();
-
   @override
   void initState() {
     super.initState();
     groupChallengesProvider.getAllOfUser();
-
-    TimeService.now().then((value) {
-      if (mounted) {
-        setState(() {
-          now = value;
-        });
-      }
-    });
   }
 
   @override
@@ -102,7 +91,7 @@ class _HomeListPageState extends State<HomeListPage> {
                     GroupChallengeModel groupChallenge = _filteredChallenges[
                         index - 1]; // -1 for new Challenge listItem
 
-                    groupChallenge.checkStatus(now: now);
+                    groupChallenge.checkStatus();
                     return SpaceColumnComponent(
                       child: ListItemChallengeSmallComponent(
                         onTap: () => onTapChallenge(context,
@@ -131,9 +120,7 @@ class _HomeListPageState extends State<HomeListPage> {
         .where((element) => element.searchInChallenge(searchBarText))
         .toList();
     _filteredChallenges = GroupChallengeModel.sortChallengeList(
-        groupChallenges: _filteredChallenges,
-        userId: _usersProvider.user.id,
-        now: now);
+        groupChallenges: _filteredChallenges, userId: _usersProvider.user.id);
   }
 
   SpaceColumnComponent newChallenge() {

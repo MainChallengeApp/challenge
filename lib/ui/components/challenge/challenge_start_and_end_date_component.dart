@@ -25,20 +25,6 @@ class ChallengeStartAndEndDateComponent extends StatefulWidget {
 
 class _ChallengeStartAndEndDateComponentState
     extends State<ChallengeStartAndEndDateComponent> {
-  DateTime now = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    TimeService.now().then((value) {
-      if (mounted) {
-        setState(() {
-          now = value;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -110,7 +96,8 @@ class _ChallengeStartAndEndDateComponentState
             if (startOrEnd == 'start') {
               setState(() {
                 if (!isDateTimeChanged) {
-                  widget.editChallenge.startDate = initialDateTime ?? now;
+                  widget.editChallenge.startDate =
+                      initialDateTime ?? TimeService.now();
                   if (widget.editChallenge.endDate == null) {
                     widget.editChallenge.setEndDate();
                   }
@@ -122,7 +109,7 @@ class _ChallengeStartAndEndDateComponentState
               setState(() {
                 if (!isDateTimeChanged) {
                   widget.editChallenge.endDate = initialDateTime ??
-                      UtilService.dateWithoutTime(now).add(
+                      UtilService.dateWithoutTime(TimeService.now()).add(
                           const Duration(hours: 23, minutes: 59, seconds: 59));
                   widget.editChallenge.setFrequencyAmount();
                   widget.reloadSearchChallengePage?.call();
@@ -150,7 +137,7 @@ class _ChallengeStartAndEndDateComponentState
                       ? widget.editChallenge.startDate
                       : null
                   : null,
-              initialDateTime: initialDateTime ?? now,
+              initialDateTime: initialDateTime ?? TimeService.now(),
               mode: CupertinoDatePickerMode.dateAndTime,
               use24hFormat: true,
               onDateTimeChanged: (value) {

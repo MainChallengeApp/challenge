@@ -5,7 +5,6 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
-import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -55,26 +54,12 @@ class _ListItemRepetitionExpandedComponentState
 
   late BuildContext pageContext;
 
-  DateTime now = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    TimeService.now().then((value) {
-      if (mounted) {
-        setState(() {
-          now = value;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     listeningGroupChallengesProvider.groupChallenges;
 
     pageContext = context;
-    widget.repetition.evaluateRepetitionStatus(now: now);
+    widget.repetition.evaluateRepetitionStatus();
     return Stack(
       children: [
         ListItemFractionComponent(
@@ -172,11 +157,12 @@ class _ListItemRepetitionExpandedComponentState
 
   onTapNext(AttemptModel attempt) async {
     setState(() async {
-      DateTime now = await TimeService.now();
-      attempt.endRepetition(widget.groupChallenge, now);
+      attempt.endRepetition(widget.groupChallenge);
       widget.onTapNextRepetition.call(
         attempt
-            .getLastRepetition(widget.groupChallenge, now: now)!
+            .getLastRepetition(
+              widget.groupChallenge,
+            )!
             .repetitionNumber,
       );
     });

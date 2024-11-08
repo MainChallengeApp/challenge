@@ -5,7 +5,6 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
@@ -249,9 +248,8 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapEnd(AttemptModel attempt) async {
-    DateTime now = await TimeService.now();
-    if (attempt.canEndRepetition(widget.groupChallenge, now)) {
-      attempt.endRepetition(widget.groupChallenge, now);
+    if (attempt.canEndRepetition(widget.groupChallenge)) {
+      attempt.endRepetition(widget.groupChallenge);
       await _groupChallengesProvider.updateAttempt(
           widget.groupChallenge, _participant, attempt);
       return;
@@ -268,7 +266,7 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapAgain() async {
-    _participant.addAttempt(widget.groupChallenge, await TimeService.now());
+    _participant.addAttempt(widget.groupChallenge);
     await _groupChallengesProvider.updateParticipant(
         widget.groupChallenge, _participant);
   }
@@ -291,7 +289,7 @@ class _GroupChallengeCardComponentState
   // }
 
   void _onTapNext(AttemptModel attempt) async {
-    attempt.endRepetition(widget.groupChallenge, await TimeService.now());
+    attempt.endRepetition(widget.groupChallenge);
     _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, _participant, attempt);
   }
@@ -354,13 +352,9 @@ class _GroupChallengeCardComponentState
   }
 
   void _onTapNewProgress() async {
-    if (_latestAttempt.getCurrentRepetition(widget.groupChallenge,
-            now: await TimeService.now()) ==
-        null) {
+    if (_latestAttempt.getCurrentRepetition(widget.groupChallenge) == null) {
       return;
     }
-
-    DateTime now = await TimeService.now();
 
     Navigator.push(
       // ignore: use_build_context_synchronously
@@ -368,8 +362,8 @@ class _GroupChallengeCardComponentState
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
           preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-          repetition: _latestAttempt.getCurrentRepetition(widget.groupChallenge,
-              now: now)!,
+          repetition:
+              _latestAttempt.getCurrentRepetition(widget.groupChallenge)!,
           attempt: _latestAttempt,
           groupChallenge: widget.groupChallenge,
           participant: _participant,

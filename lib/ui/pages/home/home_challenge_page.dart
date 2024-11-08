@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/cards/group_challenge_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
@@ -44,20 +43,6 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   List<GroupChallengeModel> _filteredChallenges = [];
 
-  DateTime now = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    TimeService.now().then((value) {
-      if (mounted) {
-        setState(() {
-          now = value;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     _mergeAndSortChallenges();
@@ -78,7 +63,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           scrollDirection: Axis.vertical,
           physics: const AlwaysScrollableScrollPhysics(),
           children: _filteredChallenges.map((challenge) {
-            challenge.checkStatus(now: now);
+            challenge.checkStatus();
             return GroupChallengeCardComponent(
                 groupChallenge: challenge, preTitle: widget.preTitle);
           }).toList()),
@@ -100,9 +85,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
         .where((element) => element.searchInChallenge(widget.filterOptions))
         .toList();
     _filteredChallenges = GroupChallengeModel.sortChallengeList(
-        groupChallenges: _filteredChallenges,
-        userId: _usersProvider.user.id,
-        now: now);
+        groupChallenges: _filteredChallenges, userId: _usersProvider.user.id);
   }
 
   void _onPageChanged(int value) {

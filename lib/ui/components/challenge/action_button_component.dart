@@ -2,7 +2,6 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:flutter/material.dart';
 
@@ -34,20 +33,6 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
 
   bool _loading = false;
 
-  DateTime now = DateTime.now();
-
-  @override
-  void initState() {
-    super.initState();
-    TimeService.now().then((value) {
-      if (mounted) {
-        setState(() {
-          now = value;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_shouldShowStartButton()) {
@@ -66,23 +51,22 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowStartButton() {
+    widget.attempt.checkStatus(widget.groupChallenge);
     if (widget.attempt.isInBacklog()) {
       return true;
     }
-    if (widget.attempt.getCurrentRepetition(widget.groupChallenge, now: now) ==
-            null &&
+    if (widget.attempt.getCurrentRepetition(widget.groupChallenge) == null &&
         widget.attempt.isInProgress()) {
       return true;
-    } else {
-      widget.attempt
-          .getCurrentRepetition(widget.groupChallenge, now: now)
-          ?.evaluateRepetitionStatus(now: now);
-      return (widget.attempt
-                  .getCurrentRepetition(widget.groupChallenge, now: now)
-                  ?.isInBacklog() ??
-              false) &&
-          frequency.type == FrequencyTypeEnum.time;
     }
+    widget.attempt
+        .getCurrentRepetition(widget.groupChallenge)
+        ?.evaluateRepetitionStatus();
+    return (widget.attempt
+                .getCurrentRepetition(widget.groupChallenge)
+                ?.isInBacklog() ??
+            false) &&
+        frequency.type == FrequencyTypeEnum.time;
   }
 
   Widget _buildStartButton() {
@@ -133,8 +117,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       return false;
     }
 
-    if (widget.attempt
-            .getCurrentRepetitionNumber(widget.groupChallenge, now: now) ==
+    if (widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge) ==
         widget.attempt
             .getFrequency(widget.groupChallenge)
             .getMaxAmountOfRepetitions()) {
@@ -149,7 +132,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
     }
 
     return widget.attempt
-            .getCurrentRepetition(widget.groupChallenge, now: now)
+            .getCurrentRepetition(widget.groupChallenge)
             ?.progressList
             .isNotEmpty ??
         false;
@@ -173,13 +156,13 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
         }
       },
       isPrimaryButton: (widget.attempt
-                  .getCurrentRepetition(widget.groupChallenge, now: now)
+                  .getCurrentRepetition(widget.groupChallenge)
                   ?.isComplete() ??
               false) &&
           frequency.type == FrequencyTypeEnum.time,
       text: frequency.type == FrequencyTypeEnum.time
           ? 'Next'
-          : 'Next in ${widget.attempt.endsIn(widget.groupChallenge, now: now)}',
+          : 'Next in ${widget.attempt.endsIn(widget.groupChallenge)}',
       isLoading: _loading,
     );
   }
@@ -203,21 +186,18 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       text: 'End',
       subText: frequency.type == FrequencyTypeEnum.daily &&
               (frequency.amount == null ||
-                  widget.attempt.getCurrentRepetitionNumber(
-                          widget.groupChallenge,
-                          now: now) <
+                  widget.attempt
+                          .getCurrentRepetitionNumber(widget.groupChallenge) <
                       frequency.getMaxAmountOfRepetitions()!)
-          ? 'Next in ${widget.attempt.endsIn(widget.groupChallenge, now: now)}'
+          ? 'Next in ${widget.attempt.endsIn(widget.groupChallenge)}'
           : frequency.type != FrequencyTypeEnum.time &&
-                  widget.attempt.getCurrentRepetitionNumber(
-                          widget.groupChallenge,
-                          now: now) ==
+                  widget.attempt
+                          .getCurrentRepetitionNumber(widget.groupChallenge) ==
                       frequency.getMaxAmountOfRepetitions()
-              ? 'Ends in ${widget.attempt.endsIn(widget.groupChallenge, now: now)}'
+              ? 'Ends in ${widget.attempt.endsIn(widget.groupChallenge)}'
               : null,
       isPrimaryButton: widget.attempt.getCurrentRepetitionProgressPercentage(
-                  widget.groupChallenge,
-                  now: now) >=
+                  widget.groupChallenge) >=
               1 &&
           frequency.type == FrequencyTypeEnum.time,
       padding: const EdgeInsets.all(5),

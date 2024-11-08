@@ -21,14 +21,10 @@ class ParticipantModel {
   });
 
   static ParticipantModel fromChallengeModel(
-      {required ChallengeModel challenge,
-      required String userId,
-      required DateTime now}) {
+      {required ChallengeModel challenge, required String userId}) {
     return ParticipantModel(
       userId: userId,
-      attempts: [
-        AttemptModel.fromChallengeModel(challenge: challenge, now: now)
-      ],
+      attempts: [AttemptModel.fromChallengeModel(challenge: challenge)],
     );
   }
 
@@ -70,7 +66,7 @@ class ParticipantModel {
     return participants.map((participant) => participant.copy()).toList();
   }
 
-  void addAttempt(GroupChallengeModel groupChallenge, DateTime now) {
+  void addAttempt(GroupChallengeModel groupChallenge) {
     AttemptModel lastAttempt = getLatestAttempt();
     attempts.add(AttemptModel(
       number: lastAttempt.number + 1,
@@ -82,7 +78,6 @@ class ParticipantModel {
       frequency: lastAttempt.getFrequency(groupChallenge).copy(),
       media: [],
       repetitions: [],
-      createdAt: now,
     ));
   }
 }

@@ -42,7 +42,6 @@ class GroupChallengeModel extends ChallengeModel {
     required this.userId,
     required List<UserModel> participantUsers,
     required this.groupChallengeOptions,
-    required DateTime now,
   }) : super(
           id: challenge.id,
           status: challenge.status,
@@ -56,11 +55,10 @@ class GroupChallengeModel extends ChallengeModel {
           frequency: challenge.frequency,
           media: challenge.media,
           categories: challenge.categories,
-          createdAt: now,
         ) {
     participants = participantUsers
         .map((participantUser) => ParticipantModel.fromChallengeModel(
-            challenge: challenge, userId: participantUser.id, now: now))
+            challenge: challenge, userId: participantUser.id))
         .toList();
   }
 
@@ -143,23 +141,19 @@ class GroupChallengeModel extends ChallengeModel {
     acceptanceCriteria.amount = amount;
   }
 
-  checkStatus({DateTime? now}) {
-    now ??= DateTime.now();
+  checkStatus() {
     for (var participant in participants) {
       for (var attempt in participant.attempts) {
-        attempt.checkStatus(this, now: now);
+        attempt.checkStatus(this);
       }
     }
   }
 
   static List<GroupChallengeModel> sortChallengeList(
       {required List<GroupChallengeModel> groupChallenges,
-      required String userId,
-      DateTime? now}) {
-    now ??= DateTime.now();
-
+      required String userId}) {
     for (var groupChallenge in groupChallenges) {
-      groupChallenge.checkStatus(now: now);
+      groupChallenge.checkStatus();
     }
     groupChallenges.sort((a, b) {
       AttemptModel aAttempt = a.getParticipant(userId).getLatestAttempt();
@@ -189,15 +183,15 @@ class GroupChallengeModel extends ChallengeModel {
 
       // Compare by current percentage
       if (aAttempt
-              .getCurrentPercentage(a, now: now)
-              .compareTo(bAttempt.getCurrentPercentage(b, now: now)) >
+              .getCurrentPercentage(a)
+              .compareTo(bAttempt.getCurrentPercentage(b)) >
           0) {
         return 1;
       }
 
       if (bAttempt
-              .getCurrentPercentage(b, now: now)
-              .compareTo(aAttempt.getCurrentPercentage(a, now: now)) >
+              .getCurrentPercentage(b)
+              .compareTo(aAttempt.getCurrentPercentage(a)) >
           0) {
         return -1;
       }

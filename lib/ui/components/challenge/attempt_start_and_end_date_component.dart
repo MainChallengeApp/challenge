@@ -1,5 +1,6 @@
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
@@ -100,7 +101,8 @@ class _AttemptStartAndEndDateComponentState
             if (startOrEnd == 'start') {
               setState(() async {
                 if (!isDateTimeChanged) {
-                  widget.attempt.startDate = initialDateTime ?? DateTime.now();
+                  widget.attempt.startDate =
+                      initialDateTime ?? TimeService.now();
                   if (widget.attempt.getEndDate(widget.groupChallenge) ==
                       null) {
                     widget.attempt.setEndDate(widget.groupChallenge);
@@ -113,7 +115,7 @@ class _AttemptStartAndEndDateComponentState
               setState(() async {
                 if (!isDateTimeChanged) {
                   widget.attempt.endDate = initialDateTime ??
-                      UtilService.dateWithoutTime(DateTime.now()).add(
+                      UtilService.dateWithoutTime(TimeService.now()).add(
                           const Duration(hours: 23, minutes: 59, seconds: 59));
                   widget.attempt.setFrequencyAmount(widget.groupChallenge);
                   widget.reloadSearchChallengePage?.call();

@@ -2,6 +2,7 @@ import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:challenge/services/time_service.dart';
 
 class RepetitionModel {
   final int repetitionNumber;
@@ -57,20 +58,20 @@ class RepetitionModel {
         startDate == null;
   }
 
-  void start(DateTime now) {
-    startDate = now;
+  void start() {
+    startDate = TimeService.now();
     repetitionStatus = RepetitionStatusEnum.inProgress;
   }
 
-  void end(DateTime now) {
-    endDate = now;
+  void end() {
+    endDate = TimeService.now();
     repetitionStatus = isComplete()
         ? RepetitionStatusEnum.success
         : RepetitionStatusEnum.failed;
   }
 
-  evaluateRepetitionStatus({DateTime? now}) {
-    now ??= DateTime.now();
+  evaluateRepetitionStatus() {
+    DateTime now = TimeService.now();
     if (isComplete() && endDate != null && endDate!.isBefore(now)) {
       repetitionStatus = RepetitionStatusEnum.success;
       return repetitionStatus;
@@ -110,15 +111,12 @@ class RepetitionModel {
   }
 
   ProgressModel addProgress(
-      {ProgressModel? progress,
-      mediaIds = const <String>[],
-      required DateTime now}) {
+      {ProgressModel? progress, mediaIds = const <String>[]}) {
     if (progress == null) {
       ProgressModel emptyProgress = ProgressModel.empty(
           repetitionNumber: repetitionNumber,
           goal: goalAmount,
-          mediaIds: mediaIds,
-          date: now);
+          mediaIds: mediaIds);
       progressList.add(emptyProgress);
       return emptyProgress;
     }

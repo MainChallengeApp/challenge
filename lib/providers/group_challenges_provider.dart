@@ -28,7 +28,6 @@ class GroupChallengesProvider with ChangeNotifier {
       userId: _authService.getCurrentUserId(),
       participantUsers: participantUsers,
       groupChallengeOptions: groupChallengeOptions,
-      now: await TimeService.now(),
     );
     _groupChallenges.insert(0, groupChallenge);
     sortLocalList();
@@ -86,13 +85,13 @@ class GroupChallengesProvider with ChangeNotifier {
 
   Future<void> startAttempt(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
-    attempt.start(groupChallenge, await TimeService.now());
+    attempt.start(groupChallenge);
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
   Future<void> endAttempt(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
-    attempt.end(groupChallenge, await TimeService.now());
+    attempt.end(groupChallenge);
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
@@ -150,7 +149,7 @@ class GroupChallengesProvider with ChangeNotifier {
     _groupChallenges = GroupChallengeModel.sortChallengeList(
         groupChallenges: _groupChallenges,
         userId: _authService.getCurrentUserId(),
-        now: await TimeService.now());
+        now: TimeService.now());
     notifyListeners();
   }
 

@@ -6,6 +6,7 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/backend_service.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/pages/auth/auth_gate_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +46,30 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
+  @override
+  void dispose() {
+    // Remove observer when the widget is disposed
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  // This method gets called on lifecycle state changes
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed) {
+      TimeService.initializeTrustedTime();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     setOrientationToPortraitUp();
+    WidgetsBinding.instance.addObserver(this);
+    TimeService.initializeTrustedTime();
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
@@ -49,21 +50,21 @@ class ChallengeModel {
   DateTime createdAt;
   static const String createdAtField = 'createdAt';
 
-  ChallengeModel({
-    required this.id,
-    required this.status,
-    required this.title,
-    required this.titleLowerCase,
-    required this.description,
-    required this.thumbnail,
-    this.startDate,
-    this.endDate,
-    required this.acceptanceCriteria,
-    required this.frequency,
-    required this.media,
-    this.categories = const [],
-    required this.createdAt,
-  });
+  ChallengeModel(
+      {required this.id,
+      required this.status,
+      required this.title,
+      required this.titleLowerCase,
+      required this.description,
+      required this.thumbnail,
+      this.startDate,
+      this.endDate,
+      required this.acceptanceCriteria,
+      required this.frequency,
+      required this.media,
+      this.categories = const [],
+      DateTime? createdAt})
+      : createdAt = createdAt ?? TimeService.now();
 
   ChallengeModel.empty({
     this.id = '',
@@ -75,7 +76,7 @@ class ChallengeModel {
     this.categories = const [],
     this.thumbnail,
     DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now() {
+  }) : createdAt = createdAt ?? TimeService.now() {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();
     frequency = FrequencyModel.empty();

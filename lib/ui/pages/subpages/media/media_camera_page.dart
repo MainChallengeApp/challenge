@@ -6,6 +6,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -201,7 +202,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             setState(() {
               MediaModel media = MediaModel(
                   type: MediaTypeEnum.video,
-                  title: DateTime.now().toString().split('.')[0],
+                  title: TimeService.now().toString().split('.')[0],
                   source: video.path);
               widget.mediaList.add(media);
 
@@ -232,7 +233,7 @@ class _CameraStateMedia extends State<MediaCameraPage> {
             setState(() {
               MediaModel media = MediaModel(
                   type: MediaTypeEnum.image,
-                  title: DateTime.now().toString().split('.')[0],
+                  title: TimeService.now().toString().split('.')[0],
                   source: image.path);
               widget.mediaList.add(media);
 

@@ -37,6 +37,7 @@
     "migrations",
     "rename",
     "search",
-    "connections"
+    "connections",
+    "time_safety"
   ]
 }

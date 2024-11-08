@@ -8,6 +8,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/storage_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MediaService {
@@ -23,7 +24,7 @@ class MediaService {
 
     MediaModel media = MediaModel(
         type: MediaTypeEnum.image,
-        title: DateTime.now().toString().split('.')[0],
+        title: TimeService.now().toString().split('.')[0],
         source: pickedFile.path);
 
     return media;
