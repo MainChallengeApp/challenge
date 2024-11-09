@@ -13,22 +13,18 @@ class ProgressModel {
   double progress;
   static const String progressField = 'progress';
 
-  double goal;
-  static const String goalField = 'goal';
-
   List<String> mediaIds;
   static const String mediaIdsField = 'mediaIds';
 
-  ProgressModel(
-      {required this.progress,
-      required this.mediaIds,
-      required this.date,
-      required this.repetitionNumber,
-      required this.goal});
+  ProgressModel({
+    required this.progress,
+    required this.mediaIds,
+    required this.date,
+    required this.repetitionNumber,
+  });
 
   ProgressModel.empty(
       {required this.repetitionNumber,
-      required this.goal,
       this.progress = 0,
       this.mediaIds = const [],
       DateTime? date})
@@ -46,27 +42,25 @@ class ProgressModel {
   updateProgress(ProgressModel newProgress) {
     progress = newProgress.progress;
     mediaIds = newProgress.mediaIds;
-    goal = newProgress.goal;
   }
 
   Map<String, dynamic> toDoc() {
     return {
-      dateField: date.toString(),
+      dateField: date,
       progressField: progress,
       mediaIdsField: mediaIds,
       repetitionNumberField: repetitionNumber,
-      goalField: goal
     };
   }
 
   static fromDocs(docs) {
     List<ProgressModel> progressList = [];
     docs.forEach((doc) => progressList.add(ProgressModel(
-        progress: doc[progressField],
-        mediaIds: List.from(doc[mediaIdsField]),
-        date: DateTime.parse(doc[dateField]),
-        repetitionNumber: doc[repetitionNumberField],
-        goal: doc[goalField])));
+          progress: doc[progressField],
+          mediaIds: List.from(doc[mediaIdsField]),
+          date: (doc[dateField] as DateTime),
+          repetitionNumber: doc[repetitionNumberField],
+        )));
     return progressList;
   }
 
@@ -84,19 +78,18 @@ class ProgressModel {
 
   copyProgress() {
     return ProgressModel(
-        date: date,
-        progress: progress,
-        mediaIds: MediaModel.copyMediaIdList(mediaIds),
-        repetitionNumber: repetitionNumber,
-        goal: goal);
+      date: date,
+      progress: progress,
+      mediaIds: MediaModel.copyMediaIdList(mediaIds),
+      repetitionNumber: repetitionNumber,
+    );
   }
 
   static copyOrCreateProgress(ProgressModel? progress, int repetitionNumber,
-      double goal, List<String> mediaIds, double progressProgress) {
+      List<String> mediaIds, double progressProgress) {
     if (progress == null) {
       return ProgressModel.empty(
           repetitionNumber: repetitionNumber,
-          goal: goal,
           mediaIds: mediaIds,
           progress: progressProgress);
     }

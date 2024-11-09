@@ -63,14 +63,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
       max(1, widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)),
-      widget.repetition != null
-          ? widget.repetition!.goalAmount
-          : widget.attempt.getCalculatedRepetitionGoal(
-              max(
-                  1,
-                  widget.attempt
-                      .getCurrentRepetitionNumber(widget.groupChallenge)),
-              widget.groupChallenge),
       mediaList.map((e) => e.id!).toList(),
       widget.repetition != null
           ? (widget.repetition!.getLastProgress() != null

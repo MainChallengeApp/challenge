@@ -27,6 +27,7 @@ class GroupChallengeOptionsModel {
 
   GroupChallengeOptionsModel copy(
       {bool isTryAgain = false, bool withId = false}) {
-    return GroupChallengeOptionsModel(type: type);
+    return GroupChallengeOptionsModel(
+        type: type, isProgressIndividuell: isProgressIndividuell);
   }
 }

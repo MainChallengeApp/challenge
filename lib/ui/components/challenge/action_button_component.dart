@@ -125,9 +125,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
     }
 
     if (widget.attempt.getFrequency(widget.groupChallenge).type ==
-            FrequencyTypeEnum.daily ||
-        widget.attempt.getFrequency(widget.groupChallenge).type ==
-            FrequencyTypeEnum.weekday) {
+        FrequencyTypeEnum.daily) {
       return false;
     }
 

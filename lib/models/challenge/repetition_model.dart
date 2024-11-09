@@ -114,9 +114,7 @@ class RepetitionModel {
       {ProgressModel? progress, mediaIds = const <String>[]}) {
     if (progress == null) {
       ProgressModel emptyProgress = ProgressModel.empty(
-          repetitionNumber: repetitionNumber,
-          goal: goalAmount,
-          mediaIds: mediaIds);
+          repetitionNumber: repetitionNumber, mediaIds: mediaIds);
       progressList.add(emptyProgress);
       return emptyProgress;
     }
@@ -124,7 +122,7 @@ class RepetitionModel {
     return progress;
   }
 
-  toDoc() {
+  Map<String, dynamic> toDoc() {
     return {
       repetitionNumberField: repetitionNumber,
       goalAmountField: goalAmount,
@@ -183,8 +181,5 @@ class RepetitionModel {
 
   void setGoals(double goal) {
     goalAmount = goal;
-    for (var progress in progressList) {
-      progress.goal = goal;
-    }
   }
 }

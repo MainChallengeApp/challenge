@@ -1,86 +1,95 @@
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../services/faker_service.dart';
+
+AcceptanceCriteriaModel mockAcceptanceCriteriaModel({
+  double? amount,
+  String? unit,
+}) {
+  return AcceptanceCriteriaModel(
+      amount: amount ?? FakerService.decimal(),
+      unit: unit ?? FakerService.word());
+}
+
 void main() {
   group('AcceptanceCriteriaModel', () {
     group('empty()', () {
       test('should return an empty acceptance criteria', () {
-        // Arrange
-        AcceptanceCriteriaModel acceptanceCriteria =
-            AcceptanceCriteriaModel(amount: 1.0, unit: '');
-
         // Act
         AcceptanceCriteriaModel emptyAcceptanceCriteria =
             AcceptanceCriteriaModel.empty();
 
         // Assert
-        expect(
-            emptyAcceptanceCriteria.amount, equals(acceptanceCriteria.amount));
-        expect(emptyAcceptanceCriteria.unit, equals(acceptanceCriteria.unit));
+        expect(emptyAcceptanceCriteria.amount, equals(1.0));
+        expect(emptyAcceptanceCriteria.unit, equals(''));
       });
     });
 
-    group('fromJson()', () {
+    group('fromDoc()', () {
       test('should return an acceptance criteria from a json', () {
         // Arrange
-        Map<String, dynamic> json = {'amount': 2.0, 'unit': 'unit'};
-        AcceptanceCriteriaModel acceptanceCriteria =
-            AcceptanceCriteriaModel(amount: 2.0, unit: 'unit');
+        double amount = FakerService.decimal();
+        String unit = FakerService.word();
+        Map<String, dynamic> doc = {'amount': amount, 'unit': unit};
 
         // Act
         AcceptanceCriteriaModel acceptanceCriteriaFromJson =
-            AcceptanceCriteriaModel.fromDoc(json);
+            AcceptanceCriteriaModel.fromDoc(doc);
 
         // Assert
-        expect(acceptanceCriteriaFromJson.amount,
-            equals(acceptanceCriteria.amount));
-        expect(
-            acceptanceCriteriaFromJson.unit, equals(acceptanceCriteria.unit));
-      });
-
-      test('should throw error when passing an invalid json', () {
-        // Arrange
-        Map<String, dynamic> json = {'amount': '2', 'unit': 'unit'};
-
-        // Assert & // Act
-        expect(() => AcceptanceCriteriaModel.fromDoc(json),
-            throwsA(isA<TypeError>()));
+        expect(acceptanceCriteriaFromJson.amount, equals(amount));
+        expect(acceptanceCriteriaFromJson.unit, equals(unit));
       });
     });
 
-    group('toJson()', () {
-      test('should return a json from an acceptance criteria', () {
-        // Arrange
-        AcceptanceCriteriaModel acceptanceCriteria =
-            AcceptanceCriteriaModel(amount: 2.0, unit: 'unit');
-        Map<String, dynamic> expectedJson = {'amount': 2.0, 'unit': 'unit'};
+    test('should throw error when passing an invalid json', () {
+      // Arrange
+      Map<String, dynamic> json = {
+        'amount': FakerService.decimal().toString(),
+        'unit': FakerService.word()
+      };
 
-        // Act
-        Map<String, dynamic> acceptanceCriteriaToJson =
-            acceptanceCriteria.toDoc();
-
-        // Assert
-        expect(acceptanceCriteriaToJson, equals(expectedJson));
-      });
+      // Assert & // Act
+      expect(() => AcceptanceCriteriaModel.fromDoc(json),
+          throwsA(isA<TypeError>()));
     });
+  });
 
-    group('copyAcceptanceCriteriaList()', () {
-      test(
-          'should copy acceptance criteria list when passing an acceptance criteria',
-          () {
-        // Arrange
-        AcceptanceCriteriaModel acceptanceCriteria =
-            AcceptanceCriteriaModel(amount: 2, unit: 'unit');
+  group('toJson()', () {
+    test('should return a json from an acceptance criteria', () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria =
+          mockAcceptanceCriteriaModel();
+      Map<String, dynamic> expectedJson = {
+        'amount': acceptanceCriteria.amount,
+        'unit': acceptanceCriteria.unit
+      };
 
-        // Act
-        AcceptanceCriteriaModel acceptanceCriteriaCopy =
-            acceptanceCriteria.copy();
+      // Act
+      Map<String, dynamic> acceptanceCriteriaToJson =
+          acceptanceCriteria.toDoc();
 
-        // Assert (maybe just override the == operator)
-        expect(
-            acceptanceCriteriaCopy.amount, equals(acceptanceCriteria.amount));
-        expect(acceptanceCriteriaCopy.unit, equals(acceptanceCriteria.unit));
-      });
+      // Assert
+      expect(acceptanceCriteriaToJson, equals(expectedJson));
+    });
+  });
+
+  group('copyAcceptanceCriteriaList()', () {
+    test(
+        'should copy acceptance criteria list when passing an acceptance criteria',
+        () {
+      // Arrange
+      AcceptanceCriteriaModel acceptanceCriteria =
+          mockAcceptanceCriteriaModel();
+
+      // Act
+      AcceptanceCriteriaModel acceptanceCriteriaCopy =
+          acceptanceCriteria.copy();
+
+      // Assert (maybe just override the == operator)
+      expect(acceptanceCriteriaCopy.amount, equals(acceptanceCriteria.amount));
+      expect(acceptanceCriteriaCopy.unit, equals(acceptanceCriteria.unit));
     });
   });
 }

@@ -7,7 +7,6 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
-import 'package:challenge/services/time_service.dart';
 import 'package:flutter/material.dart';
 
 class GroupChallengesProvider with ChangeNotifier {
@@ -148,8 +147,7 @@ class GroupChallengesProvider with ChangeNotifier {
   void sortLocalList() async {
     _groupChallenges = GroupChallengeModel.sortChallengeList(
         groupChallenges: _groupChallenges,
-        userId: _authService.getCurrentUserId(),
-        now: TimeService.now());
+        userId: _authService.getCurrentUserId());
     notifyListeners();
   }
 

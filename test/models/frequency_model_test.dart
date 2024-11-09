@@ -3,29 +3,30 @@ import 'package:challenge/exceptions/frequency_type_is_not_supported_exception.d
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../services/faker_service.dart';
+
+FrequencyModel mockFrequencyModel({int? amount, FrequencyTypeEnum? type}) {
+  return FrequencyModel(
+      amount: amount ?? FakerService.integer(),
+      type: type ?? FakerService.randomObject(FrequencyTypeEnum.values));
+}
+
 void main() {
   group('FrequencyModel', () {
-    FrequencyModel createMockFrequencyModel(
-        {int? amount = 1, FrequencyTypeEnum type = FrequencyTypeEnum.time}) {
-      return FrequencyModel(amount: amount, type: type);
-    }
-
     group('FrequencyModel.empty()', () {
       test('should return a FrequencyModel with amount 1 and type time', () {
-        // Arrange
-        FrequencyModel expectedFrequencyModel = createMockFrequencyModel();
         // Act
         FrequencyModel actualFrequencyModel = FrequencyModel.empty();
         // Assert
-        expect(actualFrequencyModel.amount, expectedFrequencyModel.amount);
-        expect(actualFrequencyModel.type, expectedFrequencyModel.type);
+        expect(actualFrequencyModel.amount, 1);
+        expect(actualFrequencyModel.type, FrequencyTypeEnum.time);
       });
     });
 
     group('getMaxAmountOfRepetitions()', () {
       test('should return amount when type is time', () {
         // Arrange
-        FrequencyModel frequencyModel = createMockFrequencyModel();
+        FrequencyModel frequencyModel = mockFrequencyModel();
         // Act
         int? maxAmountOfRepetitions =
             frequencyModel.getMaxAmountOfRepetitions();
@@ -36,24 +37,12 @@ void main() {
       test('should return amount when type is daily', () {
         // Arrange
         FrequencyModel frequencyModel =
-            createMockFrequencyModel(type: FrequencyTypeEnum.daily);
+            mockFrequencyModel(type: FrequencyTypeEnum.daily);
         // Act
         int? maxAmountOfRepetitions =
             frequencyModel.getMaxAmountOfRepetitions();
         // Assert
         expect(maxAmountOfRepetitions, frequencyModel.amount);
-      });
-
-      test(
-          'should throw FrequencyTypeIsNotSupportedException when type is not supported',
-          () {
-        // Arrange
-        FrequencyModel frequencyModel =
-            createMockFrequencyModel(type: FrequencyTypeEnum.weekday);
-
-        // Act & Assert
-        expect(() => frequencyModel.getMaxAmountOfRepetitions(),
-            throwsA(isA<FrequencyTypeIsNotSupportedException>()));
       });
     });
 
@@ -61,7 +50,7 @@ void main() {
       test('should return Day when type is daily and amount is 1', () {
         // Arrange
         FrequencyModel frequencyModel =
-            createMockFrequencyModel(type: FrequencyTypeEnum.daily);
+            mockFrequencyModel(amount: 1, type: FrequencyTypeEnum.daily);
         // Act
         String typeToString = frequencyModel.typeToString();
         // Assert
@@ -70,8 +59,9 @@ void main() {
 
       test('should return Days when type is daily and amount is not 1', () {
         // Arrange
-        FrequencyModel frequencyModel =
-            createMockFrequencyModel(type: FrequencyTypeEnum.daily, amount: 2);
+        FrequencyModel frequencyModel = mockFrequencyModel(
+            type: FrequencyTypeEnum.daily,
+            amount: FakerService.integer(min: 2));
         // Act
         String typeToString = frequencyModel.typeToString();
         // Assert
@@ -80,7 +70,8 @@ void main() {
 
       test('should return Time when type is time and amount is 1', () {
         // Arrange
-        FrequencyModel frequencyModel = createMockFrequencyModel();
+        FrequencyModel frequencyModel =
+            mockFrequencyModel(amount: 1, type: FrequencyTypeEnum.time);
         // Act
         String typeToString = frequencyModel.typeToString();
         // Assert
@@ -89,39 +80,27 @@ void main() {
 
       test('should return Times when type is time and amount is not 1', () {
         // Arrange
-        FrequencyModel frequencyModel = createMockFrequencyModel(amount: 2);
+        FrequencyModel frequencyModel = mockFrequencyModel(
+            amount: FakerService.integer(min: 2), type: FrequencyTypeEnum.time);
         // Act
         String typeToString = frequencyModel.typeToString();
         // Assert
         expect(typeToString, 'Times');
       });
-
-      test(
-          'should return throw FrequencyTypeIsNotSupportedException when type is not supported',
-          () {
-        // Arrange
-        FrequencyModel frequencyModel =
-            createMockFrequencyModel(type: FrequencyTypeEnum.weekday);
-
-        // Act & Assert
-        expect(() => frequencyModel.typeToString(),
-            throwsA(isA<FrequencyTypeIsNotSupportedException>()));
-      });
     });
 
-    group('fromJson()', () {
-      test('should return a FrequencyModel from a json', () {
+    group('fromDoc()', () {
+      test('should return a FrequencyModel from a doc', () {
         // Arrange
-        Map<String, dynamic> json = {
-          'amount': 1,
-          'type': FrequencyTypeEnum.time.text
-        };
-        FrequencyModel expectedFrequencyModel = createMockFrequencyModel();
+        int amount = FakerService.integer();
+        FrequencyTypeEnum type =
+            FakerService.randomObject(FrequencyTypeEnum.values);
+        Map<String, dynamic> json = {'amount': amount, 'type': type.text};
         // Act
         FrequencyModel actualFrequencyModel = FrequencyModel.fromDoc(json);
         // Assert
-        expect(actualFrequencyModel.amount, expectedFrequencyModel.amount);
-        expect(actualFrequencyModel.type, expectedFrequencyModel.type);
+        expect(actualFrequencyModel.amount, amount);
+        expect(actualFrequencyModel.type, type);
       });
 
       test(
@@ -129,7 +108,7 @@ void main() {
           () {
         // Arrange
         Map<String, dynamic> json = {'amount': 1, 'type': 'invalid'};
-        // Act & Assert
+        // Assert
         expect(() => FrequencyModel.fromDoc(json),
             throwsA(isA<FrequencyTypeIsNotSupportedException>()));
       });
@@ -137,18 +116,18 @@ void main() {
       test('should throw TypeError when json is invalide', () {
         // Arrange
         Map<String, dynamic> json = {'amount': 1.5, 'type': 'invalid'};
-        // Act & Assert
+        // Assert
         expect(() => FrequencyModel.fromDoc(json), throwsA(isA<TypeError>()));
       });
     });
 
-    group('toJson()', () {
+    group('toDoc()', () {
       test('should return a json from a FrequencyModel', () {
         // Arrange
-        FrequencyModel frequencyModel = createMockFrequencyModel();
+        FrequencyModel frequencyModel = mockFrequencyModel();
         Map<String, dynamic> expectedJson = {
-          'amount': 1,
-          'type': FrequencyTypeEnum.time.text
+          'amount': frequencyModel.amount,
+          'type': frequencyModel.type.text
         };
         // Act
         Map<String, dynamic> actualJson = frequencyModel.toDoc();
@@ -156,13 +135,13 @@ void main() {
         expect(actualJson, expectedJson);
       });
 
-      test('should return a json with amount is null from a FrequencyModel',
-          () {
+      test('should return a doc with amount is null from a FrequencyModel', () {
         // Arrange
-        FrequencyModel frequencyModel = createMockFrequencyModel(amount: null);
+        FrequencyModel frequencyModel = mockFrequencyModel();
+        frequencyModel.amount = null;
         Map<String, dynamic> expectedJson = {
-          'amount': null,
-          'type': FrequencyTypeEnum.time.text
+          'amount': frequencyModel.amount,
+          'type': frequencyModel.type.text
         };
         // Act
         Map<String, dynamic> actualJson = frequencyModel.toDoc();
@@ -174,7 +153,7 @@ void main() {
     group('copy()', () {
       test('should return a copy of a FrequencyModel', () {
         // Arrange
-        FrequencyModel frequencyModel = createMockFrequencyModel();
+        FrequencyModel frequencyModel = mockFrequencyModel();
         // Act
         FrequencyModel copyFrequencyModel = frequencyModel.copy();
         // Assert

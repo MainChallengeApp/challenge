@@ -14,7 +14,7 @@ class AcceptanceCriteriaModel {
   static AcceptanceCriteriaModel fromDoc(doc) {
     try {
       return AcceptanceCriteriaModel(
-          amount: (doc[amountField] as num?)?.toDouble() ?? 0.0,
+          amount: (doc[amountField] as num?)?.toDouble() ?? 1.0,
           unit: doc[unitField]);
     } on Exception {
       rethrow;

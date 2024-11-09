@@ -37,7 +37,7 @@ class MediaModel {
   toDoc() {
     return {
       idField: id,
-      typeField: type.type,
+      typeField: type.text,
       titleField: title,
       sourceField: source
     };

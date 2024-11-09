@@ -1,56 +1,61 @@
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/exceptions/repetition_status_is_not_supported_exception.dart';
-import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
-import 'package:challenge/models/challenge/attempt_model.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/models/challenge/frequency_model.dart';
-import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-GroupChallengeModel mockGroupChallenge =
-    GroupChallengeModel.fromChallengeWithParticipantUsers(
-        challenge: ChallengeModel.empty(),
-        participantUsers: [],
-        userId: 'userId',
-        groupChallengeOptions:
-            GroupChallengeOptionsModel(isProgressIndividuell: true));
+import '../services/faker_service.dart';
+import 'acceptance_criteria_model_test.dart';
+import 'attempt_model_test.dart';
+import 'group_challenge_model_test.dart';
+import 'progress_model_test.dart';
 
-AttemptModel mockAttempt = AttemptModel(
-    acceptanceCriteria: AcceptanceCriteriaModel(amount: 1, unit: 'unit'),
-    createdAt: DateTime.now(),
-    frequency: FrequencyModel.empty(),
-    media: [],
-    number: 1,
-    status: ChallengeStatusEnum.inProgress,
-    endDate: null,
-    startDate: DateTime.now(),
-    repetitions: [RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1)]);
+RepetitionModel mockRepetitionModel(
+    {int? repetitionNumber,
+    double? goalAmount,
+    List<ProgressModel>? progressList,
+    DateTime? startDate,
+    DateTime? endDate,
+    RepetitionStatusEnum? repetitionStatus}) {
+  int actualRepetitionNumber = repetitionNumber ?? FakerService.integer();
+
+  return RepetitionModel(
+      repetitionNumber: actualRepetitionNumber,
+      goalAmount: goalAmount ?? FakerService.decimal(),
+      progressList: progressList ??
+          FakerService.list((_) =>
+              mockProgressModel(repetitionNumber: actualRepetitionNumber)),
+      startDate: startDate ?? FakerService.dateTime(),
+      endDate: endDate ?? FakerService.dateTime(),
+      repetitionStatus: repetitionStatus ??
+          FakerService.randomObject(RepetitionStatusEnum.values));
+}
 
 void main() {
   group('RepetitionModel', () {
     group('RepetitionModel.empty()', () {
       test('should create empty repetition with default values', () {
         // Act
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        int repetitionNumber = FakerService.integer();
+        double goalAmount = FakerService.decimal();
+        RepetitionModel repetition = RepetitionModel.empty(
+            repetitionNumber: repetitionNumber, goalAmount: goalAmount);
         // Assert
         expect(repetition.progressList, equals([]));
         expect(repetition.startDate, isNull);
         expect(repetition.endDate, isNull);
         expect(
             repetition.repetitionStatus, equals(RepetitionStatusEnum.backlog));
+        expect(repetition.repetitionNumber, equals(repetitionNumber));
+        expect(repetition.goalAmount, equals(goalAmount));
       });
     });
 
     group('isComplete()', () {
       test('should return false when progressList is empty', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel(progressList: []);
         // Act
         bool result = repetition.isComplete();
         // Assert
@@ -58,13 +63,13 @@ void main() {
       });
 
       test(
-          'should return true when progressList is not empty and last progress is equal to goalAmount',
+          'should return true when progressList is not empty and last progress is equal or greater then goalAmount',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 1, goal: repetition.goalAmount));
+        double goalAmount = FakerService.decimal();
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [mockProgressModel(progress: goalAmount)],
+            goalAmount: goalAmount);
         // Act
         bool result = repetition.isComplete();
         // Assert
@@ -75,10 +80,10 @@ void main() {
           'should return false when progressList is not empty and last progress is not equal to goalAmount',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
+        double goalAmount = FakerService.decimal();
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [mockProgressModel(progress: goalAmount - 1)],
+            goalAmount: goalAmount);
         // Act
         bool result = repetition.isComplete();
         // Assert
@@ -91,10 +96,9 @@ void main() {
           'should return true when repetitionStatus is inProgress and startDate is not null',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
-        repetition.startDate = DateTime.now();
+        RepetitionModel repetition = mockRepetitionModel(
+            repetitionStatus: RepetitionStatusEnum.inProgress,
+            startDate: TimeService.now());
         // Act
         bool result = repetition.isInProgress();
         // Assert
@@ -103,10 +107,12 @@ void main() {
 
       test('should return false when repetitionStatus is not inProgress', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.repetitionStatus = RepetitionStatusEnum.failed;
-        repetition.startDate = DateTime.now();
+        RepetitionModel repetition = mockRepetitionModel(
+            repetitionStatus: FakerService.randomObject(RepetitionStatusEnum
+                .values
+                .where((repetitionStatus) =>
+                    repetitionStatus != RepetitionStatusEnum.inProgress)
+                .toList()));
         // Act
         bool result = repetition.isInProgress();
         // Assert
@@ -115,9 +121,8 @@ void main() {
 
       test('should return false when startDate is null', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+        RepetitionModel repetition = mockRepetitionModel();
+        repetition.startDate = null;
         // Act
         bool result = repetition.isInProgress();
         // Assert
@@ -129,8 +134,7 @@ void main() {
       test('should return true when repetitionStatus is backlog', () {
         // Arrange
         RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.repetitionStatus = RepetitionStatusEnum.backlog;
+            mockRepetitionModel(repetitionStatus: RepetitionStatusEnum.backlog);
         // Act
         bool result = repetition.isInBacklog();
         // Assert
@@ -139,8 +143,8 @@ void main() {
 
       test('should return true when startDate is null', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel();
+        repetition.startDate = null;
         // Act
         bool result = repetition.isInBacklog();
         // Assert
@@ -151,10 +155,8 @@ void main() {
           'should return false when repetitionStatus is not backlog and startDate is not null',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
-        repetition.startDate = DateTime.now();
+        RepetitionModel repetition = mockRepetitionModel(
+            repetitionStatus: RepetitionStatusEnum.inProgress);
         // Act
         bool result = repetition.isInBacklog();
         // Assert
@@ -168,7 +170,8 @@ void main() {
           () {
         // Arrange
         RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+            mockRepetitionModel(repetitionStatus: RepetitionStatusEnum.backlog);
+        repetition.startDate = null;
         // Act
         repetition.start();
         // Assert
@@ -183,10 +186,10 @@ void main() {
           'should set endDate to current date and repetitionStatus to success when repetition is complete',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 1, goal: repetition.goalAmount));
+        double goalAmount = FakerService.decimal();
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [mockProgressModel(progress: goalAmount)],
+            goalAmount: goalAmount);
         // Act
         repetition.end();
         // Assert
@@ -199,10 +202,7 @@ void main() {
           'should set endDate to current date and repetitionStatus to failed when repetition is not complete',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
+        RepetitionModel repetition = mockRepetitionModel(progressList: []);
         // Act
         repetition.end();
         // Assert
@@ -217,12 +217,11 @@ void main() {
           'should set repetitionStatus to success when repetition is complete and endDate is before current date',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 1, goal: repetition.goalAmount));
-        repetition.end();
-        repetition.endDate = DateTime.now().subtract(const Duration(days: 1));
+        double goalAmount = FakerService.decimal();
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [mockProgressModel(progress: goalAmount)],
+            goalAmount: goalAmount,
+            endDate: TimeService.now().subtract(const Duration(days: 1)));
         // Act
         RepetitionStatusEnum result = repetition.evaluateRepetitionStatus();
         // Assert
@@ -235,12 +234,9 @@ void main() {
           'should set repetitionStatus to failed when repetition is not complete and endDate is before current date',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
-        repetition.end();
-        repetition.endDate = DateTime.now().subtract(const Duration(days: 1));
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [],
+            endDate: TimeService.now().subtract(const Duration(days: 1)));
         // Act
         RepetitionStatusEnum result = repetition.evaluateRepetitionStatus();
         // Assert
@@ -250,12 +246,13 @@ void main() {
       });
 
       test(
-          'should set repetitionStatus to inProgress when startDate is not null',
+          'should set repetitionStatus to inProgress when startDate is not null and endDate is null',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.startDate = DateTime.now();
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [],
+            startDate: TimeService.now().subtract(const Duration(days: 1)));
+        repetition.endDate = null;
         // Act
         RepetitionStatusEnum result = repetition.evaluateRepetitionStatus();
         // Assert
@@ -266,8 +263,9 @@ void main() {
 
       test('should set repetitionStatus to backlog when startDate is null', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel();
+        repetition.startDate = null;
+        repetition.endDate = null;
         // Act
         RepetitionStatusEnum result = repetition.evaluateRepetitionStatus();
         // Assert
@@ -280,11 +278,10 @@ void main() {
     group('getLastProgressPercentage()', () {
       test('should return 0 when progressList is empty', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel(progressList: []);
         // Act
         double result = repetition.getLastProgressPercentage(
-            mockGroupChallenge, mockAttempt);
+            mockGroupChallengeModel(), mockAttemptModel());
         // Assert
         expect(result, equals(0));
       });
@@ -293,23 +290,30 @@ void main() {
           'should return last progress percentProgress when progressList is not empty',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
+        double progress = FakerService.decimal();
+        double goalAmount = FakerService.decimal(min: progress);
+        double percentProgress = progress / goalAmount;
+
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [mockProgressModel(progress: progress)],
+            goalAmount: goalAmount);
         // Act
         double result = repetition.getLastProgressPercentage(
-            mockGroupChallenge, mockAttempt);
+            mockGroupChallengeModel(
+                acceptanceCriteria:
+                    mockAcceptanceCriteriaModel(amount: goalAmount)),
+            mockAttemptModel(
+                acceptanceCriteria:
+                    mockAcceptanceCriteriaModel(amount: goalAmount)));
         // Assert
-        expect(result, equals(0.5));
+        expect(result, equals(percentProgress));
       });
     });
 
     group('getLastProgressAbsolute()', () {
       test('should return 0 when progressList is empty', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel(progressList: []);
         // Act
         double result = repetition.getLastProgressAbsolute();
         // Assert
@@ -320,22 +324,20 @@ void main() {
           'should return last progress progress when progressList is not empty',
           () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount));
+        double progress = FakerService.decimal();
+        RepetitionModel repetition = mockRepetitionModel(
+            progressList: [mockProgressModel(progress: progress)]);
         // Act
         double result = repetition.getLastProgressAbsolute();
         // Assert
-        expect(result, equals(0.5));
+        expect(result, equals(progress));
       });
     });
 
     group('getLastProgress()', () {
       test('should return null when progressList is empty', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel(progressList: []);
         // Act
         ProgressModel? result = repetition.getLastProgress();
         // Assert
@@ -344,11 +346,9 @@ void main() {
 
       test('should return last progress when progressList is not empty', () {
         // Arrange
+        ProgressModel progress = mockProgressModel();
         RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        ProgressModel progress = ProgressModel.empty(
-            repetitionNumber: 1, progress: 0.5, goal: repetition.goalAmount);
-        repetition.progressList.add(progress);
+            mockRepetitionModel(progressList: [progress]);
         // Act
         ProgressModel? result = repetition.getLastProgress();
         // Assert
@@ -357,51 +357,45 @@ void main() {
     });
 
     group('addProgress()', () {
-      test('should add empty progress when progress is null', () {
+      test('should add empty progress when passed progress is null', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
+        RepetitionModel repetition = mockRepetitionModel();
         // Act
         ProgressModel result = repetition.addProgress();
         // Assert
-        expect(result.repetitionNumber, equals(1));
+        expect(result.repetitionNumber, equals(repetition.repetitionNumber));
         expect(result.progress, equals(0));
       });
 
-      test('should add progress when progress is not null', () {
+      test('should add passed progress when passed progress is not null', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1);
+        RepetitionModel repetition = mockRepetitionModel();
+        ProgressModel progress = mockProgressModel();
         // Act
-        ProgressModel result = repetition.addProgress(progress: progress);
+        repetition.addProgress(progress: progress);
         // Assert
-        expect(result, equals(progress));
+        expect(repetition.progressList.contains(progress), isTrue);
       });
     });
 
     group('toDoc()', () {
-      test('should return a repetition as json', () {
+      test('should return a repetition as doc', () {
         // Arrange
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(
-            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1));
-        repetition.startDate = DateTime.now();
-        repetition.endDate = DateTime.now().add(const Duration(days: 1));
-        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
-
+        RepetitionModel repetition = mockRepetitionModel();
         // Act
         Map<String, dynamic> result = repetition.toDoc();
         // Assert
-        expect(result['repetitionNumber'], equals(1));
-        expect(result['goalAmount'], equals(1));
-        expect(result['progressList'],
+        expect(result[RepetitionModel.repetitionNumberField],
+            equals(repetition.repetitionNumber));
+        expect(result[RepetitionModel.goalAmountField],
+            equals(repetition.goalAmount));
+        expect(result[RepetitionModel.progressListField],
             equals(ProgressModel.toDocs(repetition.progressList)));
-        expect(result['startDate'], equals(repetition.startDate.toString()));
-        expect(result['endDate'], equals(repetition.endDate.toString()));
-        expect(result['repetitionStatus'],
+        expect(result[RepetitionModel.startDateField],
+            equals(repetition.startDate.toString()));
+        expect(result[RepetitionModel.endDateField],
+            equals(repetition.endDate.toString()));
+        expect(result[RepetitionModel.repetitionStatusField],
             equals(repetition.repetitionStatus.status));
       });
     });
@@ -409,63 +403,24 @@ void main() {
     group('fromJsonList()', () {
       test('should return list of repetitions from json', () {
         // Arrange
-        Map<String, dynamic> json1 = {
-          'repetitionNumber': 1,
-          'goalAmount': 1.0,
-          'progressList': [
-            {
-              'repetitionNumber': 1,
-              'progress': 0.5,
-              'mediaIds': [],
-              'percentProgress': 0.5,
-              'date': DateTime.now().toString(),
-              'goal': 1.0
-            }
-          ],
-          'startDate': DateTime.now().toString(),
-          'endDate': DateTime.now().add(const Duration(days: 1)).toString(),
-          'repetitionStatus': RepetitionStatusEnum.inProgress.status
-        };
-
-        Map<String, dynamic> json2 = {
-          'repetitionNumber': 2,
-          'goalAmount': 2.0,
-          'progressList': [
-            {
-              'repetitionNumber': 2,
-              'progress': 1.0,
-              'mediaIds': [],
-              'percentProgress': 1.0,
-              'date': DateTime.now().toString(),
-              'goal': 2.0
-            }
-          ],
-          'startDate':
-              DateTime.now().subtract(const Duration(days: 1)).toString(),
-          'endDate':
-              DateTime.now().subtract(const Duration(days: 1)).toString(),
-          'repetitionStatus': RepetitionStatusEnum.failed.status
-        };
-
-        List<Map<String, dynamic>> json = [json1, json2];
+        List<RepetitionModel> repetitions =
+            FakerService.list((_) => mockRepetitionModel());
+        List<Map<String, dynamic>> doc =
+            repetitions.map((e) => e.toDoc()).toList();
         // Act
-        List<RepetitionModel> result = RepetitionModel.fromDocs(json);
+        List<RepetitionModel> result = RepetitionModel.fromDocs(doc);
         // Assert
-        expect(result.length, equals(2));
-        expect(result[0].repetitionNumber, equals(1));
-        expect(result[0].goalAmount, equals(1));
-        expect(result[0].progressList.length, equals(1));
-        expect(result[0].progressList[0].repetitionNumber, equals(1));
-        expect(result[0].progressList[0].progress, equals(0.5));
-        expect(result[0].startDate, equals(DateTime.parse(json1['startDate'])));
-        expect(result[0].endDate, equals(DateTime.parse(json1['endDate'])));
-        expect(result[0].repetitionStatus,
-            equals(RepetitionStatusEnum.inProgress));
-
-        expect(result[1].repetitionNumber, equals(2));
-        expect(result[1].goalAmount, equals(2));
-        expect(result[1].progressList.length, equals(1));
-        expect(result[1].progressList[0].repetitionNumber, equals(2));
+        for (int i = 0; i < repetitions.length; i++) {
+          expect(result[i].repetitionNumber,
+              equals(repetitions[i].repetitionNumber));
+          expect(result[i].goalAmount, equals(repetitions[i].goalAmount));
+          expect(result[i].progressList.toString(),
+              equals(repetitions[i].progressList.toString()));
+          expect(result[i].startDate, equals(repetitions[i].startDate));
+          expect(result[i].endDate, equals(repetitions[i].endDate));
+          expect(result[i].repetitionStatus,
+              equals(repetitions[i].repetitionStatus));
+        }
       });
 
       test('should throw repetition status is not supported exception', () {
@@ -488,89 +443,50 @@ void main() {
     group('copyRepetition()', () {
       test('should return a copy of the repetition', () {
         // Arrange
-        DateTime repetitionStartDate = DateTime.now();
-        DateTime repetitionEndDate =
-            DateTime.now().add(const Duration(days: 1));
-
-        RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition.progressList.add(
-            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1));
-        repetition.startDate = repetitionStartDate;
-        repetition.endDate = repetitionEndDate;
-        repetition.repetitionStatus = RepetitionStatusEnum.inProgress;
+        RepetitionModel repetition = mockRepetitionModel();
         // Act
-        RepetitionModel result = repetition.copy();
+        RepetitionModel repetitionCopy = repetition.copy();
         // Assert
-        expect(result.repetitionNumber, equals(repetition.repetitionNumber));
-        expect(result.goalAmount, equals(repetition.goalAmount));
-        expect(result.progressList.toString(),
+        expect(repetitionCopy.repetitionNumber,
+            equals(repetition.repetitionNumber));
+        expect(repetitionCopy.goalAmount, equals(repetition.goalAmount));
+        expect(repetitionCopy.progressList.toString(),
             equals(repetition.progressList.toString()));
-        expect(result.startDate, equals(repetitionStartDate));
-        expect(result.endDate, equals(repetitionEndDate));
-        expect(result.repetitionStatus, equals(repetition.repetitionStatus));
+        expect(repetitionCopy.startDate, equals(repetition.startDate));
+        expect(repetitionCopy.endDate, equals(repetition.endDate));
+        expect(repetitionCopy.repetitionStatus,
+            equals(repetition.repetitionStatus));
       });
     });
 
     group('copyRepetitionList()', () {
       test('should return a copy of the list of repetitions', () {
         // Arrange
-        DateTime repetitionStartDate = DateTime.now();
-        DateTime repetitionEndDate =
-            DateTime.now().add(const Duration(days: 1));
-
-        RepetitionModel repetition1 =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        repetition1.progressList.add(
-            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1));
-        repetition1.startDate = repetitionStartDate;
-        repetition1.endDate = repetitionEndDate;
-        repetition1.repetitionStatus = RepetitionStatusEnum.inProgress;
-
-        RepetitionModel repetition2 =
-            RepetitionModel.empty(repetitionNumber: 2, goalAmount: 2);
-        repetition2.progressList.add(
-            ProgressModel.empty(repetitionNumber: 2, progress: 1, goal: 1));
-        repetition2.startDate =
-            DateTime.now().subtract(const Duration(days: 1));
-        repetition2.endDate = DateTime.now().subtract(const Duration(days: 1));
-        repetition2.repetitionStatus = RepetitionStatusEnum.failed;
-
-        List<RepetitionModel> repetitions = [repetition1, repetition2];
+        List<RepetitionModel> repetitions =
+            FakerService.list((_) => mockRepetitionModel());
         // Act
         List<RepetitionModel> result = RepetitionModel.copyList(repetitions);
         // Assert
-        expect(result.length, equals(2));
-        expect(
-            result[0].repetitionNumber, equals(repetition1.repetitionNumber));
-        expect(result[0].goalAmount, equals(repetition1.goalAmount));
-        expect(result[0].progressList.toString(),
-            equals(repetition1.progressList.toString()));
-        expect(result[0].startDate, equals(repetitionStartDate));
-        expect(result[0].endDate, equals(repetitionEndDate));
-        expect(
-            result[0].repetitionStatus, equals(repetition1.repetitionStatus));
-
-        expect(
-            result[1].repetitionNumber, equals(repetition2.repetitionNumber));
-        expect(result[1].goalAmount, equals(repetition2.goalAmount));
-        expect(result[1].progressList.toString(),
-            equals(repetition2.progressList.toString()));
-        expect(result[1].startDate, equals(repetition2.startDate));
-        expect(result[1].endDate, equals(repetition2.endDate));
-        expect(
-            result[1].repetitionStatus, equals(repetition2.repetitionStatus));
+        for (int i = 0; i < repetitions.length; i++) {
+          expect(result[i].repetitionNumber,
+              equals(repetitions[i].repetitionNumber));
+          expect(result[i].goalAmount, equals(repetitions[i].goalAmount));
+          expect(result[i].progressList.toString(),
+              equals(repetitions[i].progressList.toString()));
+          expect(result[i].startDate, equals(repetitions[i].startDate));
+          expect(result[i].endDate, equals(repetitions[i].endDate));
+          expect(result[i].repetitionStatus,
+              equals(repetitions[i].repetitionStatus));
+        }
       });
     });
 
     group('deleteProgress()', () {
       test('should delete progress from progressList', () {
         // Arrange
+        ProgressModel progress = mockProgressModel();
         RepetitionModel repetition =
-            RepetitionModel.empty(repetitionNumber: 1, goalAmount: 1);
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: 1, progress: 0.5, goal: 1);
-        repetition.progressList.add(progress);
+            mockRepetitionModel(progressList: [progress]);
         // Act
         repetition.deleteProgress(progress);
         // Assert

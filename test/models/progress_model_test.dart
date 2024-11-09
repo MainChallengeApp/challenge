@@ -1,127 +1,129 @@
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../services/faker_service.dart';
+
+ProgressModel mockProgressModel({
+  double? progress,
+  List<String>? mediaIds,
+  DateTime? date,
+  int? repetitionNumber,
+}) {
+  return ProgressModel(
+    progress: progress ?? FakerService.decimal(),
+    mediaIds: mediaIds ?? FakerService.list((index) => FakerService.guid()),
+    date: date ?? FakerService.dateTime(),
+    repetitionNumber: repetitionNumber ?? FakerService.integer(),
+  );
+}
+
 void main() {
   group('ProgressModel', () {
     group('ProgressModel.empty()', () {
       test('should create progress with default values', () {
         // Arrange
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: 1, goal: 1.0);
+        int repetitionNumber = FakerService.integer();
         // Act
+        ProgressModel progress =
+            ProgressModel.empty(repetitionNumber: repetitionNumber);
         // Assert
         expect(progress.progress, equals(0));
         expect(progress.mediaIds, equals([]));
         expect(progress.date, isNotNull);
-        expect(progress.repetitionNumber, equals(1));
+        expect(progress.repetitionNumber, equals(repetitionNumber));
       });
     });
 
-    group('fromJsonList()', () {
-      test('should create progress when json is passed correctly', () {
+    group('fromDocs()', () {
+      test('should create list of progress when doc is passed correctly', () {
         // Arrange
-        DateTime date = DateTime.now();
-        List<Map<String, dynamic>> json = [
-          {
-            'progress': 1.0,
-            'mediaIds': ['1', '2', '3'],
-            'percentProgress': 1.0,
-            'date': date.toString(),
-            'repetitionNumber': 1,
-            'goal': 1.0
-          }
-        ];
+        List<Map<String, dynamic>> json = FakerService.list((index) {
+          double progress = FakerService.decimal();
+          double percentProgress = FakerService.decimal();
+
+          return {
+            'progress': progress,
+            'mediaIds': FakerService.list((index) => FakerService.guid()),
+            'date': FakerService.dateTime(),
+            'repetitionNumber': FakerService.integer(),
+            'percentProgress': percentProgress
+          };
+        });
         // Act
-        List<ProgressModel> progress = ProgressModel.fromDocs(json);
+        List<ProgressModel> progressList = ProgressModel.fromDocs(json);
+
         // Assert
-        expect(progress[0].progress, equals(1.0));
-        expect(progress[0].mediaIds, equals(['1', '2', '3']));
-        expect(
-            progress[0].date.toIso8601String(), equals(date.toIso8601String()));
-        expect(progress[0].repetitionNumber, equals(1));
-        expect(progress[0].goal, equals(1.0));
+        for (int i = 0; i < progressList.length; i++) {
+          expect(progressList[i].progress, equals(json[i]['progress']));
+          expect(progressList[i].mediaIds, equals(json[i]['mediaIds']));
+          expect(progressList[i].date, equals(json[i]['date']));
+          expect(progressList[i].repetitionNumber,
+              equals(json[i]['repetitionNumber']));
+        }
       });
     });
 
     group('updateProgress()', () {
       test('should update progress', () {
         // Arrange
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: 1, goal: 2);
-        ProgressModel newProgress = ProgressModel(
-            progress: 2.0,
-            mediaIds: ['1', '2', '3'],
-            date: DateTime.now(),
-            repetitionNumber: 1,
-            goal: 1);
+        ProgressModel progress = mockProgressModel();
+        ProgressModel newProgress = mockProgressModel();
         // Act
         progress.updateProgress(newProgress);
         // Assert
         expect(progress.progress, equals(newProgress.progress));
         expect(progress.mediaIds, equals(newProgress.mediaIds));
-        expect(progress.goal, equals(newProgress.goal));
       });
     });
 
     group('toJsonList()', () {
       test('should create json from progressList', () {
         // Arrange
-        DateTime progressDate = DateTime.now();
-        List<ProgressModel> progressList = [
-          ProgressModel(
-              progress: 1.0,
-              mediaIds: ['1', '2', '3'],
-              date: progressDate,
-              repetitionNumber: 1,
-              goal: 1.0)
-        ];
+        List<ProgressModel> progressList =
+            FakerService.list((_) => mockProgressModel());
         // Act
         List<Map<String, dynamic>> json = ProgressModel.toDocs(progressList);
         // Assert
-        expect(json[0]['progress'], equals(progressList[0].progress));
-        expect(json[0]['mediaIds'], equals(progressList[0].mediaIds));
-        expect(json[0]['date'], progressDate.toString());
-        expect(json[0]['repetitionNumber'],
-            equals(progressList[0].repetitionNumber));
-        expect(json[0]['goal'], equals(progressList[0].goal));
+        for (int i = 0; i < progressList.length; i++) {
+          expect(json[i]['progress'], equals(progressList[i].progress));
+          expect(json[i]['mediaIds'], equals(progressList[i].mediaIds));
+          expect(json[i]['date'], progressList[i].date);
+          expect(json[i]['repetitionNumber'],
+              equals(progressList[i].repetitionNumber));
+        }
       });
     });
 
     group('copyProgressList()', () {
       test('should copy progressList', () {
         // Arrange
-        List<ProgressModel> progressList = [
-          ProgressModel(
-              progress: 1.0,
-              mediaIds: ['1', '2', '3'],
-              date: DateTime.now(),
-              repetitionNumber: 1,
-              goal: 1.0)
-        ];
+        List<ProgressModel> progressList =
+            FakerService.list((_) => mockProgressModel());
         // Act
         List<ProgressModel> copiedProgressList =
             ProgressModel.copyProgressList(progressList);
         // Assert
-        expect(
-            copiedProgressList[0].progress, equals(progressList[0].progress));
-        expect(
-            copiedProgressList[0].mediaIds, equals(progressList[0].mediaIds));
-        expect(copiedProgressList[0].date, equals(progressList[0].date));
-        expect(copiedProgressList[0].repetitionNumber,
-            equals(progressList[0].repetitionNumber));
+
+        for (int i = 0; i < progressList.length; i++) {
+          expect(
+              copiedProgressList[i].progress, equals(progressList[i].progress));
+          expect(
+              copiedProgressList[i].mediaIds, equals(progressList[i].mediaIds));
+          expect(copiedProgressList[i].date, equals(progressList[i].date));
+          expect(copiedProgressList[i].repetitionNumber,
+              equals(progressList[i].repetitionNumber));
+        }
       });
     });
 
     group('copyOrCreateProgress()', () {
-      test('should copy progress', () {
+      test('should copy progress when progress is not null', () {
         // Arrange
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: 1, goal: 1);
+        ProgressModel progress = mockProgressModel();
         // Act
         ProgressModel copiedProgress = ProgressModel.copyOrCreateProgress(
             progress,
             progress.repetitionNumber,
-            progress.goal,
             progress.mediaIds,
             progress.progress);
         // Assert
@@ -132,27 +134,20 @@ void main() {
             copiedProgress.repetitionNumber, equals(progress.repetitionNumber));
       });
 
-      test('should create progress', () {
+      test('should create progress when its null', () {
         // Arrange
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: 1, goal: 1);
-        progress.progress = 1.0;
-        progress.mediaIds = ['1', '2', '3'];
-        progress.date = DateTime.now();
+        int repetitionNumber = FakerService.integer();
+        double progress = FakerService.decimal();
+        List<String> mediaIds =
+            FakerService.list((index) => FakerService.guid());
         // Act
         ProgressModel copiedProgress = ProgressModel.copyOrCreateProgress(
-            null,
-            progress.repetitionNumber,
-            progress.goal,
-            progress.mediaIds,
-            progress.progress);
+            null, repetitionNumber, mediaIds, progress);
         // Assert
-        expect(copiedProgress.progress, equals(progress.progress));
-        expect(copiedProgress.mediaIds, equals(progress.mediaIds));
-        expect(copiedProgress.goal, equals(progress.goal));
+        expect(copiedProgress.progress, equals(progress));
+        expect(copiedProgress.mediaIds, equals(mediaIds));
         expect(copiedProgress.date, equals(isNotNull));
-        expect(
-            copiedProgress.repetitionNumber, equals(progress.repetitionNumber));
+        expect(copiedProgress.repetitionNumber, equals(repetitionNumber));
       });
     });
   });

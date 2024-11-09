@@ -2,8 +2,7 @@ import 'package:challenge/exceptions/frequency_type_is_not_supported_exception.d
 
 enum FrequencyTypeEnum {
   time('time'),
-  daily('daily'),
-  weekday('weekday');
+  daily('daily');
 
   final String text;
 
