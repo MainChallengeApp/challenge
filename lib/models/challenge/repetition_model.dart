@@ -94,7 +94,7 @@ class RepetitionModel {
     if (progressList.isEmpty) {
       return 0;
     }
-    return progressList.last.getPercentProgress(groupChallenge, attempt);
+    return progressList.last.getProgressPercentage(groupChallenge, attempt);
   }
 
   double getLastProgressAbsolute() {

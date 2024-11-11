@@ -44,6 +44,8 @@ class _ListItemProgressControllerComponentState
 
   @override
   Widget build(BuildContext context) {
+    progressTextEditingController.text =
+        UtilService.doubleAsIntString(widget.editProgress.progress);
     return ListItemContainerComponent(
         padding: const EdgeInsets.all(0),
         child: Row(

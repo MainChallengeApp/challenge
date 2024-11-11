@@ -17,25 +17,25 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddMembersPage extends StatefulWidget {
+class AddParticipantsPage extends StatefulWidget {
   final String preTitle;
-  final List<UserModel> members;
+  final List<UserModel> participants;
 
-  const AddMembersPage(
-      {super.key, required this.preTitle, required this.members});
+  const AddParticipantsPage(
+      {super.key, required this.preTitle, required this.participants});
 
   @override
-  State<AddMembersPage> createState() => _AddMembersPageState();
+  State<AddParticipantsPage> createState() => _AddParticipantsPageState();
 }
 
-class _AddMembersPageState extends State<AddMembersPage> {
-  String title = 'Add Members';
+class _AddParticipantsPageState extends State<AddParticipantsPage> {
+  String title = 'Add Participants';
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
   final textEditingController = TextEditingController();
 
-  late List<UserModel> editMembers = List.from(widget.members);
+  late List<UserModel> editParticipants = List.from(widget.participants);
 
   final scrollController = ScrollController();
 
@@ -68,7 +68,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
                 child: Column(
                   children: [
                     searchBar(),
-                    addMemberOverview(),
+                    addParticipantsOverview(),
                     searchUsersList()
                   ],
                 ),
@@ -120,7 +120,7 @@ class _AddMembersPageState extends State<AddMembersPage> {
             icon: IconEnum.add.icon, title: 'Invite Friends', onTap: () {}));
   }
 
-  SpaceColumnComponent addMemberOverview() {
+  SpaceColumnComponent addParticipantsOverview() {
     return SpaceColumnComponent(
         child: ListItemContainerComponent(
             padding: const EdgeInsets.all(SpaceComponent.staticHeight).copyWith(
@@ -128,8 +128,8 @@ class _AddMembersPageState extends State<AddMembersPage> {
                     AddMemberOverviewComponent.removeMemberExtraSpace),
             isHeightDynamic: true,
             child: AddMemberOverviewComponent(
-              members: editMembers,
-              onRemoveMember: onRemoveMember,
+              members: editParticipants,
+              onRemoveMember: onRemoveParticipant,
             )));
   }
 
@@ -143,23 +143,24 @@ class _AddMembersPageState extends State<AddMembersPage> {
 
   void onTapUser(UserModel tappedUser) {
     setState(() {
-      if (editMembers.any((member) => member.id == tappedUser.id)) {
-        editMembers.removeWhere((user) => user.id == tappedUser.id);
+      if (editParticipants
+          .any((participant) => participant.id == tappedUser.id)) {
+        editParticipants.removeWhere((user) => user.id == tappedUser.id);
         return;
       }
-      if (editMembers.length >= DatabaseService.maxGroupChallengeMember) {
+      if (editParticipants.length >= DatabaseService.maxGroupChallengeMember) {
         SnackBarComponent.showSnackBar(context,
             'You can only add up to ${DatabaseService.maxGroupChallengeMember} members');
         return;
       }
-      editMembers.add(tappedUser);
+      editParticipants.add(tappedUser);
     });
   }
 
   onTapAccept() {
-    widget.members.clear();
-    widget.members.addAll(editMembers);
-    Navigator.pop(context, editMembers);
+    widget.participants.clear();
+    widget.participants.addAll(editParticipants);
+    Navigator.pop(context, editParticipants);
   }
 
   onTapCancel() {
@@ -199,9 +200,9 @@ class _AddMembersPageState extends State<AddMembersPage> {
     );
   }
 
-  onRemoveMember(String userId) {
+  onRemoveParticipant(String userId) {
     setState(() {
-      editMembers.removeWhere((user) => user.id == userId);
+      editParticipants.removeWhere((user) => user.id == userId);
     });
   }
 
@@ -243,7 +244,8 @@ class _AddMembersPageState extends State<AddMembersPage> {
       child: ListItemUserComponent(
         onTap: () => onTapUser(user),
         user: user,
-        isSelected: editMembers.any((member) => member.id == user.id),
+        isSelected:
+            editParticipants.any((participant) => participant.id == user.id),
       ),
     );
   }

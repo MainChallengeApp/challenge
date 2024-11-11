@@ -65,7 +65,7 @@ class GroupChallengesProvider with ChangeNotifier {
           await _groupChallengesCollection.getById(id);
       int index = _groupChallenges.indexWhere(
           (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
-      if (index == -1) {
+      if (index != -1) {
         _groupChallenges[index] = groupChallenge;
         sortLocalList();
       }

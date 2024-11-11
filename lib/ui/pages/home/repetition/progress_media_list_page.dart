@@ -57,8 +57,6 @@ class ProgressMediaListPage extends StatefulWidget {
 class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   ScrollController scrollController = ScrollController();
 
-  TextEditingController amountTextEditingController = TextEditingController();
-
   late List<MediaModel> mediaList =
       MediaModel.copyList(widget.initialMediaList ?? []);
 
@@ -147,6 +145,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 unit: widget.attempt
                     .getAcceptanceCriteria(widget.groupChallenge)
                     .unit,
+                setStateProgressList: () => setState(() {}),
               ));
             }
 

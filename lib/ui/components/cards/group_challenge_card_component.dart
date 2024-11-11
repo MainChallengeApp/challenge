@@ -54,18 +54,24 @@ class _GroupChallengeCardComponentState
       Provider.of<GroupChallengesProvider>(context, listen: false);
 
   // state variables
-  late final ParticipantModel _participant =
+  late ParticipantModel _participant =
       widget.groupChallenge.getParticipant(_usersProvider.user.id);
   late AttemptModel _latestAttempt = _participant.getLatestAttempt();
+
+  late GroupChallengeModel _groupChallenge = widget.groupChallenge;
 
   bool _isDescriptionExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    _groupChallenge = _groupChallengesProvider.groupChallenges.firstWhere(
+        (element) => element.id == widget.groupChallenge.id,
+        orElse: () => widget.groupChallenge);
+    _participant = _groupChallenge.getParticipant(_usersProvider.user.id);
     _latestAttempt = _participant.getLatestAttempt();
     return Slidable(
       closeOnScroll: true,
-      key: ObjectKey(widget.groupChallenge),
+      key: ObjectKey(_groupChallenge),
       endActionPane: _endActionPane(),
       child: Builder(builder: (context) {
         return CardComponent(
@@ -86,7 +92,7 @@ class _GroupChallengeCardComponentState
 
   _endActionPane() {
     return ActionPane(
-      extentRatio: (widget.groupChallenge.isEditable()) ? 0.5 : 0.25,
+      extentRatio: (_groupChallenge.isEditable()) ? 0.5 : 0.25,
       motion: const ScrollMotion(),
       children: [
         _editSlider(),
@@ -101,7 +107,7 @@ class _GroupChallengeCardComponentState
 
   _editSlider() {
     return Visibility(
-      visible: widget.groupChallenge.isEditable(),
+      visible: _groupChallenge.isEditable(),
       child: SliderComponent(
           icon: IconEnum.edit.icon, label: 'Edit', onTap: _onTapEditChallenge),
     );
@@ -110,7 +116,7 @@ class _GroupChallengeCardComponentState
   _separator() {
     return SpaceComponent(
       width: BottomNavigationComponent.standardMargin,
-      isVisible: widget.groupChallenge.isEditable(),
+      isVisible: _groupChallenge.isEditable(),
     );
   }
 
@@ -127,7 +133,7 @@ class _GroupChallengeCardComponentState
     return SpaceColumnComponent(
       height: 11,
       child: ThumbnailMaxComponent(
-        challenge: widget.groupChallenge,
+        challenge: _groupChallenge,
         onTapOpenMediaPage: _onTapOpenMediaPage,
         attempt: _latestAttempt,
       ),
@@ -138,7 +144,7 @@ class _GroupChallengeCardComponentState
     return SpaceColumnComponent(
       height: 11,
       child: TitleWithPercentageComponent(
-        groupChallenge: widget.groupChallenge,
+        groupChallenge: _groupChallenge,
         attempt: _latestAttempt,
       ),
     );
@@ -146,7 +152,7 @@ class _GroupChallengeCardComponentState
 
   _description() {
     DescriptionComponent descriptionComponent = DescriptionComponent(
-      challenge: widget.groupChallenge,
+      challenge: _groupChallenge,
       isDescriptionExpanded: _isDescriptionExpanded,
       onTap: () => setState(() {
         _isDescriptionExpanded = !_isDescriptionExpanded;
@@ -157,7 +163,7 @@ class _GroupChallengeCardComponentState
             child: Column(
             children: [
               Expanded(child: descriptionComponent),
-              widget.groupChallenge.description.isNotEmpty
+              _groupChallenge.description.isNotEmpty
                   ? const SpaceComponent()
                   : Container()
             ],
@@ -165,7 +171,7 @@ class _GroupChallengeCardComponentState
         : Column(
             children: [
               descriptionComponent,
-              widget.groupChallenge.description.isNotEmpty
+              _groupChallenge.description.isNotEmpty
                   ? const SpaceComponent()
                   : Container()
             ],
@@ -178,7 +184,7 @@ class _GroupChallengeCardComponentState
         : SpaceColumnComponent(
             child: AttemptStartAndEndDateComponent(
               attempt: _latestAttempt,
-              groupChallenge: widget.groupChallenge,
+              groupChallenge: _groupChallenge,
               isLocked: true,
             ),
           );
@@ -191,7 +197,7 @@ class _GroupChallengeCardComponentState
             onTap: _onTapAcceptanceCriteria,
             onTapNewProgress: _onTapNewProgress,
             attempt: _latestAttempt,
-            groupChallenge: widget.groupChallenge,
+            groupChallenge: _groupChallenge,
           );
   }
 
@@ -234,7 +240,7 @@ class _GroupChallengeCardComponentState
 
   _startEndTryAcceptAgainButton() {
     return ActionButtonComponent(
-      groupChallenge: widget.groupChallenge,
+      groupChallenge: _groupChallenge,
       attempt: _latestAttempt,
       onTapStart: _onTapStart,
       onTapEnd: _onTapEnd,
@@ -245,31 +251,31 @@ class _GroupChallengeCardComponentState
 
   Future<void> _onTapStart(AttemptModel attempt) async {
     await _groupChallengesProvider.startAttempt(
-        widget.groupChallenge, _participant, attempt, context);
+        _groupChallenge, _participant, attempt, context);
   }
 
   Future<void> _onTapEnd(AttemptModel attempt) async {
-    if (attempt.canEndRepetition(widget.groupChallenge)) {
-      attempt.endRepetition(widget.groupChallenge);
+    if (attempt.canEndRepetition(_groupChallenge)) {
+      attempt.endRepetition(_groupChallenge);
       await _groupChallengesProvider.updateAttempt(
-          widget.groupChallenge, _participant, attempt);
+          _groupChallenge, _participant, attempt);
       return;
     }
 
     EndChallengeDialog.show(
         // ignore: use_build_context_synchronously
         context: context,
-        challengeTitle: widget.groupChallenge.title,
+        challengeTitle: _groupChallenge.title,
         onTapYes: () {
           _groupChallengesProvider.endAttempt(
-              widget.groupChallenge, _participant, attempt);
+              _groupChallenge, _participant, attempt);
         });
   }
 
   Future<void> _onTapAgain() async {
-    _participant.addAttempt(widget.groupChallenge);
+    _participant.addAttempt(_groupChallenge);
     await _groupChallengesProvider.updateParticipant(
-        widget.groupChallenge, _participant);
+        _groupChallenge, _participant);
   }
 
   // void _onTapAgain(AttemptModel attempt) {
@@ -279,8 +285,8 @@ class _GroupChallengeCardComponentState
   //       builder: (context) {
   //         AttemptModel attemptCopy = attempt.copy(isTryAgain: true);
   //         return EditChallengePage(
-  //           preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-  //           challenge: widget.groupChallenge,
+  //           preTitle: '${widget.preTitle}/${_groupChallenge.title}',
+  //           challenge: _groupChallenge,
   //           attempt: attemptCopy,
   //           isTryAgain: true,
   //         );
@@ -290,9 +296,9 @@ class _GroupChallengeCardComponentState
   // }
 
   void _onTapNext(AttemptModel attempt) async {
-    attempt.endRepetition(widget.groupChallenge);
+    attempt.endRepetition(_groupChallenge);
     _groupChallengesProvider.updateAttempt(
-        widget.groupChallenge, _participant, attempt);
+        _groupChallenge, _participant, attempt);
   }
 
   void _onTapOpenMediaPage() {
@@ -300,9 +306,9 @@ class _GroupChallengeCardComponentState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
-          preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
+          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           attempt: _latestAttempt,
-          groupChallenge: widget.groupChallenge,
+          groupChallenge: _groupChallenge,
           participant: _participant,
         ),
       ),
@@ -310,14 +316,14 @@ class _GroupChallengeCardComponentState
   }
 
   void _onTapEditChallenge() {
-    if (widget.groupChallenge.isEditable()) {
+    if (_groupChallenge.isEditable()) {
       // currentChallengeIndex = widget.challenges.indexOf(challenge);
       Navigator.push(
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
-            preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-            challenge: widget.groupChallenge,
+            preTitle: '${widget.preTitle}/${_groupChallenge.title}',
+            challenge: _groupChallenge,
           ),
         ),
       ).then((_) => {setState(() {})});
@@ -327,44 +333,42 @@ class _GroupChallengeCardComponentState
   void _onTapDeleteChallenge() async {
     DeleteChallengeDialog.show(
         context: context,
-        challengeTitle: widget.groupChallenge.title,
+        challengeTitle: _groupChallenge.title,
         onTapYes: () async {
-          await _groupChallengesProvider
-              .deleteParticipant(widget.groupChallenge);
+          await _groupChallengesProvider.deleteParticipant(_groupChallenge);
         });
   }
 
   _onTapAcceptanceCriteria() {
-    if (widget.groupChallenge.isGroupChallenge()) {
+    if (_groupChallenge.isGroupChallenge()) {
       Navigator.push(
           context,
           NoAnimationPageRouteComponent(
               builder: (context) => LeaderBoardPage(
-                    groupChallenge: widget.groupChallenge,
-                    preTitle:
-                        '${widget.preTitle}/${widget.groupChallenge.title}',
-                  )));
+                    groupChallenge: _groupChallenge,
+                    preTitle: '${widget.preTitle}/${_groupChallenge.title}',
+                  ))).then((_) => setState(() {}));
       return;
     }
-    if (_latestAttempt.getFrequency(widget.groupChallenge).amount != null &&
-        _latestAttempt.getFrequency(widget.groupChallenge).amount! <= 0) {
+    if (_latestAttempt.getFrequency(_groupChallenge).amount != null &&
+        _latestAttempt.getFrequency(_groupChallenge).amount! <= 0) {
       return;
     }
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => RepetitionPage(
-          preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-          groupChallenge: widget.groupChallenge,
+          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
+          groupChallenge: _groupChallenge,
           participant: _participant,
           attempt: _latestAttempt,
         ),
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   void _onTapNewProgress() async {
-    if (_latestAttempt.getCurrentRepetition(widget.groupChallenge) == null) {
+    if (_latestAttempt.getCurrentRepetition(_groupChallenge) == null) {
       return;
     }
 
@@ -373,11 +377,10 @@ class _GroupChallengeCardComponentState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
-          repetition:
-              _latestAttempt.getCurrentRepetition(widget.groupChallenge)!,
+          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
+          repetition: _latestAttempt.getCurrentRepetition(_groupChallenge)!,
           attempt: _latestAttempt,
-          groupChallenge: widget.groupChallenge,
+          groupChallenge: _groupChallenge,
           participant: _participant,
           isEditableByUser: _participant.userId == _usersProvider.user.id,
           isSaveInsteadOfEditButtonVisible: true,
@@ -401,10 +404,10 @@ class _GroupChallengeCardComponentState
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
           cameras: cameras,
-          preTitle: '${widget.preTitle}/${widget.groupChallenge.title}',
+          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           mediaList: _latestAttempt.media,
           attempt: _latestAttempt,
-          groupChallenge: widget.groupChallenge,
+          groupChallenge: _groupChallenge,
           participant: _participant,
         ),
       ),

@@ -161,16 +161,15 @@ class _ListItemRepetitionExpandedComponentState
   }
 
   onTapNext(AttemptModel attempt) async {
-    setState(() async {
-      attempt.endRepetition(widget.groupChallenge);
-      widget.onTapNextRepetition.call(
-        attempt
-            .getLastRepetition(
-              widget.groupChallenge,
-            )!
-            .repetitionNumber,
-      );
-    });
+    attempt.endRepetition(widget.groupChallenge);
+    widget.onTapNextRepetition.call(
+      attempt
+          .getLastRepetition(
+            widget.groupChallenge,
+          )!
+          .repetitionNumber,
+    );
+    setState(() {});
     groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, attempt);
   }
@@ -185,9 +184,10 @@ class _ListItemRepetitionExpandedComponentState
         });
   }
 
-  onTapStart(AttemptModel attempt) {
-    groupChallengesProvider.startAttempt(
-        widget.groupChallenge, widget.participant, attempt, context);
+  onTapStart(AttemptModel attempt) async {
+    attempt.getCurrentRepetition(widget.groupChallenge)?.start();
+    await groupChallengesProvider.updateAttempt(
+        widget.groupChallenge, widget.participant, attempt);
   }
 
   repetition() {

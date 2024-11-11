@@ -2,6 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
@@ -10,6 +11,7 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListItemParticipantComponent extends StatefulWidget {
   const ListItemParticipantComponent({
@@ -34,9 +36,13 @@ class ListItemParticipantComponent extends StatefulWidget {
 
 class _ListItemParticipantComponentState
     extends State<ListItemParticipantComponent> {
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
+
   @override
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
+        isFailed: widget.participant.getLatestAttempt().isFailed(),
         onTap: widget.onTap,
         initialProgress: widget.participant
             .getLatestAttempt()
@@ -63,7 +69,7 @@ class _ListItemParticipantComponentState
                 url: widget.user.pictureUrl),
             Expanded(
               child: Text(
-                widget.user.username,
+                '${widget.user.username}${widget.user.id == _usersProvider.user.id ? ' (You)' : ''}',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: Theme.of(context).textTheme.titleMedium,

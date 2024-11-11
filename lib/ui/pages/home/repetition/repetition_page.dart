@@ -10,9 +10,11 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_repetition_expanded_component.dart';
+import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -59,9 +61,16 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late bool isEditableByUser =
       widget.participant.userId == usersProvider.user.id;
 
+  late GroupChallengeModel groupChallenge = widget.groupChallenge;
+  late AttemptModel attempt = widget.attempt;
+
   @override
   Widget build(BuildContext context) {
-    listeningGroupChallengeProvider.groupChallenges;
+    attempt = groupChallenge.participants
+        .firstWhere(
+            (participant) => participant.userId == widget.participant.userId,
+            orElse: () => widget.participant)
+        .getLatestAttempt();
 
     return Scaffold(
         appBar: AppBarComponent(
@@ -69,57 +78,67 @@ class _RepetitionPageState extends State<RepetitionPage> {
           titleText: 'Repetitions',
         ),
         backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            _buildList(),
-            !(widget.attempt.isFailed() || widget.attempt.isSucceeded()) &&
-                    isEditableByUser
-                ? actionButton()
-                : Container()
-          ],
-        ));
+        body: attempt.getAllRepetitions(groupChallenge).isEmpty &&
+                !isEditableByUser
+            ? _userDidNotStartChallenge()
+            : Column(
+                children: [
+                  _buildList(),
+                  !(attempt.isFailed() || attempt.isSucceeded()) &&
+                          isEditableByUser
+                      ? actionButton()
+                      : Container()
+                ],
+              ));
   }
 
   Widget _buildList() {
-    return RawScrollbar(
-      controller: scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: Theme.of(context).colorScheme.tertiary,
-      padding: const EdgeInsets.only(right: 4),
-      child: ListView.builder(
+    return Expanded(
+      child: RefreshIndicatorComponent(
+        onRefresh: () async {
+          groupChallenge =
+              await groupChallengeProvider.getById(groupChallenge.id);
+          setState(() {});
+        },
+        scrollController: scrollController,
+        child: RawScrollbar(
           controller: scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemCount:
-              widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge),
-          itemBuilder: (BuildContext content, int index) {
-            RepetitionModel repetition;
-            if ((widget.attempt
-                            .getCurrentRepetitionNumber(widget.groupChallenge) -
-                        1 -
-                        index) <
-                    widget.attempt.repetitions.length &&
-                (widget.attempt
-                            .getCurrentRepetitionNumber(widget.groupChallenge) -
-                        1 -
-                        index) >=
-                    0) {
-              repetition = widget.attempt
-                  .getAllRepetitions(widget.groupChallenge)[widget.attempt
-                      .getCurrentRepetitionNumber(widget.groupChallenge) -
-                  1 -
-                  index];
-              repetition.evaluateRepetitionStatus();
-            } else {
-              repetition = widget.attempt.addRepetition(widget.groupChallenge);
-            }
-            repetition.evaluateRepetitionStatus();
-            return repetitionListItem(repetition);
-          }),
+          radius: const Radius.circular(4),
+          thumbColor: Theme.of(context).colorScheme.tertiary,
+          padding: const EdgeInsets.only(right: 4),
+          child: ListView.builder(
+              controller: scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: attempt.getCurrentRepetitionNumber(groupChallenge),
+              itemBuilder: (BuildContext content, int index) {
+                RepetitionModel repetition;
+                if ((attempt.getCurrentRepetitionNumber(groupChallenge) -
+                            1 -
+                            index) <
+                        attempt.repetitions.length &&
+                    (attempt.getCurrentRepetitionNumber(groupChallenge) -
+                            1 -
+                            index) >=
+                        0) {
+                  repetition = attempt.getAllRepetitions(groupChallenge)[
+                      attempt.getCurrentRepetitionNumber(groupChallenge) -
+                          1 -
+                          index];
+                  repetition.evaluateRepetitionStatus();
+                } else {
+                  repetition = attempt.addRepetition(groupChallenge);
+                }
+                repetition.evaluateRepetitionStatus();
+                return repetitionListItem(repetition);
+              }),
+        ),
+      ),
     );
   }
 
   List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
-    var progressListItems = isEditableByUser
+    var progressListItems = !(attempt.isFailed() || attempt.isSucceeded()) &&
+            isEditableByUser
         ? [
             SpaceColumnComponent(
                 heightMultiplier: repetition.progressList.isEmpty ? 4 : null,
@@ -144,11 +163,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
             onTapDeleteProgress: () =>
                 onTapDeleteProgress(repetition, progress),
             progress: progress,
-            attempt: widget.attempt,
-            groupChallenge: widget.groupChallenge,
-            unit: widget.attempt
-                .getAcceptanceCriteria(widget.groupChallenge)
-                .unit,
+            attempt: attempt,
+            groupChallenge: groupChallenge,
+            unit: attempt.getAcceptanceCriteria(groupChallenge).unit,
           )));
     }
     return progressListItems;
@@ -167,8 +184,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   ? ListItemRepetitionExpandedComponent(
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
-                      attempt: widget.attempt,
-                      groupChallenge: widget.groupChallenge,
+                      attempt: attempt,
+                      groupChallenge: groupChallenge,
                       participant: widget.participant,
                       isEditableByUser: isEditableByUser,
                       onTapNextRepetition: (int repetitionNumber) {
@@ -181,8 +198,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   : ListItemRepetitionComponent(
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
-                      attempt: widget.attempt,
-                      groupChallenge: widget.groupChallenge,
+                      attempt: attempt,
+                      groupChallenge: groupChallenge,
                     ),
             ],
           ),
@@ -227,13 +244,13 @@ class _RepetitionPageState extends State<RepetitionPage> {
         builder: (context) => ProgressMediaListPage(
           preTitle:
               '${widget.preTitle}/Repetitions/${progress.repetitionNumber}',
-          initialMediaList: widget.attempt.media
+          initialMediaList: attempt.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
-          attempt: widget.attempt,
-          groupChallenge: widget.groupChallenge,
+          attempt: attempt,
+          groupChallenge: groupChallenge,
           participant: widget.participant,
-          repetition: widget.attempt.repetitions[progress.repetitionNumber - 1],
+          repetition: attempt.repetitions[progress.repetitionNumber - 1],
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
           isEditableByUser: isEditableByUser,
@@ -264,8 +281,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
           preTitle:
               '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
           repetition: repetition,
-          attempt: widget.attempt,
-          groupChallenge: widget.groupChallenge,
+          attempt: attempt,
+          groupChallenge: groupChallenge,
           participant: widget.participant,
           isSaveInsteadOfEditButtonVisible: true,
           isEditableByUser: isEditableByUser,
@@ -290,37 +307,39 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
     mediaService.deleteMediaInChallengeByIds(
-        MediaModel.copyMediaIdList(progress.mediaIds), widget.attempt);
+        MediaModel.copyMediaIdList(progress.mediaIds), attempt);
     setState(() {
       repetition.deleteProgress(progress);
     });
     groupChallengeProvider.updateAttempt(
-        widget.groupChallenge, widget.participant, widget.attempt);
+        groupChallenge, widget.participant, attempt);
   }
 
   actionButton() {
     void onTapStartChallenge() {
       groupChallengeProvider.startAttempt(
-          widget.groupChallenge, widget.participant, widget.attempt, context);
+          groupChallenge, widget.participant, attempt, context);
+      setState(() {});
     }
 
     void onTapEndChallenge() {
       EndChallengeDialog.show(
           context: context,
-          challengeTitle: widget.groupChallenge.title,
+          challengeTitle: groupChallenge.title,
           onTapYes: () {
             groupChallengeProvider.endAttempt(
-                widget.groupChallenge, widget.participant, widget.attempt);
+                groupChallenge, widget.participant, attempt);
+            setState(() {});
           });
     }
 
     return Align(
-        alignment: widget.attempt.isInBacklog()
+        alignment: attempt.isInBacklog()
             ? Alignment.topCenter
             : Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20),
-          child: widget.attempt.isInBacklog()
+          child: attempt.isInBacklog()
               ? ListItemButtonComponent(
                   onTap: onTapStartChallenge,
                   text: 'Start Challenge',
@@ -329,9 +348,27 @@ class _RepetitionPageState extends State<RepetitionPage> {
               : ListItemButtonComponent(
                   onTap: onTapEndChallenge,
                   text: 'End Challenge',
-                  isMainButton:
-                      widget.attempt.isCompleted(widget.groupChallenge),
+                  isMainButton: attempt.isCompleted(groupChallenge),
                 ),
         ));
+  }
+
+  _userDidNotStartChallenge() {
+    return RefreshIndicatorComponent(
+      scrollController: scrollController,
+      onRefresh: () async {
+        groupChallenge =
+            await groupChallengeProvider.getById(groupChallenge.id);
+        setState(() {});
+      },
+      child: ListView(
+        controller: scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        children: const [
+          ListItemInfoComponent(
+              text: 'The User did not start the challenge yet.'),
+        ],
+      ),
+    );
   }
 }

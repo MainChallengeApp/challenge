@@ -227,11 +227,55 @@ class GroupChallengeModel extends ChallengeModel {
   }
 
   void sortParticipants() {
+    for (var participant in participants) {
+      participant.getLatestAttempt().checkStatus(this);
+    }
+
     participants.sort((a, b) {
-      return b
-          .getLatestAttempt()
-          .getCurrentPercentage(this)
-          .compareTo(a.getLatestAttempt().getCurrentPercentage(this));
+      final aAttempt = a.getLatestAttempt();
+      final bAttempt = b.getLatestAttempt();
+
+      // Failed participants go to the bottom
+      if (aAttempt.isFailed() && !bAttempt.isFailed()) return 1;
+      if (bAttempt.isFailed() && !aAttempt.isFailed()) return -1;
+      if (aAttempt.isFailed() && bAttempt.isFailed()) {
+        // For failed participants, sort by currentPercentage
+        final aPercentage = aAttempt.getCurrentPercentage(this);
+        final bPercentage = bAttempt.getCurrentPercentage(this);
+        if (aPercentage != bPercentage) {
+          return bPercentage.compareTo(aPercentage);
+        }
+        // If percentages are equal, sort by endDate (earlier date below)
+        return bAttempt.getEndDate(this)!.compareTo(aAttempt.getEndDate(this)!);
+      }
+
+      // Succeeded participants go to the top, sorted by endDate (most recent first)
+      if (aAttempt.isSucceeded() && !bAttempt.isSucceeded()) return -1;
+      if (bAttempt.isSucceeded() && !aAttempt.isSucceeded()) return 1;
+      if (aAttempt.isSucceeded() && bAttempt.isSucceeded()) {
+        return bAttempt.getEndDate(this)!.compareTo(aAttempt.getEndDate(this)!);
+      }
+
+      // In-progress participants are sorted by currentPercentage
+      final aPercentage = aAttempt.getCurrentPercentage(this);
+      final bPercentage = bAttempt.getCurrentPercentage(this);
+
+      if (aPercentage != bPercentage) {
+        return bPercentage.compareTo(aPercentage);
+      }
+
+      // If percentages are equal, sort by the last entry in progressList
+      final aProgress = aAttempt.getCurrentRepetition(this)?.progressList;
+      final bProgress = bAttempt.getCurrentRepetition(this)?.progressList;
+
+      if (aProgress != null &&
+          aProgress.isNotEmpty &&
+          bProgress != null &&
+          bProgress.isNotEmpty) {
+        return aProgress.last.date.compareTo(bProgress.last.date);
+      }
+
+      return 0;
     });
   }
 }

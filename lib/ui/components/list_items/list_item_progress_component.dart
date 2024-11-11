@@ -25,7 +25,8 @@ class ListItemProgressComponent extends StatefulWidget {
       this.onTapDeleteProgress,
       this.isEditable = false,
       this.margin,
-      required this.groupChallenge});
+      required this.groupChallenge,
+      this.setStateProgressList});
 
   final ProgressModel progress;
   final String unit;
@@ -37,6 +38,7 @@ class ListItemProgressComponent extends StatefulWidget {
   final void Function()? onTapDeleteProgress;
   final bool isEditable;
   final EdgeInsetsGeometry? margin;
+  final Function()? setStateProgressList;
 
   @override
   State<ListItemProgressComponent> createState() =>
@@ -87,14 +89,15 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                   newProgress = 0;
                 }
                 widget.progress.progress = newProgress.toDouble();
+                widget.setStateProgressList?.call();
               });
             }
           : null,
-      initialProgress: widget.progress
-                  .getPercentProgress(widget.groupChallenge, widget.attempt) <=
+      initialProgress: widget.progress.getProgressPercentage(
+                  widget.groupChallenge, widget.attempt) <=
               1
           ? widget.progress
-              .getPercentProgress(widget.groupChallenge, widget.attempt)
+              .getProgressPercentage(widget.groupChallenge, widget.attempt)
           : 1,
       isFailed: widget.attempt.isFailed(),
       child: SingleChildScrollView(

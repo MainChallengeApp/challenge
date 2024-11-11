@@ -35,7 +35,8 @@ class ProgressModel {
     return attempt.getAcceptanceCriteria(groupChallenge).amount;
   }
 
-  getPercentProgress(GroupChallengeModel groupChallenge, AttemptModel attempt) {
+  getProgressPercentage(
+      GroupChallengeModel groupChallenge, AttemptModel attempt) {
     double challengeGoal = getGoal(groupChallenge, attempt);
     return challengeGoal == 0 ? 1.0 : progress / challengeGoal;
   }

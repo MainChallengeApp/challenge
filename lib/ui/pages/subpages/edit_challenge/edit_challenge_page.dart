@@ -27,7 +27,7 @@ import 'package:challenge/ui/components/simple_components/custom_button_componen
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
-import 'package:challenge/ui/pages/subpages/edit_challenge/add_members_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/add_participants_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,20 +68,20 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   bool isLoading = false;
 
-  List<UserModel> members = [];
+  List<UserModel> editParticipants = [];
 
   @override
   void initState() {
     super.initState();
     if (widget.challenge is GroupChallengeModel &&
         (widget.challenge as GroupChallengeModel).participants.length > 1) {
-      _initializeMembers();
+      _initializeParticipants();
     } else {
-      members = [];
+      editParticipants = [];
     }
   }
 
-  Future<void> _initializeMembers() async {
+  Future<void> _initializeParticipants() async {
     final groupChallenge = widget.challenge as GroupChallengeModel;
     List<ParticipantModel> participants = groupChallenge.participants
         .where((participant) => participant.userId != usersProvider.user.id)
@@ -91,7 +91,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
         .map((participant) => usersProvider.getUserById(participant.userId))
         .toList();
 
-    members = await Future.wait(futures);
+    editParticipants = await Future.wait(futures);
     setState(() {});
   }
 
@@ -120,7 +120,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                               children: [
                                 _header(),
                                 _details(),
-                                _member(),
+                                _participants(),
                               ],
                             ),
                           ),
@@ -144,10 +144,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return true;
   }
 
-  Visibility _member() {
+  Visibility _participants() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: addMember(),
+      child: addParticipants(),
     );
   }
 
@@ -293,8 +293,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
     ChallengeModel challengeCopy = editChallenge.copy();
 
-    challengeCopy.id = await groupChallengesProvider.create(challengeCopy,
-        [...members, usersProvider.user], GroupChallengeOptionsModel());
+    challengeCopy.id = await groupChallengesProvider.create(
+        challengeCopy,
+        [...editParticipants, usersProvider.user],
+        GroupChallengeOptionsModel());
 
     setState(() {
       isLoading = false;
@@ -379,11 +381,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  addMember() {
-    return members.isEmpty
+  addParticipants() {
+    return editParticipants.isEmpty
         ? ListItemIconTextComponent(
-            onTap: onTapAddMembers,
-            title: 'Add Members',
+            onTap: onTapAddParticipants,
+            title: 'Add Participants',
             icon: IconEnum.add.icon,
           )
         : ListItemContainerComponent(
@@ -392,10 +394,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
             child: Column(
               children: [
                 SpaceColumnComponent(
-                    child: AddMemberOverviewComponent(members: members)),
+                    child:
+                        AddMemberOverviewComponent(members: editParticipants)),
                 CustomButtonComponent(
-                  onTap: onTapAddMembers,
-                  text: 'Edit Members',
+                  onTap: onTapAddParticipants,
+                  text: 'Edit Participants',
                   isPrimaryButton: false,
                 ),
               ],
@@ -403,13 +406,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
           );
   }
 
-  onTapAddMembers() {
+  onTapAddParticipants() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => AddMembersPage(
+        builder: (context) => AddParticipantsPage(
           preTitle: '${widget.preTitle}/$title',
-          members: members,
+          participants: editParticipants,
         ),
       ),
     ).then((_) {
