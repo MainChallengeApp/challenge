@@ -3,6 +3,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RepetitionModel {
   final int repetitionNumber;
@@ -127,8 +128,8 @@ class RepetitionModel {
       repetitionNumberField: repetitionNumber,
       goalAmountField: goalAmount,
       progressListField: ProgressModel.toDocs(progressList),
-      startDateField: startDate.toString(),
-      endDateField: endDate.toString(),
+      startDateField: startDate,
+      endDateField: endDate,
       repetitionStatusField: repetitionStatus.status
     };
   }
@@ -144,12 +145,12 @@ class RepetitionModel {
                 doc[startDateField] == 'null' ||
                 doc[startDateField] == ''
             ? null
-            : DateTime.parse(doc[startDateField]),
+            : (doc[startDateField] as Timestamp).toDate(),
         endDate: doc[endDateField] == null ||
                 doc[endDateField] == 'null' ||
                 doc[endDateField] == ''
             ? null
-            : DateTime.parse(doc[endDateField]),
+            : (doc[endDateField] as Timestamp).toDate(),
         repetitionStatus:
             RepetitionStatusEnum.fromString(doc[repetitionStatusField]))));
     return list;

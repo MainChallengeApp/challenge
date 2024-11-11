@@ -215,5 +215,38 @@ main() {
         expect(result, isNull);
       });
     });
+
+    group('getCurrentRepetitionNumber()', () {
+      test('should return repetition.length when frequency type is time', () {
+        // Arrange
+        AttemptModel attempt = mockAttemptModel(
+            frequency: mockFrequencyModel(type: FrequencyTypeEnum.time));
+        // Act
+        int currentRepetitionNumber =
+            attempt.getCurrentRepetitionNumber(groupChallenge);
+
+        // Assert
+        expect(currentRepetitionNumber, equals(attempt.repetitions.length));
+      });
+
+      test(
+          'should return days difference between start and now when frequency type is daily',
+          () {
+        // Arrange
+        int days = FakerService.integer(max: 10);
+        AttemptModel attempt = mockAttemptModel(
+            startDate: TimeService.now().subtract(Duration(days: days)),
+            endDate: TimeService.now(),
+            frequency: mockFrequencyModel(
+                amount: days, type: FrequencyTypeEnum.daily));
+
+        // Act
+        int currentRepetitionNumber =
+            attempt.getCurrentRepetitionNumber(groupChallenge);
+
+        // Assert
+        expect(currentRepetitionNumber, equals(days));
+      });
+    });
   });
 }

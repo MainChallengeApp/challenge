@@ -5,6 +5,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
@@ -54,12 +55,16 @@ class _ListItemRepetitionComponentState
 
   repetition() {
     return ContainerInContainerTextComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         text:
             '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
 
   progress() {
     return ContainerInContainerTextComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         text:
             '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}');
   }

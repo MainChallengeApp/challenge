@@ -96,7 +96,7 @@ class ChallengeModel {
             : ThumbnailModel.fromDoc(doc[thumbnailField]),
         startDate: doc[startDateField] == null
             ? null
-            : (doc[startDateField] as Timestamp).toDate(), // maybe DateTime?
+            : (doc[startDateField] as Timestamp).toDate(),
         endDate: doc[endDateField] == null
             ? null
             : (doc[endDateField] as Timestamp).toDate(),

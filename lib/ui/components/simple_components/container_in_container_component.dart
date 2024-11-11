@@ -29,7 +29,7 @@ class ContainerInContainerComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin ?? const EdgeInsets.only(right: standardMargin),
+      margin: margin,
       padding: padding ?? const EdgeInsets.all(standardPadding),
       height: height,
       width: width,

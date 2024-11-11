@@ -65,6 +65,10 @@ class UsersProvider with ChangeNotifier {
     return await usersCollection.getById(id);
   }
 
+  Future<List<UserModel>> getUsersByIds(List<String> userIds) async {
+    return await usersCollection.getByUserIds(userIds);
+  }
+
   Future<List<UserModel>> getNotificationsUsers() async {
     _notificationsUser = await usersCollection.getByUserIds(
         notificationsProvider.userNotifications

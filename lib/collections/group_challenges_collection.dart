@@ -106,18 +106,6 @@ class GroupChallengesCollection extends Collection {
     }
   }
 
-  // Future<void> update(UserChallengeModel userChallenge) async {
-  //   userChallenge.titleLowerCase = userChallenge.title.toLowerCase();
-  //   try {
-  //     await db
-  //         .collection(name)
-  //         .doc(userChallenge.id)
-  //         .update(userChallenge.toDoc());
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
   Future<void> delete(String groupChallengeId) async {
     final DocumentReference groupChallengeRef =
         db.collection(name).doc(groupChallengeId);
@@ -175,16 +163,4 @@ class GroupChallengesCollection extends Collection {
       rethrow;
     }
   }
-
-  // Future<int> getAmountOfChallengesByUserId(String userId) async {
-  //   try {
-  //     final querySnapshot = await db
-  //         .collection(name)
-  //         .where(UserChallengeModel.userIdField, isEqualTo: userId)
-  //         .get();
-  //     return querySnapshot.docs.length;
-  //   } on Exception {
-  //     rethrow;
-  //   }
-  // }
 }

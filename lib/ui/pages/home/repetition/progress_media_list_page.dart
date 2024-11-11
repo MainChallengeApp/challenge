@@ -36,7 +36,8 @@ class ProgressMediaListPage extends StatefulWidget {
       this.isSaveInsteadOfEditButtonVisible = true,
       this.amountOfPops = 1,
       required this.groupChallenge,
-      required this.participant});
+      required this.participant,
+      required this.isEditableByUser});
 
   final String preTitle;
   final AttemptModel attempt;
@@ -47,6 +48,7 @@ class ProgressMediaListPage extends StatefulWidget {
   ProgressModel? progress;
   bool isSaveInsteadOfEditButtonVisible;
   int amountOfPops;
+  final bool isEditableByUser;
 
   @override
   State<ProgressMediaListPage> createState() => _ProgressMediaListPageState();
@@ -92,9 +94,21 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           child: Stack(
             children: [
               _buildList(),
-              widget.isSaveInsteadOfEditButtonVisible
-                  ? cancelAndSaveButton()
-                  : deleteAndEditButton()
+              widget.isEditableByUser
+                  ? widget.isSaveInsteadOfEditButtonVisible
+                      ? cancelAndSaveButton()
+                      : deleteAndEditButton()
+                  : Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 20.0),
+                        child: Row(
+                          children: [
+                            cancelButton(),
+                          ],
+                        ),
+                      ),
+                    )
             ],
           ),
         ));
@@ -124,7 +138,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 progress: editProgress,
                 attempt: widget.attempt,
                 groupChallenge: widget.groupChallenge,
-                isEditable: widget.isSaveInsteadOfEditButtonVisible,
+                isEditable: widget.isSaveInsteadOfEditButtonVisible &&
+                    widget.isEditableByUser,
                 isFailed: widget.repetition != null
                     ? widget.repetition!.repetitionStatus ==
                         RepetitionStatusEnum.failed
@@ -135,7 +150,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               ));
             }
 
-            if (index == 1 && widget.isSaveInsteadOfEditButtonVisible) {
+            if (index == 1 &&
+                widget.isSaveInsteadOfEditButtonVisible &&
+                widget.isEditableByUser) {
               return SpaceColumnComponent(
                 child: ListItemProgressControllerComponent(
                   editProgress: editProgress,
@@ -146,7 +163,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               );
             }
 
-            if (index == 2 && widget.isSaveInsteadOfEditButtonVisible) {
+            if (index == 2 &&
+                widget.isSaveInsteadOfEditButtonVisible &&
+                widget.isEditableByUser) {
               return SpaceColumnComponent(
                 child: ListItemIconTextComponent(
                     onTap: onTapUploadMedia,
@@ -160,6 +179,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               child: ListItemMediaSmallComponent(
                 onTap: () => push(context, index: newIndex),
                 media: mediaList.reversed.elementAt(newIndex),
+                isEditableByUser: widget.isEditableByUser,
                 onTapDeleteMedia: () {
                   setState(() {
                     mediaService
@@ -186,6 +206,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           preTitle: '${widget.preTitle}/Media',
           initialMediaIndex: index,
           attempt: widget.attempt,
+          isEditableByUser: widget.isEditableByUser,
           onTap: onTapDeleteMedia,
         ),
       ),
@@ -334,6 +355,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   void onTapCancel() {
+    if (!widget.isEditableByUser) {
+      Navigator.pop(context);
+      return;
+    }
+
     if (widget.progress == null) {
       for (int i = 0; i < widget.amountOfPops; i++) {
         Navigator.pop(context);

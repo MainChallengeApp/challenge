@@ -6,6 +6,7 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -51,7 +52,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late final listeningGroupChallengeProvider =
       Provider.of<GroupChallengesProvider>(context, listen: true);
 
+  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+
   final mediaService = MediaService();
+
+  late bool isEditableByUser =
+      widget.participant.userId == usersProvider.user.id;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +72,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
         body: Stack(
           children: [
             _buildList(),
-            !(widget.attempt.isFailed() || widget.attempt.isSucceeded())
+            !(widget.attempt.isFailed() || widget.attempt.isSucceeded()) &&
+                    isEditableByUser
                 ? actionButton()
                 : Container()
           ],
@@ -112,16 +119,18 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
-    var progressListItems = [
-      SpaceColumnComponent(
-          heightMultiplier: repetition.progressList.isEmpty ? 4 : null,
-          child: ListItemIconTextComponent(
-            margin: const EdgeInsets.only(left: 30, right: 20),
-            icon: Icons.add_rounded,
-            title: 'New Progress',
-            onTap: () => onTapNewProgress(repetition),
-          ))
-    ];
+    var progressListItems = isEditableByUser
+        ? [
+            SpaceColumnComponent(
+                heightMultiplier: repetition.progressList.isEmpty ? 4 : null,
+                child: ListItemIconTextComponent(
+                  margin: const EdgeInsets.only(left: 30, right: 20),
+                  icon: Icons.add_rounded,
+                  title: 'New Progress',
+                  onTap: () => onTapNewProgress(repetition),
+                ))
+          ]
+        : List<SpaceColumnComponent>.empty(growable: true);
     for (var progress in repetition.progressList.reversed) {
       progressListItems.add(SpaceColumnComponent(
           heightMultiplier:
@@ -131,7 +140,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
             isFailed:
                 repetition.repetitionStatus == RepetitionStatusEnum.failed,
             onTap: () => onTapProgress(progress),
-            isSlidable: true,
+            isSlidable: isEditableByUser,
             onTapDeleteProgress: () =>
                 onTapDeleteProgress(repetition, progress),
             progress: progress,
@@ -161,6 +170,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       attempt: widget.attempt,
                       groupChallenge: widget.groupChallenge,
                       participant: widget.participant,
+                      isEditableByUser: isEditableByUser,
                       onTapNextRepetition: (int repetitionNumber) {
                         setState(() {
                           expandedRepetitionIndexList.clear();
@@ -226,6 +236,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           repetition: widget.attempt.repetitions[progress.repetitionNumber - 1],
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
+          isEditableByUser: isEditableByUser,
         ),
       ),
     ).then((_) => setState(() {}));
@@ -257,6 +268,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           groupChallenge: widget.groupChallenge,
           participant: widget.participant,
           isSaveInsteadOfEditButtonVisible: true,
+          isEditableByUser: isEditableByUser,
         ),
       ),
     ).then((_) => setState(() {
@@ -289,7 +301,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   actionButton() {
     void onTapStartChallenge() {
       groupChallengeProvider.startAttempt(
-          widget.groupChallenge, widget.participant, widget.attempt);
+          widget.groupChallenge, widget.participant, widget.attempt, context);
     }
 
     void onTapEndChallenge() {

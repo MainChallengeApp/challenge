@@ -6,6 +6,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -14,6 +15,7 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class MediaCameraPage extends StatefulWidget {
   const MediaCameraPage({
@@ -23,7 +25,7 @@ class MediaCameraPage extends StatefulWidget {
     required this.mediaList,
     required this.attempt,
     required this.groupChallenge,
-    required this.participantModel,
+    required this.participant,
   });
 
   final List<CameraDescription> cameras;
@@ -31,7 +33,7 @@ class MediaCameraPage extends StatefulWidget {
   final List<MediaModel> mediaList;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
-  final ParticipantModel participantModel;
+  final ParticipantModel participant;
 
   @override
   State<MediaCameraPage> createState() => _CameraStateMedia();
@@ -47,6 +49,9 @@ class _CameraStateMedia extends State<MediaCameraPage> {
   var isCameraFeedback = false;
 
   bool isRecording = false;
+
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
   @override
   void initState() {
@@ -334,7 +339,9 @@ class _CameraStateMedia extends State<MediaCameraPage> {
               initialMediaList: currentMedia,
               attempt: widget.attempt,
               groupChallenge: widget.groupChallenge,
-              participant: widget.participantModel,
+              participant: widget.participant,
+              isEditableByUser:
+                  widget.participant.userId == _usersProvider.user.id,
               repetition:
                   widget.attempt.getCurrentRepetition(widget.groupChallenge),
               amountOfPops: 2,

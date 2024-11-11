@@ -1,7 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -31,8 +30,6 @@ class ListItemUserComponent extends StatefulWidget {
 }
 
 class _ListItemUserComponentState extends State<ListItemUserComponent> {
-  final mediaService = MediaService();
-
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);

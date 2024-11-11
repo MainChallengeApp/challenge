@@ -149,6 +149,10 @@ class GroupChallengeModel extends ChallengeModel {
     }
   }
 
+  bool isGroupChallenge() {
+    return participants.length > 1;
+  }
+
   static List<GroupChallengeModel> sortChallengeList(
       {required List<GroupChallengeModel> groupChallenges,
       required String userId}) {
@@ -220,5 +224,14 @@ class GroupChallengeModel extends ChallengeModel {
       return 0;
     });
     return groupChallenges;
+  }
+
+  void sortParticipants() {
+    participants.sort((a, b) {
+      return b
+          .getLatestAttempt()
+          .getCurrentPercentage(this)
+          .compareTo(a.getLatestAttempt().getCurrentPercentage(this));
+    });
   }
 }

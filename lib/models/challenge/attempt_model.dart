@@ -10,6 +10,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AttemptModel {
   int number;
@@ -86,9 +87,10 @@ class AttemptModel {
           number: doc[numberField],
           startDate: doc[startDateField] == null
               ? null
-              : doc[startDateField] as DateTime,
-          endDate:
-              doc[endDateField] == null ? null : doc[endDateField] as DateTime,
+              : (doc[startDateField] as Timestamp).toDate(),
+          endDate: doc[endDateField] == null
+              ? null
+              : (doc[endDateField] as Timestamp).toDate(),
           status: ChallengeStatusEnum.values
               .firstWhere((e) => e.toString() == doc[statusField]),
           acceptanceCriteria:
@@ -96,7 +98,7 @@ class AttemptModel {
           frequency: FrequencyModel.fromDoc(doc[frequencyField]),
           media: MediaModel.fromDocs(doc[mediaField]),
           repetitions: RepetitionModel.fromDocs(doc[repetitionsField]),
-          createdAt: doc[createdAtField] as DateTime);
+          createdAt: (doc[createdAtField] as Timestamp).toDate());
     } on Exception {
       rethrow;
     }

@@ -108,6 +108,8 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
 
   progress() {
     return ContainerInContainerTextComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         text:
             '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.unit}');
   }
@@ -120,19 +122,21 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
 
   mediaItemAmount() {
     return ContainerInContainerComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         child: Center(
-      child: Row(children: [
-        Text(
-          '${widget.progress.mediaIds.length} ',
-          style: Theme.of(context).textTheme.bodySmall,
-        ),
-        Icon(
-          Icons.inventory_2_outlined,
-          size: Theme.of(context).textTheme.bodySmall?.fontSize,
-          color: Theme.of(context).colorScheme.tertiary,
-        ),
-      ]),
-    ));
+          child: Row(children: [
+            Text(
+              '${widget.progress.mediaIds.length} ',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+            Icon(
+              Icons.inventory_2_outlined,
+              size: Theme.of(context).textTheme.bodySmall?.fontSize,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
+          ]),
+        ));
   }
 
   ActionPane endActionPane(Function closeSlidable) {

@@ -1,86 +1,5 @@
 void main() {
   // group('UserChallengeModel', () {
-  //   UserChallengeModel createMockUserChallengeModel(
-  //       {ChallengeStatusEnum status = ChallengeStatusEnum.inProgress,
-  //       DateTime? startDate,
-  //       DateTime? endDate,
-  //       AcceptanceCriteriaModel? acceptanceCriteria}) {
-  //     return UserChallengeModel(
-  //       userId: '1',
-  //       id: '1',
-  //       status: status,
-  //       title: 'Challenge Title',
-  //       titleLowerCase: 'challenge title',
-  //       description: 'Challenge Description',
-  //       thumbnail: ThumbnailModel(
-  //           url: 'assets/images/test.png', scale: 0.8, fit: BoxFitEnum.cover),
-  //       acceptanceCriteria: acceptanceCriteria ??
-  //           AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
-  //       frequency: FrequencyModel(type: FrequencyTypeEnum.time, amount: 1),
-  //       repetitions: [],
-  //       media: [],
-  //       categories: [ChallengeCategoryEnum.mentalHealth],
-  //       startDate: startDate ?? DateTime.now(),
-  //       endDate: endDate ?? DateTime.now().add(const Duration(days: 1)),
-  //     );
-  //   }
-
-  //   RepetitionModel createMockRepetitionModel(
-  //       {double goalAmount = 1,
-  //       int? progress,
-  //       RepetitionStatusEnum? repetitionStatus = RepetitionStatusEnum.success,
-  //       List<ProgressModel>? progressList = const [],
-  //       DateTime? startDate,
-  //       DateTime? endDate,
-  //       int repetitionNumber = 1}) {
-  //     return RepetitionModel(
-  //         startDate: DateTime.now(),
-  //         endDate: DateTime.now().add(const Duration(days: 1)),
-  //         repetitionNumber: repetitionNumber,
-  //         goalAmount: goalAmount,
-  //         progressList: [
-  //           ProgressModel(
-  //               progress: 1,
-  //               mediaIds: [],
-  //               date: DateTime.now(),
-  //               repetitionNumber: repetitionNumber,
-  //               goal: goalAmount)
-  //         ],
-  //         repetitionStatus: RepetitionStatusEnum.success);
-  //   }
-
-  // group('toDoc()', () {
-  //   test('should return json when UserChallengeModel is passed', () {
-  //     // Arrange
-  //     UserChallengeModel challenge = createMockUserChallengeModel();
-  //     Map<String, dynamic> json = {
-  //       'userId': '1',
-  //       'status': 'inProgress',
-  //       'title': 'Challenge Title',
-  //       'titleLowerCase': 'challenge title',
-  //       'description': 'Challenge Description',
-  //       'thumbnail': {
-  //         'url': 'assets/images/test.png',
-  //         'scale': 0.8,
-  //         'fit': 'cover'
-  //       },
-  //       'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
-  //       'frequency': {'type': 'time', 'amount': 1},
-  //       'repetitions': [],
-  //       'media': [],
-  //       'categories': ['mentalHealth'],
-  //       'startDate': challenge.startDate,
-  //       'endDate': challenge.endDate,
-  //       'createdAt': challenge.createdAt
-  //     };
-
-  //     // Act
-  //     Map<String, dynamic> challengeJson = challenge.toDoc();
-
-  //     // Assert
-  //     expect(challengeJson, equals(json));
-  //   });
-  // });
 
   //   group('copyChallenge()', () {
   //     test('should copy challenge with id when challenge is passed', () {
@@ -797,41 +716,6 @@ void main() {
 
   //       // Assert
   //       expect(isCompleted, equals(false));
-  //     });
-  //   });
-
-  //   group('getCurrentRepetitionNumber()', () {
-  //     test('should return repetition.length when frequency type is time', () {
-  //       // Arrange
-  //       UserChallengeModel challenge = createMockUserChallengeModel();
-  //       challenge.frequency.type = FrequencyTypeEnum.time;
-  //       challenge.repetitions
-  //           .add(createMockRepetitionModel(repetitionNumber: 1));
-  //       challenge.repetitions
-  //           .add(createMockRepetitionModel(repetitionNumber: 2));
-
-  //       // Act
-  //       int currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
-
-  //       // Assert
-  //       expect(currentRepetitionNumber, equals(challenge.repetitions.length));
-  //     });
-
-  //     test(
-  //         'should return days difference between start and now when frequency type is daily',
-  //         () {
-  //       // Arrange
-  //       UserChallengeModel challenge = createMockUserChallengeModel();
-  //       challenge.frequency.type = FrequencyTypeEnum.daily;
-  //       challenge.startDate = DateTime.now().subtract(const Duration(days: 2));
-  //       challenge.endDate = null;
-  //       challenge.frequency.amount = 2;
-
-  //       // Act
-  //       int currentRepetitionNumber = challenge.getCurrentRepetitionNumber();
-
-  //       // Assert
-  //       expect(currentRepetitionNumber, equals(2));
   //     });
   //   });
 

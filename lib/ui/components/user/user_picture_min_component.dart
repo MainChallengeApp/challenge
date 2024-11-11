@@ -3,6 +3,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class UserPictureMinComponent extends StatefulWidget {
@@ -26,7 +27,8 @@ class _UserPictureMinComponentState extends State<UserPictureMinComponent> {
       onTap: widget.onTap,
       isQuadratic: true,
       height: 2 * CustomContainerComponent.standardHeight,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.themeColor4,
+      borderWidth: 0,
       padding: const EdgeInsets.all(0),
       child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(

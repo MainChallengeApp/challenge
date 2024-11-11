@@ -123,9 +123,13 @@ class _AcceptanceCriteriaComponentState
         ? Container()
         : widget.attempt.isInBacklog()
             ? ContainerInContainerTextComponent(
+                margin: const EdgeInsets.only(
+                    right: ContainerInContainerComponent.standardMargin),
                 text:
                     '${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}')
             : ContainerInContainerTextComponent(
+                margin: const EdgeInsets.only(
+                    right: ContainerInContainerComponent.standardMargin),
                 text:
                     '${widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
@@ -146,9 +150,13 @@ class _AcceptanceCriteriaComponentState
                             1) &&
                     !widget.attempt.isInBacklog()
             ? ContainerInContainerTextComponent(
+                margin: const EdgeInsets.only(
+                    right: ContainerInContainerComponent.standardMargin),
                 text:
                     '${UtilService.doubleAsIntString(widget.attempt.getCurrentRepetitionProgressAbsolute(widget.groupChallenge))}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
             : ContainerInContainerTextComponent(
+                margin: const EdgeInsets.only(
+                    right: ContainerInContainerComponent.standardMargin),
                 text:
                     '${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
         : Container();

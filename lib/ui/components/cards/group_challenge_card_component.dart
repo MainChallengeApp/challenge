@@ -21,6 +21,7 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
+import 'package:challenge/ui/pages/home/leader_board_page.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -244,7 +245,7 @@ class _GroupChallengeCardComponentState
 
   Future<void> _onTapStart(AttemptModel attempt) async {
     await _groupChallengesProvider.startAttempt(
-        widget.groupChallenge, _participant, attempt);
+        widget.groupChallenge, _participant, attempt, context);
   }
 
   Future<void> _onTapEnd(AttemptModel attempt) async {
@@ -334,6 +335,17 @@ class _GroupChallengeCardComponentState
   }
 
   _onTapAcceptanceCriteria() {
+    if (widget.groupChallenge.isGroupChallenge()) {
+      Navigator.push(
+          context,
+          NoAnimationPageRouteComponent(
+              builder: (context) => LeaderBoardPage(
+                    groupChallenge: widget.groupChallenge,
+                    preTitle:
+                        '${widget.preTitle}/${widget.groupChallenge.title}',
+                  )));
+      return;
+    }
     if (_latestAttempt.getFrequency(widget.groupChallenge).amount != null &&
         _latestAttempt.getFrequency(widget.groupChallenge).amount! <= 0) {
       return;
@@ -367,6 +379,7 @@ class _GroupChallengeCardComponentState
           attempt: _latestAttempt,
           groupChallenge: widget.groupChallenge,
           participant: _participant,
+          isEditableByUser: _participant.userId == _usersProvider.user.id,
           isSaveInsteadOfEditButtonVisible: true,
         ),
       ),
@@ -392,7 +405,7 @@ class _GroupChallengeCardComponentState
           mediaList: _latestAttempt.media,
           attempt: _latestAttempt,
           groupChallenge: widget.groupChallenge,
-          participantModel: _participant,
+          participant: _participant,
         ),
       ),
     );

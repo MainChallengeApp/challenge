@@ -1,3 +1,4 @@
+import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +13,14 @@ class IconContainerInListItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ContainerInListItemComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         child: Center(
-      child: Icon(
-        icon,
-        size: size,
-        color: iconColor ?? Theme.of(context).colorScheme.tertiary,
-      ),
-    ));
+          child: Icon(
+            icon,
+            size: size,
+            color: iconColor ?? Theme.of(context).colorScheme.tertiary,
+          ),
+        ));
   }
 }

@@ -2,6 +2,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProgressModel {
   DateTime date;
@@ -58,7 +59,7 @@ class ProgressModel {
     docs.forEach((doc) => progressList.add(ProgressModel(
           progress: doc[progressField],
           mediaIds: List.from(doc[mediaIdsField]),
-          date: (doc[dateField] as DateTime),
+          date: (doc[dateField] as Timestamp).toDate(),
           repetitionNumber: doc[repetitionNumberField],
         )));
     return progressList;

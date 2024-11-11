@@ -14,6 +14,7 @@ class MediaDetailPage extends StatefulWidget {
   final int initialMediaIndex;
   final AttemptModel attempt;
   final void Function(MediaModel)? onTap;
+  final bool isEditableByUser;
 
   const MediaDetailPage(
       {super.key,
@@ -21,7 +22,8 @@ class MediaDetailPage extends StatefulWidget {
       required this.mediaList,
       required this.initialMediaIndex,
       required this.attempt,
-      this.onTap});
+      this.onTap,
+      this.isEditableByUser = true});
 
   @override
   State<MediaDetailPage> createState() => _MediaDetailPageState();
@@ -114,37 +116,40 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
   }
 
   deleteButton() {
-    return GestureDetector(
-      onTap: () => setState(() {
-        MediaModel media =
-            widget.mediaList.reversed.toList()[currentMediaIndex];
-        widget.mediaList.removeWhere((element) => element.id == media.id);
+    return Visibility(
+      visible: widget.isEditableByUser,
+      child: GestureDetector(
+        onTap: () => setState(() {
+          MediaModel media =
+              widget.mediaList.reversed.toList()[currentMediaIndex];
+          widget.mediaList.removeWhere((element) => element.id == media.id);
 
-        widget.onTap?.call(media);
+          widget.onTap?.call(media);
 
-        if (widget.mediaList.isEmpty) {
-          Navigator.pop(context);
-          return;
-        }
+          if (widget.mediaList.isEmpty) {
+            Navigator.pop(context);
+            return;
+          }
 
-        if (currentMediaIndex >= widget.mediaList.length) {
-          currentMediaIndex = widget.mediaList.length - 1;
-        }
-      }),
-      child: Container(
-        width: 55,
-        height: 55,
-        margin: const EdgeInsets.only(left: 8, right: 8, bottom: 20),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(
-                width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-            borderRadius: const BorderRadius.all(Radius.circular(16))),
-        child: Center(
-            child: Icon(
-          IconEnum.delete.icon,
-          color: Theme.of(context).colorScheme.red,
-        )),
+          if (currentMediaIndex >= widget.mediaList.length) {
+            currentMediaIndex = widget.mediaList.length - 1;
+          }
+        }),
+        child: Container(
+          width: 55,
+          height: 55,
+          margin: const EdgeInsets.only(left: 8, right: 8, bottom: 20),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
+              borderRadius: const BorderRadius.all(Radius.circular(16))),
+          child: Center(
+              child: Icon(
+            IconEnum.delete.icon,
+            color: Theme.of(context).colorScheme.red,
+          )),
+        ),
       ),
     );
   }

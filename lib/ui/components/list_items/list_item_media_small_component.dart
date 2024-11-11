@@ -12,11 +12,13 @@ class ListItemMediaSmallComponent extends StatefulWidget {
       {super.key,
       required this.onTap,
       required this.media,
-      this.onTapDeleteMedia});
+      this.onTapDeleteMedia,
+      required this.isEditableByUser});
 
   final dynamic Function() onTap;
   final Function()? onTapDeleteMedia;
   final MediaModel media;
+  final bool isEditableByUser;
 
   @override
   State<ListItemMediaSmallComponent> createState() =>
@@ -28,7 +30,7 @@ class _ListItemMediaSmallComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemImageChildComponent(
-        endActionPane: endActionPane,
+        endActionPane: widget.isEditableByUser ? endActionPane : null,
         onTap: widget.onTap,
         url: widget.media.source,
         child: Text(

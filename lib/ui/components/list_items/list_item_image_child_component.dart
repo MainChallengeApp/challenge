@@ -13,7 +13,8 @@ class ListItemImageChildComponent extends StatelessWidget {
       this.fit,
       this.scale,
       this.icon = Icons.question_mark,
-      this.endActionPane});
+      this.endActionPane,
+      this.margin});
 
   final void Function()? onTap;
   final ActionPane? Function(Function)? endActionPane;
@@ -25,17 +26,25 @@ class ListItemImageChildComponent extends StatelessWidget {
   final Widget child;
   final IconData icon;
 
+  final EdgeInsetsGeometry? margin;
+
   final mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
       endActionPane: endActionPane,
+      margin: margin,
       onTap: onTap,
       child: Row(
         children: [
           ImageInListItemComponent(
-              icon: icon, url: url, fit: fit, scale: scale),
+              margin: const EdgeInsets.only(
+                  right: ListItemContainerComponent.standardPadding),
+              icon: icon,
+              url: url,
+              fit: fit,
+              scale: scale),
           Expanded(
             child: child,
           )

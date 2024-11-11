@@ -1,3 +1,4 @@
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -46,7 +47,9 @@ class _DateComponentState extends State<DateComponent> {
                         .copyWith(color: widget.textColor),
                   ),
                   Text(
-                    (widget.date != null ? _dateFormat(widget.date!) : '-'),
+                    (widget.date != null
+                        ? UtilService.dateFormat(widget.date!)
+                        : '-'),
                     style: Theme.of(context)
                         .textTheme
                         .textInputSmall
@@ -58,7 +61,9 @@ class _DateComponentState extends State<DateComponent> {
             Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  widget.date != null ? _timeFormat(widget.date!) : '',
+                  widget.date != null
+                      ? UtilService.timeFormat(widget.date!)
+                      : '',
                   style: Theme.of(context)
                       .textTheme
                       .subTitle
@@ -66,13 +71,5 @@ class _DateComponentState extends State<DateComponent> {
                 ))
           ],
         ));
-  }
-
-  String _dateFormat(DateTime date) {
-    return '${date.day}.${date.month}.${date.year}';
-  }
-
-  String _timeFormat(DateTime date) {
-    return '${date.hour <= 9 ? '0' : ''}${date.hour}:${date.minute <= 9 ? '0' : ''}${date.minute}';
   }
 }

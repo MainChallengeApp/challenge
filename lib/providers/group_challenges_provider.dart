@@ -7,6 +7,8 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/util_service.dart';
+import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:flutter/material.dart';
 
 class GroupChallengesProvider with ChangeNotifier {
@@ -57,6 +59,22 @@ class GroupChallengesProvider with ChangeNotifier {
     }
   }
 
+  Future<GroupChallengeModel> getById(String id) async {
+    try {
+      GroupChallengeModel groupChallenge =
+          await _groupChallengesCollection.getById(id);
+      int index = _groupChallenges.indexWhere(
+          (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
+      if (index == -1) {
+        _groupChallenges[index] = groupChallenge;
+        sortLocalList();
+      }
+      return groupChallenge;
+    } on Exception {
+      rethrow;
+    }
+  }
+
   getAllOfUser() async {
     try {
       _groupChallenges = await _groupChallengesCollection.getAllByUserId(
@@ -82,10 +100,19 @@ class GroupChallengesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> startAttempt(GroupChallengeModel groupChallenge,
-      ParticipantModel participant, AttemptModel attempt) async {
-    attempt.start(groupChallenge);
-    await updateAttempt(groupChallenge, participant, attempt);
+  Future<void> startAttempt(
+      GroupChallengeModel groupChallenge,
+      ParticipantModel participant,
+      AttemptModel attempt,
+      BuildContext context) async {
+    DateTime? startDate = attempt.getStartDate(groupChallenge);
+    if (startDate == null) {
+      attempt.start(groupChallenge);
+      await updateAttempt(groupChallenge, participant, attempt);
+      return;
+    }
+    SnackBarComponent.showSnackBar(context,
+        'The Challenge start date is ${UtilService.dateFormat(startDate)}, ${UtilService.timeFormat(startDate)}');
   }
 
   Future<void> endAttempt(GroupChallengeModel groupChallenge,

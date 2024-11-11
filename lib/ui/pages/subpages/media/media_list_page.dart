@@ -5,6 +5,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -41,6 +42,9 @@ class _MediaListPageState extends State<MediaListPage> {
 
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
+
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
   MediaService mediaService = MediaService();
 
@@ -94,6 +98,8 @@ class _MediaListPageState extends State<MediaListPage> {
                     child: ListItemMediaSmallComponent(
                       onTap: () => push(context, index: index - 1),
                       media: mediaList.reversed.elementAt(index - 1),
+                      isEditableByUser:
+                          widget.participant.userId == _usersProvider.user.id,
                       onTapDeleteMedia: () {
                         MediaModel media =
                             mediaList.reversed.elementAt(index - 1);

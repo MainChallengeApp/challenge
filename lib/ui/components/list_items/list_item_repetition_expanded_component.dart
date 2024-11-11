@@ -10,6 +10,7 @@ import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -25,12 +26,14 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
       required this.attempt,
       required this.onTapNextRepetition,
       required this.groupChallenge,
-      required this.participant});
+      required this.participant,
+      required this.isEditableByUser});
 
   final RepetitionModel repetition;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
+  final bool isEditableByUser;
   final void Function()? onTap;
   final void Function(int repetitionNumber) onTapNextRepetition;
 
@@ -94,7 +97,8 @@ class _ListItemRepetitionExpandedComponentState
                   Expanded(
                       child: Align(
                     alignment: Alignment.bottomLeft,
-                    child: widget.repetition.startDate == null
+                    child: widget.repetition.startDate == null &&
+                            widget.isEditableByUser
                         ? Padding(
                             padding: const EdgeInsets.only(
                                 left: 16, bottom: 16, right: 8),
@@ -121,7 +125,8 @@ class _ListItemRepetitionExpandedComponentState
                     child: Align(
                       alignment: Alignment.bottomRight,
                       child: widget.repetition.startDate != null &&
-                              widget.repetition.isInProgress()
+                              widget.repetition.isInProgress() &&
+                              widget.isEditableByUser
                           ? Padding(
                               padding: const EdgeInsets.only(
                                   left: 8, bottom: 16, right: 16),
@@ -182,17 +187,21 @@ class _ListItemRepetitionExpandedComponentState
 
   onTapStart(AttemptModel attempt) {
     groupChallengesProvider.startAttempt(
-        widget.groupChallenge, widget.participant, attempt);
+        widget.groupChallenge, widget.participant, attempt, context);
   }
 
   repetition() {
     return ContainerInContainerTextComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         text:
             '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
 
   progress() {
     return ContainerInContainerTextComponent(
+        margin: const EdgeInsets.only(
+            right: ContainerInContainerComponent.standardMargin),
         text:
             '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}');
   }
