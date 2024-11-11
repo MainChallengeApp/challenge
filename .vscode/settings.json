@@ -38,6 +38,7 @@
     "rename",
     "search",
     "connections",
-    "time_safety"
+    "time_safety",
+    "tests"
   ]
 }

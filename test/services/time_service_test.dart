@@ -8,7 +8,7 @@ void main() {
         // Arrange
         final currentTime = DateTime.now();
         // Act
-        final result = await TimeService.now();
+        final result = TimeService.now();
         // Assert
         expect(result.isAfter(currentTime), true);
       });

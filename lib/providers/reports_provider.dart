@@ -13,7 +13,7 @@ class ReportsProvider with ChangeNotifier {
       userId: authService.getCurrentUserId(),
       reportedUserId: userId,
       reason: reason,
-      createdAt: await TimeService.now(),
+      createdAt: TimeService.now(),
     );
     await reportsCollection.create(report);
   }

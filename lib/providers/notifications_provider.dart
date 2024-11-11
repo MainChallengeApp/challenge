@@ -19,7 +19,7 @@ class NotificationsProvider with ChangeNotifier {
       userId: toUserId,
       fromUserId: fromUserId,
       type: type,
-      createdAt: await TimeService.now(),
+      createdAt: TimeService.now(),
     );
     await notificationsCollection.create(notification);
   }

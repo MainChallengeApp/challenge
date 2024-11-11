@@ -3,6 +3,7 @@ import 'package:challenge/exceptions/repetition_status_is_not_supported_exceptio
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../services/faker_service.dart';
@@ -391,10 +392,16 @@ void main() {
             equals(repetition.goalAmount));
         expect(result[RepetitionModel.progressListField],
             equals(ProgressModel.toDocs(repetition.progressList)));
-        expect(result[RepetitionModel.startDateField],
-            equals(repetition.startDate.toString()));
-        expect(result[RepetitionModel.endDateField],
-            equals(repetition.endDate.toString()));
+        expect(
+            result[RepetitionModel.startDateField],
+            repetition.startDate == null
+                ? null
+                : Timestamp.fromDate(repetition.startDate!));
+        expect(
+            result[RepetitionModel.endDateField],
+            repetition.endDate == null
+                ? null
+                : Timestamp.fromDate(repetition.endDate!));
         expect(result[RepetitionModel.repetitionStatusField],
             equals(repetition.repetitionStatus.status));
       });
@@ -429,8 +436,8 @@ void main() {
           'repetitionNumber': 1,
           'goalAmount': 1.0,
           'progressList': [],
-          'startDate': DateTime.now().toString(),
-          'endDate': DateTime.now().add(const Duration(days: 1)).toString(),
+          'startDate': Timestamp.fromDate(FakerService.dateTime()),
+          'endDate': Timestamp.fromDate(FakerService.dateTime()),
           'repetitionStatus': 'not supported status'
         };
         // Act

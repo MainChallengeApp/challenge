@@ -1,4 +1,5 @@
 import 'package:challenge/models/challenge/progress_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../services/faker_service.dart';
@@ -44,7 +45,7 @@ void main() {
           return {
             'progress': progress,
             'mediaIds': FakerService.list((index) => FakerService.guid()),
-            'date': FakerService.dateTime(),
+            'date': Timestamp.fromDate(FakerService.dateTime()),
             'repetitionNumber': FakerService.integer(),
             'percentProgress': percentProgress
           };
@@ -56,7 +57,8 @@ void main() {
         for (int i = 0; i < progressList.length; i++) {
           expect(progressList[i].progress, equals(json[i]['progress']));
           expect(progressList[i].mediaIds, equals(json[i]['mediaIds']));
-          expect(progressList[i].date, equals(json[i]['date']));
+          expect(progressList[i].date,
+              equals((json[i]['date'] as Timestamp).toDate()));
           expect(progressList[i].repetitionNumber,
               equals(json[i]['repetitionNumber']));
         }
@@ -76,7 +78,7 @@ void main() {
       });
     });
 
-    group('toJsonList()', () {
+    group('toDocs()', () {
       test('should create json from progressList', () {
         // Arrange
         List<ProgressModel> progressList =
@@ -87,7 +89,7 @@ void main() {
         for (int i = 0; i < progressList.length; i++) {
           expect(json[i]['progress'], equals(progressList[i].progress));
           expect(json[i]['mediaIds'], equals(progressList[i].mediaIds));
-          expect(json[i]['date'], progressList[i].date);
+          expect(json[i]['date'], Timestamp.fromDate(progressList[i].date));
           expect(json[i]['repetitionNumber'],
               equals(progressList[i].repetitionNumber));
         }

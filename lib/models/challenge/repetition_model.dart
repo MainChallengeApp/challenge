@@ -128,8 +128,8 @@ class RepetitionModel {
       repetitionNumberField: repetitionNumber,
       goalAmountField: goalAmount,
       progressListField: ProgressModel.toDocs(progressList),
-      startDateField: startDate,
-      endDateField: endDate,
+      startDateField: startDate == null ? null : Timestamp.fromDate(startDate!),
+      endDateField: endDate == null ? null : Timestamp.fromDate(endDate!),
       repetitionStatusField: repetitionStatus.status
     };
   }

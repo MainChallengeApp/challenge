@@ -8,6 +8,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../services/faker_service.dart';
@@ -66,7 +67,8 @@ main() {
             attemptModel.media.map((e) => e.toDoc()).toList());
         expect(result[AttemptModel.repetitionsField],
             attemptModel.repetitions.map((e) => e.toDoc()).toList());
-        expect(result[AttemptModel.createdAtField], attemptModel.createdAt);
+        expect(result[AttemptModel.createdAtField],
+            Timestamp.fromDate(attemptModel.createdAt));
       });
     });
 
@@ -80,6 +82,8 @@ main() {
         // assert
         expect(result.number, attemptModel.number);
         expect(result.status, attemptModel.status);
+        expect(result.startDate, attemptModel.startDate);
+        expect(result.endDate, attemptModel.endDate);
         expect(result.acceptanceCriteria.amount,
             attemptModel.acceptanceCriteria.amount);
         expect(result.acceptanceCriteria.unit,

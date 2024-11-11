@@ -69,15 +69,15 @@ class AttemptModel {
   Map<String, dynamic> toDoc() {
     return {
       numberField: number,
-      startDateField: startDate,
-      endDateField: endDate,
+      startDateField: startDate != null ? Timestamp.fromDate(startDate!) : null,
+      endDateField: endDate != null ? Timestamp.fromDate(endDate!) : null,
       statusField: status.toString(),
       acceptanceCriteriaField: acceptanceCriteria.toDoc(),
       frequencyField: frequency.toDoc(),
       mediaField: media.map((media) => media.toDoc()).toList(),
       repetitionsField:
           repetitions.map((repetition) => repetition.toDoc()).toList(),
-      createdAtField: createdAt,
+      createdAtField: Timestamp.fromDate(createdAt),
     };
   }
 

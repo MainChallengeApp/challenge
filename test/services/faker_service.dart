@@ -32,7 +32,7 @@ class FakerService {
   }
 
   static DateTime dateTime() {
-    return faker.date.dateTime();
+    return faker.date.dateTime(maxYear: 2500, minYear: 2000);
   }
 
   static List<T> list<T>(T Function(int) function,

@@ -47,7 +47,7 @@ class ProgressModel {
 
   Map<String, dynamic> toDoc() {
     return {
-      dateField: date,
+      dateField: Timestamp.fromDate(date),
       progressField: progress,
       mediaIdsField: mediaIds,
       repetitionNumberField: repetitionNumber,
