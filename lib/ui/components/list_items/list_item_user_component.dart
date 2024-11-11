@@ -5,6 +5,7 @@ import 'package:challenge/ui/components/list_items/list_item_image_child_compone
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -79,9 +80,12 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
             ),
             Visibility(
                 visible: widget.isSelected,
-                child: ContainerInListItemComponent(
+                child: ContainerInContainerComponent(
+                    height: CustomContainerComponent.standardHeight * 0.55,
+                    width: CustomContainerComponent.standardHeight * 0.55,
                     margin: const EdgeInsets.only(
                         left: ContainerInContainerComponent.standardMargin),
+                    padding: const EdgeInsets.all(0),
                     child: Center(
                         child: Icon(
                       IconEnum.select.icon,
