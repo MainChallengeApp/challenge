@@ -143,12 +143,8 @@ class GroupChallengesCollection extends Collection {
       if (groupChallenge.userId == participantId) {
         groupChallenge.participants
             .removeWhere((participant) => participant.userId == participantId);
-        groupChallenge.participants.sort((a, b) => a
-            .getLatestAttempt()
-            .getCurrentPercentage(groupChallenge)
-            .compareTo(
-                b.getLatestAttempt().getCurrentPercentage(groupChallenge)));
-        groupChallenge.userId = groupChallenge.participants.last.userId;
+        groupChallenge.sortParticipants();
+        groupChallenge.userId = groupChallenge.participants.first.userId;
         await update(groupChallenge);
       }
       _storageService.deleteFolderByPath(
