@@ -26,7 +26,8 @@ class ListItemProgressComponent extends StatefulWidget {
       this.isEditable = false,
       this.margin,
       required this.groupChallenge,
-      this.setStateProgressList});
+      this.setStateProgressList,
+      this.progressTextEditingController});
 
   final ProgressModel progress;
   final String unit;
@@ -39,6 +40,7 @@ class ListItemProgressComponent extends StatefulWidget {
   final bool isEditable;
   final EdgeInsetsGeometry? margin;
   final Function()? setStateProgressList;
+  final TextEditingController? progressTextEditingController;
 
   @override
   State<ListItemProgressComponent> createState() =>
@@ -89,6 +91,8 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
                   newProgress = 0;
                 }
                 widget.progress.progress = newProgress.toDouble();
+                widget.progressTextEditingController?.text =
+                    UtilService.doubleAsIntString(widget.progress.progress);
                 widget.setStateProgressList?.call();
               });
             }

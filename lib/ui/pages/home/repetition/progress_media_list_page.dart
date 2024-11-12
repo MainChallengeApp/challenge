@@ -11,6 +11,7 @@ import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -69,6 +70,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
               ? widget.repetition!.getLastProgress()!.progress
               : 0)
           : 0);
+
+  late TextEditingController progressTextEditingController =
+      TextEditingController(
+          text: UtilService.doubleAsIntString(editProgress.progress));
 
   late final groupChallengeProvider = Provider.of<GroupChallengesProvider>(
     context,
@@ -136,6 +141,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                 progress: editProgress,
                 attempt: widget.attempt,
                 groupChallenge: widget.groupChallenge,
+                progressTextEditingController: progressTextEditingController,
                 isEditable: widget.isSaveInsteadOfEditButtonVisible &&
                     widget.isEditableByUser,
                 isFailed: widget.repetition != null
@@ -157,6 +163,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   editProgress: editProgress,
                   groupChallenge: widget.groupChallenge,
                   attempt: widget.attempt,
+                  progressTextEditingController: progressTextEditingController,
                   progressListSetState: () => setState(() {}),
                 ),
               );

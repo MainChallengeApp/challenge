@@ -18,6 +18,7 @@ class ListItemProgressControllerComponent extends StatefulWidget {
   final Function(bool)? setIsKeyboardUp;
   final GroupChallengeModel groupChallenge;
   final AttemptModel attempt;
+  final TextEditingController progressTextEditingController;
 
   const ListItemProgressControllerComponent(
       {super.key,
@@ -25,7 +26,8 @@ class ListItemProgressControllerComponent extends StatefulWidget {
       required this.progressListSetState,
       this.setIsKeyboardUp,
       required this.groupChallenge,
-      required this.attempt});
+      required this.attempt,
+      required this.progressTextEditingController});
 
   @override
   State<ListItemProgressControllerComponent> createState() =>
@@ -38,14 +40,8 @@ class _ListItemProgressControllerComponentState
 
   Timer? timer;
 
-  late TextEditingController progressTextEditingController =
-      TextEditingController(
-          text: UtilService.doubleAsIntString(widget.editProgress.progress));
-
   @override
   Widget build(BuildContext context) {
-    progressTextEditingController.text =
-        UtilService.doubleAsIntString(widget.editProgress.progress);
     return ListItemContainerComponent(
         padding: const EdgeInsets.all(0),
         child: Row(
@@ -66,7 +62,7 @@ class _ListItemProgressControllerComponentState
                     required isFocused,
                     required maxLength}) =>
                 null,
-            controller: progressTextEditingController,
+            controller: widget.progressTextEditingController,
             style: Theme.of(context).textTheme.textInputSmall,
             textAlign: TextAlign.center,
             decoration: InputDecoration.collapsed(
@@ -83,18 +79,17 @@ class _ListItemProgressControllerComponentState
               ),
             ],
             onChanged: (value) {
-              setState(() {
-                double number = 0;
-                if (value.endsWith('.')) {
-                  number = double.parse(value.split('.')[0]);
-                  widget.editProgress.progress = number;
-                } else if (value == '') {
-                  widget.editProgress.progress = 0;
-                } else {
-                  number = double.parse(value);
-                  widget.editProgress.progress = number;
-                }
-              });
+              double number = 0;
+              if (value.endsWith('.')) {
+                number = double.parse(value.split('.')[0]);
+                widget.editProgress.progress = number;
+              } else if (value == '') {
+                widget.editProgress.progress = 0;
+              } else {
+                number = double.parse(value);
+                widget.editProgress.progress = number;
+              }
+              setState(() {});
               widget.progressListSetState();
             },
           ),
@@ -109,7 +104,7 @@ class _ListItemProgressControllerComponentState
                   widget.editProgress.progress = widget.editProgress
                       .getGoal(widget.groupChallenge, widget.attempt);
                   widget.progressListSetState();
-                  progressTextEditingController.text =
+                  widget.progressTextEditingController.text =
                       UtilService.doubleAsIntString(
                           widget.editProgress.progress);
                 }),
@@ -220,7 +215,7 @@ class _ListItemProgressControllerComponentState
   void addOneToProgress() {
     widget.editProgress.progress += 1;
     widget.progressListSetState();
-    progressTextEditingController.text =
+    widget.progressTextEditingController.text =
         UtilService.doubleAsIntString(widget.editProgress.progress);
   }
 
@@ -232,7 +227,7 @@ class _ListItemProgressControllerComponentState
       widget.editProgress.progress = 0;
     }
     widget.progressListSetState();
-    progressTextEditingController.text =
+    widget.progressTextEditingController.text =
         UtilService.doubleAsIntString(widget.editProgress.progress);
   }
 }
