@@ -7,6 +7,7 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class GroupChallengesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> startAttempt(
+  Future<void> startAttemptOrChallenge(
       GroupChallengeModel groupChallenge,
       ParticipantModel participant,
       AttemptModel attempt,
@@ -109,6 +110,11 @@ class GroupChallengesProvider with ChangeNotifier {
     if (startDate == null) {
       attempt.start(groupChallenge);
       await updateAttempt(groupChallenge, participant, attempt);
+      return;
+    }
+    if (groupChallenge.userId == _authService.getCurrentUserId()) {
+      groupChallenge.startDate = TimeService.now();
+      await update(groupChallenge);
       return;
     }
     SnackBarComponent.showSnackBar(context,

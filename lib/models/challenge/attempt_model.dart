@@ -55,8 +55,8 @@ class AttemptModel {
   static fromChallengeModel({required ChallengeModel challenge}) {
     return AttemptModel(
       number: 1,
-      startDate: challenge.startDate,
-      endDate: challenge.endDate,
+      startDate: null,
+      endDate: null,
       status: ChallengeStatusEnum.backlog,
       acceptanceCriteria: challenge.acceptanceCriteria,
       frequency: challenge.frequency,

@@ -317,7 +317,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   actionButton() {
     void onTapStartChallenge() {
-      groupChallengeProvider.startAttempt(
+      groupChallengeProvider.startAttemptOrChallenge(
           groupChallenge, widget.participant, attempt, context);
       setState(() {});
     }

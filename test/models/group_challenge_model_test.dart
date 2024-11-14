@@ -70,5 +70,42 @@ void main() {
         // assert
       });
     });
+
+    group('getPositionOf()', () {
+      test('should return position of participant', () {
+        // arrange
+        final userId = FakerService.guid();
+        final groupChallenge = mockGroupChallengeModel(
+          participants: [
+            mockParticipantModel(userId: userId),
+            mockParticipantModel(),
+            mockParticipantModel(),
+          ],
+        );
+        groupChallenge.sortParticipants();
+        // act
+        final position = groupChallenge.getPositionOf(userId);
+        // assert
+        expect(
+            position,
+            groupChallenge.participants.indexWhere(
+                  (participant) => participant.userId == userId,
+                ) +
+                1);
+      });
+
+      test('should throw error if participant not found', () {
+        // arrange
+        final groupChallenge = mockGroupChallengeModel(
+          participants: [
+            mockParticipantModel(userId: '1'),
+            mockParticipantModel(userId: '2'),
+            mockParticipantModel(userId: '3'),
+          ],
+        );
+        // assert
+        expect(() => groupChallenge.getPositionOf('4'), throwsException);
+      });
+    });
   });
 }

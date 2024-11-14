@@ -5,6 +5,7 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
@@ -18,13 +19,15 @@ class AcceptanceCriteriaComponent extends StatefulWidget {
   final AttemptModel attempt;
   final void Function() onTapNewProgress;
   final GroupChallengeModel groupChallenge;
+  final ParticipantModel participant;
 
   const AcceptanceCriteriaComponent(
       {super.key,
       required this.onTap,
       required this.attempt,
       required this.onTapNewProgress,
-      required this.groupChallenge});
+      required this.groupChallenge,
+      required this.participant});
 
   @override
   State<AcceptanceCriteriaComponent> createState() =>
@@ -82,6 +85,7 @@ class _AcceptanceCriteriaComponentState
                         children: [
                           repetition(),
                           repetitionProgressAbsolute(),
+                          _position()
                         ],
                       ),
                     ),
@@ -160,5 +164,16 @@ class _AcceptanceCriteriaComponentState
                 text:
                     '${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
         : Container();
+  }
+
+  _position() {
+    return Visibility(
+      visible: widget.groupChallenge.isGroupChallenge() &&
+          !widget.attempt.isInBacklog(),
+      child: ContainerInContainerTextComponent(
+        text:
+            '${widget.groupChallenge.getPositionOf(widget.participant.userId)}.',
+      ),
+    );
   }
 }

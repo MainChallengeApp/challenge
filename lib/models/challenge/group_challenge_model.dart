@@ -278,4 +278,15 @@ class GroupChallengeModel extends ChallengeModel {
       return 0;
     });
   }
+
+  getPositionOf(String participantId) {
+    sortParticipants();
+    final position = participants
+            .indexWhere((participant) => participant.userId == participantId) +
+        1;
+    if (position == 0) {
+      throw Exception('Participant not found');
+    }
+    return position;
+  }
 }

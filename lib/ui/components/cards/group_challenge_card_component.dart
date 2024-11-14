@@ -197,6 +197,7 @@ class _GroupChallengeCardComponentState
             onTap: _onTapAcceptanceCriteria,
             onTapNewProgress: _onTapNewProgress,
             attempt: _latestAttempt,
+            participant: _participant,
             groupChallenge: _groupChallenge,
           );
   }
@@ -250,7 +251,7 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapStart(AttemptModel attempt) async {
-    await _groupChallengesProvider.startAttempt(
+    await _groupChallengesProvider.startAttemptOrChallenge(
         _groupChallenge, _participant, attempt, context);
   }
 

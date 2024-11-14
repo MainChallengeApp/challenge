@@ -88,7 +88,9 @@ class _LeaderBoardPageState extends State<LeaderBoardPage> {
                     participant: _groupChallenge.participants[index],
                     user: user,
                     groupChallenge: _groupChallenge,
-                    position: index),
+                    position: user.id == ''
+                        ? index + 1
+                        : _groupChallenge.getPositionOf(user.id)),
               );
             }),
       ),

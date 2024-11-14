@@ -54,7 +54,7 @@ class _ListItemParticipantComponentState
               padding: const EdgeInsets.symmetric(horizontal: 8),
               height: CustomContainerComponent.standardHeight * 0.55,
               child: Center(
-                child: Text('${widget.position + 1}.',
+                child: Text('${widget.position}.',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         color: Theme.of(context).colorScheme.tertiary)),
               ),
@@ -76,13 +76,7 @@ class _ListItemParticipantComponentState
               ),
             ),
             _youContainer(),
-            const SpaceComponent(
-              width: ListItemContainerComponent.standardPadding,
-            ),
             _adminContainer(),
-            const SpaceComponent(
-              width: ListItemContainerComponent.standardPadding,
-            ),
             ChallengeTotalPercentageComponent(
                 attempt: widget.participant.getLatestAttempt(),
                 groupChallenge: widget.groupChallenge),
@@ -93,17 +87,22 @@ class _ListItemParticipantComponentState
   _adminContainer() {
     return Visibility(
       visible: widget.groupChallenge.userId == widget.user.id,
-      child: ContainerInContainerComponent(
-        margin: const EdgeInsets.all(0),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        height: CustomContainerComponent.standardHeight * 0.55,
-        child: Center(
-          child: Text('Admin',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.tertiary)),
-        ),
+      child: Row(
+        children: [
+          ContainerInContainerComponent(
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            height: CustomContainerComponent.standardHeight * 0.55,
+            child: Center(
+              child: Text('Admin',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary)),
+            ),
+          ),
+          const SpaceComponent(
+            width: ListItemContainerComponent.standardPadding,
+          ),
+        ],
       ),
     );
   }
@@ -111,17 +110,22 @@ class _ListItemParticipantComponentState
   _youContainer() {
     return Visibility(
       visible: widget.user.id == _usersProvider.user.id,
-      child: ContainerInContainerComponent(
-        margin: const EdgeInsets.all(0),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        height: CustomContainerComponent.standardHeight * 0.55,
-        child: Center(
-          child: Text('You',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleSmall
-                  ?.copyWith(color: Theme.of(context).colorScheme.tertiary)),
-        ),
+      child: Row(
+        children: [
+          ContainerInContainerComponent(
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            height: CustomContainerComponent.standardHeight * 0.55,
+            child: Center(
+              child: Text('You',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary)),
+            ),
+          ),
+          const SpaceComponent(
+            width: ListItemContainerComponent.standardPadding,
+          ),
+        ],
       ),
     );
   }
