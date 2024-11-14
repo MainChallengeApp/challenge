@@ -87,7 +87,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                   text: 'Delete',
                   isLoading: isLoading,
                   isMainButton: false,
-                  textColor: Theme.of(context).colorScheme.redWithAlpha),
+                  textColor: Theme.of(context).colorScheme.red),
             ),
           ],
         ),

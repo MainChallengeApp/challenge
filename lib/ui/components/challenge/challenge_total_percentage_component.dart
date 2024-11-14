@@ -27,6 +27,8 @@ class _ChallengeTotalPercentageComponentState
         margin: const EdgeInsets.all(0),
         padding: const EdgeInsets.symmetric(horizontal: 6),
         height: CustomContainerComponent.standardHeight * 0.55,
+        border: Border.all(
+            color: Theme.of(context).colorScheme.surface, width: 0.5),
         color: (widget.attempt.isFailed()
             ? Theme.of(context).colorScheme.red
             : widget.attempt.isSucceeded()

@@ -124,7 +124,7 @@ class _GroupChallengeCardComponentState
     return SliderComponent(
         icon: IconEnum.delete.icon,
         label: 'Delete',
-        foregroundColor: Theme.of(context).colorScheme.redWithAlpha,
+        foregroundColor: Theme.of(context).colorScheme.red,
         duration: Durations.short1,
         onTap: _onTapDeleteChallenge);
   }

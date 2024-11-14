@@ -292,7 +292,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Delete',
-        textColor: Theme.of(context).colorScheme.redWithAlpha,
+        textColor: Theme.of(context).colorScheme.red,
         onTap: onTapDelete,
         isMainButton: false,
         margin: const EdgeInsets.only(left: 20, right: 10),

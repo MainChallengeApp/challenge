@@ -113,8 +113,8 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: onTapDeleteUser,
             icon: IconEnum.delete.icon,
             title: 'Delete',
-            iconColor: Theme.of(context).colorScheme.redWithAlpha,
-            textColor: Theme.of(context).colorScheme.redWithAlpha,
+            iconColor: Theme.of(context).colorScheme.red,
+            textColor: Theme.of(context).colorScheme.red,
           ))
         ],
       ),

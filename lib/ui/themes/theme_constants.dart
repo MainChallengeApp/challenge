@@ -5,8 +5,8 @@ const Color _themeColor2 = Color.fromRGBO(51, 65, 85, 1);
 const Color _themeColor3 = Color.fromRGBO(100, 116, 139, 1);
 const Color _themeColor4 = Color.fromRGBO(241, 245, 249, 1);
 const Color _themeColor5 = Color.fromRGBO(226, 232, 240, 1);
-const Color _green = Color.fromRGBO(76, 175, 80, 0.4);
-const Color _red = Color.fromRGBO(244, 67, 54, 0.4);
+const Color _green = Color.fromRGBO(174, 218, 176, 1);
+const Color _red = Color.fromRGBO(252, 171, 165, 1);
 
 ThemeData lightTheme = ThemeData(
   primaryColor: _themeColor1,
@@ -70,6 +70,4 @@ extension CustomColorTheme on ColorScheme {
   Color get themeColor5 => _themeColor5;
   Color get green => _green;
   Color get red => _red;
-  Color get redWithAlpha => _red.withAlpha(150);
-  Color get greenWithAlpha => _green.withAlpha(150);
 }
