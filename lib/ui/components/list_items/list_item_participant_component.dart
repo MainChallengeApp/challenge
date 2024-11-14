@@ -69,16 +69,60 @@ class _ListItemParticipantComponentState
                 url: widget.user.pictureUrl),
             Expanded(
               child: Text(
-                '${widget.user.username}${widget.user.id == _usersProvider.user.id ? ' (You)' : ''}',
+                widget.user.username,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
+            ),
+            _youContainer(),
+            const SpaceComponent(
+              width: ListItemContainerComponent.standardPadding,
+            ),
+            _adminContainer(),
+            const SpaceComponent(
+              width: ListItemContainerComponent.standardPadding,
             ),
             ChallengeTotalPercentageComponent(
                 attempt: widget.participant.getLatestAttempt(),
                 groupChallenge: widget.groupChallenge),
           ],
         ));
+  }
+
+  _adminContainer() {
+    return Visibility(
+      visible: widget.groupChallenge.userId == widget.user.id,
+      child: ContainerInContainerComponent(
+        margin: const EdgeInsets.all(0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        height: CustomContainerComponent.standardHeight * 0.55,
+        child: Center(
+          child: Text('Admin',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.tertiary)),
+        ),
+      ),
+    );
+  }
+
+  _youContainer() {
+    return Visibility(
+      visible: widget.user.id == _usersProvider.user.id,
+      child: ContainerInContainerComponent(
+        margin: const EdgeInsets.all(0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        height: CustomContainerComponent.standardHeight * 0.55,
+        child: Center(
+          child: Text('You',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.tertiary)),
+        ),
+      ),
+    );
   }
 }
