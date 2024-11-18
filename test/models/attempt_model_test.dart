@@ -49,6 +49,7 @@ main() {
         groupChallengeOptions:
             mockGroupChallengeOptionsModel(isProgressIndividuell: true));
     groupChallenge.startDate = null;
+    groupChallenge.endDate = null;
     group('toDoc()', () {
       test('should return document of attempt model', () {
         // arrange
@@ -157,11 +158,13 @@ main() {
           () {
         // Arrange
         int days = FakerService.integer(max: 10);
+        DateTime startDate = TimeService.now().subtract(Duration(days: days));
+        DateTime endDate = TimeService.now();
         AttemptModel attempt = mockAttemptModel(
             repetitions: [],
             status: ChallengeStatusEnum.inProgress,
-            startDate: TimeService.now().subtract(Duration(days: days)),
-            endDate: TimeService.now(),
+            startDate: startDate,
+            endDate: endDate,
             frequency: mockFrequencyModel(
                 amount: days, type: FrequencyTypeEnum.daily));
 
@@ -178,11 +181,13 @@ main() {
           () {
         // Arrange
         int days = FakerService.integer(max: 10);
+        DateTime startDate = TimeService.now().subtract(Duration(days: days));
+        DateTime endDate = TimeService.now();
         AttemptModel attempt = mockAttemptModel(
             repetitions: [],
             status: ChallengeStatusEnum.failed,
-            startDate: TimeService.now().subtract(Duration(days: days)),
-            endDate: TimeService.now(),
+            startDate: startDate,
+            endDate: endDate,
             frequency: mockFrequencyModel(
                 amount: days, type: FrequencyTypeEnum.daily));
 
@@ -238,9 +243,11 @@ main() {
           () {
         // Arrange
         int days = FakerService.integer(max: 10);
+        DateTime startDate = TimeService.now().subtract(Duration(days: days));
+        DateTime endDate = TimeService.now();
         AttemptModel attempt = mockAttemptModel(
-            startDate: TimeService.now().subtract(Duration(days: days)),
-            endDate: TimeService.now(),
+            startDate: startDate,
+            endDate: endDate,
             frequency: mockFrequencyModel(
                 amount: days, type: FrequencyTypeEnum.daily));
 

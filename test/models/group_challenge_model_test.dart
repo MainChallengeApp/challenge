@@ -7,10 +7,12 @@ import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../services/faker_service.dart';
 import 'acceptance_criteria_model_test.dart';
+import 'attempt_model_test.dart';
 import 'frequency_model_test.dart';
 import 'group_challenge_options_model_test.dart';
 import 'media_model_test.dart';
@@ -75,11 +77,25 @@ void main() {
       test('should return position of participant', () {
         // arrange
         final userId = FakerService.guid();
+        final DateTime startDate = TimeService.now()
+            .subtract(Duration(days: FakerService.integer(max: 20)));
+        final DateTime endDate = TimeService.now();
         final groupChallenge = mockGroupChallengeModel(
+          startDate: startDate,
+          endDate: endDate,
           participants: [
-            mockParticipantModel(userId: userId),
-            mockParticipantModel(),
-            mockParticipantModel(),
+            mockParticipantModel(id: userId, userId: userId, attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
+            mockParticipantModel(id: '1', userId: '1', attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
+            mockParticipantModel(id: '2', userId: '2', attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
+            mockParticipantModel(id: '3', userId: '3', attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
           ],
         );
         groupChallenge.sortParticipants();
@@ -96,11 +112,22 @@ void main() {
 
       test('should throw error if participant not found', () {
         // arrange
+        final DateTime startDate = TimeService.now()
+            .subtract(Duration(days: FakerService.integer(max: 20)));
+        final DateTime endDate = TimeService.now();
         final groupChallenge = mockGroupChallengeModel(
+          startDate: startDate,
+          endDate: endDate,
           participants: [
-            mockParticipantModel(userId: '1'),
-            mockParticipantModel(userId: '2'),
-            mockParticipantModel(userId: '3'),
+            mockParticipantModel(id: '1', userId: '1', attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
+            mockParticipantModel(id: '2', userId: '2', attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
+            mockParticipantModel(id: '3', userId: '3', attempts: [
+              mockAttemptModel(startDate: startDate, endDate: endDate)
+            ]),
           ],
         );
         // assert
