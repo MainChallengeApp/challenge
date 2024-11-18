@@ -202,13 +202,13 @@ class GroupChallengeModel extends ChallengeModel {
 
       if ((aAttempt.isSucceeded() || aAttempt.isFailed()) &&
           (bAttempt.isSucceeded() || bAttempt.isFailed()) &&
-          aAttempt.endDate != null &&
-          bAttempt.endDate != null) {
-        if (aAttempt.endDate!.compareTo(bAttempt.endDate!) > 0) {
+          aAttempt.getEndDate(a) != null &&
+          bAttempt.getEndDate(b) != null) {
+        if (aAttempt.getEndDate(a)!.compareTo(bAttempt.getEndDate(b)!) > 0) {
           return -1;
         }
 
-        if (bAttempt.endDate!.compareTo(aAttempt.endDate!) > 0) {
+        if (bAttempt.getEndDate(b)!.compareTo(aAttempt.getEndDate(a)!) > 0) {
           return 1;
         }
       }

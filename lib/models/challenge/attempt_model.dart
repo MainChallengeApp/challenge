@@ -144,12 +144,12 @@ class AttemptModel {
                           getStartDate(groupChallenge) != null
                       ? getStartDate(groupChallenge)!
                                   .add(Duration(days: repetitionNumber))
-                                  .difference(endDate!)
+                                  .difference(getEndDate(groupChallenge)!)
                                   .inMilliseconds <=
                               0
                           ? getStartDate(groupChallenge)!
                               .add(Duration(days: repetitionNumber))
-                          : endDate
+                          : getEndDate(groupChallenge)
                       : null,
               repetitionNumber: repetitionNumber,
               goalAmount:
@@ -265,10 +265,11 @@ class AttemptModel {
   ChallengeStatusEnum checkStatus(GroupChallengeModel groupChallenge) {
     DateTime now = TimeService.now();
     if (isCompleted(groupChallenge) &&
-        endDate != null &&
-        endDate!.isBefore(now)) {
+        getEndDate(groupChallenge) != null &&
+        getEndDate(groupChallenge)!.isBefore(now)) {
       status = ChallengeStatusEnum.success;
-    } else if (endDate != null && endDate!.isBefore(now)) {
+    } else if (getEndDate(groupChallenge) != null &&
+        getEndDate(groupChallenge)!.isBefore(now)) {
       status = ChallengeStatusEnum.failed;
     } else if (getStartDate(groupChallenge) == null ||
         now.isBefore(getStartDate(groupChallenge)!)) {
@@ -289,10 +290,15 @@ class AttemptModel {
         return 0;
       }
 
-      if (endDate != null && endDate!.isBefore(now)) {
-        var days = endDate!.difference(getStartDate(groupChallenge)!).inDays +
-            (endDate!.difference(getStartDate(groupChallenge)!).inSeconds -
-                        endDate!
+      if (getEndDate(groupChallenge) != null &&
+          getEndDate(groupChallenge)!.isBefore(now)) {
+        var days = getEndDate(groupChallenge)!
+                .difference(getStartDate(groupChallenge)!)
+                .inDays +
+            (getEndDate(groupChallenge)!
+                            .difference(getStartDate(groupChallenge)!)
+                            .inSeconds -
+                        getEndDate(groupChallenge)!
                                 .difference(getStartDate(groupChallenge)!)
                                 .inDays *
                             24 *
@@ -326,7 +332,8 @@ class AttemptModel {
 
   void start(GroupChallengeModel groupChallenge) {
     startDate = TimeService.now();
-    if (endDate == null || getFrequency(groupChallenge).amount != null) {
+    if (getEndDate(groupChallenge) == null ||
+        getFrequency(groupChallenge).amount != null) {
       setEndDate(groupChallenge);
     } else {
       setFrequencyAmount(groupChallenge);
@@ -353,14 +360,19 @@ class AttemptModel {
   }
 
   setFrequencyAmount(GroupChallengeModel groupChallenge) {
-    if (getStartDate(groupChallenge) == null && endDate == null) return;
+    if (getStartDate(groupChallenge) == null &&
+        getEndDate(groupChallenge) == null) return;
 
     if (getStartDate(groupChallenge) != null &&
-        endDate != null &&
+        getEndDate(groupChallenge) != null &&
         getFrequency(groupChallenge).type == FrequencyTypeEnum.daily) {
-      int amount = endDate!.difference(getStartDate(groupChallenge)!).inDays +
-          (endDate!.difference(getStartDate(groupChallenge)!).inSeconds -
-                      endDate!
+      int amount = getEndDate(groupChallenge)!
+              .difference(getStartDate(groupChallenge)!)
+              .inDays +
+          (getEndDate(groupChallenge)!
+                          .difference(getStartDate(groupChallenge)!)
+                          .inSeconds -
+                      getEndDate(groupChallenge)!
                               .difference(getStartDate(groupChallenge)!)
                               .inDays *
                           24 *
@@ -373,7 +385,7 @@ class AttemptModel {
         getFrequency(groupChallenge).amount = amount;
       }
     } else if (getFrequency(groupChallenge).type == FrequencyTypeEnum.daily &&
-        endDate == null) {
+        getEndDate(groupChallenge) == null) {
       getFrequency(groupChallenge).amount = null;
     }
   }
