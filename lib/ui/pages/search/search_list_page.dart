@@ -7,6 +7,7 @@ import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_invite_friends_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_with_filter_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
@@ -55,7 +56,8 @@ class _SearchListPageState extends State<SearchListPage> {
   late final listeningSearchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: true);
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
@@ -71,7 +73,7 @@ class _SearchListPageState extends State<SearchListPage> {
     searchChallengesProvider.initSearchChallenges(
         categories: widget.categories);
     if (widget.isUserSearchActive) {
-      usersProvider.getSearchedPaginated(isInit: true);
+      _usersProvider.getSearchedPaginated(isInit: true);
     }
 
     scrollController.addListener(() {
@@ -82,7 +84,7 @@ class _SearchListPageState extends State<SearchListPage> {
               searchText: textEditingController.text,
               categories: widget.categories);
         } else {
-          usersProvider.getSearchedPaginated(
+          _usersProvider.getSearchedPaginated(
               searchText: textEditingController.text);
         }
       }
@@ -141,7 +143,7 @@ class _SearchListPageState extends State<SearchListPage> {
               categories: widget.categories,
               isInit: true);
         } else {
-          await usersProvider.getSearchedPaginated(
+          await _usersProvider.getSearchedPaginated(
               searchText: textEditingController.text);
         }
       },
@@ -193,7 +195,7 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        await usersProvider.getSearchedPaginated(
+        await _usersProvider.getSearchedPaginated(
             searchText: textEditingController.text, isInit: true);
       },
       child: RawScrollbar(
@@ -211,10 +213,8 @@ class _SearchListPageState extends State<SearchListPage> {
               if (index == searchedUsers.length) {
                 return listeningUsersProvider.isEndOfSearchedListReached
                     ? SpaceColumnComponent(
-                        child: ListItemIconTextComponent(
-                        onTap: () => {},
-                        icon: Icons.add,
-                        title: 'Invite Friend',
+                        child: ListItemInviteFriendsComponent(
+                        username: _usersProvider.user.username,
                       ))
                     : const Center(
                         child: SpaceColumnComponent(
@@ -292,7 +292,7 @@ class _SearchListPageState extends State<SearchListPage> {
       searchChallengesProvider.getSearchedPaginated(
           searchText: searchText, categories: widget.categories, isInit: true);
     } else {
-      usersProvider.getSearchedPaginated(searchText: searchText, isInit: true);
+      _usersProvider.getSearchedPaginated(searchText: searchText, isInit: true);
     }
   }
 }

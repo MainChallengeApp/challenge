@@ -6,6 +6,7 @@ import 'package:challenge/ui/components/edit_challenge/add_member_overview_compo
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_invite_friends_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
@@ -31,7 +32,8 @@ class AddParticipantsPage extends StatefulWidget {
 class _AddParticipantsPageState extends State<AddParticipantsPage> {
   String title = 'Add Participants';
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
   final textEditingController = TextEditingController();
 
@@ -40,14 +42,14 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
   final scrollController = ScrollController();
 
   late List<UserModel> filteredConnections =
-      List.from(usersProvider.confirmedConnections);
+      List.from(_usersProvider.confirmedConnections);
 
   @override
   void initState() {
     super.initState();
-    usersProvider.getConnections().then((_) {
+    _usersProvider.getConnections().then((_) {
       setState(() {
-        filteredConnections = List.from(usersProvider.confirmedConnections);
+        filteredConnections = List.from(_usersProvider.confirmedConnections);
       });
     });
   }
@@ -84,10 +86,10 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
       child: RefreshIndicatorComponent(
         scrollController: scrollController,
         onRefresh: () async {
-          await usersProvider.getConnections().then((_) {
+          await _usersProvider.getConnections().then((_) {
             setState(() {
               filteredConnections =
-                  List.from(usersProvider.confirmedConnections);
+                  List.from(_usersProvider.confirmedConnections);
             });
           });
         },
@@ -116,8 +118,9 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
 
   SpaceColumnComponent inviteFriends() {
     return SpaceColumnComponent(
-        child: ListItemIconTextComponent(
-            icon: IconEnum.add.icon, title: 'Invite Friends', onTap: () {}));
+        child: ListItemInviteFriendsComponent(
+      username: _usersProvider.user.username,
+    ));
   }
 
   SpaceColumnComponent addParticipantsOverview() {
@@ -251,7 +254,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
   }
 
   changeList(String searchText) {
-    filteredConnections = usersProvider.confirmedConnections.where((user) {
+    filteredConnections = _usersProvider.confirmedConnections.where((user) {
       return user.username.toLowerCase().startsWith(searchText.toLowerCase());
     }).toList();
   }
