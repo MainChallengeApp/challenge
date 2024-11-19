@@ -254,6 +254,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
           isEditableByUser: isEditableByUser,
+          amountOfPops: 0,
         ),
       ),
     ).then((_) => setState(() {}));
@@ -281,6 +282,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           preTitle:
               '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
           repetition: repetition,
+          initialMediaList: List.empty(growable: true),
           attempt: attempt,
           groupChallenge: groupChallenge,
           participant: widget.participant,

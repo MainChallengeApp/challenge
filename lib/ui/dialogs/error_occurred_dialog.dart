@@ -3,13 +3,16 @@ import 'package:challenge/ui/dialogs/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ErrorOccurredDialog {
-  static Future<void> show({required BuildContext context}) async {
+  static Future<void> show(
+      {required BuildContext context, required String? errorText}) async {
     await showDialog(
       context: context,
       builder: (context) {
         return CustomDialog(
             title: 'Error Occurred',
-            text: 'Oh oh! An error occurred...sorry\n',
+            text: errorText == null
+                ? 'Oh oh! An error occurred...sorry\n'
+                : '$errorText\n',
             buttons: [Expanded(child: noButton(context))]);
       },
     );

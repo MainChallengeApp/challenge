@@ -19,6 +19,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final double? borderRadius;
   final Color? onTapColor;
   final bool isHeightDynamic;
+  final double? borderSize;
 
   const ListItemContainerComponent(
       {super.key,
@@ -32,7 +33,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.borderRadius,
       this.onHorizontalDragUpdate,
       this.onTapColor,
-      this.isHeightDynamic = false});
+      this.isHeightDynamic = false,
+      this.borderSize});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -89,7 +91,7 @@ class _ListItemContainerComponentState
                 decoration: BoxDecoration(
                     color: widget.backgroundColor,
                     border: Border.all(
-                        width: 1,
+                        width: widget.borderSize ?? 1,
                         color: Theme.of(context).colorScheme.themeColor5),
                     borderRadius: BorderRadius.all(Radius.circular(
                         widget.borderRadius ??
@@ -116,7 +118,7 @@ class _ListItemContainerComponentState
                         color: widget.onTapColor ??
                             Theme.of(context).colorScheme.primary.withAlpha(15),
                         border: Border.all(
-                            width: 1,
+                            width: widget.borderSize ?? 1,
                             color: Theme.of(context).colorScheme.themeColor5),
                         borderRadius: BorderRadius.all(Radius.circular(widget
                                 .borderRadius ??

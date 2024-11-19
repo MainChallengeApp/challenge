@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
@@ -232,7 +231,7 @@ class _GroupChallengeCardComponentState
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
-                iconData: Icons.camera_alt_outlined, onTap: _onTapCamera),
+                iconData: IconEnum.camera.icon, onTap: _onTapCamera),
           ],
         ),
       ),
@@ -380,6 +379,7 @@ class _GroupChallengeCardComponentState
         builder: (context) => ProgressMediaListPage(
           preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           repetition: _latestAttempt.getCurrentRepetition(_groupChallenge)!,
+          initialMediaList: List.empty(growable: true),
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
@@ -391,20 +391,11 @@ class _GroupChallengeCardComponentState
   }
 
   void _onTapCamera() async {
-    // Ensure that plugin services are initialized so that `availableCameras()`
-    // can be called before `runApp()`
-    WidgetsFlutterBinding.ensureInitialized();
-
-    // Obtain a list of the available cameras on the device.
-    final cameras = await availableCameras();
-
-    // ignore: use_build_context_synchronously
     Navigator.push(
       // ignore: use_build_context_synchronously
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
-          cameras: cameras,
           preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           mediaList: _latestAttempt.media,
           attempt: _latestAttempt,

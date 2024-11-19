@@ -31,8 +31,8 @@ class ProgressMediaListPage extends StatefulWidget {
       {super.key,
       required this.preTitle,
       required this.attempt,
+      required this.initialMediaList,
       this.repetition,
-      this.initialMediaList,
       this.progress,
       this.isSaveInsteadOfEditButtonVisible = true,
       this.amountOfPops = 1,
@@ -45,7 +45,7 @@ class ProgressMediaListPage extends StatefulWidget {
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
   RepetitionModel? repetition;
-  List<MediaModel>? initialMediaList;
+  final List<MediaModel> initialMediaList;
   ProgressModel? progress;
   bool isSaveInsteadOfEditButtonVisible;
   int amountOfPops;
@@ -58,13 +58,13 @@ class ProgressMediaListPage extends StatefulWidget {
 class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   ScrollController scrollController = ScrollController();
 
-  late List<MediaModel> mediaList =
-      MediaModel.copyList(widget.initialMediaList ?? []);
+  // late List<MediaModel> widget.initialMediaList =
+  //     MediaModel.copyList(widget.initialMediaList ?? []);
 
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
       max(1, widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)),
-      mediaList.map((e) => e.id!).toList(),
+      widget.initialMediaList.map((e) => e.id!).toList(),
       widget.repetition != null
           ? (widget.repetition!.getLastProgress() != null
               ? widget.repetition!.getLastProgress()!.progress
@@ -126,7 +126,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
           controller: scrollController,
-          itemCount: mediaList.length +
+          itemCount: widget.initialMediaList.length +
               1 +
               (widget.isSaveInsteadOfEditButtonVisible
                   ? 2
@@ -184,16 +184,19 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             return SpaceColumnComponent(
               child: ListItemMediaSmallComponent(
                 onTap: () => push(context, index: newIndex),
-                media: mediaList.reversed.elementAt(newIndex),
+                media: widget.initialMediaList.reversed.elementAt(newIndex),
                 isEditableByUser: widget.isEditableByUser,
                 onTapDeleteMedia: () {
                   setState(() {
-                    mediaService
-                        .deleteMedia(mediaList.reversed.elementAt(newIndex));
-                    widget.attempt
-                        .removeMedia(mediaList.reversed.elementAt(newIndex));
-                    mediaList.removeWhere((media) =>
-                        media.id == mediaList.reversed.elementAt(newIndex).id);
+                    mediaService.deleteMedia(
+                        widget.initialMediaList.reversed.elementAt(newIndex));
+                    widget.attempt.removeMedia(
+                        widget.initialMediaList.reversed.elementAt(newIndex));
+                    widget.initialMediaList.removeWhere((media) =>
+                        media.id ==
+                        widget.initialMediaList.reversed
+                            .elementAt(newIndex)
+                            .id);
                     editProgress.mediaIds.removeAt(newIndex);
                   });
                 },
@@ -208,7 +211,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
-          mediaList: mediaList,
+          mediaList: widget.initialMediaList,
           preTitle: '${widget.preTitle}/Media',
           initialMediaIndex: index,
           attempt: widget.attempt,
@@ -325,18 +328,19 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         widget.progress!.updateProgress(editProgress);
       }
 
-      List<MediaModel> filteredMediaList = mediaList
+      List<MediaModel> filteredMediaList = widget.initialMediaList
           .where((media) =>
-              widget.initialMediaList == null ||
-              !widget.initialMediaList!
-                  .map((media) => media.id)
-                  .contains(media.id))
+              !widget.attempt.media.map((media) => media.id).contains(media.id))
           .toList();
 
       widget.attempt.media.addAll(filteredMediaList);
 
       groupChallengeProvider.updateAttempt(
           widget.groupChallenge, widget.participant, widget.attempt);
+
+      setState(() {
+        widget.isSaveInsteadOfEditButtonVisible = false;
+      });
 
       for (int i = 0; i < widget.amountOfPops; i++) {
         // ignore: use_build_context_synchronously
@@ -356,26 +360,19 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
     setState(() {
       editProgress.mediaIds.add(media.id!);
-      mediaList.add(media);
+      widget.initialMediaList.add(media);
     });
   }
 
   void onTapCancel() {
-    if (!widget.isEditableByUser) {
+    if (!widget.isEditableByUser || widget.progress == null) {
       Navigator.pop(context);
       return;
     }
 
-    if (widget.progress == null) {
-      for (int i = 0; i < widget.amountOfPops; i++) {
-        Navigator.pop(context);
-      }
-      return;
-    } else {
-      setState(() {
-        widget.isSaveInsteadOfEditButtonVisible = false;
-      });
-    }
+    setState(() {
+      widget.isSaveInsteadOfEditButtonVisible = false;
+    });
   }
 
   void onTapDelete() {
@@ -394,7 +391,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   void onTapDeleteMedia(MediaModel media) {
     mediaService.deleteMedia(media);
     setState(() {
-      mediaList.removeWhere((element) => element.id == media.id);
+      widget.initialMediaList.removeWhere((element) => element.id == media.id);
       widget.attempt.removeMedia(media);
       editProgress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
     });

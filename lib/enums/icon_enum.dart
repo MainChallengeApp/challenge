@@ -6,6 +6,7 @@ enum IconEnum {
   arrowRight(Icons.keyboard_arrow_right_rounded),
   bio(Icons.notes_rounded),
   blockedUsers(Icons.block_rounded),
+  camera(Icons.camera_alt_outlined),
   connect(Icons.group_add_rounded),
   delete(Icons.delete),
   disconnect(Icons.group_remove_rounded),

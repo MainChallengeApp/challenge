@@ -45,7 +45,7 @@ class AppState extends State<App> {
       });
       usersProvider.logout();
       // ignore: use_build_context_synchronously
-      ErrorOccurredDialog.show(context: context);
+      ErrorOccurredDialog.show(context: context, errorText: error.toString());
     });
 
     groupChallengesProvider.getAllOfUser().then((value) {

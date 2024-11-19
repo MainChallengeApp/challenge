@@ -9,12 +9,14 @@ class CardComponent extends StatelessWidget {
   final List<Widget> children;
   final ScrollPhysics scrollPhysics;
   final ScrollController? scrollController;
+  final EdgeInsetsGeometry? padding;
 
   const CardComponent(
       {super.key,
       this.children = const [],
       this.scrollPhysics = const NeverScrollableScrollPhysics(),
-      this.scrollController});
+      this.scrollController,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CardComponent extends StatelessWidget {
                   bottom: standardBottomMargin,
                   left: standardSideMargin,
                   right: standardSideMargin),
-              padding: const EdgeInsets.all(standardPadding),
+              padding: padding ?? const EdgeInsets.all(standardPadding),
               width: null,
               height: 1, // just to make it static
               decoration: BoxDecoration(

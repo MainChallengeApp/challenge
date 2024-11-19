@@ -138,6 +138,8 @@ class GroupChallengesCollection extends Collection {
       required String participantId}) async {
     try {
       if (groupChallenge.participants.length == 1) {
+        await _storageService
+            .deleteFolderByPath('$collectionName/${groupChallenge.id}');
         return await delete(groupChallenge.id);
       }
       if (groupChallenge.userId == participantId) {
@@ -145,10 +147,11 @@ class GroupChallengesCollection extends Collection {
             .removeWhere((participant) => participant.userId == participantId);
         groupChallenge.sortParticipants();
         groupChallenge.userId = groupChallenge.participants.first.userId;
+        await _storageService.deleteFolderByPath(
+            '$collectionName/${groupChallenge.id}/$participantId');
         await update(groupChallenge);
       }
-      _storageService.deleteFolderByPath(
-          '$collectionName/${groupChallenge.id}/$participantId');
+
       return await db
           .collection(collectionName)
           .doc(groupChallenge.id)
