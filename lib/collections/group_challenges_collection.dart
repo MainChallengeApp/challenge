@@ -125,9 +125,9 @@ class GroupChallengesCollection extends Collection {
       batch.delete(groupChallengeRef);
 
       // Commit the batch
-      await batch.commit();
       await _storageService
           .deleteFolderByPath('$collectionName/$groupChallengeId');
+      await batch.commit();
     } catch (e) {
       rethrow;
     }
@@ -137,9 +137,8 @@ class GroupChallengesCollection extends Collection {
       {required GroupChallengeModel groupChallenge,
       required String participantId}) async {
     try {
+      groupChallenge = await getById(groupChallenge.id);
       if (groupChallenge.participants.length == 1) {
-        await _storageService
-            .deleteFolderByPath('$collectionName/${groupChallenge.id}');
         return await delete(groupChallenge.id);
       }
       if (groupChallenge.userId == participantId) {

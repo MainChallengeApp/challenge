@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:challenge/collections/group_challenges_collection.dart';
@@ -33,13 +34,28 @@ class StorageService {
   }
 
   Future<void> deleteFolderByPath(String path) async {
+    final firebaseStorage = FirebaseStorage.instance;
+
     try {
-      ListResult files = await firebaseStorage.ref(path).listAll();
-      for (var file in files.items) {
+      // List all files and folders in the given path
+      ListResult listResult = await firebaseStorage.ref(path).listAll();
+
+      // Delete all files
+      for (var file in listResult.items) {
         await file.delete();
+        log('Deleted file: ${file.fullPath}');
       }
-    } on Exception catch (e) {
-      throw CouldNotDeleteFileException(e.toString());
+
+      // Recursively delete all subfolders
+      for (var folder in listResult.prefixes) {
+        await deleteFolderByPath(folder.fullPath);
+      }
+
+      log('Deleted folder: $path');
+    } on FirebaseException catch (e) {
+      throw Exception('Failed to delete folder: $path, Error: ${e.message}');
+    } catch (e) {
+      throw Exception('An unexpected error occurred: $e');
     }
   }
 
