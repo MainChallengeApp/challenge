@@ -1,5 +1,4 @@
 import 'package:challenge/models/notification/notification_model.dart';
-import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -11,14 +10,10 @@ import 'package:provider/provider.dart';
 
 class ConnectionAcceptedCard extends StatefulWidget {
   final NotificationModel notification;
-  final UserModel fromUser;
-  final void Function() onEmptyList;
 
   const ConnectionAcceptedCard({
     super.key,
     required this.notification,
-    required this.fromUser,
-    required this.onEmptyList,
   });
 
   @override
@@ -37,13 +32,13 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
       children: [
         SpaceColumnComponent(
             child: UserPictureMinComponent(
-                userPictureUrl: widget.fromUser.pictureUrl)),
+                userPictureUrl: widget.notification.fromUser.pictureUrl)),
         SpaceColumnComponent(
             child: CustomContainerComponent(
                 isHeightDynamic: true,
                 child: Center(
                     child: Text(
-                        '${widget.fromUser.username} ${widget.notification.body}',
+                        '${widget.notification.fromUser.username} ${widget.notification.body}',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium)))),
         const Expanded(child: SizedBox()),
@@ -73,6 +68,5 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
         isLoadingAcceptButton = false;
       });
     }
-    widget.onEmptyList();
   }
 }

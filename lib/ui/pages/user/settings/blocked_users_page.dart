@@ -1,7 +1,6 @@
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -52,10 +51,9 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
               1, // +1 for add blocked user
           itemBuilder: (context, index) {
             if (index == 0) {
-              return SpaceColumnComponent(
-                child: ListItemIconTextComponent(
-                  icon: IconEnum.info.icon,
-                  title: 'You do not have any blocked users',
+              return const SpaceColumnComponent(
+                child: ListItemInfoComponent(
+                  text: 'You do not have any blocked users',
                 ),
               );
             }

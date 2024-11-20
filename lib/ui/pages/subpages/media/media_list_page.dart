@@ -99,7 +99,7 @@ class _MediaListPageState extends State<MediaListPage> {
                       onTap: () => push(context, index: index - 1),
                       media: mediaList.reversed.elementAt(index - 1),
                       isEditableByUser:
-                          widget.participant.userId == _usersProvider.user.id,
+                          widget.participant.user.id == _usersProvider.user.id,
                       onTapDeleteMedia: () {
                         MediaModel media =
                             mediaList.reversed.elementAt(index - 1);
@@ -161,7 +161,7 @@ class _MediaListPageState extends State<MediaListPage> {
     });
 
     MediaModel? mediaWithUrl = await mediaService.uploadLocalMedia(
-        media, widget.groupChallenge, widget.participant.userId);
+        media, widget.groupChallenge, widget.participant.user.id);
 
     if (mediaWithUrl == null) {
       return;

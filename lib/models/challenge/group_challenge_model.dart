@@ -1,5 +1,6 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
+import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
@@ -58,7 +59,11 @@ class GroupChallengeModel extends ChallengeModel {
         ) {
     participants = participantUsers
         .map((participantUser) => ParticipantModel.fromChallengeModel(
-            challenge: challenge, userId: participantUser.id))
+            challenge: challenge,
+            user: participantUser,
+            status: userId == participantUser.id
+                ? ParticipantStatusEnum.accepted
+                : ParticipantStatusEnum.invited))
         .toList();
   }
 
@@ -92,11 +97,8 @@ class GroupChallengeModel extends ChallengeModel {
     };
   }
 
-  static GroupChallengeModel fromDoc(DocumentSnapshot groupChallengeDoc,
-      QuerySnapshot<Map<String, dynamic>> participantsDoc) {
-    List<ParticipantModel> participants = List<ParticipantModel>.from(
-        participantsDoc.docs.map((doc) => ParticipantModel.fromDoc(doc)));
-
+  static GroupChallengeModel fromDoc(
+      DocumentSnapshot groupChallengeDoc, List<ParticipantModel> participants) {
     ChallengeModel challenge = ChallengeModel.fromDoc(groupChallengeDoc);
 
     return GroupChallengeModel.fromChallengeWithParticipants(
@@ -110,7 +112,7 @@ class GroupChallengeModel extends ChallengeModel {
   ParticipantModel getParticipant(String userId) {
     try {
       return participants
-          .firstWhere((participant) => participant.userId == userId);
+          .firstWhere((participant) => participant.user.id == userId);
     } catch (e) {
       throw Exception('Participant not found');
     }
@@ -282,7 +284,7 @@ class GroupChallengeModel extends ChallengeModel {
   getPositionOf(String participantId) {
     sortParticipants();
     final position = participants
-            .indexWhere((participant) => participant.userId == participantId) +
+            .indexWhere((participant) => participant.user.id == participantId) +
         1;
     if (position == 0) {
       throw Exception('Participant not found');

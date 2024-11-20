@@ -18,6 +18,7 @@ import 'group_challenge_options_model_test.dart';
 import 'media_model_test.dart';
 import 'participant_model_test.dart';
 import 'thumbnail_model_test.dart';
+import 'user/user_model_test.dart';
 
 GroupChallengeModel mockGroupChallengeModel({
   String? id,
@@ -76,7 +77,7 @@ void main() {
     group('getPositionOf()', () {
       test('should return position of participant', () {
         // arrange
-        final userId = FakerService.guid();
+        final user = mockUserModel();
         final DateTime startDate = TimeService.now()
             .subtract(Duration(days: FakerService.integer(max: 20)));
         final DateTime endDate = TimeService.now();
@@ -84,28 +85,28 @@ void main() {
           startDate: startDate,
           endDate: endDate,
           participants: [
-            mockParticipantModel(id: userId, userId: userId, attempts: [
+            mockParticipantModel(user: user, attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
-            mockParticipantModel(id: '1', userId: '1', attempts: [
+            mockParticipantModel(user: mockUserModel(id: '1'), attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
-            mockParticipantModel(id: '2', userId: '2', attempts: [
+            mockParticipantModel(user: mockUserModel(id: '2'), attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
-            mockParticipantModel(id: '3', userId: '3', attempts: [
+            mockParticipantModel(user: mockUserModel(id: '3'), attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
           ],
         );
         groupChallenge.sortParticipants();
         // act
-        final position = groupChallenge.getPositionOf(userId);
+        final position = groupChallenge.getPositionOf(user.id);
         // assert
         expect(
             position,
             groupChallenge.participants.indexWhere(
-                  (participant) => participant.userId == userId,
+                  (participant) => participant.user == user,
                 ) +
                 1);
       });
@@ -119,13 +120,13 @@ void main() {
           startDate: startDate,
           endDate: endDate,
           participants: [
-            mockParticipantModel(id: '1', userId: '1', attempts: [
+            mockParticipantModel(user: mockUserModel(id: '1'), attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
-            mockParticipantModel(id: '2', userId: '2', attempts: [
+            mockParticipantModel(user: mockUserModel(id: '2'), attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
-            mockParticipantModel(id: '3', userId: '3', attempts: [
+            mockParticipantModel(user: mockUserModel(id: '3'), attempts: [
               mockAttemptModel(startDate: startDate, endDate: endDate)
             ]),
           ],

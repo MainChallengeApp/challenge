@@ -1,19 +1,17 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/notification/notification_model.dart';
-import 'package:challenge/models/user/user_model.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:flutter/material.dart';
 
 class ListItemNotificationComponent extends StatefulWidget {
   final NotificationModel notification;
-  final UserModel fromUser;
   final void Function()? onTap;
 
-  const ListItemNotificationComponent(
-      {super.key,
-      this.onTap,
-      required this.notification,
-      required this.fromUser});
+  const ListItemNotificationComponent({
+    super.key,
+    this.onTap,
+    required this.notification,
+  });
 
   @override
   State<ListItemNotificationComponent> createState() =>
@@ -24,8 +22,9 @@ class _ListItemNotificationComponentState
     extends State<ListItemNotificationComponent> {
   @override
   Widget build(BuildContext context) {
-    return ListItemIconChildComponent(
-      icon: IconEnum.openResponses.icon,
+    return ListItemImageChildComponent(
+      url: widget.notification.fromUser.pictureUrl,
+      icon: IconEnum.user.icon,
       onTap: widget.onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -34,7 +33,7 @@ class _ListItemNotificationComponentState
           Padding(
             padding: const EdgeInsets.all(0),
             child: Text(
-              widget.fromUser.username,
+              widget.notification.fromUser.username,
               overflow: TextOverflow.ellipsis,
               textHeightBehavior: const TextHeightBehavior(
                   applyHeightToFirstAscent: false,

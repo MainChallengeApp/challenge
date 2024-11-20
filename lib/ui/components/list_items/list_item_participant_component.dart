@@ -1,7 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
-import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -20,12 +19,10 @@ class ListItemParticipantComponent extends StatefulWidget {
     required this.participant,
     required this.position,
     required this.groupChallenge,
-    required this.user,
   });
 
   final dynamic Function() onTap;
   final ParticipantModel participant;
-  final UserModel user;
   final GroupChallengeModel groupChallenge;
   final int position;
 
@@ -66,10 +63,10 @@ class _ListItemParticipantComponentState
                 margin: const EdgeInsets.only(
                     right: ListItemContainerComponent.standardPadding),
                 icon: IconEnum.user.icon,
-                url: widget.user.pictureUrl),
+                url: widget.participant.user.pictureUrl),
             Expanded(
               child: Text(
-                widget.user.username,
+                widget.participant.user.username,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: Theme.of(context).textTheme.titleMedium,
@@ -86,7 +83,7 @@ class _ListItemParticipantComponentState
 
   _adminContainer() {
     return Visibility(
-      visible: widget.groupChallenge.userId == widget.user.id,
+      visible: widget.groupChallenge.userId == widget.participant.user.id,
       child: Row(
         children: [
           ContainerInContainerComponent(
@@ -109,7 +106,7 @@ class _ListItemParticipantComponentState
 
   _youContainer() {
     return Visibility(
-      visible: widget.user.id == _usersProvider.user.id,
+      visible: widget.participant.user.id == _usersProvider.user.id,
       child: Row(
         children: [
           ContainerInContainerComponent(

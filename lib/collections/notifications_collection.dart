@@ -1,9 +1,16 @@
 import 'package:challenge/collections/collection.dart';
+import 'package:challenge/collections/group_challenges_collection.dart';
+import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
 
 class NotificationsCollection extends Collection {
   static String collectionName = 'notifications';
+
+  final _groupChallengesCollection = GroupChallengesCollection();
+  final _usersCollection = UsersCollection();
 
   NotificationsCollection() : super(name: collectionName);
 
@@ -16,15 +23,33 @@ class NotificationsCollection extends Collection {
   }
 
   Future<List<NotificationModel>> getByUserId(String userId) async {
-    List<NotificationModel> notifications = [];
     try {
       final querySnapshot = await db
           .collection(name)
           .where(NotificationModel.userIdField, isEqualTo: userId)
           .get();
-      notifications = querySnapshot.docs
-          .map((doc) => NotificationModel.fromDoc(doc))
-          .toList();
+
+      List<NotificationModel> notifications =
+          await Future.wait(querySnapshot.docs.map((doc) async {
+        var user =
+            await _usersCollection.getById(doc[NotificationModel.userIdField]);
+        var fromUser = await _usersCollection
+            .getById(doc[NotificationModel.fromUserIdField]);
+
+        NotificationTypeEnum notificationType =
+            NotificationTypeEnum.fromString(doc[NotificationModel.typeField]);
+
+        if (notificationType == NotificationTypeEnum.groupChallengeRequest ||
+            notificationType == NotificationTypeEnum.groupChallengeAccepted) {
+          GroupChallengeModel groupChallenge = await _groupChallengesCollection
+              .getById(doc[GroupChallengeRequestNotificationModel
+                  .groupChallengeIdField]);
+          return NotificationModel.fromDoc(doc,
+              user: user, fromUser: fromUser, groupChallenge: groupChallenge);
+        }
+        return NotificationModel.fromDoc(doc, user: user, fromUser: fromUser);
+      }));
+
       notifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return notifications;
     } on Exception {

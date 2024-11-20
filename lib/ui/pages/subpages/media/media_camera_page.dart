@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/icon_enum.dart';
@@ -21,6 +23,7 @@ import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 
 class MediaCameraPage extends StatefulWidget {
@@ -145,7 +148,39 @@ class _CameraStateMedia extends State<MediaCameraPage>
     try {
       await _initializeControllerFuture;
       _cameraFeedback();
-      final XFile image = await _controller!.takePicture();
+      XFile image = await _controller!.takePicture();
+
+      // Check if the current camera is the front camera
+      bool isFrontCamera =
+          _controller!.description.lensDirection == CameraLensDirection.front;
+
+      if (isFrontCamera) {
+        // If it's the front camera, flip the image
+        File imageFile = File(image.path);
+        Uint8List imageBytes = await imageFile.readAsBytes();
+
+        ui.Image decodedImage = await decodeImageFromList(imageBytes);
+
+        final recorder = ui.PictureRecorder();
+        final canvas = Canvas(recorder);
+
+        canvas.scale(-1, 1); // This flips the image horizontally
+        canvas.drawImage(
+            decodedImage, Offset(-decodedImage.width.toDouble(), 0), Paint());
+
+        final picture = recorder.endRecording();
+        final img =
+            await picture.toImage(decodedImage.width, decodedImage.height);
+        final pngBytes = await img.toByteData(format: ui.ImageByteFormat.png);
+
+        File flippedFile =
+            await File('${path.dirname(image.path)}/flipped_${image.name}')
+                .create();
+        await flippedFile.writeAsBytes(pngBytes!.buffer.asUint8List());
+
+        image = XFile(flippedFile.path);
+      }
+
       if (!mounted) return;
       setState(() {
         MediaModel media = MediaModel(
@@ -162,6 +197,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
     }
   }
 
+  // ignore: unused_element
   Future<void> _toggleVideoRecording() async {
     if (_isRecording) {
       try {
@@ -404,7 +440,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
               groupChallenge: widget.groupChallenge,
               participant: widget.participant,
               isEditableByUser:
-                  widget.participant.userId == _usersProvider.user.id,
+                  widget.participant.user.id == _usersProvider.user.id,
               repetition:
                   widget.attempt.getCurrentRepetition(widget.groupChallenge),
               amountOfPops: 2,

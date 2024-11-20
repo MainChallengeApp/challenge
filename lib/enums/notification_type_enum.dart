@@ -1,13 +1,15 @@
 import 'package:challenge/exceptions/notification_type_is_not_supported_exception.dart';
 
 enum NotificationTypeEnum {
-  connectionAccepted(type: 'connectionAccepted'),
-  connectionRequest(type: 'connectionRequest'),
+  connectionAccepted('connectionAccepted'),
+  connectionRequest('connectionRequest'),
+  groupChallengeRequest('groupChallengeRequest'),
+  groupChallengeAccepted('groupChallengeAccepted'),
   ;
 
   final String type;
 
-  const NotificationTypeEnum({required this.type});
+  const NotificationTypeEnum(this.type);
 
   factory NotificationTypeEnum.fromString(String? string) {
     return NotificationTypeEnum.values.firstWhere(

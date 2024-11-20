@@ -1,10 +1,10 @@
 import 'package:challenge/exceptions/challenge_status_is_not_supported_exception.dart';
 
 enum ChallengeStatusEnum {
-  success('success'),
+  backlog('backlog'),
   failed('failed'),
   inProgress('inProgress'),
-  backlog('backlog');
+  success('success');
 
   const ChallengeStatusEnum(this.status);
 

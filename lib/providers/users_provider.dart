@@ -33,9 +33,6 @@ class UsersProvider with ChangeNotifier {
   List<UserModel> _blockedUsers = [];
   List<UserModel> get blockedUsers => _blockedUsers;
 
-  List<UserModel> _notificationsUser = [];
-  List<UserModel> get notificationsUser => _notificationsUser;
-
   final int paginationLimit = 10;
 
   NotificationsProvider notificationsProvider;
@@ -69,21 +66,6 @@ class UsersProvider with ChangeNotifier {
     return await usersCollection.getByUserIds(userIds);
   }
 
-  Future<List<UserModel>> getNotificationsUsers() async {
-    _notificationsUser = await usersCollection.getByUserIds(
-        notificationsProvider.userNotifications
-            .map((notification) => notification.fromUserId)
-            .toList());
-
-    notifyListeners();
-    return _notificationsUser;
-  }
-
-  UserModel getNotificationUserById(String userId) {
-    return _notificationsUser.firstWhere((user) => user.id == userId,
-        orElse: UserModel.empty);
-  }
-
   update(UserModel user) async {
     user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
     _user = user;
@@ -112,16 +94,16 @@ class UsersProvider with ChangeNotifier {
     await getConnections();
 
     await notificationsProvider.deleteNotificationsBetweenUsers(
-        currentUser: _user.id,
-        otherUser: otherUserId,
+        currentUserId: _user.id,
+        otherUserId: otherUserId,
         type: NotificationTypeEnum.connectionRequest);
     UserModel otherUser = await usersCollection.getById(otherUserId);
     if (otherUser.connectionIds.contains(_user.id)) {
-      await notificationsProvider.createNotification(
-          otherUserId, _user.id, NotificationTypeEnum.connectionAccepted);
+      await notificationsProvider.sendConnectionAcceptedNotification(
+          otherUser, _user);
     } else {
-      await notificationsProvider.createNotification(
-          otherUserId, _user.id, NotificationTypeEnum.connectionRequest);
+      await notificationsProvider.sendConnectionRequestNotification(
+          otherUser, _user);
     }
     notifyListeners();
   }
@@ -136,7 +118,9 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(otherUser);
 
     await notificationsProvider.deleteNotificationsBetweenUsers(
-        currentUser: _user.id, otherUser: id);
+        currentUserId: _user.id,
+        otherUserId: id,
+        type: NotificationTypeEnum.connectionAccepted);
 
     await getConnections();
     notifyListeners();

@@ -1,6 +1,12 @@
 import 'package:challenge/collections/notifications_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
+import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
+import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
+import 'package:challenge/models/notification/request_connection_notification_model.dart';
+import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +19,43 @@ class NotificationsProvider with ChangeNotifier {
   List<NotificationModel> _userNotifications = [];
   List<NotificationModel> get userNotifications => _userNotifications;
 
-  Future<void> createNotification(
-      String toUserId, String fromUserId, NotificationTypeEnum type) async {
-    final notification = NotificationModel(
-      userId: toUserId,
-      fromUserId: fromUserId,
-      type: type,
+  Future<void> sendConnectionRequestNotification(
+      UserModel toUser, UserModel fromUser) async {
+    final notification = RequestConnectionNotificationModel(
+      user: toUser,
+      fromUser: fromUser,
+      createdAt: TimeService.now(),
+    );
+    await notificationsCollection.create(notification);
+  }
+
+  Future<void> sendConnectionAcceptedNotification(
+      UserModel toUser, UserModel fromUser) async {
+    final notification = ConnectionAcceptedNotificationModel(
+      user: toUser,
+      fromUser: fromUser,
+      createdAt: TimeService.now(),
+    );
+    await notificationsCollection.create(notification);
+  }
+
+  Future<void> sendGroupChallengeRequestNotification(UserModel toUser,
+      UserModel fromUser, GroupChallengeModel groupChallenge) async {
+    final notification = GroupChallengeRequestNotificationModel(
+      user: toUser,
+      fromUser: fromUser,
+      groupChallenge: groupChallenge,
+      createdAt: TimeService.now(),
+    );
+    await notificationsCollection.create(notification);
+  }
+
+  Future<void> sendGroupChallengeAcceptedNotification(UserModel toUser,
+      UserModel fromUser, GroupChallengeModel groupChallenge) async {
+    final notification = GroupChallengeAcceptedNotificationModel(
+      user: toUser,
+      fromUser: fromUser,
+      groupChallenge: groupChallenge,
       createdAt: TimeService.now(),
     );
     await notificationsCollection.create(notification);
@@ -46,16 +83,16 @@ class NotificationsProvider with ChangeNotifier {
   }
 
   Future<void> deleteNotificationsBetweenUsers(
-      {required String currentUser,
-      required String otherUser,
+      {required String currentUserId,
+      required String otherUserId,
       NotificationTypeEnum? type}) async {
     await notificationsCollection.deleteNotifications(
-        currentUser, otherUser, type);
+        currentUserId, otherUserId, type);
     _userNotifications.removeWhere((notification) =>
-        ((notification.userId == currentUser &&
-                notification.fromUserId == otherUser) ||
-            (notification.userId == otherUser &&
-                notification.fromUserId == currentUser)) &&
+        ((notification.user.id == currentUserId &&
+                notification.fromUser.id == otherUserId) ||
+            (notification.user.id == otherUserId &&
+                notification.fromUser.id == currentUserId)) &&
         (type == null || notification.type == type));
     notifyListeners();
   }

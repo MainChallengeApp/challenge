@@ -4,7 +4,9 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/time_service.dart';
@@ -20,9 +22,14 @@ class GroupChallengesProvider with ChangeNotifier {
   List<GroupChallengeModel> _groupChallenges = [];
   List<GroupChallengeModel> get groupChallenges => _groupChallenges;
 
+  NotificationsProvider notificationsProvider;
+
+  GroupChallengesProvider({required this.notificationsProvider});
+
   Future<String> create(
       ChallengeModel challenge,
       List<UserModel> participantUsers,
+      UserModel currentUser,
       GroupChallengeOptionsModel groupChallengeOptions) async {
     final groupChallenge =
         GroupChallengeModel.fromChallengeWithParticipantUsers(
@@ -34,7 +41,15 @@ class GroupChallengesProvider with ChangeNotifier {
     _groupChallenges.insert(0, groupChallenge);
     sortLocalList();
     try {
-      return await createOnline(groupChallenge);
+      String groupChallengeId = await createOnline(groupChallenge);
+      for (var participant in groupChallenge.participants) {
+        if (participant.user.id == groupChallenge.userId) {
+          continue;
+        }
+        await notificationsProvider.sendGroupChallengeRequestNotification(
+            participant.user, currentUser, groupChallenge);
+      }
+      return groupChallengeId;
     } on Exception {
       rethrow;
     }
@@ -134,8 +149,8 @@ class GroupChallengesProvider with ChangeNotifier {
 
   Future<void> updateParticipant(
       GroupChallengeModel groupChallenge, ParticipantModel participant) async {
-    int index = groupChallenge.participants
-        .indexWhere((participant) => participant.id == participant.id);
+    int index = groupChallenge.participants.indexWhere(
+        (participantEntry) => participantEntry.id == participant.id);
     groupChallenge.participants[index] = participant;
     await _groupChallengesCollection.updateParticipant(
         participant, groupChallenge);
@@ -154,7 +169,7 @@ class GroupChallengesProvider with ChangeNotifier {
         for (var media in attempt.media) {
           if (media.isLocal()) {
             mediaService
-                .uploadLocalMedia(media, groupChallenge, participant.userId)
+                .uploadLocalMedia(media, groupChallenge, participant.user.id)
                 .then((newMedia) {
               if (newMedia != null) {
                 media.source = newMedia.source;
@@ -189,5 +204,27 @@ class GroupChallengesProvider with ChangeNotifier {
         (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
     _groupChallenges[index] = groupChallenge;
     sortLocalList();
+  }
+
+  Future<void> acceptChallengeRequest(
+      GroupChallengeRequestNotificationModel
+          groupChallengeRequestNotification) async {
+    ParticipantModel participant = groupChallengeRequestNotification
+        .groupChallenge.participants
+        .firstWhere((participant) =>
+            participant.user.id == _authService.getCurrentUserId());
+    participant.acceptChallengeRequest();
+    await updateParticipant(
+        groupChallengeRequestNotification.groupChallenge, participant);
+    await notificationsProvider
+        .deleteNotification(groupChallengeRequestNotification.id);
+  }
+
+  Future<void> declineChallengeRequest(
+      GroupChallengeRequestNotificationModel
+          groupChallengeRequestNotification) async {
+    await deleteParticipant(groupChallengeRequestNotification.groupChallenge);
+    await notificationsProvider
+        .deleteNotification(groupChallengeRequestNotification.id);
   }
 }

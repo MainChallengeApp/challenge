@@ -117,7 +117,9 @@ class _HomeListPageState extends State<HomeListPage> {
     _filteredChallenges
         .addAll(_listeningGroupChallengesProvider.groupChallenges);
     _filteredChallenges = _filteredChallenges
-        .where((element) => element.searchInChallenge(searchBarText))
+        .where((element) =>
+            element.searchInChallenge(searchBarText) &&
+            element.getParticipant(_usersProvider.user.id).isAccepted())
         .toList();
     _filteredChallenges = GroupChallengeModel.sortChallengeList(
         groupChallenges: _filteredChallenges, userId: _usersProvider.user.id);

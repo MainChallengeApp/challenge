@@ -1,19 +1,23 @@
+import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/user/user_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../services/faker_service.dart';
 import 'attempt_model_test.dart';
 import 'group_challenge_model_test.dart';
+import 'user/user_model_test.dart';
 
 ParticipantModel mockParticipantModel({
   String? id,
-  String? userId,
+  UserModel? user,
   List<AttemptModel>? attempts,
 }) {
   return ParticipantModel(
     id: id ?? FakerService.guid(),
-    userId: userId ?? FakerService.guid(),
+    user: user ?? mockUserModel(),
+    status: FakerService.randomObject(ParticipantStatusEnum.values),
     attempts: attempts ?? FakerService.list((_) => mockAttemptModel()),
   );
 }
@@ -27,7 +31,7 @@ void main() {
         // act
         final doc = participant.toDoc();
         // assert
-        expect(doc[ParticipantModel.userIdField], participant.userId);
+        expect(doc[ParticipantModel.userIdField], participant.user.id);
         expect(doc[ParticipantModel.attemptsField],
             participant.attempts.map((attempt) => attempt.toDoc()).toList());
       });
@@ -67,7 +71,7 @@ void main() {
         // act
         final copy = participant.copy();
         // assert
-        expect(copy.userId, participant.userId);
+        expect(copy.user, participant.user);
         for (int i = 0; i < participant.attempts.length; i++) {
           expect(copy.attempts[i].number, participant.attempts[i].number);
           expect(copy.attempts[i].status, participant.attempts[i].status);
@@ -84,7 +88,7 @@ void main() {
         final copy = ParticipantModel.copyList(participants);
         // assert
         for (int i = 0; i < participants.length; i++) {
-          expect(copy[i].userId, participants[i].userId);
+          expect(copy[i].user.id, participants[i].user.id);
           expect(copy[i].attempts.length, participants[i].attempts.length);
         }
       });

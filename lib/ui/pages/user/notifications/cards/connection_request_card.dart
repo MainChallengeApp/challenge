@@ -1,5 +1,4 @@
 import 'package:challenge/models/notification/notification_model.dart';
-import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -13,14 +12,10 @@ import 'package:provider/provider.dart';
 
 class ConnectionRequestCard extends StatefulWidget {
   final NotificationModel notification;
-  final UserModel fromUser;
-  final void Function() onEmptyList;
 
   const ConnectionRequestCard({
     super.key,
     required this.notification,
-    required this.fromUser,
-    required this.onEmptyList,
   });
 
   @override
@@ -41,12 +36,12 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
       children: [
         SpaceColumnComponent(
             child: UserPictureMinComponent(
-                userPictureUrl: widget.fromUser.pictureUrl)),
+                userPictureUrl: widget.notification.fromUser.pictureUrl)),
         SpaceColumnComponent(
             child: CustomContainerComponent(
                 child: Center(
           child: Text(
-            '${widget.fromUser.username} ${widget.notification.body}',
+            '${widget.notification.fromUser.username} ${widget.notification.body}',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
@@ -80,7 +75,7 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
     setState(() {
       isLoadingDeclineButton = true;
     });
-    await usersProvider.disconnectFromUser(widget.fromUser.id);
+    await usersProvider.disconnectFromUser(widget.notification.fromUser.id);
     // await notificationsProvider.deleteNotification(widget.notification.id);
 
     if (mounted) {
@@ -88,20 +83,18 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
         isLoadingDeclineButton = false;
       });
     }
-    widget.onEmptyList();
   }
 
   void onTapAccept() async {
     setState(() {
       isLoadingAcceptButton = true;
     });
-    await usersProvider.connectToUser(widget.fromUser.id);
+    await usersProvider.connectToUser(widget.notification.fromUser.id);
     // await notificationsProvider.deleteNotification(widget.notification.id);
     if (mounted) {
       setState(() {
         isLoadingAcceptButton = false;
       });
     }
-    widget.onEmptyList();
   }
 }

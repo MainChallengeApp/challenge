@@ -21,9 +21,21 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => TabProvider()),
       ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
-      ChangeNotifierProvider(create: (_) => GroupChallengesProvider()),
       ChangeNotifierProvider(create: (_) => NotificationsProvider()),
       ChangeNotifierProvider(create: (_) => ReportsProvider()),
+      ChangeNotifierProxyProvider<NotificationsProvider,
+          GroupChallengesProvider>(
+        create: (context) => GroupChallengesProvider(
+          notificationsProvider:
+              Provider.of<NotificationsProvider>(context, listen: false),
+        ),
+        update:
+            (context, notificationsProvider, previousGroupChallengesProvider) {
+          return previousGroupChallengesProvider ??
+              GroupChallengesProvider(
+                  notificationsProvider: notificationsProvider);
+        },
+      ),
       ChangeNotifierProxyProvider<NotificationsProvider, UsersProvider>(
         create: (context) => UsersProvider(
           notificationsProvider:

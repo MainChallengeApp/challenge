@@ -84,11 +84,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
   Future<void> _initializeParticipants() async {
     final groupChallenge = widget.challenge as GroupChallengeModel;
     List<ParticipantModel> participants = groupChallenge.participants
-        .where((participant) => participant.userId != usersProvider.user.id)
+        .where((participant) => participant.user.id != usersProvider.user.id)
         .toList();
 
     final futures = participants
-        .map((participant) => usersProvider.getUserById(participant.userId))
+        .map((participant) => usersProvider.getUserById(participant.user.id))
         .toList();
 
     editParticipants = await Future.wait(futures);
@@ -296,6 +296,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     challengeCopy.id = await groupChallengesProvider.create(
         challengeCopy,
         [...editParticipants, usersProvider.user],
+        usersProvider.user,
         GroupChallengeOptionsModel());
 
     setState(() {

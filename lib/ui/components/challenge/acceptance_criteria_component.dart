@@ -172,7 +172,7 @@ class _AcceptanceCriteriaComponentState
           !widget.attempt.isInBacklog(),
       child: ContainerInContainerTextComponent(
         text:
-            '${widget.groupChallenge.getPositionOf(widget.participant.userId)}.',
+            '${widget.groupChallenge.getPositionOf(widget.participant.user.id)}.',
       ),
     );
   }

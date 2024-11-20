@@ -1,4 +1,5 @@
 import 'package:challenge/collections/collection.dart';
+import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/storage_service.dart';
@@ -7,6 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class GroupChallengesCollection extends Collection {
   static String collectionName = 'group_challenges';
   static String participantsSubCollection = 'participants';
+
+  final _usersCollection = UsersCollection();
 
   GroupChallengesCollection() : super(name: collectionName);
 
@@ -23,7 +26,7 @@ class GroupChallengesCollection extends Collection {
     for (var participant in groupChallenge.participants) {
       final participantRef = groupChallengeRef
           .collection(participantsSubCollection)
-          .doc(participant.userId);
+          .doc(participant.user.id);
       batch.set(participantRef, participant.toDoc());
     }
 
@@ -58,8 +61,15 @@ class GroupChallengesCollection extends Collection {
         final participantsQuerySnapshot = await groupChallengeDoc.reference
             .collection(participantsSubCollection)
             .get();
-        groupChallenges.add(GroupChallengeModel.fromDoc(
-            groupChallengeDoc, participantsQuerySnapshot));
+
+        List<ParticipantModel> participants =
+            await Future.wait(participantsQuerySnapshot.docs.map((doc) async {
+          return ParticipantModel.fromDoc(
+              doc, await _usersCollection.getById(doc.id));
+        }));
+
+        groupChallenges
+            .add(GroupChallengeModel.fromDoc(groupChallengeDoc, participants));
       }
     }
 
@@ -74,8 +84,14 @@ class GroupChallengesCollection extends Collection {
         final participantsQuerySnapshot = await groupChallengeDoc.reference
             .collection(participantsSubCollection)
             .get();
-        return GroupChallengeModel.fromDoc(
-            groupChallengeDoc, participantsQuerySnapshot);
+
+        List<ParticipantModel> participants =
+            await Future.wait(participantsQuerySnapshot.docs.map((doc) async {
+          return ParticipantModel.fromDoc(
+              doc, await _usersCollection.getById(doc.id));
+        }));
+
+        return GroupChallengeModel.fromDoc(groupChallengeDoc, participants);
       } else {
         throw Exception('Group challenge not found');
       }
@@ -90,7 +106,7 @@ class GroupChallengesCollection extends Collection {
         .collection(collectionName)
         .doc(groupChallenge.id)
         .collection(participantsSubCollection)
-        .doc(participant.userId)
+        .doc(participant.user.id)
         .update(participant.toDoc());
   }
 
@@ -143,9 +159,9 @@ class GroupChallengesCollection extends Collection {
       }
       if (groupChallenge.userId == participantId) {
         groupChallenge.participants
-            .removeWhere((participant) => participant.userId == participantId);
+            .removeWhere((participant) => participant.user.id == participantId);
         groupChallenge.sortParticipants();
-        groupChallenge.userId = groupChallenge.participants.first.userId;
+        groupChallenge.userId = groupChallenge.participants.first.user.id;
         await _storageService.deleteFolderByPath(
             '$collectionName/${groupChallenge.id}/$participantId');
         await update(groupChallenge);

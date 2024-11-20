@@ -59,7 +59,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   final mediaService = MediaService();
 
   late bool isEditableByUser =
-      widget.participant.userId == usersProvider.user.id;
+      widget.participant.user.id == usersProvider.user.id;
 
   late GroupChallengeModel groupChallenge = widget.groupChallenge;
   late AttemptModel attempt = widget.attempt;
@@ -68,7 +68,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   Widget build(BuildContext context) {
     attempt = groupChallenge.participants
         .firstWhere(
-            (participant) => participant.userId == widget.participant.userId,
+            (participant) => participant.user == widget.participant.user,
             orElse: () => widget.participant)
         .getLatestAttempt();
 

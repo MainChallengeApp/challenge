@@ -383,7 +383,7 @@ class _GroupChallengeCardComponentState
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
-          isEditableByUser: _participant.userId == _usersProvider.user.id,
+          isEditableByUser: _participant.user.id == _usersProvider.user.id,
           isSaveInsteadOfEditButtonVisible: true,
         ),
       ),
