@@ -97,7 +97,8 @@ void main() {
     group('addAttempt()', () {
       test('should add attempt to participant model', () {
         // arrange
-        ParticipantModel participant = mockParticipantModel();
+        ParticipantModel participant = mockParticipantModel(
+            attempts: FakerService.list((_) => mockAttemptModel(), min: 1));
         int attemptsLength = participant.attempts.length;
         // act
         participant.addAttempt(mockGroupChallengeModel());
