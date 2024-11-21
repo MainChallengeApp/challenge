@@ -62,6 +62,7 @@ class _UserPageState extends State<UserPage> {
     super.initState();
     usersProvider.getUser().then((_) {
       usersProvider.getConnections();
+      listeningNotificationsProvider.getUserNotifications();
     });
   }
 

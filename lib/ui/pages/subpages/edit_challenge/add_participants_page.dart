@@ -254,8 +254,10 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
   }
 
   changeList(String searchText) {
-    filteredConnections = _usersProvider.confirmedConnections.where((user) {
-      return user.username.toLowerCase().startsWith(searchText.toLowerCase());
-    }).toList();
+    setState(() {
+      filteredConnections = _usersProvider.confirmedConnections.where((user) {
+        return user.username.toLowerCase().startsWith(searchText.toLowerCase());
+      }).toList();
+    });
   }
 }
