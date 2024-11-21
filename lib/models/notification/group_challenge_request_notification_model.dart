@@ -15,7 +15,9 @@ class GroupChallengeRequestNotificationModel extends NotificationModel {
     super.type = NotificationTypeEnum.groupChallengeRequest,
     required super.createdAt,
     required this.groupChallenge,
-  }) : super(title: '', body: 'Invites you to ${groupChallenge.title}');
+  }) : super(
+            title: '',
+            body: 'invites you to the challenge: ${groupChallenge.title}');
 
   factory GroupChallengeRequestNotificationModel.fromDoc(DocumentSnapshot doc,
       UserModel user, UserModel fromUser, GroupChallengeModel groupChallenge) {

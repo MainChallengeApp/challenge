@@ -1,5 +1,6 @@
 import 'package:challenge/collections/collection.dart';
 import 'package:challenge/collections/users_collection.dart';
+import 'package:challenge/exceptions/group_challenge_not_found_exception.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/storage_service.dart';
@@ -93,7 +94,7 @@ class GroupChallengesCollection extends Collection {
 
         return GroupChallengeModel.fromDoc(groupChallengeDoc, participants);
       } else {
-        throw Exception('Group challenge not found');
+        throw GroupChallengeNotFoundException(id);
       }
     } catch (e) {
       rethrow;

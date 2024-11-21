@@ -46,18 +46,12 @@ class _ListItemParticipantComponentState
             .getCurrentPercentage(widget.groupChallenge),
         child: Row(
           children: [
-            ContainerInContainerComponent(
-              margin: const EdgeInsets.all(0),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              height: SmallContainerInListItemComponent.height,
-              child: Center(
-                child: Text('${widget.position}.',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        color: Theme.of(context).colorScheme.tertiary)),
+            _position(context),
+            Visibility(
+              visible: widget.groupChallenge.isGroupChallenge(),
+              child: const SpaceComponent(
+                width: ListItemContainerComponent.standardPadding,
               ),
-            ),
-            const SpaceComponent(
-              width: ListItemContainerComponent.standardPadding,
             ),
             ImageInListItemComponent(
                 margin: const EdgeInsets.only(
@@ -77,6 +71,24 @@ class _ListItemParticipantComponentState
             _statusOrPercentage(),
           ],
         ));
+  }
+
+  _position(BuildContext context) {
+    return Visibility(
+      visible: widget.groupChallenge.isGroupChallenge(),
+      child: ContainerInContainerComponent(
+        margin: const EdgeInsets.all(0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        height: SmallContainerInListItemComponent.height,
+        child: Center(
+          child: Text('${widget.position}.',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.tertiary)),
+        ),
+      ),
+    );
   }
 
   _statusOrPercentage() {
@@ -109,7 +121,8 @@ class _ListItemParticipantComponentState
 
   _adminContainer() {
     return Visibility(
-      visible: widget.groupChallenge.userId == widget.participant.user.id,
+      visible: widget.groupChallenge.userId == widget.participant.user.id &&
+          widget.groupChallenge.isGroupChallenge(),
       child: Row(
         children: [
           ContainerInContainerComponent(
@@ -132,7 +145,8 @@ class _ListItemParticipantComponentState
 
   _youContainer() {
     return Visibility(
-      visible: widget.participant.user.id == _usersProvider.user.id,
+      visible: widget.participant.user.id == _usersProvider.user.id &&
+          widget.groupChallenge.isGroupChallenge(),
       child: Row(
         children: [
           ContainerInContainerComponent(
