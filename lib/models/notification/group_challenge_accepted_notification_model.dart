@@ -15,7 +15,10 @@ class GroupChallengeAcceptedNotificationModel extends NotificationModel {
     super.type = NotificationTypeEnum.groupChallengeAccepted,
     required super.createdAt,
     required this.groupChallenge,
-  }) : super(title: '', body: 'accepted your group challenge invitation');
+  }) : super(
+            title: '',
+            body:
+                'accepted your group challenge invitation for ${groupChallenge.title}');
 
   factory GroupChallengeAcceptedNotificationModel.fromDoc(DocumentSnapshot doc,
       UserModel user, UserModel fromUser, GroupChallengeModel groupChallenge) {

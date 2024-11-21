@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -26,7 +26,7 @@ class _ChallengeTotalPercentageComponentState
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.all(0),
         padding: const EdgeInsets.symmetric(horizontal: 6),
-        height: CustomContainerComponent.standardHeight * 0.55,
+        height: SmallContainerInListItemComponent.height,
         border: Border.all(
             color: Theme.of(context).colorScheme.surface, width: 0.5),
         color: (widget.attempt.isFailed()

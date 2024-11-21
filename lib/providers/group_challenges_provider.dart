@@ -13,6 +13,7 @@ import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GroupChallengesProvider with ChangeNotifier {
   final _groupChallengesCollection = GroupChallengesCollection();
@@ -22,9 +23,12 @@ class GroupChallengesProvider with ChangeNotifier {
   List<GroupChallengeModel> _groupChallenges = [];
   List<GroupChallengeModel> get groupChallenges => _groupChallenges;
 
-  NotificationsProvider notificationsProvider;
+  final BuildContext context;
 
-  GroupChallengesProvider({required this.notificationsProvider});
+  late final notificationsProvider =
+      Provider.of<NotificationsProvider>(context, listen: false);
+
+  GroupChallengesProvider({required this.context});
 
   Future<String> create(
       ChallengeModel challenge,
@@ -202,22 +206,30 @@ class GroupChallengesProvider with ChangeNotifier {
   void updateLocalList(GroupChallengeModel groupChallenge) {
     int index = _groupChallenges.indexWhere(
         (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
-    _groupChallenges[index] = groupChallenge;
+    if (index == -1) {
+      _groupChallenges.insert(0, groupChallenge);
+    } else {
+      _groupChallenges[index] = groupChallenge;
+    }
     sortLocalList();
   }
 
   Future<void> acceptChallengeRequest(
       GroupChallengeRequestNotificationModel
           groupChallengeRequestNotification) async {
-    ParticipantModel participant = groupChallengeRequestNotification
-        .groupChallenge.participants
-        .firstWhere((participant) =>
+    GroupChallengeModel groupChallenge =
+        groupChallengeRequestNotification.groupChallenge;
+    ParticipantModel participant = groupChallenge.participants.firstWhere(
+        (participant) =>
             participant.user.id == _authService.getCurrentUserId());
     participant.acceptChallengeRequest();
-    await updateParticipant(
-        groupChallengeRequestNotification.groupChallenge, participant);
+    await updateParticipant(groupChallenge, participant);
     await notificationsProvider
         .deleteNotification(groupChallengeRequestNotification.id);
+    await notificationsProvider.sendGroupChallengeAcceptedNotification(
+        groupChallengeRequestNotification.fromUser,
+        groupChallengeRequestNotification.user,
+        groupChallenge);
   }
 
   Future<void> declineChallengeRequest(

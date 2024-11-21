@@ -3,6 +3,7 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
@@ -47,6 +48,9 @@ class _UserPageState extends State<UserPage> {
   late final listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: true);
 
+  late final listeningNotificationsProvider =
+      Provider.of<NotificationsProvider>(context, listen: true);
+
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   late UserModel user;
@@ -77,6 +81,7 @@ class _UserPageState extends State<UserPage> {
             onRefresh: () async {
               await usersProvider.getUser().then((_) async {
                 await usersProvider.getConnections();
+                await listeningNotificationsProvider.getUserNotifications();
               });
             },
             scrollController: scrollController,
@@ -85,11 +90,11 @@ class _UserPageState extends State<UserPage> {
               scrollController: scrollController,
               children: [
                 profilePicture(user),
-                username(user),
+                usernameAndEdit(user),
                 bio(user),
                 challengesAndConnections(user),
                 expandedSpace(),
-                edit(user)
+                notifications(user)
               ],
             ),
           ),
@@ -99,10 +104,6 @@ class _UserPageState extends State<UserPage> {
 
   List<Widget> actions(UserModel user) {
     return [
-      GestureDetector(
-          onTap: () => onTapNotifications(user),
-          child: Icon(IconEnum.inbox.icon)),
-      const SpaceComponent(),
       GestureDetector(
           onTap: () => onTapSettings(user),
           child: Icon(IconEnum.settings.icon)),
@@ -191,10 +192,11 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  edit(UserModel user) {
+  notifications(UserModel user) {
     return CustomButtonComponent(
-      onTap: onTapEdit,
-      text: 'Edit',
+      onTap: onTapNotifications,
+      text:
+          'Notifications${listeningNotificationsProvider.userNotifications.isEmpty ? '' : ' (${listeningNotificationsProvider.userNotifications.length})'}',
     );
   }
 
@@ -202,17 +204,32 @@ class _UserPageState extends State<UserPage> {
     return isBioExpanded ? Container() : Expanded(child: Container());
   }
 
-  username(UserModel user) {
+  usernameAndEdit(UserModel user) {
     return SpaceColumnComponent(
-      child: TapContainerComponent(
-          onTap: onTapUsername,
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                user.username,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.textInputSmall,
-              ))),
+      child: Row(
+        children: [
+          Expanded(
+            child: TapContainerComponent(
+                onTap: onTapUsername,
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      user.username,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.textInputSmall,
+                    ))),
+          ),
+          const SpaceComponent(),
+          TapContainerComponent(
+              onTap: onTapEdit,
+              isQuadratic: true,
+              child: Center(
+                child: Icon(
+                  IconEnum.edit.icon,
+                ),
+              ))
+        ],
+      ),
     );
   }
 
@@ -258,7 +275,7 @@ class _UserPageState extends State<UserPage> {
         ));
   }
 
-  void onTapNotifications(UserModel user) {
+  void onTapNotifications() {
     Navigator.push(
         context,
         NoAnimationPageRouteComponent(

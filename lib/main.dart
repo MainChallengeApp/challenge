@@ -23,29 +23,10 @@ void main() async {
       ChangeNotifierProvider(create: (_) => SearchChallengesProvider()),
       ChangeNotifierProvider(create: (_) => NotificationsProvider()),
       ChangeNotifierProvider(create: (_) => ReportsProvider()),
-      ChangeNotifierProxyProvider<NotificationsProvider,
-          GroupChallengesProvider>(
-        create: (context) => GroupChallengesProvider(
-          notificationsProvider:
-              Provider.of<NotificationsProvider>(context, listen: false),
-        ),
-        update:
-            (context, notificationsProvider, previousGroupChallengesProvider) {
-          return previousGroupChallengesProvider ??
-              GroupChallengesProvider(
-                  notificationsProvider: notificationsProvider);
-        },
-      ),
-      ChangeNotifierProxyProvider<NotificationsProvider, UsersProvider>(
-        create: (context) => UsersProvider(
-          notificationsProvider:
-              Provider.of<NotificationsProvider>(context, listen: false),
-        ),
-        update: (context, notificationsProvider, previousUsersProvider) {
-          return previousUsersProvider ??
-              UsersProvider(notificationsProvider: notificationsProvider);
-        },
-      ),
+      ChangeNotifierProvider(
+          create: (context) => GroupChallengesProvider(context: context)),
+      ChangeNotifierProvider(
+          create: (context) => UsersProvider(context: context)),
     ],
     child: const MyApp(),
   ));

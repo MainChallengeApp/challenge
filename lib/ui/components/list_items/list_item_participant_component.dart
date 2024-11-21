@@ -6,8 +6,8 @@ import 'package:challenge/ui/components/challenge/challenge_total_percentage_com
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +49,7 @@ class _ListItemParticipantComponentState
             ContainerInContainerComponent(
               margin: const EdgeInsets.all(0),
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              height: CustomContainerComponent.standardHeight * 0.55,
+              height: SmallContainerInListItemComponent.height,
               child: Center(
                 child: Text('${widget.position}.',
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -74,11 +74,37 @@ class _ListItemParticipantComponentState
             ),
             _youContainer(),
             _adminContainer(),
-            ChallengeTotalPercentageComponent(
-                attempt: widget.participant.getLatestAttempt(),
-                groupChallenge: widget.groupChallenge),
+            _statusOrPercentage(),
           ],
         ));
+  }
+
+  _statusOrPercentage() {
+    return widget.participant.isAccepted()
+        ? widget.participant.getLatestAttempt().isInBacklog()
+            ? ContainerInContainerComponent(
+                margin: const EdgeInsets.all(0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                height: SmallContainerInListItemComponent.height,
+                child: Center(
+                  child: Text('Accepted',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context).colorScheme.tertiary)),
+                ),
+              )
+            : ChallengeTotalPercentageComponent(
+                attempt: widget.participant.getLatestAttempt(),
+                groupChallenge: widget.groupChallenge)
+        : ContainerInContainerComponent(
+            margin: const EdgeInsets.all(0),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            height: SmallContainerInListItemComponent.height,
+            child: Center(
+              child: Text('Invited',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary)),
+            ),
+          );
   }
 
   _adminContainer() {
@@ -89,7 +115,7 @@ class _ListItemParticipantComponentState
           ContainerInContainerComponent(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            height: CustomContainerComponent.standardHeight * 0.55,
+            height: SmallContainerInListItemComponent.height,
             child: Center(
               child: Text('Admin',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -112,7 +138,7 @@ class _ListItemParticipantComponentState
           ContainerInContainerComponent(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            height: CustomContainerComponent.standardHeight * 0.55,
+            height: SmallContainerInListItemComponent.height,
             child: Center(
               child: Text('You',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(

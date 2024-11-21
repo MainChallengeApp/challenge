@@ -7,6 +7,7 @@ import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UsersProvider with ChangeNotifier {
   UsersCollection usersCollection = UsersCollection();
@@ -35,9 +36,12 @@ class UsersProvider with ChangeNotifier {
 
   final int paginationLimit = 10;
 
-  NotificationsProvider notificationsProvider;
+  final BuildContext context;
 
-  UsersProvider({required this.notificationsProvider});
+  late final notificationsProvider =
+      Provider.of<NotificationsProvider>(context);
+
+  UsersProvider({required this.context});
 
   Future<void> createUser() async {
     final user = UserModel(
@@ -121,6 +125,11 @@ class UsersProvider with ChangeNotifier {
         currentUserId: _user.id,
         otherUserId: id,
         type: NotificationTypeEnum.connectionAccepted);
+
+    await notificationsProvider.deleteNotificationsBetweenUsers(
+        currentUserId: _user.id,
+        otherUserId: id,
+        type: NotificationTypeEnum.connectionRequest);
 
     await getConnections();
     notifyListeners();
