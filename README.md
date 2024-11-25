@@ -2,6 +2,23 @@
 
 The app for finding new challenges, tracking and completing them!
 
+## Contents
+
+1. [Getting Started](#getting-started)
+2. [Testing](#testing)
+   1. [Run all tests](#run-all-tests)
+   2. [Run all tests in watch mode](#run-all-tests-in-watch-mode)
+   3. [Upload to TestFlight](#upload-to-testflight)
+3. [Updating Version](#updating-version)
+4. [Release new Version](#release-new-version)
+   1. [Apple AppStore](#apple-appstore)
+   2. [Google PlayStore](#google-playstore)
+5. [CI/CD or just Pipelines](#cicd-or-just-pipelines)
+6. [Adding an Index](#adding-an-index)
+7. [Push Notifications](#push-notifications)
+8. [Common Errors](#common-errors)
+   1. [Module 'camera_avfoundation' not found](#module-camera_avfoundation-not-found)
+
 ## Getting Started
 
 1. install flutter
@@ -56,6 +73,17 @@ Firebase throws an error if an index is needed. The error contains a link to cre
 4. `firebase firestore:indexes > firebase/firestore.indexes.json`
 5. `firebase deploy --only firestore:indexes --project=test`
 6. `firebase deploy --only firestore:indexes --project=prod`
+
+## Push Notifications
+
+> Not fully integrated yet.
+
+Push Notifications are not fully integrated yet because we do not have firebase cloud functions integrated yet. Without cloud functions we would need to store the credentials on the users device to generate an oAuth2 token and this is not secure. But we are able to test Push Notifications on a physical test device:
+
+1. add `PushNotificationService().initNotifications()` to the main function.
+2. run the application on a physical device
+3. run ../oauth/generate_oauth.py and generate the oAuth2 token (this script is not in git because of the necessary secrets. Ask the developer leader for the script.)
+4. open lib/rest/.rest replace the `oAuth2Token` and `deviceToken` and run the request `push-notification`
 
 ## Common Errors
 

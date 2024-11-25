@@ -1,0 +1,21 @@
+@contentType = application/json
+
+###
+# @name push-notification
+@oAuth2Token=ya29.c.c0ASRK0GaGsacTjn7opJBlUHFyzIBwP1__aJx4Iq0NFTPyRO3k-s6DS-TgBbiZzgWPRje1kMsAygkKLj0yh0O4Kn-dJvV4h7l6NEt2rCMcAV13yzOarb-aZEWqId7-6kVu5hfSckJB0Gfpj-arp7zBhWyRxB27c2nTFfWRDM2m40LRIIRoZK8VgIw5Ce4YmbIaay4BVaSZLmLBz8yaZC5vT0_3lzR8qwqJDG3uVGq_RaQMp045cDVRFXGtpGYrtLPV2QpxNZmPDorKuNZtOFrMFycT3g4CqXGUSVV2ikzItQJz8O7QXah3e33DkDKON25PlLHbKtTqpyGAYBBu74H4ZLprDBujNFBnpV76BMQfutiYnBtw4zS4QWxwT385Ahf5ddv_x5zBmrvdwsf3atMvtOhBB8OSoZ0JajYB2MRlOmIO1pjhvI6nu_iFld-XuZmMf4XljFVhx6fnsU_unr_g27X3B_9S3q_IO6UY_dvXxfh93O8gri6jM6-k2gm86SkfvffajobZZl_mbOXUIaIr112V3e-sZlRFyt7Qx8pOnpq2U1Xn0oU25knIyjUijUx7nkXFZJi2weJh_30UfQgt1VQ04xzn9BZMf0R_ZkFIdtIhw3bx-ZmspIfrwrus4lI_Q5ez_kzwJW1Juq1XjI4i1m0p6evBdRq6Mr_Q-o411tFIjtt6xkaan7el7rvzQFlfZngyJqyszIrjofVVr2MWstozg1Imh_M9Sw4MFRg5V0sS6pp1Jveo3bnzWjt6tBeQ6r2nzRxs892O_r9pqi1gdqRvJX3Vb3szdw4mRIfej6-2S5gqbB9jFdmeb0IXwpars_-JJmjrYRiR5xxjUB05tj73ztkB9kziyXSetRzt31Unr5X42740slMy6-VUFw6-_gMBQu_Smo6_UhJS0Z8wmc_9Ba5a4n_t70d03FszplOOvuWFsjBb3tu-u267i_1S6ViSbMVXl6UvavnosMnJoo-li4Wf8o7JsnuWeR5bmZUm3oFW30X7UFe
+@deviceToken=fJBk4dI6gEBGmRLS8YG1AG:APA91bGFE2AN9BGnXSoqF9LtoL-56wi2vW2VzR3TC5gY1haDlyS-3lBpT9c5MNLssuv0gDl1lpNrz4EKHVMeD1oFyIfb_u71Rv65Rxic1W493Mqhv35-Fw0
+
+POST https://fcm.googleapis.com/v1/projects/challenge-dev-sdgi/messages:send
+Authorization: Bearer {{oAuth2Token}}
+Content-Type: {{contentType}}
+
+{
+  "message": {
+    "token": "{{deviceToken}}",
+    "notification": {
+      "title": "Daniel",
+      "body": "invites you to a group challenge"
+    }
+  }
+}
+
