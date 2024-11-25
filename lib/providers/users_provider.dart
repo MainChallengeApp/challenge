@@ -97,9 +97,13 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await getConnections();
 
-    await notificationsProvider.deleteNotificationsBetweenUsers(
-        currentUserId: _user.id,
-        otherUserId: otherUserId,
+    await notificationsProvider.deleteNotifications(
+        userId: _user.id,
+        fromUserId: otherUserId,
+        type: NotificationTypeEnum.connectionRequest);
+    await notificationsProvider.deleteNotifications(
+        userId: otherUserId,
+        fromUserId: _user.id,
         type: NotificationTypeEnum.connectionRequest);
     UserModel otherUser = await usersCollection.getById(otherUserId);
     if (otherUser.connectionIds.contains(_user.id)) {
@@ -121,14 +125,24 @@ class UsersProvider with ChangeNotifier {
     await usersCollection.update(_user);
     await usersCollection.update(otherUser);
 
-    await notificationsProvider.deleteNotificationsBetweenUsers(
-        currentUserId: _user.id,
-        otherUserId: id,
+    await notificationsProvider.deleteNotifications(
+        userId: _user.id,
+        fromUserId: id,
         type: NotificationTypeEnum.connectionAccepted);
 
-    await notificationsProvider.deleteNotificationsBetweenUsers(
-        currentUserId: _user.id,
-        otherUserId: id,
+    await notificationsProvider.deleteNotifications(
+        userId: _user.id,
+        fromUserId: id,
+        type: NotificationTypeEnum.connectionRequest);
+
+    await notificationsProvider.deleteNotifications(
+        userId: id,
+        fromUserId: _user.id,
+        type: NotificationTypeEnum.connectionAccepted);
+
+    await notificationsProvider.deleteNotifications(
+        userId: id,
+        fromUserId: _user.id,
         type: NotificationTypeEnum.connectionRequest);
 
     await getConnections();

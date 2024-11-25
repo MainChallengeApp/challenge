@@ -163,10 +163,11 @@ class GroupChallengesCollection extends Collection {
             .removeWhere((participant) => participant.user.id == participantId);
         groupChallenge.sortParticipants();
         groupChallenge.userId = groupChallenge.participants.first.user.id;
-        await _storageService.deleteFolderByPath(
-            '$collectionName/${groupChallenge.id}/$participantId');
         await update(groupChallenge);
       }
+
+      await _storageService.deleteFolderByPath(
+          '$collectionName/${groupChallenge.id}/$participantId');
 
       return await db
           .collection(collectionName)

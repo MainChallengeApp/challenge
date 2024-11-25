@@ -82,18 +82,35 @@ class NotificationsProvider with ChangeNotifier {
     _userNotifications = [];
   }
 
-  Future<void> deleteNotificationsBetweenUsers(
-      {required String currentUserId,
-      required String otherUserId,
-      NotificationTypeEnum? type}) async {
+  Future<void> deleteNotifications(
+      {String? userId,
+      String? fromUserId,
+      NotificationTypeEnum? type,
+      String? groupChallengeId}) async {
     await notificationsCollection.deleteNotifications(
-        currentUserId, otherUserId, type);
-    _userNotifications.removeWhere((notification) =>
-        ((notification.user.id == currentUserId &&
-                notification.fromUser.id == otherUserId) ||
-            (notification.user.id == otherUserId &&
-                notification.fromUser.id == currentUserId)) &&
-        (type == null || notification.type == type));
+        userId: userId,
+        fromUserId: fromUserId,
+        type: type,
+        groupChallengeId: groupChallengeId);
+    _userNotifications.removeWhere((notification) {
+      if (userId != null && notification.user.id != userId) {
+        return false;
+      }
+      if (fromUserId != null && notification.fromUser.id != fromUserId) {
+        return false;
+      }
+      if (type != null && notification.type != type) {
+        return false;
+      }
+      if (groupChallengeId != null &&
+              (notification is GroupChallengeRequestNotificationModel &&
+                  notification.groupChallenge.id != groupChallengeId) ||
+          (notification is GroupChallengeAcceptedNotificationModel &&
+              notification.groupChallenge.id != groupChallengeId)) {
+        return false;
+      }
+      return true;
+    });
     notifyListeners();
   }
 }

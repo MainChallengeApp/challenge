@@ -110,6 +110,9 @@ class GroupChallengesProvider with ChangeNotifier {
     await _groupChallengesCollection.deleteParticipant(
         groupChallenge: groupChallenge,
         participantId: _authService.getCurrentUserId());
+    await notificationsProvider.deleteNotifications(
+        userId: _authService.getCurrentUserId(),
+        groupChallengeId: groupChallenge.id);
     _groupChallenges.removeWhere(
         (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
     notifyListeners();
@@ -236,7 +239,5 @@ class GroupChallengesProvider with ChangeNotifier {
       GroupChallengeRequestNotificationModel
           groupChallengeRequestNotification) async {
     await deleteParticipant(groupChallengeRequestNotification.groupChallenge);
-    await notificationsProvider
-        .deleteNotification(groupChallengeRequestNotification.id);
   }
 }

@@ -2,9 +2,11 @@ import 'package:challenge/collections/collection.dart';
 import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
+import 'package:challenge/exceptions/group_challenge_not_found_exception.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NotificationsCollection extends Collection {
   static String collectionName = 'notifications';
@@ -41,14 +43,23 @@ class NotificationsCollection extends Collection {
 
         if (notificationType == NotificationTypeEnum.groupChallengeRequest ||
             notificationType == NotificationTypeEnum.groupChallengeAccepted) {
-          GroupChallengeModel groupChallenge = await _groupChallengesCollection
-              .getById(doc[GroupChallengeRequestNotificationModel
-                  .groupChallengeIdField]);
-          return NotificationModel.fromDoc(doc,
-              user: user, fromUser: fromUser, groupChallenge: groupChallenge);
+          try {
+            GroupChallengeModel groupChallenge =
+                await _groupChallengesCollection.getById(doc[
+                    GroupChallengeRequestNotificationModel
+                        .groupChallengeIdField]);
+            return NotificationModel.fromDoc(doc,
+                user: user, fromUser: fromUser, groupChallenge: groupChallenge);
+          } on GroupChallengeNotFoundException catch (_) {
+            await deleteNotifications(
+                userId: userId,
+                groupChallengeId: doc[GroupChallengeRequestNotificationModel
+                    .groupChallengeIdField]);
+            return null;
+          }
         }
         return NotificationModel.fromDoc(doc, user: user, fromUser: fromUser);
-      }));
+      })).then((list) => list.whereType<NotificationModel>().toList());
 
       notifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return notifications;
@@ -62,34 +73,41 @@ class NotificationsCollection extends Collection {
   }
 
   Future<void> deleteNotifications(
-      String currentUser, String otherUser, NotificationTypeEnum? type) async {
-    // First query
-    var query1 = db
-        .collection(name)
-        .where(NotificationModel.userIdField, isEqualTo: otherUser)
-        .where(NotificationModel.fromUserIdField, isEqualTo: currentUser);
+      {String? userId,
+      String? fromUserId,
+      NotificationTypeEnum? type,
+      String? groupChallengeId}) async {
+    var collection = db.collection(name);
 
-    // Second query
-    var query2 = db
-        .collection(name)
-        .where(NotificationModel.userIdField, isEqualTo: currentUser)
-        .where(NotificationModel.fromUserIdField, isEqualTo: otherUser);
+    Query? query;
+
+    if (userId != null) {
+      query =
+          collection.where(NotificationModel.userIdField, isEqualTo: userId);
+    }
+
+    if (fromUserId != null) {
+      query = (query ?? collection)
+          .where(NotificationModel.fromUserIdField, isEqualTo: fromUserId);
+    }
 
     // Add type filter if type is not null
     if (type != null) {
-      query1 = query1.where(NotificationModel.typeField, isEqualTo: type.type);
-      query2 = query2.where(NotificationModel.typeField, isEqualTo: type.type);
+      query = (query ?? collection)
+          .where(NotificationModel.typeField, isEqualTo: type.type);
+    }
+
+    if (groupChallengeId != null) {
+      query = (query ?? collection).where(
+          GroupChallengeRequestNotificationModel.groupChallengeIdField,
+          isEqualTo: groupChallengeId);
     }
 
     // Execute the queries
-    var snapshot1 = await query1.get();
-    var snapshot2 = await query2.get();
-
-    // Combine the results
-    var combinedSnapshots = [...snapshot1.docs, ...snapshot2.docs];
+    var snapshot = await (query ?? collection).get();
 
     // Delete the documents
-    for (var doc in combinedSnapshots) {
+    for (var doc in snapshot.docs) {
       await doc.reference.delete();
     }
   }

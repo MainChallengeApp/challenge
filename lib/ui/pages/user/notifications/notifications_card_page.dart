@@ -42,12 +42,6 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
           0));
 
   @override
-  void initState() {
-    super.initState();
-    notificationsProvider.getUserNotifications();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (listeningNotificationsProvider.userNotifications.isEmpty) {
       _navigatorPop(context);

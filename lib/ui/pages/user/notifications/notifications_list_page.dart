@@ -55,7 +55,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        notificationsProvider.getUserNotifications();
+        await notificationsProvider.getUserNotifications();
       },
       child: ListView.builder(
         controller: scrollController,

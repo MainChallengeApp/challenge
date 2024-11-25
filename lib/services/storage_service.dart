@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:challenge/collections/group_challenges_collection.dart';
@@ -43,15 +42,12 @@ class StorageService {
       // Delete all files
       for (var file in listResult.items) {
         await file.delete();
-        log('Deleted file: ${file.fullPath}');
       }
 
       // Recursively delete all subfolders
       for (var folder in listResult.prefixes) {
         await deleteFolderByPath(folder.fullPath);
       }
-
-      log('Deleted folder: $path');
     } on FirebaseException catch (e) {
       throw Exception('Failed to delete folder: $path, Error: ${e.message}');
     } catch (e) {
