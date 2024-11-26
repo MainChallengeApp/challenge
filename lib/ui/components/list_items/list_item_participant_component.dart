@@ -1,4 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -15,16 +16,16 @@ import 'package:provider/provider.dart';
 class ListItemParticipantComponent extends StatefulWidget {
   const ListItemParticipantComponent({
     super.key,
-    required this.onTap,
-    required this.participant,
-    required this.position,
+    this.onTap,
     required this.groupChallenge,
+    required this.participant,
+    required this.attempt,
   });
 
-  final dynamic Function() onTap;
-  final ParticipantModel participant;
+  final dynamic Function()? onTap;
   final GroupChallengeModel groupChallenge;
-  final int position;
+  final ParticipantModel participant;
+  final AttemptModel attempt;
 
   @override
   State<ListItemParticipantComponent> createState() =>
@@ -39,11 +40,10 @@ class _ListItemParticipantComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
-        isFailed: widget.participant.getLatestAttempt().isFailed(),
+        isFailed: widget.attempt.isFailed(),
         onTap: widget.onTap,
-        initialProgress: widget.participant
-            .getLatestAttempt()
-            .getCurrentPercentage(widget.groupChallenge),
+        initialProgress:
+            widget.attempt.getCurrentPercentage(widget.groupChallenge),
         child: Row(
           children: [
             _position(context),
@@ -81,7 +81,8 @@ class _ListItemParticipantComponentState
         padding: const EdgeInsets.symmetric(horizontal: 8),
         height: SmallContainerInListItemComponent.height,
         child: Center(
-          child: Text('${widget.position}.',
+          child: Text(
+              '${widget.groupChallenge.getPositionOf(widget.participant.user.id)}.',
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
@@ -93,7 +94,7 @@ class _ListItemParticipantComponentState
 
   _statusOrPercentage() {
     return widget.participant.isAccepted()
-        ? widget.participant.getLatestAttempt().isInBacklog()
+        ? widget.attempt.isInBacklog()
             ? ContainerInContainerComponent(
                 margin: const EdgeInsets.all(0),
                 padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -105,8 +106,7 @@ class _ListItemParticipantComponentState
                 ),
               )
             : ChallengeTotalPercentageComponent(
-                attempt: widget.participant.getLatestAttempt(),
-                groupChallenge: widget.groupChallenge)
+                attempt: widget.attempt, groupChallenge: widget.groupChallenge)
         : ContainerInContainerComponent(
             margin: const EdgeInsets.all(0),
             padding: const EdgeInsets.symmetric(horizontal: 8),

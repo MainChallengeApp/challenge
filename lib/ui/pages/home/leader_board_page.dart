@@ -75,10 +75,9 @@ class _LeaderBoardPageState extends State<LeaderBoardPage> {
               return SpaceColumnComponent(
                 child: ListItemParticipantComponent(
                     onTap: () => _onTapParticipant(participant),
-                    participant: participant,
                     groupChallenge: _groupChallenge,
-                    position:
-                        _groupChallenge.getPositionOf(participant.user.id)),
+                    participant: participant,
+                    attempt: participant.getLatestAttempt()),
               );
             }),
       ),

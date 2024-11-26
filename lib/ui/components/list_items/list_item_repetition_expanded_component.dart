@@ -89,7 +89,7 @@ class _ListItemRepetitionExpandedComponentState
             children: [
               const SpaceComponent(
                 height: ListItemContainerComponent.standardHeight -
-                    1, // -1 for the border
+                    2, // -2 for the border
               ),
               const SpaceComponent(),
               Row(
