@@ -61,7 +61,9 @@ class ParticipantModel {
   }
 
   AttemptModel getLatestAttempt() {
-    if (attempts.isEmpty) throw Exception('No attempts found');
+    if (attempts.isEmpty) {
+      return AttemptModel.empty();
+    }
     attempts.sort((a, b) => a.number.compareTo(b.number));
     return attempts.last;
   }

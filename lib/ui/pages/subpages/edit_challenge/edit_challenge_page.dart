@@ -322,6 +322,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
 
     await groupChallengesProvider.update(groupChallengeCopy);
+    await updateParticipants(groupChallengeCopy);
     setState(() {
       isLoading = false;
     });
@@ -415,5 +416,32 @@ class _EditChallengePageState extends State<EditChallengePage> {
             text: 'Only the admin of this challenge can edit it.')
       ],
     );
+  }
+
+  updateParticipants(GroupChallengeModel groupChallengeCopy) async {
+    Set<String> oldParticipantIds = groupChallengeCopy.participants
+        .map((participant) => participant.user.id)
+        .toSet();
+    Set<String> editParticipantIds =
+        editParticipants.map((user) => user.id).toSet();
+
+    List<UserModel> newParticipants = editParticipants
+        .where((user) => !oldParticipantIds.contains(user.id))
+        .toList();
+    List<UserModel> deleteParticipants = groupChallengeCopy.participants
+        .where(
+            (participant) => !editParticipantIds.contains(participant.user.id))
+        .map((participant) => participant.user)
+        .toList();
+
+    for (var deleteParticipant in deleteParticipants) {
+      await groupChallengesProvider.deleteParticipant(groupChallengeCopy,
+          participantId: deleteParticipant.id);
+    }
+
+    for (var newParticipant in newParticipants) {
+      await groupChallengesProvider.addParticipant(
+          groupChallengeCopy, _usersProvider.user, newParticipant);
+    }
   }
 }

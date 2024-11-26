@@ -52,6 +52,17 @@ class AttemptModel {
     DateTime? createdAt,
   }) : createdAt = createdAt ?? TimeService.now();
 
+  AttemptModel.empty()
+      : number = 1,
+        startDate = null,
+        endDate = null,
+        status = ChallengeStatusEnum.backlog,
+        acceptanceCriteria = AcceptanceCriteriaModel.empty(),
+        frequency = FrequencyModel.empty(),
+        media = [],
+        repetitions = [],
+        createdAt = TimeService.now();
+
   static fromChallengeModel({required ChallengeModel challenge}) {
     return AttemptModel(
       number: 1,

@@ -1,4 +1,5 @@
 import 'package:challenge/collections/group_challenges_collection.dart';
+import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
@@ -106,16 +107,39 @@ class GroupChallengesProvider with ChangeNotifier {
     }
   }
 
-  Future<void> deleteParticipant(GroupChallengeModel groupChallenge) async {
+  Future<void> addParticipant(GroupChallengeModel groupChallenge,
+      UserModel currentUser, UserModel participantUser) async {
+    ParticipantModel participant = ParticipantModel(
+        id: participantUser.id,
+        user: participantUser,
+        status: ParticipantStatusEnum.invited,
+        attempts: []);
+    groupChallenge.participants.add(participant);
+    await _groupChallengesCollection.addParticipant(
+        groupChallenge: groupChallenge, participant: participant);
+    await notificationsProvider.sendGroupChallengeRequestNotification(
+        participantUser, currentUser, groupChallenge);
+    updateLocalList(groupChallenge);
+  }
+
+  Future<void> deleteParticipant(GroupChallengeModel groupChallenge,
+      {String? participantId}) async {
     await _groupChallengesCollection.deleteParticipant(
         groupChallenge: groupChallenge,
-        participantId: _authService.getCurrentUserId());
+        participantId: participantId ?? _authService.getCurrentUserId());
     await notificationsProvider.deleteNotifications(
-        userId: _authService.getCurrentUserId(),
+        userId: participantId ?? _authService.getCurrentUserId(),
         groupChallengeId: groupChallenge.id);
-    _groupChallenges.removeWhere(
-        (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
-    notifyListeners();
+    if (participantId == null ||
+        _authService.getCurrentUserId() == participantId) {
+      _groupChallenges.removeWhere(
+          (groupChallengeEntry) => groupChallengeEntry.id == groupChallenge.id);
+      notifyListeners();
+    } else {
+      groupChallenge.participants
+          .removeWhere((participant) => participant.user.id == participantId);
+      updateLocalList(groupChallenge);
+    }
   }
 
   void resetLocalList() {

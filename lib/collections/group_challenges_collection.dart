@@ -36,6 +36,21 @@ class GroupChallengesCollection extends Collection {
     return groupChallengeRef.id;
   }
 
+  Future<void> addParticipant(
+      {required GroupChallengeModel groupChallenge,
+      required ParticipantModel participant}) async {
+    try {
+      await db
+          .collection(collectionName)
+          .doc(groupChallenge.id)
+          .collection(participantsSubCollection)
+          .doc(participant.user.id)
+          .set(participant.toDoc());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<List<GroupChallengeModel>> getAllByUserId(
       {required String userId}) async {
     // Perform a collection group query
