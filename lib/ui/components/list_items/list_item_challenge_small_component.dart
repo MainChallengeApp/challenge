@@ -7,8 +7,8 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -74,7 +74,7 @@ class _ListItemChallengeSmallComponentState
         visible: widget.attempt != null && !widget.attempt!.isInBacklog(),
         child: Padding(
           padding: const EdgeInsets.only(
-              left: ListItemContainerComponent.standardPadding),
+              left: CustomContainerComponent.standardPadding),
           child:
               widget.attempt == null && widget.challenge is! GroupChallengeModel
                   ? Container()

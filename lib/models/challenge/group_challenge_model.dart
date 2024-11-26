@@ -247,15 +247,15 @@ class GroupChallengeModel extends ChallengeModel {
         if (aPercentage != bPercentage) {
           return bPercentage.compareTo(aPercentage);
         }
-        // If percentages are equal, sort by endDate (earlier date below)
-        return bAttempt.getEndDate(this)!.compareTo(aAttempt.getEndDate(this)!);
+        // If percentages are equal, sort by endDate (earlier date on top)
+        return aAttempt.getEndDate(this)!.compareTo(bAttempt.getEndDate(this)!);
       }
 
-      // Succeeded participants go to the top, sorted by endDate (most recent first)
+      // Succeeded participants go to the top, sorted by endDate (earlier date on top)
       if (aAttempt.isSucceeded() && !bAttempt.isSucceeded()) return -1;
       if (bAttempt.isSucceeded() && !aAttempt.isSucceeded()) return 1;
       if (aAttempt.isSucceeded() && bAttempt.isSucceeded()) {
-        return bAttempt.getEndDate(this)!.compareTo(aAttempt.getEndDate(this)!);
+        return aAttempt.getEndDate(this)!.compareTo(bAttempt.getEndDate(this)!);
       }
 
       // In-progress participants are sorted by currentPercentage

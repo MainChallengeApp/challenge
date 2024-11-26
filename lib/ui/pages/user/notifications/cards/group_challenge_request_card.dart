@@ -1,6 +1,8 @@
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
+import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
+import 'package:challenge/ui/components/challenge/description_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -24,8 +26,9 @@ class GroupChallengeRequestCard extends StatefulWidget {
 }
 
 class _GroupChallengeRequestCardState extends State<GroupChallengeRequestCard> {
-  bool isLoadingAcceptButton = false;
-  bool isLoadingDeclineButton = false;
+  bool _isLoadingAcceptButton = false;
+  bool _isLoadingDeclineButton = false;
+  bool _isDescriptionExpanded = false;
 
   late final _groupChallengeProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
@@ -46,26 +49,70 @@ class _GroupChallengeRequestCardState extends State<GroupChallengeRequestCard> {
                         '${widget.groupChallengeRequestNotification.fromUser.username} ${widget.groupChallengeRequestNotification.body}',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium)))),
-        const Expanded(child: SizedBox()),
-        Row(
-          children: [
-            Expanded(
-              child: CustomButtonComponent(
-                text: 'Decline',
-                isLoading: isLoadingDeclineButton,
-                onTap: onTapDecline,
-              ),
-            ),
-            const SpaceComponent(),
-            Expanded(
-              child: CustomButtonComponent(
-                text: 'Accept',
-                isLoading: isLoadingAcceptButton,
-                isPrimaryButton: true,
-                onTap: onTapAccept,
-              ),
-            ),
-          ],
+        _description(),
+        Visibility(
+          visible: !_isDescriptionExpanded,
+          child: SpaceColumnComponent(
+              child: AcceptanceCriteriaComponent(
+                  groupChallenge:
+                      widget.groupChallengeRequestNotification.groupChallenge)),
+        ),
+        Visibility(
+            visible: !_isDescriptionExpanded,
+            child: const Expanded(child: SizedBox())),
+        actionButtons(),
+      ],
+    );
+  }
+
+  _description() {
+    DescriptionComponent descriptionComponent = DescriptionComponent(
+      challenge: widget.groupChallengeRequestNotification.groupChallenge,
+      isDescriptionExpanded: _isDescriptionExpanded,
+      onTap: () => setState(() {
+        _isDescriptionExpanded = !_isDescriptionExpanded;
+      }),
+    );
+    return _isDescriptionExpanded
+        ? Expanded(
+            child: Column(
+            children: [
+              Expanded(child: descriptionComponent),
+              widget.groupChallengeRequestNotification.groupChallenge
+                      .description.isNotEmpty
+                  ? const SpaceComponent()
+                  : Container()
+            ],
+          ))
+        : Column(
+            children: [
+              descriptionComponent,
+              widget.groupChallengeRequestNotification.groupChallenge
+                      .description.isNotEmpty
+                  ? const SpaceComponent()
+                  : Container()
+            ],
+          );
+  }
+
+  Row actionButtons() {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomButtonComponent(
+            text: 'Decline',
+            isLoading: _isLoadingDeclineButton,
+            onTap: onTapDecline,
+          ),
+        ),
+        const SpaceComponent(),
+        Expanded(
+          child: CustomButtonComponent(
+            text: 'Accept',
+            isLoading: _isLoadingAcceptButton,
+            isPrimaryButton: true,
+            onTap: onTapAccept,
+          ),
         ),
       ],
     );
@@ -73,26 +120,26 @@ class _GroupChallengeRequestCardState extends State<GroupChallengeRequestCard> {
 
   void onTapAccept() async {
     setState(() {
-      isLoadingAcceptButton = true;
+      _isLoadingAcceptButton = true;
     });
     await _groupChallengeProvider
         .acceptChallengeRequest(widget.groupChallengeRequestNotification);
     if (mounted) {
       setState(() {
-        isLoadingAcceptButton = false;
+        _isLoadingAcceptButton = false;
       });
     }
   }
 
   void onTapDecline() async {
     setState(() {
-      isLoadingDeclineButton = true;
+      _isLoadingDeclineButton = true;
     });
     await _groupChallengeProvider
         .declineChallengeRequest(widget.groupChallengeRequestNotification);
     if (mounted) {
       setState(() {
-        isLoadingDeclineButton = false;
+        _isLoadingDeclineButton = false;
       });
     }
   }

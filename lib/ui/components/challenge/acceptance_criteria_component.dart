@@ -3,9 +3,10 @@ import 'dart:math';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
@@ -15,19 +16,17 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class AcceptanceCriteriaComponent extends StatefulWidget {
-  final void Function() onTap;
-  final AttemptModel attempt;
-  final void Function() onTapNewProgress;
   final GroupChallengeModel groupChallenge;
-  final ParticipantModel participant;
+  final void Function()? onTap;
+  final AttemptModel? attempt;
+  final void Function()? onTapNewProgress;
 
   const AcceptanceCriteriaComponent(
       {super.key,
-      required this.onTap,
-      required this.attempt,
-      required this.onTapNewProgress,
-      required this.groupChallenge,
-      required this.participant});
+      this.onTap,
+      this.attempt,
+      this.onTapNewProgress,
+      required this.groupChallenge});
 
   @override
   State<AcceptanceCriteriaComponent> createState() =>
@@ -43,20 +42,24 @@ class _AcceptanceCriteriaComponentState
       child: Stack(
         children: [
           FractionallySizedBox(
-            widthFactor: !widget.attempt.isInProgress()
-                ? min(
-                    widget.attempt.getCurrentPercentage(widget.groupChallenge),
-                    1)
-                : min(
-                    widget.attempt.getCurrentRepetitionProgressPercentage(
-                        widget.groupChallenge),
-                    1),
+            widthFactor: widget.attempt == null
+                ? 0
+                : !widget.attempt!.isInProgress()
+                    ? min(
+                        widget.attempt!
+                            .getCurrentPercentage(widget.groupChallenge),
+                        1)
+                    : min(
+                        widget.attempt!.getCurrentRepetitionProgressPercentage(
+                            widget.groupChallenge),
+                        1),
             heightFactor: 1,
             child: Container(
               // width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: widget.attempt.status == ChallengeStatusEnum.failed
+                  color: widget.attempt != null &&
+                          widget.attempt!.status == ChallengeStatusEnum.failed
                       ? Theme.of(context).colorScheme.red
                       : Theme.of(context).colorScheme.green,
                   borderRadius: const BorderRadius.all(Radius.circular(
@@ -96,7 +99,7 @@ class _AcceptanceCriteriaComponentState
 
   Visibility newProgress() {
     return Visibility(
-      visible: widget.attempt.isInProgress(),
+      visible: widget.attempt != null && widget.attempt!.isInProgress(),
       child: GestureDetector(
         onTap: widget.onTapNewProgress,
         child: ContainerInContainerComponent(
@@ -117,48 +120,47 @@ class _AcceptanceCriteriaComponentState
   }
 
   repetition() {
-    return (widget.attempt.getFrequency(widget.groupChallenge).amount == 1 &&
-            widget.attempt.getFrequency(widget.groupChallenge).type ==
-                FrequencyTypeEnum.time)
+    FrequencyModel frequency = widget.attempt == null
+        ? widget.groupChallenge.frequency
+        : widget.attempt!.getFrequency(widget.groupChallenge);
+
+    return (frequency.amount == 1 && frequency.type == FrequencyTypeEnum.time)
         ? Container()
-        : widget.attempt.isInBacklog()
+        : widget.attempt == null || widget.attempt!.isInBacklog()
             ? ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
-                text:
-                    '${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}')
+                text: '${frequency.amount ?? '∞'} ${frequency.typeToString()}')
             : ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
                 text:
-                    '${widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
+                    '${widget.attempt!.getCurrentRepetitionNumber(widget.groupChallenge)}/${frequency.amount ?? '∞'} ${frequency.typeToString()}');
   }
 
   repetitionProgressAbsolute() {
-    return widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit !=
-                '' ||
-            widget.attempt
-                    .getAcceptanceCriteria(widget.groupChallenge)
-                    .amount !=
-                0
-        ? widget.attempt.isInProgress() ||
-                (widget.attempt.getFrequency(widget.groupChallenge).amount !=
-                            null &&
-                        widget.attempt
-                                .getFrequency(widget.groupChallenge)
-                                .amount! ==
-                            1) &&
-                    !widget.attempt.isInBacklog()
+    FrequencyModel frequency = widget.attempt == null
+        ? widget.groupChallenge.frequency
+        : widget.attempt!.getFrequency(widget.groupChallenge);
+    AcceptanceCriteriaModel acceptanceCriteria = widget.attempt == null
+        ? widget.groupChallenge.acceptanceCriteria
+        : widget.attempt!.getAcceptanceCriteria(widget.groupChallenge);
+
+    return acceptanceCriteria.unit != '' || acceptanceCriteria.amount != 0
+        ? widget.attempt != null &&
+                (widget.attempt!.isInProgress() ||
+                    (frequency.amount != null && frequency.amount! == 1) &&
+                        !widget.attempt!.isInBacklog())
             ? ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
                 text:
-                    '${UtilService.doubleAsIntString(widget.attempt.getCurrentRepetitionProgressAbsolute(widget.groupChallenge))}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
+                    '${UtilService.doubleAsIntString(widget.attempt!.getCurrentRepetitionProgressAbsolute(widget.groupChallenge))}/${UtilService.doubleAsIntString(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}')
             : ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
                 text:
-                    '${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
+                    '${UtilService.doubleAsIntString(acceptanceCriteria.amount)} ${acceptanceCriteria.unit}')
         : Container();
   }
 }

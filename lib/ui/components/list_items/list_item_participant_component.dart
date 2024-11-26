@@ -7,6 +7,7 @@ import 'package:challenge/ui/components/challenge/challenge_total_percentage_com
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -78,11 +79,12 @@ class _ListItemParticipantComponentState
       visible: widget.groupChallenge.isGroupChallenge(),
       child: ContainerInContainerComponent(
         margin: const EdgeInsets.all(0),
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(
+            horizontal: ContainerInContainerComponent.standardPadding),
         height: SmallContainerInListItemComponent.height,
         child: Center(
           child: Text(
-              '${widget.groupChallenge.getPositionOf(widget.participant.user.id)}.',
+              '${widget.groupChallenge.getPositionOf(widget.participant.user.id)}',
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
@@ -97,7 +99,9 @@ class _ListItemParticipantComponentState
         ? widget.attempt.isInBacklog()
             ? ContainerInContainerComponent(
                 margin: const EdgeInsets.all(0),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.symmetric(
+                    horizontal:
+                        ContainerInContainerComponent.standardPaddingSmall),
                 height: SmallContainerInListItemComponent.height,
                 child: Center(
                   child: Text('Accepted',
@@ -127,7 +131,8 @@ class _ListItemParticipantComponentState
         children: [
           ContainerInContainerComponent(
             margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(
+                horizontal: ContainerInContainerComponent.standardPaddingSmall),
             height: SmallContainerInListItemComponent.height,
             child: Center(
               child: Text('Admin',
@@ -136,7 +141,7 @@ class _ListItemParticipantComponentState
             ),
           ),
           const SpaceComponent(
-            width: ListItemContainerComponent.standardPadding,
+            width: CustomContainerComponent.standardPadding,
           ),
         ],
       ),
@@ -151,7 +156,8 @@ class _ListItemParticipantComponentState
         children: [
           ContainerInContainerComponent(
             margin: const EdgeInsets.all(0),
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(
+                horizontal: ContainerInContainerComponent.standardPaddingSmall),
             height: SmallContainerInListItemComponent.height,
             child: Center(
               child: Text('You',
@@ -160,7 +166,7 @@ class _ListItemParticipantComponentState
             ),
           ),
           const SpaceComponent(
-            width: ListItemContainerComponent.standardPadding,
+            width: CustomContainerComponent.standardPadding,
           ),
         ],
       ),

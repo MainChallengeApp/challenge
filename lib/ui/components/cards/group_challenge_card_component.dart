@@ -197,7 +197,6 @@ class _GroupChallengeCardComponentState
             onTap: _onTapAcceptanceCriteria,
             onTapNewProgress: _onTapNewProgress,
             attempt: _latestAttempt,
-            participant: _participant,
             groupChallenge: _groupChallenge,
           );
   }
