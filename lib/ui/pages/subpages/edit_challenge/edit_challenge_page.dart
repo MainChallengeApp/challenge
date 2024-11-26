@@ -79,6 +79,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
           .participants
           .map((participant) => participant.user)
           .toList();
+
+      // Sort the list to put the current user first
+      editParticipants.sort((a, b) {
+        if (a.id == _usersProvider.user.id) return -1;
+        if (b.id == _usersProvider.user.id) return 1;
+        return 0;
+      });
     } else {
       editParticipants = [_usersProvider.user];
     }
