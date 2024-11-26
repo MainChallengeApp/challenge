@@ -32,7 +32,7 @@ class _GroupChallengeIconComponentState
           child: Row(
             children: [
               Text(
-                  '${widget.participant == null ? '' : '${widget.groupChallenge.getPositionOf(widget.participant!.user.id)} | '}${widget.groupChallenge.participants.length} ',
+                  '${widget.participant == null ? '' : widget.participant!.getLatestAttempt().isInBacklog() ? '' : '${widget.groupChallenge.getPositionOf(widget.participant!.user.id)} | '}${widget.groupChallenge.participants.length} ',
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Theme.of(context).colorScheme.tertiary)),
               Icon(

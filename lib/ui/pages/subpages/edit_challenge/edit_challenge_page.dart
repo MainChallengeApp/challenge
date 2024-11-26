@@ -3,7 +3,6 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
-import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -59,12 +58,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
 
-  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
 
-  late ChallengeModel editChallenge =
+  late final ChallengeModel _editChallenge =
       widget.challenge.copy(isTryAgain: widget.isTryAgain, withId: true);
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
   bool isLoading = false;
 
@@ -75,24 +75,13 @@ class _EditChallengePageState extends State<EditChallengePage> {
     super.initState();
     if (widget.challenge is GroupChallengeModel &&
         (widget.challenge as GroupChallengeModel).participants.length > 1) {
-      _initializeParticipants();
+      editParticipants = (widget.challenge as GroupChallengeModel)
+          .participants
+          .map((participant) => participant.user)
+          .toList();
     } else {
-      editParticipants = [];
+      editParticipants = [_usersProvider.user];
     }
-  }
-
-  Future<void> _initializeParticipants() async {
-    final groupChallenge = widget.challenge as GroupChallengeModel;
-    List<ParticipantModel> participants = groupChallenge.participants
-        .where((participant) => participant.user.id != usersProvider.user.id)
-        .toList();
-
-    final futures = participants
-        .map((participant) => usersProvider.getUserById(participant.user.id))
-        .toList();
-
-    editParticipants = await Future.wait(futures);
-    setState(() {});
   }
 
   @override
@@ -138,7 +127,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     if (widget.challenge is GroupChallengeModel) {
       GroupChallengeModel groupChallenge =
           widget.challenge as GroupChallengeModel;
-      return groupChallenge.userId == usersProvider.user.id ||
+      return groupChallenge.userId == _usersProvider.user.id ||
           groupChallenge.groupChallengeOptions.isProgressIndividuell;
     }
     return true;
@@ -147,7 +136,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   Visibility _participants() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: addParticipants(),
+      child: addOrEditParticipants(),
     );
   }
 
@@ -243,7 +232,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return Visibility(
       visible: !isDescriptionExpanded,
       child: ChallengeStartAndEndDateComponent(
-        editChallenge: editChallenge,
+        editChallenge: _editChallenge,
         reloadSearchChallengePage: () => setState(
           () {},
         ),
@@ -253,7 +242,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   description() {
     EditDescriptionComponent descriptionComponent = EditDescriptionComponent(
-      challenge: editChallenge,
+      challenge: _editChallenge,
       isDescriptionExpanded: isDescriptionExpanded,
       onTap: () => setState(() {
         isDescriptionExpanded = !isDescriptionExpanded;
@@ -270,9 +259,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UploadThumbnailComponent(editChallenge: editChallenge),
+            UploadThumbnailComponent(editChallenge: _editChallenge),
             const SpaceComponent(),
-            ExpandedTextFieldComponent(editChallenge: editChallenge)
+            ExpandedTextFieldComponent(editChallenge: _editChallenge)
           ],
         ),
         const SpaceComponent()
@@ -291,13 +280,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
     setState(() {
       isLoading = true;
     });
-    ChallengeModel challengeCopy = editChallenge.copy();
+    ChallengeModel challengeCopy = _editChallenge.copy();
 
-    challengeCopy.id = await groupChallengesProvider.create(
-        challengeCopy,
-        [...editParticipants, usersProvider.user],
-        usersProvider.user,
-        GroupChallengeOptionsModel());
+    challengeCopy.id = await groupChallengesProvider.create(challengeCopy,
+        editParticipants, _usersProvider.user, GroupChallengeOptionsModel());
 
     setState(() {
       isLoading = false;
@@ -309,7 +295,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     context.read<TabProvider>().selectTab(TabItemEnum.home);
 
     var homeNavigator =
-        tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
+        _tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
 
     homeNavigator.popUntil((route) => route.isFirst);
 
@@ -331,9 +317,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
       isLoading = true;
     });
     GroupChallengeModel groupChallengeCopy =
-        editChallenge.copy(withId: true) as GroupChallengeModel;
+        _editChallenge.copy(withId: true) as GroupChallengeModel;
 
-    groupChallengeCopy.setGoals(editChallenge.acceptanceCriteria.amount);
+    groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
 
     await groupChallengesProvider.update(groupChallengeCopy);
     setState(() {
@@ -348,7 +334,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       visible: !isDescriptionExpanded,
       child: SpaceColumnComponent(
         child: AmountAndUnitComponent(
-          acceptanceCriteria: editChallenge.acceptanceCriteria,
+          acceptanceCriteria: _editChallenge.acceptanceCriteria,
         ),
       ),
     );
@@ -359,7 +345,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       visible: !isDescriptionExpanded,
       child: SpaceColumnComponent(
         child: FrequencyComponent(
-          challenge: editChallenge,
+          challenge: _editChallenge,
           reloadSearchChallengePage: () => setState(
             () {},
           ),
@@ -382,8 +368,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  addParticipants() {
-    return editParticipants.isEmpty
+  addOrEditParticipants() {
+    return editParticipants.length <= 1
         ? ListItemIconTextComponent(
             onTap: onTapAddParticipants,
             title: 'Add Participants',
@@ -395,8 +381,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
             child: Column(
               children: [
                 SpaceColumnComponent(
-                    child:
-                        AddMemberOverviewComponent(members: editParticipants)),
+                    child: AddMemberOverviewComponent(
+                        userId: _usersProvider.user.id,
+                        members: editParticipants)),
                 CustomButtonComponent(
                   onTap: onTapAddParticipants,
                   text: 'Edit Participants',

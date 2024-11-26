@@ -131,6 +131,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
                     AddMemberOverviewComponent.removeMemberExtraSpace),
             isHeightDynamic: true,
             child: AddMemberOverviewComponent(
+              userId: _usersProvider.user.id,
               members: editParticipants,
               onRemoveMember: onRemoveParticipant,
             )));

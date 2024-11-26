@@ -11,11 +11,15 @@ import 'package:flutter/material.dart';
 class AddMemberOverviewComponent extends StatefulWidget {
   static const double removeMemberExtraSpace = 7;
 
+  final String userId;
   final List<UserModel> members;
   final Function(String)? onRemoveMember;
 
   const AddMemberOverviewComponent(
-      {super.key, required this.members, this.onRemoveMember});
+      {super.key,
+      required this.members,
+      this.onRemoveMember,
+      required this.userId});
 
   @override
   State<AddMemberOverviewComponent> createState() =>
@@ -35,21 +39,20 @@ class _AddMemberOverviewComponentState
             physics: const AlwaysScrollableScrollPhysics(),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: widget.members
-                  .map((user) => userPicture(user, context))
-                  .toList(),
+              children:
+                  widget.members.map((user) => userPicture(user)).toList(),
             ),
           ),
         ),
         const SpaceComponent(),
-        currentAmountAndMaxAmount(context),
+        currentAmountAndMaxAmount(),
       ],
     );
   }
 
-  GestureDetector userPicture(UserModel user, BuildContext context) {
+  GestureDetector userPicture(UserModel user) {
     return GestureDetector(
-      onTap: widget.onRemoveMember != null
+      onTap: widget.onRemoveMember != null && user.id != widget.userId
           ? () => widget.onRemoveMember!(user.id)
           : null,
       child: Padding(
@@ -88,16 +91,16 @@ class _AddMemberOverviewComponentState
                 ),
               ),
             ),
-            removeUserIcon(context),
+            removeUserIcon(user),
           ],
         ),
       ),
     );
   }
 
-  Visibility removeUserIcon(BuildContext context) {
+  Visibility removeUserIcon(UserModel user) {
     return Visibility(
-      visible: widget.onRemoveMember != null,
+      visible: widget.onRemoveMember != null && user.id != widget.userId,
       child: Positioned(
         right: 0,
         top: 0,
@@ -117,7 +120,7 @@ class _AddMemberOverviewComponentState
     );
   }
 
-  currentAmountAndMaxAmount(BuildContext context) {
+  currentAmountAndMaxAmount() {
     return Column(
       children: [
         ContainerInListItemComponent(

@@ -197,7 +197,7 @@ class _UserPageState extends State<UserPage> {
     return CustomButtonComponent(
       onTap: onTapNotifications,
       text:
-          'Notifications${listeningNotificationsProvider.userNotifications.isEmpty ? '' : ' (${listeningNotificationsProvider.userNotifications.length})'}',
+          '${listeningNotificationsProvider.userNotifications.isEmpty ? '' : '${listeningNotificationsProvider.userNotifications.length} '}Notification${listeningNotificationsProvider.userNotifications.length == 1 ? '' : 's'}',
     );
   }
 
