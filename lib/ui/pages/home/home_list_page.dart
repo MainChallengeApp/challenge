@@ -104,6 +104,8 @@ class _HomeListPageState extends State<HomeListPage> {
                             .getLatestAttempt(),
                         onTapDeleteChallenge: () =>
                             onTapDeleteChallenge(groupChallenge),
+                        onTapEditChallenge: () =>
+                            onTapEditChallenge(groupChallenge),
                       ),
                     );
                   }),
@@ -188,5 +190,18 @@ class _HomeListPageState extends State<HomeListPage> {
         await groupChallengesProvider.deleteParticipant(groupChallenge);
       },
     );
+  }
+
+  onTapEditChallenge(GroupChallengeModel groupChallenge) {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditChallengePage(
+          preTitle: '${widget.title}/${groupChallenge.title}',
+          challenge: groupChallenge,
+          isNewChallenge: false,
+        ),
+      ),
+    ).then((_) => setState(() {}));
   }
 }

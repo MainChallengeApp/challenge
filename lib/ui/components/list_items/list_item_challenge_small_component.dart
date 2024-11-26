@@ -25,6 +25,7 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
     this.isSearch = false,
     this.onTapDeleteChallenge,
     this.participant,
+    this.onTapEditChallenge,
   });
 
   final dynamic Function() onTap;
@@ -33,6 +34,7 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
   final bool isSearch;
   final AttemptModel? attempt;
   final void Function()? onTapDeleteChallenge;
+  final void Function()? onTapEditChallenge;
 
   @override
   State<ListItemChallengeSmallComponent> createState() =>
@@ -89,7 +91,7 @@ class _ListItemChallengeSmallComponentState
     return widget.isSearch
         ? null
         : ActionPane(
-            extentRatio: 0.22,
+            extentRatio: 0.44,
             motion: const ScrollMotion(),
             // dismissible: DismissiblePane(
             //   onDismissed: () {
@@ -97,6 +99,10 @@ class _ListItemChallengeSmallComponentState
             //   },
             // ),
             children: [
+                editSlider(closeSlidable),
+                const SpaceComponent(
+                  width: 20,
+                ),
                 deleteSlider(closeSlidable),
                 const SpaceComponent(
                   width: 20,
@@ -130,5 +136,22 @@ class _ListItemChallengeSmallComponentState
         child: GroupChallengeIconComponent(
             groupChallenge: widget.challenge as GroupChallengeModel,
             participant: widget.participant));
+  }
+
+  editSlider(Function closeSlidable) {
+    return Expanded(
+      child: TapContainerComponent(
+        height: double.infinity,
+        borderRadius: 24,
+        onTap: () async {
+          await closeSlidable();
+          widget.onTapEditChallenge?.call();
+        },
+        child: Center(
+            child: Icon(
+          IconEnum.edit.icon,
+        )),
+      ),
+    );
   }
 }
