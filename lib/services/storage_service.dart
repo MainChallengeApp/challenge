@@ -44,7 +44,7 @@ class StorageService {
         await file.delete();
       }
 
-      // Recursively delete all subfolders
+      // Recursively delete all sub folders
       for (var folder in listResult.prefixes) {
         await deleteFolderByPath(folder.fullPath);
       }

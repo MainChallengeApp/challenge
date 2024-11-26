@@ -40,5 +40,10 @@
     "connections",
     "time_safety",
     "tests"
+  ],
+  "cSpell.ignoreWords": [
+    "avfoundation",
+    "flutterfire",
+    "xcworkspace"
   ]
 }
