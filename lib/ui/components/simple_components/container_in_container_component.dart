@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class ContainerInContainerComponent extends StatelessWidget {
   static const double standardRadius = 10;
   static const double standardPadding = 10;
+  static const double standardPaddingSmall = 6;
   static const double standardMargin = 10;
 
   final Widget child;

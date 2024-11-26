@@ -97,6 +97,8 @@ class _HomeListPageState extends State<HomeListPage> {
                         onTap: () => onTapChallenge(context,
                             challenge: groupChallenge, index: index - 1),
                         challenge: groupChallenge,
+                        participant: groupChallenge
+                            .getParticipant(_usersProvider.user.id),
                         attempt: groupChallenge
                             .getParticipant(_usersProvider.user.id)
                             .getLatestAttempt(),

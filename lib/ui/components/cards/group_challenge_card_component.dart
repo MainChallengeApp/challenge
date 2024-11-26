@@ -144,6 +144,7 @@ class _GroupChallengeCardComponentState
       height: 11,
       child: TitleWithPercentageComponent(
         groupChallenge: _groupChallenge,
+        participant: _participant,
         attempt: _latestAttempt,
       ),
     );

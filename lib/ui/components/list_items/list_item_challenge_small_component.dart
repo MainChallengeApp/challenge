@@ -2,6 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
@@ -23,10 +24,12 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
     this.attempt,
     this.isSearch = false,
     this.onTapDeleteChallenge,
+    this.participant,
   });
 
   final dynamic Function() onTap;
   final ChallengeModel challenge;
+  final ParticipantModel? participant;
   final bool isSearch;
   final AttemptModel? attempt;
   final void Function()? onTapDeleteChallenge;
@@ -120,9 +123,12 @@ class _ListItemChallengeSmallComponentState
   }
 
   _groupChallengeIcon() {
+    if (widget.challenge is! GroupChallengeModel) return Container();
     return Visibility(
         visible: widget.challenge is GroupChallengeModel &&
             (widget.challenge as GroupChallengeModel).participants.length > 1,
-        child: GroupChallengeIconComponent(challenge: widget.challenge));
+        child: GroupChallengeIconComponent(
+            groupChallenge: widget.challenge as GroupChallengeModel,
+            participant: widget.participant));
   }
 }

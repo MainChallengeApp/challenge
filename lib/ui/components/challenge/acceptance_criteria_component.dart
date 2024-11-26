@@ -82,11 +82,7 @@ class _AcceptanceCriteriaComponentState
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: [
-                          repetition(),
-                          repetitionProgressAbsolute(),
-                          _position()
-                        ],
+                        children: [repetition(), repetitionProgressAbsolute()],
                       ),
                     ),
                   ),
@@ -164,16 +160,5 @@ class _AcceptanceCriteriaComponentState
                 text:
                     '${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}')
         : Container();
-  }
-
-  _position() {
-    return Visibility(
-      visible: widget.groupChallenge.isGroupChallenge() &&
-          !widget.attempt.isInBacklog(),
-      child: ContainerInContainerTextComponent(
-        text:
-            '${widget.groupChallenge.getPositionOf(widget.participant.user.id)}.',
-      ),
-    );
   }
 }

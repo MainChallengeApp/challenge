@@ -28,8 +28,10 @@ class ContainerInContainerTextComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ContainerInContainerComponent(
         margin: margin,
-        padding: padding,
-        height: height,
+        padding: padding ??
+            const EdgeInsets.symmetric(
+                horizontal: ContainerInContainerComponent.standardPadding),
+        height: height ?? double.infinity,
         color: color,
         border: border,
         borderRadius: borderRadius,
