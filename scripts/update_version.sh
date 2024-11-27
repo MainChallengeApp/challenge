@@ -1,12 +1,30 @@
 #!/bin/bash
+# Script to update the version in a YAML file with semantic versioning
 
-# Script to increment the version in a YAML file with semantic versioning
+echo "Starting updating version..."
 
 # Check if the correct number of arguments is provided
 if [ "$#" -ne 1 ]; then
     echo "Usage: $0 <'major' | 'minor' | 'patch'| 'build'>"
     exit 1
 fi
+
+# Run flutter analyze
+echo "Running flutter analyze..."
+flutter analyze
+if [ $? -ne 0 ]; then
+    echo "Flutter analyze failed. Exiting."
+    exit 1
+fi
+
+# Run flutter test
+echo "Running flutter test..."
+flutter test
+if [ $? -ne 0 ]; then
+    echo "Flutter tests failed. Exiting."
+    exit 1
+fi
+
 
 YAML_FILE="pubspec.yaml"
 VERSION_COMPONENT=$1
