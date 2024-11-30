@@ -57,7 +57,7 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    function isMigrationUser() { // deployment worked
+    function isMigrationUser() {
       return isLoggedIn() && request.auth.uid == 'MIGRATION_USER_ID';
     }
 

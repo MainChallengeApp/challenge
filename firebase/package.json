@@ -1,7 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "test": "mocha test/firestore.rules.test.js",
+    "test": "npm run generate:firestore:rules && mocha test/firestore.rules.test.js",
+    "test:emulator": "firebase emulators:exec --only firestore 'npm run test'",
     "generate:firestore:rules": "node scripts/generate_firestore_rules.js",
     "deploy:firestore:rules": "npm run generate:firestore:rules && source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive --token $FIREBASE_TOKEN && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN"
   },
