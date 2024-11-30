@@ -1,4 +1,4 @@
 #!bin/bash
 
-script_dir=$(dirname "$(realpath "$0")")
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export $(cat $script_dir/../.env | xargs)

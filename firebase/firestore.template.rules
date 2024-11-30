@@ -1,0 +1,102 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+  	match /{all=**} {
+    	allow read, write: if isMigrationUser();
+    }
+    
+    match /migrations/{migrationId} {
+    	allow read: if true;
+    }
+    
+    match /users/{userId} {
+      allow read: if isLoggedIn();
+      allow create: if isLoggedIn() && isRequestResourceIdOfUser();
+      allow update: if isLoggedIn() && updateOwnUserOrConnectionIdsOrNothing();
+      allow delete: if isLoggedIn() && isResourceIdOfUser();
+    }
+    
+    match /notifications/{notificationId} {
+      allow read: if isLoggedIn() && (isResourceUserIdOfUser() || isResourceFromUserIdOfUser() || isGroupChallengeOwner(resource.data.groupChallengeId));
+      allow create: if isLoggedIn();
+      allow update: if false;
+      allow delete: if isLoggedIn() && (isResourceUserIdOfUser() || isResourceFromUserIdOfUser() || isGroupChallengeOwner(resource.data.groupChallengeId));
+    }
+    
+    match /reports/{reportId} {
+      allow read: if false;
+      allow create: if isLoggedIn();
+    }
+    
+    match /group_challenges/{groupChallengeId} {
+      allow read: if isLoggedIn();
+      allow create: if isLoggedIn() && isRequestResourceUserIdOfUser();
+      allow update: if isLoggedIn() && isResourceUserIdOfUser();
+      allow delete: if isLoggedIn() && isResourceUserIdOfUser();
+      
+      match /participants/{participantId} {
+        allow create: if isLoggedIn();
+        allow read: if isLoggedIn();
+        allow update: if isLoggedIn() && isResourceUserIdOfUser();
+        allow delete: if isLoggedIn() && (isResourceUserIdOfUser() || isGroupChallengeOwner(groupChallengeId));
+    	}
+    }
+    
+    match /{path=**}/participants/{participantId} {
+      allow read: if isLoggedIn();
+    }
+     
+    match /search_challenges/{searchChallengeId} {
+      allow read: if isLoggedIn();
+      allow write: if false;
+    }
+
+    function isLoggedIn() {
+      return request.auth != null;
+    }
+
+    function isMigrationUser() { // deployment worked
+      return isLoggedIn() && request.auth.uid == 'MIGRATION_USER_ID';
+    }
+
+    function isResourceSet() {
+      return resource != null;
+    }
+
+    function isResourceIdOfUser() {
+      return isResourceSet() && resource.id == request.auth.uid;
+    }
+
+    function isResourceUserIdOfUser() {
+      return isResourceSet() && resource.data.userId == request.auth.uid;
+    }
+
+    function isResourceFromUserIdOfUser() {
+      return isResourceSet() && resource.data.fromUserId == request.auth.uid;
+    }
+
+    function isRequestResourceSet() {
+      return request.resource != null;
+    }
+
+    function isRequestResourceUserIdOfUser() {
+      return isRequestResourceSet() 
+        && request.resource.data.userId == request.auth.uid;
+    }
+
+    function isRequestResourceIdOfUser() {
+      return isRequestResourceSet() && request.resource.id == request.auth.uid;
+    }
+
+    function updateOwnUserOrConnectionIdsOrNothing() {
+      return (isRequestResourceIdOfUser() && isResourceIdOfUser()) || (isResourceSet() && isRequestResourceSet()  &&  ( request.resource.data.diff(resource.data).affectedKeys().hasOnly(['connectionIds'])  || request.resource.data.diff(resource.data).affectedKeys().size() == 0 ));
+    }
+
+    function isGroupChallengeOwner(groupChallengeId) {
+      let groupChallenge = get(/databases/$(database)/documents/group_challenges/$(groupChallengeId)).data;
+      return groupChallenge.userId == request.auth.uid;
+    }
+  }
+}
