@@ -1,4 +1,5 @@
 import {
+  assertFails,
   assertSucceeds,
   initializeTestEnvironment,
 } from "@firebase/rules-unit-testing";
@@ -7,7 +8,7 @@ import fs from "fs";
 import fetch from "node-fetch";
 global.fetch = fetch;
 
-const projectId = "challenge-dev-sdgi";
+const projectId = "project-id";
 
 describe("Firestore Security Rules", function () {
   let testEnv;
@@ -34,6 +35,22 @@ describe("Firestore Security Rules", function () {
 
   after(async function () {
     await testEnv.cleanup();
+  });
+
+  describe("Users collection", function () {
+    it("should allow authenticated users to read documents", async function () {
+      const authenticatedContext = testEnv.authenticatedContext("daniel");
+      const db = authenticatedContext.firestore();
+      const docRef = db.collection("users").doc("daniel");
+      await assertSucceeds(docRef.get());
+    });
+
+    it("should not allow unauthenticated users to read documents", async function () {
+      const unauthenticatedContext = testEnv.unauthenticatedContext();
+      const db = unauthenticatedContext.firestore();
+      const docRef = db.collection("users").doc("daniel");
+      await assertFails(docRef.get());
+    });
   });
 
   it("should calculate the sum of two numbers", async function () {
