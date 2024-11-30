@@ -4,6 +4,8 @@ import {
 } from "@firebase/rules-unit-testing";
 import { expect } from "chai";
 import fs from "fs";
+import fetch from "node-fetch";
+global.fetch = fetch;
 
 const projectId = "challenge-dev-sdgi";
 
@@ -11,12 +13,13 @@ describe("Firestore Security Rules", function () {
   let testEnv;
 
   before(async function () {
+    this.timeout(10000);
     testEnv = await initializeTestEnvironment({
       projectId,
       firestore: {
         rules: fs.readFileSync("firestore.rules", "utf8"),
         host: "127.0.0.1",
-        port: 8080,
+        port: 9151,
       },
     });
 

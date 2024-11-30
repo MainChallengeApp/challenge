@@ -2,5 +2,10 @@
   "firestore": {
     "indexes": "firestore.indexes.json",
     "rules": "firestore.rules"
+  },
+  "emulators": {
+    "firestore": {
+      "port": 9151
+    }
   }
 }

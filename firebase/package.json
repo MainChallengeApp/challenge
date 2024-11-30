@@ -1,8 +1,8 @@
 {
   "type": "module",
   "scripts": {
-    "test": "npm run generate:firestore:rules && mocha test/firestore.rules.test.js",
-    "test:emulator": "firebase emulators:exec --only firestore 'npm run test'",
+    "test": "mocha test/firestore.rules.test.js",
+    "test:emulator": "npm run generate:firestore:rules && firebase emulators:exec --only firestore 'npm run test'",
     "generate:firestore:rules": "node scripts/generate_firestore_rules.js",
     "deploy:firestore:rules": "npm run generate:firestore:rules && source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive --token $FIREBASE_TOKEN && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN"
   },
@@ -12,6 +12,7 @@
     "mocha": "^10.8.2"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "node-fetch": "^2.7.0"
   }
 }
