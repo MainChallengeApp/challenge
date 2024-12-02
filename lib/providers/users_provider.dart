@@ -39,7 +39,7 @@ class UsersProvider with ChangeNotifier {
   final BuildContext context;
 
   late final notificationsProvider =
-      Provider.of<NotificationsProvider>(context);
+      Provider.of<NotificationsProvider>(context, listen: false);
 
   UsersProvider({required this.context});
 

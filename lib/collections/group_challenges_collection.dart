@@ -19,11 +19,10 @@ class GroupChallengesCollection extends Collection {
   Future<String> create(GroupChallengeModel groupChallenge) async {
     groupChallenge.titleLowerCase = groupChallenge.title.toLowerCase();
 
-    final batch = FirebaseFirestore.instance.batch();
     final groupChallengeRef =
-        FirebaseFirestore.instance.collection(collectionName).doc();
-    batch.set(groupChallengeRef, groupChallenge.toDoc());
+        await db.collection(collectionName).add(groupChallenge.toDoc());
 
+    final batch = FirebaseFirestore.instance.batch();
     for (var participant in groupChallenge.participants) {
       final participantRef = groupChallengeRef
           .collection(participantsSubCollection)

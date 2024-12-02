@@ -1,13 +1,14 @@
 {
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "concurrently \"watchman-make -p 'firestore.template.rules' --run 'npm run generate:firestore:rules && npm run test'\" \"jest --watch\"",
     "test:emulator": "npm run generate:firestore:rules && firebase emulators:exec --only firestore 'npm run test'",
     "generate:firestore:rules": "node scripts/generate_firestore_rules.js",
     "deploy:firestore:rules": "npm run generate:firestore:rules && source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive --token $FIREBASE_TOKEN && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
+    "concurrently": "^9.1.0",
     "jest": "^29.7.0"
   },
   "dependencies": {

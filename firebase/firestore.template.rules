@@ -20,32 +20,32 @@ service cloud.firestore {
     
     match /notifications/{notificationId} {
       allow read: if isLoggedIn() && (isResourceUserIdOfUser() || isResourceFromUserIdOfUser() || isGroupChallengeOwner(resource.data.groupChallengeId));
-      allow create: if isLoggedIn();
+      allow create: if isLoggedIn() && isRequestResourceFromUserIdOfUser();
       allow update: if false;
       allow delete: if isLoggedIn() && (isResourceUserIdOfUser() || isResourceFromUserIdOfUser() || isGroupChallengeOwner(resource.data.groupChallengeId));
     }
     
     match /reports/{reportId} {
       allow read: if false;
-      allow create: if isLoggedIn();
+      allow create: if isLoggedIn() && isRequestResourceUserIdOfUser();
     }
     
     match /group_challenges/{groupChallengeId} {
-      allow read: if isLoggedIn();
+      allow read: if isLoggedIn() && (isParticipant(groupChallengeId) || resource.data.userId == request.auth.uid);
       allow create: if isLoggedIn() && isRequestResourceUserIdOfUser();
       allow update: if isLoggedIn() && isResourceUserIdOfUser();
       allow delete: if isLoggedIn() && isResourceUserIdOfUser();
       
       match /participants/{participantId} {
-        allow create: if isLoggedIn();
-        allow read: if isLoggedIn();
+        allow create: if isLoggedIn() && isGroupChallengeOwner(groupChallengeId);
+        allow read: if isLoggedIn() && (isParticipant(groupChallengeId) || isGroupChallengeOwner(groupChallengeId));
         allow update: if isLoggedIn() && isResourceUserIdOfUser();
         allow delete: if isLoggedIn() && (isResourceUserIdOfUser() || isGroupChallengeOwner(groupChallengeId));
     	}
     }
     
-    match /{path=**}/participants/{participantId} {
-      allow read: if isLoggedIn();
+    match /{path=**}/participants/{participantId} { // necessary to find groupChallenges of a participant
+      allow read: if isLoggedIn() && isResourceUserIdOfUser() && participantId == request.auth.uid;
     }
      
     match /search_challenges/{searchChallengeId} {
@@ -86,6 +86,11 @@ service cloud.firestore {
         && request.resource.data.userId == request.auth.uid;
     }
 
+    function isRequestResourceFromUserIdOfUser() {
+      return isRequestResourceSet() 
+        && request.resource.data.fromUserId == request.auth.uid;
+    }
+
     function isRequestResourceIdOfUser() {
       return isRequestResourceSet() && request.resource.id == request.auth.uid;
     }
@@ -97,6 +102,10 @@ service cloud.firestore {
     function isGroupChallengeOwner(groupChallengeId) {
       let groupChallenge = get(/databases/$(database)/documents/group_challenges/$(groupChallengeId)).data;
       return groupChallenge.userId == request.auth.uid;
+    }
+
+    function isParticipant(groupChallengeId) {
+      return exists(/databases/$(database)/documents/group_challenges/$(groupChallengeId)/participants/$(request.auth.uid));
     }
   }
 }
