@@ -44,8 +44,8 @@ service cloud.firestore {
     	}
     }
     
-    match /{path=**}/participants/{participantId} { // necessary to find groupChallenges of a participant
-      allow read: if isLoggedIn() && isResourceUserIdOfUser() && participantId == request.auth.uid;
+    match /{path=**}/participants/{participantId} { // necessary to find groupChallenges of a user
+      allow read: if isLoggedIn() && isResourceUserIdOfUser();
     }
      
     match /search_challenges/{searchChallengeId} {
