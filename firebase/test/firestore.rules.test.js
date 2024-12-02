@@ -1,77 +1,67 @@
-import {
-  assertFails,
-  assertSucceeds,
-  initializeTestEnvironment,
-} from "@firebase/rules-unit-testing";
-import { expect } from "chai";
+import { initializeTestEnvironment } from "@firebase/rules-unit-testing";
+import { jest } from "@jest/globals";
 import fs from "fs";
 import fetch from "node-fetch";
+
+global.jest = jest;
 global.fetch = fetch;
 
-const projectId = "project-id";
+let testEnv;
 
-describe("Firestore Security Rules", function () {
-  let testEnv;
+beforeAll(async () => {
+  jest.setTimeout(10000);
+  testEnv = await initializeTestEnvironment({
+    projectId: "project-id",
+    firestore: {
+      rules: fs.readFileSync("firestore.rules", "utf8"),
+      host: "127.0.0.1",
+      port: 9151,
+    },
+  });
+});
 
-  before(async function () {
-    this.timeout(10000);
-    testEnv = await initializeTestEnvironment({
-      projectId,
-      firestore: {
-        rules: fs.readFileSync("firestore.rules", "utf8"),
-        host: "127.0.0.1",
-        port: 9151,
-      },
-    });
+afterAll(async () => {
+  await testEnv.cleanup();
+});
 
-    // Add test data
-    const adminContext = testEnv.authenticatedContext("daniel");
-    const adminDb = adminContext.firestore();
-    await adminDb.collection("users").doc("daniel").set({
-      name: "Test User",
-      email: "test@example.com",
+function getAuthenticatedDb(auth) {
+  const adminContext = testEnv.authenticatedContext(auth ?? "user-id");
+  return adminContext.firestore();
+}
+
+function getUnauthenticatedDb(auth) {
+  const adminContext = testEnv.unauthenticatedContext(auth);
+  return adminContext.firestore();
+}
+
+describe("Firestore Security Rules", () => {
+  describe("migrations collection", () => {
+    it("should allow authenticated user to read the documents", async () => {
+      const db = getAuthenticatedDb();
+      await expect(db.collection("migrations").get()).resolves.toBeDefined();
     });
   });
 
-  after(async function () {
-    await testEnv.cleanup();
-  });
-
-  describe("Users collection", function () {
-    it("should allow authenticated users to read documents", async function () {
+  describe("users collection", () => {
+    it("should allow authenticated users to read documents", async () => {
       const authenticatedContext = testEnv.authenticatedContext("daniel");
       const db = authenticatedContext.firestore();
       const docRef = db.collection("users").doc("daniel");
-      await assertSucceeds(docRef.get());
+      await expect(docRef.get()).resolves.toBeDefined();
     });
 
-    it("should not allow unauthenticated users to read documents", async function () {
+    it("should not allow unauthenticated users to read documents", async () => {
       const unauthenticatedContext = testEnv.unauthenticatedContext();
       const db = unauthenticatedContext.firestore();
       const docRef = db.collection("users").doc("daniel");
-      await assertFails(docRef.get());
+      await expect(docRef.get()).rejects.toThrow();
     });
   });
 
-  it("should calculate the sum of two numbers", async function () {
-    const a = 1;
-    const b = 2;
-    const expectedResult = 3;
-    const result = a + b;
-    expect(result).to.equal(expectedResult);
-  });
-
-  it("should get document", async function () {
-    // Create an authenticated context
+  it("should get document", async () => {
     const authenticatedContext = testEnv.authenticatedContext("user1");
-
-    // Get a reference to the Firestore instance
     const db = authenticatedContext.firestore();
-
-    // Create a reference to the document
     const docRef = db.collection("users").doc("user1");
-
-    // Attempt to get the document
-    await assertSucceeds(docRef.get());
+    await expect(docRef.get()).resolves.toBeDefined();
   });
 });
