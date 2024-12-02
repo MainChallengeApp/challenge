@@ -20,8 +20,8 @@ import 'package:challenge/ui/components/user/bio_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/user/connections/connections_page.dart';
 import 'package:challenge/ui/pages/user/notifications/notifications_list_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
-import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_username_page.dart';
 import 'package:challenge/ui/pages/user/settings/settings_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -91,7 +91,7 @@ class _UserPageState extends State<UserPage> {
               scrollController: scrollController,
               children: [
                 profilePicture(user),
-                usernameAndEdit(user),
+                _username(user),
                 bio(user),
                 challengesAndConnections(user),
                 expandedSpace(),
@@ -112,29 +112,16 @@ class _UserPageState extends State<UserPage> {
   }
 
   bio(UserModel user) {
-    BioComponent bioComponent = BioComponent(
-      bio: user.bio,
-      onTap: () {
-        setState(() {
-          isBioExpanded = !isBioExpanded;
-        });
-      },
-      isBioExpanded: isBioExpanded,
+    return Visibility(
+      visible: user.bio != null && user.bio!.isNotEmpty,
+      child: SpaceColumnComponent(
+        child: BioComponent(
+          bio: user.bio,
+          onTap: onTapBio,
+          isBioExpanded: isBioExpanded,
+        ),
+      ),
     );
-    return isBioExpanded
-        ? Expanded(
-            child: Column(
-              children: [
-                Expanded(child: bioComponent),
-                const SpaceComponent(),
-              ],
-            ),
-          )
-        : user.bio != null && user.bio!.isNotEmpty
-            ? SpaceColumnComponent(
-                child: bioComponent,
-              )
-            : Container();
   }
 
   challengesAndConnections(UserModel user) {
@@ -205,32 +192,17 @@ class _UserPageState extends State<UserPage> {
     return isBioExpanded ? Container() : Expanded(child: Container());
   }
 
-  usernameAndEdit(UserModel user) {
+  _username(UserModel user) {
     return SpaceColumnComponent(
-      child: Row(
-        children: [
-          Expanded(
-            child: TapContainerComponent(
-                onTap: onTapUsername,
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      user.username,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.textInputSmall,
-                    ))),
-          ),
-          const SpaceComponent(),
-          TapContainerComponent(
-              onTap: onTapEdit,
-              isQuadratic: true,
-              child: Center(
-                child: Icon(
-                  IconEnum.edit.icon,
-                ),
-              ))
-        ],
-      ),
+      child: TapContainerComponent(
+          onTap: onTapUsername,
+          child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                user.username,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.textInputSmall,
+              ))),
     );
   }
 
@@ -252,16 +224,6 @@ class _UserPageState extends State<UserPage> {
           builder: (context) => EditUsernamePage(
             preTitle: widget.title,
             user: user,
-          ),
-        ));
-  }
-
-  onTapEdit() {
-    Navigator.push(
-        context,
-        NoAnimationPageRouteComponent(
-          builder: (context) => EditUserPage(
-            preTitle: widget.title,
           ),
         ));
   }
@@ -304,5 +266,16 @@ class _UserPageState extends State<UserPage> {
         onTap: onTapPicture,
       ),
     );
+  }
+
+  void onTapBio() {
+    Navigator.push(
+        context,
+        NoAnimationPageRouteComponent(
+          builder: (context) => EditBioPage(
+            preTitle: widget.title,
+            user: user,
+          ),
+        ));
   }
 }

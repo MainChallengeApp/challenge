@@ -38,7 +38,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
         actionIcon: isHidden
             ? Icons.visibility_outlined
             : Icons.visibility_off_outlined,
-        onTap: onTapActionIcon,
+        onTapActionIcon: onTapActionIcon,
         textEditingController: widget.textEditingController,
         isHidden: isHidden,
         onChangeTextField: widget.onChangeTextField,

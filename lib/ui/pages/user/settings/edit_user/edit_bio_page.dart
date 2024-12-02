@@ -5,6 +5,7 @@ import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -72,6 +73,9 @@ class _EditBioPageState extends State<EditBioPage> {
                     border: InputBorder.none,
                     hintText: 'Bio',
                     hintStyle: Theme.of(context).textTheme.textInputHintSmall,
+                    contentPadding: const EdgeInsets.only(
+                        bottom: BottomNavigationComponent.standardMargin),
+                    isDense: true,
                   ),
                   onChanged: (value) => editUser.bio = value,
                   onSubmitted: (value) {
@@ -87,7 +91,7 @@ class _EditBioPageState extends State<EditBioPage> {
               ),
             ),
             SpaceColumnComponent(
-              height: 20,
+              height: BottomNavigationComponent.standardMargin,
               child: Row(
                 children: [
                   Expanded(
