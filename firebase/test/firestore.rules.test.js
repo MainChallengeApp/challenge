@@ -1,9 +1,7 @@
-import { initializeTestEnvironment } from "@firebase/rules-unit-testing";
-import { jest } from "@jest/globals";
-import fs from "fs";
-import fetch from "node-fetch";
+const fs = require("fs");
+const { initializeTestEnvironment } = require("@firebase/rules-unit-testing");
+const fetch = require("node-fetch");
 
-global.jest = jest;
 global.fetch = fetch;
 
 let testEnv;
@@ -35,6 +33,10 @@ function getUnauthenticatedDb(auth) {
 }
 
 describe("Firestore Security Rules", () => {
+  it("should add two numbers", () => {
+    expect(1 + 2).toBe(3);
+  });
+
   describe("migrations collection", () => {
     it("should allow authenticated user to read the documents", async () => {
       const db = getAuthenticatedDb();

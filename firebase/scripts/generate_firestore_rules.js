@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import { loadEnv } from "./load_env.js";
+const fs = require("fs");
+const { loadEnv } = require("./load_env.js");
 
 console.log("Generating Firestore rules...");
 
