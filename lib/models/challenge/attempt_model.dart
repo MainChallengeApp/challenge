@@ -405,6 +405,7 @@ class AttemptModel {
     if (isInProgress()) {
       endDate = TimeService.now();
       acceptanceCriteria.amount = getAcceptanceCriteria(groupChallenge).amount;
+      repetitions.removeWhere((repetition) => repetition.startDate == null);
 
       if (getCurrentRepetition(groupChallenge)?.isInProgress() ?? false) {
         getCurrentRepetition(groupChallenge)!.end();

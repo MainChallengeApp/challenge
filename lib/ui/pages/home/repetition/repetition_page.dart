@@ -9,6 +9,7 @@ import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_participant_expanded_component.dart';
@@ -19,7 +20,10 @@ import 'package:challenge/ui/components/loading_circle/refresh_indicator_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/dialogs/delete_attempt_dialog.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,7 +53,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
   ];
 
-  late final groupChallengeProvider =
+  late final _groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
 
   late final listeningGroupChallengeProvider =
@@ -62,23 +66,24 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late final bool _isEditableByUser =
       widget.participant.user.id == usersProvider.user.id;
 
-  late GroupChallengeModel groupChallenge = widget.groupChallenge;
+  late GroupChallengeModel _groupChallenge = widget.groupChallenge;
   late ParticipantModel _participant = widget.participant;
   late AttemptModel _attempt = widget.attempt;
 
   late bool _isChallengeStarted =
-      _attempt.getAllRepetitions(groupChallenge).isEmpty && !_isEditableByUser;
+      _attempt.getAllRepetitions(_groupChallenge).isEmpty && !_isEditableByUser;
+  bool _isActionButtonLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    _participant = groupChallenge.participants.firstWhere(
+    _participant = _groupChallenge.participants.firstWhere(
         (participant) => participant.user.id == widget.participant.user.id,
         orElse: () => widget.participant);
 
     _attempt = _participant.attempts
         .firstWhere((attempt) => attempt.number == _attempt.number);
 
-    _isChallengeStarted = _attempt.getAllRepetitions(groupChallenge).isEmpty &&
+    _isChallengeStarted = _attempt.getAllRepetitions(_groupChallenge).isEmpty &&
         !_isEditableByUser;
 
     return Scaffold(
@@ -90,10 +95,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         body: Column(
           children: [
             _buildList(),
-            !(_attempt.isFailed() || _attempt.isSucceeded()) &&
-                    _isEditableByUser
-                ? actionButton()
-                : Container()
+            _isEditableByUser ? actionButton() : Container()
           ],
         ));
   }
@@ -102,8 +104,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
     return Expanded(
       child: RefreshIndicatorComponent(
         onRefresh: () async {
-          groupChallenge =
-              await groupChallengeProvider.getById(groupChallenge.id);
+          _groupChallenge =
+              await _groupChallengesProvider.getById(_groupChallenge.id);
           setState(() {});
         },
         scrollController: scrollController,
@@ -119,12 +121,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   (_isChallengeStarted
                       ? 1
                       : _attempt.getCurrentRepetitionNumber(
-                          groupChallenge)), // +1 for participant
+                          _groupChallenge)), // +1 for participant
               itemBuilder: (BuildContext content, int index) {
                 if (index == 0) {
                   return SpaceColumnComponent(
                     child: ListItemParticipantExpandedComponent(
-                      groupChallenge: groupChallenge,
+                      groupChallenge: _groupChallenge,
                       participant: _participant,
                       attempt: _attempt,
                       isEditableByUser: _isEditableByUser,
@@ -147,16 +149,16 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 int newIndex = index - 1;
                 RepetitionModel repetition;
                 int repetitionIndex =
-                    _attempt.getCurrentRepetitionNumber(groupChallenge) -
+                    _attempt.getCurrentRepetitionNumber(_groupChallenge) -
                         1 -
                         newIndex;
                 if (repetitionIndex < _attempt.repetitions.length &&
                     repetitionIndex >= 0) {
                   repetition = _attempt
-                      .getAllRepetitions(groupChallenge)[repetitionIndex];
+                      .getAllRepetitions(_groupChallenge)[repetitionIndex];
                   repetition.evaluateRepetitionStatus();
                 } else {
-                  repetition = _attempt.addRepetition(groupChallenge);
+                  repetition = _attempt.addRepetition(_groupChallenge);
                 }
                 repetition.evaluateRepetitionStatus();
                 return repetitionListItem(repetition);
@@ -194,8 +196,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 onTapDeleteProgress(repetition, progress),
             progress: progress,
             attempt: _attempt,
-            groupChallenge: groupChallenge,
-            unit: _attempt.getAcceptanceCriteria(groupChallenge).unit,
+            groupChallenge: _groupChallenge,
+            unit: _attempt.getAcceptanceCriteria(_groupChallenge).unit,
           )));
     }
     return progressListItems;
@@ -215,7 +217,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
                       attempt: _attempt,
-                      groupChallenge: groupChallenge,
+                      groupChallenge: _groupChallenge,
                       participant: _participant,
                       isEditableByUser: _isEditableByUser,
                       onTapNextRepetition: (int repetitionNumber) {
@@ -228,7 +230,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                       onTap: () => onTapRepetition(repetition),
                       repetition: repetition,
                       attempt: _attempt,
-                      groupChallenge: groupChallenge,
+                      groupChallenge: _groupChallenge,
                     ),
             ],
           ),
@@ -277,7 +279,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
           attempt: _attempt,
-          groupChallenge: groupChallenge,
+          groupChallenge: _groupChallenge,
           participant: _participant,
           repetition: _attempt.repetitions[progress.repetitionNumber - 1],
           progress: progress,
@@ -313,7 +315,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           repetition: repetition,
           initialMediaList: List.empty(growable: true),
           attempt: _attempt,
-          groupChallenge: groupChallenge,
+          groupChallenge: _groupChallenge,
           participant: _participant,
           isSaveInsteadOfEditButtonVisible: true,
           isEditableByUser: _isEditableByUser,
@@ -342,46 +344,140 @@ class _RepetitionPageState extends State<RepetitionPage> {
     setState(() {
       repetition.deleteProgress(progress);
     });
-    groupChallengeProvider.updateAttempt(
-        groupChallenge, _participant, _attempt);
+    _groupChallengesProvider.updateAttempt(
+        _groupChallenge, _participant, _attempt);
   }
 
   actionButton() {
-    void onTapStartChallenge() {
-      groupChallengeProvider.startAttemptOrChallenge(
-          groupChallenge, _participant, _attempt, context);
-      setState(() {});
+    void onTapStartChallenge() async {
+      setState(() {
+        _isActionButtonLoading = true;
+      });
+      await _groupChallengesProvider.startAttemptOrChallenge(
+          _groupChallenge, _participant, _attempt, context);
+      setState(() {
+        _isActionButtonLoading = false;
+        expandedRepetitionIndexList = [
+          _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
+        ];
+      });
     }
 
     void onTapEndChallenge() {
       EndChallengeDialog.show(
           context: context,
-          challengeTitle: groupChallenge.title,
+          challengeTitle: _groupChallenge.title,
           onTapYes: () {
-            groupChallengeProvider.endAttempt(
-                groupChallenge, _participant, _attempt);
-            setState(() {});
+            _groupChallengesProvider.endAttempt(
+                _groupChallenge, _participant, _attempt);
+            setState(() {
+              expandedRepetitionIndexList = [];
+            });
           });
     }
 
-    return Align(
-        alignment: _attempt.isInBacklog()
-            ? Alignment.topCenter
-            : Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: _attempt.isInBacklog()
-              ? ListItemButtonComponent(
-                  onTap: onTapStartChallenge,
-                  text: 'Start Challenge',
-                  isMainButton: true,
-                )
-              : ListItemButtonComponent(
-                  onTap: onTapEndChallenge,
-                  text: 'End Challenge',
-                  isMainButton: _attempt.isCompleted(groupChallenge),
+    void onTapDeleteAttempt() async {
+      DeleteAttemptDialog.show(
+          context: context,
+          onTapYes: () async {
+            await _groupChallengesProvider.deleteAttempt(
+                _groupChallenge, _participant, _attempt);
+            setState(() {
+              _attempt = _participant.getLatestAttempt();
+            });
+          });
+    }
+
+    void onTapTryAgain() async {
+      setState(() {
+        _isActionButtonLoading = true;
+      });
+      await _groupChallengesProvider.tryAgain(_groupChallenge, _participant);
+      setState(() {
+        _attempt = _participant.getLatestAttempt();
+        _isActionButtonLoading = false;
+      });
+    }
+
+    ListItemButtonComponent deleteAttemptButton = ListItemButtonComponent(
+      onTap: onTapDeleteAttempt,
+      text: 'Delete Attempt',
+      textColor: Theme.of(context).colorScheme.red,
+      isMainButton: false,
+      margin: EdgeInsets.zero,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: _attempt.isInBacklog()
+          ? Row(
+              children: [
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
                 ),
-        ));
+                Visibility(
+                    visible: _participant.attempts.length > 1,
+                    child: Expanded(child: deleteAttemptButton)),
+                Visibility(
+                    visible: _participant.attempts.length > 1,
+                    child: const SpaceComponent(
+                      width: ListItemContainerComponent.standardMargin,
+                    )),
+                Expanded(
+                  child: ListItemButtonComponent(
+                    onTap: onTapStartChallenge,
+                    text: 'Start',
+                    isLoading: _isActionButtonLoading,
+                    margin: EdgeInsets.zero,
+                  ),
+                ),
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
+                ),
+              ],
+            )
+          : _attempt.isInProgress()
+              ? ListItemButtonComponent(
+                  onTap: onTapEndChallenge,
+                  text: 'End',
+                  isLoading: _isActionButtonLoading,
+                  isMainButton: _attempt.isCompleted(_groupChallenge),
+                )
+              : _attempt.number == _participant.getLatestAttempt().number &&
+                      (_attempt.isFailed() || _attempt.isSucceeded())
+                  ? Row(
+                      children: [
+                        const SpaceComponent(
+                          width: ListItemContainerComponent.standardMargin,
+                        ),
+                        Visibility(
+                            visible: _participant.attempts.length > 1,
+                            child: Expanded(child: deleteAttemptButton)),
+                        Visibility(
+                            visible: _participant.attempts.length > 1,
+                            child: const SpaceComponent(
+                              width: ListItemContainerComponent.standardMargin,
+                            )),
+                        Expanded(
+                          child: ListItemButtonComponent(
+                            onTap: onTapTryAgain,
+                            text: 'Try Again',
+                            isLoading: _isActionButtonLoading,
+                            margin: EdgeInsets.zero,
+                          ),
+                        ),
+                        const SpaceComponent(
+                          width: ListItemContainerComponent.standardMargin,
+                        ),
+                      ],
+                    )
+                  : ListItemButtonComponent(
+                      onTap: onTapDeleteAttempt,
+                      text: 'Delete Attempt',
+                      textColor: Theme.of(context).colorScheme.red,
+                      isMainButton: false,
+                    ),
+    );
   }
 
   _userDidNotStartChallenge() {

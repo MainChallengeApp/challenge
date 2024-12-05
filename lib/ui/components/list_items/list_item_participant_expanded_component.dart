@@ -31,7 +31,17 @@ class ListItemParticipantExpandedComponent extends StatefulWidget {
 
 class _ListItemParticipantExpandedComponentState
     extends State<ListItemParticipantExpandedComponent> {
-  late AttemptModel _selectedAttempt = widget.participant.getLatestAttempt();
+  late AttemptModel _selectedAttempt = widget.attempt;
+
+  @override
+  void didUpdateWidget(ListItemParticipantExpandedComponent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.attempt != oldWidget.attempt) {
+      setState(() {
+        _selectedAttempt = widget.attempt;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +104,7 @@ class _ListItemParticipantExpandedComponentState
                 });
                 widget.reloadSearchChallengePage.call(_selectedAttempt);
               },
-              items: widget.participant.attempts.map((attempt) {
+              items: widget.participant.attempts.reversed.map((attempt) {
                 return DropdownMenuItem<AttemptModel>(
                     value: attempt,
                     child: Text(

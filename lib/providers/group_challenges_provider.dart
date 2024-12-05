@@ -173,6 +173,18 @@ class GroupChallengesProvider with ChangeNotifier {
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
+  Future<void> tryAgain(
+      GroupChallengeModel groupChallenge, ParticipantModel participant) async {
+    participant.addAttempt(groupChallenge);
+    await updateParticipant(groupChallenge, participant);
+  }
+
+  Future<void> deleteAttempt(GroupChallengeModel groupChallenge,
+      ParticipantModel participant, AttemptModel attempt) async {
+    participant.deleteAttempt(attemptNumber: attempt.number);
+    await updateParticipant(groupChallenge, participant);
+  }
+
   Future<void> update(GroupChallengeModel groupChallengeCopy) async {
     await _groupChallengesCollection.update(groupChallengeCopy);
     updateLocalList(groupChallengeCopy);

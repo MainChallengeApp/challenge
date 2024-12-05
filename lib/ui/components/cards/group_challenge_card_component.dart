@@ -273,9 +273,7 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapAgain() async {
-    _participant.addAttempt(_groupChallenge);
-    await _groupChallengesProvider.updateParticipant(
-        _groupChallenge, _participant);
+    await _groupChallengesProvider.tryAgain(_groupChallenge, _participant);
   }
 
   // void _onTapAgain(AttemptModel attempt) {
@@ -347,7 +345,11 @@ class _GroupChallengeCardComponentState
               builder: (context) => LeaderBoardPage(
                     groupChallenge: _groupChallenge,
                     preTitle: '${widget.preTitle}/${_groupChallenge.title}',
-                  ))).then((_) => setState(() {}));
+                  ))).then((_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
       return;
     }
     if (_latestAttempt.getFrequency(_groupChallenge).amount != null &&
@@ -364,7 +366,11 @@ class _GroupChallengeCardComponentState
           attempt: _latestAttempt,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void _onTapNewProgress() async {

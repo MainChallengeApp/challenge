@@ -86,7 +86,7 @@ class ParticipantModel {
 
   void addAttempt(GroupChallengeModel groupChallenge) {
     AttemptModel lastAttempt = getLatestAttempt();
-    attempts.add(AttemptModel(
+    AttemptModel addedAttempt = AttemptModel(
       number: lastAttempt.number + 1,
       startDate: null,
       endDate: null,
@@ -96,10 +96,16 @@ class ParticipantModel {
       frequency: lastAttempt.getFrequency(groupChallenge).copy(),
       media: [],
       repetitions: [],
-    ));
+    );
+    attempts.add(addedAttempt);
   }
 
   bool isAccepted() {
     return status == ParticipantStatusEnum.accepted;
+  }
+
+  void deleteAttempt({required int attemptNumber}) {
+    attempts
+        .removeWhere((attemptEntry) => attemptEntry.number == attemptNumber);
   }
 }
