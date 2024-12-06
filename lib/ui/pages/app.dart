@@ -36,13 +36,17 @@ class AppState extends State<App> {
     super.initState();
 
     usersProvider.getUser().then((_) {
-      setState(() {
-        isLoadingUser = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingUser = false;
+        });
+      }
     }).catchError((error) {
-      setState(() {
-        isLoadingUser = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingUser = false;
+        });
+      }
       usersProvider.logout();
       // ignore: use_build_context_synchronously
       ErrorOccurredDialog.show(context: context, errorText: error.toString());
@@ -54,9 +58,11 @@ class AppState extends State<App> {
       } else {
         tabProvider.selectTab(TabItemEnum.home);
       }
-      setState(() {
-        isLoadingUserChallenges = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoadingUserChallenges = false;
+        });
+      }
     });
   }
 
