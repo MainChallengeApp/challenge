@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -47,9 +48,11 @@ class ImageInListItemComponent extends StatelessWidget {
                                     color:
                                         Theme.of(context).colorScheme.tertiary),
                               ))
-                      : Image.network(url!,
+                      : CachedNetworkImage(
+                          imageUrl: url!,
                           fit: fit ?? BoxFitEnum.cover.fit,
-                          errorBuilder: (context, error, stackTrace) => Center(
+                          fadeInDuration: Duration.zero,
+                          errorWidget: (context, url, error) => Center(
                                 child: Icon(icon,
                                     color:
                                         Theme.of(context).colorScheme.tertiary),

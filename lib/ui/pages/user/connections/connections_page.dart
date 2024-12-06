@@ -116,9 +116,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
                 filteredConfirmedConnections.elementAt(index - 1 - 1 - 1);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
-                  onTap: () => onTapUser(connection),
-                  user: connection,
-                  onTapConnect: () {}),
+                  onTap: () => onTapUser(connection), user: connection),
             );
           },
         ),

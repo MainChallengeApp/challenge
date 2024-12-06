@@ -81,9 +81,7 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
                 filteredOpenConnectionRequests.elementAt(index);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
-                  onTap: () => onTapConnection(connection),
-                  user: connection,
-                  onTapConnect: () {}),
+                  onTap: () => onTapConnection(connection), user: connection),
             );
           },
         ),
