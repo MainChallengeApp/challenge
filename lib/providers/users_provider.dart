@@ -70,8 +70,10 @@ class UsersProvider with ChangeNotifier {
     return await usersCollection.getByUserIds(userIds);
   }
 
-  update(UserModel user) async {
-    user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
+  Future<void> update(UserModel user) async {
+    if (user.hasPicture() && mediaService.isUrlLocal(user.pictureUrl!)) {
+      user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
+    }
     _user = user;
     await usersCollection.update(_user);
     notifyListeners();
@@ -238,5 +240,17 @@ class UsersProvider with ChangeNotifier {
   void logout() {
     resetLocalUser();
     authService.logout();
+  }
+
+  Future<void> addRecentSearch(String text) async {
+    _user.addRecentSearch(text);
+    notifyListeners();
+    await update(_user);
+  }
+
+  Future<void> removeRecentSearch(String text) async {
+    _user.removeRecentSearch(text);
+    notifyListeners();
+    await update(_user);
   }
 }

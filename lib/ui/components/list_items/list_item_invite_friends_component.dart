@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -11,7 +12,7 @@ class ListItemInviteFriendsComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListItemIconTextComponent(
       onTap: onTap,
-      icon: Icons.add,
+      icon: IconEnum.add.icon,
       title: 'Invite Friends',
     );
   }

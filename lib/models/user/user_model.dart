@@ -19,6 +19,9 @@ class UserModel {
   List<String> blockedUserIds;
   static const String blockedUserIdsField = 'blockedUserIds';
 
+  List<String> recentSearches;
+  static const String recentSearchesField = 'recentSearches';
+
   UserModel({
     required this.id,
     required this.username,
@@ -26,8 +29,10 @@ class UserModel {
     this.bio,
     List<String>? connectionIds,
     List<String>? blockedUserIds,
+    List<String>? recentSearches,
   })  : connectionIds = connectionIds ?? [],
-        blockedUserIds = blockedUserIds ?? [];
+        blockedUserIds = blockedUserIds ?? [],
+        recentSearches = recentSearches ?? [];
 
   UserModel.empty()
       : id = '',
@@ -35,7 +40,8 @@ class UserModel {
         pictureUrl = null,
         bio = null,
         connectionIds = [],
-        blockedUserIds = [];
+        blockedUserIds = [],
+        recentSearches = [];
 
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
@@ -51,6 +57,9 @@ class UserModel {
               : [],
           blockedUserIds: (doc.data() as Map).containsKey(blockedUserIdsField)
               ? List.from(doc[blockedUserIdsField])
+              : [],
+          recentSearches: (doc.data() as Map).containsKey(recentSearchesField)
+              ? List.from(doc[recentSearchesField])
               : []);
       return user;
     } on Exception {
@@ -64,7 +73,8 @@ class UserModel {
       pictureUrlField: pictureUrl,
       bioField: bio,
       connectionIdsField: connectionIds,
-      blockedUserIdsField: blockedUserIds
+      blockedUserIdsField: blockedUserIds,
+      recentSearchesField: recentSearches
     };
   }
 
@@ -75,7 +85,8 @@ class UserModel {
         pictureUrl: pictureUrl,
         bio: bio,
         connectionIds: List<String>.from(connectionIds),
-        blockedUserIds: List<String>.from(blockedUserIds));
+        blockedUserIds: List<String>.from(blockedUserIds),
+        recentSearches: List.from(recentSearches));
   }
 
   hasPicture() {
@@ -119,5 +130,17 @@ class UserModel {
   bool isEmpty() {
     // used for filtering out blocked users
     return id.isEmpty;
+  }
+
+  void addRecentSearch(String recentSearch) {
+    if (recentSearches.contains(recentSearch)) {
+      removeRecentSearch(recentSearch);
+    }
+    recentSearches.insert(0, recentSearch);
+  }
+
+  void removeRecentSearch(String recentSearch) {
+    recentSearches
+        .removeWhere((recentSearchEntry) => recentSearchEntry == recentSearch);
   }
 }

@@ -16,12 +16,10 @@ class ListItemUserComponent extends StatefulWidget {
     required this.onTap,
     required this.user,
     this.isSearch = false,
-    this.onTapConnect,
     this.isSelected = false,
   });
 
   final dynamic Function() onTap;
-  final Function()? onTapConnect;
   final UserModel user;
   final bool isSearch;
   final bool isSelected;
@@ -60,11 +58,10 @@ class _ListItemUserComponentState extends State<ListItemUserComponent> {
             GestureDetector(
               onTap: onTapConnect,
               child: Visibility(
-                visible: !listeningUsersProvider.user
-                        .isBlocked(widget.user.id) &&
-                    !listeningUsersProvider.user.connectionIds.contains(
-                        widget.user.id) && // different from isConnectedWith()
-                    widget.onTapConnect != null,
+                visible:
+                    !listeningUsersProvider.user.isBlocked(widget.user.id) &&
+                        !listeningUsersProvider.user.connectionIds.contains(
+                            widget.user.id), // different from isConnectedWith()
                 child: ContainerInListItemComponent(
                   margin: const EdgeInsets.all(0),
                   child: Center(

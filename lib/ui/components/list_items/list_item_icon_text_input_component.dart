@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 class ListItemIconTextInputComponent extends StatefulWidget {
   Function(String)? onChangeTextField;
+  final Function(String)? onSubmitted;
   final IconData icon;
   final TextEditingController textEditingController;
   String? errorText;
@@ -40,6 +41,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.autoFocus,
     this.focusNode,
     this.inputFormatters,
+    this.onSubmitted,
   });
 
   @override
@@ -88,6 +90,7 @@ class _ListItemIconTextInputComponentState
                 controller: widget.textEditingController,
                 obscureText: widget.isHidden ?? false,
                 onChanged: widget.onChangeTextField,
+                onSubmitted: widget.onSubmitted,
                 textAlignVertical: TextAlignVertical.center,
                 textAlign: TextAlign.start,
                 textInputAction: widget.textInputAction,

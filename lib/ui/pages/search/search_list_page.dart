@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:math';
 
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
@@ -7,7 +7,9 @@ import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_invite_friends_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_recent_search_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_with_filter_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
@@ -107,24 +109,33 @@ class _SearchListPageState extends State<SearchListPage> {
                 textEditingController: textEditingController,
                 isFilterOnChallenges: isFilterOnChallenges,
                 isUserSearchActive: widget.isUserSearchActive,
-                onChangeList: onChangeList,
-                onTapChallenges: () {
+                onTapActionIcon: () {
                   setState(() {
-                    isFilterOnChallenges = true;
+                    textEditingController.clear();
                   });
-                  onChangeList(textEditingController.text);
                 },
-                onTapUsers: () {
-                  setState(() {
-                    isFilterOnChallenges = false;
-                  });
-                  onChangeList(textEditingController.text);
+                onSubmitted: (text) {
+                  _usersProvider.addRecentSearch(text);
+                  onChangeList(text);
+                },
+                onTapChallenges: () async {
+                  isFilterOnChallenges = true;
+                  await onChangeList(textEditingController.text);
+                  setState(() {});
+                },
+                onTapUsers: () async {
+                  isFilterOnChallenges = false;
+                  await onChangeList(textEditingController.text);
+                  setState(() {});
                 },
               )),
               Expanded(
-                  child: isFilterOnChallenges
-                      ? _buildChallengesList()
-                      : _buildUsersList())
+                  child: textEditingController.text.isEmpty &&
+                          widget.categories.isEmpty
+                      ? buildRecentSearches()
+                      : isFilterOnChallenges
+                          ? _buildChallengesList()
+                          : _buildUsersList())
             ],
           ),
           bottomNavigationBar: const BottomNavigationComponent()),
@@ -228,9 +239,6 @@ class _SearchListPageState extends State<SearchListPage> {
                   onTap: () => onTapUser(user: user, index: index),
                   user: user,
                   isSearch: true,
-                  onTapConnect: () {
-                    log('onTapConnect');
-                  },
                 ),
               );
             }),
@@ -287,12 +295,59 @@ class _SearchListPageState extends State<SearchListPage> {
     ).then((_) => setState(() {}));
   }
 
-  onChangeList(String searchText) {
+  Future<void> onChangeList(String searchText) async {
     if (isFilterOnChallenges) {
-      searchChallengesProvider.getSearchedPaginated(
+      await searchChallengesProvider.getSearchedPaginated(
           searchText: searchText, categories: widget.categories, isInit: true);
     } else {
-      _usersProvider.getSearchedPaginated(searchText: searchText, isInit: true);
+      await _usersProvider.getSearchedPaginated(
+          searchText: searchText, isInit: true);
     }
+  }
+
+  buildRecentSearches() {
+    return RefreshIndicatorComponent(
+      scrollController: scrollController,
+      onRefresh: () async {
+        await _usersProvider.getUser();
+      },
+      child: RawScrollbar(
+        controller: scrollController,
+        radius: const Radius.circular(4),
+        thumbColor: Theme.of(context).colorScheme.tertiary,
+        padding: const EdgeInsets.only(right: 4),
+        child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: scrollController,
+            itemCount:
+                max(listeningUsersProvider.user.recentSearches.length, 1),
+            itemBuilder: (BuildContext content, int index) {
+              numberOfBuilds++;
+
+              if (listeningUsersProvider.user.recentSearches.isEmpty) {
+                return const SpaceColumnComponent(
+                  child: ListItemInfoComponent(
+                    text: 'No recent searches',
+                  ),
+                );
+              }
+              String recentSearch =
+                  listeningUsersProvider.user.recentSearches[index];
+              return SpaceColumnComponent(
+                child: ListItemRecentSearchComponent(
+                  onTap: () async {
+                    await onChangeList(recentSearch);
+                    setState(() {
+                      textEditingController.text = recentSearch;
+                    });
+                  },
+                  onTapActionIcon: () =>
+                      _usersProvider.removeRecentSearch(recentSearch),
+                  recentSearch: recentSearch,
+                ),
+              );
+            }),
+      ),
+    );
   }
 }

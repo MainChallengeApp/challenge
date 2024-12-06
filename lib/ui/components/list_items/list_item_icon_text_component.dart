@@ -2,7 +2,7 @@ import 'package:challenge/ui/components/list_items/list_item_icon_child_componen
 import 'package:flutter/material.dart';
 
 class ListItemIconTextComponent extends StatelessWidget {
-  static const double iconContainerSize = 40;
+  static const double iconContainerSize = 38;
   static const double standardIconRadius = 12;
 
   const ListItemIconTextComponent(

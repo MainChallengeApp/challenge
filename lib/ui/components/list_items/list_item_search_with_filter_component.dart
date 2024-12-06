@@ -14,6 +14,7 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
   final Function()? onTapActionIcon;
 
   final Function(String)? onChangeList;
+  final Function(String)? onSubmitted;
 
   const ListItemSearchWithFilterComponent({
     super.key,
@@ -25,6 +26,7 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
     this.autoFocus = false,
     this.onTapActionIcon,
     this.onChangeList,
+    this.onSubmitted,
   });
 
   @override
@@ -76,27 +78,10 @@ class _ListItemSearchWithFilterComponentState
               'Search for Challenges${widget.isUserSearchActive ? ' or Users' : ''}...',
           onTapActionIcon: widget.onTapActionIcon,
           changeList: widget.onChangeList,
+          onSubmitted: widget.onSubmitted,
         )
       ],
     );
-    // return ListItemContainerComponent(
-    //     padding: const EdgeInsets.all(0),
-    //     child: Row(
-    //       children: [
-    //         filterContainer('Challenges', () {
-    //           setState(() {
-    //             isFilterOnChallenges = true;
-    //           });
-    //           widget.onTapChallenges.call();
-    //         }, isFilterOnChallenges),
-    //         filterContainer('Users', () {
-    //           setState(() {
-    //             isFilterOnChallenges = false;
-    //           });
-    //           widget.onTapUsers.call();
-    //         }, !isFilterOnChallenges),
-    //       ],
-    //     ));
   }
 
   filterContainer(String text, Function() onTap, bool isSelected) {

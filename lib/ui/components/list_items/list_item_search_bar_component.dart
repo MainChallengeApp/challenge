@@ -12,6 +12,7 @@ class ListItemSearchBarComponent extends StatefulWidget {
   final bool autoFocus;
   final Function()? onTap;
   final Function()? onTapActionIcon;
+  final Function(String)? onSubmitted;
 
   ListItemSearchBarComponent(
       {super.key,
@@ -21,7 +22,8 @@ class ListItemSearchBarComponent extends StatefulWidget {
       this.autoFocus = false,
       this.hintText = 'Search...',
       this.onTap,
-      this.onTapActionIcon});
+      this.onTapActionIcon,
+      this.onSubmitted});
 
   @override
   State<ListItemSearchBarComponent> createState() =>
@@ -50,23 +52,24 @@ class _ListItemSearchBarComponentState
     widget.textEditingController.selection = TextSelection.collapsed(
         offset: widget.textEditingController.text.length);
     return ListItemIconTextInputComponent(
-        onTap: widget.onTap,
-        icon: IconEnum.search.icon,
-        actionIcon: widget.textEditingController.text == ''
-            ? null
-            : IconEnum.remove.icon,
-        onTapActionIcon: onTapActionIcon,
-        textEditingController: widget.textEditingController,
-        isEnabled: widget.isEnabled,
-        hintText: widget.hintText,
-        textInputAction: TextInputAction.search,
-        autoFocus: widget.autoFocus,
-        focusNode: _focusNode,
-        onChangeTextField: (value) {
-          setState(() {
-            widget.changeList?.call(value);
-          });
+      onTap: widget.onTap,
+      icon: IconEnum.search.icon,
+      actionIcon:
+          widget.textEditingController.text == '' ? null : IconEnum.remove.icon,
+      onTapActionIcon: onTapActionIcon,
+      textEditingController: widget.textEditingController,
+      isEnabled: widget.isEnabled,
+      hintText: widget.hintText,
+      textInputAction: TextInputAction.search,
+      autoFocus: widget.autoFocus,
+      focusNode: _focusNode,
+      onChangeTextField: (value) {
+        setState(() {
+          widget.changeList?.call(value);
         });
+      },
+      onSubmitted: widget.onSubmitted,
+    );
   }
 
   onTapActionIcon() {
