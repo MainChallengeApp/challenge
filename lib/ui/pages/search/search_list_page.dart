@@ -114,9 +114,12 @@ class _SearchListPageState extends State<SearchListPage> {
                     textEditingController.clear();
                   });
                 },
-                onSubmitted: (text) {
+                onSubmitted: (text) async {
+                  if (text.isEmpty) {
+                    return;
+                  }
+                  await onChangeList(text);
                   _usersProvider.addRecentSearch(text);
-                  onChangeList(text);
                 },
                 onTapChallenges: () async {
                   isFilterOnChallenges = true;
