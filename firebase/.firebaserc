@@ -2,7 +2,8 @@
   "projects": {
     "dev": "challenge-dev-sdgi",
     "test": "challenge-test-f5e32",
-    "prod": "challenge-prod-g6f43"
+    "prod": "challenge-prod-g6f43",
+    "default": "challenge-dev-sdgi"
   },
   "targets": {},
   "etags": {},
