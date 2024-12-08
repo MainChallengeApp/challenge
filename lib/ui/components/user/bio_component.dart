@@ -21,59 +21,69 @@ class BioComponent extends StatefulWidget {
 class _BioComponentState extends State<BioComponent> {
   @override
   Widget build(BuildContext context) {
-    return widget.bio != null && widget.bio!.isNotEmpty
-        ? widget.isBioExpanded
-            ? TapContainerComponent(
-                height: double.infinity,
-                onTap: widget.onTap,
-                padding: const EdgeInsets.only(
-                    left: CustomContainerComponent.standardPadding,
-                    right: CustomContainerComponent.standardPadding,
-                    top: CustomContainerComponent.standardPadding - 2,
-                    bottom: CustomContainerComponent.standardPadding - 2),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  scrollDirection: Axis.vertical,
-                  child: Linkify(
+    return widget.isBioExpanded
+        ? TapContainerComponent(
+            height: double.infinity,
+            onTap: widget.onTap,
+            padding: const EdgeInsets.only(
+                left: CustomContainerComponent.standardPadding,
+                right: CustomContainerComponent.standardPadding,
+                top: CustomContainerComponent.standardPadding - 2,
+                bottom: CustomContainerComponent.standardPadding - 2),
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: Linkify(
+                onOpen: (link) {
+                  _launchURL(link.url);
+                },
+                options: const LinkifyOptions(removeWww: true, humanize: true),
+                text: widget.bio!,
+                textAlign: TextAlign.justify,
+                style: Theme.of(context).textTheme.bodyMedium,
+                linkStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    decorationColor: Theme.of(context).colorScheme.linkColor,
+                    color: Theme.of(context).colorScheme.linkColor),
+              ),
+            ),
+          )
+        : TapContainerComponent(
+            onTap: widget.onTap,
+            padding: const EdgeInsets.only(
+                left: CustomContainerComponent.standardPadding,
+                right: CustomContainerComponent.standardPadding,
+                top: CustomContainerComponent.standardPadding - 2,
+                bottom: CustomContainerComponent.standardPadding - 2),
+            child: widget.bio == null || widget.bio!.isEmpty
+                ? TextField(
+                    enabled: false,
+                    decoration: InputDecoration(
+                      hintText: 'Bio',
+                      hintStyle: Theme.of(context).textTheme.bodyMedium,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.all(0),
+                      isDense: true,
+                    ),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 2,
+                  )
+                : Linkify(
                     onOpen: (link) {
                       _launchURL(link.url);
                     },
                     options:
                         const LinkifyOptions(removeWww: true, humanize: true),
                     text: widget.bio!,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    textDirection: TextDirection.ltr,
                     textAlign: TextAlign.justify,
                     style: Theme.of(context).textTheme.bodyMedium,
                     linkStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         decorationColor:
                             Theme.of(context).colorScheme.linkColor,
                         color: Theme.of(context).colorScheme.linkColor),
-                  ),
-                ),
-              )
-            : TapContainerComponent(
-                onTap: widget.onTap,
-                padding: const EdgeInsets.only(
-                    left: CustomContainerComponent.standardPadding,
-                    right: CustomContainerComponent.standardPadding,
-                    top: CustomContainerComponent.standardPadding - 2,
-                    bottom: CustomContainerComponent.standardPadding - 2),
-                child: Linkify(
-                  onOpen: (link) {
-                    _launchURL(link.url);
-                  },
-                  options:
-                      const LinkifyOptions(removeWww: true, humanize: true),
-                  text: widget.bio!,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  textDirection: TextDirection.ltr,
-                  textAlign: TextAlign.justify,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  linkStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      decorationColor: Theme.of(context).colorScheme.linkColor,
-                      color: Theme.of(context).colorScheme.linkColor),
-                ))
-        : Container();
+                  ));
   }
 
   _launchURL(String link) async {

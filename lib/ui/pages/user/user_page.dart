@@ -90,12 +90,12 @@ class _UserPageState extends State<UserPage> {
               scrollPhysics: const AlwaysScrollableScrollPhysics(),
               scrollController: scrollController,
               children: [
-                profilePicture(user),
+                _profilePicture(user),
                 _username(user),
-                bio(user),
-                challengesAndConnections(user),
-                expandedSpace(),
-                notifications(user)
+                _bio(user),
+                _challengesAndConnections(user),
+                _expandedSpace(),
+                _notifications(user)
               ],
             ),
           ),
@@ -111,20 +111,17 @@ class _UserPageState extends State<UserPage> {
     ];
   }
 
-  bio(UserModel user) {
-    return Visibility(
-      visible: user.bio != null && user.bio!.isNotEmpty,
-      child: SpaceColumnComponent(
-        child: BioComponent(
-          bio: user.bio,
-          onTap: onTapBio,
-          isBioExpanded: isBioExpanded,
-        ),
+  _bio(UserModel user) {
+    return SpaceColumnComponent(
+      child: BioComponent(
+        bio: user.bio,
+        onTap: onTapBio,
+        isBioExpanded: isBioExpanded,
       ),
     );
   }
 
-  challengesAndConnections(UserModel user) {
+  _challengesAndConnections(UserModel user) {
     return Visibility(
       visible: !isBioExpanded,
       child: SpaceColumnComponent(
@@ -180,7 +177,7 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  notifications(UserModel user) {
+  _notifications(UserModel user) {
     return CustomButtonComponent(
       onTap: onTapNotifications,
       text:
@@ -188,7 +185,7 @@ class _UserPageState extends State<UserPage> {
     );
   }
 
-  expandedSpace() {
+  _expandedSpace() {
     return isBioExpanded ? Container() : Expanded(child: Container());
   }
 
@@ -259,7 +256,7 @@ class _UserPageState extends State<UserPage> {
         ));
   }
 
-  profilePicture(UserModel user) {
+  _profilePicture(UserModel user) {
     return SpaceColumnComponent(
       child: UserPictureMinComponent(
         userPictureUrl: user.pictureUrl,

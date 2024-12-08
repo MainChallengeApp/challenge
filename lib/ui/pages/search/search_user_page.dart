@@ -133,6 +133,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
   }
 
   bio(UserModel user) {
+    if (user.bio == null || user.bio!.isEmpty) {
+      return Container();
+    }
     BioComponent bioComponent = BioComponent(
       bio: user.bio,
       onTap: () {
@@ -151,11 +154,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
               ],
             ),
           )
-        : user.bio != null && user.bio!.isNotEmpty
-            ? SpaceColumnComponent(
-                child: bioComponent,
-              )
-            : Container();
+        : SpaceColumnComponent(
+            child: bioComponent,
+          );
   }
 
   challengesAndConnections(UserModel user) {
