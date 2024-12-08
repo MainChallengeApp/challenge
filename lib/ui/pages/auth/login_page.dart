@@ -124,6 +124,10 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
+    setState(() {
+      emailTextEditingController.text = emailTextEditingController.text.trim();
+    });
+
     if (!authService.isValidEmail(emailTextEditingController.text) ||
         !authService.isValidPassword(passwordTextEditingController.text)) {
       setState(() {
@@ -146,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await authService.loginEmailPassword(
           emailTextEditingController.text, passwordTextEditingController.text);
-      await usersProvider.getUser();
+      await usersProvider.login();
     } on FirebaseAuthException catch (e) {
       setState(() {
         emailErrorText = authService.getEmailErrorMessage(e.code);
@@ -221,6 +225,10 @@ class _LoginPageState extends State<LoginPage> {
     if (isLoading) {
       return;
     }
+
+    setState(() {
+      emailTextEditingController.text = emailTextEditingController.text.trim();
+    });
 
     if (!authService.isValidEmail(emailTextEditingController.text)) {
       setState(() {

@@ -22,6 +22,12 @@ class UserModel {
   List<String> recentSearches;
   static const String recentSearchesField = 'recentSearches';
 
+  List<String> fcmTokens;
+  static const String fcmTokensField = 'fcmTokens';
+
+  bool allowNotifications;
+  static const String allowNotificationsField = 'allowNotifications';
+
   UserModel({
     required this.id,
     required this.username,
@@ -30,9 +36,13 @@ class UserModel {
     List<String>? connectionIds,
     List<String>? blockedUserIds,
     List<String>? recentSearches,
+    List<String>? fcmTokens,
+    bool? allowNotifications,
   })  : connectionIds = connectionIds ?? [],
         blockedUserIds = blockedUserIds ?? [],
-        recentSearches = recentSearches ?? [];
+        recentSearches = recentSearches ?? [],
+        fcmTokens = fcmTokens ?? [],
+        allowNotifications = allowNotifications ?? false;
 
   UserModel.empty()
       : id = '',
@@ -41,7 +51,9 @@ class UserModel {
         bio = null,
         connectionIds = [],
         blockedUserIds = [],
-        recentSearches = [];
+        recentSearches = [],
+        fcmTokens = [],
+        allowNotifications = false;
 
   static UserModel fromDoc(DocumentSnapshot doc) {
     try {
@@ -60,7 +72,14 @@ class UserModel {
               : [],
           recentSearches: (doc.data() as Map).containsKey(recentSearchesField)
               ? List.from(doc[recentSearchesField])
-              : []);
+              : [],
+          fcmTokens: (doc.data() as Map).containsKey(fcmTokensField)
+              ? List.from(doc[fcmTokensField])
+              : [],
+          allowNotifications:
+              (doc.data() as Map).containsKey(allowNotificationsField)
+                  ? doc[allowNotificationsField]
+                  : false);
       return user;
     } on Exception {
       rethrow;
@@ -74,7 +93,9 @@ class UserModel {
       bioField: bio,
       connectionIdsField: connectionIds,
       blockedUserIdsField: blockedUserIds,
-      recentSearchesField: recentSearches
+      recentSearchesField: recentSearches,
+      fcmTokensField: fcmTokens,
+      allowNotificationsField: allowNotifications,
     };
   }
 
@@ -86,7 +107,9 @@ class UserModel {
         bio: bio,
         connectionIds: List<String>.from(connectionIds),
         blockedUserIds: List<String>.from(blockedUserIds),
-        recentSearches: List.from(recentSearches));
+        recentSearches: List.from(recentSearches),
+        fcmTokens: List.from(fcmTokens),
+        allowNotifications: allowNotifications);
   }
 
   hasPicture() {
@@ -142,5 +165,23 @@ class UserModel {
   void removeRecentSearch(String recentSearch) {
     recentSearches
         .removeWhere((recentSearchEntry) => recentSearchEntry == recentSearch);
+  }
+
+  void addFcmToken(String? fcmToken) {
+    if (fcmToken == null) {
+      return;
+    }
+
+    if (fcmTokens.contains(fcmToken)) {
+      return;
+    }
+    fcmTokens.add(fcmToken);
+  }
+
+  void removeFcmToken(String? fcmToken) {
+    if (fcmToken == null) {
+      return;
+    }
+    fcmTokens.removeWhere((fcmTokenEntry) => fcmTokenEntry == fcmToken);
   }
 }

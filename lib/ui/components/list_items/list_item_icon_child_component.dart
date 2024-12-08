@@ -9,7 +9,8 @@ class ListItemIconChildComponent extends StatelessWidget {
       required this.icon,
       required this.child,
       this.iconColor,
-      this.margin});
+      this.margin,
+      this.padding});
 
   final void Function()? onTap;
 
@@ -17,11 +18,13 @@ class ListItemIconChildComponent extends StatelessWidget {
   final Color? iconColor;
   final Widget child;
   final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
 
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
       margin: margin,
+      padding: padding,
       onTap: onTap,
       child: Row(
         children: [

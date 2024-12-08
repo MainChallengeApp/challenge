@@ -6,13 +6,16 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/push_notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UsersProvider with ChangeNotifier {
   UsersCollection usersCollection = UsersCollection();
-  AuthService authService = AuthService();
-  MediaService mediaService = MediaService();
+  final AuthService _authService = AuthService();
+  final MediaService _mediaService = MediaService();
+  final PushNotificationService _pushNotificationService =
+      PushNotificationService();
 
   UserModel _user = UserModel.empty();
   UserModel get user => _user;
@@ -45,7 +48,7 @@ class UsersProvider with ChangeNotifier {
 
   Future<void> createUser() async {
     final user = UserModel(
-      id: authService.getCurrentUserId(),
+      id: _authService.getCurrentUserId(),
       username: '',
     );
     _user = user;
@@ -54,7 +57,7 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<UserModel> getUser({bool notify = true}) async {
-    final user = await usersCollection.getById(authService.getCurrentUserId());
+    final user = await usersCollection.getById(_authService.getCurrentUserId());
     _user = user;
     if (notify) {
       notifyListeners();
@@ -71,8 +74,8 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> update(UserModel user) async {
-    if (user.hasPicture() && mediaService.isUrlLocal(user.pictureUrl!)) {
-      user.pictureUrl = await mediaService.uploadLocalUserPicture(user);
+    if (user.hasPicture() && _mediaService.isUrlLocal(user.pictureUrl!)) {
+      user.pictureUrl = await _mediaService.uploadLocalUserPicture(user);
     }
     _user = user;
     await usersCollection.update(_user);
@@ -237,9 +240,12 @@ class UsersProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void logout() {
+  Future<void> logout() async {
+    String? fcmToken = await _pushNotificationService.getToken();
+    _user.removeFcmToken(fcmToken);
+    await update(_user);
     resetLocalUser();
-    authService.logout();
+    await _authService.logout();
   }
 
   Future<void> addRecentSearch(String text) async {
@@ -251,6 +257,19 @@ class UsersProvider with ChangeNotifier {
   Future<void> removeRecentSearch(String text) async {
     _user.removeRecentSearch(text);
     notifyListeners();
+    await update(_user);
+  }
+
+  Future<void> addFcmToken() async {
+    String? fcmToken = await _pushNotificationService.getToken();
+    _user.addFcmToken(fcmToken);
+    await update(_user);
+  }
+
+  Future<void> login() async {
+    await getUser();
+    String? fcmToken = await _pushNotificationService.getToken();
+    _user.addFcmToken(fcmToken);
     await update(_user);
   }
 }

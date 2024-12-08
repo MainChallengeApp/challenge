@@ -8,7 +8,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -30,19 +30,20 @@ class EditUsernamePage extends StatefulWidget {
 }
 
 class _EditUsernamePageState extends State<EditUsernamePage> {
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
-  late UserModel editUser = widget.user.copy();
+  late final UserModel _editUser = widget.user.copy();
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
-  String title = 'Username';
+  final String _title = 'Username';
 
   late var userNameTextEditingController = TextEditingController(
-    text: editUser.username,
+    text: _editUser.username,
   );
 
-  String? errorText;
+  String? _errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
       child: Scaffold(
         appBar: AppBarComponent(
           preTitle: widget.preTitle,
-          titleText: title,
+          titleText: _title,
           isFirstPageInRoute: widget.isRegistration,
         ),
         backgroundColor: Colors.white,
@@ -65,7 +66,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 icon: IconEnum.username.icon,
                 textEditingController: userNameTextEditingController,
                 hintText: 'Username',
-                errorText: errorText,
+                errorText: _errorText,
                 inputFormatters: [
                   TextInputFormatter.withFunction(
                     (TextEditingValue oldValue, TextEditingValue newValue) {
@@ -78,8 +79,8 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 ],
                 onChangeTextField: (value) {
                   setState(() {
-                    editUser.username = value;
-                    errorText = null;
+                    _editUser.username = value;
+                    _errorText = null;
                   });
                 },
               ),
@@ -108,7 +109,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                       isMainButton:
                           userNameTextEditingController.text.trim().isNotEmpty,
                       text: 'Save',
-                      isLoading: isLoading,
+                      isLoading: _isLoading,
                     ),
                   ),
                 ],
@@ -121,19 +122,19 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
   }
 
   void onTapSave() async {
-    if (isLoading) {
+    if (_isLoading) {
       return;
     }
 
-    editUser.username = editUser.username.trim();
-    if (editUser.username.isEmpty) {
+    _editUser.username = _editUser.username.trim();
+    if (_editUser.username.isEmpty) {
       setState(() {
-        errorText = 'Username cannot be empty';
+        _errorText = 'Username cannot be empty';
       });
       return;
     }
 
-    if (editUser.username == widget.user.username) {
+    if (_editUser.username == widget.user.username) {
       if (widget.isRegistration) {
         nextInRegistration();
         return;
@@ -144,14 +145,14 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     }
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
-    var result = await usersProvider.updateUsername(editUser);
+    var result = await _usersProvider.updateUsername(_editUser);
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
       if (!result) {
-        errorText = 'Username already taken';
+        _errorText = 'Username already taken';
       }
     });
     if (!result) {
@@ -176,7 +177,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
         NoAnimationPageRouteComponent(
             disableSwipeBack: true,
             builder: (builder) => EditUsernamePage(
-                user: editUser,
+                user: _editUser,
                 preTitle: 'Registration',
                 isRegistration: true)));
 
@@ -184,16 +185,14 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
         // ignore: use_build_context_synchronously
         context,
         NoAnimationPageRouteComponent(
-            builder: (builder) => EditPicturePage(
-                user: editUser,
-                preTitle: 'Registration',
-                isRegistration: true)));
+            builder: (builder) => const EditNotificationPage(
+                preTitle: 'Registration', isRegistration: true)));
     return;
   }
 
   void onTapCancel() {
     if (widget.isRegistration) {
-      usersProvider.logout();
+      _usersProvider.logout();
       return;
     }
     Navigator.pop(context);

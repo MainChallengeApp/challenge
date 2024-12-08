@@ -10,7 +10,8 @@ class ListItemIconTextChildComponent extends StatelessWidget {
       required this.child,
       required this.text,
       this.iconColor,
-      this.margin});
+      this.margin,
+      this.padding});
 
   final void Function()? onTap;
 
@@ -18,6 +19,7 @@ class ListItemIconTextChildComponent extends StatelessWidget {
   final Color? iconColor;
   final Widget child;
   final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
   final String text;
 
   @override
@@ -26,6 +28,7 @@ class ListItemIconTextChildComponent extends StatelessWidget {
         icon: icon,
         onTap: onTap,
         margin: margin,
+        padding: padding,
         iconColor: iconColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

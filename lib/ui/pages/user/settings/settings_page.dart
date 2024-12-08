@@ -4,8 +4,9 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -14,6 +15,7 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/blocked_users_page.dart';
 import 'package:challenge/ui/pages/user/settings/credits_page.dart';
 import 'package:challenge/ui/pages/user/settings/delete_user_page.dart';
+import 'package:challenge/ui/pages/user/settings/edit_notification_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -32,18 +34,17 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  ScrollController scrollController = ScrollController();
-
-  AuthService authService = AuthService();
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: true);
-  late final groupChallengesProvider =
+  final ScrollController _scrollController = ScrollController();
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
+  late final _groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
-  late final notificationsProvider =
+  late final _notificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: false);
 
-  late String title = 'Settings';
+  late final String _title = 'Settings';
 
-  late UserModel user = widget.user;
+  bool _isLogoutLoading = false;
 
   @override
   void initState() {
@@ -55,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: AppBarComponent(
         preTitle: widget.preTitle,
-        titleText: title,
+        titleText: _title,
       ),
       backgroundColor: Colors.white,
       body: Container(
@@ -67,15 +68,14 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildList() {
-    user = usersProvider.user;
     return RawScrollbar(
-      controller: scrollController,
+      controller: _scrollController,
       radius: const Radius.circular(4),
       thumbColor: Theme.of(context).colorScheme.tertiary,
       padding: const EdgeInsets.only(right: 4),
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
-        controller: scrollController,
+        controller: _scrollController,
         children: [
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
@@ -83,14 +83,20 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
+                onTap: onTapNotifications,
+                icon: IconEnum.notification.icon,
+                title: 'Notifications'),
+          ),
+          SpaceColumnComponent(
+            child: ListItemIconTextComponent(
                 onTap: onTapFeedback,
-                icon: Icons.feedback_outlined,
+                icon: IconEnum.feedback.icon,
                 title: 'Feedback'),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
                 onTap: onTapCredits,
-                icon: Icons.handshake_outlined,
+                icon: IconEnum.credits.icon,
                 title: 'Credits'),
           ),
           SpaceColumnComponent(
@@ -100,10 +106,14 @@ class _SettingsPageState extends State<SettingsPage> {
             onTap: onTapBlockedUsers,
           )),
           SpaceColumnComponent(
-            child: ListItemIconTextComponent(
-                onTap: onTapLogout,
-                icon: Icons.logout_rounded,
-                title: 'Log out'),
+            child: ListItemIconTextChildComponent(
+              onTap: onTapLogout,
+              icon: IconEnum.logout.icon,
+              text: 'Log out',
+              child: Visibility(
+                  visible: _isLogoutLoading,
+                  child: const LoadingCircleComponent()),
+            ),
           ),
           const SpaceComponent(
             heightMultiplier: 3,
@@ -122,10 +132,21 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   onTapLogout() async {
-    usersProvider.resetLocalUser();
-    groupChallengesProvider.resetLocalList();
-    notificationsProvider.resetLocalList();
-    await authService.logout();
+    if (_isLogoutLoading) {
+      return;
+    }
+
+    setState(() {
+      _isLogoutLoading = true;
+    });
+    await _usersProvider.logout();
+    _groupChallengesProvider.resetLocalList();
+    _notificationsProvider.resetLocalList();
+    if (mounted) {
+      setState(() {
+        _isLogoutLoading = false;
+      });
+    }
   }
 
   onTapFeedback() async {
@@ -163,7 +184,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) =>
-            EditUserPage(preTitle: '${widget.preTitle}/$title'),
+            EditUserPage(preTitle: '${widget.preTitle}/$_title'),
       ),
     );
   }
@@ -173,7 +194,7 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => DeleteUserPage(
-          preTitle: '${widget.preTitle}/$title',
+          preTitle: '${widget.preTitle}/$_title',
         ),
       ),
     );
@@ -184,7 +205,18 @@ class _SettingsPageState extends State<SettingsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => BlockedUsersPage(
-          preTitle: '${widget.preTitle}/$title',
+          preTitle: '${widget.preTitle}/$_title',
+        ),
+      ),
+    );
+  }
+
+  void onTapNotifications() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditNotificationPage(
+          preTitle: '${widget.preTitle}/$_title',
         ),
       ),
     );
