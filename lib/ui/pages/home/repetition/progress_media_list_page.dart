@@ -354,7 +354,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   onTapUploadMedia() async {
-    MediaModel? media = await mediaService.openImagePicker();
+    MediaModel? media = await mediaService.openImagePicker(context);
     if (media == null) {
       return;
     }

@@ -8,6 +8,7 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -57,65 +58,69 @@ class _EditPicturePageState extends State<EditPicturePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SpaceColumnComponent(
-                      child: CustomContainerComponent(
-                        borderRadius: CardComponent.standardBorderRadius,
-                        isHeightDynamic: true,
-                        margin: const EdgeInsets.only(
-                          left: ListItemContainerComponent.standardMargin,
-                          right: ListItemContainerComponent.standardMargin,
-                        ),
-                        padding:
-                            const EdgeInsets.all(CardComponent.standardPadding),
-                        child: UserPictureMaxComponent(
-                            userPictureUrl: editUser.pictureUrl),
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SpaceColumnComponent(
+                    child: CustomContainerComponent(
+                      borderRadius: CardComponent.standardBorderRadius,
+                      isHeightDynamic: true,
+                      margin: const EdgeInsets.only(
+                        left: ListItemContainerComponent.standardMargin,
+                        right: ListItemContainerComponent.standardMargin,
                       ),
+                      padding:
+                          const EdgeInsets.all(CardComponent.standardPadding),
+                      child: UserPictureMaxComponent(
+                          userPictureUrl: editUser.pictureUrl),
                     ),
-                    SpaceColumnComponent(
-                      child: ListItemIconTextComponent(
-                          onTap: onTapUpload,
-                          icon: IconEnum.upload.icon,
-                          title: 'Upload'),
-                    ),
-                    SpaceColumnComponent(
-                      child: ListItemIconTextComponent(
-                          onTap: onTapRemove,
-                          icon: IconEnum.remove.icon,
-                          title: 'Remove'),
-                    )
-                  ],
-                ),
+                  ),
+                  SpaceColumnComponent(
+                    child: ListItemIconTextComponent(
+                        onTap: onTapUpload,
+                        icon: IconEnum.upload.icon,
+                        title: 'Upload'),
+                  ),
+                  SpaceColumnComponent(
+                    child: ListItemIconTextComponent(
+                        onTap: onTapRemove,
+                        icon: IconEnum.remove.icon,
+                        title: 'Remove'),
+                  )
+                ],
               ),
             ),
-            SpaceColumnComponent(
-              height: 20,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: widget.isRegistration ? onTapSkip : onTapCancel,
-                      text: widget.isRegistration ? 'Skip' : 'Cancel',
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(
-                          left: ListItemContainerComponent.standardMargin),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: BottomNavigationComponent.standardMargin,
+              ),
+              child: SpaceColumnComponent(
+                height: BottomNavigationComponent.standardMargin,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListItemButtonComponent(
+                        onTap: widget.isRegistration ? onTapSkip : onTapCancel,
+                        text: widget.isRegistration ? 'Skip' : 'Cancel',
+                        isMainButton: false,
+                        margin: const EdgeInsets.only(
+                            left: ListItemContainerComponent.standardMargin),
+                      ),
                     ),
-                  ),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      margin: const EdgeInsets.only(
-                          right: ListItemContainerComponent.standardMargin),
-                      onTap: onTapSave,
-                      text: 'Save',
-                      isLoading: isLoading,
+                    const SpaceComponent(
+                      width: ListItemContainerComponent.standardMargin,
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: ListItemButtonComponent(
+                        margin: const EdgeInsets.only(
+                            right: ListItemContainerComponent.standardMargin),
+                        onTap: onTapSave,
+                        text: 'Save',
+                        isLoading: isLoading,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -158,7 +163,7 @@ class _EditPicturePageState extends State<EditPicturePage> {
   }
 
   void onTapUpload() async {
-    MediaModel? media = await mediaService.openImagePicker();
+    MediaModel? media = await mediaService.openImagePicker(context);
     if (media == null) {
       return;
     }

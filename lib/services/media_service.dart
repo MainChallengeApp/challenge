@@ -9,25 +9,40 @@ import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:challenge/ui/dialogs/open_app_settings_dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MediaService {
   final storageService = StorageService();
 
-  Future<MediaModel?> openImagePicker() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<MediaModel?> openImagePicker(BuildContext context) async {
+    try {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile == null) {
+      if (pickedFile == null) {
+        return null;
+      }
+
+      MediaModel media = MediaModel(
+          type: MediaTypeEnum.image,
+          title: TimeService.now().toString().split('.')[0],
+          source: pickedFile.path);
+
+      return media;
+    } on PlatformException catch (e) {
+      if (e.code == 'photo_access_denied') {
+        OpenAppSettingsDialog.show(
+            // ignore: use_build_context_synchronously
+            context: context,
+            title: 'Allow Permission',
+            text:
+                'You need to allow the permission in the settings to access photos\n');
+      }
       return null;
     }
-
-    MediaModel media = MediaModel(
-        type: MediaTypeEnum.image,
-        title: TimeService.now().toString().split('.')[0],
-        source: pickedFile.path);
-
-    return media;
   }
 
   Future<MediaModel?> uploadLocalMedia(MediaModel media,

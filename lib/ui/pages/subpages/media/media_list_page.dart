@@ -151,7 +151,7 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   onTapUploadMedia() async {
-    MediaModel? media = await mediaService.openImagePicker();
+    MediaModel? media = await mediaService.openImagePicker(context);
     if (media == null) {
       return;
     }

@@ -53,41 +53,40 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SpaceColumnComponent(
-                        child: ListItemInfoComponent(
-                            text:
-                                'Click on "Send Link" to receive an email to reset your password.')),
-                    Visibility(
-                        visible: isEmailSentMessageVisible,
-                        child: SpaceColumnComponent(
-                            child: CustomContainerComponent(
-                          padding: const EdgeInsets.all(
-                              ListItemContainerComponent.standardPadding),
-                          isHeightDynamic: true,
-                          borderRadius: CardComponent.standardBorderRadius,
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: CardComponent.standardSideMargin),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              IconContainerInListItemComponent(
-                                  icon: IconEnum.info.icon),
-                              const Expanded(
-                                child: Text(
-                                  'Click the link in the email to reset your password.',
-                                  maxLines: null,
-                                  softWrap: true,
-                                  overflow: TextOverflow.visible,
-                                ),
-                              )
-                            ],
-                          ),
-                        )))
-                  ],
-                ),
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  const SpaceColumnComponent(
+                      child: ListItemInfoComponent(
+                          text:
+                              'Click on "Send Link" to receive an email to reset your password.')),
+                  Visibility(
+                      visible: isEmailSentMessageVisible,
+                      child: SpaceColumnComponent(
+                          child: CustomContainerComponent(
+                        padding: const EdgeInsets.all(
+                            ListItemContainerComponent.standardPadding),
+                        isHeightDynamic: true,
+                        borderRadius: CardComponent.standardBorderRadius,
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: CardComponent.standardSideMargin),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            IconContainerInListItemComponent(
+                                icon: IconEnum.info.icon),
+                            const Expanded(
+                              child: Text(
+                                'Click the link in the email to reset your password.',
+                                maxLines: null,
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                              ),
+                            )
+                          ],
+                        ),
+                      )))
+                ],
               ),
             ),
             SpaceColumnComponent(

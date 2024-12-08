@@ -23,7 +23,7 @@ class _UploadThumbnailComponentState extends State<UploadThumbnailComponent> {
   Widget build(BuildContext context) {
     return TapContainerComponent(
         onTap: () async {
-          MediaModel? media = await mediaService.openImagePicker();
+          MediaModel? media = await mediaService.openImagePicker(context);
           if (media == null) {
             return;
           }

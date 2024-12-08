@@ -56,29 +56,39 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SpaceColumnComponent(
-              child: ListItemIconTextChildComponent(
-                icon: IconEnum.notification.icon,
-                text: 'Allow Notifications',
-                padding: const EdgeInsets.all(
-                        ListItemContainerComponent.standardPadding)
-                    .copyWith(
-                        right: ListItemContainerComponent.standardPadding - 5),
-                child: Switch(
-                  value: editAllowNotifications,
-                  trackOutlineColor: editAllowNotifications
-                      ? const WidgetStatePropertyAll(Colors.transparent)
-                      : WidgetStatePropertyAll(
-                          Theme.of(context).colorScheme.themeColor5),
-                  trackOutlineWidth: const WidgetStatePropertyAll(1),
-                  inactiveThumbColor: Theme.of(context).colorScheme.tertiary,
-                  activeTrackColor: Theme.of(context).colorScheme.green,
-                  onChanged: (value) {
-                    setState(() {
-                      editAllowNotifications = value;
-                    });
-                  },
-                ),
+            Expanded(
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SpaceColumnComponent(
+                    child: ListItemIconTextChildComponent(
+                      icon: IconEnum.notification.icon,
+                      text: 'Allow Notifications',
+                      padding: const EdgeInsets.all(
+                              ListItemContainerComponent.standardPadding)
+                          .copyWith(
+                              right:
+                                  ListItemContainerComponent.standardPadding -
+                                      5),
+                      child: Switch(
+                        value: editAllowNotifications,
+                        trackOutlineColor: editAllowNotifications
+                            ? const WidgetStatePropertyAll(Colors.transparent)
+                            : WidgetStatePropertyAll(
+                                Theme.of(context).colorScheme.themeColor5),
+                        trackOutlineWidth: const WidgetStatePropertyAll(1),
+                        inactiveThumbColor:
+                            Theme.of(context).colorScheme.tertiary,
+                        activeTrackColor: Theme.of(context).colorScheme.green,
+                        onChanged: (value) {
+                          setState(() {
+                            editAllowNotifications = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             SpaceColumnComponent(
