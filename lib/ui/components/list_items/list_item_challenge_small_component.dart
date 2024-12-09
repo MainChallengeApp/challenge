@@ -150,6 +150,7 @@ class _ListItemChallengeSmallComponentState
         child: Center(
             child: Icon(
           IconEnum.edit.icon,
+          color: Theme.of(context).colorScheme.tertiary,
         )),
       ),
     );

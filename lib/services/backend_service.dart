@@ -1,15 +1,19 @@
-import 'package:challenge/dotenv.dart';
 import 'package:challenge/enums/environment_enum.dart';
 import 'package:challenge/environments/firebase_options_dev.dart' as dev;
 import 'package:challenge/environments/firebase_options_prod.dart' as prod;
 import 'package:challenge/environments/firebase_options_test.dart' as test;
+import 'package:challenge/services/env_vars_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class BackendService {
   static Future<void> initializeBackend() async {
     if (Firebase.apps.isNotEmpty) {
-      return;
+      await Firebase.app().delete(); // Clear existing instance
     }
 
     WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +21,7 @@ class BackendService {
     final firebaseTest = test.DefaultFirebaseOptions.currentPlatform;
     final firebaseProd = prod.DefaultFirebaseOptions.currentPlatform;
 
-    Dotenv dotenv = await Dotenv.create();
+    EnvVarsService dotenv = await EnvVarsService.create();
     var environment = EnvironmentEnum.fromString(dotenv.environment);
 
     FirebaseOptions environmentOptions;
@@ -36,5 +40,16 @@ class BackendService {
     }
     await Firebase.initializeApp(
         options: environmentOptions, name: 'challenge-${environment.string}');
+
+    await _setupEmulators();
+  }
+
+  static Future<void> _setupEmulators() async {
+    if (kDebugMode) {
+      FirebaseFirestore.instance.useFirestoreEmulator('localhost', 9151);
+      await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+      await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);
+      // FirebaseFunctions.instance.useFunctionsEmulator('localhost', 5001);
+    }
   }
 }

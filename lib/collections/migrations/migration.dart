@@ -22,6 +22,14 @@ class Migration {
       DateTime? createdAt})
       : createdAt = createdAt ?? DateTime.now();
 
+  factory Migration.empty() {
+    return Migration(
+      migrationNumber: 1,
+      description: 'First Migration',
+      appVersion: '1.0.0',
+    );
+  }
+
   Future<void> run() async {
     throw UnimplementedError();
   }

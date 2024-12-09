@@ -1,26 +1,32 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class Dotenv {
+class EnvVarsService {
   String environment;
 
   String migrationUserEmail;
 
   String migrationUserPassword;
 
-  Dotenv._create(
+  String localDevMachineIp;
+
+  EnvVarsService._create(
       {required this.environment,
       required this.migrationUserEmail,
-      required this.migrationUserPassword});
+      required this.migrationUserPassword,
+      required this.localDevMachineIp});
 
-  static Future<Dotenv> create() async {
+  static Future<EnvVarsService> create() async {
     await dotenv.load(fileName: '.env');
-    return Dotenv._create(
+    return EnvVarsService._create(
         environment: dotenv.env['ENVIRONMENT']!,
         migrationUserEmail: dotenv.env['MIGRATION_USER_EMAIL'] ??
             const String.fromEnvironment('MIGRATION_USER_EMAIL',
                 defaultValue: ''),
         migrationUserPassword: dotenv.env['MIGRATION_USER_PASSWORD'] ??
             const String.fromEnvironment('MIGRATION_USER_PASSWORD',
-                defaultValue: ''));
+                defaultValue: ''),
+        localDevMachineIp: dotenv.env['LOCAL_DEV_MACHINE_IP'] ??
+            const String.fromEnvironment('LOCAL_DEV_MACHINE_IP',
+                defaultValue: 'localhost'));
   }
 }

@@ -2,6 +2,7 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
@@ -21,12 +22,12 @@ class App extends StatefulWidget {
 class AppState extends State<App> {
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
-
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
-
   late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+
+  final authService = AuthService();
 
   bool isLoadingUser = true;
   bool isLoadingUserChallenges = true;
@@ -41,28 +42,28 @@ class AppState extends State<App> {
           isLoadingUser = false;
         });
       }
+
+      groupChallengesProvider.getAllOfUser().then((value) {
+        if (value.isEmpty) {
+          tabProvider.selectTab(TabItemEnum.search);
+        } else {
+          tabProvider.selectTab(TabItemEnum.home);
+        }
+        if (mounted) {
+          setState(() {
+            isLoadingUserChallenges = false;
+          });
+        }
+      });
     }).catchError((error) {
       if (mounted) {
         setState(() {
           isLoadingUser = false;
         });
       }
-      usersProvider.logout();
+      authService.logout();
       // ignore: use_build_context_synchronously
       ErrorOccurredDialog.show(context: context, errorText: error.toString());
-    });
-
-    groupChallengesProvider.getAllOfUser().then((value) {
-      if (value.isEmpty) {
-        tabProvider.selectTab(TabItemEnum.search);
-      } else {
-        tabProvider.selectTab(TabItemEnum.home);
-      }
-      if (mounted) {
-        setState(() {
-          isLoadingUserChallenges = false;
-        });
-      }
     });
   }
 

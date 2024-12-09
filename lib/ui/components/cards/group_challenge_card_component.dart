@@ -108,7 +108,10 @@ class _GroupChallengeCardComponentState
     return Visibility(
       visible: _groupChallenge.isEditable(),
       child: SliderComponent(
-          icon: IconEnum.edit.icon, label: 'Edit', onTap: _onTapEditChallenge),
+          icon: IconEnum.edit.icon,
+          foregroundColor: Theme.of(context).colorScheme.tertiary,
+          label: 'Edit',
+          onTap: _onTapEditChallenge),
     );
   }
 

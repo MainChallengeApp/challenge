@@ -17,6 +17,10 @@ class MigrationCollection extends Collection {
           .limit(1)
           .get();
 
+      if (querySnapshot.docs.isEmpty) {
+        return Migration.empty();
+      }
+
       return querySnapshot.docs.map((doc) => Migration.fromDoc(doc)).first;
     } on Exception {
       rethrow;

@@ -11,7 +11,7 @@ enum IconEnum {
   credits(Icons.handshake_outlined),
   delete(Icons.delete),
   disconnect(Icons.group_remove_rounded),
-  edit(Icons.edit_outlined),
+  edit(Icons.edit_rounded),
   email(Icons.email_rounded),
   feedback(Icons.feedback_outlined),
   groupChallenge(Icons.groups_rounded),

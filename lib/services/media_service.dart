@@ -115,6 +115,6 @@ class MediaService {
   }
 
   isUrlLocal(String url) {
-    return !url.startsWith('https://');
+    return !url.startsWith('https://') && !url.startsWith('http://');
   }
 }
