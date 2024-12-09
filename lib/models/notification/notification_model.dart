@@ -3,6 +3,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
+import 'package:challenge/models/notification/progress_added_notification_model.dart';
 import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,6 +56,9 @@ class NotificationModel {
             doc, user, fromUser, groupChallenge!);
       case NotificationTypeEnum.groupChallengeAccepted:
         return GroupChallengeAcceptedNotificationModel.fromDoc(
+            doc, user, fromUser, groupChallenge!);
+      case NotificationTypeEnum.progressAdded:
+        return ProgressAddedNotificationModel.fromDoc(
             doc, user, fromUser, groupChallenge!);
     }
   }

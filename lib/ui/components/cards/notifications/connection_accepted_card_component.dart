@@ -1,4 +1,4 @@
-import 'package:challenge/models/notification/notification_model.dart';
+import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -8,19 +8,21 @@ import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConnectionAcceptedCard extends StatefulWidget {
-  final NotificationModel notification;
+class ConnectionAcceptedCardComponent extends StatefulWidget {
+  final ConnectionAcceptedNotificationModel connectionAcceptedNotification;
 
-  const ConnectionAcceptedCard({
+  const ConnectionAcceptedCardComponent({
     super.key,
-    required this.notification,
+    required this.connectionAcceptedNotification,
   });
 
   @override
-  State<ConnectionAcceptedCard> createState() => _ConnectionAcceptedCardState();
+  State<ConnectionAcceptedCardComponent> createState() =>
+      _ConnectionAcceptedCardComponentState();
 }
 
-class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
+class _ConnectionAcceptedCardComponentState
+    extends State<ConnectionAcceptedCardComponent> {
   bool isLoadingAcceptButton = false;
 
   late final notificationsProvider =
@@ -32,13 +34,13 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
       children: [
         SpaceColumnComponent(
             child: UserPictureMinComponent(
-                userPictureUrl: widget.notification.fromUser.pictureUrl)),
+                userPictureUrl:
+                    widget.connectionAcceptedNotification.fromUser.pictureUrl)),
         SpaceColumnComponent(
             child: CustomContainerComponent(
                 isHeightDynamic: true,
                 child: Center(
-                    child: Text(
-                        '${widget.notification.fromUser.username} ${widget.notification.body}',
+                    child: Text(widget.connectionAcceptedNotification.body,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium)))),
         const Expanded(child: SizedBox()),
@@ -62,7 +64,8 @@ class _ConnectionAcceptedCardState extends State<ConnectionAcceptedCard> {
     setState(() {
       isLoadingAcceptButton = true;
     });
-    await notificationsProvider.deleteNotification(widget.notification.id);
+    await notificationsProvider
+        .deleteNotification(widget.connectionAcceptedNotification.id);
     if (mounted) {
       setState(() {
         isLoadingAcceptButton = false;

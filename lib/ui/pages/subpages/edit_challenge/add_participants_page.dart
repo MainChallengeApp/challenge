@@ -48,9 +48,11 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
   void initState() {
     super.initState();
     _usersProvider.getConnections().then((_) {
-      setState(() {
-        filteredConnections = List.from(_usersProvider.confirmedConnections);
-      });
+      if (mounted) {
+        setState(() {
+          filteredConnections = List.from(_usersProvider.confirmedConnections);
+        });
+      }
     });
   }
 

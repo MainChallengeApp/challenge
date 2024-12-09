@@ -9,7 +9,8 @@ type notificationTypeType =
   | "groupChallengeRequest"
   | "groupChallengeAccepted"
   | "connectionAccepted"
-  | "connectionRequest";
+  | "connectionRequest"
+  | "progressAdded";
 
 const db = admin.firestore();
 
@@ -41,55 +42,69 @@ export const pushNotification = functions.firestore.onDocumentCreated(
 
       const notificationType: notificationTypeType = notification.type;
       switch (notificationType) {
-        case "groupChallengeRequest":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
+      case "groupChallengeRequest":
+        groupChallengeData = await getGroupChallengeById(
+          notification.groupChallengeId
+        );
 
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Challenge Invitation",
-              body: `${fromUserData.username} invites you to "${groupChallengeData.title}"`,
-            },
-          });
-          break;
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Challenge Invitation",
+            body: `${fromUserData.username} invites you to "${groupChallengeData.title}"`,
+          },
+        });
+        break;
 
-        case "groupChallengeAccepted":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Challenge Accepted",
-              body: `${fromUserData.username} accepted "${groupChallengeData.title}"`,
-            },
-          });
-          break;
+      case "groupChallengeAccepted":
+        groupChallengeData = await getGroupChallengeById(
+          notification.groupChallengeId
+        );
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Challenge Accepted",
+            body: `${fromUserData.username} accepted "${groupChallengeData.title}"`,
+          },
+        });
+        break;
 
-        case "connectionAccepted":
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Connection Accepted",
-              body: `${fromUserData.username} and you are connected`,
-            },
-          });
-          break;
+      case "connectionAccepted":
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Connection Accepted",
+            body: `${fromUserData.username} and you are connected`,
+          },
+        });
+        break;
 
-        case "connectionRequest":
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Connection Request",
-              body: `${fromUserData.username} wants to connect with you`,
-            },
-          });
-          break;
+      case "connectionRequest":
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Connection Request",
+            body: `${fromUserData.username} wants to connect with you`,
+          },
+        });
+        break;
 
-        default:
-          console.log("Unknown notification type");
+      case "progressAdded":
+        groupChallengeData = await getGroupChallengeById(
+          notification.groupChallengeId
+        );
+
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Progress Added",
+            body: `${fromUserData.username} added progress to "${groupChallengeData.title}"`,
+          },
+        });
+        break;
+
+      default:
+        console.log("Unknown notification type");
       }
     } catch (error) {
       console.error("Error fetching user document:", error);

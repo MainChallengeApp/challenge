@@ -11,21 +11,22 @@ import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class GroupChallengeRequestCard extends StatefulWidget {
+class GroupChallengeRequestCardComponent extends StatefulWidget {
   final GroupChallengeRequestNotificationModel
       groupChallengeRequestNotification;
 
-  const GroupChallengeRequestCard({
+  const GroupChallengeRequestCardComponent({
     super.key,
     required this.groupChallengeRequestNotification,
   });
 
   @override
-  State<GroupChallengeRequestCard> createState() =>
-      _GroupChallengeRequestCardState();
+  State<GroupChallengeRequestCardComponent> createState() =>
+      _GroupChallengeRequestCardComponentState();
 }
 
-class _GroupChallengeRequestCardState extends State<GroupChallengeRequestCard> {
+class _GroupChallengeRequestCardComponentState
+    extends State<GroupChallengeRequestCardComponent> {
   bool _isLoadingAcceptButton = false;
   bool _isLoadingDeclineButton = false;
   bool _isDescriptionExpanded = false;
@@ -45,8 +46,7 @@ class _GroupChallengeRequestCardState extends State<GroupChallengeRequestCard> {
             child: CustomContainerComponent(
                 isHeightDynamic: true,
                 child: Center(
-                    child: Text(
-                        '${widget.groupChallengeRequestNotification.fromUser.username} ${widget.groupChallengeRequestNotification.body}',
+                    child: Text(widget.groupChallengeRequestNotification.body,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium)))),
         _description(),

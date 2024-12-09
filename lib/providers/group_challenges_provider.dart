@@ -47,13 +47,8 @@ class GroupChallengesProvider with ChangeNotifier {
     sortLocalList();
     try {
       String groupChallengeId = await createOnline(groupChallenge);
-      for (var participant in groupChallenge.participants) {
-        if (participant.user.id == groupChallenge.userId) {
-          continue;
-        }
-        await notificationsProvider.sendGroupChallengeRequestNotification(
-            participant.user, currentUser, groupChallenge);
-      }
+      await notificationsProvider.sendGroupChallengeRequestNotificationToAll(
+          currentUser, groupChallenge);
       return groupChallengeId;
     } on Exception {
       rethrow;

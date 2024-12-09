@@ -5,6 +5,7 @@ enum NotificationTypeEnum {
   connectionRequest('connectionRequest'),
   groupChallengeRequest('groupChallengeRequest'),
   groupChallengeAccepted('groupChallengeAccepted'),
+  progressAdded('progressAdded'),
   ;
 
   final String type;

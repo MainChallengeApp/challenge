@@ -9,6 +9,7 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/services/util_service.dart';
@@ -58,9 +59,6 @@ class ProgressMediaListPage extends StatefulWidget {
 class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   ScrollController scrollController = ScrollController();
 
-  // late List<MediaModel> widget.initialMediaList =
-  //     MediaModel.copyList(widget.initialMediaList ?? []);
-
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
       max(1, widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)),
@@ -80,8 +78,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     listen: false,
   );
 
+  late final _notificationsProvider =
+      Provider.of<NotificationsProvider>(context, listen: false);
+
   MediaService mediaService = MediaService();
   StorageService storageService = StorageService();
+
+  bool _isSaveLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -282,13 +285,17 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Edit',
-        onTap: () => setState(() {
-          widget.isSaveInsteadOfEditButtonVisible = true;
-        }),
+        onTap: onTapEdit,
         isMainButton: true,
         margin: const EdgeInsets.only(left: 10, right: 20),
       ),
     );
+  }
+
+  void onTapEdit() {
+    setState(() {
+      widget.isSaveInsteadOfEditButtonVisible = true;
+    });
   }
 
   Expanded deleteButton() {
@@ -304,52 +311,58 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   void onTapSave() async {
-    if (widget.isSaveInsteadOfEditButtonVisible) {
-      if (widget.attempt.isInBacklog() && editProgress.progress > 0) {
-        widget.attempt.start(widget.groupChallenge);
-        widget.repetition =
-            widget.attempt.getLastRepetition(widget.groupChallenge);
-      } else if (widget.attempt.isInProgress() &&
-          widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
-          widget.attempt
-              .getCurrentRepetition(widget.groupChallenge)!
-              .isInBacklog() &&
-          editProgress.progress > 0) {
-        widget.attempt.getCurrentRepetition(widget.groupChallenge)!.start();
-        widget.repetition =
-            widget.attempt.getCurrentRepetition(widget.groupChallenge);
-      }
+    if (_isSaveLoading) {
+      return;
+    }
 
-      widget.repetition ??= widget.attempt.addRepetition(widget.groupChallenge);
+    setState(() {
+      _isSaveLoading = true;
+    });
 
-      if (widget.progress == null) {
-        widget.repetition!.addProgress(progress: editProgress);
-      } else {
-        widget.progress!.updateProgress(editProgress);
-      }
+    if (widget.attempt.isInBacklog() && editProgress.progress > 0) {
+      widget.attempt.start(widget.groupChallenge);
+      widget.repetition =
+          widget.attempt.getLastRepetition(widget.groupChallenge);
+    } else if (widget.attempt.isInProgress() &&
+        widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
+        widget.attempt
+            .getCurrentRepetition(widget.groupChallenge)!
+            .isInBacklog() &&
+        editProgress.progress > 0) {
+      widget.attempt.getCurrentRepetition(widget.groupChallenge)!.start();
+      widget.repetition =
+          widget.attempt.getCurrentRepetition(widget.groupChallenge);
+    }
 
-      List<MediaModel> filteredMediaList = widget.initialMediaList
-          .where((media) =>
-              !widget.attempt.media.map((media) => media.id).contains(media.id))
-          .toList();
+    widget.repetition ??= widget.attempt.addRepetition(widget.groupChallenge);
 
-      widget.attempt.media.addAll(filteredMediaList);
-
-      groupChallengeProvider.updateAttempt(
-          widget.groupChallenge, widget.participant, widget.attempt);
-
-      setState(() {
-        widget.isSaveInsteadOfEditButtonVisible = false;
-      });
-
-      for (int i = 0; i < widget.amountOfPops; i++) {
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-      }
+    if (widget.progress == null) {
+      widget.repetition!.addProgress(progress: editProgress);
     } else {
-      setState(() {
-        widget.isSaveInsteadOfEditButtonVisible = true;
-      });
+      widget.progress!.updateProgress(editProgress);
+    }
+
+    List<MediaModel> filteredMediaList = widget.initialMediaList
+        .where((media) =>
+            !widget.attempt.media.map((media) => media.id).contains(media.id))
+        .toList();
+
+    widget.attempt.media.addAll(filteredMediaList);
+
+    await groupChallengeProvider.updateAttempt(
+        widget.groupChallenge, widget.participant, widget.attempt);
+
+    await _notificationsProvider.sendProgressAddedNotification(
+        widget.groupChallenge, widget.participant);
+
+    setState(() {
+      _isSaveLoading = false;
+      widget.isSaveInsteadOfEditButtonVisible = false;
+    });
+
+    for (int i = 0; i < widget.amountOfPops; i++) {
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
     }
   }
 

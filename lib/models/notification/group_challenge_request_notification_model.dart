@@ -16,8 +16,9 @@ class GroupChallengeRequestNotificationModel extends NotificationModel {
     required super.createdAt,
     required this.groupChallenge,
   }) : super(
-            title: '',
-            body: 'invites you to the challenge: ${groupChallenge.title}');
+            title: 'Challenge Invitation',
+            body:
+                '${fromUser.username} invites you to "${groupChallenge.title}"');
 
   factory GroupChallengeRequestNotificationModel.fromDoc(DocumentSnapshot doc,
       UserModel user, UserModel fromUser, GroupChallengeModel groupChallenge) {

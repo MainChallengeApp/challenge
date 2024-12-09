@@ -20,10 +20,21 @@ class NotificationsCollection extends Collection {
     await db.collection(name).add(notification.toDoc());
   }
 
+  Future<void> createAll(List<NotificationModel> notifications) async {
+    WriteBatch batch = db.batch();
+
+    for (var notification in notifications) {
+      batch.set(db.collection(name).doc(), notification.toDoc());
+    }
+
+    await batch.commit();
+  }
+
   Future<void> update(NotificationModel notification) async {
     await db.collection(name).doc(notification.id).update(notification.toDoc());
   }
 
+  // Todo: pagination
   Future<List<NotificationModel>> getByUserId(String userId) async {
     try {
       final querySnapshot = await db
@@ -38,11 +49,8 @@ class NotificationsCollection extends Collection {
         var fromUser = await _usersCollection
             .getById(doc[NotificationModel.fromUserIdField]);
 
-        NotificationTypeEnum notificationType =
-            NotificationTypeEnum.fromString(doc[NotificationModel.typeField]);
-
-        if (notificationType == NotificationTypeEnum.groupChallengeRequest ||
-            notificationType == NotificationTypeEnum.groupChallengeAccepted) {
+        if ((doc.data() as Map).containsKey(
+            GroupChallengeRequestNotificationModel.groupChallengeIdField)) {
           try {
             GroupChallengeModel groupChallenge =
                 await _groupChallengesCollection.getById(doc[
@@ -56,6 +64,8 @@ class NotificationsCollection extends Collection {
                 groupChallengeId: doc[GroupChallengeRequestNotificationModel
                     .groupChallengeIdField]);
             return null;
+          } catch (_) {
+            return null;
           }
         }
         return NotificationModel.fromDoc(doc, user: user, fromUser: fromUser);
@@ -63,6 +73,21 @@ class NotificationsCollection extends Collection {
 
       notifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return notifications;
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  // Todo: not used right now (for pagination)
+  Future<int> getNotificationsCount(String userId) async {
+    try {
+      final querySnapshot = await db
+          .collection(name)
+          .where(NotificationModel.userIdField, isEqualTo: userId)
+          .count()
+          .get();
+
+      return querySnapshot.count ?? 0;
     } on Exception {
       rethrow;
     }

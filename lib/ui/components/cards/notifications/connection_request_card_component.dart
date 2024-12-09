@@ -1,4 +1,4 @@
-import 'package:challenge/models/notification/notification_model.dart';
+import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -10,19 +10,21 @@ import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConnectionRequestCard extends StatefulWidget {
-  final NotificationModel notification;
+class ConnectionRequestCardComponent extends StatefulWidget {
+  final RequestConnectionNotificationModel requestConnectionNotification;
 
-  const ConnectionRequestCard({
+  const ConnectionRequestCardComponent({
     super.key,
-    required this.notification,
+    required this.requestConnectionNotification,
   });
 
   @override
-  State<ConnectionRequestCard> createState() => _ConnectionRequestCardState();
+  State<ConnectionRequestCardComponent> createState() =>
+      _ConnectionRequestCardComponentState();
 }
 
-class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
+class _ConnectionRequestCardComponentState
+    extends State<ConnectionRequestCardComponent> {
   bool isLoadingAcceptButton = false;
   bool isLoadingDeclineButton = false;
 
@@ -36,12 +38,13 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
       children: [
         SpaceColumnComponent(
             child: UserPictureMinComponent(
-                userPictureUrl: widget.notification.fromUser.pictureUrl)),
+                userPictureUrl:
+                    widget.requestConnectionNotification.fromUser.pictureUrl)),
         SpaceColumnComponent(
             child: CustomContainerComponent(
                 child: Center(
           child: Text(
-            '${widget.notification.fromUser.username} ${widget.notification.body}',
+            widget.requestConnectionNotification.body,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
@@ -75,7 +78,8 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
     setState(() {
       isLoadingDeclineButton = true;
     });
-    await usersProvider.disconnectFromUser(widget.notification.fromUser.id);
+    await usersProvider
+        .disconnectFromUser(widget.requestConnectionNotification.fromUser.id);
     // await notificationsProvider.deleteNotification(widget.notification.id);
 
     if (mounted) {
@@ -89,7 +93,8 @@ class _ConnectionRequestCardState extends State<ConnectionRequestCard> {
     setState(() {
       isLoadingAcceptButton = true;
     });
-    await usersProvider.connectToUser(widget.notification.fromUser.id);
+    await usersProvider
+        .connectToUser(widget.requestConnectionNotification.fromUser.id);
     // await notificationsProvider.deleteNotification(widget.notification.id);
     if (mounted) {
       setState(() {

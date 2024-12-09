@@ -209,6 +209,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
           preTitle: TabItemEnum.search.name,
           isUserSearchActive: true,
           initIsFilterOnChallenges: false,
+          isSearchBarAutoFocus: true,
         ),
       ),
     );

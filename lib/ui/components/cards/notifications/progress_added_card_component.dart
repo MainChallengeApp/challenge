@@ -1,4 +1,4 @@
-import 'package:challenge/models/notification/notification_model.dart';
+import 'package:challenge/models/notification/progress_added_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -8,21 +8,21 @@ import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class GroupChallengeAcceptedCard extends StatefulWidget {
-  final NotificationModel notification;
+class ProgressAddedCardComponent extends StatefulWidget {
+  final ProgressAddedNotificationModel progressAddedNotification;
 
-  const GroupChallengeAcceptedCard({
+  const ProgressAddedCardComponent({
     super.key,
-    required this.notification,
+    required this.progressAddedNotification,
   });
 
   @override
-  State<GroupChallengeAcceptedCard> createState() =>
-      _GroupChallengeAcceptedCardState();
+  State<ProgressAddedCardComponent> createState() =>
+      _ProgressAddedCardComponentState();
 }
 
-class _GroupChallengeAcceptedCardState
-    extends State<GroupChallengeAcceptedCard> {
+class _ProgressAddedCardComponentState
+    extends State<ProgressAddedCardComponent> {
   bool isLoadingAcceptButton = false;
 
   late final notificationsProvider =
@@ -34,13 +34,13 @@ class _GroupChallengeAcceptedCardState
       children: [
         SpaceColumnComponent(
             child: UserPictureMinComponent(
-                userPictureUrl: widget.notification.fromUser.pictureUrl)),
+                userPictureUrl:
+                    widget.progressAddedNotification.fromUser.pictureUrl)),
         SpaceColumnComponent(
             child: CustomContainerComponent(
                 isHeightDynamic: true,
                 child: Center(
-                    child: Text(
-                        '${widget.notification.fromUser.username} ${widget.notification.body}',
+                    child: Text(widget.progressAddedNotification.body,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium)))),
         const Expanded(child: SizedBox()),
@@ -64,7 +64,8 @@ class _GroupChallengeAcceptedCardState
     setState(() {
       isLoadingAcceptButton = true;
     });
-    await notificationsProvider.deleteNotification(widget.notification.id);
+    await notificationsProvider
+        .deleteNotification(widget.progressAddedNotification.id);
     if (mounted) {
       setState(() {
         isLoadingAcceptButton = false;

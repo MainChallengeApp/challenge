@@ -1,10 +1,13 @@
 import 'package:challenge/collections/notifications_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
+import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
+import 'package:challenge/models/notification/progress_added_notification_model.dart';
 import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
@@ -50,6 +53,21 @@ class NotificationsProvider with ChangeNotifier {
     await notificationsCollection.create(notification);
   }
 
+  Future<void> sendGroupChallengeRequestNotificationToAll(
+      UserModel fromUser, GroupChallengeModel groupChallenge) async {
+    DateTime now = TimeService.now();
+    List<NotificationModel> notifications = groupChallenge.participants
+        .where((participantEntry) => participantEntry.user.id != fromUser.id)
+        .map((participantEntry) => GroupChallengeRequestNotificationModel(
+              user: participantEntry.user,
+              fromUser: fromUser,
+              groupChallenge: groupChallenge,
+              createdAt: now,
+            ))
+        .toList();
+    await notificationsCollection.createAll(notifications);
+  }
+
   Future<void> sendGroupChallengeAcceptedNotification(UserModel toUser,
       UserModel fromUser, GroupChallengeModel groupChallenge) async {
     final notification = GroupChallengeAcceptedNotificationModel(
@@ -59,6 +77,27 @@ class NotificationsProvider with ChangeNotifier {
       createdAt: TimeService.now(),
     );
     await notificationsCollection.create(notification);
+  }
+
+  Future<void> sendProgressAddedNotification(
+      GroupChallengeModel groupChallenge, ParticipantModel participant) async {
+    DateTime now = TimeService.now();
+    List<UserModel> userForNotifications = groupChallenge.participants
+        .where((participantEntry) =>
+            participantEntry.user.id != participant.user.id &&
+            participantEntry.status == ParticipantStatusEnum.accepted)
+        .map((participantEntry) => participantEntry.user)
+        .toList();
+    final notifications = userForNotifications
+        .map((user) => ProgressAddedNotificationModel(
+              user: user,
+              fromUser: participant.user,
+              groupChallenge: groupChallenge,
+              createdAt: now,
+            ))
+        .toList();
+
+    await notificationsCollection.createAll(notifications);
   }
 
   Future<List<NotificationModel>> getUserNotifications() async {
