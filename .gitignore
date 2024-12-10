@@ -45,5 +45,7 @@ app.*.map.json
 coverage/lcov.info
 .env
 
+# firebase
 **/node_modules/
 firebase/firestore.rules
+firebase/firebase-emulator-data/**

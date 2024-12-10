@@ -42,84 +42,84 @@ export const pushNotification = functions.firestore.onDocumentCreated(
 
       const notificationType: notificationTypeType = notification.type;
       switch (notificationType) {
-        case "groupChallengeRequest":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
+      case "groupChallengeRequest":
+        groupChallengeData = await getGroupChallengeById(
+          notification.groupChallengeId
+        );
 
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Challenge Invitation",
-              body: `${fromUserData.username} invites you to "${groupChallengeData.title}"`,
-            },
-            data: {
-              notificationId: snapshot.id,
-            },
-          });
-          break;
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Challenge Invitation",
+            body: `${fromUserData.username} invites you to "${groupChallengeData.title}"`,
+          },
+          data: {
+            notificationId: snapshot.id,
+          },
+        });
+        break;
 
-        case "groupChallengeAccepted":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Challenge Accepted",
-              body: `${fromUserData.username} accepted "${groupChallengeData.title}"`,
-            },
-            data: {
-              notificationId: snapshot.id,
-            },
-          });
-          break;
+      case "groupChallengeAccepted":
+        groupChallengeData = await getGroupChallengeById(
+          notification.groupChallengeId
+        );
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Challenge Accepted",
+            body: `${fromUserData.username} accepted "${groupChallengeData.title}"`,
+          },
+          data: {
+            notificationId: snapshot.id,
+          },
+        });
+        break;
 
-        case "connectionAccepted":
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Connection Accepted",
-              body: `${fromUserData.username} and you are connected`,
-            },
-            data: {
-              notificationId: snapshot.id,
-            },
-          });
-          break;
+      case "connectionAccepted":
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Connection Accepted",
+            body: `${fromUserData.username} and you are connected`,
+          },
+          data: {
+            notificationId: snapshot.id,
+          },
+        });
+        break;
 
-        case "connectionRequest":
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Connection Request",
-              body: `${fromUserData.username} wants to connect with you`,
-            },
-            data: {
-              notificationId: snapshot.id,
-            },
-          });
-          break;
+      case "connectionRequest":
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Connection Request",
+            body: `${fromUserData.username} wants to connect with you`,
+          },
+          data: {
+            notificationId: snapshot.id,
+          },
+        });
+        break;
 
-        case "progressAdded":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
+      case "progressAdded":
+        groupChallengeData = await getGroupChallengeById(
+          notification.groupChallengeId
+        );
 
-          await admin.messaging().sendEachForMulticast({
-            tokens: userData.fcmTokens,
-            notification: {
-              title: "Progress Added",
-              body: `${fromUserData.username} added progress to "${groupChallengeData.title}"`,
-            },
-            data: {
-              notificationId: snapshot.id,
-            },
-          });
-          break;
+        await admin.messaging().sendEachForMulticast({
+          tokens: userData.fcmTokens,
+          notification: {
+            title: "Progress Added",
+            body: `${fromUserData.username} added progress to "${groupChallengeData.title}"`,
+          },
+          data: {
+            notificationId: snapshot.id,
+          },
+        });
+        break;
 
-        default:
-          console.log("Unknown notification type");
+      default:
+        console.log("Unknown notification type");
       }
     } catch (error) {
       console.error("Error fetching user document:", error);
