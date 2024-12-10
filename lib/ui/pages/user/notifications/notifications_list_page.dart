@@ -51,7 +51,6 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
   }
 
   list() {
-    notificationsProvider.sortUserNotifications();
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {

@@ -205,7 +205,7 @@ class GroupChallengesProvider with ChangeNotifier {
     try {
       for (var attempt in participant.attempts) {
         for (var media in attempt.media) {
-          if (media.isLocal()) {
+          if (mediaService.isUrlLocal(media.source)) {
             mediaService
                 .uploadLocalMedia(media, groupChallenge, participant.user.id)
                 .then((newMedia) {

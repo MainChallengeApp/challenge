@@ -1,8 +1,11 @@
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/push_notification_service.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
@@ -25,9 +28,12 @@ class AppState extends State<App> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
-  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final tabProvider = getIt<TabProvider>();
+
+  final _notificationsProvider = getIt<NotificationsProvider>();
 
   final authService = AuthService();
+  final _pushNotificationService = PushNotificationService();
 
   bool isLoadingUser = true;
   bool isLoadingUserChallenges = true;
@@ -65,6 +71,16 @@ class AppState extends State<App> {
       // ignore: use_build_context_synchronously
       ErrorOccurredDialog.show(context: context, errorText: error.toString());
     });
+
+    _pushNotificationService.initialize();
+    _notificationsProvider.listenForUserNotifications();
+  }
+
+  @override
+  void dispose() {
+    _pushNotificationService.dispose();
+    _notificationsProvider.stopListeningForUserNotifications();
+    super.dispose();
   }
 
   @override

@@ -11,6 +11,7 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
+import 'package:challenge/ui/pages/home/leader_board_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -100,12 +101,23 @@ class _ProgressAddedCardComponentState
     homeNavigator.push(
       NoAnimationPageRouteComponent(
         builder: (context) {
+          return LeaderBoardPage(
+            groupChallenge: groupChallenge,
+            preTitle: 'Home/${groupChallenge.title}',
+          );
+        },
+      ),
+    );
+
+    homeNavigator.push(
+      NoAnimationPageRouteComponent(
+        builder: (context) {
           return RepetitionPage(
             groupChallenge: groupChallenge,
             participant: participant,
             attempt: participant.getLatestAttempt(),
             preTitle:
-                'Home/${groupChallenge.title}/${participant.user.username}',
+                'Home/${groupChallenge.title}/Leader Board/${participant.user.username}',
           );
         },
       ),

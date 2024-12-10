@@ -15,7 +15,6 @@ import 'package:provider/provider.dart';
 
 void main() async {
   await BackendService.initializeBackend();
-  setupDependencies();
 
   runApp(MultiProvider(
     providers: [
@@ -63,6 +62,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     setOrientationToPortraitUp();
     WidgetsBinding.instance.addObserver(this);
     TimeService.initializeTrustedTime();
+    setupDependencies(context);
   }
 
   @override

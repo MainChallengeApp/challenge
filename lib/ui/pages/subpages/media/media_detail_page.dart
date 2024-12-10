@@ -32,7 +32,8 @@ class MediaDetailPage extends StatefulWidget {
 class _MediaDetailPageState extends State<MediaDetailPage> {
   late PageController controller =
       PageController(initialPage: widget.initialMediaIndex);
-  late String currentTitle = widget.mediaList[widget.initialMediaIndex].title;
+  late String currentTitle =
+      widget.mediaList.reversed.toList()[widget.initialMediaIndex].title;
   late int currentMediaIndex = widget.initialMediaIndex;
 
   MediaService mediaService = MediaService();
@@ -110,7 +111,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
 
   void onSwipeMedia(int value) {
     setState(() {
-      currentTitle = widget.mediaList[value].title;
+      currentTitle = widget.mediaList.reversed.toList()[value].title;
       currentMediaIndex = value;
     });
   }

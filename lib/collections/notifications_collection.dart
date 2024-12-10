@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:challenge/collections/collection.dart';
 import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/collections/users_collection.dart';
@@ -13,6 +16,8 @@ class NotificationsCollection extends Collection {
 
   final _groupChallengesCollection = GroupChallengesCollection();
   final _usersCollection = UsersCollection();
+
+  StreamSubscription<QuerySnapshot>? _subscription;
 
   NotificationsCollection() : super(name: collectionName);
 
@@ -42,40 +47,44 @@ class NotificationsCollection extends Collection {
           .where(NotificationModel.userIdField, isEqualTo: userId)
           .get();
 
-      List<NotificationModel> notifications =
-          await Future.wait(querySnapshot.docs.map((doc) async {
-        var user =
-            await _usersCollection.getById(doc[NotificationModel.userIdField]);
-        var fromUser = await _usersCollection
-            .getById(doc[NotificationModel.fromUserIdField]);
-
-        if ((doc.data() as Map).containsKey(
-            GroupChallengeRequestNotificationModel.groupChallengeIdField)) {
-          try {
-            GroupChallengeModel groupChallenge =
-                await _groupChallengesCollection.getById(doc[
-                    GroupChallengeRequestNotificationModel
-                        .groupChallengeIdField]);
-            return NotificationModel.fromDoc(doc,
-                user: user, fromUser: fromUser, groupChallenge: groupChallenge);
-          } on GroupChallengeNotFoundException catch (_) {
-            await deleteNotifications(
-                userId: userId,
-                groupChallengeId: doc[GroupChallengeRequestNotificationModel
-                    .groupChallengeIdField]);
-            return null;
-          } catch (_) {
-            return null;
-          }
-        }
-        return NotificationModel.fromDoc(doc, user: user, fromUser: fromUser);
-      })).then((list) => list.whereType<NotificationModel>().toList());
+      List<NotificationModel> notifications = await Future.wait(
+              querySnapshot.docs.map((doc) async => await getNotification(doc)))
+          .then((list) => list.whereType<NotificationModel>().toList());
 
       notifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
       return notifications;
     } on Exception {
       rethrow;
     }
+  }
+
+  Future<NotificationModel?> getNotification(
+      DocumentSnapshot notificationDoc) async {
+    var user = await _usersCollection
+        .getById(notificationDoc[NotificationModel.userIdField]);
+    var fromUser = await _usersCollection
+        .getById(notificationDoc[NotificationModel.fromUserIdField]);
+
+    if ((notificationDoc.data() as Map).containsKey(
+        GroupChallengeRequestNotificationModel.groupChallengeIdField)) {
+      try {
+        GroupChallengeModel groupChallenge =
+            await _groupChallengesCollection.getById(notificationDoc[
+                GroupChallengeRequestNotificationModel.groupChallengeIdField]);
+        return NotificationModel.fromDoc(notificationDoc,
+            user: user, fromUser: fromUser, groupChallenge: groupChallenge);
+      } on GroupChallengeNotFoundException catch (_) {
+        await deleteNotifications(
+            userId: notificationDoc[NotificationModel.userIdField],
+            groupChallengeId: notificationDoc[
+                GroupChallengeRequestNotificationModel.groupChallengeIdField]);
+        return null;
+      } catch (_) {
+        return null;
+      }
+    }
+    return NotificationModel.fromDoc(notificationDoc,
+        user: user, fromUser: fromUser);
   }
 
   // Todo: not used right now (for pagination)
@@ -135,5 +144,30 @@ class NotificationsCollection extends Collection {
     for (var doc in snapshot.docs) {
       await doc.reference.delete();
     }
+  }
+
+  void listenToUserNotifications(String userId, Function onAdd) {
+    // Create a query
+    Query query = db
+        .collection(collectionName)
+        .where(NotificationModel.userIdField, isEqualTo: userId)
+        .orderBy(NotificationModel.createdAtField, descending: true)
+        .limit(1);
+
+    // Set up the listener
+    _subscription = query.snapshots().listen(
+      (QuerySnapshot snapshot) {
+        for (var change in snapshot.docChanges) {
+          if (change.type case DocumentChangeType.added) {
+            onAdd(change.doc);
+          }
+        }
+      },
+      onError: (error) => log('Listen failed: $error'),
+    );
+  }
+
+  void stopListening() {
+    _subscription?.cancel();
   }
 }

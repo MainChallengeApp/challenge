@@ -56,7 +56,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late final _groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
 
-  late final listeningGroupChallengeProvider =
+  late final _listeningGroupChallengeProvider =
       Provider.of<GroupChallengesProvider>(context, listen: true);
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
@@ -76,6 +76,10 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   @override
   Widget build(BuildContext context) {
+    _groupChallenge = _listeningGroupChallengeProvider.groupChallenges
+        .firstWhere((groupChallenge) => groupChallenge.id == _groupChallenge.id,
+            orElse: () => _groupChallenge);
+
     _participant = _groupChallenge.participants.firstWhere(
         (participant) => participant.user.id == widget.participant.user.id,
         orElse: () => widget.participant);
@@ -461,7 +465,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
                         Expanded(
                           child: ListItemButtonComponent(
                             onTap: onTapTryAgain,
-                            text: 'Try Again',
+                            text: _attempt.isFailed()
+                                ? 'Try Again'
+                                : 'Accept Again',
                             isLoading: _isActionButtonLoading,
                             margin: EdgeInsets.zero,
                           ),

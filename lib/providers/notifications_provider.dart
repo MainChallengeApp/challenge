@@ -103,7 +103,7 @@ class NotificationsProvider with ChangeNotifier {
   Future<List<NotificationModel>> getUserNotifications() async {
     _userNotifications = await notificationsCollection
         .getByUserId(authService.getCurrentUserId());
-    notifyListeners();
+    sortUserNotifications();
     return _userNotifications;
   }
 
@@ -115,6 +115,7 @@ class NotificationsProvider with ChangeNotifier {
 
   void sortUserNotifications() {
     _userNotifications.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    notifyListeners();
   }
 
   void resetLocalList() {
@@ -151,5 +152,26 @@ class NotificationsProvider with ChangeNotifier {
       return true;
     });
     notifyListeners();
+  }
+
+  Future<void> listenForUserNotifications() async {
+    notificationsCollection
+        .listenToUserNotifications(authService.getCurrentUserId(), (doc) async {
+      if (doc == null) {
+        return;
+      }
+      final notification = await notificationsCollection.getNotification(doc);
+
+      if (notification == null) {
+        return;
+      }
+
+      _userNotifications.add(notification);
+      sortUserNotifications();
+    });
+  }
+
+  void stopListeningForUserNotifications() async {
+    notificationsCollection.stopListening();
   }
 }

@@ -47,6 +47,9 @@ class MediaService {
 
   Future<MediaModel?> uploadLocalMedia(MediaModel media,
       GroupChallengeModel groupChallenge, String userId) async {
+    if (!isUrlLocal(media.source)) {
+      return media;
+    }
     try {
       String path =
           '${GroupChallengesCollection.collectionName}/${groupChallenge.id}/$userId/${media.title}';
