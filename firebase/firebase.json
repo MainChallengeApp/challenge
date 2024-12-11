@@ -6,17 +6,6 @@
   "storage": {
     "rules": "storage.rules"
   },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "firestore": {
-      "port": 9151
-    },
-    "storage": {
-      "port": 9199
-    }
-  },
   "functions": [
     {
       "source": "functions",
@@ -34,5 +23,16 @@
         "npm --prefix \"$RESOURCE_DIR\" run build"
       ]
     }
-  ]
+  ],
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 9151
+    },
+    "storage": {
+      "port": 9199
+    }
+  }
 }
