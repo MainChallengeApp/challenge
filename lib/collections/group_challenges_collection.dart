@@ -3,6 +3,7 @@ import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/exceptions/group_challenge_not_found_exception.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -79,8 +80,8 @@ class GroupChallengesCollection extends Collection {
 
         List<ParticipantModel> participants =
             await Future.wait(participantsQuerySnapshot.docs.map((doc) async {
-          return ParticipantModel.fromDoc(
-              doc, await _usersCollection.getById(doc.id));
+          UserModel user = await _usersCollection.getById(doc.id);
+          return ParticipantModel.fromDoc(doc, user);
         }));
 
         groupChallenges

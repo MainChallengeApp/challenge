@@ -87,7 +87,7 @@ class SearchChallengesProvider with ChangeNotifier {
     }
   }
 
-  initRandomChallenges() async {
+  Future<void> initRandomChallenges() async {
     _searchChallenges.clear();
     _isEndOfSearchedListReached = false;
     await getRandomPaginated();

@@ -4,6 +4,8 @@ import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
+import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -13,6 +15,7 @@ import 'package:challenge/ui/components/simple_components/snack_bar_component.da
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +50,37 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   late final listeningSearchChallengeProvider =
       Provider.of<SearchChallengesProvider>(context);
 
+  bool isLoading = false;
+
+  @override
+  initState() {
+    super.initState();
+    if (widget.isRandom) {
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+      }
+      searchChallengeProvider.initRandomChallenges().then((_) {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }).catchError((e) {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+          ErrorOccurredDialog.show(
+              context: context,
+              errorText: 'Error occurred during fetching shuffled challenges');
+        }
+      });
+      return;
+    }
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -66,26 +100,36 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       appBar: AppBarComponent(preTitle: widget.preTitle),
       backgroundColor: Colors.white,
       body: Center(
-        child: PageView(
-            controller: pageController,
-            onPageChanged: onPageChanged,
-            scrollDirection: Axis.vertical,
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: listeningSearchChallengeProvider.searchChallenges.map(
-              (challenge) {
-                return Builder(builder: (context) {
-                  return CardComponent(
-                    children: [
-                      thumbnail(challenge, context),
-                      title(challenge),
-                      description(challenge),
-                      const SpaceComponent(),
-                      selectButton(challenge)
+        child: isLoading
+            ? const LoadingCircleComponent()
+            : listeningSearchChallengeProvider.searchChallenges.isEmpty
+                ? ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: const [
+                      ListItemInfoComponent(text: 'No Challenges found'),
                     ],
-                  );
-                });
-              },
-            ).toList()),
+                  )
+                : PageView(
+                    controller: pageController,
+                    onPageChanged: onPageChanged,
+                    scrollDirection: Axis.vertical,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children:
+                        listeningSearchChallengeProvider.searchChallenges.map(
+                      (challenge) {
+                        return Builder(builder: (context) {
+                          return CardComponent(
+                            children: [
+                              thumbnail(challenge, context),
+                              title(challenge),
+                              description(challenge),
+                              const SpaceComponent(),
+                              selectButton(challenge)
+                            ],
+                          );
+                        });
+                      },
+                    ).toList()),
       ),
       bottomNavigationBar: const BottomNavigationComponent(),
     );

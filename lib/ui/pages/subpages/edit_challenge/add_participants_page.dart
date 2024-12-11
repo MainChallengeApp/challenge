@@ -1,11 +1,10 @@
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_invite_friends_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
@@ -236,11 +235,9 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
     }
 
     if (filteredConnections.isEmpty) {
-      return SpaceColumnComponent(
-        child: ListItemIconTextComponent(
-          icon: IconEnum.info.icon,
-          title: 'Connect to users to add them here',
-          onTap: () {},
+      return const SpaceColumnComponent(
+        child: ListItemInfoComponent(
+          text: 'Connect to users to add them here',
         ),
       );
     }
