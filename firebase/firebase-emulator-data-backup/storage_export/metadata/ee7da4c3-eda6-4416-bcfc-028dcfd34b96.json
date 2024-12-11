@@ -1,0 +1,19 @@
+{
+  "name": "users/LQIW6dOLGQkTFKanlPOLlGDBFze4/user_picture",
+  "bucket": "challenge-dev-sdgi.appspot.com",
+  "metageneration": 1,
+  "generation": 1733951149951,
+  "contentType": "image/jpeg",
+  "storageClass": "STANDARD",
+  "contentDisposition": "inline",
+  "downloadTokens": [
+    "208c9520-a6ef-4110-a46a-c1e7952e2b9f"
+  ],
+  "etag": "oDSuV/viimDyrjjDij1HQsbhotg",
+  "customMetadata": {},
+  "timeCreated": "2024-12-11T21:05:49.951Z",
+  "updated": "2024-12-11T21:05:49.951Z",
+  "size": 106586,
+  "md5Hash": "MsXCtlypTSBH/Q8K2OoS4A==",
+  "crc32c": "1664575785"
+}

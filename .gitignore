@@ -48,4 +48,4 @@ coverage/lcov.info
 # firebase
 **/node_modules/
 firebase/firestore.rules
-firebase/firebase-emulator-data/**
+firebase/firebase-emulator-data/
