@@ -4,6 +4,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -13,6 +14,7 @@ import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -206,14 +208,17 @@ class GroupChallengesProvider with ChangeNotifier {
       for (var attempt in participant.attempts) {
         for (var media in attempt.media) {
           if (mediaService.isUrlLocal(media.source)) {
-            mediaService
-                .uploadLocalMedia(media, groupChallenge, participant.user.id)
-                .then((newMedia) {
-              if (newMedia != null) {
-                media.source = newMedia.source;
-                updateAttempt(groupChallenge, participant, attempt);
-              }
-            });
+            MediaModel? uploadedMedia = await mediaService.uploadLocalMedia(
+                media, groupChallenge, participant.user.id);
+            if (uploadedMedia == null) {
+              ErrorOccurredDialog.show(
+                  // ignore: use_build_context_synchronously
+                  context: context,
+                  errorText:
+                      'Error occurred during media upload. Uploaded media is empty');
+              return;
+            }
+            media.source = uploadedMedia.source;
           }
         }
       }
@@ -226,6 +231,10 @@ class GroupChallengesProvider with ChangeNotifier {
       await _groupChallengesCollection.updateParticipant(
           participant, groupChallenge);
     } catch (e) {
+      ErrorOccurredDialog.show(
+          // ignore: use_build_context_synchronously
+          context: context,
+          errorText: 'Error occurred during media upload');
       rethrow;
     }
   }

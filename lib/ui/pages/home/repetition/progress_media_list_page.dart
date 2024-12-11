@@ -249,6 +249,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         onTap: onTapSave,
         isMainButton: true,
         margin: const EdgeInsets.only(left: 10, right: 20),
+        isLoading: _isSaveLoading,
       ),
     );
   }
