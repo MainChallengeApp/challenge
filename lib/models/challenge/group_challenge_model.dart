@@ -237,27 +237,6 @@ class GroupChallengeModel extends ChallengeModel {
       final aAttempt = a.getLatestAttempt();
       final bAttempt = b.getLatestAttempt();
 
-      // Failed participants go to the bottom
-      if (aAttempt.isFailed() && !bAttempt.isFailed()) return 1;
-      if (bAttempt.isFailed() && !aAttempt.isFailed()) return -1;
-      if (aAttempt.isFailed() && bAttempt.isFailed()) {
-        // For failed participants, sort by currentPercentage
-        final aPercentage = aAttempt.getCurrentPercentage(this);
-        final bPercentage = bAttempt.getCurrentPercentage(this);
-        if (aPercentage != bPercentage) {
-          return bPercentage.compareTo(aPercentage);
-        }
-        // If percentages are equal, sort by endDate (earlier date on top)
-        return aAttempt.getEndDate(this)!.compareTo(bAttempt.getEndDate(this)!);
-      }
-
-      // Succeeded participants go to the top, sorted by endDate (earlier date on top)
-      if (aAttempt.isSucceeded() && !bAttempt.isSucceeded()) return -1;
-      if (bAttempt.isSucceeded() && !aAttempt.isSucceeded()) return 1;
-      if (aAttempt.isSucceeded() && bAttempt.isSucceeded()) {
-        return aAttempt.getEndDate(this)!.compareTo(bAttempt.getEndDate(this)!);
-      }
-
       // In-progress participants are sorted by currentPercentage
       final aPercentage = aAttempt.getCurrentPercentage(this);
       final bPercentage = bAttempt.getCurrentPercentage(this);
