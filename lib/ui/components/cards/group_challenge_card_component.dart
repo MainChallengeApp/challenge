@@ -20,7 +20,6 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
-import 'package:challenge/ui/pages/home/leader_board_page.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
@@ -345,8 +344,10 @@ class _GroupChallengeCardComponentState
       Navigator.push(
           context,
           NoAnimationPageRouteComponent(
-              builder: (context) => LeaderBoardPage(
+              builder: (context) => RepetitionPage(
                     groupChallenge: _groupChallenge,
+                    participant: _participant,
+                    attempt: _latestAttempt,
                     preTitle: '${widget.preTitle}/${_groupChallenge.title}',
                   ))).then((_) {
         if (mounted) {
