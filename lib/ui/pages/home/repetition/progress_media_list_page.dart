@@ -30,7 +30,6 @@ import 'package:provider/provider.dart';
 class ProgressMediaListPage extends StatefulWidget {
   ProgressMediaListPage(
       {super.key,
-      required this.preTitle,
       required this.attempt,
       required this.initialMediaList,
       this.repetition,
@@ -41,7 +40,6 @@ class ProgressMediaListPage extends StatefulWidget {
       required this.participant,
       required this.isEditableByUser});
 
-  final String preTitle;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
@@ -86,14 +84,15 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   bool _isSaveLoading = false;
 
+  final String _title = 'Progress';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBarComponent(
-            preTitle: widget.preTitle,
-            titleText: widget.progress == null
+            title: widget.progress == null
                 ? 'New Progress'
-                : '${widget.repetition != null ? widget.repetition!.progressList.indexWhere((element) => element == widget.progress) + 1 : 1}'),
+                : '$_title ${widget.repetition != null ? widget.repetition!.progressList.indexWhere((element) => element == widget.progress) + 1 : 1}'),
         backgroundColor: Colors.white,
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -215,7 +214,6 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => MediaDetailPage(
           mediaList: widget.initialMediaList,
-          preTitle: '${widget.preTitle}/Media',
           initialMediaIndex: index,
           attempt: widget.attempt,
           isEditableByUser: widget.isEditableByUser,

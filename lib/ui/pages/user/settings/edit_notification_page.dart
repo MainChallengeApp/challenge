@@ -16,12 +16,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class EditNotificationPage extends StatefulWidget {
-  final String preTitle;
   final bool isRegistration;
 
   const EditNotificationPage({
     super.key,
-    required this.preTitle,
     this.isRegistration = false,
   });
 
@@ -49,8 +47,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
       },
       child: Scaffold(
         appBar: AppBarComponent(
-          preTitle: widget.preTitle,
-          titleText: _title,
+          title: _title,
         ),
         backgroundColor: Colors.white,
         body: Column(
@@ -181,9 +178,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
         context,
         NoAnimationPageRouteComponent(
             builder: (builder) => EditPicturePage(
-                user: _usersProvider.user,
-                preTitle: 'Registration',
-                isRegistration: true))).then((_) {
+                user: _usersProvider.user, isRegistration: true))).then((_) {
       setState(() {
         editAllowNotifications = _usersProvider.user.allowNotifications;
       });

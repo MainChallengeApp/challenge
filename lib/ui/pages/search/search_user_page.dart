@@ -25,19 +25,19 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SearchUserPage extends StatefulWidget {
-  final String preTitle;
   final String initUserId;
   final String? searchText;
   final bool isListPaginated;
   final List<UserModel> Function() getUsersList;
+  final String title;
 
   const SearchUserPage(
       {super.key,
-      required this.preTitle,
       required this.initUserId,
       this.searchText,
       this.isListPaginated = true,
-      required this.getUsersList});
+      required this.getUsersList,
+      this.title = 'Users'});
 
   @override
   State<SearchUserPage> createState() => _SearchUserPageState();
@@ -91,7 +91,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
       padding: const EdgeInsets.only(top: 10),
       body: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBarComponent(preTitle: widget.preTitle),
+        appBar: AppBarComponent(
+          title: widget.title,
+        ),
         backgroundColor: Colors.white,
         body: Center(
           child: PageView(

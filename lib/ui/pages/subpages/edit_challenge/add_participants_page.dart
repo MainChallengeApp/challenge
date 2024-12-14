@@ -18,11 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddParticipantsPage extends StatefulWidget {
-  final String preTitle;
   final List<UserModel> participants;
 
-  const AddParticipantsPage(
-      {super.key, required this.preTitle, required this.participants});
+  const AddParticipantsPage({super.key, required this.participants});
 
   @override
   State<AddParticipantsPage> createState() => _AddParticipantsPageState();
@@ -62,7 +60,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Scaffold(
-          appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+          appBar: AppBarComponent(title: title),
           resizeToAvoidBottomInset: false,
           backgroundColor: Theme.of(context).colorScheme.surface,
           body: Column(

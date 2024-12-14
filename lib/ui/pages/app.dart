@@ -93,9 +93,7 @@ class AppState extends State<App> {
           )
         : listeningUsersProvider.user.username == ''
             ? EditUsernamePage(
-                user: listeningUsersProvider.user,
-                preTitle: 'Registration',
-                isRegistration: true)
+                user: listeningUsersProvider.user, isRegistration: true)
             : ScaffoldMessenger(
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,

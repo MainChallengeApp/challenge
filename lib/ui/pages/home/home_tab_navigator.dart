@@ -1,6 +1,6 @@
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/navigation/tab_navigator_component.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/ui/pages/home/home_list_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,12 +36,7 @@ class HomeTabNavigator extends TabNavigatorComponent {
     return {
       HomeTabNavigatorRoutes.root: (context) => HomeListPage(
           title: tabItem.name, onPush: (c) => push(context, challenge: c)),
-      // HomeTabNavigatorRoutes.detail: (context) => HomeChallenge(
-      //       preTitle: tabItem.name,
-      //       challenge: challenge!,
-      //     ),
       HomeTabNavigatorRoutes.newChallenge: (context) => EditChallengePage(
-            preTitle: tabItem.name,
             challenge: challenge!,
           ),
     };

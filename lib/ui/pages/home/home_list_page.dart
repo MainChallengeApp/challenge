@@ -52,7 +52,7 @@ class _HomeListPageState extends State<HomeListPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBarComponent(
-          preTitle: widget.title,
+          title: widget.title,
           isFirstPageInRoute: true,
         ),
         backgroundColor: Colors.white,
@@ -161,7 +161,6 @@ class _HomeListPageState extends State<HomeListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
-          preTitle: widget.title,
           initialChallengeId: challenge.id,
           filterOptions: searchBarText,
         ),
@@ -174,7 +173,6 @@ class _HomeListPageState extends State<HomeListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: widget.title,
           challenge: ChallengeModel.empty(),
           isNewChallenge: true,
         ),
@@ -197,7 +195,6 @@ class _HomeListPageState extends State<HomeListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: '${widget.title}/${groupChallenge.title}',
           challenge: groupChallenge,
           isNewChallenge: false,
         ),

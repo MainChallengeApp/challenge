@@ -13,11 +13,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EditPasswordPage extends StatefulWidget {
-  final String preTitle;
-
   const EditPasswordPage({
     super.key,
-    required this.preTitle,
   });
 
   @override
@@ -27,7 +24,7 @@ class EditPasswordPage extends StatefulWidget {
 class _EditPasswordPageState extends State<EditPasswordPage> {
   bool isLoading = false;
 
-  String title = 'Password';
+  String title = 'Edit Password';
 
   var authService = AuthService();
 
@@ -47,7 +44,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        appBar: AppBarComponent(title: title),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

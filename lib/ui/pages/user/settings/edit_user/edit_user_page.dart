@@ -21,11 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditUserPage extends StatefulWidget {
-  final String preTitle;
-
   const EditUserPage({
     super.key,
-    required this.preTitle,
   });
 
   @override
@@ -41,7 +38,7 @@ class _EditUserPageState extends State<EditUserPage> {
 
   bool isLoading = false;
 
-  String title = 'Edit';
+  final String _title = 'Edit User';
 
   var mediaService = MediaService();
 
@@ -64,7 +61,7 @@ class _EditUserPageState extends State<EditUserPage> {
     user = listeningUsersProvider.user;
     return Scaffold(
       resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+      appBar: AppBarComponent(title: _title),
       backgroundColor: Colors.white,
       body: ListView(
         children: [
@@ -151,8 +148,7 @@ class _EditUserPageState extends State<EditUserPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            EditUsernamePage(user: user, preTitle: '${widget.preTitle}/$title'),
+        builder: (context) => EditUsernamePage(user: user),
       ),
     );
   }
@@ -161,8 +157,7 @@ class _EditUserPageState extends State<EditUserPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            EditBioPage(user: user, preTitle: '${widget.preTitle}/$title'),
+        builder: (context) => EditBioPage(user: user),
       ),
     );
   }
@@ -171,8 +166,7 @@ class _EditUserPageState extends State<EditUserPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            EditPicturePage(user: user, preTitle: '${widget.preTitle}/$title'),
+        builder: (context) => EditPicturePage(user: user),
       ),
     );
   }
@@ -181,8 +175,7 @@ class _EditUserPageState extends State<EditUserPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            EditEmailPage(preTitle: '${widget.preTitle}/$title'),
+        builder: (context) => const EditEmailPage(),
       ),
     ).then((_) {
       authService.getCurrentUser()?.reload().then((_) {
@@ -201,8 +194,7 @@ class _EditUserPageState extends State<EditUserPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            EditPasswordPage(preTitle: '${widget.preTitle}/$title'),
+        builder: (context) => const EditPasswordPage(),
       ),
     ).then((_) {
       authService.getCurrentUser()?.reload().catchError((_) {

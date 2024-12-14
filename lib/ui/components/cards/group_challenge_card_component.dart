@@ -32,10 +32,8 @@ import 'package:provider/provider.dart';
 
 class GroupChallengeCardComponent extends StatefulWidget {
   final GroupChallengeModel groupChallenge;
-  final String preTitle;
 
-  const GroupChallengeCardComponent(
-      {super.key, required this.groupChallenge, required this.preTitle});
+  const GroupChallengeCardComponent({super.key, required this.groupChallenge});
 
   @override
   State<GroupChallengeCardComponent> createState() =>
@@ -278,23 +276,6 @@ class _GroupChallengeCardComponentState
     await _groupChallengesProvider.tryAgain(_groupChallenge, _participant);
   }
 
-  // void _onTapAgain(AttemptModel attempt) {
-  //   Navigator.push(
-  //     context,
-  //     NoAnimationPageRouteComponent(
-  //       builder: (context) {
-  //         AttemptModel attemptCopy = attempt.copy(isTryAgain: true);
-  //         return EditChallengePage(
-  //           preTitle: '${widget.preTitle}/${_groupChallenge.title}',
-  //           challenge: _groupChallenge,
-  //           attempt: attemptCopy,
-  //           isTryAgain: true,
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
-
   void _onTapNext(AttemptModel attempt) async {
     attempt.endRepetition(_groupChallenge);
     _groupChallengesProvider.updateAttempt(
@@ -306,7 +287,6 @@ class _GroupChallengeCardComponentState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaListPage(
-          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
@@ -322,7 +302,6 @@ class _GroupChallengeCardComponentState
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditChallengePage(
-            preTitle: '${widget.preTitle}/${_groupChallenge.title}',
             challenge: _groupChallenge,
           ),
         ),
@@ -348,7 +327,6 @@ class _GroupChallengeCardComponentState
                     groupChallenge: _groupChallenge,
                     participant: _participant,
                     attempt: _latestAttempt,
-                    preTitle: '${widget.preTitle}/${_groupChallenge.title}',
                   ))).then((_) {
         if (mounted) {
           setState(() {});
@@ -364,7 +342,6 @@ class _GroupChallengeCardComponentState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => RepetitionPage(
-          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           groupChallenge: _groupChallenge,
           participant: _participant,
           attempt: _latestAttempt,
@@ -387,7 +364,6 @@ class _GroupChallengeCardComponentState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           repetition: _latestAttempt.getCurrentRepetition(_groupChallenge)!,
           initialMediaList: List.empty(growable: true),
           attempt: _latestAttempt,
@@ -406,7 +382,6 @@ class _GroupChallengeCardComponentState
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
-          preTitle: '${widget.preTitle}/${_groupChallenge.title}',
           mediaList: _latestAttempt.media,
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,

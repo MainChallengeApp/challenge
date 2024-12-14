@@ -15,13 +15,11 @@ import 'package:provider/provider.dart';
 
 class EditUsernamePage extends StatefulWidget {
   final UserModel user;
-  final String preTitle;
   final bool isRegistration;
 
   const EditUsernamePage({
     super.key,
     required this.user,
-    required this.preTitle,
     this.isRegistration = false,
   });
 
@@ -37,7 +35,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
 
   bool _isLoading = false;
 
-  final String _title = 'Username';
+  final String _title = 'Edit Username';
 
   late var userNameTextEditingController = TextEditingController(
     text: _editUser.username,
@@ -53,8 +51,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
       },
       child: Scaffold(
         appBar: AppBarComponent(
-          preTitle: widget.preTitle,
-          titleText: _title,
+          title: _title,
           isFirstPageInRoute: widget.isRegistration,
         ),
         backgroundColor: Colors.white,
@@ -176,17 +173,15 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
         context,
         NoAnimationPageRouteComponent(
             disableSwipeBack: true,
-            builder: (builder) => EditUsernamePage(
-                user: _editUser,
-                preTitle: 'Registration',
-                isRegistration: true)));
+            builder: (builder) =>
+                EditUsernamePage(user: _editUser, isRegistration: true)));
 
     Navigator.push(
         // ignore: use_build_context_synchronously
         context,
         NoAnimationPageRouteComponent(
-            builder: (builder) => const EditNotificationPage(
-                preTitle: 'Registration', isRegistration: true)));
+            builder: (builder) =>
+                const EditNotificationPage(isRegistration: true)));
     return;
   }
 

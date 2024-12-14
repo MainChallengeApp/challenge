@@ -12,11 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class OpenRequestsPage extends StatefulWidget {
-  final String preTitle;
-
   const OpenRequestsPage({
     super.key,
-    required this.preTitle,
   });
 
   @override
@@ -47,8 +44,7 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
 
     return Scaffold(
       appBar: AppBarComponent(
-        preTitle: widget.preTitle,
-        titleText: title,
+        title: title,
       ),
       backgroundColor: Colors.white,
       body: Column(
@@ -95,7 +91,6 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
           initUserId: user.id,
-          preTitle: '${widget.preTitle}/$title',
           getUsersList: () => listeningUsersProvider.openConnectionRequests,
           searchText: searchTextEditingController.text,
           isListPaginated: false,

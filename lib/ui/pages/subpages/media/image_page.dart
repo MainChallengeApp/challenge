@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ImagePage extends StatefulWidget {
-  final String preTitle;
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
   final AttemptModel attempt;
@@ -21,7 +20,6 @@ class ImagePage extends StatefulWidget {
 
   const ImagePage(
       {super.key,
-      required this.preTitle,
       required this.mediaList,
       required this.initialMediaIndex,
       required this.attempt,
@@ -44,8 +42,7 @@ class _ImagePageState extends State<ImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBarComponent(preTitle: widget.preTitle, titleText: currentTitle),
+      appBar: AppBarComponent(title: currentTitle),
       backgroundColor: Colors.white,
       body: Stack(
         children: [

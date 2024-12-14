@@ -26,8 +26,7 @@ import 'package:provider/provider.dart';
 import 'search_challenge_page.dart';
 
 class SearchListPage extends StatefulWidget {
-  final String preTitle;
-  final String? title;
+  final String title;
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
   final bool isUserSearchActive;
@@ -35,8 +34,7 @@ class SearchListPage extends StatefulWidget {
 
   const SearchListPage({
     super.key,
-    this.preTitle = '',
-    this.title,
+    this.title = 'Search',
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
     this.isUserSearchActive = false,
@@ -98,8 +96,7 @@ class _SearchListPageState extends State<SearchListPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-          appBar: AppBarComponent(
-              preTitle: widget.preTitle, titleText: widget.title),
+          appBar: AppBarComponent(title: widget.title),
           backgroundColor: Colors.white,
           body: Column(
             children: [
@@ -254,8 +251,6 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
-          preTitle:
-              '${widget.preTitle}${widget.title == null ? '' : '/${widget.title}'}',
           initChallengeIndex: index,
           searchText: textEditingController.text,
           categories: widget.categories,
@@ -271,8 +266,6 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
-          preTitle:
-              '${widget.preTitle}${widget.title == null ? '' : '/${widget.title}'}',
           getUsersList: () => searchedUsers,
           initUserId: user.id,
           searchText: textEditingController.text,
@@ -288,8 +281,6 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle:
-              '${widget.preTitle}${widget.title == null ? '' : '/${widget.title}'}',
           challenge: ChallengeModel.empty(title: textEditingController.text),
           isNewChallenge: true,
           isSearchNewChallenge: true,

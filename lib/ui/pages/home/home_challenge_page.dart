@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -12,11 +13,9 @@ import 'package:provider/provider.dart';
 class HomeChallengePage extends StatefulWidget {
   const HomeChallengePage({
     super.key,
-    required this.preTitle,
     required this.initialChallengeId,
     this.filterOptions = '',
   });
-  final String preTitle;
   final String initialChallengeId;
   final String filterOptions;
 
@@ -25,6 +24,7 @@ class HomeChallengePage extends StatefulWidget {
 }
 
 class _HomeChallengePageState extends State<HomeChallengePage> {
+  final String _title = TabItemEnum.home.name;
   late final PageController _pageController =
       PageController(initialPage: _currentChallengeIndex);
 
@@ -55,7 +55,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     _jumpToCurrentChallenge();
 
     return Scaffold(
-      appBar: AppBarComponent(preTitle: widget.preTitle),
+      appBar: AppBarComponent(title: _title),
       backgroundColor: Colors.white,
       body: PageView(
           controller: _pageController,
@@ -64,8 +64,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           physics: const AlwaysScrollableScrollPhysics(),
           children: _filteredChallenges.map((challenge) {
             challenge.checkStatus();
-            return GroupChallengeCardComponent(
-                groupChallenge: challenge, preTitle: widget.preTitle);
+            return GroupChallengeCardComponent(groupChallenge: challenge);
           }).toList()),
       bottomNavigationBar: const BottomNavigationComponent(),
     );

@@ -14,11 +14,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EditEmailPage extends StatefulWidget {
-  final String preTitle;
-
   const EditEmailPage({
     super.key,
-    required this.preTitle,
   });
 
   @override
@@ -28,7 +25,7 @@ class EditEmailPage extends StatefulWidget {
 class _EditEmailPageState extends State<EditEmailPage> {
   bool isLoading = false;
 
-  String title = 'Email';
+  final String _title = 'Edit Email';
 
   var authService = AuthService();
 
@@ -51,7 +48,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        appBar: AppBarComponent(title: _title),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

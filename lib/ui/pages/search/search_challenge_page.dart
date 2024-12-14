@@ -21,19 +21,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class SearchChallengePage extends StatefulWidget {
-  final String preTitle;
   final int initChallengeIndex;
   final String searchText;
   final List<ChallengeCategoryEnum> categories;
   final bool isRandom;
+  final String title;
 
   const SearchChallengePage(
       {super.key,
-      required this.preTitle,
       required this.initChallengeIndex,
       required this.searchText,
       required this.categories,
-      this.isRandom = false});
+      this.isRandom = false,
+      this.title = 'Search'});
 
   @override
   State<SearchChallengePage> createState() => _SearchChallengePageState();
@@ -50,7 +50,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   late final listeningSearchChallengeProvider =
       Provider.of<SearchChallengesProvider>(context);
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
   @override
   initState() {
@@ -58,19 +58,19 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     if (widget.isRandom) {
       if (mounted) {
         setState(() {
-          isLoading = true;
+          _isLoading = true;
         });
       }
       searchChallengeProvider.initRandomChallenges().then((_) {
         if (mounted) {
           setState(() {
-            isLoading = false;
+            _isLoading = false;
           });
         }
       }).catchError((e) {
         if (mounted) {
           setState(() {
-            isLoading = false;
+            _isLoading = false;
           });
           ErrorOccurredDialog.show(
               context: context,
@@ -97,10 +97,10 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBarComponent(preTitle: widget.preTitle),
+      appBar: AppBarComponent(title: widget.title),
       backgroundColor: Colors.white,
       body: Center(
-        child: isLoading
+        child: _isLoading
             ? const LoadingCircleComponent()
             : listeningSearchChallengeProvider.searchChallenges.isEmpty
                 ? ListView(
@@ -120,11 +120,11 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                         return Builder(builder: (context) {
                           return CardComponent(
                             children: [
-                              thumbnail(challenge, context),
-                              title(challenge),
-                              description(challenge),
+                              _thumbnail(challenge, context),
+                              _title(challenge),
+                              _description(challenge),
                               const SpaceComponent(),
-                              selectButton(challenge)
+                              _selectButton(challenge)
                             ],
                           );
                         });
@@ -135,7 +135,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  selectButton(ChallengeModel challenge) {
+  _selectButton(ChallengeModel challenge) {
     return CustomButtonComponent(
       onTap: () => onTapSelect(challenge),
       isPrimaryButton: true,
@@ -143,7 +143,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  thumbnail(ChallengeModel challenge, BuildContext context) {
+  _thumbnail(ChallengeModel challenge, BuildContext context) {
     return SpaceColumnComponent(
       height: 11,
       child: ThumbnailMaxComponent(
@@ -153,7 +153,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     );
   }
 
-  description(ChallengeModel challenge) {
+  _description(ChallengeModel challenge) {
     return Expanded(
       child: SearchDescriptionComponent(text: challenge.description),
     );
@@ -182,7 +182,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: widget.preTitle,
           challenge: challenge,
           isSearchEdit: true,
           isNewChallenge: true,
@@ -191,7 +190,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     ).then((_) => setState(() {}));
   }
 
-  title(ChallengeModel challenge) {
+  _title(ChallengeModel challenge) {
     return SpaceColumnComponent(
       height: 11,
       child: TitleComponent(

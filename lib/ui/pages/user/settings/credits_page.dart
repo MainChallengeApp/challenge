@@ -2,14 +2,14 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:flutter/material.dart';
 
 class CreditsPage extends StatelessWidget {
-  const CreditsPage({super.key, required this.preTitle});
+  const CreditsPage({super.key});
 
-  final String preTitle;
+  final String _title = 'Credits';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(preTitle: preTitle, titleText: 'Credits'),
+      appBar: AppBarComponent(title: _title),
       backgroundColor: Colors.white,
       body: const Center(
         child: Text(

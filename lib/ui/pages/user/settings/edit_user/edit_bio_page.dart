@@ -15,13 +15,11 @@ import 'package:provider/provider.dart';
 
 class EditBioPage extends StatefulWidget {
   final UserModel user;
-  final String preTitle;
   final bool isRegistration;
 
   const EditBioPage({
     super.key,
     required this.user,
-    required this.preTitle,
     this.isRegistration = false,
   });
 
@@ -35,7 +33,7 @@ class _EditBioPageState extends State<EditBioPage> {
 
   bool isLoading = false;
 
-  String title = 'Bio';
+  final String _title = 'Edit Bio';
 
   late var bioTextEditingController = TextEditingController(
     text: editUser.bio,
@@ -48,7 +46,7 @@ class _EditBioPageState extends State<EditBioPage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        appBar: AppBarComponent(title: _title),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

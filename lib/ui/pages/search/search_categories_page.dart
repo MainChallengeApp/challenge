@@ -34,7 +34,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(preTitle: widget.title, isFirstPageInRoute: true),
+      appBar: AppBarComponent(title: widget.title, isFirstPageInRoute: true),
       backgroundColor: Colors.white,
       body: Container(
         color: Colors.white,
@@ -177,9 +177,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => const SearchListPage(
-            preTitle: 'Search',
-            isUserSearchActive: true,
-            isSearchBarAutoFocus: true),
+            isUserSearchActive: true, isSearchBarAutoFocus: true),
       ),
     );
   }
@@ -190,7 +188,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchListPage(
           title: title,
-          preTitle: 'Search',
           categories: categories,
         ),
       ),
@@ -203,7 +200,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => const SearchChallengePage(
-          preTitle: 'Search/Shuffle',
+          title: 'Shuffle',
           initChallengeIndex: 0,
           searchText: '',
           categories: [],
@@ -218,7 +215,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          preTitle: widget.title,
           challenge: ChallengeModel.empty(),
           isNewChallenge: true,
           isSearchNewChallenge: true,

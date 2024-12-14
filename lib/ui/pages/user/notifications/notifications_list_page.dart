@@ -14,9 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsListPage extends StatefulWidget {
-  final String preTitle;
-
-  const NotificationsListPage({super.key, required this.preTitle});
+  const NotificationsListPage({super.key});
 
   @override
   State<NotificationsListPage> createState() => _NotificationsListPageState();
@@ -42,8 +40,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        preTitle: widget.preTitle,
-        titleText: title,
+        title: title,
       ),
       body: list(),
       bottomNavigationBar: const BottomNavigationComponent(),
@@ -83,9 +80,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
   void onTapNotification(String notificationId) {
     Navigator.push(context,
         NoAnimationPageRouteComponent(builder: (BuildContext context) {
-      return NotificationsCardPage(
-          preTitle: '${widget.preTitle}/$title',
-          initialNotificationId: notificationId);
+      return NotificationsCardPage(initialNotificationId: notificationId);
     }));
   }
 }

@@ -6,7 +6,7 @@ import 'package:challenge/ui/components/challenge/group_challenge_icon_component
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
-import 'package:challenge/ui/pages/home/leader_board_page.dart';
+import 'package:challenge/ui/pages/home/ranking_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:flutter/material.dart';
 
@@ -68,8 +68,8 @@ class _TitleWithPercentageComponentState
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => LeaderBoardPage(
-            preTitle: '', groupChallenge: widget.groupChallenge),
+        builder: (context) =>
+            RankingPage(groupChallenge: widget.groupChallenge),
       ),
     );
   }
@@ -82,7 +82,6 @@ class _TitleWithPercentageComponentState
           groupChallenge: widget.groupChallenge,
           attempt: widget.attempt,
           participant: widget.participant,
-          preTitle: '',
         ),
       ),
     );

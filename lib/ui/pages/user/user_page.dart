@@ -71,7 +71,7 @@ class _UserPageState extends State<UserPage> {
     user = listeningUsersProvider.user;
     return Scaffold(
         appBar: AppBarComponent(
-          preTitle: widget.title,
+          title: widget.title,
           isFirstPageInRoute: true,
           actions: actions(user),
         ),
@@ -208,7 +208,6 @@ class _UserPageState extends State<UserPage> {
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditPicturePage(
-            preTitle: widget.title,
             user: user,
           ),
         ));
@@ -219,7 +218,6 @@ class _UserPageState extends State<UserPage> {
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditUsernamePage(
-            preTitle: widget.title,
             user: user,
           ),
         ));
@@ -229,9 +227,7 @@ class _UserPageState extends State<UserPage> {
     Navigator.push(
         context,
         NoAnimationPageRouteComponent(
-          builder: (context) => ConnectionsPage(
-            preTitle: widget.title,
-          ),
+          builder: (context) => const ConnectionsPage(),
         ));
   }
 
@@ -239,9 +235,7 @@ class _UserPageState extends State<UserPage> {
     Navigator.push(
         context,
         NoAnimationPageRouteComponent(
-          builder: (context) => NotificationsListPage(
-            preTitle: widget.title,
-          ),
+          builder: (context) => const NotificationsListPage(),
         ));
   }
 
@@ -250,7 +244,6 @@ class _UserPageState extends State<UserPage> {
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => SettingsPage(
-            preTitle: widget.title,
             user: user,
           ),
         ));
@@ -270,7 +263,6 @@ class _UserPageState extends State<UserPage> {
         context,
         NoAnimationPageRouteComponent(
           builder: (context) => EditBioPage(
-            preTitle: widget.title,
             user: user,
           ),
         ));

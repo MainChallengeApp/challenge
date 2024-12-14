@@ -12,9 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DeleteUserPage extends StatefulWidget {
-  const DeleteUserPage({super.key, required this.preTitle});
-
-  final String preTitle;
+  const DeleteUserPage({super.key});
 
   @override
   State<DeleteUserPage> createState() => _DeleteUserPageState();
@@ -23,7 +21,7 @@ class DeleteUserPage extends StatefulWidget {
 class _DeleteUserPageState extends State<DeleteUserPage> {
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
-  final String titleText = 'Delete';
+  final String titleText = 'Delete User';
 
   final TextEditingController passwordTextEditingController =
       TextEditingController();
@@ -42,8 +40,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar:
-            AppBarComponent(preTitle: widget.preTitle, titleText: titleText),
+        appBar: AppBarComponent(title: titleText),
         backgroundColor: Colors.white,
         body: Column(
           children: [

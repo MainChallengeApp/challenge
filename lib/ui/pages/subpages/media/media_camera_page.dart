@@ -29,14 +29,12 @@ import 'package:provider/provider.dart';
 class MediaCameraPage extends StatefulWidget {
   const MediaCameraPage({
     Key? key,
-    required this.preTitle,
     required this.mediaList,
     required this.attempt,
     required this.groupChallenge,
     required this.participant,
   }) : super(key: key);
 
-  final String preTitle;
   final List<MediaModel> mediaList;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
@@ -260,7 +258,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: 'Camera'),
+      appBar: const AppBarComponent(title: 'Camera'),
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: _buildBody(),
     );
@@ -434,7 +432,6 @@ class _CameraStateMedia extends State<MediaCameraPage>
           context,
           NoAnimationPageRouteComponent(
             builder: (context) => ProgressMediaListPage(
-              preTitle: '${widget.preTitle}/Camera',
               initialMediaList: _currentMedia,
               attempt: widget.attempt,
               groupChallenge: widget.groupChallenge,

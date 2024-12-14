@@ -31,7 +31,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditChallengePage extends StatefulWidget {
-  final String preTitle;
   final ChallengeModel challenge;
   final bool isNewChallenge;
   final bool isTryAgain;
@@ -40,7 +39,6 @@ class EditChallengePage extends StatefulWidget {
 
   const EditChallengePage(
       {super.key,
-      required this.preTitle,
       required this.challenge,
       this.isSearchEdit = false,
       this.isNewChallenge = false,
@@ -53,7 +51,8 @@ class EditChallengePage extends StatefulWidget {
 
 class _EditChallengePageState extends State<EditChallengePage> {
   bool isDescriptionExpanded = false;
-  late String title = widget.isNewChallenge ? 'New Challenge' : 'Edit';
+  late String title =
+      widget.isNewChallenge ? 'New Challenge' : 'Edit Challenge';
 
   late final groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
@@ -102,7 +101,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-          appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+          appBar: AppBarComponent(title: title),
           backgroundColor: Colors.white,
           body: isUserAbleToEditChallenge()
               ? Column(
@@ -309,7 +308,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
     homeNavigator.push(
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
-          preTitle: 'Home',
           initialChallengeId: challengeCopy.id,
         ),
       ),
@@ -407,7 +405,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => AddParticipantsPage(
-          preTitle: '${widget.preTitle}/$title',
           participants: editParticipants,
         ),
       ),

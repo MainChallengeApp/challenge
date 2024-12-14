@@ -47,16 +47,13 @@ class PushNotificationService {
         _tabProvider.navigatorKeys[TabItemEnum.user]!.currentState!;
     userNavigation.push(NoAnimationPageRouteComponent(
       builder: (context) {
-        return const NotificationsListPage(
-          preTitle: 'User',
-        );
+        return const NotificationsListPage();
       },
     ));
     userNavigation.push(NoAnimationPageRouteComponent(
       builder: (context) {
         return NotificationsCardPage(
           initialNotificationId: message.data['notificationId'],
-          preTitle: 'User/Notifications',
         );
       },
     ));

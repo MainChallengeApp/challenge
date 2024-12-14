@@ -30,14 +30,12 @@ import 'package:provider/provider.dart';
 import 'progress_media_list_page.dart';
 
 class RepetitionPage extends StatefulWidget {
-  final String preTitle;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
 
   const RepetitionPage(
       {super.key,
-      required this.preTitle,
       required this.attempt,
       required this.groupChallenge,
       required this.participant});
@@ -47,6 +45,7 @@ class RepetitionPage extends StatefulWidget {
 }
 
 class _RepetitionPageState extends State<RepetitionPage> {
+  final String _title = 'Repetitions';
   ScrollController scrollController = ScrollController();
 
   late var expandedRepetitionIndexList = [
@@ -92,8 +91,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
     return Scaffold(
         appBar: AppBarComponent(
-          preTitle: widget.preTitle,
-          titleText: 'Repetitions',
+          title: _title,
         ),
         backgroundColor: Colors.white,
         body: Column(
@@ -277,8 +275,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle:
-              '${widget.preTitle}/Repetitions/${progress.repetitionNumber}',
           initialMediaList: _attempt.media
               .where((element) => progress.mediaIds.contains(element.id))
               .toList(),
@@ -314,8 +310,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => ProgressMediaListPage(
-          preTitle:
-              '${widget.preTitle}/Repetitions/${repetition.repetitionNumber}',
           repetition: repetition,
           initialMediaList: List.empty(growable: true),
           attempt: _attempt,

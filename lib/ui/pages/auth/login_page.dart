@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: const AppBarComponent(
-          preTitle: 'Login',
+          title: 'Login',
           isFirstPageInRoute: true,
           leadingIcon: LeadingAppIconComponent(),
         ),

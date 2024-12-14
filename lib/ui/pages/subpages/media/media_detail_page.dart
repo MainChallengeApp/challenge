@@ -9,7 +9,6 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class MediaDetailPage extends StatefulWidget {
-  final String preTitle;
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
   final AttemptModel attempt;
@@ -18,7 +17,6 @@ class MediaDetailPage extends StatefulWidget {
 
   const MediaDetailPage(
       {super.key,
-      required this.preTitle,
       required this.mediaList,
       required this.initialMediaIndex,
       required this.attempt,
@@ -41,8 +39,7 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBarComponent(preTitle: widget.preTitle, titleText: currentTitle),
+      appBar: AppBarComponent(title: currentTitle),
       backgroundColor: Colors.white,
       body: Stack(
         children: [

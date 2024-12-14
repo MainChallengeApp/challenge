@@ -20,12 +20,10 @@ import 'package:provider/provider.dart';
 class MediaListPage extends StatefulWidget {
   const MediaListPage(
       {super.key,
-      required this.preTitle,
       this.tapOnNewChallenge,
       required this.attempt,
       required this.groupChallenge,
       required this.participant});
-  final String preTitle;
   final Function? tapOnNewChallenge;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
@@ -51,7 +49,7 @@ class _MediaListPageState extends State<MediaListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: 'Media'),
+        appBar: const AppBarComponent(title: 'Media'),
         backgroundColor: Colors.white,
         body: Container(
           color: Colors.white,
@@ -142,7 +140,6 @@ class _MediaListPageState extends State<MediaListPage> {
                 mediaList: widget.attempt.media
                     .where((element) => element.title.contains(searchBarText))
                     .toList(),
-                preTitle: '${widget.preTitle}/Media',
                 initialMediaIndex: index,
                 attempt: widget.attempt,
                 onTap: onTapDeleteMedia,

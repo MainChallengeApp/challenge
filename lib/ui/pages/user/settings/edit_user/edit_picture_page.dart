@@ -20,13 +20,11 @@ import 'package:provider/provider.dart';
 
 class EditPicturePage extends StatefulWidget {
   final UserModel user;
-  final String preTitle;
   final bool isRegistration;
 
   const EditPicturePage({
     super.key,
     required this.user,
-    required this.preTitle,
     this.isRegistration = false,
   });
 
@@ -41,7 +39,7 @@ class _EditPicturePageState extends State<EditPicturePage> {
 
   bool isLoading = false;
 
-  String title = 'Picture';
+  final String _title = 'Edit Picture';
 
   var mediaService = MediaService();
 
@@ -52,7 +50,7 @@ class _EditPicturePageState extends State<EditPicturePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+        appBar: AppBarComponent(title: _title),
         backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,7 +182,6 @@ class _EditPicturePageState extends State<EditPicturePage> {
         NoAnimationPageRouteComponent(
             builder: (builder) => EditBioPage(
                   user: editUser,
-                  preTitle: 'Registration',
                   isRegistration: true,
                 )));
   }

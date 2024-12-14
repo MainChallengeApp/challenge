@@ -15,16 +15,12 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/pages/search/search_list_page.dart';
 import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:challenge/ui/pages/user/connections/open_requests_page.dart';
-import 'package:challenge/ui/pages/user/connections/open_responses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConnectionsPage extends StatefulWidget {
-  final String preTitle;
-
   const ConnectionsPage({
     super.key,
-    required this.preTitle,
   });
 
   @override
@@ -32,7 +28,7 @@ class ConnectionsPage extends StatefulWidget {
 }
 
 class _ConnectionsPageState extends State<ConnectionsPage> {
-  String title = 'Connections';
+  final String _title = 'Connections';
 
   TextEditingController searchTextEditingController = TextEditingController();
 
@@ -56,8 +52,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        preTitle: widget.preTitle,
-        titleText: title,
+        title: _title,
       ),
       backgroundColor: Colors.white,
       body: Column(
@@ -91,8 +86,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
           controller: scrollController,
           itemCount: filteredConfirmedConnections.length +
               1 +
-              1 +
-              1, // +1 for openRequests +1 for openConnectionResponses
+              1, // +1 for openRequests
           itemBuilder: (context, index) {
             if (index == 0) {
               return SpaceColumnComponent(
@@ -108,12 +102,8 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
               return openConnectionRequestsListItem();
             }
 
-            if (index == 2) {
-              return openConnectionResponsesListItem();
-            }
-
             UserModel connection =
-                filteredConfirmedConnections.elementAt(index - 1 - 1 - 1);
+                filteredConfirmedConnections.elementAt(index - 1 - 1);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
                   onTap: () => onTapUser(connection), user: connection),
@@ -142,38 +132,11 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
     );
   }
 
-  openConnectionResponsesListItem() {
-    return Visibility(
-      visible: listeningUsersProvider.openConnectionResponses.isNotEmpty,
-      child: SpaceColumnComponent(
-        child: ListItemIconTextTextComponent(
-            icon: IconEnum.openResponses.icon,
-            text: 'Open Responses',
-            text2: listeningUsersProvider.openConnectionResponses.length
-                .toString(),
-            onTap: onTapOpenConnectionResponses),
-      ),
-    );
-  }
-
   void onTapOpenConnectionRequests() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => OpenRequestsPage(
-          preTitle: '${widget.preTitle}/$title',
-        ),
-      ),
-    );
-  }
-
-  void onTapOpenConnectionResponses() {
-    Navigator.push(
-      context,
-      NoAnimationPageRouteComponent(
-        builder: (context) => OpenResponsesPage(
-          preTitle: '${widget.preTitle}/$title',
-        ),
+        builder: (context) => const OpenRequestsPage(),
       ),
     );
   }
@@ -183,8 +146,8 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
+          title: _title,
           initUserId: user.id,
-          preTitle: '${widget.preTitle}/$title',
           getUsersList: () => listeningUsersProvider.confirmedConnections,
           searchText: searchTextEditingController.text,
           isListPaginated: false,
@@ -205,8 +168,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
     searchNavigator.push(
       NoAnimationPageRouteComponent(
-        builder: (context) => SearchListPage(
-          preTitle: TabItemEnum.search.name,
+        builder: (context) => const SearchListPage(
           isUserSearchActive: true,
           initIsFilterOnChallenges: false,
           isSearchBarAutoFocus: true,

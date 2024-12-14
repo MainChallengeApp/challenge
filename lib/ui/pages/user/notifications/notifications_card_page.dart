@@ -20,12 +20,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsCardPage extends StatefulWidget {
-  final String preTitle;
   final String initialNotificationId;
 
   const NotificationsCardPage({
     super.key,
-    required this.preTitle,
     required this.initialNotificationId,
   });
 
@@ -46,6 +44,8 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
                   notification.id == widget.initialNotificationId),
           0));
 
+  final String _title = 'Notifications';
+
   @override
   Widget build(BuildContext context) {
     if (listeningNotificationsProvider.userNotifications.isEmpty) {
@@ -55,7 +55,7 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
 
     return Scaffold(
       appBar: AppBarComponent(
-        preTitle: widget.preTitle,
+        title: _title,
       ),
       body: PageView(
         scrollDirection: Axis.vertical,

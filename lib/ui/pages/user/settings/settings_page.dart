@@ -23,9 +23,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage(
-      {super.key, required this.preTitle, this.onPush, required this.user});
-  final String preTitle;
+  const SettingsPage({super.key, this.onPush, required this.user});
   final ValueChanged<ChallengeModel>? onPush;
   final UserModel user;
 
@@ -55,8 +53,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarComponent(
-        preTitle: widget.preTitle,
-        titleText: _title,
+        title: _title,
       ),
       backgroundColor: Colors.white,
       body: Container(
@@ -79,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
-                onTap: onTapEdit, icon: IconEnum.edit.icon, title: 'Edit'),
+                onTap: onTapEdit, icon: IconEnum.edit.icon, title: 'Edit User'),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
@@ -122,7 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: ListItemIconTextComponent(
             onTap: onTapDeleteUser,
             icon: IconEnum.delete.icon,
-            title: 'Delete',
+            title: 'Delete User',
             iconColor: Theme.of(context).colorScheme.red,
             textColor: Theme.of(context).colorScheme.red,
           ))
@@ -172,9 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => CreditsPage(
-          preTitle: widget.preTitle,
-        ),
+        builder: (context) => const CreditsPage(),
       ),
     ).then((_) => setState(() {}));
   }
@@ -183,8 +178,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) =>
-            EditUserPage(preTitle: '${widget.preTitle}/$_title'),
+        builder: (context) => const EditUserPage(),
       ),
     );
   }
@@ -193,9 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => DeleteUserPage(
-          preTitle: '${widget.preTitle}/$_title',
-        ),
+        builder: (context) => const DeleteUserPage(),
       ),
     );
   }
@@ -204,9 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => BlockedUsersPage(
-          preTitle: '${widget.preTitle}/$_title',
-        ),
+        builder: (context) => const BlockedUsersPage(),
       ),
     );
   }
@@ -215,9 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => EditNotificationPage(
-          preTitle: '${widget.preTitle}/$_title',
-        ),
+        builder: (context) => const EditNotificationPage(),
       ),
     );
   }

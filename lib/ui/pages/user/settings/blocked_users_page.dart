@@ -12,16 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BlockedUsersPage extends StatefulWidget {
-  const BlockedUsersPage({super.key, required this.preTitle});
-
-  final String preTitle;
-
+  const BlockedUsersPage({super.key});
   @override
   State<BlockedUsersPage> createState() => _BlockedUsersPageState();
 }
 
 class _BlockedUsersPageState extends State<BlockedUsersPage> {
-  String title = 'Blocked Users';
+  final String _title = 'Blocked Users';
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
@@ -37,7 +34,7 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+      appBar: AppBarComponent(title: _title),
       backgroundColor: Colors.white,
       body: RefreshIndicatorComponent(
         onRefresh: () async {
@@ -76,7 +73,6 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => SearchUserPage(
-          preTitle: '${widget.preTitle}/$title',
           getUsersList: () => listeningUsersProvider.blockedUsers,
           initUserId: user.id,
         ),

@@ -10,33 +10,31 @@ import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LeaderBoardPage extends StatefulWidget {
-  final String preTitle;
+class RankingPage extends StatefulWidget {
   final GroupChallengeModel groupChallenge;
 
-  const LeaderBoardPage(
-      {super.key, required this.preTitle, required this.groupChallenge});
+  const RankingPage({super.key, required this.groupChallenge});
 
   @override
-  State<LeaderBoardPage> createState() => _LeaderBoardPageState();
+  State<RankingPage> createState() => _RankingPageState();
 }
 
-class _LeaderBoardPageState extends State<LeaderBoardPage> {
-  String title = 'Leader Board';
+class _RankingPageState extends State<RankingPage> {
+  final String _title = 'Ranking';
   late GroupChallengeModel _groupChallenge = widget.groupChallenge;
 
-  late final groupChallengesProvider = Provider.of<GroupChallengesProvider>(
+  late final _groupChallengesProvider = Provider.of<GroupChallengesProvider>(
     context,
     listen: false,
   );
 
-  final scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   @override
   initState() {
     super.initState();
     if (mounted) {
-      groupChallengesProvider.getById(widget.groupChallenge.id).then((value) {
+      _groupChallengesProvider.getById(widget.groupChallenge.id).then((value) {
         if (mounted) {
           _groupChallenge = value;
         }
@@ -47,27 +45,27 @@ class _LeaderBoardPageState extends State<LeaderBoardPage> {
   @override
   void dispose() {
     super.dispose();
-    scrollController.dispose();
+    _scrollController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _groupChallenge = groupChallengesProvider.groupChallenges.firstWhere(
+    _groupChallenge = _groupChallengesProvider.groupChallenges.firstWhere(
         (element) => element.id == widget.groupChallenge.id,
         orElse: () => _groupChallenge);
     _groupChallenge.sortParticipants();
     return Scaffold(
-      appBar: AppBarComponent(preTitle: widget.preTitle, titleText: title),
+      appBar: AppBarComponent(title: _title),
       body: RefreshIndicatorComponent(
         onRefresh: () async {
           _groupChallenge =
-              await groupChallengesProvider.getById(widget.groupChallenge.id);
+              await _groupChallengesProvider.getById(widget.groupChallenge.id);
           setState(() {});
         },
-        scrollController: scrollController,
+        scrollController: _scrollController,
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
+            controller: _scrollController,
             itemCount: _groupChallenge.participants.length,
             itemBuilder: (context, index) {
               ParticipantModel participant =
@@ -88,7 +86,6 @@ class _LeaderBoardPageState extends State<LeaderBoardPage> {
     Navigator.of(context)
         .push(NoAnimationPageRouteComponent(builder: (context) {
       return RepetitionPage(
-          preTitle: '${widget.preTitle}/$title/${participant.user.username}',
           attempt: participant.getLatestAttempt(),
           groupChallenge: _groupChallenge,
           participant: participant);

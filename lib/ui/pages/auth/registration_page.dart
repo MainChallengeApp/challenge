@@ -32,14 +32,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   bool isLoading = false;
 
+  final String _title = 'Registration';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const AppBarComponent(
-        preTitle: 'Registration',
+      appBar: AppBarComponent(
+        title: _title,
         isFirstPageInRoute: true,
-        leadingIcon: LeadingAppIconComponent(),
+        leadingIcon: const LeadingAppIconComponent(),
       ),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(

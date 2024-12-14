@@ -2,8 +2,7 @@ import 'package:challenge/ui/components/navigation/bottom_navigation_component.d
 import 'package:flutter/material.dart';
 
 class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
-  final String preTitle;
-  final String? titleText;
+  final String title;
   final Color textColor;
   final Color backgroundColor;
   final bool isFirstPageInRoute;
@@ -17,8 +16,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
   const AppBarComponent(
       {super.key,
-      required this.preTitle,
-      this.titleText,
+      required this.title,
       this.textColor = Colors.black,
       this.backgroundColor = Colors.white,
       this.isFirstPageInRoute = false,
@@ -27,9 +25,6 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    String visibleTitleText =
-        titleText == null ? preTitle : '$preTitle/$titleText';
-
     ScrollController scrollController = ScrollController();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -64,7 +59,7 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
                 scrollDirection: Axis.horizontal,
                 controller: scrollController,
                 child: Text(
-                  visibleTitleText,
+                  title,
                   textAlign: TextAlign.right,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
