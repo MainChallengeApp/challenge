@@ -2,6 +2,8 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +34,8 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       widget.attempt.getFrequency(widget.groupChallenge);
 
   bool _loading = false;
+
+  final UsersProvider _usersProvider = getIt<UsersProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +90,8 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
         }
       },
       text: 'Start',
-      isPrimaryButton: true,
+      isPrimaryButton: widget.groupChallenge.startDate == null ||
+          widget.groupChallenge.userId == _usersProvider.user.id,
       isLoading: _loading,
     );
   }

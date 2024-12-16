@@ -161,7 +161,7 @@ class GroupChallengesProvider with ChangeNotifier {
       return;
     }
     SnackBarComponent.showSnackBar(context,
-        'The Challenge start date is ${UtilService.dateFormat(startDate)}, ${UtilService.timeFormat(startDate)}');
+        'The Challenge start date is ${UtilService.dateFormat(startDate)}, ${UtilService.timeFormat(startDate)}. Only the admin can start the challenge earlier.');
   }
 
   Future<void> endAttempt(GroupChallengeModel groupChallenge,

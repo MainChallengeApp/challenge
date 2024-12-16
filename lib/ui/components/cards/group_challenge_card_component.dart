@@ -79,7 +79,7 @@ class _GroupChallengeCardComponentState
             _acceptanceCriteria(),
             _expandedSpace(),
             _documentationButtons(),
-            _startEndTryAcceptAgainButton()
+            _actionButton()
           ],
         );
       }),
@@ -238,7 +238,7 @@ class _GroupChallengeCardComponentState
     );
   }
 
-  _startEndTryAcceptAgainButton() {
+  _actionButton() {
     return ActionButtonComponent(
       groupChallenge: _groupChallenge,
       attempt: _latestAttempt,
