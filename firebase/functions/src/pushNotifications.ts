@@ -1,25 +1,25 @@
-import * as admin from "firebase-admin";
-import * as functions from "firebase-functions";
+import * as admin from 'firebase-admin';
+import * as functions from 'firebase-functions';
 
 if (!admin.apps.length) {
   admin.initializeApp();
 }
 
 type notificationTypeType =
-  | "groupChallengeRequest"
-  | "groupChallengeAccepted"
-  | "connectionAccepted"
-  | "connectionRequest"
-  | "progressAdded";
+  | 'groupChallengeRequest'
+  | 'groupChallengeAccepted'
+  | 'connectionAccepted'
+  | 'connectionRequest'
+  | 'progressAdded';
 
 const db = admin.firestore();
 
 export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
-  "notifications/{notificationId}",
+  'notifications/{notificationId}',
   async (event) => {
     const snapshot = event.data;
     if (!snapshot) {
-      console.log("No data associated with the event");
+      console.log('No data associated with the event');
       return;
     }
     const notification = snapshot.data();
@@ -29,12 +29,12 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
       const userData = await getUserById(notification.userId);
 
       if (!userData.allowNotifications) {
-        console.log("User has notifications turned off");
+        console.log('User has notifications turned off');
         return;
       }
 
       if (!userData.fcmTokens) {
-        console.log("User does not have an FCM token");
+        console.log('User does not have an FCM token');
         return;
       }
 
@@ -42,10 +42,8 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
 
       const notificationType: notificationTypeType = notification.type;
       switch (notificationType) {
-        case "groupChallengeRequest":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
+        case 'groupChallengeRequest':
+          groupChallengeData = await getGroupChallengeById(notification.groupChallengeId);
 
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
@@ -59,10 +57,8 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           });
           break;
 
-        case "groupChallengeAccepted":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
+        case 'groupChallengeAccepted':
+          groupChallengeData = await getGroupChallengeById(notification.groupChallengeId);
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
@@ -75,7 +71,7 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           });
           break;
 
-        case "connectionAccepted":
+        case 'connectionAccepted':
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
@@ -88,7 +84,7 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           });
           break;
 
-        case "connectionRequest":
+        case 'connectionRequest':
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
@@ -101,10 +97,8 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           });
           break;
 
-        case "progressAdded":
-          groupChallengeData = await getGroupChallengeById(
-            notification.groupChallengeId
-          );
+        case 'progressAdded':
+          groupChallengeData = await getGroupChallengeById(notification.groupChallengeId);
 
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
@@ -119,10 +113,10 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           break;
 
         default:
-          console.log("Unknown notification type");
+          console.log('Unknown notification type');
       }
     } catch (error) {
-      console.error("Error fetching user document:", error);
+      console.error('Error fetching user document:', error);
     }
 
     return Promise.resolve();
@@ -130,7 +124,7 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
 );
 
 async function getUserById(userId: string) {
-  const userDoc = await db.collection("users").doc(userId).get();
+  const userDoc = await db.collection('users').doc(userId).get();
 
   if (!userDoc.exists) {
     throw new Error(`fromUserDoc with id = ${userId} does not exist`);
@@ -146,23 +140,16 @@ async function getUserById(userId: string) {
 }
 
 async function getGroupChallengeById(groupChallengeId: string) {
-  const groupChallengeDoc = await db
-    .collection("group_challenges")
-    .doc(groupChallengeId)
-    .get();
+  const groupChallengeDoc = await db.collection('group_challenges').doc(groupChallengeId).get();
 
   if (!groupChallengeDoc.exists) {
-    throw new Error(
-      `groupChallengeDoc with id = ${groupChallengeId} does not exist`
-    );
+    throw new Error(`groupChallengeDoc with id = ${groupChallengeId} does not exist`);
   }
 
   const groupChallengeData = groupChallengeDoc.data();
 
   if (!groupChallengeData) {
-    throw new Error(
-      `GroupChallenge document is empty for id = ${groupChallengeId}`
-    );
+    throw new Error(`GroupChallenge document is empty for id = ${groupChallengeId}`);
   }
 
   return groupChallengeData;
