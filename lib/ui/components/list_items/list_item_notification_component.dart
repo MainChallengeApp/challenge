@@ -1,6 +1,10 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
+import 'package:challenge/models/notification/request_connection_notification_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -30,6 +34,8 @@ class ListItemNotificationComponent extends StatefulWidget {
 class _ListItemNotificationComponentState
     extends State<ListItemNotificationComponent> {
   final _notificationsProvider = getIt<NotificationsProvider>();
+  final _usersProvider = getIt<UsersProvider>();
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +96,8 @@ class _ListItemNotificationComponentState
       extentRatio: 0.22,
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
-          onDismissed: () {
-            _onTapDeleteChallenge();
+          onDismissed: () async {
+            await _onTapDeleteChallenge();
           },
           dismissThreshold: 0.8),
       children: [
@@ -109,7 +115,7 @@ class _ListItemNotificationComponentState
           borderRadius: 24,
           onTap: () async {
             await closeSlidable();
-            _onTapDeleteChallenge();
+            await _onTapDeleteChallenge();
           },
           child: Center(
               child: Icon(
@@ -123,5 +129,17 @@ class _ListItemNotificationComponentState
 
   Future<void> _onTapDeleteChallenge() async {
     await _notificationsProvider.deleteNotification(widget.notification.id);
+    if (widget.notification is RequestConnectionNotificationModel) {
+      await _usersProvider.disconnectFromUser(widget.notification.fromUser
+          .id); // apparently takes too long to delete the notification
+      return;
+    }
+
+    if (widget.notification is GroupChallengeRequestNotificationModel) {
+      await _groupChallengesProvider.deleteParticipant(
+          (widget.notification as GroupChallengeRequestNotificationModel)
+              .groupChallenge);
+      return;
+    }
   }
 }

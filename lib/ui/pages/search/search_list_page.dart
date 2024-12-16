@@ -119,14 +119,14 @@ class _SearchListPageState extends State<SearchListPage> {
                   _usersProvider.addRecentSearch(text);
                 },
                 onTapChallenges: () async {
-                  isFilterOnChallenges = true;
-                  await onChangeList(textEditingController.text);
-                  setState(() {});
+                  setState(() {
+                    isFilterOnChallenges = true;
+                  });
                 },
                 onTapUsers: () async {
-                  isFilterOnChallenges = false;
-                  await onChangeList(textEditingController.text);
-                  setState(() {});
+                  setState(() {
+                    isFilterOnChallenges = false;
+                  });
                 },
               )),
               Expanded(
@@ -290,13 +290,10 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Future<void> onChangeList(String searchText) async {
-    if (isFilterOnChallenges) {
-      await searchChallengesProvider.getSearchedPaginated(
-          searchText: searchText, categories: widget.categories, isInit: true);
-    } else {
-      await _usersProvider.getSearchedPaginated(
-          searchText: searchText, isInit: true);
-    }
+    await searchChallengesProvider.getSearchedPaginated(
+        searchText: searchText, categories: widget.categories, isInit: true);
+    await _usersProvider.getSearchedPaginated(
+        searchText: searchText, isInit: true);
   }
 
   buildRecentSearches() {
