@@ -1,7 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/notification/connection_request_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
-import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -48,33 +48,35 @@ class _ListItemNotificationComponentState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Text(
-                  widget.notification.title,
-                  overflow: TextOverflow.ellipsis,
-                  textHeightBehavior: const TextHeightBehavior(
-                      applyHeightToFirstAscent: false,
-                      applyHeightToLastDescent: false),
-                  style: Theme.of(context).textTheme.titleMedium,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Text(
+                    widget.notification.title,
+                    overflow: TextOverflow.ellipsis,
+                    textHeightBehavior: const TextHeightBehavior(
+                        applyHeightToFirstAscent: false,
+                        applyHeightToLastDescent: false),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(0),
-                child: Text(
-                  widget.notification.body,
-                  overflow: TextOverflow.ellipsis,
-                  textHeightBehavior: const TextHeightBehavior(
-                      applyHeightToFirstAscent: false,
-                      applyHeightToLastDescent: false),
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Text(
+                    widget.notification.body,
+                    overflow: TextOverflow.ellipsis,
+                    textHeightBehavior: const TextHeightBehavior(
+                        applyHeightToFirstAscent: false,
+                        applyHeightToLastDescent: false),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                )
+              ],
+            ),
           ),
           ContainerInContainerTextComponent(
             text: widget.notification.timeAgo(),
@@ -129,7 +131,7 @@ class _ListItemNotificationComponentState
 
   Future<void> _onTapDeleteChallenge() async {
     await _notificationsProvider.deleteNotification(widget.notification.id);
-    if (widget.notification is RequestConnectionNotificationModel) {
+    if (widget.notification is ConnectionRequestNotificationModel) {
       await _usersProvider.disconnectFromUser(widget.notification.fromUser
           .id); // apparently takes too long to delete the notification
       return;

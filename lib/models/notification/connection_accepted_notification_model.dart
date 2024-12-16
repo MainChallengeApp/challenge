@@ -11,8 +11,8 @@ class ConnectionAcceptedNotificationModel extends NotificationModel {
     super.type = NotificationTypeEnum.connectionAccepted,
     required super.createdAt,
   }) : super(
-            title: 'Connection Accepted',
-            body: '${fromUser.username} and you are connected');
+            title: '${fromUser.username} ~ Connection Accepted',
+            body: '${fromUser.username} and you are now connected`');
 
   factory ConnectionAcceptedNotificationModel.fromDoc(
       DocumentSnapshot doc, UserModel user, UserModel fromUser) {

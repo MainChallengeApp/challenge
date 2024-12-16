@@ -16,7 +16,7 @@ class ProgressAddedNotificationModel extends NotificationModel {
     required super.createdAt,
     required this.groupChallenge,
   }) : super(
-            title: 'Progress Added',
+            title: '${fromUser.username} ~ "${groupChallenge.title}"',
             body:
                 '${fromUser.username} added progress to "${groupChallenge.title}"');
 

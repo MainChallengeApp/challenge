@@ -1,4 +1,4 @@
-import 'package:challenge/models/notification/request_connection_notification_model.dart';
+import 'package:challenge/models/notification/connection_request_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ConnectionRequestCardComponent extends StatefulWidget {
-  final RequestConnectionNotificationModel requestConnectionNotification;
+  final ConnectionRequestNotificationModel requestConnectionNotification;
 
   const ConnectionRequestCardComponent({
     super.key,

@@ -16,7 +16,7 @@ class GroupChallengeRequestNotificationModel extends NotificationModel {
     required super.createdAt,
     required this.groupChallenge,
   }) : super(
-            title: 'Challenge Invitation',
+            title: '${fromUser.username} ~ "${groupChallenge.title}"',
             body:
                 '${fromUser.username} invites you to "${groupChallenge.title}"');
 

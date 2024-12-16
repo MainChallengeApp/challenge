@@ -50,7 +50,7 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
-              title: "Challenge Invitation",
+              title: `${fromUserData.username} ~ "${groupChallengeData.title}"`,
               body: `${fromUserData.username} invites you to "${groupChallengeData.title}"`,
             },
             data: {
@@ -66,8 +66,8 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
-              title: "Challenge Accepted",
-              body: `${fromUserData.username} accepted "${groupChallengeData.title}"`,
+              title: `${fromUserData.username} ~ "${groupChallengeData.title}"`,
+              body: `${fromUserData.username} accepted your challenge "${groupChallengeData.title}"`,
             },
             data: {
               notificationId: snapshot.id,
@@ -79,8 +79,8 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
-              title: "Connection Accepted",
-              body: `${fromUserData.username} and you are connected`,
+              title: `${fromUserData.username} ~ Connection Accepted`,
+              body: `${fromUserData.username} and you are now connected`,
             },
             data: {
               notificationId: snapshot.id,
@@ -92,7 +92,7 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
-              title: "Connection Request",
+              title: `${fromUserData.username} ~ Connection Request`,
               body: `${fromUserData.username} wants to connect with you`,
             },
             data: {
@@ -109,7 +109,7 @@ export const pushNotificationDefinition = functions.firestore.onDocumentCreated(
           await admin.messaging().sendEachForMulticast({
             tokens: userData.fcmTokens,
             notification: {
-              title: "Progress Added",
+              title: `${fromUserData.username} ~ "${groupChallengeData.title}"`,
               body: `${fromUserData.username} added progress to "${groupChallengeData.title}"`,
             },
             data: {

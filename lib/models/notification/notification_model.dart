@@ -1,10 +1,10 @@
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
+import 'package:challenge/models/notification/connection_request_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/progress_added_notification_model.dart';
-import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,7 +49,7 @@ class NotificationModel {
 
     switch (notificationType) {
       case NotificationTypeEnum.connectionRequest:
-        return RequestConnectionNotificationModel.fromDoc(doc, user, fromUser);
+        return ConnectionRequestNotificationModel.fromDoc(doc, user, fromUser);
       case NotificationTypeEnum.connectionAccepted:
         return ConnectionAcceptedNotificationModel.fromDoc(doc, user, fromUser);
       case NotificationTypeEnum.groupChallengeRequest:

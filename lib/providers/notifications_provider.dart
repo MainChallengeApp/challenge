@@ -4,11 +4,11 @@ import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
+import 'package:challenge/models/notification/connection_request_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/models/notification/progress_added_notification_model.dart';
-import 'package:challenge/models/notification/request_connection_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/time_service.dart';
@@ -24,7 +24,7 @@ class NotificationsProvider with ChangeNotifier {
 
   Future<void> sendConnectionRequestNotification(
       UserModel toUser, UserModel fromUser) async {
-    final notification = RequestConnectionNotificationModel(
+    final notification = ConnectionRequestNotificationModel(
       user: toUser,
       fromUser: fromUser,
       createdAt: TimeService.now(),
