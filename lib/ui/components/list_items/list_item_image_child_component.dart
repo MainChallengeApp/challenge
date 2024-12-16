@@ -5,6 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ListItemImageChildComponent extends StatelessWidget {
+  final Key? slidableKey;
+  final void Function()? onTap;
+  final ActionPane? Function(Function)? endActionPane;
+  final String? url;
+  final BoxFit? fit;
+  final double? scale;
+  final Widget child;
+  final IconData icon;
+  final EdgeInsetsGeometry? margin;
+  final mediaService = MediaService();
+
   ListItemImageChildComponent(
       {super.key,
       this.onTap,
@@ -14,25 +25,13 @@ class ListItemImageChildComponent extends StatelessWidget {
       this.scale,
       this.icon = Icons.question_mark,
       this.endActionPane,
-      this.margin});
-
-  final void Function()? onTap;
-  final ActionPane? Function(Function)? endActionPane;
-
-  final String? url;
-  final BoxFit? fit;
-  final double? scale;
-
-  final Widget child;
-  final IconData icon;
-
-  final EdgeInsetsGeometry? margin;
-
-  final mediaService = MediaService();
+      this.margin,
+      this.slidableKey});
 
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
+      slidableKey: slidableKey,
       endActionPane: endActionPane,
       margin: margin,
       onTap: onTap,

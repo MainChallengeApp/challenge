@@ -13,6 +13,7 @@ class CustomContainerComponent extends StatelessWidget {
   final bool isQuadratic;
   final EdgeInsetsGeometry? padding;
   final double? height;
+  final double? width;
   final double? borderRadius;
   final double? borderWidth;
   final Color? borderColor;
@@ -31,6 +32,7 @@ class CustomContainerComponent extends StatelessWidget {
     this.borderWidth,
     this.borderColor,
     this.isHeightDynamic = false,
+    this.width,
   });
 
   @override
@@ -38,7 +40,7 @@ class CustomContainerComponent extends StatelessWidget {
     return Container(
       width: isQuadratic
           ? (height ?? standardHeight * heightFactor)
-          : double.infinity,
+          : width ?? double.infinity,
       height: isHeightDynamic ? null : height ?? standardHeight * heightFactor,
       padding: padding ?? const EdgeInsets.all(standardPadding),
       margin: margin,

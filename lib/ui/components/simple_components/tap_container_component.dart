@@ -9,6 +9,7 @@ class TapContainerComponent extends StatefulWidget {
   final bool isQuadratic;
   final EdgeInsetsGeometry? padding;
   final double? height;
+  final double? width;
   final double? borderRadius;
   final Function()? onTap;
   final Function()? onLongPress;
@@ -36,7 +37,8 @@ class TapContainerComponent extends StatefulWidget {
       this.onLongPressUp,
       this.onLongPressCancel,
       this.borderColor,
-      this.isHeightDynamic = false});
+      this.isHeightDynamic = false,
+      this.width});
 
   @override
   State<TapContainerComponent> createState() => _TapContainerComponentState();
@@ -73,6 +75,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
             isHeightDynamic: widget.isHeightDynamic,
             heightFactor: widget.heightFactor,
             height: widget.height,
+            width: widget.width,
             padding: widget.padding,
             margin: widget.margin,
             borderRadius: widget.borderRadius,
@@ -88,6 +91,7 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
               isHeightDynamic: widget.isHeightDynamic,
               heightFactor: widget.heightFactor,
               height: widget.height,
+              width: widget.width,
               padding: widget.padding,
               margin: widget.margin,
               borderRadius: widget.borderRadius,

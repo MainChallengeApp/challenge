@@ -20,6 +20,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final Color? onTapColor;
   final bool isHeightDynamic;
   final double? borderSize;
+  final Key? slidableKey;
 
   const ListItemContainerComponent(
       {super.key,
@@ -34,7 +35,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.onHorizontalDragUpdate,
       this.onTapColor,
       this.isHeightDynamic = false,
-      this.borderSize});
+      this.borderSize,
+      this.slidableKey});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -50,6 +52,7 @@ class _ListItemContainerComponentState
   @override
   Widget build(BuildContext context) {
     return Slidable(
+      key: widget.slidableKey,
       endActionPane: widget.endActionPane?.call(closeSlidable),
       child: Builder(builder: (context) {
         context2 = context;
@@ -134,6 +137,9 @@ class _ListItemContainerComponentState
   }
 
   closeSlidable() async {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Slidable.of(context2)?.close(duration: Durations.short4);
+    // });
     await Slidable.of(context2)?.close(duration: Durations.short4);
   }
 }
