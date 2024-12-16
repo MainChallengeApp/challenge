@@ -49,7 +49,7 @@ class _GroupChallengeAcceptedCardComponentState
           children: [
             Expanded(
               child: CustomButtonComponent(
-                text: 'Accept',
+                text: 'Delete',
                 isLoading: isLoadingAcceptButton,
                 isPrimaryButton: true,
                 onTap: onTapAccept,

@@ -31,9 +31,6 @@ class UsersProvider with ChangeNotifier {
   List<UserModel> _openConnectionRequests = [];
   List<UserModel> get openConnectionRequests => _openConnectionRequests;
 
-  List<UserModel> _openConnectionResponses = [];
-  List<UserModel> get openConnectionResponses => _openConnectionResponses;
-
   List<UserModel> _blockedUsers = [];
   List<UserModel> get blockedUsers => _blockedUsers;
 
@@ -169,10 +166,6 @@ class UsersProvider with ChangeNotifier {
 
     _openConnectionRequests = outgoingConnections
         .where((connection) => !connection.isConnectedWith(_user))
-        .toList();
-
-    _openConnectionResponses = incomingConnections
-        .where((connection) => !_user.isConnectedWith(connection))
         .toList();
 
     if (notify) {

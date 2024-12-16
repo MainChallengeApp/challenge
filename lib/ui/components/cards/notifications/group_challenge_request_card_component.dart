@@ -1,13 +1,18 @@
+import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/description_component.dart';
+import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
+import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +38,7 @@ class _GroupChallengeRequestCardComponentState
 
   late final _groupChallengeProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
+  final _tabProvider = getIt<TabProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +135,18 @@ class _GroupChallengeRequestCardComponentState
         _isLoadingAcceptButton = false;
       });
     }
+    _tabProvider.selectTab(TabItemEnum.home);
+    final homeNavigator =
+        _tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
+    homeNavigator.popUntil((route) => route.isFirst);
+    homeNavigator.push(NoAnimationPageRouteComponent(
+      builder: (context) {
+        return HomeChallengePage(
+          initialChallengeId:
+              widget.groupChallengeRequestNotification.groupChallenge.id,
+        );
+      },
+    ));
   }
 
   void onTapDecline() async {
