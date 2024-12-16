@@ -2,6 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_participant_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -64,6 +65,7 @@ class _ListItemParticipantExpandedComponentState
                     2, // -2 for the border
               ),
               _attemptDropDown(),
+              _startAndEndDate(),
             ],
           ),
         ),
@@ -80,7 +82,7 @@ class _ListItemParticipantExpandedComponentState
           const SpaceComponent(),
           CustomContainerComponent(
             margin: const EdgeInsets.symmetric(
-                horizontal: SpaceComponent.staticWidth),
+                horizontal: SpaceComponent.standardWidth),
             child: DropdownButton<AttemptModel>(
               borderRadius: BorderRadius.circular(
                   CustomContainerComponent.standardRadius),
@@ -114,9 +116,38 @@ class _ListItemParticipantExpandedComponentState
               }).toList(),
             ),
           ),
-          const SpaceComponent()
         ],
       ),
+    );
+  }
+
+  _startAndEndDate() {
+    return Column(
+      children: [
+        const SpaceComponent(),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: SpaceComponent.standardWidth),
+          child: Row(
+            children: [
+              Expanded(
+                  child: DateComponent(
+                date: widget.attempt.startDate,
+                text: 'Start',
+                textColor: Theme.of(context).colorScheme.tertiary,
+              )),
+              const SpaceComponent(),
+              Expanded(
+                  child: DateComponent(
+                date: widget.attempt.endDate,
+                text: 'End',
+                textColor: Theme.of(context).colorScheme.tertiary,
+              )),
+            ],
+          ),
+        ),
+        const SpaceComponent()
+      ],
     );
   }
 }
