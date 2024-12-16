@@ -170,10 +170,16 @@ class GroupChallengesProvider with ChangeNotifier {
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
-  Future<void> tryAgain(
-      GroupChallengeModel groupChallenge, ParticipantModel participant) async {
-    participant.addAttempt(groupChallenge);
+  Future<AttemptModel?> tryAgain(GroupChallengeModel groupChallenge,
+      ParticipantModel participant, BuildContext context) async {
+    if (groupChallenge.endDate?.isBefore(TimeService.now()) ?? false) {
+      SnackBarComponent.showSnackBar(context,
+          'The Challenge has ended. Change the challenge end date or create a new challenge');
+      return null;
+    }
+    AttemptModel addedAttempt = participant.addAttempt(groupChallenge);
     await updateParticipant(groupChallenge, participant);
+    return addedAttempt;
   }
 
   Future<void> deleteAttempt(GroupChallengeModel groupChallenge,

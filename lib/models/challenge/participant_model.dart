@@ -84,7 +84,7 @@ class ParticipantModel {
     return participants.map((participant) => participant.copy()).toList();
   }
 
-  void addAttempt(GroupChallengeModel groupChallenge) {
+  AttemptModel addAttempt(GroupChallengeModel groupChallenge) {
     AttemptModel lastAttempt = getLatestAttempt();
     AttemptModel addedAttempt = AttemptModel(
       number: lastAttempt.number + 1,
@@ -98,6 +98,7 @@ class ParticipantModel {
       repetitions: [],
     );
     attempts.add(addedAttempt);
+    return addedAttempt;
   }
 
   bool isAccepted() {

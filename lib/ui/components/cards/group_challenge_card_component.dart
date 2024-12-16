@@ -273,7 +273,8 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapAgain() async {
-    await _groupChallengesProvider.tryAgain(_groupChallenge, _participant);
+    await _groupChallengesProvider.tryAgain(
+        _groupChallenge, _participant, context);
   }
 
   void _onTapNext(AttemptModel attempt) async {

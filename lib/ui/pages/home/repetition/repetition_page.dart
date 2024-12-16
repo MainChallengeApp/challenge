@@ -18,6 +18,7 @@ import 'package:challenge/ui/components/list_items/list_item_repetition_componen
 import 'package:challenge/ui/components/list_items/list_item_repetition_expanded_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -390,9 +391,12 @@ class _RepetitionPageState extends State<RepetitionPage> {
       setState(() {
         _isActionButtonLoading = true;
       });
-      await _groupChallengesProvider.tryAgain(_groupChallenge, _participant);
+      AttemptModel? addedAttempt = await _groupChallengesProvider.tryAgain(
+          _groupChallenge, _participant, context);
+      if (addedAttempt != null) {
+        _attempt = addedAttempt;
+      }
       setState(() {
-        _attempt = _participant.getLatestAttempt();
         _isActionButtonLoading = false;
       });
     }
@@ -406,7 +410,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
     );
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(
+          bottom: BottomNavigationComponent.standardMargin,
+          top: SpaceComponent.standardHeight),
       child: _attempt.isInBacklog()
           ? Row(
               children: [
