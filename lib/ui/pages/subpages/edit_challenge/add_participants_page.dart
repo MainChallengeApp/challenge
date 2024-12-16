@@ -125,9 +125,10 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
   SpaceColumnComponent addParticipantsOverview() {
     return SpaceColumnComponent(
         child: ListItemContainerComponent(
-            padding: const EdgeInsets.all(SpaceComponent.staticHeight).copyWith(
-                top: SpaceComponent.staticHeight -
-                    AddMemberOverviewComponent.removeMemberExtraSpace),
+            padding: const EdgeInsets.all(SpaceComponent.standardHeight)
+                .copyWith(
+                    top: SpaceComponent.standardHeight -
+                        AddMemberOverviewComponent.removeMemberExtraSpace),
             isHeightDynamic: true,
             child: AddMemberOverviewComponent(
               userId: _usersProvider.user.id,

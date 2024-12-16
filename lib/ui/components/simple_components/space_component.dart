@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SpaceComponent extends StatelessWidget {
-  static const double staticHeight = 16;
-  static const double staticWidth = 16;
+  static const double standardHeight = 16;
+  static const double standardWidth = 16;
 
   final double? height;
   final double? width;
@@ -23,8 +23,8 @@ class SpaceComponent extends StatelessWidget {
     return Visibility(
       visible: isVisible ?? true,
       child: SizedBox(
-        height: (heightMultiplier ?? 1) * (height ?? staticHeight),
-        width: (widthMultiplier ?? 1) * (width ?? staticWidth),
+        height: (heightMultiplier ?? 1) * (height ?? standardHeight),
+        width: (widthMultiplier ?? 1) * (width ?? standardWidth),
       ),
     );
   }

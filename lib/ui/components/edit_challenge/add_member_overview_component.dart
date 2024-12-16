@@ -58,9 +58,9 @@ class _AddMemberOverviewComponentState
       child: Padding(
         padding: EdgeInsets.only(
             right: widget.onRemoveMember != null
-                ? SpaceComponent.staticWidth -
+                ? SpaceComponent.standardWidth -
                     AddMemberOverviewComponent.removeMemberExtraSpace
-                : SpaceComponent.staticWidth),
+                : SpaceComponent.standardWidth),
         child: Stack(
           children: [
             Padding(
