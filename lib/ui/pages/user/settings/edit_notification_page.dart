@@ -8,8 +8,8 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/switch_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
-import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -67,22 +67,13 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                               right:
                                   ListItemContainerComponent.standardPadding -
                                       5),
-                      child: Switch(
-                        value: editAllowNotifications,
-                        trackOutlineColor: editAllowNotifications
-                            ? const WidgetStatePropertyAll(Colors.transparent)
-                            : WidgetStatePropertyAll(
-                                Theme.of(context).colorScheme.themeColor5),
-                        trackOutlineWidth: const WidgetStatePropertyAll(1),
-                        inactiveThumbColor:
-                            Theme.of(context).colorScheme.tertiary,
-                        activeTrackColor: Theme.of(context).colorScheme.green,
-                        onChanged: (value) {
-                          setState(() {
-                            editAllowNotifications = value;
-                          });
-                        },
-                      ),
+                      child: SwitchComponent(
+                          value: editAllowNotifications,
+                          onChanged: (value) {
+                            setState(() {
+                              editAllowNotifications = value;
+                            });
+                          }),
                     ),
                   ),
                 ],
