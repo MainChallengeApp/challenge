@@ -3,8 +3,8 @@
     "test": "jest",
     "test:watch": "concurrently \"watchman-make -p 'firestore.template.rules' --run 'npm run generate:firestore:rules && npm run test'\" \"jest --watch\"",
     "test:emulator": "npm run generate:firestore:rules && firebase emulators:exec --only firestore 'npm run test'",
-    "emulator:start": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit=./firebase-emulator-data",
-    "emulator:start:no-persist": "firebase emulators:start",
+    "emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit=./firebase-emulator-data",
+    "emulator:no-persist": "firebase emulators:start",
     "emulator:reset": "cp -r firebase-emulator-data-backup firebase-emulator-data",
     "generate:firestore:rules": "node scripts/generate_firestore_rules.js",
     "deploy:firestore:rules": "npm run generate:firestore:rules && source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive --token $FIREBASE_TOKEN && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN"
