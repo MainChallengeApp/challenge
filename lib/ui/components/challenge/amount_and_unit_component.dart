@@ -11,13 +11,11 @@ import 'package:flutter/services.dart';
 
 class AmountAndUnitComponent extends StatefulWidget {
   final AcceptanceCriteriaModel acceptanceCriteria;
-  final Function(bool)? setIsKeyboardUp;
   final Function()? onReloadSearchListPage;
 
   const AmountAndUnitComponent({
     super.key,
     required this.acceptanceCriteria,
-    this.setIsKeyboardUp,
     this.onReloadSearchListPage,
   });
 
@@ -182,7 +180,6 @@ class _AmountAndUnitComponentState extends State<AmountAndUnitComponent> {
               }
             });
           },
-          onTap: () => widget.setIsKeyboardUp?.call(true),
           decoration: InputDecoration.collapsed(
               hintText: '1',
               hintStyle: Theme.of(context).textTheme.textInputHintSmall),
