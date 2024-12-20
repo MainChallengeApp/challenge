@@ -6,6 +6,7 @@ import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/description_component.dart';
+import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -56,6 +57,15 @@ class _GroupChallengeRequestCardComponentState
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyMedium)))),
         _description(),
+        Visibility(
+            visible: !_isDescriptionExpanded,
+            child: SpaceColumnComponent(
+              child: StartAndEndDateComponent.challenge(
+                editChallenge:
+                    widget.groupChallengeRequestNotification.groupChallenge,
+                isLocked: true,
+              ),
+            )),
         Visibility(
           visible: !_isDescriptionExpanded,
           child: SpaceColumnComponent(

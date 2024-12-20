@@ -163,7 +163,8 @@ class NotificationsCollection extends Collection {
           }
         }
       },
-      onError: (error) => log('Listen failed: $error'),
+      onError: (error) => log(
+          'Listen failed: $error'), // [log] Listen failed: [cloud_firestore/failed-precondition] The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/challenge-dev-sdgi/firestore/indexes?create_composite=Clhwcm9qZWN0cy9jaGFsbGVuZ2UtZGV2LXNkZ2kvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL25vdGlmaWNhdGlvbnMvaW5kZXhlcy9fEAEaCgoGdXNlcklkEAEaDQoJY3JlYXRlZEF0EAIaDAoIX19uYW1lX18QAg
     );
   }
 
