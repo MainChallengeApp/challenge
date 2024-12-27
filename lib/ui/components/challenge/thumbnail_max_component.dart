@@ -50,8 +50,12 @@ class ThumbnailMaxComponent extends StatelessWidget {
                                 child: Image.network(challenge.thumbnail!.url,
                                     fit: challenge.thumbnail!.fit.fit),
                               )
-                        : Icon(Icons.question_mark,
-                            color: Theme.of(context).colorScheme.tertiary)),
+                        : Image.asset(
+                            'assets/icons/challenge_icon_black.png',
+                            fit: BoxFit.contain,
+                            width: 100,
+                            height: 100,
+                          )),
               ),
             ),
             attempt != null

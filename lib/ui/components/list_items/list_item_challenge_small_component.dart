@@ -50,10 +50,11 @@ class _ListItemChallengeSmallComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemImageChildComponent(
-        url: widget.challenge.thumbnail?.url,
+        url: widget.challenge.thumbnail?.url ??
+            'assets/icons/challenge_icon_black.png',
         endActionPane: endActionPane,
         onTap: widget.onTap,
-        scale: widget.challenge.thumbnail?.scale,
+        scale: widget.challenge.thumbnail?.scale ?? 0.6,
         fit: widget.challenge.thumbnail?.fit.fit,
         child: Row(
           children: [
