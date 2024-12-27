@@ -50,7 +50,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
 
   late var expandedRepetitionIndexList = [
-    _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
+    if (_attempt.isInProgress())
+      _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
   ];
 
   late final _groupChallengesProvider =

@@ -8,6 +8,7 @@ import 'package:challenge/ui/components/list_items/list_item_fraction_component.
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
 
 class ListItemRepetitionComponent extends StatefulWidget {
@@ -57,6 +58,7 @@ class _ListItemRepetitionComponentState
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.only(
             right: ContainerInContainerComponent.standardMargin),
+        height: SmallContainerInListItemComponent.height,
         text:
             '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
@@ -65,6 +67,7 @@ class _ListItemRepetitionComponentState
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.only(
             right: ContainerInContainerComponent.standardMargin),
+        height: SmallContainerInListItemComponent.height,
         text:
             '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}');
   }

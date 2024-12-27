@@ -304,11 +304,13 @@ class AttemptModel {
   }
 
   bool isCompleted(GroupChallengeModel groupChallenge) {
-    if (getFrequency(groupChallenge).amount != null &&
-            getCurrentRepetitionNumber(groupChallenge) <
-                getFrequency(groupChallenge).getMaxAmountOfRepetitions()! ||
-        getFrequency(groupChallenge).amount != null &&
-            repetitions.length < getCurrentRepetitionNumber(groupChallenge)) {
+    FrequencyModel frequency = getFrequency(groupChallenge);
+    int currentRepetitionNumber = getCurrentRepetitionNumber(groupChallenge);
+
+    if (frequency.amount != null &&
+            currentRepetitionNumber < frequency.getMaxAmountOfRepetitions()! ||
+        frequency.amount != null &&
+            repetitions.length < currentRepetitionNumber) {
       return false;
     }
 

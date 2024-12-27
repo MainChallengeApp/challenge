@@ -1,18 +1,12 @@
-import 'dart:math';
-
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
-import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
-import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
-import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
-import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_repetition_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:flutter/material.dart';
@@ -65,19 +59,11 @@ class _ListItemRepetitionExpandedComponentState
     widget.repetition.evaluateRepetitionStatus();
     return Stack(
       children: [
-        ListItemFractionComponent(
-          initialProgress: min(
-              1,
-              widget.repetition.getLastProgressPercentage(
-                  widget.groupChallenge, widget.attempt)),
-          isFailed: widget.attempt.isFailed(),
+        ListItemRepetitionComponent(
+          repetition: widget.repetition,
+          attempt: widget.attempt,
+          groupChallenge: widget.groupChallenge,
           onTap: widget.onTap,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [repetitionIcon(), repetition(), progress()],
-            ),
-          ),
         ),
         ListItemContainerComponent(
           isHeightDynamic: true,
@@ -188,27 +174,5 @@ class _ListItemRepetitionExpandedComponentState
     attempt.getCurrentRepetition(widget.groupChallenge)?.start();
     await groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, attempt);
-  }
-
-  repetition() {
-    return ContainerInContainerTextComponent(
-        margin: const EdgeInsets.only(
-            right: ContainerInContainerComponent.standardMargin),
-        text:
-            '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
-  }
-
-  progress() {
-    return ContainerInContainerTextComponent(
-        margin: const EdgeInsets.only(
-            right: ContainerInContainerComponent.standardMargin),
-        text:
-            '${UtilService.doubleAsIntString(widget.repetition.getLastProgressAbsolute())}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit}');
-  }
-
-  repetitionIcon() {
-    return const IconContainerInListItemComponent(
-      icon: Icons.repeat_rounded,
-    );
   }
 }
