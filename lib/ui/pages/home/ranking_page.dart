@@ -28,6 +28,11 @@ class _RankingPageState extends State<RankingPage> {
     listen: false,
   );
 
+  late final _listeningGroupChallengesProvider =
+      Provider.of<GroupChallengesProvider>(
+    context,
+  );
+
   final _scrollController = ScrollController();
 
   @override
@@ -50,9 +55,9 @@ class _RankingPageState extends State<RankingPage> {
 
   @override
   Widget build(BuildContext context) {
-    _groupChallenge = _groupChallengesProvider.groupChallenges.firstWhere(
-        (element) => element.id == widget.groupChallenge.id,
-        orElse: () => _groupChallenge);
+    _groupChallenge = _listeningGroupChallengesProvider.groupChallenges
+        .firstWhere((element) => element.id == widget.groupChallenge.id,
+            orElse: () => _groupChallenge);
     _groupChallenge.sortParticipants();
     return Scaffold(
       appBar: AppBarComponent(title: _title),
