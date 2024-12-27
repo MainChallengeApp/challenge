@@ -18,6 +18,7 @@ import 'package:challenge/ui/pages/user/settings/delete_user_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_notification_page.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -65,11 +66,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildList() {
-    return RawScrollbar(
+    return CupertinoScrollbar(
       controller: _scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: Theme.of(context).colorScheme.tertiary,
-      padding: const EdgeInsets.only(right: 4),
       child: ListView(
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,

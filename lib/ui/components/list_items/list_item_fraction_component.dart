@@ -36,45 +36,38 @@ class _ListItemFractionComponentState extends State<ListItemFractionComponent> {
       padding: const EdgeInsets.all(0),
       margin: widget.margin,
       endActionPane: widget.endActionPane,
-      child: Stack(
-        children: [
-          FractionallySizedBox(
-            widthFactor: widget.initialProgress,
-            heightFactor: 1,
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: widget.isFailed
-                      ? Theme.of(context).colorScheme.red
-                      : Theme.of(context).colorScheme.green,
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                      ListItemContainerComponent.standardBorderRadius))),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(
+            ListItemContainerComponent.standardBorderRadius - 1)),
+        child: Stack(
+          children: [
+            FractionallySizedBox(
+              widthFactor: widget.initialProgress,
+              heightFactor: 1,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: widget.isFailed
+                        ? Theme.of(context).colorScheme.red
+                        : Theme.of(context).colorScheme.green,
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        ListItemContainerComponent.standardBorderRadius))),
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                border: Border.all(
-                    color: Colors.white,
-                    width: 10,
-                    strokeAlign: BorderSide.strokeAlignOutside),
-                borderRadius: const BorderRadius.all(Radius.circular(
-                    ListItemContainerComponent.standardBorderRadius))),
-          ),
-          Container(
-              padding: const EdgeInsets.all(
-                  ListItemContainerComponent.standardPadding),
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      width: 1,
-                      strokeAlign: BorderSide.strokeAlignOutside,
-                      color: const Color.fromRGBO(226, 232, 240, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                      ListItemContainerComponent.standardBorderRadius))),
-              child: widget.child)
-        ],
+            Container(
+                padding: const EdgeInsets.all(
+                    ListItemContainerComponent.standardPadding),
+                height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        width: 1,
+                        strokeAlign: BorderSide.strokeAlignOutside,
+                        color: const Color.fromRGBO(226, 232, 240, 1)),
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        ListItemContainerComponent.standardBorderRadius))),
+                child: widget.child)
+          ],
+        ),
       ),
     );
   }

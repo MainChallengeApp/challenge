@@ -20,6 +20,7 @@ import 'package:challenge/ui/components/navigation/no_animation_page_route_compo
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -158,11 +159,8 @@ class _SearchListPageState extends State<SearchListPage> {
               searchText: textEditingController.text);
         }
       },
-      child: RawScrollbar(
+      child: CupertinoScrollbar(
         controller: scrollController,
-        radius: const Radius.circular(4),
-        thumbColor: Theme.of(context).colorScheme.tertiary,
-        padding: const EdgeInsets.only(right: 4),
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
@@ -209,11 +207,8 @@ class _SearchListPageState extends State<SearchListPage> {
         await _usersProvider.getSearchedPaginated(
             searchText: textEditingController.text, isInit: true);
       },
-      child: RawScrollbar(
+      child: CupertinoScrollbar(
         controller: scrollController,
-        radius: const Radius.circular(4),
-        thumbColor: Theme.of(context).colorScheme.tertiary,
-        padding: const EdgeInsets.only(right: 4),
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,
@@ -302,11 +297,8 @@ class _SearchListPageState extends State<SearchListPage> {
       onRefresh: () async {
         await _usersProvider.getUser();
       },
-      child: RawScrollbar(
+      child: CupertinoScrollbar(
         controller: scrollController,
-        radius: const Radius.circular(4),
-        thumbColor: Theme.of(context).colorScheme.tertiary,
-        padding: const EdgeInsets.only(right: 4),
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: scrollController,

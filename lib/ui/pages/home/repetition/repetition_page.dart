@@ -20,11 +20,13 @@ import 'package:challenge/ui/components/loading_circle/refresh_indicator_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/link_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/delete_attempt_dialog.dart';
 import 'package:challenge/ui/dialogs/end_challenge_dialog.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -129,11 +131,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
           setState(() {});
         },
         scrollController: scrollController,
-        child: RawScrollbar(
+        child: CupertinoScrollbar(
           controller: scrollController,
-          radius: const Radius.circular(4),
-          thumbColor: Theme.of(context).colorScheme.tertiary,
-          padding: const EdgeInsets.only(right: 4),
           child: ListView.builder(
               controller: scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -183,38 +182,34 @@ class _RepetitionPageState extends State<RepetitionPage> {
         (_isChallengeNotStarted ? 1 : _visibleRepetitions.length);
   }
 
-  List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
-    var progressListItems = !(_attempt.isFailed() || _attempt.isSucceeded()) &&
-            _isEditableByUser
-        ? [
-            SpaceColumnComponent(
-                heightMultiplier: repetition.progressList.isEmpty ? 4 : null,
-                child: ListItemIconTextComponent(
-                  margin: const EdgeInsets.only(left: 30, right: 20),
+  List<Widget> progressList(RepetitionModel repetition) {
+    var progressListItems =
+        (_attempt.isInProgress() || _attempt.isInBacklog()) && _isEditableByUser
+            ? <Widget>[
+                LinkListItemComponent(
+                    child: ListItemIconTextComponent(
                   icon: Icons.add_rounded,
                   title: 'New Progress',
                   onTap: () => onTapNewProgress(repetition),
                 ))
-          ]
-        : List<SpaceColumnComponent>.empty(growable: true);
+              ]
+            : List<Widget>.empty(growable: true);
     for (var progress in repetition.progressList.reversed) {
-      progressListItems.add(SpaceColumnComponent(
-          heightMultiplier:
-              progress == repetition.progressList.first ? 5 : null,
+      progressListItems.add(LinkListItemComponent(
           child: ListItemProgressComponent(
-            margin: const EdgeInsets.only(left: 30, right: 20),
-            isFailed:
-                repetition.repetitionStatus == RepetitionStatusEnum.failed,
-            onTap: () => onTapProgress(repetition, progress),
-            isSlidable: _isEditableByUser,
-            onTapDeleteProgress: () =>
-                onTapDeleteProgress(repetition, progress),
-            progress: progress,
-            attempt: _attempt,
-            groupChallenge: _groupChallenge,
-            unit: _attempt.getAcceptanceCriteria(_groupChallenge).unit,
-          )));
+        isFailed: repetition.repetitionStatus == RepetitionStatusEnum.failed,
+        onTap: () => onTapProgress(repetition, progress),
+        isSlidable: _isEditableByUser,
+        onTapDeleteProgress: () => onTapDeleteProgress(repetition, progress),
+        progress: progress,
+        attempt: _attempt,
+        groupChallenge: _groupChallenge,
+        unit: _attempt.getAcceptanceCriteria(_groupChallenge).unit,
+      )));
     }
+    progressListItems.add(const SpaceComponent(
+      heightMultiplier: 2,
+    ));
     return progressListItems;
   }
 
@@ -223,33 +218,29 @@ class _RepetitionPageState extends State<RepetitionPage> {
         expandedRepetitionIndexList.contains(repetition.repetitionNumber);
 
     Column item = Column(
-      children: <SpaceColumnComponent>[
-        SpaceColumnComponent(
-          child: Column(
-            children: [
-              isRepetitionExpanded
-                  ? ListItemRepetitionExpandedComponent(
-                      onTap: () => onTapRepetition(repetition),
-                      repetition: repetition,
-                      attempt: _attempt,
-                      groupChallenge: _groupChallenge,
-                      participant: _participant,
-                      isEditableByUser: _isEditableByUser,
-                      onTapNextRepetition: (int repetitionNumber) {
-                        setState(() {
-                          expandedRepetitionIndexList = [repetitionNumber];
-                        });
-                      },
-                    )
-                  : ListItemRepetitionComponent(
-                      onTap: () => onTapRepetition(repetition),
-                      repetition: repetition,
-                      attempt: _attempt,
-                      groupChallenge: _groupChallenge,
-                    ),
-            ],
-          ),
-        )
+      children: [
+        isRepetitionExpanded
+            ? ListItemRepetitionExpandedComponent(
+                onTap: () => onTapRepetition(repetition),
+                repetition: repetition,
+                attempt: _attempt,
+                groupChallenge: _groupChallenge,
+                participant: _participant,
+                isEditableByUser: _isEditableByUser,
+                onTapNextRepetition: (int repetitionNumber) {
+                  setState(() {
+                    expandedRepetitionIndexList = [repetitionNumber];
+                  });
+                },
+              )
+            : SpaceColumnComponent(
+                child: ListItemRepetitionComponent(
+                  onTap: () => onTapRepetition(repetition),
+                  repetition: repetition,
+                  attempt: _attempt,
+                  groupChallenge: _groupChallenge,
+                ),
+              )
       ],
     );
 

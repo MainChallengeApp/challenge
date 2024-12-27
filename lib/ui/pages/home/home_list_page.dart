@@ -13,6 +13,7 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -74,11 +75,8 @@ class _HomeListPageState extends State<HomeListPage> {
             onRefresh: () async {
               await groupChallengesProvider.getAllOfUser();
             },
-            child: RawScrollbar(
+            child: CupertinoScrollbar(
               controller: scrollController,
-              radius: const Radius.circular(4),
-              thumbColor: Theme.of(context).colorScheme.tertiary,
-              padding: const EdgeInsets.only(right: 4),
               child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
                   controller: scrollController,

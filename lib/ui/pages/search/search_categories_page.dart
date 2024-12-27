@@ -11,6 +11,7 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/search/search_list_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,11 +46,8 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   }
 
   Widget _buildCategories() {
-    return RawScrollbar(
+    return CupertinoScrollbar(
       controller: scrollController,
-      radius: const Radius.circular(4),
-      thumbColor: Theme.of(context).colorScheme.tertiary,
-      padding: const EdgeInsets.only(right: 4),
       child: Column(
         children: [
           SpaceColumnComponent(

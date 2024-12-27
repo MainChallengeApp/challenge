@@ -14,6 +14,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,11 +74,8 @@ class _MediaListPageState extends State<MediaListPage> {
           ),
         ),
         Expanded(
-          child: RawScrollbar(
+          child: CupertinoScrollbar(
             controller: scrollController,
-            radius: const Radius.circular(4),
-            thumbColor: Theme.of(context).colorScheme.tertiary,
-            padding: const EdgeInsets.only(right: 4),
             child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 controller: scrollController,
