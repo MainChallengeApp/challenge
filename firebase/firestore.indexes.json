@@ -5,11 +5,25 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "groupChallengeId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "userId",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "notifications",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "userId",
           "order": "ASCENDING"
         },
         {
-          "fieldPath": "createDate",
+          "fieldPath": "createdAt",
           "order": "DESCENDING"
         }
       ]
