@@ -41,7 +41,8 @@ class BackendService {
     await Firebase.initializeApp(
         options: environmentOptions, name: 'challenge-${environment.string}');
 
-    await _setupEmulators();
+    // await _setupEmulators(); // comment with to use real device
+    // https://console.firebase.google.com/v1/r/project/challenge-dev-sdgi/firestore/indexes?create_composite=Clhwcm9qZWN0cy9jaGFsbGVuZ2UtZGV2LXNkZ2kvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL25vdGlmaWNhdGlvbnMvaW5kZXhlcy9fEAEaCgoGdXNlcklkEAEaDQoJY3JlYXRlZEF0EAIaDAoIX19uYW1lX18QAg
   }
 
   static Future<void> _setupEmulators() async {

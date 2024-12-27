@@ -14,7 +14,6 @@ import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
-import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -88,6 +87,15 @@ class _CameraStateMedia extends State<MediaCameraPage>
     } else if (state == AppLifecycleState.resumed) {
       _initializeCamera();
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: const AppBarComponent(title: ''),
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: SafeArea(bottom: false, child: _buildBody()),
+    );
   }
 
   Future<void> _initializeCamera() async {
@@ -255,15 +263,6 @@ class _CameraStateMedia extends State<MediaCameraPage>
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarComponent(title: 'Camera'),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: _buildBody(),
-    );
-  }
-
   Widget _buildBody() {
     return FutureBuilder<void>(
       future: _initializeControllerFuture,
@@ -289,47 +288,37 @@ class _CameraStateMedia extends State<MediaCameraPage>
       onDoubleTap: _onDoubleTapChangeCamera,
       onScaleStart: _handleZoomStart,
       onScaleUpdate: _handleZoom,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final mediaQuery = MediaQuery.of(context);
-          final screenAspectRatio =
-              mediaQuery.size.height / mediaQuery.size.width;
-          final cameraAspectRatio = _controller!.value.aspectRatio;
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(CardComponent.standardBorderRadius),
+        ),
+        child: Container(
+          color: Theme.of(context).colorScheme.themeColor4,
+          child: Stack(
+            children: [
+              CameraPreview(_controller!),
+              _arrowBack(),
+              if (_isCameraFeedback) const _CameraFeedbackOverlay(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-          // Calculate the scale factor
-          double scaleFactor = screenAspectRatio / cameraAspectRatio;
-
-          // If the camera preview is wider than the screen, adjust the scale
-          if (scaleFactor < 1) {
-            scaleFactor = 1 / scaleFactor;
-          }
-
-          // Add a small buffer to ensure full coverage (you can adjust this value)
-          scaleFactor *= 0.9;
-
-          return ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(CardComponent.standardBorderRadius),
-              topRight: Radius.circular(CardComponent.standardBorderRadius),
-            ),
-            child: Align(
-              alignment: Alignment.center,
-              widthFactor: 1,
-              child: Transform.scale(
-                scale: scaleFactor,
-                child: AspectRatio(
-                  aspectRatio: 1 / _controller!.value.aspectRatio,
-                  child: Stack(
-                    children: [
-                      CameraPreview(_controller!),
-                      if (_isCameraFeedback) const _CameraFeedbackOverlay(),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+  _arrowBack() {
+    return GestureDetector(
+      onTap: () => Navigator.pop(context),
+      child: Align(
+        heightFactor: 1,
+        alignment: Alignment.topLeft,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20, left: 20),
+          child: Icon(
+            IconEnum.arrowLeft.icon,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
@@ -370,7 +359,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
         alignment: Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.only(
-              bottom: BottomNavigationComponent.standardMargin),
+              bottom: BottomNavigationComponent.standardMargin + 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,

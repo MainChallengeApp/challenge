@@ -4,6 +4,7 @@ enum IconEnum {
   add(Icons.add_rounded),
   arrowDown(Icons.keyboard_arrow_down_rounded),
   arrowRight(Icons.keyboard_arrow_right_rounded),
+  arrowLeft(Icons.arrow_back_ios_new_rounded),
   bio(Icons.notes_rounded),
   blockedUsers(Icons.block_rounded),
   camera(Icons.camera_alt_outlined),
