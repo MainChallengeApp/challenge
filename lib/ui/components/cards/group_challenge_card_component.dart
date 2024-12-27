@@ -8,9 +8,9 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
-import 'package:challenge/ui/components/challenge/attempt_start_and_end_date_component.dart';
 import 'package:challenge/ui/components/challenge/description_component.dart';
 import 'package:challenge/ui/components/challenge/documentation_button_component.dart';
+import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/challenge/title_with_percentage_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
@@ -183,8 +183,8 @@ class _GroupChallengeCardComponentState
     return _isDescriptionExpanded
         ? Container()
         : SpaceColumnComponent(
-            child: AttemptStartAndEndDateComponent(
-              attempt: _latestAttempt,
+            child: StartAndEndDateComponent.attempt(
+              editAttempt: _latestAttempt,
               groupChallenge: _groupChallenge,
               isLocked: true,
             ),

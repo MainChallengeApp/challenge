@@ -416,15 +416,19 @@ class AttemptModel {
 
   setStartDate(GroupChallengeModel groupChallenge) {
     DateTime? endDate = getEndDate(groupChallenge);
+    DateTime? startDate = getStartDate(groupChallenge);
     FrequencyModel frequency = getFrequency(groupChallenge);
 
-    if (endDate != null &&
-        frequency.type == FrequencyTypeEnum.daily &&
-        frequency.amount != null) {
-      startDate = endDate.subtract(Duration(days: frequency.amount!));
-    } else if (frequency.type == FrequencyTypeEnum.daily &&
-        frequency.amount == null) {
-      startDate = null;
+    if (frequency.type == FrequencyTypeEnum.daily) {
+      if (frequency.amount == null) {
+        startDate = null;
+      } else if (endDate != null) {
+        startDate = endDate.subtract(Duration(days: frequency.amount!));
+      }
+    } else if (frequency.type == FrequencyTypeEnum.time) {
+      if (endDate != null && startDate != null && endDate.isBefore(startDate)) {
+        this.startDate = endDate;
+      }
     }
   }
 

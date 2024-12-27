@@ -91,16 +91,6 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 .inSeconds !=
             0;
 
-    // setState(() {
-    //   if (startOrEnd == 'start') {
-    //     _setStartDate(null);
-    //   } else if (startOrEnd == 'end') {
-    //     _setEndDate(null);
-    //     calcFrequencyAmount();
-    //     widget.reloadParentPage?.call();
-    //   }
-    // });
-
     bool isDateTimeChanged = false;
 
     await showCupertinoModalPopup(
@@ -233,50 +223,40 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   DateTime? _minimumDate(String startOrEnd, DateTime? initialDateTime) {
     if (startOrEnd == 'start') {
-      if (widget.editAttempt != null && widget.groupChallenge != null) {
-        if (widget.groupChallenge!.startDate == null) {
-          return null;
-        }
-        return widget.editAttempt!
-                    .getStartDate(widget.groupChallenge!)
-                    ?.isBefore(widget.groupChallenge!.startDate!) ??
-                false
-            ? null
-            : widget.groupChallenge!.startDate;
+      if (widget.editChallenge != null) {
+        return null;
       }
-      return null;
+      if (widget.groupChallenge!.startDate == null) {
+        return null;
+      }
+      return _getStartDate()?.isBefore(widget.groupChallenge!.startDate!) ??
+              false
+          ? null
+          : widget.groupChallenge!.startDate;
     } else {
-      if (widget.editAttempt != null && widget.groupChallenge != null) {
-        return (widget.groupChallenge?.startDate ?? DateTime(0))
-                .isAfter(widget.editAttempt?.startDate ?? DateTime(0))
-            ? widget.groupChallenge?.startDate
-            : widget.editAttempt?.startDate;
+      if (widget.editChallenge != null) {
+        return widget.editChallenge!.startDate;
       }
-      return initialDateTime != null ? _getStartDate() : null;
+      return _getStartDate();
     }
   }
 
   DateTime? _maximumDate(String startOrEnd) {
     if (startOrEnd == 'end') {
-      if (widget.editAttempt != null && widget.groupChallenge != null) {
-        if (widget.groupChallenge!.endDate == null) {
-          return null;
-        }
-        return widget.editAttempt!
-                    .getEndDate(widget.groupChallenge!)
-                    ?.isAfter(widget.groupChallenge!.endDate!) ??
-                false
-            ? null
-            : widget.groupChallenge!.endDate;
+      if (widget.editChallenge != null) {
+        return null;
       }
-      return null;
+      if (widget.groupChallenge!.endDate == null) {
+        return null;
+      }
+      return _getEndDate()?.isAfter(widget.groupChallenge!.endDate!) ?? false
+          ? null
+          : widget.groupChallenge!.endDate;
     } else {
-      if (widget.editAttempt != null && widget.groupChallenge != null) {
-        return widget.editAttempt!.getEndDate(widget.groupChallenge!);
+      if (widget.editChallenge != null) {
+        return widget.editChallenge!.endDate;
       }
-      return getFrequencyAmount() == null && _getStartDate() != null
-          ? _getEndDate()
-          : null;
+      return _getEndDate();
     }
   }
 
