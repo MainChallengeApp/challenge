@@ -6,7 +6,7 @@ class SnackBarComponent {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(text),
       behavior: SnackBarBehavior.floating,
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 3000),
     ));
   }
 }

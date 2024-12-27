@@ -149,19 +149,20 @@ class GroupChallengesProvider with ChangeNotifier {
       ParticipantModel participant,
       AttemptModel attempt,
       BuildContext context) async {
-    DateTime? startDate = attempt.getStartDate(groupChallenge);
-    if (startDate == null) {
+    if (groupChallenge.startDate == null ||
+        groupChallenge.startDate!
+            .isBefore(attempt.getStartDate(groupChallenge)!)) {
       attempt.start(groupChallenge);
       await updateAttempt(groupChallenge, participant, attempt);
       return;
     }
     if (groupChallenge.userId == _authService.getCurrentUserId()) {
-      groupChallenge.startDate = TimeService.now();
-      await update(groupChallenge);
+      SnackBarComponent.showSnackBar(context,
+          'The challenge start date is ${UtilService.dateFormat(groupChallenge.startDate!)}, ${UtilService.timeFormat(groupChallenge.startDate!)}. You can edit the challenge start date in the challenge settings.');
       return;
     }
     SnackBarComponent.showSnackBar(context,
-        'The Challenge start date is ${UtilService.dateFormat(startDate)}, ${UtilService.timeFormat(startDate)}. Only the admin can start the challenge earlier.');
+        'The challenge start date is ${UtilService.dateFormat(groupChallenge.startDate!)}, ${UtilService.timeFormat(groupChallenge.startDate!)}. The admin can edit the challenge start date.');
   }
 
   Future<void> endAttempt(GroupChallengeModel groupChallenge,
