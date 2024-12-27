@@ -1,27 +1,34 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key, required this.onTapSwitchToRegistration});
+  final String initialEmail;
+  final void Function(String) onTapSwitchToRegistration;
 
-  final void Function() onTapSwitchToRegistration;
+  const LoginPage(
+      {super.key,
+      required this.onTapSwitchToRegistration,
+      required this.initialEmail});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController emailTextEditingController = TextEditingController();
+  late TextEditingController emailTextEditingController =
+      TextEditingController(text: widget.initialEmail);
   TextEditingController passwordTextEditingController = TextEditingController();
 
   AuthService authService = AuthService();
@@ -102,9 +109,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   SpaceComponent spacing() {
-    return const SpaceComponent(
-      height: 50,
-    );
+    return SpaceComponent(height: LoginOrRegistrationPage.spaceTop);
   }
 
   Container appIcon() {
@@ -176,7 +181,8 @@ class _LoginPageState extends State<LoginPage> {
 
   switchToRegistrationButton() {
     return GestureDetector(
-      onTap: widget.onTapSwitchToRegistration,
+      onTap: () =>
+          widget.onTapSwitchToRegistration(emailTextEditingController.text),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -198,14 +204,15 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   forgotPasswordButton() {
-    return SpaceColumnComponent(
-      heightMultiplier: 2,
+    return SizedBox(
+      height: LoginOrRegistrationPage.spaceMid,
       child: GestureDetector(
         onTap: onTapForgotPassword,
         child: Align(
-          alignment: Alignment.centerRight,
+          alignment: Alignment.topRight,
           child: Padding(
-            padding: const EdgeInsets.only(right: 20.0),
+            padding: const EdgeInsets.only(
+                right: ListItemContainerComponent.standardMargin),
             child: Text(
               'Forgot password?',
               style: Theme.of(context).textTheme.bodyMedium,

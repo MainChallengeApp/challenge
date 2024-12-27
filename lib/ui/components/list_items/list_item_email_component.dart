@@ -29,7 +29,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
         actionIcon: widget.textEditingController.text == ''
             ? null
             : IconEnum.remove.icon,
-        onTap: onTapActionIcon,
+        onTapActionIcon: onTapActionIcon,
         textEditingController: widget.textEditingController,
         onChangeTextField: widget.onChangeTextField,
         errorText: widget.errorText,
@@ -40,6 +40,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
   onTapActionIcon() {
     setState(() {
       widget.textEditingController.clear();
+      widget.onChangeTextField?.call('');
     });
   }
 }

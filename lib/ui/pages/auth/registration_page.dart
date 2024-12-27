@@ -7,14 +7,19 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/leading_app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key, required this.onTapSwitchToLogin});
+  final String initialEmail;
+  final void Function(String) onTapSwitchToLogin;
 
-  final void Function() onTapSwitchToLogin;
+  const RegistrationPage(
+      {super.key,
+      required this.onTapSwitchToLogin,
+      required this.initialEmail});
 
   @override
   State<RegistrationPage> createState() => _RegistrationPageState();
@@ -24,7 +29,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   AuthService authService = AuthService();
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
-  TextEditingController emailTextEditingController = TextEditingController();
+  late TextEditingController emailTextEditingController =
+      TextEditingController(text: widget.initialEmail);
   TextEditingController passwordTextEditingController = TextEditingController();
 
   String? emailErrorText;
@@ -51,6 +57,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             spacing(),
             emailInput(),
             passwordInput(),
+            _space(),
             registerButton(),
             switchToLoginButton(),
           ],
@@ -59,9 +66,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
+  SpaceComponent _space() {
+    return SpaceComponent(
+      height: LoginOrRegistrationPage.spaceMid,
+    );
+  }
+
   SpaceColumnComponent registerButton() {
     return SpaceColumnComponent(
-      heightMultiplier: 4,
+      heightMultiplier: 2,
       child: ListItemButtonComponent(
         onTap: onTapRegister,
         isMainButton: isMainButton(),
@@ -73,7 +86,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   SpaceColumnComponent passwordInput() {
     return SpaceColumnComponent(
-      heightMultiplier: 2,
       child: ListItemPasswordComponent(
         textEditingController: passwordTextEditingController,
         errorText: passwordErrorText,
@@ -99,8 +111,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   SpaceComponent spacing() {
-    return const SpaceComponent(
-      height: 50,
+    return SpaceComponent(
+      height: LoginOrRegistrationPage.spaceTop,
     );
   }
 
@@ -168,7 +180,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   switchToLoginButton() {
     return GestureDetector(
-      onTap: widget.onTapSwitchToLogin,
+      onTap: () => widget.onTapSwitchToLogin(emailTextEditingController.text),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
