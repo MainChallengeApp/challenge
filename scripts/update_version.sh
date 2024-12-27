@@ -25,8 +25,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-git stash -u -m "stash changes before updating version"
-
 YAML_FILE="pubspec.yaml"
 VERSION_COMPONENT=$1
 
@@ -84,7 +82,5 @@ sed -i '' -E "s/($ESCAPED_KEY_PATH:[[:space:]]*)[0-9]+\.[0-9]+\.[0-9]+\+[0-9]/\1
 git add $YAML_FILE
 git commit -m "update: v$CURRENT_VERSION to v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"
 git tag "v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER"
-
-git stash pop
 
 echo "Version incremented to 'v$MAJOR.$MINOR.$PATCH+$BUILD_NUMBER' in '$YAML_FILE' and committed to git."
