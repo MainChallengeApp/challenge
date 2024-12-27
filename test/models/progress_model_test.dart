@@ -8,13 +8,11 @@ ProgressModel mockProgressModel({
   double? progress,
   List<String>? mediaIds,
   DateTime? date,
-  int? repetitionNumber,
 }) {
   return ProgressModel(
     progress: progress ?? FakerService.decimal(),
     mediaIds: mediaIds ?? FakerService.list((index) => FakerService.guid()),
     date: date ?? FakerService.dateTime(),
-    repetitionNumber: repetitionNumber ?? FakerService.integer(),
   );
 }
 
@@ -23,15 +21,12 @@ void main() {
     group('ProgressModel.empty()', () {
       test('should create progress with default values', () {
         // Arrange
-        int repetitionNumber = FakerService.integer();
         // Act
-        ProgressModel progress =
-            ProgressModel.empty(repetitionNumber: repetitionNumber);
+        ProgressModel progress = ProgressModel.empty();
         // Assert
         expect(progress.progress, equals(0));
         expect(progress.mediaIds, equals([]));
         expect(progress.date, isNotNull);
-        expect(progress.repetitionNumber, equals(repetitionNumber));
       });
     });
 
@@ -46,7 +41,6 @@ void main() {
             'progress': progress,
             'mediaIds': FakerService.list((index) => FakerService.guid()),
             'date': Timestamp.fromDate(FakerService.dateTime()),
-            'repetitionNumber': FakerService.integer(),
             'percentProgress': percentProgress
           };
         });
@@ -59,8 +53,6 @@ void main() {
           expect(progressList[i].mediaIds, equals(json[i]['mediaIds']));
           expect(progressList[i].date,
               equals((json[i]['date'] as Timestamp).toDate()));
-          expect(progressList[i].repetitionNumber,
-              equals(json[i]['repetitionNumber']));
         }
       });
     });
@@ -90,8 +82,6 @@ void main() {
           expect(json[i]['progress'], equals(progressList[i].progress));
           expect(json[i]['mediaIds'], equals(progressList[i].mediaIds));
           expect(json[i]['date'], Timestamp.fromDate(progressList[i].date));
-          expect(json[i]['repetitionNumber'],
-              equals(progressList[i].repetitionNumber));
         }
       });
     });
@@ -112,8 +102,6 @@ void main() {
           expect(
               copiedProgressList[i].mediaIds, equals(progressList[i].mediaIds));
           expect(copiedProgressList[i].date, equals(progressList[i].date));
-          expect(copiedProgressList[i].repetitionNumber,
-              equals(progressList[i].repetitionNumber));
         }
       });
     });
@@ -124,32 +112,26 @@ void main() {
         ProgressModel progress = mockProgressModel();
         // Act
         ProgressModel copiedProgress = ProgressModel.copyOrCreateProgress(
-            progress,
-            progress.repetitionNumber,
-            progress.mediaIds,
-            progress.progress);
+            progress, progress.mediaIds, progress.progress, progress.date);
         // Assert
         expect(copiedProgress.progress, equals(progress.progress));
         expect(copiedProgress.mediaIds, equals(progress.mediaIds));
         expect(copiedProgress.date, equals(progress.date));
-        expect(
-            copiedProgress.repetitionNumber, equals(progress.repetitionNumber));
       });
 
       test('should create progress when its null', () {
         // Arrange
-        int repetitionNumber = FakerService.integer();
         double progress = FakerService.decimal();
         List<String> mediaIds =
             FakerService.list((index) => FakerService.guid());
+        DateTime date = FakerService.dateTime();
         // Act
-        ProgressModel copiedProgress = ProgressModel.copyOrCreateProgress(
-            null, repetitionNumber, mediaIds, progress);
+        ProgressModel copiedProgress =
+            ProgressModel.copyOrCreateProgress(null, mediaIds, progress, date);
         // Assert
         expect(copiedProgress.progress, equals(progress));
         expect(copiedProgress.mediaIds, equals(mediaIds));
         expect(copiedProgress.date, equals(isNotNull));
-        expect(copiedProgress.repetitionNumber, equals(repetitionNumber));
       });
     });
   });

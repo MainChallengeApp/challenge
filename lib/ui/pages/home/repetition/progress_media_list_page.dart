@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
@@ -57,15 +55,19 @@ class ProgressMediaListPage extends StatefulWidget {
 class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   ScrollController scrollController = ScrollController();
 
+  late final RepetitionModel? _currentRepetition =
+      widget.attempt.getCurrentRepetition(widget.groupChallenge);
+
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
-      max(1, widget.attempt.getCurrentRepetitionNumber(widget.groupChallenge)),
       widget.initialMediaList.map((e) => e.id!).toList(),
-      widget.repetition != null
-          ? (widget.repetition!.getLastProgress() != null
-              ? widget.repetition!.getLastProgress()!.progress
-              : 0)
-          : 0);
+      widget.repetition != null && widget.repetition!.getLastProgress() != null
+          ? widget.repetition!.getLastProgress()!.progress
+          : 0,
+      widget.repetition?.repetitionNumber ==
+              _currentRepetition?.repetitionNumber
+          ? null
+          : widget.repetition?.startDate);
 
   late TextEditingController progressTextEditingController =
       TextEditingController(
@@ -323,14 +325,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       widget.repetition =
           widget.attempt.getLastRepetition(widget.groupChallenge);
     } else if (widget.attempt.isInProgress() &&
-        widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
-        widget.attempt
-            .getCurrentRepetition(widget.groupChallenge)!
-            .isInBacklog() &&
+        _currentRepetition != null &&
+        _currentRepetition!.isInBacklog() &&
         editProgress.progress > 0) {
-      widget.attempt.getCurrentRepetition(widget.groupChallenge)!.start();
-      widget.repetition =
-          widget.attempt.getCurrentRepetition(widget.groupChallenge);
+      _currentRepetition!.start();
+      widget.repetition = _currentRepetition;
     }
 
     widget.repetition ??= widget.attempt.addRepetition(widget.groupChallenge);
@@ -340,6 +339,21 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     } else {
       widget.progress!.updateProgress(editProgress);
     }
+
+    int index = widget.attempt.repetitions.indexWhere((repetitionEntry) =>
+        repetitionEntry.repetitionNumber ==
+        widget.repetition!.repetitionNumber);
+
+    if (index == -1) {
+      widget.attempt.repetitions.add(widget.repetition!);
+    } else {
+      widget.attempt.repetitions[index] = widget.repetition!;
+    }
+
+    widget.attempt.startDate ??= widget.attempt.repetitions
+        .firstWhere((repetition) => repetition.repetitionNumber == 1,
+            orElse: () => widget.repetition!)
+        .startDate;
 
     List<MediaModel> filteredMediaList = widget.initialMediaList
         .where((media) =>

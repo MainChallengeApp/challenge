@@ -170,6 +170,17 @@ class ChallengeModel {
         : this.categories.toSet().intersection(categories.toSet()).isNotEmpty;
   }
 
+  setStartDate() {
+    if (endDate != null &&
+        frequency.type == FrequencyTypeEnum.daily &&
+        frequency.amount != null) {
+      startDate = endDate!.subtract(Duration(days: frequency.amount!));
+    } else if (frequency.type == FrequencyTypeEnum.daily &&
+        frequency.amount == null) {
+      startDate = null;
+    }
+  }
+
   setEndDate() {
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&

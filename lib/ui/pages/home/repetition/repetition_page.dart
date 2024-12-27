@@ -59,20 +59,33 @@ class _RepetitionPageState extends State<RepetitionPage> {
   late final _listeningGroupChallengeProvider =
       Provider.of<GroupChallengesProvider>(context, listen: true);
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
   final mediaService = MediaService();
 
   late final bool _isEditableByUser =
-      widget.participant.user.id == usersProvider.user.id;
+      widget.participant.user.id == _usersProvider.user.id;
 
   late GroupChallengeModel _groupChallenge = widget.groupChallenge;
   late ParticipantModel _participant = widget.participant;
   late AttemptModel _attempt = widget.attempt;
 
-  late bool _isChallengeStarted =
+  late bool _isChallengeNotStarted =
       _attempt.getAllRepetitions(_groupChallenge).isEmpty && !_isEditableByUser;
   bool _isActionButtonLoading = false;
+
+  List<RepetitionModel> _visibleRepetitions = [];
+
+  @override
+  initState() {
+    super.initState();
+    _groupChallengesProvider.getById(widget.groupChallenge.id).then((value) {
+      if (mounted) {
+        _groupChallenge = value;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +100,11 @@ class _RepetitionPageState extends State<RepetitionPage> {
     _attempt = _participant.attempts
         .firstWhere((attempt) => attempt.number == _attempt.number);
 
-    _isChallengeStarted = _attempt.getAllRepetitions(_groupChallenge).isEmpty &&
-        !_isEditableByUser;
+    _visibleRepetitions = calcVisibleRepetitions();
+
+    _isChallengeNotStarted =
+        _attempt.getAllRepetitions(_groupChallenge).isEmpty &&
+            !_isEditableByUser;
 
     return Scaffold(
         appBar: AppBarComponent(
@@ -120,55 +136,50 @@ class _RepetitionPageState extends State<RepetitionPage> {
           child: ListView.builder(
               controller: scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: 1 +
-                  (_isChallengeStarted
-                      ? 1
-                      : _attempt.getCurrentRepetitionNumber(
-                          _groupChallenge)), // +1 for participant
+              itemCount: _calcItemCount(),
               itemBuilder: (BuildContext content, int index) {
                 if (index == 0) {
-                  return SpaceColumnComponent(
-                    child: ListItemParticipantExpandedComponent(
-                      groupChallenge: _groupChallenge,
-                      participant: _participant,
-                      attempt: _attempt,
-                      isEditableByUser: _isEditableByUser,
-                      reloadSearchChallengePage: (AttemptModel attempt) =>
-                          setState(() {
-                        _attempt = attempt;
-                        expandedRepetitionIndexList = [
-                          _attempt
-                              .getCurrentRepetitionNumber(widget.groupChallenge)
-                        ];
-                      }),
-                    ),
-                  );
+                  return _listItemParticipantExpanded();
                 }
 
-                if (_isChallengeStarted) {
+                if (_isChallengeNotStarted) {
                   return _userDidNotStartChallenge();
                 }
 
-                int newIndex = index - 1;
-                RepetitionModel repetition;
-                int repetitionIndex =
-                    _attempt.getCurrentRepetitionNumber(_groupChallenge) -
-                        1 -
-                        newIndex;
-                if (repetitionIndex < _attempt.repetitions.length &&
-                    repetitionIndex >= 0) {
-                  repetition = _attempt
-                      .getAllRepetitions(_groupChallenge)[repetitionIndex];
-                  repetition.evaluateRepetitionStatus();
-                } else {
-                  repetition = _attempt.addRepetition(_groupChallenge);
-                }
-                repetition.evaluateRepetitionStatus();
-                return repetitionListItem(repetition);
+                return _listItemRepetition(index);
               }),
         ),
       ),
     );
+  }
+
+  _listItemRepetition(int index) {
+    int newIndex = index - 1;
+    RepetitionModel repetition = _visibleRepetitions[newIndex];
+    repetition.evaluateRepetitionStatus();
+    return repetitionListItem(repetition);
+  }
+
+  SpaceColumnComponent _listItemParticipantExpanded() {
+    return SpaceColumnComponent(
+      child: ListItemParticipantExpandedComponent(
+        groupChallenge: _groupChallenge,
+        participant: _participant,
+        attempt: _attempt,
+        isEditableByUser: _isEditableByUser,
+        reloadSearchChallengePage: (AttemptModel attempt) => setState(() {
+          _attempt = attempt;
+          expandedRepetitionIndexList = [
+            _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
+          ];
+        }),
+      ),
+    );
+  }
+
+  int _calcItemCount() {
+    return 1 + // +1 for participant list item
+        (_isChallengeNotStarted ? 1 : _visibleRepetitions.length);
   }
 
   List<SpaceColumnComponent> progressList(RepetitionModel repetition) {
@@ -193,7 +204,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
             margin: const EdgeInsets.only(left: 30, right: 20),
             isFailed:
                 repetition.repetitionStatus == RepetitionStatusEnum.failed,
-            onTap: () => onTapProgress(progress),
+            onTap: () => onTapProgress(repetition, progress),
             isSlidable: _isEditableByUser,
             onTapDeleteProgress: () =>
                 onTapDeleteProgress(repetition, progress),
@@ -271,7 +282,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     );
   }
 
-  onTapProgress(ProgressModel progress) {
+  onTapProgress(RepetitionModel repetition, ProgressModel progress) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -282,7 +293,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           attempt: _attempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
-          repetition: _attempt.repetitions[progress.repetitionNumber - 1],
+          repetition: repetition,
           progress: progress,
           isSaveInsteadOfEditButtonVisible: false,
           isEditableByUser: _isEditableByUser,
@@ -433,6 +444,10 @@ class _RepetitionPageState extends State<RepetitionPage> {
                     text: 'Start',
                     isLoading: _isActionButtonLoading,
                     margin: EdgeInsets.zero,
+                    isMainButton: widget.attempt
+                                .getStartDate(widget.groupChallenge) ==
+                            null ||
+                        widget.groupChallenge.userId == _usersProvider.user.id,
                   ),
                 ),
                 const SpaceComponent(
@@ -492,5 +507,18 @@ class _RepetitionPageState extends State<RepetitionPage> {
           text:
               '${_participant.user.username} did not ${_participant.isAccepted() ? 'start this attempt yet.' : 'accept the challenge yet.'}'),
     );
+  }
+
+  List<RepetitionModel> calcVisibleRepetitions() {
+    int currentRepetitionNumber =
+        _attempt.getCurrentRepetitionNumber(_groupChallenge);
+    List<RepetitionModel> visibleRepetitions = _attempt
+        .getAllRepetitions(_groupChallenge)
+        .where((repetitionEntry) =>
+            repetitionEntry.repetitionNumber <= currentRepetitionNumber)
+        .toList();
+    visibleRepetitions
+        .sort((a, b) => b.repetitionNumber.compareTo(a.repetitionNumber));
+    return visibleRepetitions;
   }
 }

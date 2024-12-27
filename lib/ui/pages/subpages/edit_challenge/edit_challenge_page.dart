@@ -1,16 +1,18 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
-import 'package:challenge/ui/components/challenge/challenge_start_and_end_date_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
+import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
 import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
 import 'package:challenge/ui/components/edit_challenge/edit_description_component.dart';
 import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
@@ -23,6 +25,7 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
@@ -54,7 +57,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   late String title =
       widget.isNewChallenge ? 'New Challenge' : 'Edit Challenge';
 
-  late final groupChallengesProvider =
+  late final _groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
 
   late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
@@ -67,27 +70,19 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   bool isLoading = false;
 
-  List<UserModel> editParticipants = [];
+  List<UserModel> _editParticipants = [];
+
+  int? _selectedAttemptNumber;
+  AttemptModel? _selectedAttempt;
+
+  late bool _isUserAbleToEditChallenge;
 
   @override
   void initState() {
     super.initState();
-    if (widget.challenge is GroupChallengeModel &&
-        (widget.challenge as GroupChallengeModel).participants.length > 1) {
-      editParticipants = (widget.challenge as GroupChallengeModel)
-          .participants
-          .map((participant) => participant.user)
-          .toList();
-
-      // Sort the list to put the current user first
-      editParticipants.sort((a, b) {
-        if (a.id == _usersProvider.user.id) return -1;
-        if (b.id == _usersProvider.user.id) return 1;
-        return 0;
-      });
-    } else {
-      editParticipants = [_usersProvider.user];
-    }
+    _setEditParticipants();
+    _setIsUserAbleToEditChallenge();
+    _setSelectedAttempt();
   }
 
   @override
@@ -103,45 +98,71 @@ class _EditChallengePageState extends State<EditChallengePage> {
           resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
           appBar: AppBarComponent(title: title),
           backgroundColor: Colors.white,
-          body: isUserAbleToEditChallenge()
-              ? Column(
-                  children: [
-                    Expanded(
-                      child: CustomScrollView(
-                        slivers: [
-                          SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Column(
-                              children: [
-                                _header(),
-                                _details(),
-                                _participants(),
-                              ],
-                            ),
-                          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Column(
+                        children: [
+                          _challengeOrAttemptDropdown(),
+                          if (!_isUserAbleToEditChallenge &&
+                              _selectedAttemptNumber == null)
+                            _notAbleToEdit()
+                          else ...[
+                            _header(),
+                            _details(),
+                            _participants(),
+                          ]
                         ],
                       ),
                     ),
-                    cancelAndSaveOrAcceptButton(),
                   ],
-                )
-              : notAbleToEdit()),
+                ),
+              ),
+              cancelAndSaveOrAcceptButton(),
+            ],
+          )),
     );
   }
 
-  bool isUserAbleToEditChallenge() {
+  bool _setIsUserAbleToEditChallenge() {
     if (widget.challenge is GroupChallengeModel) {
       GroupChallengeModel groupChallenge =
           widget.challenge as GroupChallengeModel;
-      return groupChallenge.userId == _usersProvider.user.id ||
-          groupChallenge.groupChallengeOptions.isProgressIndividuell;
+      _isUserAbleToEditChallenge =
+          groupChallenge.userId == _usersProvider.user.id ||
+              groupChallenge.groupChallengeOptions.isProgressIndividuell;
+      return _isUserAbleToEditChallenge;
     }
-    return true;
+    _isUserAbleToEditChallenge = true;
+    return _isUserAbleToEditChallenge;
+  }
+
+  void _setEditParticipants() {
+    if (widget.challenge is GroupChallengeModel &&
+        (widget.challenge as GroupChallengeModel).participants.length > 1) {
+      _editParticipants = (widget.challenge as GroupChallengeModel)
+          .participants
+          .map((participant) => participant.user)
+          .toList();
+
+      // Sort the list to put the current user first
+      _editParticipants.sort((a, b) {
+        if (a.id == _usersProvider.user.id) return -1;
+        if (b.id == _usersProvider.user.id) return 1;
+        return 0;
+      });
+    } else {
+      _editParticipants = [_usersProvider.user];
+    }
   }
 
   Visibility _participants() {
     return Visibility(
-      visible: !isDescriptionExpanded,
+      visible: !isDescriptionExpanded && _selectedAttemptNumber == null,
       child: addOrEditParticipants(),
     );
   }
@@ -157,25 +178,28 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  Flexible _header() {
-    return Flexible(
-      fit: FlexFit.loose,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-            fit: FlexFit.loose,
-            child: ListItemContainerComponent(
-              padding: const EdgeInsets.all(CardComponent.standardPadding),
-              isHeightDynamic: true,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [thumbnailUploadAndTitle(), description()],
+  _header() {
+    return Visibility(
+      visible: _selectedAttemptNumber == null && _isUserAbleToEditChallenge,
+      child: Flexible(
+        fit: FlexFit.loose,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Flexible(
+              fit: FlexFit.loose,
+              child: ListItemContainerComponent(
+                padding: const EdgeInsets.all(CardComponent.standardPadding),
+                isHeightDynamic: true,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [_thumbnailUploadAndTitle(), _description()],
+                ),
               ),
             ),
-          ),
-          const SpaceComponent()
-        ],
+            const SpaceComponent()
+          ],
+        ),
       ),
     );
   }
@@ -237,37 +261,47 @@ class _EditChallengePageState extends State<EditChallengePage> {
   startAndEndDate() {
     return Visibility(
       visible: !isDescriptionExpanded,
-      child: ChallengeStartAndEndDateComponent(
-        editChallenge: _editChallenge,
-        reloadSearchChallengePage: () => setState(
-          () {},
-        ),
-      ),
+      child: _selectedAttempt == null
+          ? StartAndEndDateComponent.challenge(
+              editChallenge: _editChallenge,
+              reloadParentPage: () => setState(
+                () {},
+              ),
+            )
+          : StartAndEndDateComponent.attempt(
+              editAttempt: _selectedAttempt,
+              groupChallenge: _editChallenge as GroupChallengeModel),
     );
   }
 
-  description() {
+  _description() {
     EditDescriptionComponent descriptionComponent = EditDescriptionComponent(
       challenge: _editChallenge,
       isDescriptionExpanded: isDescriptionExpanded,
-      onTap: () => setState(() {
-        isDescriptionExpanded = !isDescriptionExpanded;
-      }),
+      onTap: () {
+        setState(() {
+          isDescriptionExpanded = !isDescriptionExpanded;
+        });
+      },
     );
     return isDescriptionExpanded
         ? Expanded(child: descriptionComponent)
         : descriptionComponent;
   }
 
-  thumbnailUploadAndTitle() {
+  _thumbnailUploadAndTitle() {
     return Column(
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            UploadThumbnailComponent(editChallenge: _editChallenge),
+            UploadThumbnailComponent(
+              editChallenge: _editChallenge,
+            ),
             const SpaceComponent(),
-            ExpandedTextFieldComponent(editChallenge: _editChallenge)
+            ExpandedTextFieldComponent(
+              editChallenge: _editChallenge,
+            ),
           ],
         ),
         const SpaceComponent()
@@ -288,8 +322,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
     ChallengeModel challengeCopy = _editChallenge.copy();
 
-    challengeCopy.id = await groupChallengesProvider.create(challengeCopy,
-        editParticipants, _usersProvider.user, GroupChallengeOptionsModel());
+    challengeCopy.id = await _groupChallengesProvider.create(challengeCopy,
+        _editParticipants, _usersProvider.user, GroupChallengeOptionsModel());
 
     setState(() {
       isLoading = false;
@@ -321,13 +355,24 @@ class _EditChallengePageState extends State<EditChallengePage> {
     setState(() {
       isLoading = true;
     });
-    GroupChallengeModel groupChallengeCopy =
-        _editChallenge.copy(withId: true) as GroupChallengeModel;
+    if (_selectedAttempt == null) {
+      GroupChallengeModel groupChallengeCopy =
+          _editChallenge.copy(withId: true) as GroupChallengeModel;
 
-    groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
+      groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
 
-    await groupChallengesProvider.update(groupChallengeCopy);
-    await updateParticipants(groupChallengeCopy);
+      await _groupChallengesProvider.update(groupChallengeCopy);
+      await updateParticipants(groupChallengeCopy);
+    } else {
+      ParticipantModel participant = (_editChallenge as GroupChallengeModel)
+          .getParticipant(_usersProvider.user.id);
+      // _selectedAttempt!
+      //     .changeRepetitionDates(_editChallenge as GroupChallengeModel);
+      await _groupChallengesProvider.updateAttempt(
+          _editChallenge as GroupChallengeModel,
+          participant,
+          _selectedAttempt!);
+    }
     setState(() {
       isLoading = false;
     });
@@ -337,7 +382,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   amountAndUnit() {
     return Visibility(
-      visible: !isDescriptionExpanded,
+      visible: !isDescriptionExpanded && _selectedAttempt == null,
       child: SpaceColumnComponent(
         child: AmountAndUnitComponent(
           acceptanceCriteria: _editChallenge.acceptanceCriteria,
@@ -348,7 +393,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   frequency() {
     return Visibility(
-      visible: !isDescriptionExpanded,
+      visible: !isDescriptionExpanded && _selectedAttempt == null,
       child: SpaceColumnComponent(
         child: FrequencyComponent(
           challenge: _editChallenge,
@@ -375,7 +420,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   addOrEditParticipants() {
-    return editParticipants.length <= 1
+    return _editParticipants.length <= 1
         ? ListItemIconTextComponent(
             onTap: onTapAddParticipants,
             title: 'Add Participants',
@@ -389,7 +434,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 SpaceColumnComponent(
                     child: AddMemberOverviewComponent(
                         userId: _usersProvider.user.id,
-                        members: editParticipants)),
+                        members: _editParticipants)),
                 CustomButtonComponent(
                   onTap: onTapAddParticipants,
                   text: 'Edit Participants',
@@ -405,7 +450,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => AddParticipantsPage(
-          participants: editParticipants,
+          participants: _editParticipants,
         ),
       ),
     ).then((_) {
@@ -413,13 +458,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
   }
 
-  notAbleToEdit() {
-    return ListView(
-      children: const [
-        ListItemInfoComponent(
-            text: 'Only the admin of this challenge can edit it.')
-      ],
-    );
+  _notAbleToEdit() {
+    return const ListItemInfoComponent(
+        text: 'Only the admin can edit the group challenge settings.');
   }
 
   updateParticipants(GroupChallengeModel groupChallengeCopy) async {
@@ -427,9 +468,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
         .map((participant) => participant.user.id)
         .toSet();
     Set<String> editParticipantIds =
-        editParticipants.map((user) => user.id).toSet();
+        _editParticipants.map((user) => user.id).toSet();
 
-    List<UserModel> newParticipants = editParticipants
+    List<UserModel> newParticipants = _editParticipants
         .where((user) => !oldParticipantIds.contains(user.id))
         .toList();
     List<UserModel> deleteParticipants = groupChallengeCopy.participants
@@ -439,13 +480,90 @@ class _EditChallengePageState extends State<EditChallengePage> {
         .toList();
 
     for (var deleteParticipant in deleteParticipants) {
-      await groupChallengesProvider.deleteParticipant(groupChallengeCopy,
+      await _groupChallengesProvider.deleteParticipant(groupChallengeCopy,
           participantId: deleteParticipant.id);
     }
 
     for (var newParticipant in newParticipants) {
-      await groupChallengesProvider.addParticipant(
+      await _groupChallengesProvider.addParticipant(
           groupChallengeCopy, _usersProvider.user, newParticipant);
+    }
+  }
+
+  _challengeOrAttemptDropdown() {
+    if (_editChallenge is GroupChallengeModel) {
+      try {
+        ParticipantModel participant = (_editChallenge as GroupChallengeModel)
+            .getParticipant(_usersProvider.user.id);
+
+        return Visibility(
+          visible: participant.attempts.isNotEmpty,
+          child: SpaceColumnComponent(
+            child: ListItemContainerComponent(
+              padding: const EdgeInsets.all(CardComponent.standardPadding),
+              isHeightDynamic: true,
+              child: Column(
+                children: [
+                  CustomContainerComponent(
+                    child: DropdownButton<int?>(
+                      borderRadius: BorderRadius.circular(
+                          CustomContainerComponent.standardRadius),
+                      isExpanded: true,
+                      underline: Container(),
+                      value: _selectedAttemptNumber,
+                      onChanged: (int? selectedAttemptNumber) {
+                        setState(() {
+                          _selectedAttemptNumber = selectedAttemptNumber;
+                          _selectedAttempt = _selectedAttemptNumber == null
+                              ? null
+                              : participant.attempts.firstWhere((attempt) =>
+                                  attempt.number == selectedAttemptNumber);
+                        });
+                      },
+                      items: [
+                        DropdownMenuItem<int?>(
+                          value: null,
+                          child: Text(
+                            'Challenge',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                        ...participant.attempts.map(
+                          (attempt) {
+                            return DropdownMenuItem<int>(
+                              value: attempt.number,
+                              child: Text(
+                                'Attempt ${attempt.number}',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      } on Exception catch (_) {
+        return const SizedBox();
+      }
+    }
+    return const SizedBox();
+  }
+
+  void _setSelectedAttempt() {
+    if (_isUserAbleToEditChallenge) {
+      return;
+    }
+
+    if (_editChallenge is GroupChallengeModel) {
+      _selectedAttempt = (_editChallenge as GroupChallengeModel)
+          .getParticipant(_usersProvider.user.id)
+          .getLatestAttempt();
+      _selectedAttemptNumber = _selectedAttempt!.number;
     }
   }
 }

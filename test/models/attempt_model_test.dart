@@ -38,7 +38,8 @@ AttemptModel mockAttemptModel({
     acceptanceCriteria: acceptanceCriteria ?? mockAcceptanceCriteriaModel(),
     frequency: frequency ?? mockFrequencyModel(),
     media: media ?? [mockMediaModel()],
-    repetitions: repetitions ?? [mockRepetitionModel()],
+    repetitions:
+        repetitions ?? FakerService.list((_) => mockRepetitionModel(), max: 10),
     createdAt: createdAt ?? DateTime.now(),
   );
 }
@@ -158,8 +159,9 @@ main() {
           () {
         // Arrange
         int days = FakerService.integer(max: 10);
-        DateTime startDate = TimeService.now().subtract(Duration(days: days));
-        DateTime endDate = TimeService.now();
+        DateTime now = TimeService.now();
+        DateTime startDate = now.subtract(Duration(days: days));
+        DateTime endDate = now;
         AttemptModel attempt = mockAttemptModel(
             repetitions: [],
             status: ChallengeStatusEnum.inProgress,
@@ -204,6 +206,7 @@ main() {
       test('should return last repetition of attempt model', () {
         // arrange
         AttemptModel attemptModel = mockAttemptModel(
+            frequency: mockFrequencyModel(type: FrequencyTypeEnum.time),
             repetitions:
                 FakerService.list((_) => mockRepetitionModel(), min: 1));
         // act
@@ -229,11 +232,15 @@ main() {
       test('should return repetition.length when frequency type is time', () {
         // Arrange
         AttemptModel attempt = mockAttemptModel(
-            frequency: mockFrequencyModel(type: FrequencyTypeEnum.time));
+            startDate: TimeService.now().subtract(const Duration(days: 1)),
+            repetitions: FakerService.list((_) => mockRepetitionModel(),
+                min: 1, max: 10),
+            frequency: mockFrequencyModel(
+                type: FrequencyTypeEnum.time,
+                amount: FakerService.integer(min: 1)));
         // Act
         int currentRepetitionNumber =
             attempt.getCurrentRepetitionNumber(groupChallenge);
-
         // Assert
         expect(currentRepetitionNumber, equals(attempt.repetitions.length));
       });
@@ -242,21 +249,72 @@ main() {
           'should return days difference between start and now when frequency type is daily',
           () {
         // Arrange
-        int days = FakerService.integer(max: 10);
-        DateTime startDate = TimeService.now().subtract(Duration(days: days));
-        DateTime endDate = TimeService.now();
+        int days = FakerService.integer();
+        DateTime now = TimeService.now();
+        DateTime startDate = now.subtract(Duration(days: days));
+        DateTime endDate = now;
         AttemptModel attempt = mockAttemptModel(
             startDate: startDate,
             endDate: endDate,
             frequency: mockFrequencyModel(
                 amount: days, type: FrequencyTypeEnum.daily));
-
         // Act
         int currentRepetitionNumber =
             attempt.getCurrentRepetitionNumber(groupChallenge);
-
         // Assert
         expect(currentRepetitionNumber, equals(days));
+      });
+
+      test(
+          'should return 0 when start date is null and frequency type is daily',
+          () {
+        // Arrange
+        AttemptModel attempt = mockAttemptModel(
+            startDate: null,
+            frequency: mockFrequencyModel(type: FrequencyTypeEnum.daily));
+        // Act
+        int currentRepetitionNumber =
+            attempt.getCurrentRepetitionNumber(groupChallenge);
+        // Assert
+        expect(currentRepetitionNumber, equals(0));
+      });
+
+      test(
+          'should return 0 when now is before start date and frequency type is daily',
+          () {
+        // Arrange
+        DateTime now = TimeService.now();
+        DateTime startDate = now.add(const Duration(days: 1));
+        AttemptModel attempt = mockAttemptModel(
+            startDate: startDate,
+            frequency: mockFrequencyModel(type: FrequencyTypeEnum.daily));
+        // Act
+        int currentRepetitionNumber =
+            attempt.getCurrentRepetitionNumber(groupChallenge);
+        // Assert
+        expect(currentRepetitionNumber, equals(0));
+      });
+
+      test(
+          'should return frequency amount when it is less than days difference',
+          () {
+        // Arrange
+        int days = 10;
+        int amount = 5;
+        DateTime now = TimeService.now();
+        DateTime startDate = now.subtract(Duration(days: days));
+        DateTime endDate = startDate.add(Duration(days: amount));
+        AttemptModel attempt = mockAttemptModel(
+            startDate: startDate,
+            endDate: endDate,
+            repetitions: [],
+            frequency: mockFrequencyModel(
+                amount: amount, type: FrequencyTypeEnum.daily));
+        // Act
+        int currentRepetitionNumber =
+            attempt.getCurrentRepetitionNumber(groupChallenge);
+        // Assert
+        expect(currentRepetitionNumber, equals(amount));
       });
     });
   });

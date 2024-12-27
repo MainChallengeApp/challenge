@@ -132,14 +132,14 @@ class _ListItemParticipantExpandedComponentState
             children: [
               Expanded(
                   child: DateComponent(
-                date: widget.attempt.startDate,
+                date: widget.attempt.getStartDate(widget.groupChallenge),
                 text: 'Start',
                 textColor: Theme.of(context).colorScheme.tertiary,
               )),
               const SpaceComponent(),
               Expanded(
                   child: DateComponent(
-                date: widget.attempt.endDate,
+                date: widget.attempt.getEndDate(widget.groupChallenge),
                 text: 'End',
                 textColor: Theme.of(context).colorScheme.tertiary,
               )),

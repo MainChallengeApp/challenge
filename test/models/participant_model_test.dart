@@ -39,6 +39,7 @@ void main() {
 
     group('fromDoc()', () {
       test('should return participant model from document', () {
+        // TODO: probably use fake_cloud_firestore package
         // // arrange
         // ParticipantModel participant = mockParticipantModel();
         // Map<String, dynamic> doc  = participant.toDoc();

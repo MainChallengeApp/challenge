@@ -24,9 +24,8 @@ RepetitionModel mockRepetitionModel(
   return RepetitionModel(
       repetitionNumber: actualRepetitionNumber,
       goalAmount: goalAmount ?? FakerService.decimal(),
-      progressList: progressList ??
-          FakerService.list((_) =>
-              mockProgressModel(repetitionNumber: actualRepetitionNumber)),
+      progressList:
+          progressList ?? FakerService.list((_) => mockProgressModel()),
       startDate: startDate ?? FakerService.dateTime(),
       endDate: endDate ?? FakerService.dateTime(),
       repetitionStatus: repetitionStatus ??
@@ -364,7 +363,6 @@ void main() {
         // Act
         ProgressModel result = repetition.addProgress();
         // Assert
-        expect(result.repetitionNumber, equals(repetition.repetitionNumber));
         expect(result.progress, equals(0));
       });
 

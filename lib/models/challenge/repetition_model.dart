@@ -6,7 +6,7 @@ import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RepetitionModel {
-  final int repetitionNumber;
+  int repetitionNumber;
   static const String repetitionNumberField = 'repetitionNumber';
 
   double goalAmount;
@@ -40,6 +40,11 @@ class RepetitionModel {
       this.repetitionStatus = RepetitionStatusEnum.backlog}) {
     progressList = [];
   }
+
+  RepetitionModel.zero({required this.goalAmount})
+      : repetitionNumber = 0,
+        progressList = [],
+        repetitionStatus = RepetitionStatusEnum.backlog;
 
   bool isComplete() {
     if (progressList.isEmpty) {
@@ -114,8 +119,7 @@ class RepetitionModel {
   ProgressModel addProgress(
       {ProgressModel? progress, mediaIds = const <String>[]}) {
     if (progress == null) {
-      ProgressModel emptyProgress = ProgressModel.empty(
-          repetitionNumber: repetitionNumber, mediaIds: mediaIds);
+      ProgressModel emptyProgress = ProgressModel.empty(mediaIds: mediaIds);
       progressList.add(emptyProgress);
       return emptyProgress;
     }

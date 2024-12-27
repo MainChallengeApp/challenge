@@ -2,6 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -250,6 +251,15 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapStart(AttemptModel attempt) async {
+    RepetitionModel? currentRepetition =
+        attempt.getCurrentRepetition(widget.groupChallenge);
+    if (currentRepetition != null) {
+      currentRepetition.start();
+      await _groupChallengesProvider.updateAttempt(
+          _groupChallenge, _participant, attempt);
+      return;
+    }
+
     await _groupChallengesProvider.startAttemptOrChallenge(
         _groupChallenge, _participant, attempt, context);
   }
@@ -306,7 +316,11 @@ class _GroupChallengeCardComponentState
             challenge: _groupChallenge,
           ),
         ),
-      ).then((_) => {setState(() {})});
+      ).then((_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
     }
   }
 
@@ -374,7 +388,11 @@ class _GroupChallengeCardComponentState
           isSaveInsteadOfEditButtonVisible: true,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void _onTapCamera() async {
