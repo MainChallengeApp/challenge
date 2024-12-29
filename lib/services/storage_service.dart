@@ -6,6 +6,7 @@ import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/exceptions/could_not_delete_file_exception.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,6 +24,7 @@ class StorageService {
       await ref.putFile(file);
       return await ref.getDownloadURL();
     } catch (e) {
+      ErrorOccurredDialog.show(errorText: e.toString());
       rethrow;
     }
   }

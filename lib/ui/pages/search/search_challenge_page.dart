@@ -73,7 +73,6 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
             _isLoading = false;
           });
           ErrorOccurredDialog.show(
-              context: context,
               errorText: 'Error occurred during fetching shuffled challenges');
         }
       });

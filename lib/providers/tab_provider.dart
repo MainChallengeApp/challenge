@@ -21,4 +21,8 @@ class TabProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  BuildContext getCurrentContext() {
+    return _navigatorKeys[_currentTab]!.currentContext!;
+  }
 }

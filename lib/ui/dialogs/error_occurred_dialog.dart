@@ -1,12 +1,15 @@
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/dialogs/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ErrorOccurredDialog {
-  static Future<void> show(
-      {required BuildContext context, required String? errorText}) async {
+  static final tabProvider = getIt<TabProvider>();
+
+  static Future<void> show({required String? errorText}) async {
     await showDialog(
-      context: context,
+      context: tabProvider.getCurrentContext(),
       builder: (context) {
         return CustomDialog(
             title: 'Error Occurred',

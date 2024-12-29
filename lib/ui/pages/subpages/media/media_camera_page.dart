@@ -108,8 +108,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
       _currentCamera = _cameras.first;
       await _initializeCameraController();
     } on CameraException catch (e) {
-      // ignore: use_build_context_synchronously
-      ErrorOccurredDialog.show(context: context, errorText: e.description);
+      ErrorOccurredDialog.show(errorText: e.description);
     }
   }
 
@@ -198,8 +197,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
         _currentMedia.add(media);
       });
     } catch (e) {
-      ErrorOccurredDialog.show(
-          context: context, errorText: 'Failed to take picture: $e');
+      ErrorOccurredDialog.show(errorText: 'Failed to take picture: $e');
     }
   }
 
@@ -221,7 +219,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
         });
       } catch (e) {
         ErrorOccurredDialog.show(
-            context: context, errorText: 'Failed to stop video recording: $e');
+            errorText: 'Failed to stop video recording: $e');
       }
     } else {
       try {
@@ -232,8 +230,6 @@ class _CameraStateMedia extends State<MediaCameraPage>
         });
       } catch (e) {
         ErrorOccurredDialog.show(
-            // ignore: use_build_context_synchronously
-            context: context,
             errorText: 'Failed to start video recording: $e');
       }
     }

@@ -219,8 +219,6 @@ class GroupChallengesProvider with ChangeNotifier {
                 media, groupChallenge, participant.user.id);
             if (uploadedMedia == null) {
               ErrorOccurredDialog.show(
-                  // ignore: use_build_context_synchronously
-                  context: context,
                   errorText:
                       'Error occurred during media upload. Uploaded media is empty');
               return;
@@ -238,10 +236,7 @@ class GroupChallengesProvider with ChangeNotifier {
       await _groupChallengesCollection.updateParticipant(
           participant, groupChallenge);
     } catch (e) {
-      ErrorOccurredDialog.show(
-          // ignore: use_build_context_synchronously
-          context: context,
-          errorText: 'Error occurred during media upload');
+      ErrorOccurredDialog.show(errorText: 'Error occurred during media upload');
       rethrow;
     }
   }
