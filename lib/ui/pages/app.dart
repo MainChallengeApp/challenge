@@ -43,10 +43,9 @@ class AppState extends State<App> {
     super.initState();
 
     usersProvider.getUser().then((_) {
+      isLoadingUser = false;
       if (mounted) {
-        setState(() {
-          isLoadingUser = false;
-        });
+        setState(() {});
       }
 
       groupChallengesProvider.getAllOfUser().then((value) {
@@ -55,17 +54,16 @@ class AppState extends State<App> {
         } else {
           tabProvider.selectTab(TabItemEnum.home);
         }
+        isLoadingUserChallenges = false;
         if (mounted) {
-          setState(() {
-            isLoadingUserChallenges = false;
-          });
+          setState(() {});
         }
       });
     }).catchError((error) {
+      isLoadingUser = false;
+      isLoadingUserChallenges = false;
       if (mounted) {
-        setState(() {
-          isLoadingUser = false;
-        });
+        setState(() {});
       }
       authService.logout();
       // ignore: use_build_context_synchronously
@@ -86,9 +84,15 @@ class AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return isLoadingUser || isLoadingUserChallenges
-        ? const Scaffold(
+        ? Scaffold(
             body: Center(
-              child: LoadingCircleComponent(),
+              child: Column(
+                children: [
+                  const LoadingCircleComponent(),
+                  Text('Loading user data... $isLoadingUser'),
+                  Text('Loading challenge data... $isLoadingUserChallenges'),
+                ],
+              ),
             ),
           )
         : listeningUsersProvider.user.username == ''
