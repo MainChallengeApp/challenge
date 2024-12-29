@@ -58,6 +58,23 @@ class AppState extends State<App> {
         if (mounted) {
           setState(() {});
         }
+      }).catchError((error) {
+        isLoadingUserChallenges = false;
+        if (mounted) {
+          setState(() {});
+        }
+        authService.logout();
+        // ignore: use_build_context_synchronously
+        ErrorOccurredDialog.show(context: context, errorText: error.toString());
+      }).timeout((const Duration(seconds: 10)), onTimeout: () {
+        isLoadingUserChallenges = false;
+        if (mounted) {
+          setState(() {});
+        }
+        ErrorOccurredDialog.show(
+            // ignore: use_build_context_synchronously
+            context: context,
+            errorText: 'Timeout: Could not load user challenges');
       });
     }).catchError((error) {
       isLoadingUser = false;
@@ -87,6 +104,7 @@ class AppState extends State<App> {
         ? Scaffold(
             body: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const LoadingCircleComponent(),
                   Text('Loading user data... $isLoadingUser'),

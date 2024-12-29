@@ -93,7 +93,7 @@ class GroupChallengesProvider with ChangeNotifier {
     }
   }
 
-  getAllOfUser() async {
+  Future<List<GroupChallengeModel>> getAllOfUser() async {
     try {
       _groupChallenges = await _groupChallengesCollection.getAllByUserId(
           userId: _authService.getCurrentUserId());
