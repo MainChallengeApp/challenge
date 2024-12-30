@@ -41,11 +41,12 @@ class BackendService {
     await Firebase.initializeApp(
         options: environmentOptions, name: 'challenge-${environment.string}');
 
-    await _setupEmulators(); // comment line to use real device and dev environment
+    await _setupEmulators();
   }
 
   static Future<void> _setupEmulators() async {
-    if (kDebugMode) {
+    EnvVarsService envVarsService = await EnvVarsService.create();
+    if (kDebugMode && envVarsService.useEmulator) {
       FirebaseFirestore.instance.useFirestoreEmulator('localhost', 9151);
       await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
       await FirebaseStorage.instance.useStorageEmulator('localhost', 9199);

@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
     appId: '1:51029186992:ios:43207c787016f2c5365e75',
     messagingSenderId: '51029186992',
     projectId: 'challenge-prod-g6f43',
-    storageBucket: 'challenge-prod-g6f43.appspot.com',
+    storageBucket: 'challenge-prod-g6f43.firebasestorage.app',
     iosBundleId: 'de.dreimus.challenge.app',
   );
 }
