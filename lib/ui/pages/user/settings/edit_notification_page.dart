@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/push_notification_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
@@ -45,11 +46,11 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: ScaffoldComponent(
         appBar: AppBarComponent(
           title: _title,
         ),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

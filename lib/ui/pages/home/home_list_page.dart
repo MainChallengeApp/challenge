@@ -2,12 +2,12 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
@@ -51,14 +51,13 @@ class _HomeListPageState extends State<HomeListPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
+      child: ScaffoldComponent(
         appBar: AppBarComponent(
           title: widget.title,
           isFirstPageInRoute: true,
         ),
-        backgroundColor: Colors.white,
         body: _buildList(),
-        bottomNavigationBar: const BottomNavigationComponent(),
+        // bottomNavigationBar: const BottomNavigationComponent(),
       ),
     );
   }

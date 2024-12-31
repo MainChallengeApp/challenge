@@ -3,6 +3,7 @@ import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/pages/subpages/media/video_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -38,9 +39,9 @@ class _MediaDetailPageState extends State<MediaDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(title: currentTitle),
-      backgroundColor: Colors.white,
+      isBottomNavigationVisible: false,
       body: Stack(
         children: [
           PageView(

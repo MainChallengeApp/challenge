@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
@@ -39,9 +40,9 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: ScaffoldComponent(
         appBar: AppBarComponent(title: titleText),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: Column(
           children: [
             Expanded(

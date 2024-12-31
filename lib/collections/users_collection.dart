@@ -1,5 +1,6 @@
 import 'package:challenge/collections/collection.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UsersCollection extends Collection {
@@ -21,7 +22,12 @@ class UsersCollection extends Collection {
   }
 
   Future<void> update(UserModel user) async {
-    await db.collection(name).doc(user.id).update(user.toDoc());
+    try {
+      await db.collection(name).doc(user.id).update(user.toDoc());
+    } catch (e) {
+      ErrorOccurredDialog.show(
+          errorText: 'Error occurred during updating user');
+    }
   }
 
   Future<bool> isUsernameUnique(String username) async {

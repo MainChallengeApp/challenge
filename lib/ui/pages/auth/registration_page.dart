@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
@@ -42,13 +43,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
+    return ScaffoldComponent(
       appBar: AppBarComponent(
         title: _title,
         isFirstPageInRoute: true,
         leadingIcon: const LeadingAppIconComponent(),
       ),
+      isBottomNavigationVisible: false,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),

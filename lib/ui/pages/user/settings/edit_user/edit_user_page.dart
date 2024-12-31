@@ -4,6 +4,7 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
@@ -59,10 +60,10 @@ class _EditUserPageState extends State<EditUserPage> {
   @override
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
-    return Scaffold(
+    return ScaffoldComponent(
       resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
       appBar: AppBarComponent(title: _title),
-      backgroundColor: Colors.white,
+      isBottomNavigationVisible: false,
       body: ListView(
         children: [
           SpaceColumnComponent(

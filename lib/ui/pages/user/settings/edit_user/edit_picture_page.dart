@@ -3,6 +3,7 @@ import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -49,9 +50,9 @@ class _EditPicturePageState extends State<EditPicturePage> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: ScaffoldComponent(
         appBar: AppBarComponent(title: _title),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

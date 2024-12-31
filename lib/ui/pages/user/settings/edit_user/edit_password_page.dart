@@ -1,5 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -43,9 +44,9 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: ScaffoldComponent(
         appBar: AppBarComponent(title: title),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

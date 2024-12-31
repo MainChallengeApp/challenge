@@ -5,6 +5,9 @@ class TabProvider with ChangeNotifier {
   TabItemEnum _currentTab = TabItemEnum.search;
   TabItemEnum get currentTab => _currentTab;
 
+  bool _isBottomNavigationVisible = true;
+  bool get isBottomNavigationVisible => _isBottomNavigationVisible;
+
   final Map<TabItemEnum, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItemEnum.search: GlobalKey<NavigatorState>(),
     TabItemEnum.home: GlobalKey<NavigatorState>(),
@@ -24,5 +27,10 @@ class TabProvider with ChangeNotifier {
 
   BuildContext getCurrentContext() {
     return _navigatorKeys[_currentTab]!.currentContext!;
+  }
+
+  void setBottomNavigationVisibility(bool isVisible) {
+    _isBottomNavigationVisible = isVisible;
+    notifyListeners();
   }
 }

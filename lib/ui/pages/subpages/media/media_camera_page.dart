@@ -11,6 +11,7 @@ import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/time_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
@@ -91,9 +92,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: const AppBarComponent(title: ''),
-      backgroundColor: Theme.of(context).colorScheme.surface,
+    return ScaffoldComponent(
       body: SafeArea(bottom: false, child: _buildBody()),
     );
   }

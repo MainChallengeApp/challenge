@@ -9,6 +9,7 @@ import 'package:challenge/models/notification/group_challenge_request_notificati
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/models/notification/progress_added_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/notifications/connection_accepted_card_component.dart';
 import 'package:challenge/ui/components/cards/notifications/connection_request_card_component.dart';
 import 'package:challenge/ui/components/cards/notifications/group_challenge_accepted_card_component.dart';
@@ -16,6 +17,7 @@ import 'package:challenge/ui/components/cards/notifications/group_challenge_requ
 import 'package:challenge/ui/components/cards/notifications/progress_added_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,44 +55,53 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
       return Container();
     }
 
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(
         title: _title,
       ),
-      body: PageView(
-        scrollDirection: Axis.vertical,
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: pageController,
-        children: listeningNotificationsProvider.userNotifications
-            .map((NotificationModel notification) {
-          switch (notification.type) {
-            case NotificationTypeEnum.connectionRequest:
-              return ConnectionRequestCardComponent(
-                  requestConnectionNotification:
-                      notification as ConnectionRequestNotificationModel);
-            case NotificationTypeEnum.connectionAccepted:
-              return ConnectionAcceptedCardComponent(
-                  connectionAcceptedNotification:
-                      notification as ConnectionAcceptedNotificationModel);
-            case NotificationTypeEnum.groupChallengeRequest:
-              return GroupChallengeRequestCardComponent(
-                  groupChallengeRequestNotification:
-                      notification as GroupChallengeRequestNotificationModel);
-            case NotificationTypeEnum.groupChallengeAccepted:
-              return GroupChallengeAcceptedCardComponent(
-                  groupChallengeAcceptedNotification:
-                      notification as GroupChallengeAcceptedNotificationModel);
-            case NotificationTypeEnum.progressAdded:
-              return ProgressAddedCardComponent(
-                  progressAddedNotification:
-                      notification as ProgressAddedNotificationModel);
-            default:
-              throw NotificationTypeIsNotSupportedException(
-                  notification.type.toString());
-          }
-        }).toList(),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView(
+              scrollDirection: Axis.vertical,
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: pageController,
+              children: listeningNotificationsProvider.userNotifications
+                  .map((NotificationModel notification) {
+                switch (notification.type) {
+                  case NotificationTypeEnum.connectionRequest:
+                    return ConnectionRequestCardComponent(
+                        requestConnectionNotification:
+                            notification as ConnectionRequestNotificationModel);
+                  case NotificationTypeEnum.connectionAccepted:
+                    return ConnectionAcceptedCardComponent(
+                        connectionAcceptedNotification: notification
+                            as ConnectionAcceptedNotificationModel);
+                  case NotificationTypeEnum.groupChallengeRequest:
+                    return GroupChallengeRequestCardComponent(
+                        groupChallengeRequestNotification: notification
+                            as GroupChallengeRequestNotificationModel);
+                  case NotificationTypeEnum.groupChallengeAccepted:
+                    return GroupChallengeAcceptedCardComponent(
+                        groupChallengeAcceptedNotification: notification
+                            as GroupChallengeAcceptedNotificationModel);
+                  case NotificationTypeEnum.progressAdded:
+                    return ProgressAddedCardComponent(
+                        progressAddedNotification:
+                            notification as ProgressAddedNotificationModel);
+                  default:
+                    throw NotificationTypeIsNotSupportedException(
+                        notification.type.toString());
+                }
+              }).toList(),
+            ),
+          ),
+          const SpaceComponent(
+            height: BottomNavigationComponent.standardHeight +
+                BottomNavigationComponent.standardMargin,
+          )
+        ],
       ),
-      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 

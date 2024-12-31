@@ -1,6 +1,8 @@
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -29,6 +31,7 @@ class TitleWithPercentageComponent extends StatefulWidget {
 
 class _TitleWithPercentageComponentState
     extends State<TitleWithPercentageComponent> {
+  final _tabProvider = getIt<TabProvider>();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -71,7 +74,12 @@ class _TitleWithPercentageComponentState
         builder: (context) =>
             RankingPage(groupChallenge: widget.groupChallenge),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void onTapChallengePercentage() {

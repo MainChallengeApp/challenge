@@ -3,8 +3,11 @@ import 'dart:math';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/reports_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -57,6 +60,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
+  final _tabProvider = getIt<TabProvider>();
 
   late final reportsProvider =
       Provider.of<ReportsProvider>(context, listen: false);
@@ -84,41 +88,50 @@ class _SearchUserPageState extends State<SearchUserPage> {
       maxHeight: MediaQuery.of(context).size.height * 0.3,
       backdropEnabled: true,
       panel: panel(),
+      onPanelClosed: () => _tabProvider.setBottomNavigationVisibility(true),
       borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(24.0),
         topRight: Radius.circular(24.0),
       ),
       padding: const EdgeInsets.only(top: 10),
-      body: Scaffold(
+      body: ScaffoldComponent(
         resizeToAvoidBottomInset: false,
         appBar: AppBarComponent(
           title: widget.title,
         ),
-        backgroundColor: Colors.white,
-        body: Center(
-          child: PageView(
-              controller: pageController,
-              onPageChanged: onPageChanged,
-              scrollDirection: Axis.vertical,
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: users.map(
-                (user) {
-                  return Builder(builder: (context) {
-                    return CardComponent(
-                      children: [
-                        profilePicture(user),
-                        usernameAndMore(user),
-                        bio(user),
-                        challengesAndConnections(user),
-                        expandedSpace(),
-                        actionButton(user)
-                      ],
-                    );
-                  });
-                },
-              ).toList()),
+        body: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: PageView(
+                    controller: pageController,
+                    onPageChanged: onPageChanged,
+                    scrollDirection: Axis.vertical,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: users.map(
+                      (user) {
+                        return Builder(builder: (context) {
+                          return CardComponent(
+                            children: [
+                              profilePicture(user),
+                              usernameAndMore(user),
+                              bio(user),
+                              challengesAndConnections(user),
+                              expandedSpace(),
+                              actionButton(user)
+                            ],
+                          );
+                        });
+                      },
+                    ).toList()),
+              ),
+            ),
+            const SpaceComponent(
+              height: BottomNavigationComponent.standardHeight +
+                  BottomNavigationComponent.standardMargin,
+            )
+          ],
         ),
-        bottomNavigationBar: const BottomNavigationComponent(),
       ),
     );
   }
@@ -306,6 +319,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   onTapMore() {
     panelController.open();
+    _tabProvider.setBottomNavigationVisibility(false);
   }
 
   panel() {

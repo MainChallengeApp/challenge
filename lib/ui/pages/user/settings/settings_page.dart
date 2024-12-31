@@ -3,12 +3,14 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -40,6 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
       Provider.of<GroupChallengesProvider>(context, listen: false);
   late final _notificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: false);
+  final _tabProvider = getIt<TabProvider>();
 
   late final String _title = 'Settings';
 
@@ -52,16 +55,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(
         title: _title,
       ),
-      backgroundColor: Colors.white,
       body: Container(
         color: Colors.white,
         child: _buildList(),
       ),
-      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 
@@ -169,7 +170,12 @@ class _SettingsPageState extends State<SettingsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const CreditsPage(),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void onTapEdit() {
@@ -178,7 +184,12 @@ class _SettingsPageState extends State<SettingsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const EditUserPage(),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void onTapDeleteUser() {
@@ -187,7 +198,12 @@ class _SettingsPageState extends State<SettingsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const DeleteUserPage(),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void onTapBlockedUsers() {
@@ -205,6 +221,11 @@ class _SettingsPageState extends State<SettingsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const EditNotificationPage(),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }

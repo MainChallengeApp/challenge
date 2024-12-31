@@ -1,7 +1,10 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
@@ -49,6 +52,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       Provider.of<SearchChallengesProvider>(context, listen: false);
   late final listeningSearchChallengeProvider =
       Provider.of<SearchChallengesProvider>(context);
+  final _tabProvider = getIt<TabProvider>();
 
   bool _isLoading = false;
 
@@ -94,43 +98,52 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
       resizeToAvoidBottomInset: false,
       appBar: AppBarComponent(title: widget.title),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: _isLoading
-            ? const LoadingCircleComponent()
-            : listeningSearchChallengeProvider.searchChallenges.isEmpty
-                ? ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: const [
-                      ListItemInfoComponent(text: 'No Challenges found'),
-                    ],
-                  )
-                : PageView(
-                    controller: pageController,
-                    onPageChanged: onPageChanged,
-                    scrollDirection: Axis.vertical,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children:
-                        listeningSearchChallengeProvider.searchChallenges.map(
-                      (challenge) {
-                        return Builder(builder: (context) {
-                          return CardComponent(
-                            children: [
-                              _thumbnail(challenge, context),
-                              _title(challenge),
-                              _description(challenge),
-                              const SpaceComponent(),
-                              _selectButton(challenge)
-                            ],
-                          );
-                        });
-                      },
-                    ).toList()),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: _isLoading
+                  ? const LoadingCircleComponent()
+                  : listeningSearchChallengeProvider.searchChallenges.isEmpty
+                      ? ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: const [
+                            ListItemInfoComponent(text: 'No Challenges found'),
+                          ],
+                        )
+                      : PageView(
+                          controller: pageController,
+                          onPageChanged: onPageChanged,
+                          scrollDirection: Axis.vertical,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          children: listeningSearchChallengeProvider
+                              .searchChallenges
+                              .map(
+                            (challenge) {
+                              return Builder(builder: (context) {
+                                return CardComponent(
+                                  children: [
+                                    _thumbnail(challenge, context),
+                                    _title(challenge),
+                                    _description(challenge),
+                                    const SpaceComponent(),
+                                    _selectButton(challenge)
+                                  ],
+                                );
+                              });
+                            },
+                          ).toList()),
+            ),
+          ),
+          const SpaceComponent(
+            height: BottomNavigationComponent.standardHeight +
+                BottomNavigationComponent.standardMargin,
+          )
+        ],
       ),
-      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 
@@ -186,7 +199,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
           isNewChallenge: true,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   _title(ChallengeModel challenge) {

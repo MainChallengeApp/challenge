@@ -4,9 +4,11 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/group_challenge_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -54,19 +56,27 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
     _jumpToCurrentChallenge();
 
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(title: _title),
-      backgroundColor: Colors.white,
-      body: PageView(
-          controller: _pageController,
-          onPageChanged: _onPageChanged,
-          scrollDirection: Axis.vertical,
-          physics: const AlwaysScrollableScrollPhysics(),
-          children: _filteredChallenges.map((challenge) {
-            challenge.checkStatus();
-            return GroupChallengeCardComponent(groupChallenge: challenge);
-          }).toList()),
-      bottomNavigationBar: const BottomNavigationComponent(),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView(
+                controller: _pageController,
+                onPageChanged: _onPageChanged,
+                scrollDirection: Axis.vertical,
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: _filteredChallenges.map((challenge) {
+                  challenge.checkStatus();
+                  return GroupChallengeCardComponent(groupChallenge: challenge);
+                }).toList()),
+          ),
+          const SpaceComponent(
+            height: BottomNavigationComponent.standardHeight +
+                BottomNavigationComponent.standardMargin,
+          )
+        ],
+      ),
     );
   }
 

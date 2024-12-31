@@ -11,6 +11,7 @@ import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/services/util_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
@@ -91,12 +92,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
         appBar: AppBarComponent(
             title: widget.progress == null
                 ? 'New Progress'
                 : '$_title ${widget.repetition != null ? widget.repetition!.progressList.indexWhere((element) => element == widget.progress) + 1 : 1}'),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Stack(

@@ -7,6 +7,7 @@ import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -51,7 +52,7 @@ class _UserPageState extends State<UserPage> {
   late final listeningNotificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: true);
 
-  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   late UserModel user;
 
@@ -69,38 +70,47 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
-    return Scaffold(
+    return ScaffoldComponent(
         appBar: AppBarComponent(
           title: widget.title,
           isFirstPageInRoute: true,
           actions: actions(user),
         ),
-        backgroundColor: Colors.white,
-        body: Container(
-          color: Colors.white,
-          child: RefreshIndicatorComponent(
-            onRefresh: () async {
-              await usersProvider.getUser().then((_) async {
-                await usersProvider.getConnections();
-                await listeningNotificationsProvider.getUserNotifications();
-              });
-            },
-            scrollController: scrollController,
-            child: CardComponent(
-              scrollPhysics: const AlwaysScrollableScrollPhysics(),
-              scrollController: scrollController,
-              children: [
-                _profilePicture(user),
-                _username(user),
-                _bio(user),
-                _challengesAndConnections(user),
-                _expandedSpace(),
-                _notifications(user)
-              ],
+        body: Column(
+          children: [
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                child: RefreshIndicatorComponent(
+                  onRefresh: () async {
+                    await usersProvider.getUser().then((_) async {
+                      await usersProvider.getConnections();
+                      await listeningNotificationsProvider
+                          .getUserNotifications();
+                    });
+                  },
+                  scrollController: scrollController,
+                  child: CardComponent(
+                    scrollPhysics: const AlwaysScrollableScrollPhysics(),
+                    scrollController: scrollController,
+                    children: [
+                      _profilePicture(user),
+                      _username(user),
+                      _bio(user),
+                      _challengesAndConnections(user),
+                      _expandedSpace(),
+                      _notifications(user)
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-        bottomNavigationBar: const BottomNavigationComponent());
+            const SpaceComponent(
+              height: BottomNavigationComponent.standardHeight +
+                  BottomNavigationComponent.standardMargin,
+            )
+          ],
+        ));
   }
 
   List<Widget> actions(UserModel user) {
@@ -132,7 +142,7 @@ class _UserPageState extends State<UserPage> {
                 onTap: () {
                   context.read<TabProvider>().selectTab(TabItemEnum.home);
 
-                  var homeNavigator = tabProvider
+                  var homeNavigator = _tabProvider
                       .navigatorKeys[TabItemEnum.home]!.currentState!;
 
                   homeNavigator.popUntil((route) => route.isFirst);
@@ -210,7 +220,12 @@ class _UserPageState extends State<UserPage> {
           builder: (context) => EditPicturePage(
             user: user,
           ),
-        ));
+        )).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   onTapUsername() {
@@ -220,7 +235,12 @@ class _UserPageState extends State<UserPage> {
           builder: (context) => EditUsernamePage(
             user: user,
           ),
-        ));
+        )).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   onTapConnections() {
@@ -265,6 +285,11 @@ class _UserPageState extends State<UserPage> {
           builder: (context) => EditBioPage(
             user: user,
           ),
-        ));
+        )).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }

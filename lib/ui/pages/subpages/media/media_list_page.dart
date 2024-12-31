@@ -7,6 +7,7 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
@@ -49,9 +50,9 @@ class _MediaListPageState extends State<MediaListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
         appBar: const AppBarComponent(title: 'Media'),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: Container(
           color: Colors.white,
           child: _buildList(),

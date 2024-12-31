@@ -6,6 +6,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +42,9 @@ class _ImagePageState extends State<ImagePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(title: currentTitle),
-      backgroundColor: Colors.white,
+      isBottomNavigationVisible: false,
       body: Stack(
         children: [
           PageView(

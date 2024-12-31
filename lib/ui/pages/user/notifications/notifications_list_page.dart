@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_notification_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/user/notifications/notifications_card_page.dart';
@@ -38,12 +38,11 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(
         title: title,
       ),
       body: list(),
-      bottomNavigationBar: const BottomNavigationComponent(),
     );
   }
 

@@ -36,7 +36,7 @@ class _ProgressAddedCardComponentState
   late final notificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: false);
 
-  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +77,9 @@ class _ProgressAddedCardComponentState
     await notificationsProvider
         .deleteNotification(widget.progressAddedNotification.id);
 
-    tabProvider.selectTab(TabItemEnum.home);
+    _tabProvider.selectTab(TabItemEnum.home);
     var homeNavigator =
-        tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
+        _tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
     homeNavigator.popUntil((route) => route.isFirst);
     GroupChallengeModel groupChallenge =
         widget.progressAddedNotification.groupChallenge;
@@ -105,7 +105,12 @@ class _ProgressAddedCardComponentState
           );
         },
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
 
     homeNavigator.push(
       NoAnimationPageRouteComponent(

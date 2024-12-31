@@ -1,6 +1,7 @@
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_participant_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -59,8 +60,9 @@ class _RankingPageState extends State<RankingPage> {
         .firstWhere((element) => element.id == widget.groupChallenge.id,
             orElse: () => _groupChallenge);
     _groupChallenge.sortParticipants();
-    return Scaffold(
+    return ScaffoldComponent(
       appBar: AppBarComponent(title: _title),
+      isBottomNavigationVisible: false,
       body: RefreshIndicatorComponent(
         onRefresh: () async {
           _groupChallenge =

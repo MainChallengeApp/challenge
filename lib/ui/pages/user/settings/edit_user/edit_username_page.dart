@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
@@ -49,12 +50,12 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Scaffold(
+      child: ScaffoldComponent(
         appBar: AppBarComponent(
           title: _title,
           isFirstPageInRoute: widget.isRegistration,
         ),
-        backgroundColor: Colors.white,
+        isBottomNavigationVisible: false,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

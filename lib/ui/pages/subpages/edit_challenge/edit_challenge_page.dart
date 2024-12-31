@@ -9,6 +9,7 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
@@ -94,10 +95,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
           isDescriptionExpanded = false;
         });
       },
-      child: Scaffold(
+      child: ScaffoldComponent(
           resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
           appBar: AppBarComponent(title: title),
-          backgroundColor: Colors.white,
+          isBottomNavigationVisible: false,
           body: Column(
             children: [
               Expanded(

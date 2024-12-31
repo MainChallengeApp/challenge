@@ -4,7 +4,9 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
@@ -49,6 +51,8 @@ class _GroupChallengeCardComponentState
 
   late final _groupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: false);
+
+  final _tabProvider = getIt<TabProvider>();
 
   // state variables
   late ParticipantModel _participant =
@@ -303,7 +307,12 @@ class _GroupChallengeCardComponentState
           participant: _participant,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void _onTapEditChallenge() {
@@ -334,21 +343,6 @@ class _GroupChallengeCardComponentState
   }
 
   _onTapAcceptanceCriteria() {
-    if (_groupChallenge.isGroupChallenge()) {
-      Navigator.push(
-          context,
-          NoAnimationPageRouteComponent(
-              builder: (context) => RepetitionPage(
-                    groupChallenge: _groupChallenge,
-                    participant: _participant,
-                    attempt: _latestAttempt,
-                  ))).then((_) {
-        if (mounted) {
-          setState(() {});
-        }
-      });
-      return;
-    }
     if (_latestAttempt.getFrequency(_groupChallenge).amount != null &&
         _latestAttempt.getFrequency(_groupChallenge).amount! <= 0) {
       return;
@@ -363,6 +357,7 @@ class _GroupChallengeCardComponentState
         ),
       ),
     ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
       if (mounted) {
         setState(() {});
       }
@@ -389,6 +384,7 @@ class _GroupChallengeCardComponentState
         ),
       ),
     ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
       if (mounted) {
         setState(() {});
       }
@@ -407,6 +403,11 @@ class _GroupChallengeCardComponentState
           participant: _participant,
         ),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }

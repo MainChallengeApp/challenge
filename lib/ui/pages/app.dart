@@ -6,7 +6,9 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/push_notification_service.dart';
+import 'package:challenge/ui/animations/visibility_animation.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/home_tab_navigator.dart';
 import 'package:challenge/ui/pages/search/search_tab_navigator.dart';
@@ -65,7 +67,7 @@ class AppState extends State<App> {
         }
         authService.logout();
         ErrorOccurredDialog.show(errorText: error.toString());
-      }).timeout((const Duration(seconds: 10)), onTimeout: () {
+      }).timeout((const Duration(seconds: 5)), onTimeout: () {
         isLoadingUserChallenges = false;
         if (mounted) {
           setState(() {});
@@ -113,11 +115,24 @@ class AppState extends State<App> {
                       _buildOffstageNavigator(TabItemEnum.search),
                       _buildOffstageNavigator(TabItemEnum.home),
                       _buildOffstageNavigator(TabItemEnum.user),
+                      _bottomNavigationBar()
                     ],
                   ),
                   backgroundColor: Theme.of(context).colorScheme.surface,
+                  // bottomNavigationBar: const BottomNavigationComponent(),
                 ),
               );
+  }
+
+  _bottomNavigationBar() {
+    bool isBottomNavigationVisible =
+        context.watch<TabProvider>().isBottomNavigationVisible;
+    return VisibilityAnimation(
+      isVisible: isBottomNavigationVisible,
+      child: const Align(
+          alignment: Alignment.bottomCenter,
+          child: BottomNavigationComponent()),
+    );
   }
 
   Widget _buildOffstageNavigator(TabItemEnum tabItem) {
