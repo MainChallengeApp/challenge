@@ -49,6 +49,7 @@ class _EditBioPageState extends State<EditBioPage> {
       child: ScaffoldComponent(
         appBar: AppBarComponent(title: _title),
         isBottomNavigationVisible: false,
+        resizeToAvoidBottomInset: true,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -1,6 +1,8 @@
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class ScaffoldComponent extends StatefulWidget {
@@ -14,7 +16,7 @@ class ScaffoldComponent extends StatefulWidget {
     this.appBar,
     required this.body,
     this.isBottomNavigationVisible = true,
-    this.resizeToAvoidBottomInset,
+    this.resizeToAvoidBottomInset = false,
   });
 
   @override
@@ -39,7 +41,16 @@ class _ScaffoldComponentState extends State<ScaffoldComponent> {
       appBar: widget.appBar,
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: widget.resizeToAvoidBottomInset,
-      body: widget.body,
+      body: Column(
+        children: [
+          Expanded(child: widget.body),
+          if (widget.isBottomNavigationVisible)
+            const SpaceComponent(
+              height: BottomNavigationComponent.standardHeight +
+                  BottomNavigationComponent.standardMargin,
+            ),
+        ],
+      ),
     );
   }
 }

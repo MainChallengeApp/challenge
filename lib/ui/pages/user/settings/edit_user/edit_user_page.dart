@@ -31,8 +31,6 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
-  bool isDescriptionExpanded = false;
-
   late final listeningUsersProvider = Provider.of<UsersProvider>(context);
 
   late UserModel user;
@@ -61,7 +59,6 @@ class _EditUserPageState extends State<EditUserPage> {
   Widget build(BuildContext context) {
     user = listeningUsersProvider.user;
     return ScaffoldComponent(
-      resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
       appBar: AppBarComponent(title: _title),
       isBottomNavigationVisible: false,
       body: ListView(

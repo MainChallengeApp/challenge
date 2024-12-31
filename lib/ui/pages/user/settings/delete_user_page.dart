@@ -43,6 +43,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
       child: ScaffoldComponent(
         appBar: AppBarComponent(title: titleText),
         isBottomNavigationVisible: false,
+        resizeToAvoidBottomInset: true,
         body: Column(
           children: [
             Expanded(

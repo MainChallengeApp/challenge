@@ -56,6 +56,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
           isFirstPageInRoute: widget.isRegistration,
         ),
         isBottomNavigationVisible: false,
+        resizeToAvoidBottomInset: true,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

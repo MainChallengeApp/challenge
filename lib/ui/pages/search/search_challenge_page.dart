@@ -10,7 +10,6 @@ import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/search/search_description_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -99,50 +98,38 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
-      resizeToAvoidBottomInset: false,
       appBar: AppBarComponent(title: widget.title),
-      body: Column(
-        children: [
-          Expanded(
-            child: Center(
-              child: _isLoading
-                  ? const LoadingCircleComponent()
-                  : listeningSearchChallengeProvider.searchChallenges.isEmpty
-                      ? ListView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          children: const [
-                            ListItemInfoComponent(text: 'No Challenges found'),
-                          ],
-                        )
-                      : PageView(
-                          controller: pageController,
-                          onPageChanged: onPageChanged,
-                          scrollDirection: Axis.vertical,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          children: listeningSearchChallengeProvider
-                              .searchChallenges
-                              .map(
-                            (challenge) {
-                              return Builder(builder: (context) {
-                                return CardComponent(
-                                  children: [
-                                    _thumbnail(challenge, context),
-                                    _title(challenge),
-                                    _description(challenge),
-                                    const SpaceComponent(),
-                                    _selectButton(challenge)
-                                  ],
-                                );
-                              });
-                            },
-                          ).toList()),
-            ),
-          ),
-          const SpaceComponent(
-            height: BottomNavigationComponent.standardHeight +
-                BottomNavigationComponent.standardMargin,
-          )
-        ],
+      body: Center(
+        child: _isLoading
+            ? const LoadingCircleComponent()
+            : listeningSearchChallengeProvider.searchChallenges.isEmpty
+                ? ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: const [
+                      ListItemInfoComponent(text: 'No Challenges found'),
+                    ],
+                  )
+                : PageView(
+                    controller: pageController,
+                    onPageChanged: onPageChanged,
+                    scrollDirection: Axis.vertical,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children:
+                        listeningSearchChallengeProvider.searchChallenges.map(
+                      (challenge) {
+                        return Builder(builder: (context) {
+                          return CardComponent(
+                            children: [
+                              _thumbnail(challenge, context),
+                              _title(challenge),
+                              _description(challenge),
+                              const SpaceComponent(),
+                              _selectButton(challenge)
+                            ],
+                          );
+                        });
+                      },
+                    ).toList()),
       ),
     );
   }

@@ -7,8 +7,6 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/group_challenge_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -58,25 +56,15 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
     return ScaffoldComponent(
       appBar: AppBarComponent(title: _title),
-      body: Column(
-        children: [
-          Expanded(
-            child: PageView(
-                controller: _pageController,
-                onPageChanged: _onPageChanged,
-                scrollDirection: Axis.vertical,
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: _filteredChallenges.map((challenge) {
-                  challenge.checkStatus();
-                  return GroupChallengeCardComponent(groupChallenge: challenge);
-                }).toList()),
-          ),
-          const SpaceComponent(
-            height: BottomNavigationComponent.standardHeight +
-                BottomNavigationComponent.standardMargin,
-          )
-        ],
-      ),
+      body: PageView(
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          scrollDirection: Axis.vertical,
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: _filteredChallenges.map((challenge) {
+            challenge.checkStatus();
+            return GroupChallengeCardComponent(groupChallenge: challenge);
+          }).toList()),
     );
   }
 

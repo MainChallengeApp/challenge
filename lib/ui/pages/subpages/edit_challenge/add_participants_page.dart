@@ -62,7 +62,6 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
         },
         child: ScaffoldComponent(
           appBar: AppBarComponent(title: title),
-          resizeToAvoidBottomInset: false,
           isBottomNavigationVisible: false,
           body: Column(
             children: [
@@ -237,7 +236,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
     if (filteredConnections.isEmpty) {
       return const SpaceColumnComponent(
         child: ListItemInfoComponent(
-          text: 'Connect to users to add them here',
+          text: 'No Connections found',
         ),
       );
     }

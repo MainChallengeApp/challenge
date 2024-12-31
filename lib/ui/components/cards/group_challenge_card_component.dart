@@ -326,6 +326,7 @@ class _GroupChallengeCardComponentState
           ),
         ),
       ).then((_) {
+        _tabProvider.setBottomNavigationVisibility(true);
         if (mounted) {
           setState(() {});
         }

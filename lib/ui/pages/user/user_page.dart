@@ -11,7 +11,6 @@ import 'package:challenge/ui/components/advanced_components/scaffold_component.d
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -76,40 +75,29 @@ class _UserPageState extends State<UserPage> {
           isFirstPageInRoute: true,
           actions: actions(user),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: RefreshIndicatorComponent(
-                  onRefresh: () async {
-                    await usersProvider.getUser().then((_) async {
-                      await usersProvider.getConnections();
-                      await listeningNotificationsProvider
-                          .getUserNotifications();
-                    });
-                  },
-                  scrollController: scrollController,
-                  child: CardComponent(
-                    scrollPhysics: const AlwaysScrollableScrollPhysics(),
-                    scrollController: scrollController,
-                    children: [
-                      _profilePicture(user),
-                      _username(user),
-                      _bio(user),
-                      _challengesAndConnections(user),
-                      _expandedSpace(),
-                      _notifications(user)
-                    ],
-                  ),
-                ),
-              ),
+        body: Container(
+          color: Colors.white,
+          child: RefreshIndicatorComponent(
+            onRefresh: () async {
+              await usersProvider.getUser().then((_) async {
+                await usersProvider.getConnections();
+                await listeningNotificationsProvider.getUserNotifications();
+              });
+            },
+            scrollController: scrollController,
+            child: CardComponent(
+              scrollPhysics: const AlwaysScrollableScrollPhysics(),
+              scrollController: scrollController,
+              children: [
+                _profilePicture(user),
+                _username(user),
+                _bio(user),
+                _challengesAndConnections(user),
+                _expandedSpace(),
+                _notifications(user)
+              ],
             ),
-            const SpaceComponent(
-              height: BottomNavigationComponent.standardHeight +
-                  BottomNavigationComponent.standardMargin,
-            )
-          ],
+          ),
         ));
   }
 

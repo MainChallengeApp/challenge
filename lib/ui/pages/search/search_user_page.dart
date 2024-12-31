@@ -11,7 +11,6 @@ import 'package:challenge/ui/components/advanced_components/scaffold_component.d
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -95,42 +94,31 @@ class _SearchUserPageState extends State<SearchUserPage> {
       ),
       padding: const EdgeInsets.only(top: 10),
       body: ScaffoldComponent(
-        resizeToAvoidBottomInset: false,
         appBar: AppBarComponent(
           title: widget.title,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: PageView(
-                    controller: pageController,
-                    onPageChanged: onPageChanged,
-                    scrollDirection: Axis.vertical,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: users.map(
-                      (user) {
-                        return Builder(builder: (context) {
-                          return CardComponent(
-                            children: [
-                              profilePicture(user),
-                              usernameAndMore(user),
-                              bio(user),
-                              challengesAndConnections(user),
-                              expandedSpace(),
-                              actionButton(user)
-                            ],
-                          );
-                        });
-                      },
-                    ).toList()),
-              ),
-            ),
-            const SpaceComponent(
-              height: BottomNavigationComponent.standardHeight +
-                  BottomNavigationComponent.standardMargin,
-            )
-          ],
+        body: Center(
+          child: PageView(
+              controller: pageController,
+              onPageChanged: onPageChanged,
+              scrollDirection: Axis.vertical,
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: users.map(
+                (user) {
+                  return Builder(builder: (context) {
+                    return CardComponent(
+                      children: [
+                        profilePicture(user),
+                        usernameAndMore(user),
+                        bio(user),
+                        challengesAndConnections(user),
+                        expandedSpace(),
+                        actionButton(user)
+                      ],
+                    );
+                  });
+                },
+              ).toList()),
         ),
       ),
     );
