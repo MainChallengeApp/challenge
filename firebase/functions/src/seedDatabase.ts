@@ -15,8 +15,8 @@ type SearchChallengeType = {
   createdAt: Date;
 };
 
-export const seedDatabaseDefinition = functions.https.onRequest(async (req, res) => {
-  const seedDataString = fs.readFileSync('../../assets/search_challenges2.json');
+export const seedDatabaseDefinition = functions.https.onCall(async (_) => {
+  const seedDataString = fs.readFileSync('assets/search_challenges.json');
   const seedData = JSON.parse(seedDataString.toString());
   const db = admin.firestore();
   const searchChallengesSnapshot = await db.collection('search_challenges').get();
@@ -29,36 +29,37 @@ export const seedDatabaseDefinition = functions.https.onRequest(async (req, res)
   const batch = db.batch();
   const bucket = admin.storage().bucket();
 
-  seedData.forEach(async (searchChallenge: SearchChallengeType) => {
-    searchChallenge.createdAt = new Date();
-    const searchChallengeRef = db.collection('search_challenges').doc();
+  await Promise.all(
+    seedData.map(async (searchChallenge: SearchChallengeType) => {
+      searchChallenge.createdAt = new Date();
+      const searchChallengeRef = db.collection('search_challenges').doc();
 
-    // Path to your asset file
-    const assetPath = `../../${searchChallenge.thumbnail.url}`;
+      // Path to your asset file
+      const assetPath = searchChallenge.thumbnail.url;
 
-    // Read the file
-    const fileBuffer = fs.readFileSync(assetPath);
+      // Read the file
+      const fileBuffer = fs.readFileSync(assetPath);
 
-    // Generate a unique filename
-    const fileName = `search_challenges/${searchChallengeRef.id}/thumbnail.jpg`;
+      // Generate a unique filename
+      const fileName = `search_challenges/${searchChallengeRef.id}/thumbnail.jpg`;
 
-    // Get a reference to the storage bucket
+      // Get a reference to the storage bucket
 
-    // Upload the file to Firebase Storage
-    const file = bucket.file(fileName);
-    await file.save(fileBuffer, {
-      metadata: {
-        contentType: 'image/jpeg', // Adjust this based on your file type
-      },
-    });
+      // Upload the file to Firebase Storage
+      const file = bucket.file(fileName);
+      await file.save(fileBuffer, {
+        metadata: {
+          contentType: 'image/jpeg', // Adjust this based on your file type
+        },
+      });
 
-    // Update the searchChallenge object with the new URL
-    searchChallenge.thumbnail.url = await getDownloadURL(file);
+      // Update the searchChallenge object with the new URL
+      searchChallenge.thumbnail.url = await getDownloadURL(file);
+      await db.collection('search_challenges').doc(searchChallengeRef.id).set(searchChallenge);
 
-    await db.collection('search_challenges').doc(searchChallengeRef.id).set(searchChallenge);
-
-    // batch.set(searchChallengeRef, searchChallenge);
-  });
+      // batch.set(searchChallengeRef, searchChallenge);
+    })
+  );
 
   //   seedData.groupChallenges.forEach((groupChallenge: any) => {
   //     const groupChallengeRef = db.collection("groupChallenges").doc(groupChallenge.id);
@@ -71,5 +72,5 @@ export const seedDatabaseDefinition = functions.https.onRequest(async (req, res)
   //   });
 
   await batch.commit();
-  res.send('Database seeded successfully');
+  // res.send('Database seeded successfully');
 });

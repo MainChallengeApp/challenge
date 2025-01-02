@@ -13,6 +13,10 @@ service firebase.storage {
       allow read: if isLoggedIn();
       allow write: if isUser(userId);
     }
+
+    match /search_challenges/{challengeId}/{allPaths=**} {
+      allow read: if true;
+    }
   }
 }
 

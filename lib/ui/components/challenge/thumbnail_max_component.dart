@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
@@ -47,9 +48,19 @@ class ThumbnailMaxComponent extends StatelessWidget {
                               )
                             : Transform.scale(
                                 scale: challenge.thumbnail!.scale,
-                                child: Image.network(challenge.thumbnail!.url,
-                                    fit: challenge.thumbnail!.fit.fit),
-                              )
+                                child: CachedNetworkImage(
+                                    imageUrl: challenge.thumbnail!.url,
+                                    fit: challenge.thumbnail!.fit.fit,
+                                    fadeInDuration: Duration.zero,
+                                    errorWidget: (context, url, error) =>
+                                        Center(
+                                          child: Image.asset(
+                                            'assets/icons/challenge_icon_black.png',
+                                            fit: BoxFit.contain,
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                        )))
                         : Image.asset(
                             'assets/icons/challenge_icon_black.png',
                             fit: BoxFit.contain,
