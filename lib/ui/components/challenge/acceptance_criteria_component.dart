@@ -38,7 +38,7 @@ class _AcceptanceCriteriaComponentState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 55,
+      height: CustomContainerComponent.standardHeight,
       child: Stack(
         children: [
           FractionallySizedBox(

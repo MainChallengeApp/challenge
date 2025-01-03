@@ -252,29 +252,6 @@ class _RepetitionPageState extends State<RepetitionPage> {
     return item;
   }
 
-  button() {
-    return GestureDetector(
-      onTap: () {},
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: 55,
-          margin: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: const Center(
-              child: Text(
-            'Save',
-            style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
-          )),
-        ),
-      ),
-    );
-  }
-
   onTapProgress(RepetitionModel repetition, ProgressModel progress) {
     Navigator.push(
       context,

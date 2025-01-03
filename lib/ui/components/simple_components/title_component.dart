@@ -1,4 +1,5 @@
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
 
 class TitleComponent extends StatelessWidget {
@@ -16,10 +17,11 @@ class TitleComponent extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0 + 1),
+          padding: const EdgeInsets.only(
+              left: CustomContainerComponent.standardPadding + 1),
           child: SizedBox(
-            height: CustomContainerComponent.standardHeight *
-                0.55, // to prevent jumping on start
+            height: SmallContainerInListItemComponent
+                .height, // to prevent jumping on start
             child: Text(title,
                 style: Theme.of(context).textTheme.titleLarge,
                 overflow: TextOverflow.ellipsis,
