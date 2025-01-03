@@ -10,7 +10,7 @@ class VisibilityAnimation extends StatefulWidget {
     Key? key,
     required this.child,
     required this.isVisible,
-    this.duration = const Duration(milliseconds: 300),
+    this.duration = const Duration(milliseconds: 200),
     this.curve = Curves.easeInOut,
   }) : super(key: key);
 

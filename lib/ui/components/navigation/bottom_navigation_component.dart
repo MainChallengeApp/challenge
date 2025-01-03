@@ -48,6 +48,11 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     );
   }
 
+  Map<TabItemEnum, bool> isHighlighted = {
+    TabItemEnum.search: false,
+    TabItemEnum.home: false,
+    TabItemEnum.user: false,
+  };
   _bottomNavIcon(TabItemEnum tabItem) {
     Widget icon = tabItem == TabItemEnum.search
         ? Text(
@@ -70,6 +75,15 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     return Expanded(
       child: GestureDetector(
         onTap: () => onTapIcon(tabItem),
+        onTapDown: (_) => setState(() {
+          isHighlighted[tabItem] = true;
+        }),
+        onTapUp: (details) => setState(() {
+          isHighlighted[tabItem] = false;
+        }),
+        onTapCancel: () => setState(() {
+          isHighlighted[tabItem] = false;
+        }),
         child: Container(
           color: Colors.transparent,
           height: double.infinity,
@@ -92,6 +106,22 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                 height: isSelected
                     ? BottomNavigationComponent.standardIndicatorSize
                     : 0,
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 50),
+                height: isHighlighted[tabItem]!
+                    ? BottomNavigationComponent.standardIndicatorSize
+                    : 0,
+                width: isHighlighted[tabItem]!
+                    ? BottomNavigationComponent.standardIndicatorSize
+                    : 0,
+                decoration: BoxDecoration(
+                  color: isHighlighted[tabItem]!
+                      ? Theme.of(context).colorScheme.secondary.withAlpha(100)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(
+                      BottomNavigationComponent.standardIndicatorRadius),
+                ),
               ),
               icon
             ],
