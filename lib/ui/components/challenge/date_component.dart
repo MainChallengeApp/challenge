@@ -9,6 +9,8 @@ class DateComponent extends StatefulWidget {
   final String text;
   final Color? textColor;
   final Function()? onTap;
+  final bool dateWithTime;
+  final bool isSelected;
 
   const DateComponent({
     super.key,
@@ -16,6 +18,8 @@ class DateComponent extends StatefulWidget {
     required this.text,
     this.onTap,
     this.textColor,
+    this.dateWithTime = true,
+    this.isSelected = false,
   });
 
   @override
@@ -32,6 +36,8 @@ class _DateComponentState extends State<DateComponent> {
             right: CustomContainerComponent.standardPadding,
             top: 5,
             bottom: 5),
+        borderColor:
+            widget.isSelected ? Theme.of(context).colorScheme.onSurface : null,
         child: Stack(
           children: [
             Align(
@@ -61,7 +67,7 @@ class _DateComponentState extends State<DateComponent> {
             Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  widget.date != null
+                  widget.date != null && widget.dateWithTime
                       ? UtilService.timeFormat(widget.date!)
                       : '',
                   style: Theme.of(context)

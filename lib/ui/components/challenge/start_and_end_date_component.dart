@@ -1,3 +1,4 @@
+import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
@@ -5,9 +6,9 @@ import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
+import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/components/simple_components/switch_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('end'),
         date: _getEndDate(),
         text: 'End',
+        dateWithTime: _dateWithTime,
         textColor: widget.isLocked
             ? Theme.of(context).colorScheme.tertiary
             : Colors.black,
@@ -73,6 +75,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         onTap: widget.isLocked ? null : () => onTapStartOrEndDate('start'),
         date: _getStartDate(),
         text: 'Start',
+        dateWithTime: _dateWithTime,
         textColor: widget.isLocked
             ? Theme.of(context).colorScheme.tertiary
             : Colors.black,
@@ -93,45 +96,18 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
     bool isDateTimeChanged = false;
 
+    bool isOnStartDate = startOrEnd == 'start';
+
     await showCupertinoModalPopup(
         context: context,
         builder: (BuildContext context) {
-          return StatefulBuilder(
-              builder: (BuildContext context, StateSetter setModalState) {
-            var size = MediaQuery.of(context).size;
-            return GestureDetector(
-              onTap: () {
-                if (startOrEnd == 'start') {
-                  setState(() {
-                    if (!isDateTimeChanged) {
-                      _setStartDate(initialDateTime ??
-                          (_dateWithTime
-                              ? TimeService.now()
-                              : UtilService.dateWithoutTime(
-                                  TimeService.now())));
-                      if (_getEndDate() == null) {
-                        calcEndDate();
-                      }
-                      calcFrequencyAmount();
-                      widget.reloadParentPage?.call();
-                    }
-                  });
-                } else if (startOrEnd == 'end') {
-                  setState(() {
-                    if (!isDateTimeChanged) {
-                      _setEndDate(initialDateTime ??
-                          UtilService.dateWithoutTime(TimeService.now()));
-
-                      if (_getStartDate() == null) {
-                        calcStartDate();
-                      }
-                      calcFrequencyAmount();
-                      widget.reloadParentPage?.call();
-                    }
-                  });
-                }
-              },
-              child: Container(
+          return Material(
+            type: MaterialType.transparency,
+            child: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setModalState) {
+              var size = MediaQuery.of(context).size;
+              List<DateTime?> dates = [_getStartDate(), _getEndDate()];
+              return Container(
                 decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -141,83 +117,88 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                         Radius.circular(CardComponent.standardBorderRadius),
                   ),
                 ),
-                height: size.height * 0.3,
+                height: size.height * 0.6,
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                          left: BottomNavigationComponent.standardMargin * 2.2,
-                          right: BottomNavigationComponent.standardMargin * 2.2,
-                          top: BottomNavigationComponent.standardMargin / 1.8),
+                      padding:
+                          const EdgeInsets.all(SpaceComponent.standardHeight),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Time',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          SwitchComponent(
-                              value: _dateWithTime,
-                              onChanged: (value) {
-                                setModalState(() {
-                                  _dateWithTime = value;
-                                  if (_dateWithTime) {
-                                    initialDateTime =
-                                        setInitialTime(startOrEnd);
-                                    return;
-                                  }
-
-                                  if (startOrEnd == 'start' &&
-                                      _getStartDate() != null) {
-                                    _setStartDate(UtilService.dateWithoutTime(
-                                        _getStartDate()!));
-                                    calcEndDate();
-                                  } else if (startOrEnd == 'end' &&
-                                      _getEndDate() != null) {
-                                    _setEndDate(UtilService.dateWithoutTime(
-                                        _getEndDate()!));
-                                    calcStartDate();
-                                  }
-                                  initialDateTime = setInitialTime(startOrEnd);
-
-                                  setState(() {});
-                                });
-                              }),
+                          Expanded(
+                              child: DateComponent(
+                                  onTap: () => setModalState(() {
+                                        isOnStartDate = true;
+                                      }),
+                                  isSelected: isOnStartDate,
+                                  date: _getStartDate(),
+                                  text: 'Start')),
+                          const SpaceComponent(),
+                          Expanded(
+                              child: DateComponent(
+                                  onTap: () => setModalState(() {
+                                        isOnStartDate = false;
+                                      }),
+                                  isSelected: !isOnStartDate,
+                                  date: _getEndDate(),
+                                  text: 'End')),
                         ],
                       ),
                     ),
                     Expanded(
-                      child: CupertinoDatePicker(
-                        key: UniqueKey(),
-                        maximumDate: _maximumDate(startOrEnd),
-                        minimumDate: _minimumDate(startOrEnd, initialDateTime),
-                        initialDateTime: initialDateTime ?? TimeService.now(),
-                        mode: _dateWithTime
-                            ? CupertinoDatePickerMode.dateAndTime
-                            : CupertinoDatePickerMode.date,
-                        dateOrder: DatePickerDateOrder.dmy,
-                        showDayOfWeek: true,
-                        use24hFormat: true,
-                        onDateTimeChanged: (value) {
-                          isDateTimeChanged = true;
-                          setState(() {
-                            if (startOrEnd == 'start') {
-                              _setStartDate(value);
-                              calcEndDate();
-                            } else if (startOrEnd == 'end') {
-                              _setEndDate(value);
-                              calcStartDate();
-                              widget.reloadParentPage?.call();
+                      child: CalendarDatePicker2(
+                        config: CalendarDatePicker2Config(
+                            currentDate: TimeService.now(),
+                            allowSameValueSelection: true,
+                            calendarType: CalendarDatePicker2Type.range,
+                            daySplashColor:
+                                Theme.of(context).colorScheme.primary,
+                            centerAlignModePicker: true,
+                            hideMonthPickerDividers: true,
+                            firstDayOfWeek: 1),
+                        value: dates,
+                        onValueChanged: (newDates) {
+                          if (isOnStartDate) {
+                            _setStartDate(newDates.last);
+                          } else {
+                            _setEndDate(newDates.last);
+                          }
+
+                          if (_getStartDate() != null &&
+                              _getEndDate() != null &&
+                              _getStartDate()!.isAfter(_getEndDate()!)) {
+                            if (isOnStartDate) {
+                              _setEndDate(null);
+                            } else {
+                              _setStartDate(null);
                             }
-                          });
+                          }
+
+                          if (_getEndDate() != null &&
+                              _getStartDate() == null) {
+                            _setStartDate(_getEndDate());
+                          }
+
+                          isOnStartDate = !isOnStartDate;
+                          setModalState(() {});
                         },
                       ),
                     ),
+                    SpaceColumnComponent(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: CustomButtonComponent(
+                                  onTap: () => {}, text: 'Cancel')),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              ),
-            );
-          });
+              );
+            }),
+          );
         });
   }
 
@@ -305,26 +286,30 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   }
 
   _setEndDate(DateTime? endDate) {
-    if (!_dateWithTime && endDate != null) {
-      endDate = UtilService.dateWithoutTime(endDate);
-    }
-    if (widget.editChallenge != null) {
-      widget.editChallenge!.endDate = endDate;
-      return;
-    }
-    if (widget.editAttempt != null && widget.groupChallenge != null) {
-      widget.editAttempt!.endDate = endDate;
-    }
+    setState(() {
+      if (!_dateWithTime && endDate != null) {
+        endDate = UtilService.dateWithoutTime(endDate!);
+      }
+      if (widget.editChallenge != null) {
+        widget.editChallenge!.endDate = endDate;
+        return;
+      }
+      if (widget.editAttempt != null && widget.groupChallenge != null) {
+        widget.editAttempt!.endDate = endDate;
+      }
+    });
   }
 
   _setStartDate(DateTime? startDate) {
-    if (widget.editChallenge != null) {
-      widget.editChallenge!.startDate = startDate;
-      return;
-    }
-    if (widget.editAttempt != null && widget.groupChallenge != null) {
-      widget.editAttempt!.startDate = startDate;
-    }
+    setState(() {
+      if (widget.editChallenge != null) {
+        widget.editChallenge!.startDate = startDate;
+        return;
+      }
+      if (widget.editAttempt != null && widget.groupChallenge != null) {
+        widget.editAttempt!.startDate = startDate;
+      }
+    });
   }
 
   _getEndDate() {

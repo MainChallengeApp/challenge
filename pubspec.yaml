@@ -63,6 +63,7 @@ dependencies:
   cached_network_image: ^3.3.1
   flutter_image_compress: ^2.3.0
   permission_handler: ^11.3.1
+  calendar_date_picker2: ^1.1.8
 
 dev_dependencies:
   flutter_test:
