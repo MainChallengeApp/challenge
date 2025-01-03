@@ -93,6 +93,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
   @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
+      isBottomNavigationVisible: false,
       body: SafeArea(bottom: false, child: _buildBody()),
     );
   }
@@ -277,7 +278,16 @@ class _CameraStateMedia extends State<MediaCameraPage>
     if (_currentCamera == null ||
         _controller == null ||
         !_controller!.value.isInitialized) {
-      return const Center(child: LoadingCircleComponent());
+      return Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.themeColor4,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(CardComponent.standardBorderRadius),
+          ),
+        ),
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: _arrowBack(),
+      );
     }
     return GestureDetector(
       onDoubleTap: _onDoubleTapChangeCamera,
@@ -311,7 +321,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
           padding: const EdgeInsets.only(top: 20, left: 20),
           child: Icon(
             IconEnum.arrowLeft.icon,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ),

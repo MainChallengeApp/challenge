@@ -4,7 +4,9 @@ import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -61,6 +63,7 @@ class _SearchListPageState extends State<SearchListPage> {
       Provider.of<UsersProvider>(context, listen: false);
   late final listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
+  final _tabProvider = getIt<TabProvider>();
 
   int numberOfBuilds = 0;
 
@@ -279,7 +282,12 @@ class _SearchListPageState extends State<SearchListPage> {
           isSearchNewChallenge: true,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   Future<void> onChangeList(String searchText) async {

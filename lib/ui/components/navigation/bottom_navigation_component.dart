@@ -8,6 +8,8 @@ class BottomNavigationComponent extends StatefulWidget {
   static const double standardMargin = 20;
   static const double standardBorderRadius = 24;
   static const double standardHeight = 81;
+  static const double standardIndicatorSize = 50;
+  static const double standardIndicatorRadius = 16;
 
   const BottomNavigationComponent({super.key});
 
@@ -25,85 +27,81 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
           right: BottomNavigationComponent.standardMargin,
           bottom: BottomNavigationComponent.standardMargin,
           top: 0),
-      child: SizedBox(
-        height: BottomNavigationComponent.standardHeight,
-        child: ClipRRect(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(
               BottomNavigationComponent.standardBorderRadius),
-          child: OverflowBox(
-            maxHeight: double.infinity,
-            child: NavigationBar(
-              onDestinationSelected: onTapIcon,
-              indicatorColor: Theme.of(context).colorScheme.secondary,
-              indicatorShape: const RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 0,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(16))),
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              selectedIndex: context.watch<TabProvider>().currentTab.index,
-              elevation: 0,
-              destinations: <Widget>[
-                search(),
-                home(),
-                user(),
-              ],
-            ),
+        ),
+        height: BottomNavigationComponent.standardHeight,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              _bottomNavIcon(TabItemEnum.search),
+              _bottomNavIcon(TabItemEnum.home),
+              _bottomNavIcon(TabItemEnum.user),
+            ],
           ),
         ),
       ),
     );
   }
 
-  void onTapIcon(int index) {
-    context.read<TabProvider>().selectTab(TabItemEnum.values[index]);
-  }
-
-  NavigationDestination user() {
-    return NavigationDestination(
-      selectedIcon: Icon(IconEnum.user.icon, color: Colors.white, size: 29),
-      icon: Icon(IconEnum.user.icon, color: Colors.white, size: 29),
-      label: '',
-    );
-  }
-
-  NavigationDestination home() {
-    return const NavigationDestination(
-      selectedIcon: ImageIcon(
-        AssetImage('assets/icons/challenge_icon.png'),
-        color: Colors.white,
-      ),
-      icon: ImageIcon(
-        AssetImage('assets/icons/challenge_icon.png'),
-        color: Colors.white,
-      ), //Icon(TabItem.Home.icon, color: Colors.white),
-      label: '',
-    );
-  }
-
-  NavigationDestination search() {
-    return NavigationDestination(
-      selectedIcon: Text(
-        String.fromCharCode(IconEnum.search.icon.codePoint),
-        style: TextStyle(
-          color: Colors.white,
-          inherit: false,
-          fontSize: 26,
-          fontWeight: FontWeight.w600,
-          fontFamily: IconEnum.search.icon.fontFamily,
+  _bottomNavIcon(TabItemEnum tabItem) {
+    Widget icon = tabItem == TabItemEnum.search
+        ? Text(
+            String.fromCharCode(IconEnum.search.icon.codePoint),
+            style: TextStyle(
+              color: Colors.white,
+              inherit: false,
+              fontSize: 26,
+              fontWeight: FontWeight.w600,
+              fontFamily: IconEnum.search.icon.fontFamily,
+            ),
+          )
+        : tabItem == TabItemEnum.home
+            ? const ImageIcon(
+                AssetImage('assets/icons/challenge_icon.png'),
+                color: Colors.white,
+              )
+            : Icon(IconEnum.user.icon, color: Colors.white);
+    bool isSelected = context.watch<TabProvider>().currentTab == tabItem;
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onTapIcon(tabItem),
+        child: Container(
+          color: Colors.transparent,
+          height: double.infinity,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeInOut,
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.secondary
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(
+                      BottomNavigationComponent.standardIndicatorRadius),
+                ),
+                width: isSelected
+                    ? BottomNavigationComponent.standardIndicatorSize
+                    : 0,
+                height: isSelected
+                    ? BottomNavigationComponent.standardIndicatorSize
+                    : 0,
+              ),
+              icon
+            ],
+          ),
         ),
       ),
-      icon: Text(
-        String.fromCharCode(IconEnum.search.icon.codePoint),
-        style: TextStyle(
-          color: Colors.white,
-          inherit: false,
-          fontSize: 26,
-          fontWeight: FontWeight.w600,
-          fontFamily: IconEnum.search.icon.fontFamily,
-        ),
-      ),
-      label: '',
     );
+  }
+
+  void onTapIcon(TabItemEnum tabItem) {
+    context.read<TabProvider>().selectTab(tabItem);
   }
 }

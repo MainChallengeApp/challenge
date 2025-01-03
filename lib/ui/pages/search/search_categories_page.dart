@@ -2,6 +2,8 @@ import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/categories/category_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
@@ -31,6 +33,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
 
   late final searchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: false);
+  final _tabProvider = getIt<TabProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -215,6 +218,11 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           isSearchNewChallenge: true,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }

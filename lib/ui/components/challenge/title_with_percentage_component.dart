@@ -92,6 +92,11 @@ class _TitleWithPercentageComponentState
           participant: widget.participant,
         ),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }

@@ -17,6 +17,9 @@ class TabProvider with ChangeNotifier {
       _navigatorKeys;
 
   void selectTab(TabItemEnum tabItem) {
+    if (_isBottomNavigationVisible == false) {
+      return;
+    }
     if (tabItem == _currentTab) {
       _navigatorKeys[tabItem]!.currentState?.popUntil((route) => route.isFirst);
     } else {

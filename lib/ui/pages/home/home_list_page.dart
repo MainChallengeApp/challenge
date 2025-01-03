@@ -1,7 +1,9 @@
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -34,6 +36,7 @@ class _HomeListPageState extends State<HomeListPage> {
 
   late final _usersProvider =
       Provider.of<UsersProvider>(context, listen: false);
+  final _tabProvider = getIt<TabProvider>();
 
   List<GroupChallengeModel> _filteredChallenges = [];
 
@@ -174,7 +177,12 @@ class _HomeListPageState extends State<HomeListPage> {
           isNewChallenge: true,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void onTapDeleteChallenge(GroupChallengeModel groupChallenge) {
@@ -196,6 +204,11 @@ class _HomeListPageState extends State<HomeListPage> {
           isNewChallenge: false,
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }
