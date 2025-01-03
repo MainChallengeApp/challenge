@@ -94,6 +94,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 .inSeconds !=
             0;
 
+    // ignore: unused_local_variable
     bool isDateTimeChanged = false;
 
     bool isOnStartDate = startOrEnd == 'start';
@@ -202,6 +203,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         });
   }
 
+  // ignore: unused_element
   DateTime? _minimumDate(String startOrEnd, DateTime? initialDateTime) {
     if (startOrEnd == 'start') {
       if (widget.editChallenge != null) {
@@ -222,6 +224,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     }
   }
 
+  // ignore: unused_element
   DateTime? _maximumDate(String startOrEnd) {
     if (startOrEnd == 'end') {
       if (widget.editChallenge != null) {
