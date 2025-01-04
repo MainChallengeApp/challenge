@@ -6,8 +6,9 @@ import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
-import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_container_text_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,16 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   @override
   Widget build(BuildContext context) {
+    _dateWithTime = _getStartDate() != null &&
+            _getStartDate()!
+                    .difference(UtilService.dateWithoutTime(_getStartDate()!))
+                    .inSeconds !=
+                0 ||
+        _getEndDate() != null &&
+            _getEndDate()!
+                    .difference(UtilService.dateWithoutTime(_getEndDate()!))
+                    .inSeconds !=
+                0;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -86,18 +97,10 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   void onTapStartOrEndDate(String startOrEnd) async {
     if (widget.isLocked) return;
 
-    DateTime? initialDateTime = setInitialTime(startOrEnd);
-
-    _dateWithTime = initialDateTime != null &&
-        initialDateTime
-                .difference(UtilService.dateWithoutTime(initialDateTime))
-                .inSeconds !=
-            0;
-
-    // ignore: unused_local_variable
-    bool isDateTimeChanged = false;
-
     bool isOnStartDate = startOrEnd == 'start';
+    bool isOnTime = false;
+    DateTime firstDate = DateTime(1970, 1, 1);
+    PageController? dayViewController;
 
     await showCupertinoModalPopup(
         context: context,
@@ -108,99 +111,217 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                 builder: (BuildContext context, StateSetter setModalState) {
               var size = MediaQuery.of(context).size;
               List<DateTime?> dates = [_getStartDate(), _getEndDate()];
+
+              // Function to create or recreate the PageController
+              PageController createPageController() {
+                dayViewController = PageController(
+                  initialPage: _monthsBetween(
+                      firstDate,
+                      isOnStartDate
+                          ? _getStartDate() ?? TimeService.now()
+                          : _getEndDate() ?? TimeService.now()),
+                );
+                return dayViewController!;
+              }
+
+              // Create the PageController initially if not on time
+              if (dayViewController == null || !dayViewController!.hasClients) {
+                createPageController();
+              }
+
               return Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surface,
+                  borderRadius: const BorderRadius.only(
                     topLeft:
                         Radius.circular(CardComponent.standardBorderRadius),
                     topRight:
                         Radius.circular(CardComponent.standardBorderRadius),
                   ),
                 ),
-                height: size.height * 0.6,
+                height: size.height * 0.63,
                 child: Column(
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.all(SpaceComponent.standardHeight),
+                      padding: const EdgeInsets.only(
+                          left: SpaceComponent.standardHeight,
+                          right: SpaceComponent.standardHeight,
+                          top: SpaceComponent.standardHeight),
                       child: Row(
                         children: [
                           Expanded(
                               child: DateComponent(
-                                  onTap: () => setModalState(() {
-                                        isOnStartDate = true;
-                                      }),
+                                  onTap: () {
+                                    if (isOnStartDate &&
+                                        _getStartDate() != null) {
+                                      if (isOnTime) {
+                                        isOnTime = false;
+                                      } else {
+                                        int monthsBetween = _monthsBetween(
+                                            firstDate, _getStartDate()!);
+                                        if (dayViewController != null &&
+                                            dayViewController!.hasClients) {
+                                          dayViewController?.animateToPage(
+                                              monthsBetween,
+                                              duration: const Duration(
+                                                  milliseconds: 500),
+                                              curve: Curves.ease);
+                                        }
+                                      }
+                                    }
+                                    setModalState(() {
+                                      isOnStartDate = true;
+                                      if (_getStartDate() == null) {
+                                        isOnTime = false;
+                                      }
+                                    });
+                                  },
                                   isSelected: isOnStartDate,
+                                  textColor: isOnStartDate
+                                      ? Colors.black
+                                      : Theme.of(context).colorScheme.tertiary,
                                   date: _getStartDate(),
                                   text: 'Start')),
                           const SpaceComponent(),
                           Expanded(
                               child: DateComponent(
-                                  onTap: () => setModalState(() {
-                                        isOnStartDate = false;
-                                      }),
+                                  onTap: () {
+                                    if (!isOnStartDate &&
+                                        _getEndDate() != null) {
+                                      if (isOnTime) {
+                                        isOnTime = false;
+                                      } else {
+                                        int monthsBetween = _monthsBetween(
+                                            firstDate, _getEndDate()!);
+                                        if (dayViewController != null &&
+                                            dayViewController!.hasClients) {
+                                          dayViewController?.animateToPage(
+                                              monthsBetween,
+                                              duration: const Duration(
+                                                  milliseconds: 500),
+                                              curve: Curves.ease);
+                                        }
+                                      }
+                                    }
+                                    setModalState(() {
+                                      isOnStartDate = false;
+                                      if (_getEndDate() == null) {
+                                        isOnTime = false;
+                                      }
+                                    });
+                                  },
                                   isSelected: !isOnStartDate,
+                                  textColor: !isOnStartDate
+                                      ? Colors.black
+                                      : Theme.of(context).colorScheme.tertiary,
                                   date: _getEndDate(),
                                   text: 'End')),
                         ],
                       ),
                     ),
                     Expanded(
-                      child: CalendarDatePicker2(
-                        config: CalendarDatePicker2Config(
-                            currentDate: TimeService.now(),
-                            allowSameValueSelection: true,
-                            calendarType: CalendarDatePicker2Type.range,
-                            daySplashColor:
-                                Theme.of(context).colorScheme.primary,
-                            centerAlignModePicker: true,
-                            hideMonthPickerDividers: true,
-                            firstDayOfWeek: 1),
-                        value: dates,
-                        onValueChanged: (newDates) {
-                          if (isOnStartDate) {
-                            _setStartDate(newDates.last);
-                          } else {
-                            _setEndDate(newDates.last);
-                          }
+                      child: isOnTime
+                          ? CupertinoDatePicker(
+                              key: ValueKey(isOnStartDate),
+                              mode: CupertinoDatePickerMode.time,
+                              use24hFormat: true,
+                              initialDateTime: isOnStartDate
+                                  ? _getStartDate() ?? TimeService.now()
+                                  : _getEndDate() ?? TimeService.now(),
+                              onDateTimeChanged: (DateTime newDateTime) {
+                                if (isOnStartDate) {
+                                  _setStartDate(newDateTime);
+                                } else {
+                                  _setEndDate(newDateTime);
+                                }
+                                setModalState(() {});
+                              },
+                            )
+                          : CalendarDatePicker2(
+                              config: CalendarDatePicker2Config(
+                                  currentDate: TimeService.now(),
+                                  allowSameValueSelection: true,
+                                  calendarType: CalendarDatePicker2Type.range,
+                                  daySplashColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  monthViewController: ScrollController(),
+                                  centerAlignModePicker: true,
+                                  hideMonthPickerDividers: true,
+                                  hideYearPickerDividers: true,
+                                  dayViewController: dayViewController ??
+                                      createPageController(),
+                                  firstDayOfWeek: 1),
+                              value: dates,
+                              onValueChanged: (newDates) {
+                                if (isOnStartDate) {
+                                  _setStartDate(newDates.last);
+                                } else {
+                                  _setEndDate(newDates.last);
+                                }
 
-                          if (_getStartDate() != null &&
-                              _getEndDate() != null &&
-                              _getStartDate()!.isAfter(_getEndDate()!)) {
-                            if (isOnStartDate) {
-                              _setEndDate(null);
-                            } else {
-                              _setStartDate(null);
-                            }
-                          }
+                                if (_getStartDate() != null &&
+                                    _getEndDate() != null &&
+                                    _getStartDate()!.isAfter(_getEndDate()!)) {
+                                  if (isOnStartDate) {
+                                    _setEndDate(null);
+                                  } else {
+                                    _setStartDate(null);
+                                  }
+                                }
 
-                          if (_getEndDate() != null &&
-                              _getStartDate() == null) {
-                            _setStartDate(_getEndDate());
-                          }
+                                if (_getEndDate() != null &&
+                                    _getStartDate() == null) {
+                                  _setStartDate(_getEndDate());
+                                }
 
-                          isOnStartDate = !isOnStartDate;
+                                setModalState(() {});
+                              },
+                            ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          isOnTime = !isOnTime;
+                          // if (isOnTime) {
+                          //   // Dispose of the PageController when switching to time picker
+                          //   dayViewController?.dispose();
+                          //   dayViewController = null;
+                          // }
                           setModalState(() {});
                         },
+                        child: Visibility(
+                          visible: isOnStartDate && _getStartDate() != null ||
+                              !isOnStartDate && _getEndDate() != null,
+                          child: SmallContainerInContainerTextComponent(
+                            text: isOnTime
+                                ? isOnStartDate
+                                    ? UtilService.dateFormat(_getStartDate())
+                                    : UtilService.dateFormat(_getEndDate())
+                                : isOnStartDate
+                                    ? UtilService.timeFormat(_getStartDate())
+                                    : UtilService.timeFormat(_getEndDate()),
+                            margin: const EdgeInsets.only(
+                                right: SpaceComponent.standardWidth),
+                          ),
+                        ),
                       ),
                     ),
-                    SpaceColumnComponent(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: CustomButtonComponent(
-                                  onTap: () => {}, text: 'Cancel')),
-                        ],
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: SpaceComponent.standardHeight,
+                          bottom: BottomNavigationComponent.standardMargin),
+                      child: ListItemButtonComponent(
+                          isMainButton: false, onTap: () => {}, text: 'Reset'),
                     )
                   ],
                 ),
               );
             }),
           );
-        });
+        }).then((_) {
+      widget.reloadParentPage?.call();
+    });
   }
 
   // ignore: unused_element
@@ -244,20 +365,6 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     }
   }
 
-  DateTime? setInitialTime(String startOrEnd) {
-    if (startOrEnd == 'start') {
-      if (widget.editAttempt != null && widget.groupChallenge != null) {
-        return _getStartDate() ?? widget.groupChallenge!.startDate;
-      }
-      return _getStartDate();
-    } else {
-      if (widget.editAttempt != null && widget.groupChallenge != null) {
-        return _getEndDate() ?? widget.groupChallenge!.endDate;
-      }
-      return _getEndDate() ?? _getStartDate();
-    }
-  }
-
   void calcEndDate() {
     if (widget.editChallenge != null) {
       widget.editChallenge!.setEndDate();
@@ -290,9 +397,6 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   _setEndDate(DateTime? endDate) {
     setState(() {
-      if (!_dateWithTime && endDate != null) {
-        endDate = UtilService.dateWithoutTime(endDate!);
-      }
       if (widget.editChallenge != null) {
         widget.editChallenge!.endDate = endDate;
         return;
@@ -334,5 +438,11 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
       return widget.editChallenge!.frequency.amount;
     }
     return widget.editAttempt!.getFrequency(widget.groupChallenge!).amount;
+  }
+
+  int _monthsBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.year - from.year) * 12 + to.month - from.month;
   }
 }
