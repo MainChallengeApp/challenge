@@ -232,6 +232,36 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                                         isOnTime = false;
                                       }
                                     });
+
+                                    // dumb workaround to jump to the right month page
+                                    // TODO add for start date component (somehow not necessary)
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                      if (!isOnStartDate &&
+                                          _getEndDate() != null) {
+                                        int monthsBetween = _monthsBetween(
+                                            _getFirstDate(!isOnStartDate),
+                                            _getEndDate()!);
+                                        if (dayViewControllers[false] != null &&
+                                            dayViewControllers[false]!
+                                                .hasClients) {
+                                          dayViewControllers[false]
+                                              ?.jumpToPage(monthsBetween - 1);
+                                        }
+                                      }
+                                      if (!isOnStartDate &&
+                                          _getEndDate() != null) {
+                                        int monthsBetween = _monthsBetween(
+                                            _getFirstDate(!isOnStartDate),
+                                            _getEndDate()!);
+                                        if (dayViewControllers[false] != null &&
+                                            dayViewControllers[false]!
+                                                .hasClients) {
+                                          dayViewControllers[false]
+                                              ?.jumpToPage(monthsBetween);
+                                        }
+                                      }
+                                    });
                                   },
                                   isSelected: !isOnStartDate,
                                   textColor: !isOnStartDate
