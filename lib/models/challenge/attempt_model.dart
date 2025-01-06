@@ -421,9 +421,9 @@ class AttemptModel {
 
     if (frequency.type == FrequencyTypeEnum.daily) {
       if (frequency.amount == null) {
-        startDate = null;
+        this.startDate = null;
       } else if (endDate != null) {
-        startDate = endDate.subtract(Duration(days: frequency.amount!));
+        this.startDate = endDate.subtract(Duration(days: frequency.amount!));
       }
     } else if (frequency.type == FrequencyTypeEnum.time) {
       if (endDate != null && startDate != null && endDate.isBefore(startDate)) {

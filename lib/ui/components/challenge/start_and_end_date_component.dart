@@ -1,6 +1,8 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
+import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
@@ -9,6 +11,7 @@ import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/small_container_in_container_text_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +46,9 @@ class StartAndEndDateComponent extends StatefulWidget {
 
 class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   bool _dateWithTime = false;
+  late final AttemptModel? _originalAttempt = widget.editAttempt?.copy();
+  late final DateTime? _originalEndDate = _getEndDate();
+  late final DateTime? _originalStartDate = _getStartDate();
 
   @override
   Widget build(BuildContext context) {
@@ -94,13 +100,17 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     );
   }
 
+  _getFirstDate(bool isOnStartDate) {
+    DateTime firstDate = _minimumDate(isOnStartDate) ?? DateTime(1970, 1, 1);
+    return firstDate;
+  }
+
   void onTapStartOrEndDate(String startOrEnd) async {
     if (widget.isLocked) return;
 
     bool isOnStartDate = startOrEnd == 'start';
     bool isOnTime = false;
-    DateTime firstDate = DateTime(1970, 1, 1);
-    PageController? dayViewController;
+    Map<bool, PageController?> dayViewControllers = {};
 
     await showCupertinoModalPopup(
         context: context,
@@ -110,22 +120,29 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
             child: StatefulBuilder(
                 builder: (BuildContext context, StateSetter setModalState) {
               var size = MediaQuery.of(context).size;
-              List<DateTime?> dates = [_getStartDate(), _getEndDate()];
+              List<DateTime?> dates = [
+                _getStartDate() == null && _getEndDate() != null
+                    ? _getEndDate()
+                    : _getStartDate(),
+                _getEndDate()
+              ];
 
               // Function to create or recreate the PageController
               PageController createPageController() {
-                dayViewController = PageController(
-                  initialPage: _monthsBetween(
-                      firstDate,
-                      isOnStartDate
-                          ? _getStartDate() ?? TimeService.now()
-                          : _getEndDate() ?? TimeService.now()),
+                int monthsBetween = _monthsBetween(
+                    _getFirstDate(isOnStartDate),
+                    isOnStartDate
+                        ? _getStartDate() ?? TimeService.now()
+                        : _getEndDate() ?? TimeService.now());
+                dayViewControllers[isOnStartDate] = PageController(
+                  initialPage: monthsBetween,
                 );
-                return dayViewController!;
+                return dayViewControllers[isOnStartDate]!;
               }
 
               // Create the PageController initially if not on time
-              if (dayViewController == null || !dayViewController!.hasClients) {
+              if (dayViewControllers[isOnStartDate] == null ||
+                  !dayViewControllers[isOnStartDate]!.hasClients) {
                 createPageController();
               }
 
@@ -144,9 +161,9 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: SpaceComponent.standardHeight,
-                          right: SpaceComponent.standardHeight,
-                          top: SpaceComponent.standardHeight),
+                          left: BottomNavigationComponent.standardMargin,
+                          right: BottomNavigationComponent.standardMargin,
+                          top: BottomNavigationComponent.standardMargin),
                       child: Row(
                         children: [
                           Expanded(
@@ -158,14 +175,17 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                                         isOnTime = false;
                                       } else {
                                         int monthsBetween = _monthsBetween(
-                                            firstDate, _getStartDate()!);
-                                        if (dayViewController != null &&
-                                            dayViewController!.hasClients) {
-                                          dayViewController?.animateToPage(
-                                              monthsBetween,
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              curve: Curves.ease);
+                                            _getFirstDate(isOnStartDate),
+                                            _getStartDate()!);
+                                        if (dayViewControllers[isOnStartDate] !=
+                                                null &&
+                                            dayViewControllers[isOnStartDate]!
+                                                .hasClients) {
+                                          dayViewControllers[isOnStartDate]
+                                              ?.animateToPage(monthsBetween,
+                                                  duration: const Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease);
                                         }
                                       }
                                     }
@@ -192,14 +212,17 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                                         isOnTime = false;
                                       } else {
                                         int monthsBetween = _monthsBetween(
-                                            firstDate, _getEndDate()!);
-                                        if (dayViewController != null &&
-                                            dayViewController!.hasClients) {
-                                          dayViewController?.animateToPage(
-                                              monthsBetween,
-                                              duration: const Duration(
-                                                  milliseconds: 500),
-                                              curve: Curves.ease);
+                                            _getFirstDate(isOnStartDate),
+                                            _getEndDate()!);
+                                        if (dayViewControllers[isOnStartDate] !=
+                                                null &&
+                                            dayViewControllers[isOnStartDate]!
+                                                .hasClients) {
+                                          dayViewControllers[isOnStartDate]
+                                              ?.animateToPage(monthsBetween,
+                                                  duration: const Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease);
                                         }
                                       }
                                     }
@@ -225,6 +248,8 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                               key: ValueKey(isOnStartDate),
                               mode: CupertinoDatePickerMode.time,
                               use24hFormat: true,
+                              maximumDate: _maximumDate(isOnStartDate),
+                              minimumDate: _minimumDate(isOnStartDate),
                               initialDateTime: isOnStartDate
                                   ? _getStartDate() ?? TimeService.now()
                                   : _getEndDate() ?? TimeService.now(),
@@ -238,9 +263,12 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                               },
                             )
                           : CalendarDatePicker2(
+                              key: ValueKey(isOnStartDate),
                               config: CalendarDatePicker2Config(
                                   currentDate: TimeService.now(),
                                   allowSameValueSelection: true,
+                                  firstDate: _getFirstDate(isOnStartDate),
+                                  lastDate: _maximumDate(isOnStartDate),
                                   calendarType: CalendarDatePicker2Type.range,
                                   daySplashColor:
                                       Theme.of(context).colorScheme.primary,
@@ -248,8 +276,9 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                                   centerAlignModePicker: true,
                                   hideMonthPickerDividers: true,
                                   hideYearPickerDividers: true,
-                                  dayViewController: dayViewController ??
-                                      createPageController(),
+                                  dayViewController:
+                                      dayViewControllers[isOnStartDate] ??
+                                          createPageController(),
                                   firstDayOfWeek: 1),
                               value: dates,
                               onValueChanged: (newDates) {
@@ -290,19 +319,23 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                           // }
                           setModalState(() {});
                         },
-                        child: Visibility(
-                          visible: isOnStartDate && _getStartDate() != null ||
-                              !isOnStartDate && _getEndDate() != null,
-                          child: SmallContainerInContainerTextComponent(
-                            text: isOnTime
-                                ? isOnStartDate
-                                    ? UtilService.dateFormat(_getStartDate())
-                                    : UtilService.dateFormat(_getEndDate())
-                                : isOnStartDate
-                                    ? UtilService.timeFormat(_getStartDate())
-                                    : UtilService.timeFormat(_getEndDate()),
-                            margin: const EdgeInsets.only(
-                                right: SpaceComponent.standardWidth),
+                        child: SizedBox(
+                          height: SmallContainerInListItemComponent.height,
+                          child: Visibility(
+                            visible: isOnStartDate && _getStartDate() != null ||
+                                !isOnStartDate && _getEndDate() != null,
+                            child: SmallContainerInContainerTextComponent(
+                              text: isOnTime
+                                  ? isOnStartDate
+                                      ? UtilService.dateFormat(_getStartDate())
+                                      : UtilService.dateFormat(_getEndDate())
+                                  : isOnStartDate
+                                      ? UtilService.timeFormat(_getStartDate())
+                                      : UtilService.timeFormat(_getEndDate()),
+                              margin: const EdgeInsets.only(
+                                  right:
+                                      BottomNavigationComponent.standardMargin),
+                            ),
                           ),
                         ),
                       ),
@@ -312,7 +345,16 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
                           top: SpaceComponent.standardHeight,
                           bottom: BottomNavigationComponent.standardMargin),
                       child: ListItemButtonComponent(
-                          isMainButton: false, onTap: () => {}, text: 'Reset'),
+                          isMainButton: false,
+                          onTap: () {
+                            if (isOnStartDate) {
+                              _setStartDate(null);
+                            } else {
+                              _setEndDate(null);
+                            }
+                            setModalState(() {});
+                          },
+                          text: 'Reset'),
                     )
                   ],
                 ),
@@ -324,48 +366,57 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     });
   }
 
-  // ignore: unused_element
-  DateTime? _minimumDate(String startOrEnd, DateTime? initialDateTime) {
-    if (startOrEnd == 'start') {
-      if (widget.editChallenge != null) {
-        return null;
-      }
-      if (widget.groupChallenge!.startDate == null) {
-        return null;
-      }
-      return _getStartDate()?.isBefore(widget.groupChallenge!.startDate!) ??
-              false
-          ? null
-          : widget.groupChallenge!.startDate;
-    } else {
-      if (widget.editChallenge != null) {
-        return widget.editChallenge!.startDate;
-      }
-      return _getStartDate();
+  DateTime? _minimumDate(bool isOnStartDate) {
+    if (widget.editChallenge != null) {
+      return null;
     }
+
+    if (!isOnStartDate) {
+      FrequencyModel frequency =
+          widget.editAttempt!.getFrequency(widget.groupChallenge!);
+      if (frequency.type == FrequencyTypeEnum.daily &&
+          frequency.amount != null) {
+        return _originalStartDate?.add(Duration(days: frequency.amount!));
+      }
+      return _originalStartDate;
+    }
+
+    if (widget.groupChallenge!.startDate == null) {
+      return null;
+    }
+    return _originalAttempt?.startDate
+                ?.isBefore(widget.groupChallenge!.startDate!) ??
+            false
+        ? null
+        : widget.groupChallenge!.startDate;
   }
 
-  // ignore: unused_element
-  DateTime? _maximumDate(String startOrEnd) {
-    if (startOrEnd == 'end') {
-      if (widget.editChallenge != null) {
-        return null;
-      }
-      if (widget.groupChallenge!.endDate == null) {
-        return null;
-      }
-      return _getEndDate()?.isAfter(widget.groupChallenge!.endDate!) ?? false
-          ? null
-          : widget.groupChallenge!.endDate;
-    } else {
-      if (widget.editChallenge != null) {
-        return widget.editChallenge!.endDate;
-      }
-      return _getEndDate();
+  DateTime? _maximumDate(bool isOnStartDate) {
+    if (widget.editChallenge != null) {
+      return null;
     }
+
+    if (isOnStartDate) {
+      FrequencyModel frequency =
+          widget.editAttempt!.getFrequency(widget.groupChallenge!);
+      if (frequency.type == FrequencyTypeEnum.daily &&
+          frequency.amount != null) {
+        return _originalEndDate?.subtract(Duration(days: frequency.amount!));
+      }
+      return _originalEndDate;
+    }
+
+    if (widget.groupChallenge!.endDate == null) {
+      return null;
+    }
+    return _originalAttempt?.endDate
+                ?.isAfter(widget.groupChallenge!.endDate!) ??
+            false
+        ? null
+        : widget.groupChallenge!.endDate;
   }
 
-  void calcEndDate() {
+  void _calcEndDate() {
     if (widget.editChallenge != null) {
       widget.editChallenge!.setEndDate();
       return;
@@ -375,7 +426,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     }
   }
 
-  void calcStartDate() {
+  void _calcStartDate() {
     if (widget.editChallenge != null) {
       widget.editChallenge!.setStartDate();
       return;
@@ -399,10 +450,12 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     setState(() {
       if (widget.editChallenge != null) {
         widget.editChallenge!.endDate = endDate;
+        _calcStartDate();
         return;
       }
       if (widget.editAttempt != null && widget.groupChallenge != null) {
         widget.editAttempt!.endDate = endDate;
+        _calcStartDate();
       }
     });
   }
@@ -411,10 +464,12 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
     setState(() {
       if (widget.editChallenge != null) {
         widget.editChallenge!.startDate = startDate;
+        _calcEndDate();
         return;
       }
       if (widget.editAttempt != null && widget.groupChallenge != null) {
         widget.editAttempt!.startDate = startDate;
+        _calcEndDate();
       }
     });
   }
