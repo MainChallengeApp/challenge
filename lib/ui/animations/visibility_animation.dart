@@ -1,3 +1,5 @@
+import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:flutter/material.dart';
 
 class VisibilityAnimation extends StatefulWidget {
@@ -22,6 +24,8 @@ class _VisibilityAnimationState extends State<VisibilityAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
+
+  final _tabProvider = getIt<TabProvider>();
 
   @override
   void initState() {
@@ -50,7 +54,10 @@ class _VisibilityAnimationState extends State<VisibilityAnimation>
       if (widget.isVisible) {
         _controller.reverse();
       } else {
-        _controller.forward();
+        _tabProvider.setBottomNavigatorGoingDown(true);
+        _controller.forward().then((_) {
+          _tabProvider.setBottomNavigatorGoingDown(false);
+        });
       }
     }
   }

@@ -8,6 +8,9 @@ class TabProvider with ChangeNotifier {
   bool _isBottomNavigationVisible = true;
   bool get isBottomNavigationVisible => _isBottomNavigationVisible;
 
+  bool _isBottomNavigatorGoingDown = false;
+  bool get isBottomNavigatorGoingDown => _isBottomNavigatorGoingDown;
+
   final Map<TabItemEnum, GlobalKey<NavigatorState>> _navigatorKeys = {
     TabItemEnum.search: GlobalKey<NavigatorState>(),
     TabItemEnum.home: GlobalKey<NavigatorState>(),
@@ -17,6 +20,9 @@ class TabProvider with ChangeNotifier {
       _navigatorKeys;
 
   void selectTab(TabItemEnum tabItem) {
+    if (_isBottomNavigatorGoingDown) {
+      return;
+    }
     if (tabItem == _currentTab) {
       _navigatorKeys[tabItem]!.currentState?.popUntil((route) => route.isFirst);
     } else {
@@ -31,6 +37,11 @@ class TabProvider with ChangeNotifier {
 
   void setBottomNavigationVisibility(bool isVisible) {
     _isBottomNavigationVisible = isVisible;
+    notifyListeners();
+  }
+
+  void setBottomNavigatorGoingDown(bool isGoingDown) {
+    _isBottomNavigatorGoingDown = isGoingDown;
     notifyListeners();
   }
 }
