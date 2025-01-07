@@ -7,8 +7,11 @@
     "emulator:no-persist": "firebase emulators:start",
     "emulator:reset": "cp -r firebase-emulator-data-backup firebase-emulator-data",
     "generate:firestore:rules": "node scripts/generate_firestore_rules.js",
-    "deploy:firestore:rules": "npm run generate:firestore:rules && source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive --token $FIREBASE_TOKEN && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN",
-    "deploy:firestore:index": "firebase deploy --only firestore:indexes"
+    "use:env": "source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive",
+    "deploy:firestore:rules": "npm run generate:firestore:rules && npm run use:env && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN",
+    "deploy:firestore:index": "firebase deploy --only firestore:indexes",
+    "deploy:functions": "npm run use:env && firebase deploy --only functions",
+    "deploy:storage": "npm run use:env && firebase deploy --only storage"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",

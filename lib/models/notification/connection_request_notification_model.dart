@@ -11,7 +11,7 @@ class ConnectionRequestNotificationModel extends NotificationModel {
     super.type = NotificationTypeEnum.connectionRequest,
     required super.createdAt,
   }) : super(
-            title: '${fromUser.username} ~ Connection Request',
+            title: '${fromUser.username} - Connection Request',
             body: '${fromUser.username} wants to connect with you');
 
   factory ConnectionRequestNotificationModel.fromDoc(
