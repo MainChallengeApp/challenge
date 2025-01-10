@@ -42,6 +42,5 @@ class TabProvider with ChangeNotifier {
 
   void setBottomNavigatorGoingDown(bool isGoingDown) {
     _isBottomNavigatorGoingDown = isGoingDown;
-    notifyListeners();
   }
 }
