@@ -334,7 +334,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         _isActionButtonLoading = true;
       });
       await _groupChallengesProvider.startAttemptOrChallenge(
-          _groupChallenge, _participant, _attempt, context);
+          _groupChallenge, _participant, _attempt);
       setState(() {
         _isActionButtonLoading = false;
         expandedRepetitionIndexList = [
@@ -373,7 +373,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         _isActionButtonLoading = true;
       });
       AttemptModel? addedAttempt = await _groupChallengesProvider.tryAgain(
-          _groupChallenge, _participant, context);
+          _groupChallenge, _participant);
       if (addedAttempt != null) {
         _attempt = addedAttempt;
       }

@@ -1,5 +1,6 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/enums/search_filter_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -56,7 +57,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
               onTap: onTapSearchBar,
               isEnabled: false,
               textEditingController: TextEditingController(),
-              hintText: 'Search for Challenges or Users...',
+              hintText: 'Search for Challenges and Users',
             ),
           ),
           Expanded(
@@ -188,6 +189,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => SearchListPage(
           title: title,
           categories: categories,
+          initialSearchFilter: SearchFilterEnum.challenges,
         ),
       ),
     );

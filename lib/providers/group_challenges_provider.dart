@@ -144,11 +144,8 @@ class GroupChallengesProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> startAttemptOrChallenge(
-      GroupChallengeModel groupChallenge,
-      ParticipantModel participant,
-      AttemptModel attempt,
-      BuildContext context) async {
+  Future<void> startAttemptOrChallenge(GroupChallengeModel groupChallenge,
+      ParticipantModel participant, AttemptModel attempt) async {
     if (groupChallenge.startDate == null ||
         groupChallenge.startDate!
             .isBefore(attempt.getStartDate(groupChallenge)!)) {
@@ -157,11 +154,11 @@ class GroupChallengesProvider with ChangeNotifier {
       return;
     }
     if (groupChallenge.userId == _authService.getCurrentUserId()) {
-      SnackBarComponent.showSnackBar(context,
+      SnackBarComponent.showSnackBar(
           'The challenge start date is ${UtilService.dateFormat(groupChallenge.startDate!)}, ${UtilService.timeFormat(groupChallenge.startDate!)}. You can edit the challenge start date in the challenge settings.');
       return;
     }
-    SnackBarComponent.showSnackBar(context,
+    SnackBarComponent.showSnackBar(
         'The challenge start date is ${UtilService.dateFormat(groupChallenge.startDate!)}, ${UtilService.timeFormat(groupChallenge.startDate!)}. The admin can edit the challenge start date.');
   }
 
@@ -171,10 +168,10 @@ class GroupChallengesProvider with ChangeNotifier {
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
-  Future<AttemptModel?> tryAgain(GroupChallengeModel groupChallenge,
-      ParticipantModel participant, BuildContext context) async {
+  Future<AttemptModel?> tryAgain(
+      GroupChallengeModel groupChallenge, ParticipantModel participant) async {
     if (groupChallenge.endDate?.isBefore(TimeService.now()) ?? false) {
-      SnackBarComponent.showSnackBar(context,
+      SnackBarComponent.showSnackBar(
           'The Challenge has ended. Change the challenge end date or create a new challenge');
       return null;
     }

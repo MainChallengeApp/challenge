@@ -20,7 +20,7 @@ class ListItemSearchBarComponent extends StatefulWidget {
       required this.textEditingController,
       this.isEnabled = true,
       this.autoFocus = false,
-      this.hintText = 'Search...',
+      this.hintText = 'Search',
       this.onTap,
       this.onTapActionIcon,
       this.onSubmitted});

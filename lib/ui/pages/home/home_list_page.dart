@@ -144,7 +144,7 @@ class _HomeListPageState extends State<HomeListPage> {
       child: ListItemSearchBarComponent(
         changeList: changeList,
         textEditingController: TextEditingController(text: searchBarText),
-        hintText: 'Search in your Challenges...',
+        hintText: 'Search in your Challenges',
       ),
     );
   }

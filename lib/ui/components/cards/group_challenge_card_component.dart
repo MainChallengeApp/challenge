@@ -220,19 +220,19 @@ class _GroupChallengeCardComponentState
             DocumentationButtonComponent(
               iconData: Icons.numbers_rounded,
               onTap: () => SnackBarComponent.showSnackBar(
-                  context, 'The Numbers feature will be added soon.'),
+                  'The Numbers feature will be added soon.'),
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
               iconData: Icons.notes_rounded,
               onTap: () => SnackBarComponent.showSnackBar(
-                  context, 'The Notes feature will be added soon.'),
+                  'The Notes feature will be added soon.'),
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
               iconData: Icons.gps_not_fixed_rounded,
               onTap: () => SnackBarComponent.showSnackBar(
-                  context, 'The GPS feature will be added soon.'),
+                  'The GPS feature will be added soon.'),
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
@@ -265,7 +265,7 @@ class _GroupChallengeCardComponentState
     }
 
     await _groupChallengesProvider.startAttemptOrChallenge(
-        _groupChallenge, _participant, attempt, context);
+        _groupChallenge, _participant, attempt);
   }
 
   Future<void> _onTapEnd(AttemptModel attempt) async {
@@ -287,8 +287,7 @@ class _GroupChallengeCardComponentState
   }
 
   Future<void> _onTapAgain() async {
-    await _groupChallengesProvider.tryAgain(
-        _groupChallenge, _participant, context);
+    await _groupChallengesProvider.tryAgain(_groupChallenge, _participant);
   }
 
   void _onTapNext(AttemptModel attempt) async {

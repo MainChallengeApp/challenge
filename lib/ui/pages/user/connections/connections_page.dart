@@ -1,4 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/enums/search_filter_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
@@ -168,7 +169,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => const SearchListPage(
           isUserSearchActive: true,
-          initIsFilterOnChallenges: false,
+          initialSearchFilter: SearchFilterEnum.users,
           isSearchBarAutoFocus: true,
         ),
       ),

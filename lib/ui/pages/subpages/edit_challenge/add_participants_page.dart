@@ -153,7 +153,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
         return;
       }
       if (editParticipants.length >= DatabaseService.maxGroupChallengeMember) {
-        SnackBarComponent.showSnackBar(context,
+        SnackBarComponent.showSnackBar(
             'You can only add up to ${DatabaseService.maxGroupChallengeMember} members');
         return;
       }

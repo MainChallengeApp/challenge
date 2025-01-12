@@ -1,3 +1,4 @@
+import 'package:challenge/enums/search_filter_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -5,28 +6,26 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ListItemSearchWithFilterComponent extends StatefulWidget {
-  final Function() onTapChallenges;
-  final Function() onTapUsers;
+  final Function(SearchFilterEnum) onTapFilter;
   final TextEditingController textEditingController;
   final bool autoFocus;
-  final bool isFilterOnChallenges;
   final bool isUserSearchActive;
   final Function()? onTapActionIcon;
+  final SearchFilterEnum initialSearchFilter;
 
   final Function(String)? onChangeList;
   final Function(String)? onSubmitted;
 
   const ListItemSearchWithFilterComponent({
     super.key,
-    required this.onTapChallenges,
-    required this.onTapUsers,
     required this.textEditingController,
-    required this.isFilterOnChallenges,
     this.isUserSearchActive = false,
     this.autoFocus = false,
     this.onTapActionIcon,
     this.onChangeList,
     this.onSubmitted,
+    this.initialSearchFilter = SearchFilterEnum.all,
+    required this.onTapFilter,
   });
 
   @override
@@ -40,7 +39,7 @@ class _ListItemSearchWithFilterComponentState
 
   bool isTapVisible = false;
 
-  late bool isFilterOnChallenges = widget.isFilterOnChallenges;
+  late SearchFilterEnum selectedSearchFilter = widget.initialSearchFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -55,18 +54,9 @@ class _ListItemSearchWithFilterComponentState
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   children: [
-                    filterContainer('Challenges', () {
-                      setState(() {
-                        isFilterOnChallenges = true;
-                      });
-                      widget.onTapChallenges.call();
-                    }, isFilterOnChallenges),
-                    filterContainer('Users', () {
-                      setState(() {
-                        isFilterOnChallenges = false;
-                      });
-                      widget.onTapUsers.call();
-                    }, !isFilterOnChallenges),
+                    filterContainer(SearchFilterEnum.all),
+                    filterContainer(SearchFilterEnum.challenges),
+                    filterContainer(SearchFilterEnum.users),
                   ],
                 )),
           ),
@@ -74,8 +64,11 @@ class _ListItemSearchWithFilterComponentState
         ListItemSearchBarComponent(
           textEditingController: widget.textEditingController,
           autoFocus: widget.autoFocus,
-          hintText:
-              'Search for Challenges${widget.isUserSearchActive ? ' or Users' : ''}...',
+          hintText: selectedSearchFilter == SearchFilterEnum.all
+              ? 'Search for Challenges and Users'
+              : selectedSearchFilter == SearchFilterEnum.challenges
+                  ? 'Search for Challenges'
+                  : 'Search for Users',
           onTapActionIcon: widget.onTapActionIcon,
           changeList: widget.onChangeList,
           onSubmitted: widget.onSubmitted,
@@ -84,22 +77,27 @@ class _ListItemSearchWithFilterComponentState
     );
   }
 
-  filterContainer(String text, Function() onTap, bool isSelected) {
+  filterContainer(SearchFilterEnum searchFilter) {
     return Expanded(
       child: TapContainerComponent(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.all(0),
         isHeightDynamic: true,
         borderColor: Colors.transparent,
-        backgroundColor: isSelected
+        backgroundColor: selectedSearchFilter == searchFilter
             ? Theme.of(context).colorScheme.themeColor4
             : Colors.transparent,
-        onTap: onTap,
+        onTap: () {
+          widget.onTapFilter(searchFilter);
+          setState(() {
+            selectedSearchFilter = searchFilter;
+          });
+        },
         borderRadius: ListItemContainerComponent.standardBorderRadius,
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Text(
-            text,
+            searchFilter.text,
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ),

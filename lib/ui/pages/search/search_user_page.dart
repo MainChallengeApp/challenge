@@ -1,27 +1,10 @@
-import 'dart:math';
-
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/reports_provider.dart';
-import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
-import 'package:challenge/ui/components/cards/card_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/cards/user_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
-import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
-import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
-import 'package:challenge/ui/components/simple_components/title_component.dart';
-import 'package:challenge/ui/components/user/bio_component.dart';
-import 'package:challenge/ui/components/user/user_picture_min_component.dart';
-import 'package:challenge/ui/dialogs/block_user_dialog.dart';
-import 'package:challenge/ui/dialogs/report_user_dialog.dart';
-import 'package:challenge/ui/dialogs/unblock_user_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -57,9 +40,8 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   final mediaService = MediaService();
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider = Provider.of<UsersProvider>(context);
-  final _tabProvider = getIt<TabProvider>();
+  late final _usersProvider =
+      Provider.of<UsersProvider>(context, listen: false);
 
   late final reportsProvider =
       Provider.of<ReportsProvider>(context, listen: false);
@@ -81,45 +63,23 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SlidingUpPanel(
-      controller: panelController,
-      minHeight: 0,
-      maxHeight: MediaQuery.of(context).size.height * 0.3,
-      backdropEnabled: true,
-      panel: panel(),
-      onPanelClosed: () => _tabProvider.setBottomNavigationVisibility(true),
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(24.0),
-        topRight: Radius.circular(24.0),
+    return ScaffoldComponent(
+      appBar: AppBarComponent(
+        title: widget.title,
       ),
-      padding: const EdgeInsets.only(top: 10),
-      body: ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: widget.title,
-        ),
-        body: Center(
-          child: PageView(
-              controller: pageController,
-              onPageChanged: onPageChanged,
-              scrollDirection: Axis.vertical,
-              physics: const AlwaysScrollableScrollPhysics(),
-              children: users.map(
-                (user) {
-                  return Builder(builder: (context) {
-                    return CardComponent(
-                      children: [
-                        profilePicture(user),
-                        usernameAndMore(user),
-                        bio(user),
-                        challengesAndConnections(user),
-                        expandedSpace(),
-                        actionButton(user)
-                      ],
-                    );
-                  });
-                },
-              ).toList()),
-        ),
+      body: Center(
+        child: PageView(
+            controller: pageController,
+            onPageChanged: onPageChanged,
+            scrollDirection: Axis.vertical,
+            physics: const AlwaysScrollableScrollPhysics(),
+            children: users.map(
+              (user) {
+                return Builder(builder: (context) {
+                  return UserCardComponent(user: user);
+                });
+              },
+            ).toList()),
       ),
     );
   }
@@ -129,292 +89,9 @@ class _SearchUserPageState extends State<SearchUserPage> {
       isBioExpanded = false;
     });
     if (!widget.isListPaginated ||
-        value != usersProvider.searchUsers.length - 1) {
+        value != _usersProvider.searchUsers.length - 1) {
       return;
     }
-    usersProvider.getSearchedPaginated(searchText: widget.searchText);
-  }
-
-  bio(UserModel user) {
-    if (user.bio == null || user.bio!.isEmpty) {
-      return Container();
-    }
-    BioComponent bioComponent = BioComponent(
-      bio: user.bio,
-      onTap: () {
-        setState(() {
-          isBioExpanded = !isBioExpanded;
-        });
-      },
-      isBioExpanded: isBioExpanded,
-    );
-    return isBioExpanded
-        ? Expanded(
-            child: Column(
-              children: [
-                Expanded(child: bioComponent),
-                const SpaceComponent(),
-              ],
-            ),
-          )
-        : SpaceColumnComponent(
-            child: bioComponent,
-          );
-  }
-
-  challengesAndConnections(UserModel user) {
-    return Visibility(
-      visible: !isBioExpanded,
-      child: SpaceColumnComponent(
-        child: Row(
-          children: [
-            Expanded(
-              child: TapContainerComponent(
-                onTap: () {},
-                child: const Column(
-                  children: [
-                    Text(
-                      '-',
-                    ),
-                    Text(
-                      'Challenges',
-                      style: TextStyle(fontSize: 10),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SpaceComponent(),
-            Expanded(
-              child: TapContainerComponent(
-                onTap: () {},
-                child: const Column(
-                  children: [
-                    Text(
-                      '-',
-                    ),
-                    Text(
-                      'Connections',
-                      style: TextStyle(fontSize: 10),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  connect(UserModel otherUser) {
-    return listeningUsersProvider.openConnectionRequests
-                .map((user) => user.id)
-                .contains(otherUser.id) ||
-            listeningUsersProvider.user.isConnectedWith(otherUser)
-        ? CustomButtonComponent(
-            onTap: () => onTapDisconnect(otherUser.id),
-            isPrimaryButton: false,
-            isLoading: isLoading,
-            text: otherUser.isConnectedWith(listeningUsersProvider.user)
-                ? 'Disconnect'
-                : 'Cancel Request',
-          )
-        : CustomButtonComponent(
-            onTap: () => onTapConnect(otherUser.id),
-            isLoading: isLoading,
-            isPrimaryButton: true,
-            text: 'Connect',
-          );
-  }
-
-  userName(UserModel user) {
-    return SpaceColumnComponent(
-      height: 11,
-      child: TitleComponent(title: '@${user.username}'),
-    );
-  }
-
-  expandedSpace() {
-    return isBioExpanded ? Container() : Expanded(child: Container());
-  }
-
-  usernameAndMore(UserModel user) {
-    return SpaceColumnComponent(
-      child: Row(
-        children: [
-          Expanded(
-              child: TapContainerComponent(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        user.username,
-                        overflow: TextOverflow.ellipsis,
-                      )))),
-          const SpaceComponent(),
-          TapContainerComponent(
-            isQuadratic: true,
-            onTap: onTapMore,
-            child: Center(
-              child: Icon(
-                IconEnum.more.icon,
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  onTapConnect(String userId) async {
-    setState(() {
-      isLoading = true;
-    });
-    await usersProvider.connectToUser(userId);
-    if (users.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
-    }
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  onTapDisconnect(String id) async {
-    setState(() {
-      isLoading = true;
-    });
-    await usersProvider.disconnectFromUser(id);
-    if (users.isEmpty) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      return;
-    }
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-  profilePicture(UserModel user) {
-    return SpaceColumnComponent(
-      child: UserPictureMinComponent(
-        userPictureUrl: user.pictureUrl,
-      ),
-    );
-  }
-
-  onTapMore() {
-    panelController.open();
-    _tabProvider.setBottomNavigationVisibility(false);
-  }
-
-  panel() {
-    if (users.isEmpty) {
-      return Container();
-    }
-    UserModel user = pageController.hasClients
-        ? users[min(pageController.page!.round(), users.length - 1)]
-        : users.firstWhere((user) => user.id == widget.initUserId);
-    return Column(
-      children: [
-        const SpaceComponent(
-          height: 5,
-        ),
-        SpaceColumnComponent(
-          child: Center(
-              child: Container(
-            width: 40,
-            height: 5,
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.tertiary,
-                borderRadius: const BorderRadius.all(Radius.circular(24))),
-          )),
-        ),
-        SpaceColumnComponent(
-            child: usersProvider.user.isBlocked(user.id)
-                ? ListItemIconTextComponent(
-                    icon: IconEnum.blockedUsers.icon,
-                    title: 'Unblock User',
-                    onTap: () => onTapUnblock(user))
-                : ListItemIconTextComponent(
-                    icon: IconEnum.blockedUsers.icon,
-                    title: 'Block User',
-                    onTap: () => onTapBlockUser(user))),
-        SpaceColumnComponent(
-            child: ListItemIconTextComponent(
-                onTap: () => onTapReport(user),
-                icon: IconEnum.reportUser.icon,
-                title: 'Report User')),
-      ],
-    );
-  }
-
-  Future<void> onTapBlockUser(UserModel user) async {
-    await panelController.close();
-    BlockUserDialog.show(
-        // ignore: use_build_context_synchronously
-        context: context,
-        user: user,
-        onTapYes: () async {
-          await usersProvider.blockUser(user.id);
-          if (users.isEmpty) {
-            // ignore: use_build_context_synchronously
-            Navigator.of(context).pop();
-            return;
-          }
-        });
-  }
-
-  Future<void> onTapUnblock(UserModel user) async {
-    await panelController.close();
-    UnblockUserDialog.show(
-        // ignore: use_build_context_synchronously
-        context: context,
-        user: user,
-        onTapYes: () async {
-          setState(() {
-            isLoading = true;
-          });
-          await usersProvider.unblockUser(user.id);
-          if (users.isEmpty) {
-            // ignore: use_build_context_synchronously
-            Navigator.of(context).pop();
-            return;
-          }
-          setState(() {
-            isLoading = false;
-          });
-        });
-  }
-
-  actionButton(UserModel user) {
-    return usersProvider.user.isBlocked(user.id)
-        ? unblock(user)
-        : connect(user);
-  }
-
-  unblock(UserModel user) {
-    return CustomButtonComponent(
-      onTap: () => onTapUnblock(user),
-      isPrimaryButton: true,
-      isLoading: isLoading,
-      text: 'Unblock',
-    );
-  }
-
-  onTapReport(UserModel user) async {
-    await panelController.close();
-
-    ReportUserDialog.show(
-        // ignore: use_build_context_synchronously
-        context: context,
-        user: user,
-        onTapYes: (String reason) async {
-          await reportsProvider.createReport(user.id, reason);
-          // ignore: use_build_context_synchronously
-          SnackBarComponent.showSnackBar(context, 'Report sent successfully');
-        });
+    _usersProvider.getSearchedPaginated(searchText: widget.searchText);
   }
 }

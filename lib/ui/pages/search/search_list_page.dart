@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/enums/search_filter_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/types/all_search_results_type.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_challenge_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -20,6 +22,7 @@ import 'package:challenge/ui/components/loading_circle/refresh_indicator_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/pages/search/search_all_page.dart';
 import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,7 +36,7 @@ class SearchListPage extends StatefulWidget {
   final bool isSearchBarAutoFocus;
   final List<ChallengeCategoryEnum> categories;
   final bool isUserSearchActive;
-  final bool initIsFilterOnChallenges;
+  final SearchFilterEnum initialSearchFilter;
 
   const SearchListPage({
     super.key,
@@ -41,7 +44,7 @@ class SearchListPage extends StatefulWidget {
     this.isSearchBarAutoFocus = false,
     this.categories = const [],
     this.isUserSearchActive = false,
-    this.initIsFilterOnChallenges = true,
+    this.initialSearchFilter = SearchFilterEnum.all,
   });
 
   @override
@@ -69,7 +72,7 @@ class _SearchListPageState extends State<SearchListPage> {
 
   final textEditingController = TextEditingController();
 
-  late bool isFilterOnChallenges = widget.initIsFilterOnChallenges;
+  late SearchFilterEnum selectedSearchFilter = widget.initialSearchFilter;
 
   @override
   void initState() {
@@ -83,13 +86,25 @@ class _SearchListPageState extends State<SearchListPage> {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
-        if (isFilterOnChallenges) {
-          searchChallengesProvider.getSearchedPaginated(
-              searchText: textEditingController.text,
-              categories: widget.categories);
-        } else {
-          _usersProvider.getSearchedPaginated(
-              searchText: textEditingController.text);
+        switch (selectedSearchFilter) {
+          case SearchFilterEnum.all:
+            searchChallengesProvider.getSearchedPaginated(
+                searchText: textEditingController.text,
+                categories: widget.categories);
+            _usersProvider.getSearchedPaginated(
+                searchText: textEditingController.text);
+            break;
+          case SearchFilterEnum.challenges:
+            searchChallengesProvider.getSearchedPaginated(
+                searchText: textEditingController.text,
+                categories: widget.categories);
+            break;
+          case SearchFilterEnum.users:
+            _usersProvider.getSearchedPaginated(
+                searchText: textEditingController.text);
+            break;
+          default:
+            break;
         }
       }
     });
@@ -107,8 +122,8 @@ class _SearchListPageState extends State<SearchListPage> {
                   child: ListItemSearchWithFilterComponent(
                 autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 0,
                 textEditingController: textEditingController,
-                isFilterOnChallenges: isFilterOnChallenges,
                 isUserSearchActive: widget.isUserSearchActive,
+                initialSearchFilter: selectedSearchFilter,
                 onTapActionIcon: () {
                   setState(() {
                     textEditingController.clear();
@@ -121,14 +136,9 @@ class _SearchListPageState extends State<SearchListPage> {
                   await onChangeList(text);
                   _usersProvider.addRecentSearch(text);
                 },
-                onTapChallenges: () async {
+                onTapFilter: (searchFilter) {
                   setState(() {
-                    isFilterOnChallenges = true;
-                  });
-                },
-                onTapUsers: () async {
-                  setState(() {
-                    isFilterOnChallenges = false;
+                    selectedSearchFilter = searchFilter;
                   });
                 },
               )),
@@ -136,9 +146,11 @@ class _SearchListPageState extends State<SearchListPage> {
                   child: textEditingController.text.isEmpty &&
                           widget.categories.isEmpty
                       ? buildRecentSearches()
-                      : isFilterOnChallenges
+                      : selectedSearchFilter == SearchFilterEnum.challenges
                           ? _buildChallengesList()
-                          : _buildUsersList())
+                          : selectedSearchFilter == SearchFilterEnum.users
+                              ? _buildUsersList()
+                              : _buildAllList())
             ],
           )),
     );
@@ -150,15 +162,10 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        if (isFilterOnChallenges) {
-          await searchChallengesProvider.getSearchedPaginated(
-              searchText: textEditingController.text,
-              categories: widget.categories,
-              isInit: true);
-        } else {
-          await _usersProvider.getSearchedPaginated(
-              searchText: textEditingController.text);
-        }
+        await searchChallengesProvider.getSearchedPaginated(
+            searchText: textEditingController.text,
+            categories: widget.categories,
+            isInit: true);
       },
       child: CupertinoScrollbar(
         controller: scrollController,
@@ -189,8 +196,7 @@ class _SearchListPageState extends State<SearchListPage> {
               ChallengeModel challenge = searchChallenges[index];
               return SpaceColumnComponent(
                 child: ListItemChallengeSmallComponent(
-                  onTap: () =>
-                      onTapChallenge(challenge: challenge, index: index),
+                  onTap: () => onTapChallenge(index: index),
                   challenge: challenge,
                   isSearch: true,
                 ),
@@ -242,7 +248,62 @@ class _SearchListPageState extends State<SearchListPage> {
     );
   }
 
-  onTapChallenge({required ChallengeModel challenge, required int index}) {
+  _buildAllList() {
+    List<dynamic> allSearchResults = _getAllList();
+
+    return RefreshIndicatorComponent(
+      scrollController: scrollController,
+      onRefresh: () async {
+        await onChangeList(textEditingController.text);
+      },
+      child: CupertinoScrollbar(
+        controller: scrollController,
+        child: ListView.builder(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: scrollController,
+            itemCount: allSearchResults.length + 1, // + 1 for loading circle
+            itemBuilder: (BuildContext content, int index) {
+              numberOfBuilds++;
+
+              if (index == allSearchResults.length) {
+                return listeningUsersProvider.isEndOfSearchedListReached &&
+                        listeningSearchChallengesProvider
+                            .isEndOfSearchedListReached
+                    ? SpaceColumnComponent(
+                        child: ListItemInviteFriendsComponent(
+                        username: _usersProvider.user.username,
+                      ))
+                    : const Center(
+                        child: SpaceColumnComponent(
+                            child: LoadingCircleComponent()),
+                      );
+              }
+
+              if (allSearchResults[index] is ChallengeModel) {
+                ChallengeModel challenge = allSearchResults[index];
+                return SpaceColumnComponent(
+                  child: ListItemChallengeSmallComponent(
+                    onTap: () => _onTapAllEntry(index: index),
+                    challenge: challenge,
+                    isSearch: true,
+                  ),
+                );
+              }
+
+              UserModel user = allSearchResults[index];
+              return SpaceColumnComponent(
+                child: ListItemUserComponent(
+                  onTap: () => _onTapAllEntry(index: index),
+                  user: user,
+                  isSearch: true,
+                ),
+              );
+            }),
+      ),
+    );
+  }
+
+  onTapChallenge({required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -255,6 +316,38 @@ class _SearchListPageState extends State<SearchListPage> {
     ).then((value) => setState(
           () {},
         ));
+  }
+
+  _onTapAllEntry({required int index}) {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => SearchAllPage(
+          initialIndex: index,
+          searchText: textEditingController.text,
+          getList: _getAllList,
+          getPagination: () {
+            searchChallengesProvider.getSearchedPaginated(
+                searchText: textEditingController.text,
+                categories: widget.categories);
+            _usersProvider.getSearchedPaginated(
+                searchText: textEditingController.text);
+          },
+        ),
+      ),
+    ).then((value) => setState(
+          () {},
+        ));
+  }
+
+  List<dynamic> _getAllList() {
+    List<dynamic> allSearchResults = [
+      ...listeningSearchChallengesProvider.searchChallenges,
+      ...listeningUsersProvider.searchUsers,
+    ];
+
+    AllSearchResultsType.sortList(allSearchResults);
+    return allSearchResults;
   }
 
   onTapUser({required UserModel user, required int index}) {
