@@ -55,56 +55,55 @@ class _SearchListPageState extends State<SearchListPage> {
   late List<ChallengeModel> searchChallenges;
   late List<UserModel> searchedUsers;
 
-  final ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  double _allScrollPosition = 0.0;
+  double _challengesScrollPosition = 0.0;
+  double _usersScrollPosition = 0.0;
 
-  late final searchChallengesProvider =
+  late final _searchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: false);
-  late final listeningSearchChallengesProvider =
+  late final _listeningSearchChallengesProvider =
       Provider.of<SearchChallengesProvider>(context, listen: true);
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider =
+  late final _usersProvider = getIt<UsersProvider>();
+  late final _listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
   final _tabProvider = getIt<TabProvider>();
 
-  int numberOfBuilds = 0;
+  int _numberOfBuilds = 0;
 
-  final textEditingController = TextEditingController();
+  final _textEditingController = TextEditingController();
 
-  late SearchFilterEnum selectedSearchFilter = widget.initialSearchFilter;
+  late SearchFilterEnum _selectedSearchFilter = widget.initialSearchFilter;
 
   @override
   void initState() {
     super.initState();
-    searchChallengesProvider.initSearchChallenges(
+    _searchChallengesProvider.initSearchChallenges(
         categories: widget.categories);
     if (widget.isUserSearchActive) {
       _usersProvider.getSearchedPaginated(isInit: true);
     }
 
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        switch (selectedSearchFilter) {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        switch (_selectedSearchFilter) {
           case SearchFilterEnum.all:
-            searchChallengesProvider.getSearchedPaginated(
-                searchText: textEditingController.text,
+            _searchChallengesProvider.getSearchedPaginated(
+                searchText: _textEditingController.text,
                 categories: widget.categories);
             _usersProvider.getSearchedPaginated(
-                searchText: textEditingController.text);
+                searchText: _textEditingController.text);
             break;
           case SearchFilterEnum.challenges:
-            searchChallengesProvider.getSearchedPaginated(
-                searchText: textEditingController.text,
+            _searchChallengesProvider.getSearchedPaginated(
+                searchText: _textEditingController.text,
                 categories: widget.categories);
             break;
           case SearchFilterEnum.users:
             _usersProvider.getSearchedPaginated(
-                searchText: textEditingController.text);
-            break;
-          default:
-            break;
+                searchText: _textEditingController.text);
         }
       }
     });
@@ -120,10 +119,10 @@ class _SearchListPageState extends State<SearchListPage> {
             children: [
               SpaceColumnComponent(
                   child: ListItemSearchWithFilterComponent(
-                autoFocus: widget.isSearchBarAutoFocus && numberOfBuilds == 0,
-                textEditingController: textEditingController,
+                autoFocus: widget.isSearchBarAutoFocus && _numberOfBuilds == 0,
+                textEditingController: _textEditingController,
                 isUserSearchActive: widget.isUserSearchActive,
-                initialSearchFilter: selectedSearchFilter,
+                initialSearchFilter: _selectedSearchFilter,
                 onTapActionIcon: _onTapActionIcon,
                 onSubmitted: _onSubmitted,
                 onChangeList: _onChangeList,
@@ -131,12 +130,12 @@ class _SearchListPageState extends State<SearchListPage> {
                 onTapOutside: _onTapOutside,
               )),
               Expanded(
-                  child: textEditingController.text.isEmpty &&
+                  child: _textEditingController.text.isEmpty &&
                           widget.categories.isEmpty
                       ? buildRecentSearches()
-                      : selectedSearchFilter == SearchFilterEnum.challenges
+                      : _selectedSearchFilter == SearchFilterEnum.challenges
                           ? _buildChallengesList()
-                          : selectedSearchFilter == SearchFilterEnum.users
+                          : _selectedSearchFilter == SearchFilterEnum.users
                               ? _buildUsersList()
                               : _buildAllList())
             ],
@@ -145,9 +144,41 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   _onTapFilter(searchFilter) {
+    // Save current scroll position
+    switch (_selectedSearchFilter) {
+      case SearchFilterEnum.all:
+        _allScrollPosition = _scrollController.position.pixels;
+        break;
+      case SearchFilterEnum.challenges:
+        _challengesScrollPosition = _scrollController.position.pixels;
+        break;
+      case SearchFilterEnum.users:
+        _usersScrollPosition = _scrollController.position.pixels;
+        break;
+    }
+
     setState(() {
-      selectedSearchFilter = searchFilter;
+      _selectedSearchFilter = searchFilter;
     });
+
+    // Schedule a callback to restore scroll position after the build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _restoreScrollPosition();
+    });
+  }
+
+  void _restoreScrollPosition() {
+    switch (_selectedSearchFilter) {
+      case SearchFilterEnum.all:
+        _scrollController.jumpTo(_allScrollPosition);
+        break;
+      case SearchFilterEnum.challenges:
+        _scrollController.jumpTo(_challengesScrollPosition);
+        break;
+      case SearchFilterEnum.users:
+        _scrollController.jumpTo(_usersScrollPosition);
+        break;
+    }
   }
 
   _onSubmitted(String text) async {
@@ -159,7 +190,7 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   _onTapOutside(PointerDownEvent _) async {
-    String text = textEditingController.text;
+    String text = _textEditingController.text;
     if (text.isEmpty) {
       return;
     }
@@ -168,40 +199,40 @@ class _SearchListPageState extends State<SearchListPage> {
 
   _onTapActionIcon() {
     setState(() {
-      textEditingController.clear();
+      _textEditingController.clear();
     });
   }
 
   Widget _buildChallengesList() {
-    searchChallenges = listeningSearchChallengesProvider.searchChallenges;
+    searchChallenges = _listeningSearchChallengesProvider.searchChallenges;
 
     return RefreshIndicatorComponent(
-      scrollController: scrollController,
+      scrollController: _scrollController,
       onRefresh: () async {
-        await searchChallengesProvider.getSearchedPaginated(
-            searchText: textEditingController.text,
+        await _searchChallengesProvider.getSearchedPaginated(
+            searchText: _textEditingController.text,
             categories: widget.categories,
             isInit: true);
       },
       child: CupertinoScrollbar(
-        controller: scrollController,
+        controller: _scrollController,
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
+            controller: _scrollController,
             itemCount: searchChallenges.length +
                 1, // + 1 for loading circle or  new Challenge
             itemBuilder: (BuildContext content, int index) {
-              numberOfBuilds++;
+              _numberOfBuilds++;
               if (index == searchChallenges.length) {
-                return listeningSearchChallengesProvider
+                return _listeningSearchChallengesProvider
                         .isEndOfSearchedListReached
                     ? SpaceColumnComponent(
                         child: ListItemIconTextComponent(
                         onTap: onTapNewChallenge,
                         icon: Icons.add,
-                        title: textEditingController.text == ''
+                        title: _textEditingController.text == ''
                             ? 'New Challenge'
-                            : textEditingController.text,
+                            : _textEditingController.text,
                       ))
                     : const Center(
                         child: SpaceColumnComponent(
@@ -223,24 +254,24 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Widget _buildUsersList() {
-    searchedUsers = listeningUsersProvider.searchUsers;
+    searchedUsers = _listeningUsersProvider.searchUsers;
     return RefreshIndicatorComponent(
-      scrollController: scrollController,
+      scrollController: _scrollController,
       onRefresh: () async {
         await _usersProvider.getSearchedPaginated(
-            searchText: textEditingController.text, isInit: true);
+            searchText: _textEditingController.text, isInit: true);
       },
       child: CupertinoScrollbar(
-        controller: scrollController,
+        controller: _scrollController,
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
+            controller: _scrollController,
             itemCount: searchedUsers.length + 1, // + 1 for loading circle
             itemBuilder: (BuildContext content, int index) {
-              numberOfBuilds++;
+              _numberOfBuilds++;
 
               if (index == searchedUsers.length) {
-                return listeningUsersProvider.isEndOfSearchedListReached
+                return _listeningUsersProvider.isEndOfSearchedListReached
                     ? SpaceColumnComponent(
                         child: ListItemInviteFriendsComponent(
                         username: _usersProvider.user.username,
@@ -268,22 +299,22 @@ class _SearchListPageState extends State<SearchListPage> {
     List<dynamic> allSearchResults = _getAllList();
 
     return RefreshIndicatorComponent(
-      scrollController: scrollController,
+      scrollController: _scrollController,
       onRefresh: () async {
-        await _onChangeList(textEditingController.text);
+        await _onChangeList(_textEditingController.text);
       },
       child: CupertinoScrollbar(
-        controller: scrollController,
+        controller: _scrollController,
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
+            controller: _scrollController,
             itemCount: allSearchResults.length + 1, // + 1 for loading circle
             itemBuilder: (BuildContext content, int index) {
-              numberOfBuilds++;
+              _numberOfBuilds++;
 
               if (index == allSearchResults.length) {
-                return listeningUsersProvider.isEndOfSearchedListReached &&
-                        listeningSearchChallengesProvider
+                return _listeningUsersProvider.isEndOfSearchedListReached &&
+                        _listeningSearchChallengesProvider
                             .isEndOfSearchedListReached
                     ? SpaceColumnComponent(
                         child: ListItemInviteFriendsComponent(
@@ -325,7 +356,7 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchChallengePage(
           initChallengeIndex: index,
-          searchText: textEditingController.text,
+          searchText: _textEditingController.text,
           categories: widget.categories,
         ),
       ),
@@ -340,14 +371,14 @@ class _SearchListPageState extends State<SearchListPage> {
       NoAnimationPageRouteComponent(
         builder: (context) => SearchAllPage(
           initialIndex: index,
-          searchText: textEditingController.text,
+          searchText: _textEditingController.text,
           getList: _getAllList,
           getPagination: () {
-            searchChallengesProvider.getSearchedPaginated(
-                searchText: textEditingController.text,
+            _searchChallengesProvider.getSearchedPaginated(
+                searchText: _textEditingController.text,
                 categories: widget.categories);
             _usersProvider.getSearchedPaginated(
-                searchText: textEditingController.text);
+                searchText: _textEditingController.text);
           },
         ),
       ),
@@ -358,8 +389,8 @@ class _SearchListPageState extends State<SearchListPage> {
 
   List<dynamic> _getAllList() {
     List<dynamic> allSearchResults = [
-      ...listeningSearchChallengesProvider.searchChallenges,
-      ...listeningUsersProvider.searchUsers,
+      ..._listeningSearchChallengesProvider.searchChallenges,
+      ..._listeningUsersProvider.searchUsers,
     ];
 
     AllSearchResultsType.sortList(allSearchResults);
@@ -373,7 +404,7 @@ class _SearchListPageState extends State<SearchListPage> {
         builder: (context) => SearchUserPage(
           getUsersList: () => searchedUsers,
           initUserId: user.id,
-          searchText: textEditingController.text,
+          searchText: _textEditingController.text,
         ),
       ),
     ).then((value) => setState(
@@ -386,7 +417,7 @@ class _SearchListPageState extends State<SearchListPage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditChallengePage(
-          challenge: ChallengeModel.empty(title: textEditingController.text),
+          challenge: ChallengeModel.empty(title: _textEditingController.text),
           isNewChallenge: true,
           isSearchNewChallenge: true,
         ),
@@ -400,7 +431,7 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Future<void> _onChangeList(String searchText) async {
-    await searchChallengesProvider.getSearchedPaginated(
+    await _searchChallengesProvider.getSearchedPaginated(
         searchText: searchText, categories: widget.categories, isInit: true);
     await _usersProvider.getSearchedPaginated(
         searchText: searchText, isInit: true);
@@ -408,21 +439,21 @@ class _SearchListPageState extends State<SearchListPage> {
 
   buildRecentSearches() {
     return RefreshIndicatorComponent(
-      scrollController: scrollController,
+      scrollController: _scrollController,
       onRefresh: () async {
         await _usersProvider.getUser();
       },
       child: CupertinoScrollbar(
-        controller: scrollController,
+        controller: _scrollController,
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
+            controller: _scrollController,
             itemCount:
-                max(listeningUsersProvider.user.recentSearches.length, 1),
+                max(_listeningUsersProvider.user.recentSearches.length, 1),
             itemBuilder: (BuildContext content, int index) {
-              numberOfBuilds++;
+              _numberOfBuilds++;
 
-              if (listeningUsersProvider.user.recentSearches.isEmpty) {
+              if (_listeningUsersProvider.user.recentSearches.isEmpty) {
                 return const SpaceColumnComponent(
                   child: ListItemInfoComponent(
                     text: 'No recent searches',
@@ -430,13 +461,13 @@ class _SearchListPageState extends State<SearchListPage> {
                 );
               }
               String recentSearch =
-                  listeningUsersProvider.user.recentSearches[index];
+                  _listeningUsersProvider.user.recentSearches[index];
               return SpaceColumnComponent(
                 child: ListItemRecentSearchComponent(
                   onTap: () async {
                     await _onChangeList(recentSearch);
                     setState(() {
-                      textEditingController.text = recentSearch;
+                      _textEditingController.text = recentSearch;
                     });
                   },
                   onTapActionIcon: () =>
