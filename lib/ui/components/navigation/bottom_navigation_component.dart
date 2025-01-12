@@ -54,13 +54,14 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
     TabItemEnum.user: false,
   };
   _bottomNavIcon(TabItemEnum tabItem) {
+    double iconSize = 26;
     Widget icon = tabItem == TabItemEnum.search
         ? Text(
             String.fromCharCode(IconEnum.search.icon.codePoint),
             style: TextStyle(
               color: Colors.white,
               inherit: false,
-              fontSize: 26,
+              fontSize: iconSize,
               fontWeight: FontWeight.w600,
               fontFamily: IconEnum.search.icon.fontFamily,
             ),
@@ -70,7 +71,11 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                 AssetImage('assets/icons/challenge_icon.png'),
                 color: Colors.white,
               )
-            : Icon(IconEnum.user.icon, color: Colors.white);
+            : Icon(
+                IconEnum.user.icon,
+                color: Colors.white,
+                size: iconSize,
+              );
     bool isSelected = context.watch<TabProvider>().currentTab == tabItem;
     return Expanded(
       child: GestureDetector(
@@ -107,22 +112,22 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
                     ? BottomNavigationComponent.standardIndicatorSize
                     : 0,
               ),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 50),
-                height: isHighlighted[tabItem]!
-                    ? BottomNavigationComponent.standardIndicatorSize
-                    : 0,
-                width: isHighlighted[tabItem]!
-                    ? BottomNavigationComponent.standardIndicatorSize
-                    : 0,
-                decoration: BoxDecoration(
-                  color: isHighlighted[tabItem]!
-                      ? Theme.of(context).colorScheme.secondary.withAlpha(100)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(
-                      BottomNavigationComponent.standardIndicatorRadius),
-                ),
-              ),
+              // AnimatedContainer(
+              //   duration: const Duration(milliseconds: 50),
+              //   height: isHighlighted[tabItem]!
+              //       ? BottomNavigationComponent.standardIndicatorSize
+              //       : 0,
+              //   width: isHighlighted[tabItem]!
+              //       ? BottomNavigationComponent.standardIndicatorSize
+              //       : 0,
+              //   decoration: BoxDecoration(
+              //     color: isHighlighted[tabItem]!
+              //         ? Theme.of(context).colorScheme.secondary.withAlpha(100)
+              //         : Colors.transparent,
+              //     borderRadius: BorderRadius.circular(
+              //         BottomNavigationComponent.standardIndicatorRadius),
+              //   ),
+              // ),
               icon
             ],
           ),
