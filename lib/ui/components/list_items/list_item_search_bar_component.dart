@@ -13,6 +13,7 @@ class ListItemSearchBarComponent extends StatefulWidget {
   final Function()? onTap;
   final Function()? onTapActionIcon;
   final Function(String)? onSubmitted;
+  final Function(PointerDownEvent)? onTapOutside;
 
   ListItemSearchBarComponent(
       {super.key,
@@ -23,7 +24,8 @@ class ListItemSearchBarComponent extends StatefulWidget {
       this.hintText = 'Search',
       this.onTap,
       this.onTapActionIcon,
-      this.onSubmitted});
+      this.onSubmitted,
+      this.onTapOutside});
 
   @override
   State<ListItemSearchBarComponent> createState() =>
@@ -53,6 +55,7 @@ class _ListItemSearchBarComponentState
         offset: widget.textEditingController.text.length);
     return ListItemIconTextInputComponent(
       onTap: widget.onTap,
+      onTapOutside: widget.onTapOutside,
       icon: IconEnum.search.icon,
       actionIcon:
           widget.textEditingController.text == '' ? null : IconEnum.remove.icon,

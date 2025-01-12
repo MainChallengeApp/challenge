@@ -160,6 +160,9 @@ class UserModel {
       removeRecentSearch(recentSearch);
     }
     recentSearches.insert(0, recentSearch);
+
+    const int maxRecentSearches = 20;
+    recentSearches = recentSearches.take(maxRecentSearches).toList();
   }
 
   void removeRecentSearch(String recentSearch) {

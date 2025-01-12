@@ -3,6 +3,15 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class ListItemIconTextChildComponent extends StatelessWidget {
+  final void Function()? onTap;
+  final IconData icon;
+  final Color? iconColor;
+  final Widget child;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final String text;
+  final int flex;
+
   const ListItemIconTextChildComponent(
       {super.key,
       this.onTap,
@@ -11,16 +20,8 @@ class ListItemIconTextChildComponent extends StatelessWidget {
       required this.text,
       this.iconColor,
       this.margin,
-      this.padding});
-
-  final void Function()? onTap;
-
-  final IconData icon;
-  final Color? iconColor;
-  final Widget child;
-  final EdgeInsetsGeometry? margin;
-  final EdgeInsetsGeometry? padding;
-  final String text;
+      this.padding,
+      this.flex = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class ListItemIconTextChildComponent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
+              flex: flex,
               child: Text(
                 text,
                 style: Theme.of(context).textTheme.titleMedium,

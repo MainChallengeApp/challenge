@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class ListItemSearchWithFilterComponent extends StatefulWidget {
   final Function(SearchFilterEnum) onTapFilter;
+  final Function(PointerDownEvent)? onTapOutside;
   final TextEditingController textEditingController;
   final bool autoFocus;
   final bool isUserSearchActive;
@@ -26,6 +27,7 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
     this.onSubmitted,
     this.initialSearchFilter = SearchFilterEnum.all,
     required this.onTapFilter,
+    this.onTapOutside,
   });
 
   @override
@@ -70,6 +72,7 @@ class _ListItemSearchWithFilterComponentState
                   ? 'Search for Challenges'
                   : 'Search for Users',
           onTapActionIcon: widget.onTapActionIcon,
+          onTapOutside: widget.onTapOutside,
           changeList: widget.onChangeList,
           onSubmitted: widget.onSubmitted,
         )

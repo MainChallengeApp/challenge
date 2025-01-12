@@ -124,23 +124,11 @@ class _SearchListPageState extends State<SearchListPage> {
                 textEditingController: textEditingController,
                 isUserSearchActive: widget.isUserSearchActive,
                 initialSearchFilter: selectedSearchFilter,
-                onTapActionIcon: () {
-                  setState(() {
-                    textEditingController.clear();
-                  });
-                },
-                onSubmitted: (text) async {
-                  if (text.isEmpty) {
-                    return;
-                  }
-                  await onChangeList(text);
-                  _usersProvider.addRecentSearch(text);
-                },
-                onTapFilter: (searchFilter) {
-                  setState(() {
-                    selectedSearchFilter = searchFilter;
-                  });
-                },
+                onTapActionIcon: _onTapActionIcon,
+                onSubmitted: _onSubmitted,
+                onChangeList: _onChangeList,
+                onTapFilter: _onTapFilter,
+                onTapOutside: _onTapOutside,
               )),
               Expanded(
                   child: textEditingController.text.isEmpty &&
@@ -154,6 +142,34 @@ class _SearchListPageState extends State<SearchListPage> {
             ],
           )),
     );
+  }
+
+  _onTapFilter(searchFilter) {
+    setState(() {
+      selectedSearchFilter = searchFilter;
+    });
+  }
+
+  _onSubmitted(String text) async {
+    if (text.isEmpty) {
+      return;
+    }
+    await _onChangeList(text);
+    _usersProvider.addRecentSearch(text);
+  }
+
+  _onTapOutside(PointerDownEvent _) async {
+    String text = textEditingController.text;
+    if (text.isEmpty) {
+      return;
+    }
+    _usersProvider.addRecentSearch(text);
+  }
+
+  _onTapActionIcon() {
+    setState(() {
+      textEditingController.clear();
+    });
   }
 
   Widget _buildChallengesList() {
@@ -254,7 +270,7 @@ class _SearchListPageState extends State<SearchListPage> {
     return RefreshIndicatorComponent(
       scrollController: scrollController,
       onRefresh: () async {
-        await onChangeList(textEditingController.text);
+        await _onChangeList(textEditingController.text);
       },
       child: CupertinoScrollbar(
         controller: scrollController,
@@ -383,7 +399,7 @@ class _SearchListPageState extends State<SearchListPage> {
     });
   }
 
-  Future<void> onChangeList(String searchText) async {
+  Future<void> _onChangeList(String searchText) async {
     await searchChallengesProvider.getSearchedPaginated(
         searchText: searchText, categories: widget.categories, isInit: true);
     await _usersProvider.getSearchedPaginated(
@@ -418,7 +434,7 @@ class _SearchListPageState extends State<SearchListPage> {
               return SpaceColumnComponent(
                 child: ListItemRecentSearchComponent(
                   onTap: () async {
-                    await onChangeList(recentSearch);
+                    await _onChangeList(recentSearch);
                     setState(() {
                       textEditingController.text = recentSearch;
                     });
