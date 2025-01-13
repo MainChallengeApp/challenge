@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/notification_type_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -37,6 +38,8 @@ class UsersProvider with ChangeNotifier {
   final int paginationLimit = 10;
 
   final BuildContext context;
+
+  CancelableOperation? _operation;
 
   late final notificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: false);
@@ -174,7 +177,9 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> getSearchedPaginated(
-      {String? searchText, bool isInit = false}) async {
+      {String? searchText,
+      bool isInit = false,
+      bool shouldNotify = true}) async {
     try {
       if (!_isEndOfSearchedListReached || isInit) {
         final fetchedSearchUsers = await usersCollection.getSearchedPaginated(
@@ -196,7 +201,9 @@ class UsersProvider with ChangeNotifier {
 
         _searchUsers.addAll(fetchedSearchUsers);
 
-        notifyListeners();
+        if (shouldNotify) {
+          notifyListeners();
+        }
       }
     } on Exception {
       rethrow;
@@ -204,9 +211,11 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> initSearchUsers({String? searchText}) async {
+    _operation?.cancel();
     _searchUsers.clear();
     _isEndOfSearchedListReached = false;
-    await getSearchedPaginated(searchText: searchText);
+    _operation = CancelableOperation.fromFuture(
+        getSearchedPaginated(searchText: searchText));
   }
 
   Future<void> blockUser(String userId) async {

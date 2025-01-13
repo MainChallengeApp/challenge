@@ -79,11 +79,6 @@ class _SearchListPageState extends State<SearchListPage> {
   @override
   void initState() {
     super.initState();
-    _searchChallengesProvider.initSearchChallenges(
-        categories: widget.categories);
-    if (widget.isUserSearchActive) {
-      _usersProvider.getSearchedPaginated(isInit: true);
-    }
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -431,10 +426,20 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Future<void> _onChangeList(String searchText) async {
+    if (_textEditingController.text.isEmpty) {
+      setState(() {});
+      return;
+    }
     await _searchChallengesProvider.getSearchedPaginated(
-        searchText: searchText, categories: widget.categories, isInit: true);
+        searchText: searchText,
+        categories: widget.categories,
+        isInit: true,
+        shouldNotify: false);
     await _usersProvider.getSearchedPaginated(
-        searchText: searchText, isInit: true);
+        searchText: searchText, isInit: true, shouldNotify: false);
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   buildRecentSearches() {
