@@ -5,17 +5,19 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_input_com
 import 'package:flutter/material.dart';
 
 class ListItemPasswordComponent extends StatefulWidget {
+  final Function(String)? onChangeTextField;
+  final Function(String)? onSubmitted;
+  final TextEditingController textEditingController;
+  String? errorText;
+  final String? hintText;
+
   ListItemPasswordComponent(
       {super.key,
       this.onChangeTextField,
       required this.textEditingController,
       this.errorText,
-      this.hintText});
-
-  Function(String)? onChangeTextField;
-  final TextEditingController textEditingController;
-  String? errorText;
-  final String? hintText;
+      this.hintText,
+      this.onSubmitted});
 
   @override
   State<ListItemPasswordComponent> createState() =>
@@ -42,6 +44,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
         textEditingController: widget.textEditingController,
         isHidden: isHidden,
         onChangeTextField: widget.onChangeTextField,
+        onSubmitted: widget.onSubmitted,
         errorText: widget.errorText,
         keyboardType: TextInputType.visiblePassword,
         hintText: widget.hintText ?? 'Password');

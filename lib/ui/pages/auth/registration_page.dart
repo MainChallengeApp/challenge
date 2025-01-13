@@ -94,6 +94,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           emailErrorText = null;
           passwordErrorText = null;
         }),
+        onSubmitted: (_) => onTapRegister(),
       ),
     );
   }

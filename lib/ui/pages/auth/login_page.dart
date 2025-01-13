@@ -91,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
           passwordErrorText = null;
           emailErrorText = null;
         }),
+        onSubmitted: (_) => onTapLogin(),
       ),
     );
   }

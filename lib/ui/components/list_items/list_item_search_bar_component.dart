@@ -12,7 +12,6 @@ class ListItemSearchBarComponent extends StatefulWidget {
   final bool autoFocus;
   final Function()? onTap;
   final Function()? onTapActionIcon;
-  final Function(String)? onSubmitted;
   final Function(PointerDownEvent)? onTapOutside;
 
   ListItemSearchBarComponent(
@@ -24,7 +23,6 @@ class ListItemSearchBarComponent extends StatefulWidget {
       this.hintText = 'Search',
       this.onTap,
       this.onTapActionIcon,
-      this.onSubmitted,
       this.onTapOutside});
 
   @override
@@ -71,7 +69,6 @@ class _ListItemSearchBarComponentState
           widget.changeList?.call(value);
         });
       },
-      onSubmitted: widget.onSubmitted,
     );
   }
 

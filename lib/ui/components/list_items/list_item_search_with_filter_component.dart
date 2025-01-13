@@ -15,7 +15,6 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
   final SearchFilterEnum initialSearchFilter;
 
   final Function(String)? onChangeList;
-  final Function(String)? onSubmitted;
 
   const ListItemSearchWithFilterComponent({
     super.key,
@@ -24,7 +23,6 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
     this.autoFocus = false,
     this.onTapActionIcon,
     this.onChangeList,
-    this.onSubmitted,
     this.initialSearchFilter = SearchFilterEnum.all,
     required this.onTapFilter,
     this.onTapOutside,
@@ -74,7 +72,6 @@ class _ListItemSearchWithFilterComponentState
           onTapActionIcon: widget.onTapActionIcon,
           onTapOutside: widget.onTapOutside,
           changeList: widget.onChangeList,
-          onSubmitted: widget.onSubmitted,
         )
       ],
     );
