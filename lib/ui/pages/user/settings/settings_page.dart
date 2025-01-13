@@ -22,7 +22,6 @@ import 'package:challenge/ui/pages/user/settings/edit_user/edit_user_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -36,12 +35,9 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final ScrollController _scrollController = ScrollController();
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
-  late final _groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
-  late final _notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
+  late final _usersProvider = getIt<UsersProvider>();
+  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  late final _notificationsProvider = getIt<NotificationsProvider>();
   final _tabProvider = getIt<TabProvider>();
 
   late final String _title = 'Settings';
