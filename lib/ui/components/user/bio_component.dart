@@ -30,21 +30,38 @@ class _BioComponentState extends State<BioComponent> {
                 right: CustomContainerComponent.standardPadding,
                 top: CustomContainerComponent.standardPadding - 2,
                 bottom: CustomContainerComponent.standardPadding - 2),
-            child: SingleChildScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              child: Linkify(
-                onOpen: (link) {
-                  _launchURL(link.url);
-                },
-                options: const LinkifyOptions(removeWww: true, humanize: true),
-                text: widget.bio!,
-                textAlign: TextAlign.justify,
-                style: Theme.of(context).textTheme.bodyMedium,
-                linkStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    decorationColor: Theme.of(context).colorScheme.linkColor,
-                    color: Theme.of(context).colorScheme.linkColor),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    child: Linkify(
+                      onOpen: (link) {
+                        _launchURL(link.url);
+                      },
+                      options:
+                          const LinkifyOptions(removeWww: true, humanize: true),
+                      text: widget.bio!,
+                      textAlign: TextAlign.justify,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      linkStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(
+                              decorationColor:
+                                  Theme.of(context).colorScheme.linkColor,
+                              color: Theme.of(context).colorScheme.linkColor),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text('show less',
+                      style: Theme.of(context).textTheme.bodyMedium),
+                )
+              ],
             ),
           )
         : TapContainerComponent(
