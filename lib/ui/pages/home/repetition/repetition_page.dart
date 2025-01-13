@@ -324,6 +324,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     setState(() {
       repetition.deleteProgress(progress);
     });
+    _attempt.replaceRepetition(repetition);
     _groupChallengesProvider.updateAttempt(
         _groupChallenge, _participant, _attempt);
   }

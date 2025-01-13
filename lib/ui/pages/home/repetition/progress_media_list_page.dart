@@ -408,6 +408,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     setState(() {
       widget.repetition!.deleteProgress(widget.progress!);
     });
+    widget.attempt.replaceRepetition(widget.repetition!);
     groupChallengeProvider.updateAttempt(
         widget.groupChallenge, widget.participant, widget.attempt);
     Navigator.pop(context);

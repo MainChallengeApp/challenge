@@ -628,4 +628,12 @@ class AttemptModel {
     }
     rightRepetitions.first.progressList.add(progress);
   }
+
+  void replaceRepetition(RepetitionModel repetition) {
+    int index = repetitions.indexWhere((repetitionEntry) =>
+        repetitionEntry.repetitionNumber == repetition.repetitionNumber);
+    if (index != -1) {
+      repetitions[index] = repetition;
+    }
+  }
 }
