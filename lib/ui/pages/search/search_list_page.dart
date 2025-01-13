@@ -119,7 +119,6 @@ class _SearchListPageState extends State<SearchListPage> {
                 isUserSearchActive: widget.isUserSearchActive,
                 initialSearchFilter: _selectedSearchFilter,
                 onTapActionIcon: _onTapActionIcon,
-                onSubmitted: _onSubmitted,
                 onChangeList: _onChangeList,
                 onTapFilter: _onTapFilter,
                 onTapOutside: _onTapOutside,
@@ -174,14 +173,6 @@ class _SearchListPageState extends State<SearchListPage> {
         _scrollController.jumpTo(_usersScrollPosition);
         break;
     }
-  }
-
-  _onSubmitted(String text) async {
-    if (text.isEmpty) {
-      return;
-    }
-    await _onChangeList(text);
-    _usersProvider.addRecentSearch(text);
   }
 
   _onTapOutside(PointerDownEvent _) async {
