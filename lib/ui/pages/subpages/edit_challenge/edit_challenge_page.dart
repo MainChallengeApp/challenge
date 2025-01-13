@@ -367,8 +367,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
     } else {
       ParticipantModel participant = (_editChallenge as GroupChallengeModel)
           .getParticipant(_usersProvider.user.id);
-      // _selectedAttempt!
-      //     .changeRepetitionDates(_editChallenge as GroupChallengeModel);
       await _groupChallengesProvider.updateAttempt(
           _editChallenge as GroupChallengeModel,
           participant,

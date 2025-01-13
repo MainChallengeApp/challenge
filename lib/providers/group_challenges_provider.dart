@@ -187,6 +187,12 @@ class GroupChallengesProvider with ChangeNotifier {
   }
 
   Future<void> update(GroupChallengeModel groupChallengeCopy) async {
+    if (groupChallengeCopy.hasThumbnail() &&
+        mediaService.isUrlLocal(groupChallengeCopy.thumbnail!.url)) {
+      groupChallengeCopy.thumbnail!.url =
+          await mediaService.uploadLocalThumbnail(
+              groupChallengeCopy.id, groupChallengeCopy.thumbnail!.url);
+    }
     await _groupChallengesCollection.update(groupChallengeCopy);
     updateLocalList(groupChallengeCopy);
   }
