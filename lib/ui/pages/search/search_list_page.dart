@@ -80,6 +80,12 @@ class _SearchListPageState extends State<SearchListPage> {
   void initState() {
     super.initState();
 
+    _searchChallengesProvider.initSearchChallenges(
+        categories: widget.categories);
+    if (widget.isUserSearchActive) {
+      _usersProvider.getSearchedPaginated(isInit: true);
+    }
+
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
