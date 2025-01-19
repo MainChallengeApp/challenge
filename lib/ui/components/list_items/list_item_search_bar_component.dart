@@ -64,9 +64,11 @@ class _ListItemSearchBarComponentState
       textInputAction: TextInputAction.search,
       autoFocus: widget.autoFocus,
       focusNode: _focusNode,
+      autoCorrection: false,
+      enableSuggestions: true,
       onChangeTextField: (value) {
         setState(() {
-          widget.changeList?.call(value);
+          widget.changeList?.call(value.trim());
         });
       },
     );

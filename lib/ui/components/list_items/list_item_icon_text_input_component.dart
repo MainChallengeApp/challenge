@@ -24,6 +24,8 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final bool? autoFocus;
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
+  final bool autoCorrection;
+  final bool enableSuggestions;
 
   ListItemIconTextInputComponent({
     super.key,
@@ -44,6 +46,8 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.inputFormatters,
     this.onSubmitted,
     this.onTapOutside,
+    this.autoCorrection = true,
+    this.enableSuggestions = true,
   });
 
   @override
@@ -103,6 +107,8 @@ class _ListItemIconTextInputComponentState
                 enabled: widget.isEnabled,
                 autofocus: widget.autoFocus ?? false,
                 focusNode: focusNode,
+                autocorrect: widget.autoCorrection,
+                enableSuggestions: widget.enableSuggestions,
                 decoration: InputDecoration(
                     isCollapsed:
                         true, // somehow needed to vertically center the text
