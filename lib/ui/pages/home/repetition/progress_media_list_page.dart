@@ -368,6 +368,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
     widget.attempt.media.addAll(filteredMediaList);
 
+    // make acceptanceCriteria fix in case it gets changed after finishing the challenge
+    widget.attempt.acceptanceCriteria =
+        widget.attempt.getAcceptanceCriteria(widget.groupChallenge);
+
     await groupChallengeProvider.updateAttempt(
         widget.groupChallenge, widget.participant, widget.attempt);
 
