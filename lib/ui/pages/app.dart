@@ -6,7 +6,7 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/push_notification_service.dart';
-import 'package:challenge/ui/animations/visibility_animation.dart';
+import 'package:challenge/ui/animations/bottom_navigation_animation.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
@@ -127,7 +127,7 @@ class AppState extends State<App> {
   _bottomNavigationBar() {
     bool isBottomNavigationVisible =
         context.watch<TabProvider>().isBottomNavigationVisible;
-    return VisibilityAnimation(
+    return BottomNavigationAnimation(
       isVisible: isBottomNavigationVisible,
       child: const Align(
           alignment: Alignment.bottomCenter,

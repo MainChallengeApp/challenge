@@ -1,11 +1,15 @@
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
+import 'package:challenge/ui/components/cards/media/image_media_card_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/pages/subpages/media/video_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +17,7 @@ class MediaDetailPage extends StatefulWidget {
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
   final AttemptModel attempt;
-  final void Function(MediaModel)? onTap;
+  final void Function(MediaModel)? onTapDelete;
   final bool isEditableByUser;
 
   const MediaDetailPage(
@@ -21,134 +25,204 @@ class MediaDetailPage extends StatefulWidget {
       required this.mediaList,
       required this.initialMediaIndex,
       required this.attempt,
-      this.onTap,
+      this.onTapDelete,
       this.isEditableByUser = true});
 
   @override
   State<MediaDetailPage> createState() => _MediaDetailPageState();
 }
 
-class _MediaDetailPageState extends State<MediaDetailPage> {
+class _MediaDetailPageState extends State<MediaDetailPage>
+    with SingleTickerProviderStateMixin {
   late PageController controller =
       PageController(initialPage: widget.initialMediaIndex);
   late String currentTitle =
       widget.mediaList.reversed.toList()[widget.initialMediaIndex].title;
   late int currentMediaIndex = widget.initialMediaIndex;
+  String title = 'Media';
 
   MediaService mediaService = MediaService();
+
+  bool _isFullScreen = false;
+
+  late AnimationController _controller;
+  late Animation<Offset> _actionButtonsAnimation;
+  late Animation<Offset> _appBarAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _actionButtonsAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0.0, 1.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _appBarAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0.0, -1.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
-      appBar: AppBarComponent(title: currentTitle),
       isBottomNavigationVisible: false,
-      body: Stack(
-        children: [
-          PageView(
-            onPageChanged: onSwipeMedia,
-            scrollDirection: Axis.vertical,
-            controller: controller,
-            children: widget.mediaList.reversed.map((media) {
-              return media.type == MediaTypeEnum.image
-                  ? Center(
-                      child: SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: mediaService.isUrlLocal(media.source)
-                            ? Image.asset(media.source,
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(
-                                      child: SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: Icon(Icons.question_mark,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiary),
-                                      ),
-                                    ))
-                            : Image.network(media.source,
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(
-                                      child: SizedBox(
-                                        width: 20,
-                                        height: 20,
-                                        child: Icon(Icons.question_mark,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiary),
-                                      ),
-                                    )),
-                      ),
-                    ))
-                  : Center(
-                      child: SizedBox(
-                      width: double.infinity,
-                      height: double.infinity,
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: VideoComponent(
-                          filePath: media.source,
-                        ),
-                      ),
-                    ));
-            }).toList(),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: deleteButton(),
-          )
-        ],
+      body: Column(
+        children: [_appBar(), _media(), _actionButtons()],
       ),
     );
   }
 
-  void onSwipeMedia(int value) {
+  AnimatedBuilder _actionButtons() {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return ClipRect(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            heightFactor: 1.0 - _controller.value,
+            child: SlideTransition(
+              position: _actionButtonsAnimation,
+              child: _actionButtonsButtons(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Expanded _media() {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _isFullScreen = !_isFullScreen;
+            _isFullScreen ? _controller.forward() : _controller.reverse();
+          });
+        },
+        child: Stack(
+          children: [
+            PageView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              onPageChanged: _onSwipeMedia,
+              scrollDirection: Axis.vertical,
+              controller: controller,
+              children: widget.mediaList.reversed.map((media) {
+                switch (media.type) {
+                  case MediaTypeEnum.image:
+                    return ImageMediaCardComponent(
+                        media: media, isFullScreen: _isFullScreen);
+                  case MediaTypeEnum.video:
+                    return Container();
+                  default:
+                    return Container();
+                }
+              }).toList(),
+            ),
+            _actionButtonSpace(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  AnimatedBuilder _appBar() {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return ClipRect(
+          child: Align(
+            alignment: Alignment.topCenter,
+            heightFactor: 1.0 - _controller.value,
+            child: SlideTransition(
+              position: _appBarAnimation,
+              child: AppBarComponent(
+                title: title,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // workaround to achieve the correct visible spacing
+  Visibility _actionButtonSpace() {
+    return Visibility(
+      visible: !_isFullScreen,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          height: SpaceComponent.standardHeight,
+          width: double.infinity,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+
+  void _onSwipeMedia(int value) {
     setState(() {
-      currentTitle = widget.mediaList.reversed.toList()[value].title;
       currentMediaIndex = value;
     });
   }
 
-  deleteButton() {
-    return Visibility(
-      visible: widget.isEditableByUser,
-      child: GestureDetector(
-        onTap: () => setState(() {
-          MediaModel media =
-              widget.mediaList.reversed.toList()[currentMediaIndex];
-          widget.mediaList.removeWhere((element) => element.id == media.id);
+  void _onTapDelete() {
+    setState(() {
+      MediaModel media = widget.mediaList.reversed.toList()[currentMediaIndex];
+      widget.mediaList.removeWhere((element) => element.id == media.id);
 
-          widget.onTap?.call(media);
+      widget.onTapDelete?.call(media);
 
-          if (widget.mediaList.isEmpty) {
-            Navigator.pop(context);
-            return;
-          }
+      if (widget.mediaList.isEmpty) {
+        Navigator.pop(context);
+        return;
+      }
 
-          if (currentMediaIndex >= widget.mediaList.length) {
-            currentMediaIndex = widget.mediaList.length - 1;
-          }
-        }),
-        child: Container(
-          width: 55,
-          height: 55,
-          margin: const EdgeInsets.only(left: 8, right: 8, bottom: 20),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                  width: 1, color: const Color.fromRGBO(226, 232, 240, 1)),
-              borderRadius: const BorderRadius.all(Radius.circular(16))),
-          child: Center(
-              child: Icon(
-            IconEnum.delete.icon,
-            color: Theme.of(context).colorScheme.red,
+      if (currentMediaIndex >= widget.mediaList.length) {
+        currentMediaIndex = widget.mediaList.length - 1;
+      }
+    });
+  }
+
+  _actionButtonsButtons() {
+    return SpaceColumnComponent(
+      height: BottomNavigationComponent.standardMargin,
+      child: Row(
+        children: [
+          const SpaceComponent(
+            width: ListItemContainerComponent.standardMargin,
+          ),
+          Expanded(
+              child: ListItemButtonComponent(
+            onTap: _onTapDelete,
+            text: 'Delete',
+            margin: EdgeInsets.zero,
+            textColor: Theme.of(context).colorScheme.red,
+            isMainButton: false,
           )),
-        ),
+          // TODO: Implement Edit media
+          // const SpaceComponent(),
+          // Expanded(
+          //     child: ListItemButtonComponent(
+          //   onTap: () {},
+          //   text: 'Edit',
+          //   margin: EdgeInsets.zero,
+          // )),
+          const SpaceComponent(
+            width: ListItemContainerComponent.standardMargin,
+          ),
+        ],
       ),
     );
   }

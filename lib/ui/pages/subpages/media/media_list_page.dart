@@ -141,7 +141,7 @@ class _MediaListPageState extends State<MediaListPage> {
                     .toList(),
                 initialMediaIndex: index,
                 attempt: widget.attempt,
-                onTap: onTapDeleteMedia,
+                onTapDelete: onTapDeleteMedia,
               )),
     ).then((_) => setState(() {}));
   }

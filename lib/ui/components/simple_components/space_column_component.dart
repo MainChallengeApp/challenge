@@ -5,6 +5,7 @@ class SpaceColumnComponent extends StatelessWidget {
   final Widget child;
   final double? height;
   final double? heightMultiplier;
+
   const SpaceColumnComponent(
       {super.key, required this.child, this.height, this.heightMultiplier});
 

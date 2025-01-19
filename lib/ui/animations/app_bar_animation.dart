@@ -1,14 +1,12 @@
-import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:flutter/material.dart';
 
-class VisibilityAnimation extends StatefulWidget {
+class AppBarAnimation extends StatefulWidget {
   final Widget child;
   final bool isVisible;
   final Duration duration;
   final Curve curve;
 
-  const VisibilityAnimation({
+  const AppBarAnimation({
     Key? key,
     required this.child,
     required this.isVisible,
@@ -17,15 +15,13 @@ class VisibilityAnimation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<VisibilityAnimation> createState() => _VisibilityAnimationState();
+  State<AppBarAnimation> createState() => _AppBarAnimationState();
 }
 
-class _VisibilityAnimationState extends State<VisibilityAnimation>
+class _AppBarAnimationState extends State<AppBarAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _offsetAnimation;
-
-  final _tabProvider = getIt<TabProvider>();
 
   @override
   void initState() {
@@ -34,30 +30,30 @@ class _VisibilityAnimationState extends State<VisibilityAnimation>
       duration: widget.duration,
       vsync: this,
     );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(0.0, 1.0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: widget.curve,
-    ));
-
+    _updateOffsetAnimation();
     if (!widget.isVisible) {
       _controller.value = 1.0;
     }
   }
 
+  void _updateOffsetAnimation() {
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0.0, -1.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: widget.curve,
+    ));
+  }
+
   @override
-  void didUpdateWidget(VisibilityAnimation oldWidget) {
+  void didUpdateWidget(AppBarAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isVisible != oldWidget.isVisible) {
       if (widget.isVisible) {
         _controller.reverse();
       } else {
-        _tabProvider.setBottomNavigatorGoingDown(true);
-        _controller.forward().then((_) {
-          _tabProvider.setBottomNavigatorGoingDown(false);
-        });
+        _controller.forward();
       }
     }
   }
@@ -74,7 +70,7 @@ class _VisibilityAnimationState extends State<VisibilityAnimation>
       animation: _controller,
       builder: (context, child) {
         return Align(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.topCenter,
           child: SlideTransition(
             position: _offsetAnimation,
             child: Visibility(

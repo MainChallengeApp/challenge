@@ -18,8 +18,10 @@ import 'package:challenge/ui/components/list_items/list_item_media_small_compone
 import 'package:challenge/ui/components/list_items/list_item_progress_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_progress_controller_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -218,7 +220,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           initialMediaIndex: index,
           attempt: widget.attempt,
           isEditableByUser: widget.isEditableByUser,
-          onTap: onTapDeleteMedia,
+          onTapDelete: onTapDeleteMedia,
         ),
       ),
     ).then((_) => setState(() {}));
@@ -229,10 +231,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
+              padding: const EdgeInsets.only(
+                  bottom: BottomNavigationComponent.standardMargin),
               child: Row(
                 children: [
                   cancelButton(),
+                  const SpaceComponent(),
                   saveButton(),
                 ],
               ),
@@ -247,7 +251,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         text: 'Save',
         onTap: onTapSave,
         isMainButton: true,
-        margin: const EdgeInsets.only(left: 10, right: 20),
+        margin: const EdgeInsets.only(right: 20),
         isLoading: _isSaveLoading,
       ),
     );
@@ -259,7 +263,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         text: 'Cancel',
         onTap: onTapCancel,
         isMainButton: false,
-        margin: const EdgeInsets.only(left: 20, right: 10),
+        margin: const EdgeInsets.only(
+            left: BottomNavigationComponent.standardMargin),
       ),
     );
   }
@@ -269,10 +274,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0),
+              padding: const EdgeInsets.only(
+                  bottom: BottomNavigationComponent.standardMargin),
               child: Row(
                 children: [
                   deleteButton(),
+                  const SpaceComponent(),
                   editButton(),
                 ],
               ),
@@ -287,7 +294,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         text: 'Edit',
         onTap: onTapEdit,
         isMainButton: true,
-        margin: const EdgeInsets.only(left: 10, right: 20),
+        margin: const EdgeInsets.only(right: 20),
       ),
     );
   }
@@ -305,7 +312,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         textColor: Theme.of(context).colorScheme.red,
         onTap: onTapDelete,
         isMainButton: false,
-        margin: const EdgeInsets.only(left: 20, right: 10),
+        margin: const EdgeInsets.only(left: 20),
       ),
     );
   }
