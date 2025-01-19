@@ -4,6 +4,7 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/group_challenge_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -35,13 +36,19 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           .indexWhere((challenge) => challenge.id == widget.initialChallengeId),
       0);
 
+  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
   late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: true);
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  late final _usersProvider = getIt<UsersProvider>();
 
   List<GroupChallengeModel> _filteredChallenges = [];
+
+  @override
+  initState() {
+    super.initState();
+    _groupChallengesProvider.getById(widget.initialChallengeId);
+  }
 
   @override
   Widget build(BuildContext context) {
