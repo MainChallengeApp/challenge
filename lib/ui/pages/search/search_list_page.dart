@@ -423,7 +423,7 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Future<void> _onChangeList(String searchText) async {
-    if (_textEditingController.text.isEmpty) {
+    if (searchText.isEmpty) {
       setState(() {});
       return;
     }
@@ -434,9 +434,7 @@ class _SearchListPageState extends State<SearchListPage> {
         shouldNotify: false);
     await _usersProvider.getSearchedPaginated(
         searchText: searchText, isInit: true, shouldNotify: false);
-    if (mounted) {
-      setState(() {});
-    }
+    setState(() {});
   }
 
   buildRecentSearches() {
