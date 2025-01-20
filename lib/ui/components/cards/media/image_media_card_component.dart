@@ -1,6 +1,8 @@
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:flutter/material.dart';
 
 class ImageMediaCardComponent extends StatefulWidget {
@@ -57,42 +59,72 @@ class _ImageMediaCardComponentState extends State<ImageMediaCardComponent>
                 right: CardComponent.standardSideMargin,
                 bottom: CardComponent.standardBottomMargin,
               ),
-        child: AnimatedBuilder(
-          animation: _borderRadiusAnimation,
-          builder: (context, child) {
-            return ClipRRect(
-              borderRadius: BorderRadius.circular(_borderRadiusAnimation.value),
-              child: child,
-            );
-          },
-          child: _mediaService.isUrlLocal(widget.media.source)
-              ? Image.asset(
-                  widget.media.source,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Icon(Icons.question_mark,
-                          color: Theme.of(context).colorScheme.tertiary),
-                    ),
-                  ),
-                )
-              : Image.network(
-                  widget.media.source,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => Center(
-                    child: SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Icon(Icons.question_mark,
-                          color: Theme.of(context).colorScheme.tertiary),
-                    ),
-                  ),
-                ),
+        child: Stack(
+          children: [
+            AnimatedBuilder(
+              animation: _borderRadiusAnimation,
+              builder: (context, child) {
+                return ClipRRect(
+                  borderRadius:
+                      BorderRadius.circular(_borderRadiusAnimation.value),
+                  child: child,
+                );
+              },
+              child: _image(),
+            ),
+            Positioned(bottom: 0, left: 0, right: 0, child: _title())
+          ],
         ),
       ),
     );
+  }
+
+  _title() {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.easeInOut,
+      opacity: widget.isFullScreen ? 0 : 1,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Row(
+          children: [
+            ContainerInContainerTextComponent(
+                height: SmallContainerInListItemComponent.height,
+                margin: const EdgeInsets.all(CardComponent.standardPadding),
+                text: widget.media.title),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Image _image() {
+    return _mediaService.isUrlLocal(widget.media.source)
+        ? Image.asset(
+            widget.media.source,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: Icon(Icons.question_mark,
+                    color: Theme.of(context).colorScheme.tertiary),
+              ),
+            ),
+          )
+        : Image.network(
+            widget.media.source,
+            fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) => Center(
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: Icon(Icons.question_mark,
+                    color: Theme.of(context).colorScheme.tertiary),
+              ),
+            ),
+          );
   }
 
   void _animateBorderRadius() {

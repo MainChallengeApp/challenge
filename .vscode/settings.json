@@ -40,7 +40,8 @@
     "connections",
     "time_safety",
     "tests",
-    "firebase"
+    "firebase",
+    "media"
   ],
   "cSpell.ignoreWords": [
     "avfoundation",
