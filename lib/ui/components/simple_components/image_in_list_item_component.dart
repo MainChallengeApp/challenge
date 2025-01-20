@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
@@ -33,30 +31,7 @@ class ImageInListItemComponent extends StatelessWidget {
         child: ClipRRect(
             borderRadius: const BorderRadius.all(
                 Radius.circular(ListItemIconTextComponent.standardIconRadius)),
-            child: Transform.scale(
-              scale: scale ?? 1,
-              child: url == null
-                  ? Center(
-                      child: Icon(icon,
-                          color: Theme.of(context).colorScheme.tertiary),
-                    )
-                  : mediaService.isUrlLocal(url!)
-                      ? Image.asset(url!,
-                          fit: fit ?? BoxFitEnum.cover.fit,
-                          errorBuilder: (context, error, stackTrace) => Center(
-                                child: Icon(icon,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary),
-                              ))
-                      : CachedNetworkImage(
-                          imageUrl: url!,
-                          fit: fit ?? BoxFitEnum.cover.fit,
-                          fadeInDuration: Duration.zero,
-                          errorWidget: (context, url, error) => Center(
-                                child: Icon(icon,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary),
-                              )),
-            )));
+            child: mediaService.getImage(context, url,
+                fit: fit, scale: scale, icon: icon)));
   }
 }

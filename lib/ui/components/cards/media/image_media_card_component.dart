@@ -99,32 +99,9 @@ class _ImageMediaCardComponentState extends State<ImageMediaCardComponent>
     );
   }
 
-  Image _image() {
-    return _mediaService.isUrlLocal(widget.media.source)
-        ? Image.asset(
-            widget.media.source,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => Center(
-              child: SizedBox(
-                width: 20,
-                height: 20,
-                child: Icon(Icons.question_mark,
-                    color: Theme.of(context).colorScheme.tertiary),
-              ),
-            ),
-          )
-        : Image.network(
-            widget.media.source,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => Center(
-              child: SizedBox(
-                width: 20,
-                height: 20,
-                child: Icon(Icons.question_mark,
-                    color: Theme.of(context).colorScheme.tertiary),
-              ),
-            ),
-          );
+  _image() {
+    return _mediaService.getImage(context, widget.media.source,
+        fit: BoxFit.contain, icon: Icons.question_mark);
   }
 
   void _animateBorderRadius() {

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
@@ -48,6 +46,11 @@ class _MediaListPageState extends State<MediaListPage> {
 
   MediaService mediaService = MediaService();
 
+  late List<MediaModel> mediaList = widget.attempt.media
+      .where((element) =>
+          element.title.toLowerCase().contains(searchBarText.toLowerCase()))
+      .toList();
+
   @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
@@ -60,7 +63,7 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   _buildList() {
-    List<MediaModel> mediaList = widget.attempt.media
+    mediaList = widget.attempt.media
         .where((element) =>
             element.title.toLowerCase().contains(searchBarText.toLowerCase()))
         .toList();
@@ -91,30 +94,14 @@ class _MediaListPageState extends State<MediaListPage> {
                       ),
                     );
                   }
+                  MediaModel media = mediaList.reversed.elementAt(index - 1);
                   return SpaceColumnComponent(
                     child: ListItemMediaSmallComponent(
-                      onTap: () => push(context, index: index - 1),
-                      media: mediaList.reversed.elementAt(index - 1),
+                      onTap: () => _onTapMedia(context, index: index - 1),
+                      media: media,
                       isEditableByUser:
                           widget.participant.user.id == _usersProvider.user.id,
-                      onTapDeleteMedia: () {
-                        MediaModel media =
-                            mediaList.reversed.elementAt(index - 1);
-
-                        mediaService.deleteMedia(media);
-                        widget.attempt.removeMedia(media);
-                        groupChallengesProvider.updateAttempt(
-                            widget.groupChallenge,
-                            widget.participant,
-                            widget.attempt);
-
-                        setState(() {
-                          mediaList
-                              .removeWhere((element) => element.id == media.id);
-                        });
-
-                        return;
-                      },
+                      onTapDeleteMedia: () => onTapDeleteMedia(media),
                     ),
                   );
                 }),
@@ -126,12 +113,11 @@ class _MediaListPageState extends State<MediaListPage> {
 
   changeList(String value) {
     setState(() {
-      // challengesFutures = getChallenges(context);
       searchBarText = value;
     });
   }
 
-  void push(BuildContext context, {required int index}) {
+  void _onTapMedia(BuildContext context, {required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -169,18 +155,11 @@ class _MediaListPageState extends State<MediaListPage> {
 
   onTapDeleteMedia(MediaModel media) {
     {
-      File file = File(media.source);
-      file.exists().then((value) {
-        if (value) {
-          file.delete();
-        }
+      groupChallengesProvider.deleteMediaFromAttempt(
+          widget.groupChallenge, widget.participant, widget.attempt, media);
+      setState(() {
+        mediaList.removeWhere((element) => element.id == media.id);
       });
-
-      widget.attempt.removeMedia(media);
-      groupChallengesProvider.updateAttempt(
-          widget.groupChallenge, widget.participant, widget.attempt);
-
-      setState(() {});
     }
   }
 }

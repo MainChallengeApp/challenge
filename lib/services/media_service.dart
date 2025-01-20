@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/collections/users_collection.dart';
+import 'package:challenge/enums/box_fit_enum.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
@@ -119,5 +122,32 @@ class MediaService {
 
   isUrlLocal(String url) {
     return !url.startsWith('https://') && !url.startsWith('http://');
+  }
+
+  getImage(BuildContext context, String? url,
+      {BoxFit? fit, double? scale, IconData? icon}) {
+    return Transform.scale(
+      scale: scale ?? 1,
+      child: url == null
+          ? Center(
+              child: Icon(icon ?? IconEnum.questionMark.icon,
+                  color: Theme.of(context).colorScheme.tertiary),
+            )
+          : isUrlLocal(url)
+              ? Image.asset(url,
+                  fit: fit ?? BoxFitEnum.cover.fit,
+                  errorBuilder: (context, error, stackTrace) => Center(
+                        child: Icon(icon,
+                            color: Theme.of(context).colorScheme.tertiary),
+                      ))
+              : CachedNetworkImage(
+                  imageUrl: url,
+                  fit: fit ?? BoxFitEnum.cover.fit,
+                  fadeInDuration: Duration.zero,
+                  errorWidget: (context, url, error) => Center(
+                        child: Icon(icon,
+                            color: Theme.of(context).colorScheme.tertiary),
+                      )),
+    );
   }
 }

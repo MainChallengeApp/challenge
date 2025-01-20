@@ -8,6 +8,7 @@ import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/services/util_service.dart';
@@ -77,10 +78,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       TextEditingController(
           text: UtilService.doubleAsIntString(editProgress.progress));
 
-  late final groupChallengeProvider = Provider.of<GroupChallengesProvider>(
-    context,
-    listen: false,
-  );
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
 
   late final _notificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: false);
@@ -141,74 +139,75 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             if (index == 0) {
               widget.repetition ??=
                   widget.attempt.addRepetition(widget.groupChallenge);
-              return SpaceColumnComponent(
-                  child: ListItemProgressComponent(
-                progress: editProgress,
-                attempt: widget.attempt,
-                groupChallenge: widget.groupChallenge,
-                progressTextEditingController: progressTextEditingController,
-                isEditable: widget.isSaveInsteadOfEditButtonVisible &&
-                    widget.isEditableByUser,
-                isFailed: widget.repetition != null
-                    ? widget.repetition!.repetitionStatus ==
-                        RepetitionStatusEnum.failed
-                    : false,
-                unit: widget.attempt
-                    .getAcceptanceCriteria(widget.groupChallenge)
-                    .unit,
-                setStateProgressList: () => setState(() {}),
-              ));
+              return _progressListItem();
             }
 
             if (index == 1 &&
                 widget.isSaveInsteadOfEditButtonVisible &&
                 widget.isEditableByUser) {
-              return SpaceColumnComponent(
-                child: ListItemProgressControllerComponent(
-                  editProgress: editProgress,
-                  groupChallenge: widget.groupChallenge,
-                  attempt: widget.attempt,
-                  progressTextEditingController: progressTextEditingController,
-                  progressListSetState: () => setState(() {}),
-                ),
-              );
+              return _progressControllerListItem();
             }
 
             if (index == 2 &&
                 widget.isSaveInsteadOfEditButtonVisible &&
                 widget.isEditableByUser) {
-              return SpaceColumnComponent(
-                child: ListItemIconTextComponent(
-                    onTap: onTapUploadMedia,
-                    icon: IconEnum.upload.icon,
-                    title: 'Upload Media'),
-              );
+              return _uploadMediaListItem();
             }
-            int newIndex =
-                index - (widget.isSaveInsteadOfEditButtonVisible ? 3 : 1);
-            return SpaceColumnComponent(
-              child: ListItemMediaSmallComponent(
-                onTap: () => push(context, index: newIndex),
-                media: widget.initialMediaList.reversed.elementAt(newIndex),
-                isEditableByUser: widget.isEditableByUser,
-                onTapDeleteMedia: () {
-                  setState(() {
-                    mediaService.deleteMedia(
-                        widget.initialMediaList.reversed.elementAt(newIndex));
-                    widget.attempt.removeMedia(
-                        widget.initialMediaList.reversed.elementAt(newIndex));
-                    widget.initialMediaList.removeWhere((media) =>
-                        media.id ==
-                        widget.initialMediaList.reversed
-                            .elementAt(newIndex)
-                            .id);
-                    editProgress.mediaIds.removeAt(newIndex);
-                  });
-                },
-              ),
-            );
+
+            return _mediaListItem(index);
           }),
     );
+  }
+
+  SpaceColumnComponent _mediaListItem(int index) {
+    int newIndex = index - (widget.isSaveInsteadOfEditButtonVisible ? 3 : 1);
+    MediaModel media = widget.initialMediaList.reversed.elementAt(newIndex);
+    return SpaceColumnComponent(
+      child: ListItemMediaSmallComponent(
+        onTap: () => push(context, index: newIndex),
+        media: media,
+        isEditableByUser: widget.isEditableByUser,
+        onTapDeleteMedia: () => onTapDeleteMedia(media),
+      ),
+    );
+  }
+
+  SpaceColumnComponent _uploadMediaListItem() {
+    return SpaceColumnComponent(
+      child: ListItemIconTextComponent(
+          onTap: _onTapUploadMedia,
+          icon: IconEnum.upload.icon,
+          title: 'Upload Media'),
+    );
+  }
+
+  SpaceColumnComponent _progressControllerListItem() {
+    return SpaceColumnComponent(
+      child: ListItemProgressControllerComponent(
+        editProgress: editProgress,
+        groupChallenge: widget.groupChallenge,
+        attempt: widget.attempt,
+        progressTextEditingController: progressTextEditingController,
+        progressListSetState: () => setState(() {}),
+      ),
+    );
+  }
+
+  SpaceColumnComponent _progressListItem() {
+    return SpaceColumnComponent(
+        child: ListItemProgressComponent(
+      progress: editProgress,
+      attempt: widget.attempt,
+      groupChallenge: widget.groupChallenge,
+      progressTextEditingController: progressTextEditingController,
+      isEditable:
+          widget.isSaveInsteadOfEditButtonVisible && widget.isEditableByUser,
+      isFailed: widget.repetition != null
+          ? widget.repetition!.repetitionStatus == RepetitionStatusEnum.failed
+          : false,
+      unit: widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit,
+      setStateProgressList: () => setState(() {}),
+    ));
   }
 
   void push(BuildContext context, {required int index}) {
@@ -361,18 +360,11 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             orElse: () => widget.repetition!)
         .startDate;
 
-    List<MediaModel> filteredMediaList = widget.initialMediaList
-        .where((media) =>
-            !widget.attempt.media.map((media) => media.id).contains(media.id))
-        .toList();
-
-    widget.attempt.media.addAll(filteredMediaList);
-
     // make acceptanceCriteria fix in case it gets changed after finishing the challenge
     widget.attempt.acceptanceCriteria =
         widget.attempt.getAcceptanceCriteria(widget.groupChallenge);
 
-    await groupChallengeProvider.updateAttempt(
+    await _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, widget.attempt);
 
     await _notificationsProvider.sendProgressAddedNotification(
@@ -389,11 +381,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
   }
 
-  onTapUploadMedia() async {
+  _onTapUploadMedia() async {
     MediaModel? media = await mediaService.openImagePicker(context);
     if (media == null) {
       return;
     }
+    _groupChallengesProvider.uploadMediaToAttempt(
+        widget.groupChallenge, widget.participant, widget.attempt, media);
     setState(() {
       editProgress.mediaIds.add(media.id!);
       widget.initialMediaList.add(media);
@@ -420,16 +414,16 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       widget.repetition!.deleteProgress(widget.progress!);
     });
     widget.attempt.replaceRepetition(widget.repetition!);
-    groupChallengeProvider.updateAttempt(
+    _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, widget.attempt);
     Navigator.pop(context);
   }
 
   void onTapDeleteMedia(MediaModel media) {
-    mediaService.deleteMedia(media);
+    _groupChallengesProvider.deleteMediaFromAttempt(
+        widget.groupChallenge, widget.participant, widget.attempt, media);
     setState(() {
       widget.initialMediaList.removeWhere((element) => element.id == media.id);
-      widget.attempt.removeMedia(media);
       editProgress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
     });
   }

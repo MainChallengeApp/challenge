@@ -9,12 +9,14 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
-import 'package:challenge/ui/components/media/video_thumbnail_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -24,7 +26,6 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart' as path;
-import 'package:provider/provider.dart';
 
 class MediaCameraPage extends StatefulWidget {
   const MediaCameraPage({
@@ -54,7 +55,11 @@ class _CameraStateMedia extends State<MediaCameraPage>
   CameraDescription? _currentCamera;
   bool _isCameraFeedback = false;
   bool _isRecording = false;
-  late final UsersProvider _usersProvider;
+  final UsersProvider _usersProvider = getIt<UsersProvider>();
+  final GroupChallengesProvider _groupChallengesProvider =
+      getIt<GroupChallengesProvider>();
+
+  final _mediaService = MediaService();
 
   double _currentZoomLevel = 1.0; // Start slightly zoomed in
   double _baseZoomLevel = 1.0;
@@ -62,11 +67,12 @@ class _CameraStateMedia extends State<MediaCameraPage>
   double _maxAvailableZoom = 5.0; // Limit max zoom to 5x for more natural feel
   final ResolutionPreset _currentResolutionPreset = ResolutionPreset.high;
 
+  bool _isTakingPicture = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _usersProvider = Provider.of<UsersProvider>(context, listen: false);
     _initializeCamera();
   }
 
@@ -150,6 +156,10 @@ class _CameraStateMedia extends State<MediaCameraPage>
   }
 
   Future<void> _takePicture() async {
+    if (_isTakingPicture) {
+      return;
+    }
+    _isTakingPicture = true;
     try {
       await _initializeControllerFuture;
       _cameraFeedback();
@@ -159,46 +169,55 @@ class _CameraStateMedia extends State<MediaCameraPage>
       bool isFrontCamera =
           _controller!.description.lensDirection == CameraLensDirection.front;
 
+      // If it's the front camera, flip the image
       if (isFrontCamera) {
-        // If it's the front camera, flip the image
-        File imageFile = File(image.path);
-        Uint8List imageBytes = await imageFile.readAsBytes();
-
-        ui.Image decodedImage = await decodeImageFromList(imageBytes);
-
-        final recorder = ui.PictureRecorder();
-        final canvas = Canvas(recorder);
-
-        canvas.scale(-1, 1); // This flips the image horizontally
-        canvas.drawImage(
-            decodedImage, Offset(-decodedImage.width.toDouble(), 0), Paint());
-
-        final picture = recorder.endRecording();
-        final img =
-            await picture.toImage(decodedImage.width, decodedImage.height);
-        final pngBytes = await img.toByteData(format: ui.ImageByteFormat.png);
-
-        File flippedFile =
-            await File('${path.dirname(image.path)}/flipped_${image.name}')
-                .create();
-        await flippedFile.writeAsBytes(pngBytes!.buffer.asUint8List());
-
-        image = XFile(flippedFile.path);
+        image = await _flipHorizontally(image);
       }
 
+      MediaModel media = MediaModel(
+        type: MediaTypeEnum.image,
+        title: TimeService.now().toString().split('.')[0],
+        source: image.path,
+      );
+
+      _groupChallengesProvider.uploadMediaToAttempt(
+          widget.groupChallenge, widget.participant, widget.attempt, media);
+
+      _currentMedia.add(media);
+
       if (!mounted) return;
-      setState(() {
-        MediaModel media = MediaModel(
-          type: MediaTypeEnum.image,
-          title: TimeService.now().toString().split('.')[0],
-          source: image.path,
-        );
-        widget.mediaList.add(media);
-        _currentMedia.add(media);
-      });
+      setState(() {});
     } catch (e) {
       ErrorOccurredDialog.show(errorText: 'Failed to take picture: $e');
+    } finally {
+      _isTakingPicture = false;
     }
+  }
+
+  Future<XFile> _flipHorizontally(XFile image) async {
+    File imageFile = File(image.path);
+    Uint8List imageBytes = await imageFile.readAsBytes();
+
+    ui.Image decodedImage = await decodeImageFromList(imageBytes);
+
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+
+    canvas.scale(-1, 1); // This flips the image horizontally
+    canvas.drawImage(
+        decodedImage, Offset(-decodedImage.width.toDouble(), 0), Paint());
+
+    final picture = recorder.endRecording();
+    final img = await picture.toImage(decodedImage.width, decodedImage.height);
+    final pngBytes = await img.toByteData(format: ui.ImageByteFormat.png);
+
+    File flippedFile =
+        await File('${path.dirname(image.path)}/flipped_${image.name}')
+            .create();
+    await flippedFile.writeAsBytes(pngBytes!.buffer.asUint8List());
+
+    image = XFile(flippedFile.path);
+    return image;
   }
 
   // ignore: unused_element
@@ -420,59 +439,57 @@ class _CameraStateMedia extends State<MediaCameraPage>
 
   Widget _buildAcceptButton() {
     return GestureDetector(
-      onTap: () {
-        _controller?.setFlashMode(FlashMode.off);
-        Navigator.push(
-          context,
-          NoAnimationPageRouteComponent(
-            builder: (context) => ProgressMediaListPage(
-              initialMediaList: _currentMedia,
-              attempt: widget.attempt,
-              groupChallenge: widget.groupChallenge,
-              participant: widget.participant,
-              isEditableByUser:
-                  widget.participant.user.id == _usersProvider.user.id,
-              repetition:
-                  widget.attempt.getCurrentRepetition(widget.groupChallenge),
-              amountOfPops: 2,
+        onTap: () {
+          if (_isTakingPicture) {
+            return;
+          }
+          _controller?.setFlashMode(FlashMode.off);
+          Navigator.push(
+            context,
+            NoAnimationPageRouteComponent(
+              builder: (context) => ProgressMediaListPage(
+                initialMediaList: _currentMedia,
+                attempt: widget.attempt,
+                groupChallenge: widget.groupChallenge,
+                participant: widget.participant,
+                isEditableByUser:
+                    widget.participant.user.id == _usersProvider.user.id,
+                repetition:
+                    widget.attempt.getCurrentRepetition(widget.groupChallenge),
+                amountOfPops: 2,
+              ),
+            ),
+          ).then((_) => setState(() {}));
+        },
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              width: 1,
+              color: Theme.of(context).colorScheme.themeColor5,
             ),
           ),
-        ).then((_) => setState(() {}));
-      },
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          image: _currentMedia.isNotEmpty &&
-                  _currentMedia.last.type == MediaTypeEnum.image
-              ? DecorationImage(
-                  image: AssetImage(_currentMedia.last.source),
-                  fit: BoxFit.cover)
-              : null,
-          color: Colors.white.withOpacity(0.3),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            width: 1,
-            color: Theme.of(context).colorScheme.themeColor5,
-          ),
-        ),
-        child: Stack(
-          children: [
-            if (_currentMedia.isNotEmpty &&
-                _currentMedia.last.type == MediaTypeEnum.video)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: VideoThumbnailComponent(
-                    filePath: _currentMedia.last.source),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              if (_currentMedia.isNotEmpty)
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(14),
+                    child: _mediaService.getImage(
+                        context, _currentMedia.last.source,
+                        fit: BoxFit.cover)),
+              Center(
+                child: Icon(
+                  IconEnum.arrowRight.icon,
+                  color: _currentMedia.isEmpty ? Colors.black : Colors.white,
+                ),
               ),
-            Center(
-                child: Icon(Icons.chevron_right,
-                    color:
-                        _currentMedia.isEmpty ? Colors.black : Colors.white)),
-          ],
-        ),
-      ),
-    );
+            ],
+          ),
+        ));
   }
 }
 

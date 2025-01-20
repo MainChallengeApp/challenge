@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
@@ -21,7 +23,7 @@ import 'package:provider/provider.dart';
 class GroupChallengesProvider with ChangeNotifier {
   final _groupChallengesCollection = GroupChallengesCollection();
   final _authService = AuthService();
-  final mediaService = MediaService();
+  final _mediaService = MediaService();
 
   List<GroupChallengeModel> _groupChallenges = [];
   List<GroupChallengeModel> get groupChallenges => _groupChallenges;
@@ -63,9 +65,10 @@ class GroupChallengesProvider with ChangeNotifier {
           await _groupChallengesCollection.create(groupChallenge);
 
       if (groupChallenge.hasThumbnail() &&
-          mediaService.isUrlLocal(groupChallenge.thumbnail!.url)) {
-        groupChallenge.thumbnail!.url = await mediaService.uploadLocalThumbnail(
-            groupChallenge.id, groupChallenge.thumbnail!.url);
+          _mediaService.isUrlLocal(groupChallenge.thumbnail!.url)) {
+        groupChallenge.thumbnail!.url =
+            await _mediaService.uploadLocalThumbnail(
+                groupChallenge.id, groupChallenge.thumbnail!.url);
         update(groupChallenge);
       }
 
@@ -188,9 +191,9 @@ class GroupChallengesProvider with ChangeNotifier {
 
   Future<void> update(GroupChallengeModel groupChallengeCopy) async {
     if (groupChallengeCopy.hasThumbnail() &&
-        mediaService.isUrlLocal(groupChallengeCopy.thumbnail!.url)) {
+        _mediaService.isUrlLocal(groupChallengeCopy.thumbnail!.url)) {
       groupChallengeCopy.thumbnail!.url =
-          await mediaService.uploadLocalThumbnail(
+          await _mediaService.uploadLocalThumbnail(
               groupChallengeCopy.id, groupChallengeCopy.thumbnail!.url);
     }
     await _groupChallengesCollection.update(groupChallengeCopy);
@@ -217,8 +220,8 @@ class GroupChallengesProvider with ChangeNotifier {
     try {
       for (var attempt in participant.attempts) {
         for (var media in attempt.media) {
-          if (mediaService.isUrlLocal(media.source)) {
-            MediaModel? uploadedMedia = await mediaService.uploadLocalMedia(
+          if (_mediaService.isUrlLocal(media.source)) {
+            MediaModel? uploadedMedia = await _mediaService.uploadLocalMedia(
                 media, groupChallenge, participant.user.id);
             if (uploadedMedia == null) {
               ErrorOccurredDialog.show(
@@ -284,5 +287,38 @@ class GroupChallengesProvider with ChangeNotifier {
       GroupChallengeRequestNotificationModel
           groupChallengeRequestNotification) async {
     await deleteParticipant(groupChallengeRequestNotification.groupChallenge);
+  }
+
+  Future<void> uploadMediaToAttempt(
+      GroupChallengeModel groupChallenge,
+      ParticipantModel participant,
+      AttemptModel attempt,
+      MediaModel media) async {
+    if (!_mediaService.isUrlLocal(media.source)) {
+      return;
+    }
+    MediaModel? uploadedMedia = await _mediaService.uploadLocalMedia(
+        media, groupChallenge, participant.user.id);
+    if (uploadedMedia == null) {
+      return;
+    }
+    attempt.media.add(uploadedMedia);
+    await updateAttempt(groupChallenge, participant, attempt);
+  }
+
+  void deleteMediaFromAttempt(
+      GroupChallengeModel groupChallenge,
+      ParticipantModel participant,
+      AttemptModel attempt,
+      MediaModel media) async {
+    File file = File(media.source);
+    file.exists().then((value) {
+      if (value) {
+        file.delete();
+      }
+    });
+    await _mediaService.deleteMedia(media);
+    attempt.removeMedia(media);
+    await updateAttempt(groupChallenge, participant, attempt);
   }
 }
