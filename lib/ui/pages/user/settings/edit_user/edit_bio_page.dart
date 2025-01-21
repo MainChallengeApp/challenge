@@ -82,6 +82,7 @@ class _EditBioPageState extends State<EditBioPage> {
                     bioTextEditingController.text = value.trim();
                     editUser.bio = value.trim();
                   },
+                  autofocus: true,
                   onTapOutside: (_) {
                     bioTextEditingController.text =
                         bioTextEditingController.text.trim();

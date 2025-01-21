@@ -5,17 +5,19 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_input_com
 import 'package:flutter/material.dart';
 
 class ListItemEmailComponent extends StatefulWidget {
+  final Function(String)? onChangeTextField;
+  final TextEditingController textEditingController;
+  final String? errorText;
+  final String? hintText;
+  final bool autoFocus;
+
   const ListItemEmailComponent(
       {super.key,
       this.onChangeTextField,
       required this.textEditingController,
       this.errorText,
-      this.hintText});
-
-  final Function(String)? onChangeTextField;
-  final TextEditingController textEditingController;
-  final String? errorText;
-  final String? hintText;
+      this.hintText,
+      this.autoFocus = false});
 
   @override
   State<ListItemEmailComponent> createState() => _ListItemEmailComponentState();
@@ -34,6 +36,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
         onChangeTextField: widget.onChangeTextField,
         errorText: widget.errorText,
         keyboardType: TextInputType.emailAddress,
+        autoFocus: widget.autoFocus,
         hintText: widget.hintText ?? 'Email');
   }
 

@@ -76,6 +76,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                     },
                   ),
                 ],
+                autoFocus: true,
                 onChangeTextField: (value) {
                   setState(() {
                     _editUser.username = value;

@@ -63,6 +63,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                           textEditingController: newEmailTextEditingController,
                           errorText: newEmailError,
                           hintText: 'New Email',
+                          autoFocus: true,
                           onChangeTextField: (value) {
                             setState(() {
                               newEmailError = null;

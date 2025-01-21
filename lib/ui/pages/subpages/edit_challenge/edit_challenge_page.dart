@@ -215,16 +215,16 @@ class _EditChallengePageState extends State<EditChallengePage> {
             height: BottomNavigationComponent.standardMargin,
             child: Row(
               children: [
+                const SpaceComponent(width: CardComponent.standardSideMargin),
                 Expanded(
                   child: ListItemButtonComponent(
                     onTap: onTapCancel,
                     isMainButton: false,
                     text: 'Cancel',
-                    margin: const EdgeInsets.only(
-                        left: CardComponent.standardSideMargin,
-                        right: CardComponent.standardSideMargin / 2),
+                    margin: EdgeInsets.zero,
                   ),
                 ),
+                const SpaceComponent(),
                 widget.isSearchEdit ||
                         widget.isSearchNewChallenge ||
                         widget.isNewChallenge ||
@@ -235,9 +235,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                           text: 'Accept',
                           isMainButton: true,
                           isLoading: isLoading,
-                          margin: const EdgeInsets.only(
-                              left: CardComponent.standardSideMargin / 2,
-                              right: CardComponent.standardSideMargin),
+                          margin: EdgeInsets.zero,
                         ),
                       )
                     : Expanded(
@@ -246,11 +244,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
                           text: 'Save',
                           isMainButton: true,
                           isLoading: isLoading,
-                          margin: const EdgeInsets.only(
-                              left: CardComponent.standardSideMargin / 2,
-                              right: CardComponent.standardSideMargin),
+                          margin: EdgeInsets.zero,
                         ),
                       ),
+                const SpaceComponent(width: CardComponent.standardSideMargin),
               ],
             ),
           ),
