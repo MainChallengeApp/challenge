@@ -62,7 +62,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                       child: ListItemEmailComponent(
                           textEditingController: newEmailTextEditingController,
                           errorText: newEmailError,
-                          hintText: 'New Email',
+                          lableText: 'New Email',
                           autoFocus: true,
                           onChangeTextField: (value) {
                             setState(() {

@@ -36,18 +36,18 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
   @override
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
-        icon: IconEnum.password.icon,
-        actionIcon: isHidden
-            ? Icons.visibility_outlined
-            : Icons.visibility_off_outlined,
-        onTapActionIcon: onTapActionIcon,
-        textEditingController: widget.textEditingController,
-        isHidden: isHidden,
-        onChangeTextField: widget.onChangeTextField,
-        onSubmitted: widget.onSubmitted,
-        errorText: widget.errorText,
-        keyboardType: TextInputType.visiblePassword,
-        hintText: widget.hintText ?? 'Password');
+      icon: IconEnum.password.icon,
+      actionIcon:
+          isHidden ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+      onTapActionIcon: onTapActionIcon,
+      textEditingController: widget.textEditingController,
+      isHidden: isHidden,
+      onChangeTextField: widget.onChangeTextField,
+      onSubmitted: widget.onSubmitted,
+      errorText: widget.errorText,
+      lableText: 'Password',
+      keyboardType: TextInputType.visiblePassword,
+    );
   }
 
   onTapActionIcon() {

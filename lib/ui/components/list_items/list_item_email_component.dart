@@ -10,6 +10,7 @@ class ListItemEmailComponent extends StatefulWidget {
   final String? errorText;
   final String? hintText;
   final bool autoFocus;
+  final String? lableText;
 
   const ListItemEmailComponent(
       {super.key,
@@ -17,7 +18,8 @@ class ListItemEmailComponent extends StatefulWidget {
       required this.textEditingController,
       this.errorText,
       this.hintText,
-      this.autoFocus = false});
+      this.autoFocus = false,
+      this.lableText});
 
   @override
   State<ListItemEmailComponent> createState() => _ListItemEmailComponentState();
@@ -27,17 +29,17 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
   @override
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
-        icon: IconEnum.email.icon,
-        actionIcon: widget.textEditingController.text == ''
-            ? null
-            : IconEnum.remove.icon,
-        onTapActionIcon: onTapActionIcon,
-        textEditingController: widget.textEditingController,
-        onChangeTextField: widget.onChangeTextField,
-        errorText: widget.errorText,
-        keyboardType: TextInputType.emailAddress,
-        autoFocus: widget.autoFocus,
-        hintText: widget.hintText ?? 'Email');
+      icon: IconEnum.email.icon,
+      actionIcon:
+          widget.textEditingController.text == '' ? null : IconEnum.remove.icon,
+      onTapActionIcon: onTapActionIcon,
+      textEditingController: widget.textEditingController,
+      onChangeTextField: widget.onChangeTextField,
+      errorText: widget.errorText,
+      keyboardType: TextInputType.emailAddress,
+      autoFocus: widget.autoFocus,
+      lableText: widget.lableText ?? 'Email',
+    );
   }
 
   onTapActionIcon() {

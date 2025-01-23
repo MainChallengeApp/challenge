@@ -64,7 +64,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
               child: ListItemIconTextInputComponent(
                 icon: IconEnum.username.icon,
                 textEditingController: userNameTextEditingController,
-                hintText: 'Username',
+                hintText: _usersProvider.user.username,
                 errorText: _errorText,
                 inputFormatters: [
                   TextInputFormatter.withFunction(
@@ -83,6 +83,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                     _errorText = null;
                   });
                 },
+                lableText: 'Username',
               ),
             ),
             SpaceColumnComponent(
