@@ -35,7 +35,7 @@ class ListItemIconTextTextComponent extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const SpaceComponent(
-              width: 10,
+              width: 8,
             ),
             Expanded(
               child: Text(

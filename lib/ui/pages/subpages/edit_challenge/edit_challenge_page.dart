@@ -9,28 +9,39 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/database_service.dart';
+import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
 import 'package:challenge/ui/components/challenge/frequency_component.dart';
 import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
+import 'package:challenge/ui/components/edit_challenge/add_participants_overview_component.dart';
 import 'package:challenge/ui/components/edit_challenge/edit_description_component.dart';
 import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
 import 'package:challenge/ui/components/edit_challenge/upload_thumbnail_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
+import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/add_participants_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_description_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_goal_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_title_page.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -102,30 +113,179 @@ class _EditChallengePageState extends State<EditChallengePage> {
           body: Column(
             children: [
               Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Column(
+                child: ListView(
+                  children: [
+                    // SpaceColumnComponent(
+                    //     heightMultiplier: 2,
+                    //     child: ListItemContainerComponent(
+                    //         child: Row(
+                    //       children: [
+                    //         Expanded(
+                    //             child: Center(
+                    //                 child: Text(
+                    //           'General',
+                    //           style: Theme.of(context)
+                    //               .textTheme
+                    //               .bodyMedium
+                    //               ?.copyWith(
+                    //                   color: Colors.black,
+                    //                   fontWeight: FontWeight.bold),
+                    //         ))),
+                    //         Icon(
+                    //           IconEnum.arrowRight.icon,
+                    //           color: Theme.of(context).colorScheme.tertiary,
+                    //         ),
+                    //         const Expanded(
+                    //             child: Center(child: Text('Details'))),
+                    //         Icon(IconEnum.arrowRight.icon,
+                    //             color: Theme.of(context).colorScheme.tertiary),
+                    //         const Expanded(
+                    //             child: Center(
+                    //                 child: Text(
+                    //           'Participants',
+                    //           maxLines: 1,
+                    //           overflow: TextOverflow.ellipsis,
+                    //         ))),
+                    //         Icon(IconEnum.arrowRight.icon,
+                    //             color: Theme.of(context).colorScheme.tertiary),
+                    //         const Expanded(
+                    //             child: Center(child: Text('Overview'))),
+                    //       ],
+                    //     ))),
+                    SpaceColumnComponent(
+                        child: ListItemIconTextChildComponent(
+                      icon: IconEnum.picture.icon,
+                      text: 'Thumbnail',
+                      child: ImageInListItemComponent(
+                        url: _editChallenge.thumbnail?.url ??
+                            AppIconComponent.path,
+                        scale: _editChallenge.thumbnail?.scale ??
+                            AppIconComponent.scale,
+                        fit: _editChallenge.thumbnail?.fit.fit,
+                      ),
+                    )),
+                    SpaceColumnComponent(
+                        child: ListItemIconTextTextComponent(
+                            onTap: _onTapTitle,
+                            icon: IconEnum.title.icon,
+                            text: 'Title',
+                            text2: _editChallenge.title)),
+                    SpaceColumnComponent(
+                        heightMultiplier: 2,
+                        child: ListItemIconTextTextComponent(
+                            onTap: _onTapDescription,
+                            icon: IconEnum.description.icon,
+                            text: 'Description',
+                            text2: _editChallenge.description)),
+                    SpaceColumnComponent(
+                        child: ListItemIconTextTextComponent(
+                            onTap: _onTapGoal,
+                            icon: IconEnum.goal.icon,
+                            text: 'Goal',
+                            text2:
+                                '${UtilService.doubleAsIntString(_editChallenge.acceptanceCriteria.amount)} ${_editChallenge.acceptanceCriteria.unit}')),
+                    SpaceColumnComponent(
+                        child: ListItemIconTextTextComponent(
+                            icon: IconEnum.repetition.icon,
+                            text: 'Repetitions',
+                            text2:
+                                '${_editChallenge.frequency.amount} ${_editChallenge.frequency.typeToString()}')),
+                    SpaceColumnComponent(
+                        heightMultiplier: 2,
+                        child: ListItemIconTextChildComponent(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal:
+                                  ListItemContainerComponent.standardPadding),
+                          icon: IconEnum.dates.icon,
+                          text: 'Dates',
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                _getStartAndEndDateString(
+                                    _editChallenge.startDate),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMediaNormalTertiary,
+                                textAlign: TextAlign.end,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                _getStartAndEndDateString(
+                                    _editChallenge.endDate),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMediaNormalTertiary,
+                                textAlign: TextAlign.end,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ],
+                          ),
+                        )),
+                    SpaceColumnComponent(
+                        child: ListItemIconTextChildComponent(
+                      text: 'Participants',
+                      icon: IconEnum.groupChallenge.icon,
+                      child: Row(
                         children: [
-                          _challengeOrAttemptDropdown(),
-                          if (!_isUserAbleToEditChallenge &&
-                              _selectedAttemptNumber == null)
-                            _notAbleToEdit()
-                          else ...[
-                            _header(),
-                            _details(),
-                            _participants(),
-                          ]
+                          ..._editParticipants
+                              .map((participant) => _userPicture(participant))
+                              .toList(),
+                          currentAmountAndMaxAmount()
                         ],
                       ),
-                    ),
+                    )),
                   ],
                 ),
               ),
               cancelAndSaveOrAcceptButton(),
             ],
           )),
+    );
+  }
+
+  currentAmountAndMaxAmount() {
+    return ContainerInListItemComponent(
+      margin: const EdgeInsets.all(0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _editParticipants.length.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .textInputSmall
+                  .copyWith(fontSize: 9.5),
+            ),
+            Container(
+              height: 1,
+              width: null,
+              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+            Text(
+              DatabaseService.maxGroupChallengeMember.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .textInputSmall
+                  .copyWith(fontSize: 9.5),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _userPicture(UserModel user) {
+    return ImageInListItemComponent(
+      icon: IconEnum.user.icon,
+      url: user.pictureUrl,
+      margin: const EdgeInsets.only(
+          right: ListItemContainerComponent.standardPadding),
     );
   }
 
@@ -428,9 +588,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
             child: Column(
               children: [
                 SpaceColumnComponent(
-                    child: AddMemberOverviewComponent(
+                    child: AddParticipantsOverviewComponent(
                         userId: _usersProvider.user.id,
-                        members: _editParticipants)),
+                        participants: _editParticipants)),
                 CustomButtonComponent(
                   onTap: onTapAddParticipants,
                   text: 'Edit Participants',
@@ -561,5 +721,60 @@ class _EditChallengePageState extends State<EditChallengePage> {
           .getLatestAttempt();
       _selectedAttemptNumber = _selectedAttempt!.number;
     }
+  }
+
+  _getStartAndEndDateString(DateTime? date) {
+    bool dateWithTime = _editChallenge.startDate != null &&
+            _editChallenge.startDate!
+                    .difference(
+                        UtilService.dateWithoutTime(_editChallenge.startDate!))
+                    .inSeconds !=
+                0 ||
+        _editChallenge.endDate != null &&
+            _editChallenge.endDate!
+                    .difference(
+                        UtilService.dateWithoutTime(_editChallenge.endDate!))
+                    .inSeconds !=
+                0;
+    return '${UtilService.dateFormat(date)}${dateWithTime ? ',' : ''} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
+  }
+
+  void _onTapTitle() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditTitlePage(
+          challenge: _editChallenge,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _onTapDescription() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditDescriptionPage(
+          challenge: _editChallenge,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _onTapGoal() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditGoalPage(
+          challenge: _editChallenge,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
   }
 }

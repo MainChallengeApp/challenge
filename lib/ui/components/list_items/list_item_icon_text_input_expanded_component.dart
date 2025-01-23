@@ -115,7 +115,10 @@ class _ListItemIconTextInputExpandedComponentState
         Expanded(
           child: Text(
             widget.lableText,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
           ),
         ),
         Visibility(

@@ -3,7 +3,6 @@ import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
-import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,6 +27,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final bool autoCorrection;
   final bool enableSuggestions;
   final String? lableText;
+  final int? maxLength;
 
   ListItemIconTextInputComponent({
     super.key,
@@ -51,6 +51,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.autoCorrection = true,
     this.enableSuggestions = true,
     this.lableText,
+    this.maxLength,
   });
 
   @override
@@ -86,6 +87,7 @@ class _ListItemIconTextInputComponentState
   }
 
   void _handleFocusChange() {
+    setState(() {});
     if (focusNode.hasFocus) {
       _animationController.forward();
     } else if (!focusNode.hasFocus &&
@@ -113,7 +115,9 @@ class _ListItemIconTextInputComponentState
     focusNode.removeListener(_handleFocusChange);
     widget.textEditingController.removeListener(_handleTextChange);
     _animationController.dispose();
-    focusNode.dispose();
+    if (widget.focusNode == null) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -137,7 +141,8 @@ class _ListItemIconTextInputComponentState
         children: [
           Expanded(
             child: TextField(
-              maxLength: DatabaseService.maxCharactersMedium,
+              maxLength:
+                  widget.maxLength ?? DatabaseService.maxCharactersMedium,
               buildCounter: (_,
                       {required currentLength,
                       required isFocused,
@@ -153,7 +158,7 @@ class _ListItemIconTextInputComponentState
               textInputAction: widget.textInputAction,
               inputFormatters: widget.inputFormatters,
               keyboardType: widget.keyboardType,
-              style: Theme.of(context).textTheme.bodyMediumBlack,
+              style: Theme.of(context).textTheme.titleMedium,
               enabled: widget.isEnabled,
               autofocus: widget.autoFocus ?? false,
               focusNode: focusNode,
@@ -162,8 +167,16 @@ class _ListItemIconTextInputComponentState
               decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
-                hintText: widget.hintText,
-                hintStyle: Theme.of(context).textTheme.bodyMedium,
+                hintText: widget.lableText == null
+                    ? widget.hintText
+                    : widget.textEditingController.text.isEmpty &&
+                            focusNode.hasFocus
+                        ? widget.hintText
+                        : '',
+                hintStyle: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
               ),
             ),
           ),
