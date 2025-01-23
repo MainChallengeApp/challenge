@@ -8,26 +8,26 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
-class AddMemberOverviewComponent extends StatefulWidget {
-  static const double removeMemberExtraSpace = 7;
+class AddParticipantsOverviewComponent extends StatefulWidget {
+  static const double removeParticipantsExtraSpace = 7;
 
   final String userId;
-  final List<UserModel> members;
-  final Function(String)? onRemoveMember;
+  final List<UserModel> participants;
+  final Function(String)? onRemoveParticipant;
 
-  const AddMemberOverviewComponent(
+  const AddParticipantsOverviewComponent(
       {super.key,
-      required this.members,
-      this.onRemoveMember,
+      required this.participants,
+      this.onRemoveParticipant,
       required this.userId});
 
   @override
-  State<AddMemberOverviewComponent> createState() =>
-      _AddMemberOverviewComponentState();
+  State<AddParticipantsOverviewComponent> createState() =>
+      _AddParticipantsOverviewComponentState();
 }
 
-class _AddMemberOverviewComponentState
-    extends State<AddMemberOverviewComponent> {
+class _AddParticipantsOverviewComponentState
+    extends State<AddParticipantsOverviewComponent> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -40,7 +40,7 @@ class _AddMemberOverviewComponentState
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children:
-                  widget.members.map((user) => userPicture(user)).toList(),
+                  widget.participants.map((user) => userPicture(user)).toList(),
             ),
           ),
         ),
@@ -52,22 +52,25 @@ class _AddMemberOverviewComponentState
 
   GestureDetector userPicture(UserModel user) {
     return GestureDetector(
-      onTap: widget.onRemoveMember != null && user.id != widget.userId
-          ? () => widget.onRemoveMember!(user.id)
+      onTap: widget.onRemoveParticipant != null && user.id != widget.userId
+          ? () => widget.onRemoveParticipant!(user.id)
           : null,
       child: Padding(
         padding: EdgeInsets.only(
-            right: widget.onRemoveMember != null
+            right: widget.onRemoveParticipant != null
                 ? SpaceComponent.standardWidth -
-                    AddMemberOverviewComponent.removeMemberExtraSpace
+                    AddParticipantsOverviewComponent
+                        .removeParticipantsExtraSpace
                 : SpaceComponent.standardWidth),
         child: Stack(
           children: [
             Padding(
-              padding: widget.onRemoveMember != null
+              padding: widget.onRemoveParticipant != null
                   ? const EdgeInsets.only(
-                      right: AddMemberOverviewComponent.removeMemberExtraSpace,
-                      top: AddMemberOverviewComponent.removeMemberExtraSpace)
+                      right: AddParticipantsOverviewComponent
+                          .removeParticipantsExtraSpace,
+                      top: AddParticipantsOverviewComponent
+                          .removeParticipantsExtraSpace)
                   : const EdgeInsets.all(0),
               child: SizedBox(
                 width: ListItemIconTextComponent.iconContainerSize,
@@ -100,7 +103,7 @@ class _AddMemberOverviewComponentState
 
   Visibility removeUserIcon(UserModel user) {
     return Visibility(
-      visible: widget.onRemoveMember != null && user.id != widget.userId,
+      visible: widget.onRemoveParticipant != null && user.id != widget.userId,
       child: Positioned(
         right: 0,
         top: 0,
@@ -124,16 +127,17 @@ class _AddMemberOverviewComponentState
     return Column(
       children: [
         ContainerInListItemComponent(
-          margin: widget.onRemoveMember != null
+          margin: widget.onRemoveParticipant != null
               ? const EdgeInsets.all(0).copyWith(
-                  top: AddMemberOverviewComponent.removeMemberExtraSpace)
+                  top: AddParticipantsOverviewComponent
+                      .removeParticipantsExtraSpace)
               : const EdgeInsets.all(0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  widget.members.length.toString(),
+                  widget.participants.length.toString(),
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
