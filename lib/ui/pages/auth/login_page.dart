@@ -6,6 +6,7 @@ import 'package:challenge/ui/components/list_items/list_item_email_component.dar
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/leading_app_icon_component.dart';
+import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
@@ -119,7 +120,9 @@ class _LoginPageState extends State<LoginPage> {
       height: 70,
       decoration: const BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('assets/icons/challenge_icon_black.png'),
+        image: AssetImage(
+          AppIconComponent.path,
+        ),
         fit: BoxFit.contain,
       )),
     );

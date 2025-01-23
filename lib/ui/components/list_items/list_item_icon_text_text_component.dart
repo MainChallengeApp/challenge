@@ -1,4 +1,5 @@
-import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -22,18 +23,29 @@ class ListItemIconTextTextComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListItemIconTextChildComponent(
+    return ListItemIconChildComponent(
         icon: icon,
-        text: text,
         onTap: onTap,
         margin: margin,
-        child: Expanded(
-          child: Text(
-            text2,
-            style: Theme.of(context).textTheme.titleMediaNormalTertiary,
-            textAlign: TextAlign.end,
-            overflow: TextOverflow.ellipsis,
-          ),
+        child: Row(
+          children: [
+            Text(
+              text,
+              style: Theme.of(context).textTheme.titleMedium,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SpaceComponent(
+              width: 10,
+            ),
+            Expanded(
+              child: Text(
+                text2,
+                style: Theme.of(context).textTheme.titleMediaNormalTertiary,
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ));
   }
 }

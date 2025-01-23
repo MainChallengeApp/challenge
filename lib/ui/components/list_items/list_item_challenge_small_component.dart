@@ -8,6 +8,7 @@ import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
+import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -50,11 +51,10 @@ class _ListItemChallengeSmallComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemImageChildComponent(
-        url: widget.challenge.thumbnail?.url ??
-            'assets/icons/challenge_icon_black.png',
+        url: widget.challenge.thumbnail?.url ?? AppIconComponent.path,
         endActionPane: endActionPane,
         onTap: widget.onTap,
-        scale: widget.challenge.thumbnail?.scale ?? 0.6,
+        scale: widget.challenge.thumbnail?.scale ?? AppIconComponent.scale,
         fit: widget.challenge.thumbnail?.fit.fit,
         child: Row(
           children: [

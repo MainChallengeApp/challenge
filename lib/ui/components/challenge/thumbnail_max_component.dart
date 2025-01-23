@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
@@ -55,14 +56,14 @@ class ThumbnailMaxComponent extends StatelessWidget {
                                     errorWidget: (context, url, error) =>
                                         Center(
                                           child: Image.asset(
-                                            'assets/icons/challenge_icon_black.png',
+                                            AppIconComponent.path,
                                             fit: BoxFit.contain,
                                             width: 100,
                                             height: 100,
                                           ),
                                         )))
                         : Image.asset(
-                            'assets/icons/challenge_icon_black.png',
+                            AppIconComponent.path,
                             fit: BoxFit.contain,
                             width: 100,
                             height: 100,

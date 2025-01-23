@@ -5,12 +5,11 @@ import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_input_expanded_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +35,7 @@ class _EditBioPageState extends State<EditBioPage> {
 
   final String _title = 'Edit Bio';
 
-  late var bioTextEditingController = TextEditingController(
+  late final _bioTextEditingController = TextEditingController(
     text: editUser.bio,
   );
 
@@ -51,70 +50,41 @@ class _EditBioPageState extends State<EditBioPage> {
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Flexible(
-              child: ListItemContainerComponent(
-                isHeightDynamic: true,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _iconAndTitle(),
-                    const SpaceComponent(
-                      height: ListItemContainerComponent.standardPadding,
-                    ),
-                    TextField(
-                      controller: bioTextEditingController,
-                      maxLength: DatabaseService.maxCharactersMedium,
-                      maxLines: null,
-                      style: Theme.of(context).textTheme.textInputSmall,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Bio',
-                        hintStyle:
-                            Theme.of(context).textTheme.textInputHintSmall,
-                        contentPadding: const EdgeInsets.only(
-                            bottom: BottomNavigationComponent.standardMargin),
-                        isDense: true,
-                      ),
-                      onChanged: (value) => editUser.bio = value,
-                      onSubmitted: (value) {
-                        bioTextEditingController.text = value.trim();
-                        editUser.bio = value.trim();
-                      },
-                      autofocus: true,
-                      onTapOutside: (_) {
-                        bioTextEditingController.text =
-                            bioTextEditingController.text.trim();
-                        editUser.bio = bioTextEditingController.text.trim();
-                      },
-                    ),
-                  ],
-                ),
-              ),
+            ListItemIconTextInputExpandedComponent(
+              icon: IconEnum.bio.icon,
+              textEditingController: _bioTextEditingController,
+              lableText: 'Bio',
+              autoFocus: true,
+              hintText: 'Bio',
+              maxLength: DatabaseService.maxCharactersMedium,
+              onChangeTextField: (value) {
+                setState(() {
+                  editUser.bio = value;
+                });
+              },
+              onSubmitted: (_) => _onTapSave(),
             ),
             SpaceColumnComponent(
               height: BottomNavigationComponent.standardMargin,
+              isSpaceOnTop: true,
               child: Row(
                 children: [
                   Expanded(
                     child: ListItemButtonComponent(
-                      onTap: widget.isRegistration ? onTapSkip : onTapCancel,
+                      onTap: widget.isRegistration ? _onTapSkip : _onTapCancel,
                       text: widget.isRegistration ? 'Skip' : 'Cancel',
                       isMainButton: false,
                       margin: const EdgeInsets.only(
                           left: ListItemContainerComponent.standardMargin),
                     ),
                   ),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
+                  const SpaceComponent(),
                   Expanded(
                     child: ListItemButtonComponent(
                       margin: const EdgeInsets.only(
                           right: ListItemContainerComponent.standardMargin),
-                      onTap: onTapSave,
+                      onTap: _onTapSave,
                       text: 'Save',
                       isLoading: isLoading,
                     ),
@@ -128,21 +98,7 @@ class _EditBioPageState extends State<EditBioPage> {
     );
   }
 
-  Row _iconAndTitle() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        IconContainerInListItemComponent(icon: IconEnum.bio.icon),
-        Text(
-          'Bio',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ],
-    );
-  }
-
-  void onTapSave() async {
+  void _onTapSave() async {
     if (isLoading) {
       return;
     }
@@ -157,7 +113,7 @@ class _EditBioPageState extends State<EditBioPage> {
     });
 
     if (widget.isRegistration) {
-      nextInRegistration();
+      _nextInRegistration();
       return;
     }
 
@@ -165,15 +121,15 @@ class _EditBioPageState extends State<EditBioPage> {
     Navigator.pop(context);
   }
 
-  void onTapCancel() {
+  void _onTapCancel() {
     Navigator.pop(context);
   }
 
-  void onTapSkip() {
-    nextInRegistration();
+  void _onTapSkip() {
+    _nextInRegistration();
   }
 
-  void nextInRegistration() {
+  void _nextInRegistration() {
     Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

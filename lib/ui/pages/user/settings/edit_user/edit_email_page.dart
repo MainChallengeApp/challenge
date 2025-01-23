@@ -51,6 +51,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
       child: ScaffoldComponent(
         appBar: AppBarComponent(title: _title),
         isBottomNavigationVisible: false,
+        resizeToAvoidBottomInset: true,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

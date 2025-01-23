@@ -1,0 +1,134 @@
+// ignore_for_file: must_be_immutable
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class ListItemIconTextInputExpandedComponent extends StatefulWidget {
+  final Function(String)? onChangeTextField;
+  final Function(String)? onSubmitted;
+  final Function(PointerDownEvent)? onTapOutside;
+  final IconData icon;
+  final TextEditingController textEditingController;
+  String? hintText;
+  final IconData? actionIcon;
+  final Function()? onTapActionIcon;
+  final bool? autoFocus;
+  final bool autoCorrection;
+  final bool enableSuggestions;
+  final String lableText;
+  final int? maxLength;
+
+  ListItemIconTextInputExpandedComponent({
+    super.key,
+    this.onChangeTextField,
+    required this.icon,
+    required this.textEditingController,
+    this.hintText,
+    this.actionIcon,
+    this.onTapActionIcon,
+    this.autoFocus,
+    this.onSubmitted,
+    this.onTapOutside,
+    this.autoCorrection = true,
+    this.enableSuggestions = true,
+    required this.lableText,
+    this.maxLength,
+  });
+
+  @override
+  State<ListItemIconTextInputExpandedComponent> createState() =>
+      _ListItemIconTextInputExpandedComponentState();
+}
+
+class _ListItemIconTextInputExpandedComponentState
+    extends State<ListItemIconTextInputExpandedComponent> {
+  final _scrollController = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListItemContainerComponent(
+        isHeightDynamic: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _iconAndTitle(),
+            const SpaceComponent(
+              height: ListItemContainerComponent.standardPadding,
+            ),
+            Expanded(
+              child: CupertinoScrollbar(
+                controller: _scrollController,
+                child: SingleChildScrollView(
+                  child: TextField(
+                    scrollController: _scrollController,
+                    controller: widget.textEditingController,
+                    maxLength: widget.maxLength,
+                    buildCounter: (BuildContext context,
+                            {required int currentLength,
+                            required bool isFocused,
+                            int? maxLength}) =>
+                        null,
+                    maxLines: null,
+                    style: Theme.of(context).textTheme.textInputSmall,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: widget.hintText,
+                      hintStyle: Theme.of(context).textTheme.textInputHintSmall,
+                      contentPadding: const EdgeInsets.only(
+                          bottom: BottomNavigationComponent.standardMargin),
+                      isDense: true,
+                    ),
+                    onChanged: widget.onChangeTextField,
+                    onSubmitted: widget.onSubmitted,
+                    autofocus: widget.autoFocus ?? false,
+                    enableSuggestions: widget.enableSuggestions,
+                  ),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: widget.maxLength != null,
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    '${widget.textEditingController.text.length}/${widget.maxLength}',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  )),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Row _iconAndTitle() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        IconContainerInListItemComponent(icon: widget.icon),
+        Expanded(
+          child: Text(
+            widget.lableText,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        Visibility(
+          visible: widget.actionIcon != null,
+          child: GestureDetector(
+            onTap: widget.onTapActionIcon,
+            child: Icon(
+              widget.actionIcon,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}

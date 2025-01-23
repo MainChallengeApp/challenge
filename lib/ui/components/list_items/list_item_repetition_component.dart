@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
@@ -73,8 +74,8 @@ class _ListItemRepetitionComponentState
   }
 
   repetitionIcon() {
-    return const IconContainerInListItemComponent(
-      icon: Icons.repeat_rounded,
+    return IconContainerInListItemComponent(
+      icon: IconEnum.repetition.icon,
     );
   }
 }

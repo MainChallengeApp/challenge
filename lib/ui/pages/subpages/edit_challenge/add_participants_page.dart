@@ -2,7 +2,7 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
-import 'package:challenge/ui/components/edit_challenge/add_member_overview_component.dart';
+import 'package:challenge/ui/components/edit_challenge/add_participants_overview_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
@@ -128,12 +128,13 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
             padding: const EdgeInsets.all(SpaceComponent.standardHeight)
                 .copyWith(
                     top: SpaceComponent.standardHeight -
-                        AddMemberOverviewComponent.removeMemberExtraSpace),
+                        AddParticipantsOverviewComponent
+                            .removeParticipantsExtraSpace),
             isHeightDynamic: true,
-            child: AddMemberOverviewComponent(
+            child: AddParticipantsOverviewComponent(
               userId: _usersProvider.user.id,
-              members: editParticipants,
-              onRemoveMember: onRemoveParticipant,
+              participants: editParticipants,
+              onRemoveParticipant: onRemoveParticipant,
             )));
   }
 

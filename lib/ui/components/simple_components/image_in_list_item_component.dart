@@ -14,7 +14,7 @@ class ImageInListItemComponent extends StatelessWidget {
 
   ImageInListItemComponent(
       {super.key,
-      required this.icon,
+      this.icon,
       this.size,
       this.iconColor,
       this.url,

@@ -1,3 +1,4 @@
+import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:flutter/material.dart';
 
 class LeadingAppIconComponent extends StatelessWidget {
@@ -14,7 +15,9 @@ class LeadingAppIconComponent extends StatelessWidget {
           height: 20,
           decoration: const BoxDecoration(
               image: DecorationImage(
-            image: AssetImage('assets/icons/challenge_icon_black.png'),
+            image: AssetImage(
+              AppIconComponent.path,
+            ),
             fit: BoxFit.contain,
           )),
         ),
