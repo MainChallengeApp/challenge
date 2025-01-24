@@ -60,7 +60,6 @@ class _HomeListPageState extends State<HomeListPage> {
           isFirstPageInRoute: true,
         ),
         body: _buildList(),
-        // bottomNavigationBar: const BottomNavigationComponent(),
       ),
     );
   }

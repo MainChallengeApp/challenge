@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';

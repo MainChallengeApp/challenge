@@ -40,6 +40,8 @@ class _EditGoalPageState extends State<EditGoalPage> {
 
   final _unitFocusNode = FocusNode();
 
+  List<Unit> unitsSingularPlural = Unit.getUnits();
+
   @override
   initState() {
     super.initState();
@@ -75,15 +77,12 @@ class _EditGoalPageState extends State<EditGoalPage> {
           children: [
             _amount(),
             _unit(),
-            // _spacer(),
             _actionButtons(),
           ],
         ),
       ),
     );
   }
-
-  Expanded _spacer() => const Expanded(child: SizedBox());
 
   SpaceColumnComponent _actionButtons() {
     return SpaceColumnComponent(
@@ -118,8 +117,6 @@ class _EditGoalPageState extends State<EditGoalPage> {
     );
   }
 
-  List<Unit> unitsSingularPlural = Unit.getUnits();
-
   _unit() {
     List<Unit> filteredUnits = unitsSingularPlural
         .where((unit) =>
@@ -134,57 +131,27 @@ class _EditGoalPageState extends State<EditGoalPage> {
         children: [
           Visibility(
             visible: _unitFocusNode.hasFocus && filteredUnits.isNotEmpty,
-            child: ListItemContainerComponent(
-              padding: const EdgeInsets.only(
-                  left: CardComponent.standardPadding,
-                  right: CardComponent.standardPadding,
-                  bottom: CardComponent.standardPadding,
-                  top: 0),
-              isHeightDynamic: true,
-              child: Column(
-                children: [
-                  const SpaceComponent(
-                    height: ListItemContainerComponent.standardHeight +
-                        SpaceComponent.standardHeight,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ListItemContainerComponent(
+                isHeightDynamic: true,
+                padding: const EdgeInsets.only(
+                    left: CardComponent.standardPadding,
+                    right: CardComponent.standardPadding,
+                    bottom: CardComponent.standardPadding,
+                    top: ListItemContainerComponent.standardHeight +
+                        SpaceComponent.standardHeight -
+                        2),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: filteredUnits
+                        .map((unit) =>
+                            _suggestedUnit(unit, unit == filteredUnits.last))
+                        .toList(),
                   ),
-                  Expanded(
-                    child: ListView(
-                      children: filteredUnits
-                          .map((unit) => SpaceColumnComponent(
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _editUnit = _editAmount == 1
-                                          ? unit.singular
-                                          : unit.plural;
-                                      _unitTextEditingController.text =
-                                          _editUnit;
-                                    });
-                                  },
-                                  child: CustomContainerComponent(
-                                    child: Row(children: [
-                                      Expanded(
-                                          child: Text(_editAmount == 1
-                                              ? unit.singular
-                                              : unit.plural)),
-                                      Icon(
-                                        IconEnum.autoFill.icon,
-                                        size: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.fontSize,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .tertiary,
-                                      ),
-                                    ]),
-                                  ),
-                                ),
-                              ))
-                          .toList(),
-                    ),
-                  )
-                ],
+                ),
               ),
             ),
           ),
@@ -202,6 +169,31 @@ class _EditGoalPageState extends State<EditGoalPage> {
             autoCorrection: false,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _suggestedUnit(Unit unit, bool isLast) {
+    return SpaceColumnComponent(
+      height: isLast ? 0 : null,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _editUnit = _editAmount == 1 ? unit.singular : unit.plural;
+            _unitTextEditingController.text = _editUnit;
+          });
+        },
+        child: CustomContainerComponent(
+          child: Row(children: [
+            Expanded(
+                child: Text(_editAmount == 1 ? unit.singular : unit.plural)),
+            Icon(
+              IconEnum.autoFill.icon,
+              size: Theme.of(context).textTheme.titleLarge?.fontSize,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
+          ]),
+        ),
       ),
     );
   }
