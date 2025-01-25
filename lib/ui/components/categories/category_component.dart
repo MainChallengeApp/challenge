@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -10,9 +8,9 @@ class CategoryComponent extends StatelessWidget {
   final Color? backgroundColor;
   final String? imagePath;
   final IconData? icon;
-  void Function()? onTap;
+  final void Function()? onTap;
 
-  CategoryComponent(
+  const CategoryComponent(
       {super.key,
       required this.text,
       this.backgroundColor = Colors.white,

@@ -29,8 +29,7 @@ class HomeListPage extends StatefulWidget {
 }
 
 class _HomeListPageState extends State<HomeListPage> {
-  late final groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
+  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
   late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context);
 
@@ -40,14 +39,20 @@ class _HomeListPageState extends State<HomeListPage> {
 
   List<GroupChallengeModel> _filteredChallenges = [];
 
-  ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
-  String searchBarText = '';
+  final _searchTextEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    groupChallengesProvider.getAllOfUser();
+    _groupChallengesProvider.getAllOfUser();
   }
 
   @override
@@ -69,23 +74,23 @@ class _HomeListPageState extends State<HomeListPage> {
 
     return Column(
       children: [
-        searchBar(),
+        _searchBar(),
         Expanded(
           child: RefreshIndicatorComponent(
-            scrollController: scrollController,
+            scrollController: _scrollController,
             onRefresh: () async {
-              await groupChallengesProvider.getAllOfUser();
+              await _groupChallengesProvider.getAllOfUser();
             },
             child: CupertinoScrollbar(
-              controller: scrollController,
+              controller: _scrollController,
               child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  controller: scrollController,
+                  controller: _scrollController,
                   itemCount: _filteredChallenges.length +
                       1, // +1 for new Challenge listItem
                   itemBuilder: (BuildContext content, int index) {
                     if (index == 0) {
-                      return newChallenge();
+                      return _newChallenge();
                     }
                     GroupChallengeModel groupChallenge = _filteredChallenges[
                         index - 1]; // -1 for new Challenge listItem
@@ -93,7 +98,7 @@ class _HomeListPageState extends State<HomeListPage> {
                     groupChallenge.checkStatus();
                     return SpaceColumnComponent(
                       child: ListItemChallengeSmallComponent(
-                        onTap: () => onTapChallenge(context,
+                        onTap: () => _onTapChallenge(context,
                             challenge: groupChallenge, index: index - 1),
                         challenge: groupChallenge,
                         participant: groupChallenge
@@ -102,9 +107,9 @@ class _HomeListPageState extends State<HomeListPage> {
                             .getParticipant(_usersProvider.user.id)
                             .getLatestAttempt(),
                         onTapDeleteChallenge: () =>
-                            onTapDeleteChallenge(groupChallenge),
+                            _onTapDeleteChallenge(groupChallenge),
                         onTapEditChallenge: () =>
-                            onTapEditChallenge(groupChallenge),
+                            _onTapEditChallenge(groupChallenge),
                       ),
                     );
                   }),
@@ -121,53 +126,48 @@ class _HomeListPageState extends State<HomeListPage> {
         .addAll(_listeningGroupChallengesProvider.groupChallenges);
     _filteredChallenges = _filteredChallenges
         .where((element) =>
-            element.searchInChallenge(searchBarText) &&
+            element
+                .searchInChallenge(_searchTextEditingController.text.trim()) &&
             element.getParticipant(_usersProvider.user.id).isAccepted())
         .toList();
     _filteredChallenges = GroupChallengeModel.sortChallengeList(
         groupChallenges: _filteredChallenges, userId: _usersProvider.user.id);
   }
 
-  SpaceColumnComponent newChallenge() {
+  SpaceColumnComponent _newChallenge() {
     return SpaceColumnComponent(
       child: ListItemIconTextComponent(
-        onTap: () => tapOnNewChallenge(),
+        onTap: () => _tapOnNewChallenge(),
         icon: Icons.add_rounded,
         title: 'New Challenge',
       ),
     );
   }
 
-  SpaceColumnComponent searchBar() {
+  SpaceColumnComponent _searchBar() {
     return SpaceColumnComponent(
       child: ListItemSearchBarComponent(
-        changeList: changeList,
-        textEditingController: TextEditingController(text: searchBarText),
+        changeList: (_) => setState(() {}),
+        textEditingController: _searchTextEditingController,
         hintText: 'Search in your Challenges',
       ),
     );
   }
 
-  changeList(String value) {
-    setState(() {
-      searchBarText = value;
-    });
-  }
-
-  void onTapChallenge(BuildContext context,
+  void _onTapChallenge(BuildContext context,
       {required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => HomeChallengePage(
           initialChallengeId: challenge.id,
-          filterOptions: searchBarText,
+          filterOptions: _searchTextEditingController.text.trim(),
         ),
       ),
     ).then((_) => setState(() {}));
   }
 
-  tapOnNewChallenge() {
+  _tapOnNewChallenge() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -184,17 +184,17 @@ class _HomeListPageState extends State<HomeListPage> {
     });
   }
 
-  void onTapDeleteChallenge(GroupChallengeModel groupChallenge) {
+  void _onTapDeleteChallenge(GroupChallengeModel groupChallenge) {
     DeleteChallengeDialog.show(
       context: context,
       challengeTitle: groupChallenge.title,
       onTapYes: () async {
-        await groupChallengesProvider.deleteParticipant(groupChallenge);
+        await _groupChallengesProvider.deleteParticipant(groupChallenge);
       },
     );
   }
 
-  onTapEditChallenge(GroupChallengeModel groupChallenge) {
+  _onTapEditChallenge(GroupChallengeModel groupChallenge) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(

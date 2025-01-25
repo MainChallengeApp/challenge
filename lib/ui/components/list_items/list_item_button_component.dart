@@ -1,4 +1,3 @@
-// ignore_for_file: must_be_immutable
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:flutter/material.dart';

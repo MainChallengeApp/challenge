@@ -124,7 +124,6 @@ class _SearchListPageState extends State<SearchListPage> {
                 textEditingController: _textEditingController,
                 isUserSearchActive: widget.isUserSearchActive,
                 initialSearchFilter: _selectedSearchFilter,
-                onTapActionIcon: _onTapActionIcon,
                 onChangeList: _onChangeList,
                 onTapFilter: _onTapFilter,
                 onTapOutside: _onTapOutside,
@@ -187,12 +186,6 @@ class _SearchListPageState extends State<SearchListPage> {
       return;
     }
     _usersProvider.addRecentSearch(text);
-  }
-
-  _onTapActionIcon() {
-    setState(() {
-      _textEditingController.clear();
-    });
   }
 
   Widget _buildChallengesList() {

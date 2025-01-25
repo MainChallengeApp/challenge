@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:flutter/material.dart';
@@ -30,22 +28,13 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
       icon: IconEnum.email.icon,
-      actionIcon:
-          widget.textEditingController.text == '' ? null : IconEnum.remove.icon,
-      onTapActionIcon: onTapActionIcon,
       textEditingController: widget.textEditingController,
       onChangeTextField: widget.onChangeTextField,
       errorText: widget.errorText,
       keyboardType: TextInputType.emailAddress,
       autoFocus: widget.autoFocus,
       lableText: widget.lableText ?? 'Email',
+      removeActionIcon: true,
     );
-  }
-
-  onTapActionIcon() {
-    setState(() {
-      widget.textEditingController.clear();
-      widget.onChangeTextField?.call('');
-    });
   }
 }

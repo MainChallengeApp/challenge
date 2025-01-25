@@ -32,7 +32,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
 
   late String email = authService.getCurrentUser() != null
       ? authService.getCurrentUser()!.email!
-      : 'email not found';
+      : 'Email not found';
 
   TextEditingController passwordTextEditingController = TextEditingController();
   TextEditingController newEmailTextEditingController = TextEditingController();

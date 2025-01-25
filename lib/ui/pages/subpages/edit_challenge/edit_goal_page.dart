@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/unit_model.dart';
+import 'package:challenge/services/database_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -47,16 +48,11 @@ class _EditGoalPageState extends State<EditGoalPage> {
     super.initState();
     _unitFocusNode.addListener(() {
       setState(() {});
-      if (_unitFocusNode.hasFocus) {
-        // FocusScope.of(context).unfocus();
-      }
     });
   }
 
   @override
   void dispose() {
-    _unitTextEditingController.dispose();
-    _amountTextEditingController.dispose();
     _unitFocusNode.dispose();
     super.dispose();
   }
@@ -167,6 +163,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
             onSubmitted: (_) => _onTapAccept(),
             lableText: 'Unit',
             autoCorrection: false,
+            removeActionIcon: true,
           ),
         ],
       ),
@@ -234,6 +231,8 @@ class _EditGoalPageState extends State<EditGoalPage> {
         textInputAction: TextInputAction.next,
         lableText: 'Amount',
         hintText: '1',
+        maxLength: DatabaseService.maxAmountLength,
+        removeActionIcon: true,
       ),
     );
   }

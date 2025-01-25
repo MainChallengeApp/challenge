@@ -9,6 +9,7 @@ class DatabaseService {
   static int maxCharactersMedium = 100;
   static int maxCharactersLong = 500;
   static int maxGroupChallengeMember = 50;
+  static int maxAmountLength = 16;
 
   final db = FirebaseFirestore.instance;
   final groupChallengesCollection = GroupChallengesCollection();

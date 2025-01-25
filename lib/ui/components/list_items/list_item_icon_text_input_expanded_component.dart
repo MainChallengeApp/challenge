@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
@@ -13,16 +13,18 @@ class ListItemIconTextInputExpandedComponent extends StatefulWidget {
   final Function(PointerDownEvent)? onTapOutside;
   final IconData icon;
   final TextEditingController textEditingController;
-  String? hintText;
+  final String? hintText;
   final IconData? actionIcon;
   final Function()? onTapActionIcon;
   final bool? autoFocus;
+  final FocusNode? focusNode;
   final bool autoCorrection;
   final bool enableSuggestions;
   final String lableText;
   final int? maxLength;
+  final bool removeActionIcon;
 
-  ListItemIconTextInputExpandedComponent({
+  const ListItemIconTextInputExpandedComponent({
     super.key,
     this.onChangeTextField,
     required this.icon,
@@ -37,6 +39,8 @@ class ListItemIconTextInputExpandedComponent extends StatefulWidget {
     this.enableSuggestions = true,
     required this.lableText,
     this.maxLength,
+    this.focusNode,
+    this.removeActionIcon = false,
   });
 
   @override
@@ -47,6 +51,17 @@ class ListItemIconTextInputExpandedComponent extends StatefulWidget {
 class _ListItemIconTextInputExpandedComponentState
     extends State<ListItemIconTextInputExpandedComponent> {
   final _scrollController = ScrollController();
+
+  late final _focusNode = widget.focusNode ?? FocusNode();
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.focusNode == null) {
+      _focusNode.dispose();
+    }
+    widget.textEditingController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +78,31 @@ class _ListItemIconTextInputExpandedComponentState
             Expanded(
               child: CupertinoScrollbar(
                 controller: _scrollController,
-                child: SingleChildScrollView(
-                  child: TextField(
-                    scrollController: _scrollController,
-                    controller: widget.textEditingController,
-                    maxLength: widget.maxLength,
-                    buildCounter: (BuildContext context,
-                            {required int currentLength,
-                            required bool isFocused,
-                            int? maxLength}) =>
-                        null,
-                    maxLines: null,
-                    style: Theme.of(context).textTheme.textInputSmall,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: widget.hintText,
-                      hintStyle: Theme.of(context).textTheme.textInputHintSmall,
-                      contentPadding: const EdgeInsets.only(
-                          bottom: BottomNavigationComponent.standardMargin),
-                      isDense: true,
-                    ),
-                    onChanged: widget.onChangeTextField,
-                    onSubmitted: widget.onSubmitted,
-                    autofocus: widget.autoFocus ?? false,
-                    enableSuggestions: widget.enableSuggestions,
+                child: TextField(
+                  expands: true,
+                  scrollController: _scrollController,
+                  controller: widget.textEditingController,
+                  maxLength: widget.maxLength,
+                  buildCounter: (BuildContext context,
+                          {required int currentLength,
+                          required bool isFocused,
+                          int? maxLength}) =>
+                      null,
+                  maxLines: null,
+                  style: Theme.of(context).textTheme.textInputSmall,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: widget.hintText,
+                    hintStyle: Theme.of(context).textTheme.textInputHintSmall,
+                    contentPadding: const EdgeInsets.only(
+                        bottom: BottomNavigationComponent.standardMargin),
+                    isDense: true,
                   ),
+                  onChanged: widget.onChangeTextField,
+                  onSubmitted: widget.onSubmitted,
+                  autofocus: widget.autoFocus ?? false,
+                  focusNode: _focusNode,
+                  enableSuggestions: widget.enableSuggestions,
                 ),
               ),
             ),
@@ -125,13 +140,38 @@ class _ListItemIconTextInputExpandedComponentState
           visible: widget.actionIcon != null,
           child: GestureDetector(
             onTap: widget.onTapActionIcon,
-            child: Icon(
-              widget.actionIcon,
-              color: Theme.of(context).colorScheme.tertiary,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: ListItemContainerComponent.standardPadding),
+              child: Icon(
+                widget.actionIcon,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ),
+        ),
+        Visibility(
+          visible: widget.removeActionIcon &&
+              widget.textEditingController.text.isNotEmpty,
+          child: GestureDetector(
+            onTap: _onTapRemoveActionIcon,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: ListItemContainerComponent.standardPadding),
+              child: Icon(
+                IconEnum.remove.icon,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
             ),
           ),
         )
       ],
     );
+  }
+
+  void _onTapRemoveActionIcon() {
+    widget.textEditingController.clear();
+    widget.onChangeTextField?.call('');
+    _focusNode.requestFocus();
   }
 }

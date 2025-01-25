@@ -11,7 +11,6 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
   final TextEditingController textEditingController;
   final bool autoFocus;
   final bool isUserSearchActive;
-  final Function()? onTapActionIcon;
   final SearchFilterEnum initialSearchFilter;
 
   final Function(String)? onChangeList;
@@ -21,7 +20,6 @@ class ListItemSearchWithFilterComponent extends StatefulWidget {
     required this.textEditingController,
     this.isUserSearchActive = false,
     this.autoFocus = false,
-    this.onTapActionIcon,
     this.onChangeList,
     this.initialSearchFilter = SearchFilterEnum.all,
     required this.onTapFilter,
@@ -69,7 +67,6 @@ class _ListItemSearchWithFilterComponentState
               : selectedSearchFilter == SearchFilterEnum.challenges
                   ? 'Search for Challenges'
                   : 'Search for Users',
-          onTapActionIcon: widget.onTapActionIcon,
           onTapOutside: widget.onTapOutside,
           changeList: widget.onChangeList,
         )

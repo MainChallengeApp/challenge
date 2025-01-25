@@ -52,6 +52,7 @@ class _EditTitlePageState extends State<EditTitlePage> {
                 textEditingController: _titleTextEditingController,
                 errorText: _errorText,
                 autoFocus: true,
+                removeActionIcon: true,
                 onChangeTextField: (value) {
                   setState(() {
                     _editTitle = value;

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_child_component.dart';
@@ -12,11 +12,11 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final Function(PointerDownEvent)? onTapOutside;
   final IconData icon;
   final TextEditingController textEditingController;
-  String? errorText;
-  String? hintText;
-  bool? isHidden;
-  TextInputType? keyboardType;
-  TextInputAction? textInputAction;
+  final String? errorText;
+  final String? hintText;
+  final bool? isHidden;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
   final IconData? actionIcon;
   final Function()? onTapActionIcon;
   final Function()? onTap;
@@ -28,8 +28,9 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final bool enableSuggestions;
   final String? lableText;
   final int? maxLength;
+  final bool removeActionIcon;
 
-  ListItemIconTextInputComponent({
+  const ListItemIconTextInputComponent({
     super.key,
     this.onChangeTextField,
     required this.icon,
@@ -52,6 +53,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.enableSuggestions = true,
     this.lableText,
     this.maxLength,
+    this.removeActionIcon = false,
   });
 
   @override
@@ -114,6 +116,7 @@ class _ListItemIconTextInputComponentState
   void dispose() {
     focusNode.removeListener(_handleFocusChange);
     widget.textEditingController.removeListener(_handleTextChange);
+    widget.textEditingController.dispose();
     _animationController.dispose();
     if (widget.focusNode == null) {
       focusNode.dispose();
@@ -181,15 +184,34 @@ class _ListItemIconTextInputComponentState
             ),
           ),
           Visibility(
-            visible: widget.actionIcon != null,
-            child: GestureDetector(
-              onTap: widget.onTapActionIcon,
-              child: Icon(
-                widget.actionIcon,
-                color: Theme.of(context).colorScheme.tertiary,
+            visible: widget.removeActionIcon &&
+                widget.textEditingController.text.isNotEmpty,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: ListItemContainerComponent.standardPadding),
+              child: GestureDetector(
+                onTap: _onTapRemoveActionIcon,
+                child: Icon(
+                  IconEnum.remove.icon,
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
               ),
             ),
-          )
+          ),
+          Visibility(
+            visible: widget.actionIcon != null,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  left: ListItemContainerComponent.standardPadding),
+              child: GestureDetector(
+                onTap: widget.onTapActionIcon,
+                child: Icon(
+                  widget.actionIcon,
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -262,5 +284,11 @@ class _ListItemIconTextInputComponentState
     )..layout(minWidth: 0, maxWidth: maxWidth);
 
     return textPainter.size;
+  }
+
+  void _onTapRemoveActionIcon() {
+    widget.textEditingController.clear();
+    widget.onChangeTextField?.call('');
+    focusNode.requestFocus();
   }
 }

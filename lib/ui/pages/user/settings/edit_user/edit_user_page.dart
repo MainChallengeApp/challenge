@@ -1,16 +1,13 @@
-import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
-import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
+import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
@@ -31,33 +28,21 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
-  late final listeningUsersProvider = Provider.of<UsersProvider>(context);
+  late final _listeningUsersProvider = Provider.of<UsersProvider>(context);
 
-  late UserModel user;
-
-  bool isLoading = false;
+  late UserModel _user;
 
   final String _title = 'Edit User';
 
-  var mediaService = MediaService();
+  final _authService = AuthService();
 
-  var authService = AuthService();
-
-  String email = '';
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      email = authService.getCurrentUser() != null
-          ? authService.getCurrentUser()!.email!
-          : 'email not found';
-    });
-  }
+  late String _email = _authService.getCurrentUser() != null
+      ? _authService.getCurrentUser()!.email!
+      : 'Email not found';
 
   @override
   Widget build(BuildContext context) {
-    user = listeningUsersProvider.user;
+    _user = _listeningUsersProvider.user;
     return ScaffoldComponent(
       appBar: AppBarComponent(title: _title),
       isBottomNavigationVisible: false,
@@ -66,137 +51,104 @@ class _EditUserPageState extends State<EditUserPage> {
           SpaceColumnComponent(
             child: ListItemIconTextTextComponent(
               icon: IconEnum.email.icon,
-              onTap: onTapEmail,
+              onTap: _onTapEmail,
               text: 'Email',
-              text2: email,
+              text2: _email,
             ),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextTextComponent(
               icon: IconEnum.password.icon,
-              onTap: onTapPassword,
+              onTap: _onTapPassword,
               text: 'Password',
               text2: '******',
             ),
           ),
           const SpaceComponent(),
           SpaceColumnComponent(
-            child: ListItemIconTextChildComponent(
-              icon: IconEnum.picture.icon,
-              onTap: onTapPicture,
-              text: 'Picture',
-              child: ContainerInContainerComponent(
-                  // TODO: merge with ListItemImageChildComponent
-                  padding: const EdgeInsets.all(0),
-                  margin: const EdgeInsets.all(0),
-                  height: ListItemIconTextComponent.iconContainerSize,
-                  width: ListItemIconTextComponent.iconContainerSize,
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                      ListItemIconTextComponent.standardIconRadius)),
-                  child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(
-                          ListItemIconTextComponent.standardIconRadius)),
-                      child: user.pictureUrl == null
-                          ? Center(
-                              child: Icon(IconEnum.user.icon,
-                                  color:
-                                      Theme.of(context).colorScheme.tertiary),
-                            )
-                          : mediaService.isUrlLocal(user.pictureUrl!)
-                              ? Image.asset(user.pictureUrl!,
-                                  fit: BoxFitEnum.cover.fit,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Center(
-                                        child: Icon(IconEnum.user.icon,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiary),
-                                      ))
-                              : Image.network(user.pictureUrl!,
-                                  fit: BoxFitEnum.cover.fit,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Center(
-                                        child: Icon(IconEnum.user.icon,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiary),
-                                      )))),
+              child: ListItemIconTextChildComponent(
+            icon: IconEnum.picture.icon,
+            onTap: _onTapPicture,
+            text: 'Picture',
+            child: ImageInListItemComponent(
+              url: _user.pictureUrl,
+              icon: IconEnum.user.icon,
             ),
-          ),
+          )),
           SpaceColumnComponent(
             child: ListItemIconTextTextComponent(
                 icon: IconEnum.username.icon,
-                onTap: onTapUsername,
+                onTap: _onTapUsername,
                 text: 'Username',
-                text2: user.username),
+                text2: _user.username),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextTextComponent(
                 icon: IconEnum.bio.icon,
-                onTap: onTapBio,
+                onTap: _onTapBio,
                 text: 'Bio',
-                text2: user.bio?.replaceAll('\n', ' ') ?? ''),
+                text2: _user.bio?.replaceAll('\n', ' ') ?? ''),
           ),
         ],
       ),
     );
   }
 
-  void onTapUsername() {
+  void _onTapUsername() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => EditUsernamePage(user: user),
+        builder: (context) => EditUsernamePage(user: _user),
       ),
     );
   }
 
-  void onTapBio() {
+  void _onTapBio() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => EditBioPage(user: user),
+        builder: (context) => EditBioPage(user: _user),
       ),
     );
   }
 
-  void onTapPicture() {
+  void _onTapPicture() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
-        builder: (context) => EditPicturePage(user: user),
+        builder: (context) => EditPicturePage(user: _user),
       ),
     );
   }
 
-  void onTapEmail() {
+  void _onTapEmail() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => const EditEmailPage(),
       ),
     ).then((_) {
-      authService.getCurrentUser()?.reload().then((_) {
+      _authService.getCurrentUser()?.reload().then((_) {
         setState(() {
-          email = authService.getCurrentUser() != null
-              ? authService.getCurrentUser()!.email!
-              : 'email not found';
+          _email = _authService.getCurrentUser() != null
+              ? _authService.getCurrentUser()!.email!
+              : 'Email not found';
         });
       }, onError: (error) {
-        authService.logout();
+        _authService.logout();
       });
     });
   }
 
-  void onTapPassword() {
+  void _onTapPassword() {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => const EditPasswordPage(),
       ),
     ).then((_) {
-      authService.getCurrentUser()?.reload().catchError((_) {
-        authService.logout();
+      _authService.getCurrentUser()?.reload().catchError((_) {
+        _authService.logout();
       });
     });
   }

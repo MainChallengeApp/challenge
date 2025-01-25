@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:flutter/material.dart';
@@ -8,10 +6,10 @@ class ListItemPasswordComponent extends StatefulWidget {
   final Function(String)? onChangeTextField;
   final Function(String)? onSubmitted;
   final TextEditingController textEditingController;
-  String? errorText;
+  final String? errorText;
   final String? hintText;
 
-  ListItemPasswordComponent(
+  const ListItemPasswordComponent(
       {super.key,
       this.onChangeTextField,
       required this.textEditingController,
@@ -47,6 +45,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
       errorText: widget.errorText,
       lableText: 'Password',
       keyboardType: TextInputType.visiblePassword,
+      removeActionIcon: true,
     );
   }
 

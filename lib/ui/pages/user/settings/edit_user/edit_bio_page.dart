@@ -64,6 +64,7 @@ class _EditBioPageState extends State<EditBioPage> {
                 });
               },
               onSubmitted: (_) => _onTapSave(),
+              removeActionIcon: true,
             ),
             SpaceColumnComponent(
               height: BottomNavigationComponent.standardMargin,

@@ -55,6 +55,7 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
               onChangeTextField: _onChange,
               onSubmitted: (_) => _onTapAccept(),
               maxLength: DatabaseService.maxCharactersLong,
+              removeActionIcon: true,
             ),
             SpaceColumnComponent(
               height: BottomNavigationComponent.standardMargin,

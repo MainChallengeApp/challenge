@@ -38,7 +38,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
 
   final String _title = 'Edit Username';
 
-  late var userNameTextEditingController = TextEditingController(
+  late final _userNameTextEditingController = TextEditingController(
     text: _editUser.username,
   );
 
@@ -63,7 +63,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
             SpaceColumnComponent(
               child: ListItemIconTextInputComponent(
                 icon: IconEnum.username.icon,
-                textEditingController: userNameTextEditingController,
+                textEditingController: _userNameTextEditingController,
                 hintText: _usersProvider.user.username,
                 errorText: _errorText,
                 inputFormatters: [
@@ -84,6 +84,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                   });
                 },
                 lableText: 'Username',
+                removeActionIcon: true,
               ),
             ),
             SpaceColumnComponent(
@@ -92,7 +93,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 children: [
                   Expanded(
                     child: ListItemButtonComponent(
-                      onTap: onTapCancel,
+                      onTap: _onTapCancel,
                       text: 'Cancel',
                       isMainButton: false,
                       margin: const EdgeInsets.only(
@@ -106,9 +107,9 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                     child: ListItemButtonComponent(
                       margin: const EdgeInsets.only(
                           right: ListItemContainerComponent.standardMargin),
-                      onTap: onTapSave,
+                      onTap: _onTapSave,
                       isMainButton:
-                          userNameTextEditingController.text.trim().isNotEmpty,
+                          _userNameTextEditingController.text.trim().isNotEmpty,
                       text: 'Save',
                       isLoading: _isLoading,
                     ),
@@ -122,7 +123,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     );
   }
 
-  void onTapSave() async {
+  void _onTapSave() async {
     if (_isLoading) {
       return;
     }
@@ -137,7 +138,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
 
     if (_editUser.username == widget.user.username) {
       if (widget.isRegistration) {
-        nextInRegistration();
+        _nextInRegistration();
         return;
       }
 
@@ -161,7 +162,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     }
 
     if (widget.isRegistration) {
-      nextInRegistration();
+      _nextInRegistration();
       return;
     }
 
@@ -169,7 +170,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     Navigator.pop(context);
   }
 
-  void nextInRegistration() {
+  void _nextInRegistration() {
     // ignore: use_build_context_synchronously
     Navigator.popUntil(context, (route) => route.isFirst);
     Navigator.push(
@@ -189,7 +190,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     return;
   }
 
-  void onTapCancel() {
+  void _onTapCancel() {
     if (widget.isRegistration) {
       _usersProvider.logout();
       return;
