@@ -339,7 +339,7 @@ void main() {
         challenge.startDate = null;
 
         // Act
-        challenge.setEndDate();
+        challenge.calcEndDate();
 
         // Assert
         expect(challenge.endDate, equals(challenge.endDate));
@@ -356,7 +356,7 @@ void main() {
             type: FrequencyTypeEnum.daily, amount: frequencyAmount);
 
         // Act
-        challenge.setEndDate();
+        challenge.calcEndDate();
 
         // Assert
         expect(
@@ -376,7 +376,7 @@ void main() {
             FrequencyModel(type: FrequencyTypeEnum.daily, amount: null);
 
         // Act
-        challenge.setEndDate();
+        challenge.calcEndDate();
 
         // Assert
         expect(challenge.endDate, equals(null));

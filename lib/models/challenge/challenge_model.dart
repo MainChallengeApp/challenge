@@ -170,7 +170,7 @@ class ChallengeModel {
         : this.categories.toSet().intersection(categories.toSet()).isNotEmpty;
   }
 
-  setStartDate() {
+  calcStartDate() {
     if (frequency.type == FrequencyTypeEnum.daily) {
       if (frequency.amount == null) {
         startDate = null;
@@ -186,7 +186,7 @@ class ChallengeModel {
     }
   }
 
-  setEndDate() {
+  calcEndDate() {
     if (startDate != null &&
         frequency.type == FrequencyTypeEnum.daily &&
         frequency.amount != null) {
@@ -240,18 +240,5 @@ class ChallengeModel {
   bool isEditable() {
     return status == ChallengeStatusEnum.backlog ||
         status == ChallengeStatusEnum.inProgress;
-  }
-
-  // TODO: complete the sorting
-  static List<ChallengeModel> sortChallengeList(
-      {required List<ChallengeModel> challenges}) {
-    challenges.sort((a, b) {
-      if (a.status == b.status) {
-        return a.title.compareTo(b.title);
-      } else {
-        return a.status.status.compareTo(b.status.status);
-      }
-    });
-    return challenges;
   }
 }

@@ -38,6 +38,7 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/add_participants_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_dates_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_description_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_frequency_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_goal_page.dart';
@@ -195,6 +196,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     SpaceColumnComponent(
                         heightMultiplier: 2,
                         child: ListItemIconTextChildComponent(
+                          onTap: _onTapDates,
                           padding: const EdgeInsets.symmetric(
                               horizontal:
                                   ListItemContainerComponent.standardPadding),
@@ -785,6 +787,19 @@ class _EditChallengePageState extends State<EditChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditFrequencyPage(
+          challenge: _editChallenge,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _onTapDates() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditDatesPage(
           challenge: _editChallenge,
         ),
       ),

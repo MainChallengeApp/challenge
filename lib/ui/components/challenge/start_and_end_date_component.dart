@@ -448,7 +448,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   void _calcEndDate() {
     if (widget.editChallenge != null) {
-      widget.editChallenge!.setEndDate();
+      widget.editChallenge!.calcEndDate();
       return;
     }
     if (widget.editAttempt != null && widget.groupChallenge != null) {
@@ -458,7 +458,7 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
 
   void _calcStartDate() {
     if (widget.editChallenge != null) {
-      widget.editChallenge!.setStartDate();
+      widget.editChallenge!.calcStartDate();
       return;
     }
     if (widget.editAttempt != null && widget.groupChallenge != null) {

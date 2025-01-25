@@ -70,7 +70,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
             frequency.type = FrequencyTypeEnum.fromString(value!);
           });
           widget.challenge.setFrequencyAmount();
-          widget.challenge.setEndDate();
+          widget.challenge.calcEndDate();
           widget.reloadSearchChallengePage?.call();
         },
         items: frequencyMap.entries.map((e) {
@@ -132,7 +132,7 @@ class _FrequencyComponentState extends State<FrequencyComponent> {
               setState(() {
                 frequency.amount = value == '' ? null : int.parse(value);
               });
-              widget.challenge.setEndDate();
+              widget.challenge.calcEndDate();
               widget.reloadSearchChallengePage?.call();
             },
             onTap: () => setState(() {

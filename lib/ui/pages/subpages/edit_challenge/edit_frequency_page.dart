@@ -20,24 +20,38 @@ class EditFrequencyPage extends StatefulWidget {
   final ChallengeModel challenge;
 
   const EditFrequencyPage({
-    super.key,
+    Key? key,
     required this.challenge,
-  });
+  }) : super(key: key);
 
   @override
   State<EditFrequencyPage> createState() => _EditFrequencyPageState();
 }
 
 class _EditFrequencyPageState extends State<EditFrequencyPage> {
-  late int? _editAmount = widget.challenge.frequency.amount;
-  late FrequencyTypeEnum _editType = widget.challenge.frequency.type;
-
-  final String _title = 'Edit Repetitions';
-
+  late final ChallengeModel _editChallenge = widget.challenge.copy();
   late final _amountTextEditingController =
-      TextEditingController(text: _editAmount?.toString());
-
+      TextEditingController(text: _editChallenge.frequency.amount?.toString());
   bool _isTypeExpanded = false;
+  final _amountFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _amountFocusNode.addListener(() {
+      if (_amountFocusNode.hasFocus) {
+        setState(() {
+          _isTypeExpanded = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _amountFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,17 +63,133 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
         });
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: _title,
+        appBar: const AppBarComponent(
+          title: 'Edit Repetitions',
         ),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
         body: Column(
           children: [
-            _amount(),
-            _type(),
+            Expanded(
+              child: Column(
+                children: [
+                  _amount(),
+                  _type(),
+                ],
+              ),
+            ),
             _actionButtons(),
           ],
+        ),
+      ),
+    );
+  }
+
+  SpaceColumnComponent _amount() {
+    return SpaceColumnComponent(
+      child: ListItemIconTextInputComponent(
+        icon: IconEnum.numbers.icon,
+        textEditingController: _amountTextEditingController,
+        autoFocus: true,
+        focusNode: _amountFocusNode,
+        keyboardType: const TextInputType.numberWithOptions(),
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(RegExp(r'[1-9]+[0-9]*')),
+        ],
+        onChangeTextField: (value) {
+          setState(() {
+            if (value.isEmpty) {
+              _editChallenge.frequency.amount = null;
+              return;
+            }
+            _editChallenge.frequency.amount = int.parse(value);
+            _editChallenge.calcEndDate();
+          });
+        },
+        onSubmitted: (_) {
+          _onTapAccept();
+        },
+        textInputAction: TextInputAction.next,
+        lableText: 'Amount',
+        hintText: 'max.',
+        maxLength: DatabaseService.maxFrequencyAmountLength,
+        removeActionIcon: true,
+      ),
+    );
+  }
+
+  SpaceColumnComponent _type() {
+    return SpaceColumnComponent(
+      child: Stack(
+        children: [
+          Visibility(
+            visible: _isTypeExpanded,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: ListItemContainerComponent(
+                isHeightDynamic: true,
+                padding: const EdgeInsets.only(
+                    left: CardComponent.standardPadding,
+                    right: CardComponent.standardPadding,
+                    bottom: CardComponent.standardPadding,
+                    top: ListItemContainerComponent.standardHeight +
+                        SpaceComponent.standardHeight -
+                        2),
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: FrequencyTypeEnum.values
+                        .map((type) => _typeEntry(
+                            type, type == FrequencyTypeEnum.values.last))
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          ListItemIconTextChildComponent(
+            onTap: _onTapType,
+            icon: IconEnum.frequencyType.icon,
+            text: _editChallenge.frequency.typeToString(),
+            labelText: 'Type',
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                _isTypeExpanded
+                    ? IconEnum.arrowUp.icon
+                    : IconEnum.arrowDown.icon,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _typeEntry(FrequencyTypeEnum type, bool isLast) {
+    return SpaceColumnComponent(
+      height: isLast ? 0 : null,
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            _editChallenge.frequency.type = type;
+            _isTypeExpanded = false;
+            _editChallenge.calcEndDate();
+          });
+        },
+        child: CustomContainerComponent(
+          child: Row(children: [
+            Expanded(
+                child:
+                    Text(type.typeToString(_editChallenge.frequency.amount))),
+            Icon(
+              IconEnum.autoFill.icon,
+              size: Theme.of(context).textTheme.titleLarge?.fontSize,
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
+          ]),
         ),
       ),
     );
@@ -98,113 +228,10 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
     );
   }
 
-  _type() {
-    return Expanded(
-      child: Stack(
-        children: [
-          Visibility(
-            visible: _isTypeExpanded,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: ListItemContainerComponent(
-                isHeightDynamic: true,
-                padding: const EdgeInsets.only(
-                    left: CardComponent.standardPadding,
-                    right: CardComponent.standardPadding,
-                    bottom: CardComponent.standardPadding,
-                    top: ListItemContainerComponent.standardHeight +
-                        SpaceComponent.standardHeight -
-                        2),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: FrequencyTypeEnum.values
-                        .map((type) => _typeEntry(
-                            type, type == FrequencyTypeEnum.values.last))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ListItemIconTextChildComponent(
-            onTap: _onTapType,
-            icon: IconEnum.frequencyType.icon,
-            text: _editType.typeToString(_editAmount),
-            labelText: 'Type',
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                _isTypeExpanded
-                    ? IconEnum.arrowUp.icon
-                    : IconEnum.arrowDown.icon,
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _typeEntry(FrequencyTypeEnum type, bool isLast) {
-    return SpaceColumnComponent(
-      height: isLast ? 0 : null,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _editType = type;
-          });
-        },
-        child: CustomContainerComponent(
-          child: Row(children: [
-            Expanded(child: Text(type.typeToString(_editAmount))),
-            Icon(
-              IconEnum.autoFill.icon,
-              size: Theme.of(context).textTheme.titleLarge?.fontSize,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ]),
-        ),
-      ),
-    );
-  }
-
-  SpaceColumnComponent _amount() {
-    return SpaceColumnComponent(
-      child: ListItemIconTextInputComponent(
-        icon: IconEnum.numbers.icon,
-        textEditingController: _amountTextEditingController,
-        autoFocus: true,
-        keyboardType: const TextInputType.numberWithOptions(),
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp(r'[1-9]+[0-9]*')),
-        ],
-        onChangeTextField: (value) {
-          setState(() {
-            if (value.isEmpty) {
-              _editAmount = null;
-              return;
-            }
-            _editAmount = int.parse(value);
-          });
-        },
-        onSubmitted: (_) {
-          _onTapAccept();
-        },
-        textInputAction: TextInputAction.next,
-        lableText: 'Amount',
-        hintText: 'max.',
-        maxLength: DatabaseService.maxAmountLength,
-        removeActionIcon: true,
-      ),
-    );
-  }
-
   void _onTapAccept() {
-    widget.challenge.frequency.amount = _editAmount;
-    widget.challenge.frequency.type = _editType;
+    widget.challenge.frequency.amount = _editChallenge.frequency.amount;
+    widget.challenge.frequency.type = _editChallenge.frequency.type;
+    widget.challenge.calcEndDate();
     Navigator.of(context).pop();
   }
 
@@ -215,6 +242,7 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
   void _onTapType() {
     setState(() {
       _isTypeExpanded = !_isTypeExpanded;
+      _amountFocusNode.unfocus();
     });
   }
 }

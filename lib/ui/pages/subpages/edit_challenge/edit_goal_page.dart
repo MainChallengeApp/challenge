@@ -230,7 +230,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
         textInputAction: TextInputAction.next,
         lableText: 'Amount',
         hintText: '1',
-        maxLength: DatabaseService.maxAmountLength,
+        maxLength: DatabaseService.maxAcceptanceCriteriaAmountLength,
         removeActionIcon: true,
       ),
     );

@@ -44,22 +44,28 @@ class _EditTitlePageState extends State<EditTitlePage> {
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SpaceColumnComponent(
-              child: ListItemIconTextInputComponent(
-                icon: IconEnum.title.icon,
-                textEditingController: _titleTextEditingController,
-                errorText: _errorText,
-                autoFocus: true,
-                removeActionIcon: true,
-                onChangeTextField: (value) {
-                  setState(() {
-                    _editTitle = value;
-                    _errorText = null;
-                  });
-                },
-                lableText: 'Title',
+            Expanded(
+              child: Column(
+                children: [
+                  SpaceColumnComponent(
+                    child: ListItemIconTextInputComponent(
+                      icon: IconEnum.title.icon,
+                      textEditingController: _titleTextEditingController,
+                      errorText: _errorText,
+                      autoFocus: true,
+                      removeActionIcon: true,
+                      hintText: widget.challenge.title,
+                      onChangeTextField: (value) {
+                        setState(() {
+                          _editTitle = value;
+                          _errorText = null;
+                        });
+                      },
+                      lableText: 'Title',
+                    ),
+                  ),
+                ],
               ),
             ),
             SpaceColumnComponent(
@@ -98,7 +104,8 @@ class _EditTitlePageState extends State<EditTitlePage> {
   }
 
   void _onTapAccept() {
-    widget.challenge.title = _editTitle;
+    widget.challenge.title =
+        _editTitle.isEmpty ? widget.challenge.title : _editTitle;
     Navigator.pop(context);
   }
 
