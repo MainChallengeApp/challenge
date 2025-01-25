@@ -12,4 +12,16 @@ enum FrequencyTypeEnum {
     return FrequencyTypeEnum.values.firstWhere((e) => e.text == text,
         orElse: () => throw FrequencyTypeIsNotSupportedException(text));
   }
+
+  String typeToString(int? amount) {
+    return this == FrequencyTypeEnum.daily
+        ? amount == 1
+            ? 'Day'
+            : 'Days'
+        : this == FrequencyTypeEnum.time
+            ? amount == 1
+                ? 'Time'
+                : 'Times'
+            : throw FrequencyTypeIsNotSupportedException(text);
+  }
 }

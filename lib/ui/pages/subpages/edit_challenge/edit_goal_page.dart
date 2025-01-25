@@ -225,7 +225,6 @@ class _EditGoalPageState extends State<EditGoalPage> {
           });
         },
         onSubmitted: (_) {
-          FocusScope.of(context).unfocus();
           _onTapAccept();
         },
         textInputAction: TextInputAction.next,

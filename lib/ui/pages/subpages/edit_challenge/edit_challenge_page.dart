@@ -39,6 +39,7 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/add_participants_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_description_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_frequency_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_goal_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_title_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -186,10 +187,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
                                 '${UtilService.doubleAsIntString(_editChallenge.acceptanceCriteria.amount)} ${_editChallenge.acceptanceCriteria.unit}')),
                     SpaceColumnComponent(
                         child: ListItemIconTextTextComponent(
+                            onTap: _onTapRepetitions,
                             icon: IconEnum.repetition.icon,
                             text: 'Repetitions',
                             text2:
-                                '${_editChallenge.frequency.amount} ${_editChallenge.frequency.typeToString()}')),
+                                '${_editChallenge.frequency.amount ?? 'max.'} ${_editChallenge.frequency.typeToString()}')),
                     SpaceColumnComponent(
                         heightMultiplier: 2,
                         child: ListItemIconTextChildComponent(
@@ -770,6 +772,19 @@ class _EditChallengePageState extends State<EditChallengePage> {
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => EditGoalPage(
+          challenge: _editChallenge,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _onTapRepetitions() {
+    Navigator.push(
+      context,
+      NoAnimationPageRouteComponent(
+        builder: (context) => EditFrequencyPage(
           challenge: _editChallenge,
         ),
       ),

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 enum IconEnum {
   add(Icons.add_rounded),
   arrowDown(Icons.keyboard_arrow_down_rounded),
-  arrowRight(Icons.keyboard_arrow_right_rounded),
   arrowLeft(Icons.arrow_back_ios_new_rounded),
+  arrowRight(Icons.keyboard_arrow_right_rounded),
+  arrowUp(Icons.keyboard_arrow_up_rounded),
   autoFill(Icons.arrow_outward_rounded),
   bio(Icons.notes_rounded),
   blockedUsers(Icons.block_rounded),
@@ -18,6 +19,7 @@ enum IconEnum {
   edit(Icons.edit_rounded),
   email(Icons.email_rounded),
   feedback(Icons.feedback_outlined),
+  frequencyType(Icons.event_repeat_outlined),
   goal(Icons.emoji_events_outlined),
   groupChallenge(Icons.groups_rounded),
   inbox(Icons.inbox_outlined),
