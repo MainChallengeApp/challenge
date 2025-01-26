@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -10,24 +10,27 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ThumbnailMaxComponent extends StatelessWidget {
-  final ChallengeModel challenge;
-  final dynamic Function() onTapOpenMediaPage;
+  final ThumbnailModel? thumbnail;
   final AttemptModel? attempt;
+  final IconData? nullIcon;
+  final Function()? onTap;
 
-  final mediaService = MediaService();
+  ThumbnailMaxComponent({
+    super.key,
+    this.onTap,
+    required this.thumbnail,
+    this.attempt,
+    this.nullIcon,
+  });
 
-  ThumbnailMaxComponent(
-      {super.key,
-      required this.challenge,
-      required this.onTapOpenMediaPage,
-      this.attempt});
+  final _mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.75,
       child: TapContainerComponent(
-        onTap: onTapOpenMediaPage,
+        onTap: onTap,
         backgroundColor: Theme.of(context).colorScheme.themeColor4,
         padding: const EdgeInsets.all(0),
         borderWidth: 0,
@@ -38,67 +41,51 @@ class ThumbnailMaxComponent extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(
-                        CustomContainerComponent.standardRadius)),
-                    child: challenge.hasThumbnail()
-                        ? mediaService.isUrlLocal(challenge.thumbnail!.url)
-                            ? Transform.scale(
-                                scale: challenge.thumbnail!.scale,
-                                child: Image.asset(challenge.thumbnail!.url,
-                                    fit: challenge.thumbnail!.fit.fit),
-                              )
-                            : Transform.scale(
-                                scale: challenge.thumbnail!.scale,
-                                child: CachedNetworkImage(
-                                    imageUrl: challenge.thumbnail!.url,
-                                    fit: challenge.thumbnail!.fit.fit,
-                                    fadeInDuration: Duration.zero,
-                                    errorWidget: (context, url, error) =>
-                                        Center(
-                                          child: Image.asset(
-                                            AppIconComponent.path,
-                                            fit: BoxFit.contain,
-                                            width: 100,
-                                            height: 100,
-                                          ),
-                                        )))
-                        : Image.asset(
-                            AppIconComponent.path,
-                            fit: BoxFit.contain,
-                            width: 100,
-                            height: 100,
-                          )),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(CustomContainerComponent.standardRadius),
+                  ),
+                  child: nullIcon != null && thumbnail == null
+                      ? Icon(
+                          nullIcon,
+                          color: Theme.of(context).colorScheme.tertiary,
+                          size: 40,
+                        )
+                      : _mediaService.getImage(
+                          context,
+                          thumbnail?.url ?? AppIconComponent.path,
+                          fit: thumbnail?.fit.fit ?? BoxFit.contain,
+                          scale: thumbnail?.scale ?? 0.5,
+                          icon: IconEnum.questionMark.icon,
+                        ),
+                ),
               ),
             ),
-            attempt != null
-                ? Align(
-                    alignment: Alignment.bottomRight,
-                    child: ContainerInContainerComponent(
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(5),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(8)),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              '${attempt!.media.length}',
-                              textAlign: TextAlign.end,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            const SizedBox(width: 2),
-                            Icon(
-                              Icons.inventory_2_outlined,
-                              color: Theme.of(context).colorScheme.tertiary,
-                              size: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.fontSize,
-                            )
-                          ],
-                        )))
-                : Container(),
+            if (attempt != null)
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ContainerInContainerComponent(
+                  margin: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(5),
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${attempt!.media.length}',
+                        textAlign: TextAlign.end,
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(width: 2),
+                      Icon(
+                        Icons.inventory_2_outlined,
+                        color: Theme.of(context).colorScheme.tertiary,
+                        size: Theme.of(context).textTheme.bodySmall?.fontSize,
+                      )
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),

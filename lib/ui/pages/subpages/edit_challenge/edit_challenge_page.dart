@@ -33,6 +33,7 @@ import 'package:challenge/ui/components/simple_components/app_icon_component.dar
 import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -42,6 +43,7 @@ import 'package:challenge/ui/pages/subpages/edit_challenge/edit_dates_page.dart'
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_description_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_frequency_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_goal_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_thumbnail_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_title_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -117,45 +119,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
               Expanded(
                 child: ListView(
                   children: [
-                    // SpaceColumnComponent(
-                    //     heightMultiplier: 2,
-                    //     child: ListItemContainerComponent(
-                    //         child: Row(
-                    //       children: [
-                    //         Expanded(
-                    //             child: Center(
-                    //                 child: Text(
-                    //           'General',
-                    //           style: Theme.of(context)
-                    //               .textTheme
-                    //               .bodyMedium
-                    //               ?.copyWith(
-                    //                   color: Colors.black,
-                    //                   fontWeight: FontWeight.bold),
-                    //         ))),
-                    //         Icon(
-                    //           IconEnum.arrowRight.icon,
-                    //           color: Theme.of(context).colorScheme.tertiary,
-                    //         ),
-                    //         const Expanded(
-                    //             child: Center(child: Text('Details'))),
-                    //         Icon(IconEnum.arrowRight.icon,
-                    //             color: Theme.of(context).colorScheme.tertiary),
-                    //         const Expanded(
-                    //             child: Center(
-                    //                 child: Text(
-                    //           'Participants',
-                    //           maxLines: 1,
-                    //           overflow: TextOverflow.ellipsis,
-                    //         ))),
-                    //         Icon(IconEnum.arrowRight.icon,
-                    //             color: Theme.of(context).colorScheme.tertiary),
-                    //         const Expanded(
-                    //             child: Center(child: Text('Overview'))),
-                    //       ],
-                    //     ))),
+                    // _editOverview(),
                     SpaceColumnComponent(
                         child: ListItemIconTextChildComponent(
+                      onTap: _onTapThumbnail,
                       icon: IconEnum.picture.icon,
                       text: 'Thumbnail',
                       child: ImageInListItemComponent(
@@ -228,17 +195,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
                           ),
                         )),
                     SpaceColumnComponent(
-                        child: ListItemIconTextChildComponent(
+                        child: ListItemIconTextTextComponent(
+                      onTap: _onTapParticipants,
                       text: 'Participants',
                       icon: IconEnum.groupChallenge.icon,
-                      child: Row(
-                        children: [
-                          ..._editParticipants
-                              .map((participant) => _userPicture(participant))
-                              .toList(),
-                          currentAmountAndMaxAmount()
-                        ],
-                      ),
+                      text2:
+                          '(${_editParticipants.length}) ${_editParticipants.map((user) => user.id == _usersProvider.user.id ? 'you' : user.username).join(', ')}',
                     )),
                   ],
                 ),
@@ -247,6 +209,52 @@ class _EditChallengePageState extends State<EditChallengePage> {
             ],
           )),
     );
+  }
+
+  // ignore: unused_element
+  SpaceColumnComponent _editOverview() {
+    return SpaceColumnComponent(
+        heightMultiplier: 2,
+        child: ListItemContainerComponent(
+            child: Row(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconContainerInListItemComponent(
+                  iconColor: Theme.of(context).colorScheme.onSurface,
+                  margin: EdgeInsets.zero,
+                  icon: Icons.info_outline_rounded),
+            ),
+            Expanded(
+              child: Icon(
+                IconEnum.arrowRight.icon,
+                color: Theme.of(context).colorScheme.tertiary,
+              ),
+            ),
+            const Expanded(
+                child: Center(
+                    child: IconContainerInListItemComponent(
+                        margin: EdgeInsets.zero, icon: Icons.tune_outlined))),
+            Expanded(
+              child: Icon(IconEnum.arrowRight.icon,
+                  color: Theme.of(context).colorScheme.tertiary),
+            ),
+            Expanded(
+                child: Center(
+                    child: IconContainerInListItemComponent(
+                        margin: EdgeInsets.zero,
+                        icon: IconEnum.groupChallenge.icon))),
+            Expanded(
+              child: Icon(IconEnum.arrowRight.icon,
+                  color: Theme.of(context).colorScheme.tertiary),
+            ),
+            const Align(
+              alignment: Alignment.centerRight,
+              child: IconContainerInListItemComponent(
+                  margin: EdgeInsets.zero, icon: Icons.summarize_outlined),
+            ),
+          ],
+        )));
   }
 
   currentAmountAndMaxAmount() {
@@ -800,6 +808,32 @@ class _EditChallengePageState extends State<EditChallengePage> {
       context,
       MaterialPageRoute(
         builder: (context) => EditDatesPage(
+          challenge: _editChallenge,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _onTapParticipants() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddParticipantsPage(
+          participants: _editParticipants,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
+  void _onTapThumbnail() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditThumbnailPage(
           challenge: _editChallenge,
         ),
       ),

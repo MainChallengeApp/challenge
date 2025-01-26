@@ -12,6 +12,7 @@ enum IconEnum {
   camera(Icons.camera_alt_outlined),
   connect(Icons.group_add_rounded),
   credits(Icons.handshake_outlined),
+  crop(Icons.crop_rounded),
   dates(Icons.calendar_month_outlined),
   delete(Icons.delete),
   description(Icons.notes_rounded),

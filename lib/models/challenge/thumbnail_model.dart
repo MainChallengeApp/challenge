@@ -10,8 +10,9 @@ class ThumbnailModel {
   BoxFitEnum fit;
   static const String fitField = 'fit';
 
-  ThumbnailModel(
-      {this.url = '', this.scale = 1.0, this.fit = BoxFitEnum.cover});
+  ThumbnailModel({this.url = '', double? scale, BoxFitEnum? fit})
+      : fit = fit ?? BoxFitEnum.cover,
+        scale = scale ?? 1.0;
 
   factory ThumbnailModel.fromDoc(Map<String, dynamic> doc) {
     return ThumbnailModel(

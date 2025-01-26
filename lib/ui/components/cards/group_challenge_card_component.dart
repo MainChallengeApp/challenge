@@ -138,8 +138,8 @@ class _GroupChallengeCardComponentState
     return SpaceColumnComponent(
       height: 11,
       child: ThumbnailMaxComponent(
-        challenge: _groupChallenge,
-        onTapOpenMediaPage: _onTapOpenMediaPage,
+        thumbnail: _groupChallenge.thumbnail,
+        onTap: _onTapOpenMediaPage,
         attempt: _latestAttempt,
       ),
     );

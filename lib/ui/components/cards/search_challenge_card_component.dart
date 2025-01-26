@@ -46,8 +46,8 @@ class _SearchChallengeCardComponentState
     return SpaceColumnComponent(
       height: 11,
       child: ThumbnailMaxComponent(
-        challenge: widget.challenge,
-        onTapOpenMediaPage: () => _onTapOpenMediaPage(),
+        thumbnail: widget.challenge.thumbnail,
+        onTap: () => _onTapOpenMediaPage(),
       ),
     );
   }
