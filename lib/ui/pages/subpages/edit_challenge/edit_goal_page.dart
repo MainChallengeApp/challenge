@@ -132,16 +132,32 @@ class _EditGoalPageState extends State<EditGoalPage> {
   }
 
   _unit() {
-    List<Unit> filteredUnits = unitsSingularPlural
-        .where((unit) =>
-            unit.singular.toLowerCase().contains(_editUnit.toLowerCase()) &&
-                _editAmount == 1 ||
-            unit.plural.toLowerCase().contains(_editUnit.toLowerCase()) &&
-                _editAmount != 1)
-        .toList();
-    filteredUnits =
-        filteredUnits.isEmpty ? List.from(unitsSingularPlural) : filteredUnits;
-    filteredUnits.sort((a, b) => a.singular.compareTo(b.singular));
+    unitsSingularPlural.sort((a, b) {
+      // Function to calculate how well a unit matches the search term
+      int matchScore(Unit unit) {
+        String unitName = _editAmount == 1 ? unit.singular : unit.plural;
+        String lowerUnitName = unitName.toLowerCase();
+        String lowerEditUnit = _editUnit.toLowerCase();
+
+        if (lowerUnitName == lowerEditUnit) return 3; // Exact match
+        if (lowerUnitName.startsWith(lowerEditUnit)) return 2; // Starts with
+        if (lowerUnitName.contains(lowerEditUnit)) return 1; // Contains
+        return 0; // No match
+      }
+
+      int aScore = matchScore(a);
+      int bScore = matchScore(b);
+
+      if (aScore != bScore) {
+        return bScore.compareTo(aScore); // Higher score first
+      } else {
+        // If scores are equal, sort alphabetically
+        String aName = _editAmount == 1 ? a.singular : a.plural;
+        String bName = _editAmount == 1 ? b.singular : b.plural;
+        return aName.toLowerCase().compareTo(bName.toLowerCase());
+      }
+    });
+
     return Expanded(
       child: Stack(
         children: [
@@ -162,9 +178,9 @@ class _EditGoalPageState extends State<EditGoalPage> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: filteredUnits
-                        .map((unit) =>
-                            _suggestedUnit(unit, unit == filteredUnits.last))
+                    children: unitsSingularPlural
+                        .map((unit) => _suggestedUnit(
+                            unit, unit == unitsSingularPlural.last))
                         .toList(),
                   ),
                 ),
@@ -190,6 +206,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
             onTapActionIcon: () {
               setState(() {
                 _isUnitExpanded = !_isUnitExpanded;
+                _amountFocusNode.unfocus();
               });
             },
           ),
@@ -206,6 +223,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
           setState(() {
             _editUnit = _editAmount == 1 ? unit.singular : unit.plural;
             _unitTextEditingController.text = _editUnit;
+            _isUnitExpanded = false;
           });
         },
         child: CustomContainerComponent(
