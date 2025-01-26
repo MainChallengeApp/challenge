@@ -9,31 +9,17 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/database_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
-import 'package:challenge/ui/components/challenge/amount_and_unit_component.dart';
-import 'package:challenge/ui/components/challenge/frequency_component.dart';
-import 'package:challenge/ui/components/challenge/start_and_end_date_component.dart';
-import 'package:challenge/ui/components/edit_challenge/add_participants_overview_component.dart';
-import 'package:challenge/ui/components/edit_challenge/edit_description_component.dart';
-import 'package:challenge/ui/components/edit_challenge/expanded_text_field_component.dart';
-import 'package:challenge/ui/components/edit_challenge/upload_thumbnail_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
-import 'package:challenge/ui/components/simple_components/container_in_list_item_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
-import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -88,6 +74,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   List<UserModel> _editParticipants = [];
 
+  // ignore: unused_field
   int? _selectedAttemptNumber;
   AttemptModel? _selectedAttempt;
 
@@ -119,7 +106,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
               Expanded(
                 child: ListView(
                   children: [
-                    // _editOverview(),
                     SpaceColumnComponent(
                         child: ListItemIconTextChildComponent(
                       onTap: _onTapThumbnail,
@@ -205,99 +191,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
                   ],
                 ),
               ),
-              cancelAndSaveOrAcceptButton(),
+              _cancelAndSaveOrAcceptButton(),
             ],
           )),
-    );
-  }
-
-  // ignore: unused_element
-  SpaceColumnComponent _editOverview() {
-    return SpaceColumnComponent(
-        heightMultiplier: 2,
-        child: ListItemContainerComponent(
-            child: Row(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IconContainerInListItemComponent(
-                  iconColor: Theme.of(context).colorScheme.onSurface,
-                  margin: EdgeInsets.zero,
-                  icon: Icons.info_outline_rounded),
-            ),
-            Expanded(
-              child: Icon(
-                IconEnum.arrowRight.icon,
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-            const Expanded(
-                child: Center(
-                    child: IconContainerInListItemComponent(
-                        margin: EdgeInsets.zero, icon: Icons.tune_outlined))),
-            Expanded(
-              child: Icon(IconEnum.arrowRight.icon,
-                  color: Theme.of(context).colorScheme.tertiary),
-            ),
-            Expanded(
-                child: Center(
-                    child: IconContainerInListItemComponent(
-                        margin: EdgeInsets.zero,
-                        icon: IconEnum.groupChallenge.icon))),
-            Expanded(
-              child: Icon(IconEnum.arrowRight.icon,
-                  color: Theme.of(context).colorScheme.tertiary),
-            ),
-            const Align(
-              alignment: Alignment.centerRight,
-              child: IconContainerInListItemComponent(
-                  margin: EdgeInsets.zero, icon: Icons.summarize_outlined),
-            ),
-          ],
-        )));
-  }
-
-  currentAmountAndMaxAmount() {
-    return ContainerInListItemComponent(
-      margin: const EdgeInsets.all(0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _editParticipants.length.toString(),
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .textInputSmall
-                  .copyWith(fontSize: 9.5),
-            ),
-            Container(
-              height: 1,
-              width: null,
-              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            Text(
-              DatabaseService.maxGroupChallengeMember.toString(),
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .textInputSmall
-                  .copyWith(fontSize: 9.5),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _userPicture(UserModel user) {
-    return ImageInListItemComponent(
-      icon: IconEnum.user.icon,
-      url: user.pictureUrl,
-      margin: const EdgeInsets.only(
-          right: ListItemContainerComponent.standardPadding),
     );
   }
 
@@ -333,51 +229,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     }
   }
 
-  Visibility _participants() {
-    return Visibility(
-      visible: !isDescriptionExpanded && _selectedAttemptNumber == null,
-      child: addOrEditParticipants(),
-    );
-  }
-
-  Visibility _details() {
-    return Visibility(
-      visible: !isDescriptionExpanded,
-      child: dynamicCard(children: [
-        amountAndUnit(),
-        frequency(),
-        startAndEndDate(),
-      ]),
-    );
-  }
-
-  _header() {
-    return Visibility(
-      visible: _selectedAttemptNumber == null && _isUserAbleToEditChallenge,
-      child: Flexible(
-        fit: FlexFit.loose,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              fit: FlexFit.loose,
-              child: ListItemContainerComponent(
-                padding: const EdgeInsets.all(CardComponent.standardPadding),
-                isHeightDynamic: true,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [_thumbnailUploadAndTitle(), _description()],
-                ),
-              ),
-            ),
-            const SpaceComponent()
-          ],
-        ),
-      ),
-    );
-  }
-
-  cancelAndSaveOrAcceptButton() {
+  _cancelAndSaveOrAcceptButton() {
     return Visibility(
       visible: !isDescriptionExpanded,
       child: Column(
@@ -390,7 +242,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 const SpaceComponent(width: CardComponent.standardSideMargin),
                 Expanded(
                   child: ListItemButtonComponent(
-                    onTap: onTapCancel,
+                    onTap: _onTapCancel,
                     isMainButton: false,
                     text: 'Cancel',
                     margin: EdgeInsets.zero,
@@ -403,7 +255,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                         widget.isTryAgain
                     ? Expanded(
                         child: ListItemButtonComponent(
-                          onTap: onTapAccept,
+                          onTap: _onTapAccept,
                           text: 'Accept',
                           isMainButton: true,
                           isLoading: isLoading,
@@ -412,7 +264,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                       )
                     : Expanded(
                         child: ListItemButtonComponent(
-                          onTap: onTapSave,
+                          onTap: _onTapSave,
                           text: 'Save',
                           isMainButton: true,
                           isLoading: isLoading,
@@ -428,62 +280,11 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  startAndEndDate() {
-    return Visibility(
-      visible: !isDescriptionExpanded,
-      child: _selectedAttempt == null
-          ? StartAndEndDateComponent.challenge(
-              editChallenge: _editChallenge,
-              reloadParentPage: () => setState(
-                () {},
-              ),
-            )
-          : StartAndEndDateComponent.attempt(
-              editAttempt: _selectedAttempt,
-              groupChallenge: _editChallenge as GroupChallengeModel),
-    );
-  }
-
-  _description() {
-    EditDescriptionComponent descriptionComponent = EditDescriptionComponent(
-      challenge: _editChallenge,
-      isDescriptionExpanded: isDescriptionExpanded,
-      onTap: () {
-        setState(() {
-          isDescriptionExpanded = !isDescriptionExpanded;
-        });
-      },
-    );
-    return isDescriptionExpanded
-        ? Expanded(child: descriptionComponent)
-        : descriptionComponent;
-  }
-
-  _thumbnailUploadAndTitle() {
-    return Column(
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            UploadThumbnailComponent(
-              editChallenge: _editChallenge,
-            ),
-            const SpaceComponent(),
-            ExpandedTextFieldComponent(
-              editChallenge: _editChallenge,
-            ),
-          ],
-        ),
-        const SpaceComponent()
-      ],
-    );
-  }
-
-  void onTapCancel() {
+  void _onTapCancel() {
     Navigator.pop(context);
   }
 
-  void onTapAccept() async {
+  void _onTapAccept() async {
     if (isLoading) {
       return;
     }
@@ -518,7 +319,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     );
   }
 
-  void onTapSave() async {
+  void _onTapSave() async {
     if (isLoading) {
       return;
     }
@@ -532,7 +333,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
 
       await _groupChallengesProvider.update(groupChallengeCopy);
-      await updateParticipants(groupChallengeCopy);
+      await _updateParticipants(groupChallengeCopy);
     } else {
       ParticipantModel participant = (_editChallenge as GroupChallengeModel)
           .getParticipant(_usersProvider.user.id);
@@ -548,90 +349,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     Navigator.pop(context);
   }
 
-  amountAndUnit() {
-    return Visibility(
-      visible: !isDescriptionExpanded && _selectedAttempt == null,
-      child: SpaceColumnComponent(
-        child: AmountAndUnitComponent(
-          acceptanceCriteria: _editChallenge.acceptanceCriteria,
-        ),
-      ),
-    );
-  }
-
-  frequency() {
-    return Visibility(
-      visible: !isDescriptionExpanded && _selectedAttempt == null,
-      child: SpaceColumnComponent(
-        child: FrequencyComponent(
-          challenge: _editChallenge,
-          reloadSearchChallengePage: () => setState(
-            () {},
-          ),
-        ),
-      ),
-    );
-  }
-
-  dynamicCard({required List<Widget> children}) {
-    return SpaceColumnComponent(
-      child: ListItemContainerComponent(
-        isHeightDynamic: true,
-        padding: const EdgeInsets.all(CardComponent.standardPadding),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: children,
-        ),
-      ),
-    );
-  }
-
-  addOrEditParticipants() {
-    return _editParticipants.length <= 1
-        ? ListItemIconTextComponent(
-            onTap: onTapAddParticipants,
-            title: 'Add Participants',
-            icon: IconEnum.add.icon,
-          )
-        : ListItemContainerComponent(
-            isHeightDynamic: true,
-            padding: const EdgeInsets.all(CardComponent.standardPadding),
-            child: Column(
-              children: [
-                SpaceColumnComponent(
-                    child: AddParticipantsOverviewComponent(
-                        userId: _usersProvider.user.id,
-                        participants: _editParticipants)),
-                CustomButtonComponent(
-                  onTap: onTapAddParticipants,
-                  text: 'Edit Participants',
-                  isPrimaryButton: false,
-                ),
-              ],
-            ),
-          );
-  }
-
-  onTapAddParticipants() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddParticipantsPage(
-          participants: _editParticipants,
-        ),
-      ),
-    ).then((_) {
-      setState(() {});
-    });
-  }
-
-  _notAbleToEdit() {
-    return const ListItemInfoComponent(
-        text: 'Only the admin can edit the group challenge settings.');
-  }
-
-  updateParticipants(GroupChallengeModel groupChallengeCopy) async {
+  _updateParticipants(GroupChallengeModel groupChallengeCopy) async {
     Set<String> oldParticipantIds = groupChallengeCopy.participants
         .map((participant) => participant.user.id)
         .toSet();
@@ -656,70 +374,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
       await _groupChallengesProvider.addParticipant(
           groupChallengeCopy, _usersProvider.user, newParticipant);
     }
-  }
-
-  _challengeOrAttemptDropdown() {
-    if (_editChallenge is GroupChallengeModel) {
-      try {
-        ParticipantModel participant = (_editChallenge as GroupChallengeModel)
-            .getParticipant(_usersProvider.user.id);
-
-        return Visibility(
-          visible: participant.attempts.isNotEmpty,
-          child: SpaceColumnComponent(
-            child: ListItemContainerComponent(
-              padding: const EdgeInsets.all(CardComponent.standardPadding),
-              isHeightDynamic: true,
-              child: Column(
-                children: [
-                  CustomContainerComponent(
-                    child: DropdownButton<int?>(
-                      borderRadius: BorderRadius.circular(
-                          CustomContainerComponent.standardRadius),
-                      isExpanded: true,
-                      underline: Container(),
-                      value: _selectedAttemptNumber,
-                      onChanged: (int? selectedAttemptNumber) {
-                        setState(() {
-                          _selectedAttemptNumber = selectedAttemptNumber;
-                          _selectedAttempt = _selectedAttemptNumber == null
-                              ? null
-                              : participant.attempts.firstWhere((attempt) =>
-                                  attempt.number == selectedAttemptNumber);
-                        });
-                      },
-                      items: [
-                        DropdownMenuItem<int?>(
-                          value: null,
-                          child: Text(
-                            'Challenge',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                        ...participant.attempts.map(
-                          (attempt) {
-                            return DropdownMenuItem<int>(
-                              value: attempt.number,
-                              child: Text(
-                                'Attempt ${attempt.number}',
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      } on Exception catch (_) {
-        return const SizedBox();
-      }
-    }
-    return const SizedBox();
   }
 
   void _setSelectedAttempt() {
