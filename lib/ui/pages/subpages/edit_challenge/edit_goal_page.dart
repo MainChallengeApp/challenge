@@ -269,6 +269,20 @@ class _EditGoalPageState extends State<EditGoalPage> {
               number = double.parse(value);
               _editAmount = number;
             }
+
+            // Update _editUnit for singular/plural value if exists in unitsSingularPlural
+            // Update _editUnit for singular/plural value if exists in unitsSingularPlural
+            final matchingUnits = unitsSingularPlural.where((unit) =>
+                unit.singular.toLowerCase() == _editUnit.toLowerCase() ||
+                unit.plural.toLowerCase() == _editUnit.toLowerCase());
+
+            if (matchingUnits.isNotEmpty) {
+              final matchingUnit = matchingUnits.first;
+              _editUnit = _editAmount == 1
+                  ? matchingUnit.singular
+                  : matchingUnit.plural;
+              _unitTextEditingController.text = _editUnit;
+            }
           });
         },
         onSubmitted: (_) {

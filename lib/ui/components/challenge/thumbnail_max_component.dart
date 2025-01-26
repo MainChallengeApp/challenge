@@ -1,4 +1,5 @@
-import 'package:challenge/enums/icon_enum.dart';
+import 'dart:ui';
+
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:challenge/services/media_service.dart';
@@ -41,23 +42,49 @@ class ThumbnailMaxComponent extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(CustomContainerComponent.standardRadius),
-                  ),
-                  child: nullIcon != null && thumbnail == null
-                      ? Icon(
-                          nullIcon,
-                          color: Theme.of(context).colorScheme.tertiary,
-                          size: 40,
-                        )
-                      : _mediaService.getImage(
-                          context,
-                          thumbnail?.url ?? AppIconComponent.path,
-                          fit: thumbnail?.fit.fit ?? BoxFit.contain,
-                          scale: thumbnail?.scale ?? 0.5,
-                          icon: IconEnum.questionMark.icon,
-                        ),
-                ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(CustomContainerComponent.standardRadius),
+                    ),
+                    child: nullIcon != null && thumbnail == null
+                        ? Icon(
+                            nullIcon,
+                            color: Theme.of(context).colorScheme.tertiary,
+                            size: 40,
+                          )
+                        : Stack(
+                            fit: StackFit.expand,
+                            alignment: Alignment.center,
+                            children: [
+                                Visibility(
+                                    visible:
+                                        thumbnail?.isBackgroundBlurred ?? false,
+                                    child: _mediaService.getImage(
+                                      context,
+                                      thumbnail?.url ?? AppIconComponent.path,
+                                      fit: BoxFit.cover,
+                                      scale: 0.99,
+                                    )),
+                                Visibility(
+                                  visible:
+                                      thumbnail?.isBackgroundBlurred ?? false,
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 20, sigmaY: 20),
+                                    child: Container(
+                                      color: Colors.black.withOpacity(0.1),
+                                    ),
+                                  ),
+                                ),
+                                _mediaService.getImage(
+                                  context,
+                                  thumbnail?.url ?? AppIconComponent.path,
+                                  fit: BoxFit.contain,
+                                  scale:
+                                      (thumbnail?.isBackgroundBlurred ?? false)
+                                          ? 0.8
+                                          : thumbnail?.scale ?? 0.5,
+                                ),
+                              ])),
               ),
             ),
             if (attempt != null)

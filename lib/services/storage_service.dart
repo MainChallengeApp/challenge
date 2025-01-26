@@ -14,10 +14,13 @@ import 'package:path_provider/path_provider.dart';
 class StorageService {
   final firebaseStorage = FirebaseStorage.instance;
 
-  Future<String> uploadFile(File file, String path) async {
-    File? compressedFile = await processImage(file);
-    if (compressedFile != null) {
-      file = compressedFile;
+  Future<String> uploadFile(File file, String path,
+      {bool compressed = true}) async {
+    if (compressed) {
+      File? compressedFile = await processImage(file);
+      if (compressedFile != null) {
+        file = compressedFile;
+      }
     }
     final ref = firebaseStorage.ref().child(path);
     try {

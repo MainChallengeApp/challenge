@@ -181,9 +181,8 @@ class _EditThumbnailPageState extends State<EditThumbnailPage> {
     _mediaService.openImagePicker(context).then((media) {
       if (media != null) {
         setState(() {
-          _editThumbnail = ThumbnailModel(
-            url: media.source,
-          );
+          _editThumbnail =
+              ThumbnailModel(url: media.source, isBackgroundBlurred: true);
           _uploadedUrl = media.source;
         });
       }
@@ -200,24 +199,23 @@ class _EditThumbnailPageState extends State<EditThumbnailPage> {
       compressFormat: ImageCompressFormat.png,
       uiSettings: [
         AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
+          toolbarTitle: 'Crop Thumbnail',
           toolbarColor: Theme.of(context).primaryColor,
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
         ),
         IOSUiSettings(
-          title: 'Crop Image',
+          title: 'Crop Thumbnail',
         ),
       ],
     );
 
     if (croppedFile != null) {
       setState(() {
-        _editThumbnail = ThumbnailModel(
-            url: croppedFile.path,
-            fit: _editThumbnail?.fit,
-            scale: _editThumbnail?.scale);
+        _editThumbnail ??= ThumbnailModel();
+        _editThumbnail!.url = croppedFile.path;
+        _editThumbnail!.isBackgroundBlurred = true;
       });
     }
   }

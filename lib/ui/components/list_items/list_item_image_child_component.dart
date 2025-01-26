@@ -11,6 +11,7 @@ class ListItemImageChildComponent extends StatelessWidget {
   final String? url;
   final BoxFit? fit;
   final double? scale;
+  final bool? isBackgroundBlurred;
   final Widget child;
   final IconData icon;
   final EdgeInsetsGeometry? margin;
@@ -26,7 +27,8 @@ class ListItemImageChildComponent extends StatelessWidget {
       this.icon = Icons.question_mark,
       this.endActionPane,
       this.margin,
-      this.slidableKey});
+      this.slidableKey,
+      this.isBackgroundBlurred = false});
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +40,13 @@ class ListItemImageChildComponent extends StatelessWidget {
       child: Row(
         children: [
           ImageInListItemComponent(
-              margin: const EdgeInsets.only(
-                  right: ListItemContainerComponent.standardPadding),
-              icon: icon,
-              url: url,
-              fit: fit,
-              scale: scale),
+            margin: const EdgeInsets.only(
+                right: ListItemContainerComponent.standardPadding),
+            icon: icon,
+            url: url,
+            fit: fit,
+            scale: scale,
+          ),
           Expanded(
             child: child,
           )

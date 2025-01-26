@@ -55,6 +55,8 @@ class _ListItemChallengeSmallComponentState
         endActionPane: endActionPane,
         onTap: widget.onTap,
         scale: widget.challenge.thumbnail?.scale ?? AppIconComponent.scale,
+        isBackgroundBlurred:
+            widget.challenge.thumbnail?.isBackgroundBlurred ?? false,
         fit: widget.challenge.thumbnail?.fit.fit,
         child: Row(
           children: [

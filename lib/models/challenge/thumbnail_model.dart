@@ -10,7 +10,14 @@ class ThumbnailModel {
   BoxFitEnum fit;
   static const String fitField = 'fit';
 
-  ThumbnailModel({this.url = '', double? scale, BoxFitEnum? fit})
+  bool isBackgroundBlurred;
+  static const String isBackgroundBlurredField = 'isBackgroundBlurred';
+
+  ThumbnailModel(
+      {this.url = '',
+      double? scale,
+      BoxFitEnum? fit,
+      this.isBackgroundBlurred = false})
       : fit = fit ?? BoxFitEnum.cover,
         scale = scale ?? 1.0;
 
@@ -19,6 +26,7 @@ class ThumbnailModel {
       url: doc[urlField],
       scale: doc[scaleField],
       fit: BoxFitEnum.fromString(doc[fitField]),
+      isBackgroundBlurred: doc[isBackgroundBlurredField] ?? false,
     );
   }
 
@@ -27,6 +35,7 @@ class ThumbnailModel {
       urlField: url,
       scaleField: scale,
       fitField: fit.string,
+      isBackgroundBlurredField: isBackgroundBlurred,
     };
   }
 
@@ -37,6 +46,10 @@ class ThumbnailModel {
   }
 
   copy() {
-    return ThumbnailModel(url: url, scale: scale, fit: fit);
+    return ThumbnailModel(
+        url: url,
+        scale: scale,
+        fit: fit,
+        isBackgroundBlurred: isBackgroundBlurred);
   }
 }

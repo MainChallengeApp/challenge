@@ -17,11 +17,13 @@ import 'package:provider/provider.dart';
 class EditUsernamePage extends StatefulWidget {
   final UserModel user;
   final bool isRegistration;
+  final bool isKeyBoardAutoFocus;
 
   const EditUsernamePage({
     super.key,
     required this.user,
     this.isRegistration = false,
+    this.isKeyBoardAutoFocus = true,
   });
 
   @override
@@ -76,7 +78,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                     },
                   ),
                 ],
-                autoFocus: true,
+                autoFocus: widget.isKeyBoardAutoFocus,
                 onChangeTextField: (value) {
                   setState(() {
                     _editUser.username = value;
@@ -178,8 +180,11 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
         context,
         NoAnimationPageRouteComponent(
             disableSwipeBack: true,
-            builder: (builder) =>
-                EditUsernamePage(user: _editUser, isRegistration: true)));
+            builder: (builder) => EditUsernamePage(
+                  user: _editUser,
+                  isRegistration: true,
+                  isKeyBoardAutoFocus: false,
+                )));
 
     Navigator.push(
         // ignore: use_build_context_synchronously

@@ -22,7 +22,7 @@ class ImageInListItemComponent extends StatelessWidget {
       this.fit,
       this.margin});
 
-  final mediaService = MediaService();
+  final _mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class ImageInListItemComponent extends StatelessWidget {
         child: ClipRRect(
             borderRadius: const BorderRadius.all(
                 Radius.circular(ListItemIconTextComponent.standardIconRadius)),
-            child: mediaService.getImage(context, url,
-                fit: fit, scale: scale, icon: icon)));
+            child: _mediaService.getImage(context, url,
+                fit: BoxFit.cover, scale: scale, icon: icon)));
   }
 }

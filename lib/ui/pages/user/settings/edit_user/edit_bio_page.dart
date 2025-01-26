@@ -1,7 +1,9 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
+import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/database_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -11,7 +13,6 @@ import 'package:challenge/ui/components/navigation/bottom_navigation_component.d
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EditBioPage extends StatefulWidget {
   final UserModel user;
@@ -28,15 +29,14 @@ class EditBioPage extends StatefulWidget {
 }
 
 class _EditBioPageState extends State<EditBioPage> {
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late UserModel editUser = widget.user.copy();
+  final _usersProvider = getIt<UsersProvider>();
+  final _tabProvider = getIt<TabProvider>();
+  late final UserModel _editUser = widget.user.copy();
 
-  bool isLoading = false;
-
-  final String _title = 'Edit Bio';
+  bool _isLoading = false;
 
   late final _bioTextEditingController = TextEditingController(
-    text: editUser.bio,
+    text: _editUser.bio,
   );
 
   @override
@@ -46,7 +46,7 @@ class _EditBioPageState extends State<EditBioPage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(title: _title),
+        appBar: const AppBarComponent(title: 'Edit Bio'),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
         body: Column(
@@ -60,7 +60,7 @@ class _EditBioPageState extends State<EditBioPage> {
               maxLength: DatabaseService.maxCharactersMedium,
               onChangeTextField: (value) {
                 setState(() {
-                  editUser.bio = value;
+                  _editUser.bio = value;
                 });
               },
               onSubmitted: (_) => _onTapSave(),
@@ -87,7 +87,7 @@ class _EditBioPageState extends State<EditBioPage> {
                           right: ListItemContainerComponent.standardMargin),
                       onTap: _onTapSave,
                       text: 'Save',
-                      isLoading: isLoading,
+                      isLoading: _isLoading,
                     ),
                   ),
                 ],
@@ -100,17 +100,17 @@ class _EditBioPageState extends State<EditBioPage> {
   }
 
   void _onTapSave() async {
-    if (isLoading) {
+    if (_isLoading) {
       return;
     }
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
-    await usersProvider.update(editUser);
+    await _usersProvider.update(_editUser);
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
 
     if (widget.isRegistration) {
@@ -132,5 +132,6 @@ class _EditBioPageState extends State<EditBioPage> {
 
   void _nextInRegistration() {
     Navigator.popUntil(context, (route) => route.isFirst);
+    _tabProvider.setBottomNavigationVisibility(true);
   }
 }

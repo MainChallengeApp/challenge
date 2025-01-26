@@ -72,9 +72,10 @@ class MediaService {
       String groupChallengeId, String url) async {
     try {
       String path =
-          '${GroupChallengesCollection.collectionName}/$groupChallengeId/thumbnail';
+          '${GroupChallengesCollection.collectionName}/$groupChallengeId/thumbnail.png';
 
-      String imageUrl = await storageService.uploadFile(File(url), path);
+      String imageUrl =
+          await storageService.uploadFile(File(url), path, compressed: false);
 
       return imageUrl;
     } on Exception {
@@ -137,7 +138,7 @@ class MediaService {
               ? Image.asset(url,
                   fit: fit ?? BoxFitEnum.cover.fit,
                   errorBuilder: (context, error, stackTrace) => Center(
-                        child: Icon(icon,
+                        child: Icon(icon ?? IconEnum.questionMark.icon,
                             color: Theme.of(context).colorScheme.tertiary),
                       ))
               : CachedNetworkImage(
@@ -145,7 +146,7 @@ class MediaService {
                   fit: fit ?? BoxFitEnum.cover.fit,
                   fadeInDuration: Duration.zero,
                   errorWidget: (context, url, error) => Center(
-                        child: Icon(icon,
+                        child: Icon(icon ?? IconEnum.questionMark.icon,
                             color: Theme.of(context).colorScheme.tertiary),
                       )),
     );
