@@ -3,7 +3,6 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/search/search_description_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
@@ -11,7 +10,6 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchChallengeCardComponent extends StatefulWidget {
@@ -84,7 +82,7 @@ class _SearchChallengeCardComponentState
   void _onTapSelect() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditChallengePage(
           challenge: widget.challenge,
           isSearchEdit: true,

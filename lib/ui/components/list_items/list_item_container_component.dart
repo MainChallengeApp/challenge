@@ -1,3 +1,4 @@
+import 'package:challenge/ui/animations/sliding_animation.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -140,6 +141,7 @@ class _ListItemContainerComponentState
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   Slidable.of(context2)?.close(duration: Durations.short4);
     // });
-    await Slidable.of(context2)?.close(duration: Durations.short4);
+    await Slidable.of(context2)
+        ?.close(duration: SlidingAnimation.slidingDuration);
   }
 }

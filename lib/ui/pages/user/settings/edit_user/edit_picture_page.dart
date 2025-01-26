@@ -10,7 +10,6 @@ import 'package:challenge/ui/components/list_items/list_item_container_component
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -180,7 +179,7 @@ class _EditPicturePageState extends State<EditPicturePage> {
   void nextInRegistration() {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
             builder: (builder) => EditBioPage(
                   user: editUser,
                   isRegistration: true,

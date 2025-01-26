@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 class TabNavigatorRoutes {
   static const String root = '/';
-  static const String detail = '/detail';
 }
 
 abstract class TabNavigatorComponent extends StatelessWidget {
@@ -11,8 +10,6 @@ abstract class TabNavigatorComponent extends StatelessWidget {
       {super.key, required this.navigatorKey, required this.tabItem});
   final GlobalKey<NavigatorState>? navigatorKey;
   final TabItemEnum tabItem;
-
-  void push(BuildContext context);
 
   Map<String, WidgetBuilder> routeBuilders(BuildContext context);
 

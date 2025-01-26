@@ -75,49 +75,49 @@ class _ListItemParticipantExpandedComponentState
   }
 
   _attemptDropDown() {
-    return Visibility(
-      visible: widget.participant.attempts.length > 1,
-      child: Column(
-        children: [
-          const SpaceComponent(),
-          CustomContainerComponent(
-            margin: const EdgeInsets.symmetric(
-                horizontal: SpaceComponent.standardWidth),
-            child: DropdownButton<AttemptModel>(
-              borderRadius: BorderRadius.circular(
-                  CustomContainerComponent.standardRadius),
-              isExpanded: true,
-              underline: Container(),
-              value: widget.participant.attempts.firstWhere(
-                  (attempt) => attempt.number == _selectedAttempt.number),
-              icon: Icon(IconEnum.arrowDown.icon,
-                  size: Theme.of(context).textTheme.titleLarge?.fontSize),
-              style: Theme.of(context).textTheme.textInputSmall,
-              hint: Text(
-                'Frequency',
-                style: Theme.of(context).textTheme.textInputHintSmall,
-              ),
-              onChanged: (AttemptModel? attempt) {
-                if (attempt == null) {
-                  return;
-                }
-                setState(() {
-                  _selectedAttempt = attempt;
-                });
-                widget.reloadSearchChallengePage.call(_selectedAttempt);
-              },
-              items: widget.participant.attempts.reversed.map((attempt) {
-                return DropdownMenuItem<AttemptModel>(
-                    value: attempt,
-                    child: Text(
-                      'Attempt ${attempt.number}',
-                      style: Theme.of(context).textTheme.textInputSmall,
-                    ));
-              }).toList(),
+    if (widget.participant.attempts.length <= 1) {
+      return const SizedBox();
+    }
+    return Column(
+      children: [
+        const SpaceComponent(),
+        CustomContainerComponent(
+          margin: const EdgeInsets.symmetric(
+              horizontal: SpaceComponent.standardWidth),
+          child: DropdownButton<AttemptModel>(
+            borderRadius:
+                BorderRadius.circular(CustomContainerComponent.standardRadius),
+            isExpanded: true,
+            underline: Container(),
+            value: widget.participant.attempts.firstWhere(
+                (attempt) => attempt.number == _selectedAttempt.number),
+            icon: Icon(IconEnum.arrowDown.icon,
+                size: Theme.of(context).textTheme.titleLarge?.fontSize),
+            style: Theme.of(context).textTheme.textInputSmall,
+            hint: Text(
+              'Frequency',
+              style: Theme.of(context).textTheme.textInputHintSmall,
             ),
+            onChanged: (AttemptModel? attempt) {
+              if (attempt == null) {
+                return;
+              }
+              setState(() {
+                _selectedAttempt = attempt;
+              });
+              widget.reloadSearchChallengePage.call(_selectedAttempt);
+            },
+            items: widget.participant.attempts.reversed.map((attempt) {
+              return DropdownMenuItem<AttemptModel>(
+                  value: attempt,
+                  child: Text(
+                    'Attempt ${attempt.number}',
+                    style: Theme.of(context).textTheme.textInputSmall,
+                  ));
+            }).toList(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

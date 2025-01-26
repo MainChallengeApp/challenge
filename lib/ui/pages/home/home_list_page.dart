@@ -10,7 +10,6 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_component
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/dialogs/delete_challenge_dialog.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
@@ -20,9 +19,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeListPage extends StatefulWidget {
-  const HomeListPage({super.key, required this.title, this.onPush});
+  const HomeListPage({super.key, required this.title});
   final String title;
-  final ValueChanged<ChallengeModel>? onPush;
 
   @override
   State<HomeListPage> createState() => _HomeListPageState();
@@ -158,7 +156,7 @@ class _HomeListPageState extends State<HomeListPage> {
       {required ChallengeModel challenge, required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => HomeChallengePage(
           initialChallengeId: challenge.id,
           filterOptions: _searchTextEditingController.text.trim(),
@@ -170,7 +168,7 @@ class _HomeListPageState extends State<HomeListPage> {
   _tapOnNewChallenge() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditChallengePage(
           challenge: ChallengeModel.empty(),
           isNewChallenge: true,
@@ -197,7 +195,7 @@ class _HomeListPageState extends State<HomeListPage> {
   _onTapEditChallenge(GroupChallengeModel groupChallenge) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditChallengePage(
           challenge: groupChallenge,
           isNewChallenge: false,

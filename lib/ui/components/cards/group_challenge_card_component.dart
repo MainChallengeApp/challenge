@@ -113,6 +113,7 @@ class _GroupChallengeCardComponentState
           icon: IconEnum.edit.icon,
           foregroundColor: Theme.of(context).colorScheme.tertiary,
           label: 'Edit',
+          duration: Durations.short1,
           onTap: _onTapEditChallenge),
     );
   }
@@ -299,7 +300,7 @@ class _GroupChallengeCardComponentState
   void _onTapOpenMediaPage() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => MediaListPage(
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
@@ -319,7 +320,7 @@ class _GroupChallengeCardComponentState
       // currentChallengeIndex = widget.challenges.indexOf(challenge);
       Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => EditChallengePage(
             challenge: _groupChallenge,
           ),
@@ -349,7 +350,7 @@ class _GroupChallengeCardComponentState
     }
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => RepetitionPage(
           groupChallenge: _groupChallenge,
           participant: _participant,
@@ -372,7 +373,7 @@ class _GroupChallengeCardComponentState
     Navigator.push(
       // ignore: use_build_context_synchronously
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => ProgressMediaListPage(
           repetition: _latestAttempt.getCurrentRepetition(_groupChallenge)!,
           initialMediaList: List.empty(growable: true),

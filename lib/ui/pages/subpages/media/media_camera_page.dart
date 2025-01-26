@@ -18,7 +18,6 @@ import 'package:challenge/ui/components/advanced_components/scaffold_component.d
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
@@ -446,7 +445,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
           _controller?.setFlashMode(FlashMode.off);
           Navigator.push(
             context,
-            NoAnimationPageRouteComponent(
+            MaterialPageRoute(
               builder: (context) => ProgressMediaListPage(
                 initialMediaList: _currentMedia,
                 attempt: widget.attempt,

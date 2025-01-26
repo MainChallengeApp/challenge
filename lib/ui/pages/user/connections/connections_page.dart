@@ -134,7 +134,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   void onTapOpenConnectionRequests() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const OpenRequestsPage(),
       ),
     );
@@ -143,7 +143,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   onTapUser(UserModel user) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => SearchUserPage(
           title: _title,
           initUserId: user.id,

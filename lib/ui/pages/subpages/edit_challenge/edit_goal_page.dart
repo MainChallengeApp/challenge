@@ -40,20 +40,35 @@ class _EditGoalPageState extends State<EditGoalPage> {
       TextEditingController(text: UtilService.doubleAsIntString(_editAmount));
 
   final _unitFocusNode = FocusNode();
+  final _amountFocusNode = FocusNode();
 
   List<Unit> unitsSingularPlural = Unit.getUnits();
+
+  bool _isUnitExpanded = false;
 
   @override
   initState() {
     super.initState();
     _unitFocusNode.addListener(() {
-      setState(() {});
+      setState(() {
+        if (_unitFocusNode.hasFocus) {
+          _isUnitExpanded = true;
+        }
+      });
+    });
+    _amountFocusNode.addListener(() {
+      setState(() {
+        if (_amountFocusNode.hasFocus) {
+          _isUnitExpanded = false;
+        }
+      });
     });
   }
 
   @override
   void dispose() {
     _unitFocusNode.dispose();
+    _amountFocusNode.dispose();
     super.dispose();
   }
 
@@ -62,6 +77,9 @@ class _EditGoalPageState extends State<EditGoalPage> {
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
+        setState(() {
+          _isUnitExpanded = false;
+        });
       },
       child: ScaffoldComponent(
         appBar: AppBarComponent(
@@ -121,12 +139,14 @@ class _EditGoalPageState extends State<EditGoalPage> {
             unit.plural.toLowerCase().contains(_editUnit.toLowerCase()) &&
                 _editAmount != 1)
         .toList();
+    filteredUnits =
+        filteredUnits.isEmpty ? List.from(unitsSingularPlural) : filteredUnits;
     filteredUnits.sort((a, b) => a.singular.compareTo(b.singular));
     return Expanded(
       child: Stack(
         children: [
           Visibility(
-            visible: _unitFocusNode.hasFocus && filteredUnits.isNotEmpty,
+            visible: _isUnitExpanded,
             child: Align(
               alignment: Alignment.topCenter,
               child: ListItemContainerComponent(
@@ -160,10 +180,18 @@ class _EditGoalPageState extends State<EditGoalPage> {
                 _editUnit = value;
               });
             },
-            onSubmitted: (_) => _onTapAccept(),
+            onSubmitted: (_) => _unitFocusNode.unfocus(),
             lableText: 'Unit',
             autoCorrection: false,
             removeActionIcon: true,
+            actionIcon: _isUnitExpanded
+                ? IconEnum.arrowUp.icon
+                : IconEnum.arrowDown.icon,
+            onTapActionIcon: () {
+              setState(() {
+                _isUnitExpanded = !_isUnitExpanded;
+              });
+            },
           ),
         ],
       ),
@@ -201,6 +229,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
         icon: IconEnum.numbers.icon,
         textEditingController: _amountTextEditingController,
         autoFocus: true,
+        focusNode: _amountFocusNode,
         keyboardType: const TextInputType.numberWithOptions(decimal: true),
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(RegExp(r'[0-9]+[,.]{0,1}[0-9]*')),

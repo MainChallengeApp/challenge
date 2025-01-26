@@ -1,3 +1,4 @@
+import 'package:challenge/ui/animations/sliding_animation.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class SliderComponent extends StatelessWidget {
       required this.icon,
       required this.label,
       this.foregroundColor,
-      this.duration = Duration.zero});
+      this.duration = SlidingAnimation.slidingDuration});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class SliderComponent extends StatelessWidget {
               SlidableAction(
                   onPressed: (context) {
                     Slidable.of(context)!.close(duration: duration);
-                    onTap?.call();
+                    Future.delayed(duration, () => {onTap?.call()});
                   },
                   borderRadius: BorderRadius.circular(
                       CardComponent.standardBorderRadius -

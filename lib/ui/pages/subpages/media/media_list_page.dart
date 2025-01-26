@@ -10,7 +10,6 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_component
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -120,7 +119,7 @@ class _MediaListPageState extends State<MediaListPage> {
   void _onTapMedia(BuildContext context, {required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
           builder: (context) => MediaDetailPage(
                 mediaList: widget.attempt.media
                     .where((element) => element.title.contains(searchBarText))

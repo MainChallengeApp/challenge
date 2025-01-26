@@ -5,7 +5,6 @@ import 'package:challenge/ui/components/advanced_components/scaffold_component.d
 import 'package:challenge/ui/components/list_items/list_item_participant_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:flutter/material.dart';
@@ -90,8 +89,7 @@ class _RankingPageState extends State<RankingPage> {
   }
 
   _onTapParticipant(ParticipantModel participant) {
-    Navigator.of(context)
-        .push(NoAnimationPageRouteComponent(builder: (context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return RepetitionPage(
           attempt: participant.getLatestAttempt(),
           groupChallenge: _groupChallenge,

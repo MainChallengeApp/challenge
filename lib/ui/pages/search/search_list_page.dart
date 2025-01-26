@@ -20,7 +20,6 @@ import 'package:challenge/ui/components/list_items/list_item_user_component.dart
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/search/search_all_page.dart';
 import 'package:challenge/ui/pages/search/search_user_page.dart';
@@ -338,7 +337,7 @@ class _SearchListPageState extends State<SearchListPage> {
   onTapChallenge({required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => SearchChallengePage(
           initChallengeIndex: index,
           searchText: _textEditingController.text,
@@ -353,7 +352,7 @@ class _SearchListPageState extends State<SearchListPage> {
   _onTapAllEntry({required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => SearchAllPage(
           initialIndex: index,
           searchText: _textEditingController.text,
@@ -385,7 +384,7 @@ class _SearchListPageState extends State<SearchListPage> {
   onTapUser({required UserModel user, required int index}) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => SearchUserPage(
           getUsersList: () => searchedUsers,
           initUserId: user.id,
@@ -400,7 +399,7 @@ class _SearchListPageState extends State<SearchListPage> {
   onTapNewChallenge() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditChallengePage(
           challenge: ChallengeModel.empty(title: _textEditingController.text),
           isNewChallenge: true,

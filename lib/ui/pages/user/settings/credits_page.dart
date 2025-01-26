@@ -11,7 +11,6 @@ class CreditsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScaffoldComponent(
       appBar: AppBarComponent(title: _title),
-      isBottomNavigationVisible: false,
       body: const Center(
         child: Text(
           'My Mom\n\n\nYou\n\n\nChallenge Icons made by Freepik from www.flaticon.com',

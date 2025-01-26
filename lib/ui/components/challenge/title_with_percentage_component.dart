@@ -5,7 +5,6 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
 import 'package:challenge/ui/pages/home/ranking_page.dart';
@@ -70,7 +69,7 @@ class _TitleWithPercentageComponentState
   void onTapGroupChallengeIcon() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) =>
             RankingPage(groupChallenge: widget.groupChallenge),
       ),
@@ -85,7 +84,7 @@ class _TitleWithPercentageComponentState
   void onTapChallengePercentage() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => RepetitionPage(
           groupChallenge: widget.groupChallenge,
           attempt: widget.attempt,

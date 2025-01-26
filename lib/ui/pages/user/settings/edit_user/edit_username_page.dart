@@ -184,7 +184,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
     Navigator.push(
         // ignore: use_build_context_synchronously
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
             builder: (builder) =>
                 const EditNotificationPage(isRegistration: true)));
     return;

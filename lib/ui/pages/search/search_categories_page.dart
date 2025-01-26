@@ -185,7 +185,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   void onTapCategory(List<ChallengeCategoryEnum> categories, String title) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => SearchListPage(
           title: title,
           categories: categories,
@@ -198,7 +198,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   void onTapRandom() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const SearchChallengePage(
           title: 'Shuffle',
           initChallengeIndex: 0,
@@ -213,7 +213,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   onTapNewChallenge() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditChallengePage(
           challenge: ChallengeModel.empty(),
           isNewChallenge: true,

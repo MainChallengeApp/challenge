@@ -7,7 +7,6 @@ import 'package:challenge/ui/components/list_items/list_item_info_component.dart
 import 'package:challenge/ui/components/list_items/list_item_notification_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/user/notifications/notifications_card_page.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +76,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
   }
 
   void onTapNotification(String notificationId) {
-    Navigator.push(context,
-        NoAnimationPageRouteComponent(builder: (BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return NotificationsCardPage(initialNotificationId: notificationId);
     }));
   }

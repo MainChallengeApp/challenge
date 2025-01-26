@@ -1,6 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
-import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
@@ -11,7 +10,6 @@ import 'package:challenge/ui/components/advanced_components/scaffold_component.d
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -29,9 +27,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserPage extends StatefulWidget {
-  const UserPage({super.key, required this.title, this.onPush});
+  const UserPage({super.key, required this.title});
   final String title;
-  final ValueChanged<ChallengeModel>? onPush;
 
   @override
   State<UserPage> createState() => _UserPageState();
@@ -204,7 +201,7 @@ class _UserPageState extends State<UserPage> {
   onTapPicture() {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => EditPicturePage(
             user: user,
           ),
@@ -219,7 +216,7 @@ class _UserPageState extends State<UserPage> {
   onTapUsername() {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => EditUsernamePage(
             user: user,
           ),
@@ -234,7 +231,7 @@ class _UserPageState extends State<UserPage> {
   onTapConnections() {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => const ConnectionsPage(),
         ));
   }
@@ -242,7 +239,7 @@ class _UserPageState extends State<UserPage> {
   void onTapNotifications() {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => const NotificationsListPage(),
         ));
   }
@@ -250,7 +247,7 @@ class _UserPageState extends State<UserPage> {
   void onTapSettings(UserModel user) {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => SettingsPage(
             user: user,
           ),
@@ -269,7 +266,7 @@ class _UserPageState extends State<UserPage> {
   void onTapBio() {
     Navigator.push(
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
           builder: (context) => EditBioPage(
             user: user,
           ),

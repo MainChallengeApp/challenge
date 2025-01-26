@@ -6,7 +6,6 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/switch_component.dart';
@@ -168,7 +167,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
     Navigator.push(
         // ignore: use_build_context_synchronously
         context,
-        NoAnimationPageRouteComponent(
+        MaterialPageRoute(
             builder: (builder) => EditPicturePage(
                 user: _usersProvider.user, isRegistration: true))).then((_) {
       setState(() {

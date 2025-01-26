@@ -11,7 +11,6 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_child_com
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/blocked_users_page.dart';
@@ -163,7 +162,7 @@ class _SettingsPageState extends State<SettingsPage> {
   onTapCredits() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const CreditsPage(),
       ),
     ).then((_) {
@@ -177,7 +176,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void onTapEdit() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const EditUserPage(),
       ),
     ).then((_) {
@@ -191,7 +190,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void onTapDeleteUser() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const DeleteUserPage(),
       ),
     ).then((_) {
@@ -205,7 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void onTapBlockedUsers() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const BlockedUsersPage(),
       ),
     );
@@ -214,7 +213,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void onTapNotifications() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => const EditNotificationPage(),
       ),
     ).then((_) {

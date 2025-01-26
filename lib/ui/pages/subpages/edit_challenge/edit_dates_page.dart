@@ -14,8 +14,11 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_container_text_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,13 +37,18 @@ class EditDatesPage extends StatefulWidget {
 class _EditDatesPageState extends State<EditDatesPage> {
   late final ChallengeModel _editChallenge = widget.challenge.copy();
   bool _isOnStart = true;
+  bool _isOnTime = false;
   bool _isDatePickExpanded = true;
+  late bool _isDateWithTime = _setDateWithTime();
   late final bool _isAmountVisible =
       _editChallenge.frequency.type == FrequencyTypeEnum.daily;
 
   late final TextEditingController _amountTextEditingController =
       TextEditingController(text: _editChallenge.frequency.amount?.toString());
   final FocusNode _amountFocusNode = FocusNode();
+
+  final GlobalKey _datePickerKey = GlobalKey();
+  late final double _datePickerHeight = _getDatePickerHeight();
 
   @override
   initState() {
@@ -62,6 +70,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   @override
   Widget build(BuildContext context) {
+    _setDateWithTime();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -84,7 +93,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _amount(),
-                  _datePickerContainer(),
+                  _pickerContainer(),
                 ],
               ),
             ),
@@ -95,7 +104,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
     );
   }
 
-  Widget _datePickerContainer() {
+  Widget _pickerContainer() {
     return SpaceColumnComponent(
       child: ListItemContainerComponent(
         padding: EdgeInsets.zero,
@@ -103,37 +112,64 @@ class _EditDatesPageState extends State<EditDatesPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_dates(), _datePicker(), _resetButton()],
+          children: [_dates(), _picker(), _time(), _resetButton()],
         ),
       ),
     );
   }
 
-  Widget _datePicker() {
+  _picker() {
     return Visibility(
-      visible: _isDatePickExpanded,
-      child: CalendarDatePicker2(
-        config: CalendarDatePicker2Config(
-          currentDate: TimeService.now(),
-          allowSameValueSelection: true,
-          firstDate: _getFirstDate(),
-          lastDate: _getLastDate(),
-          calendarType: CalendarDatePicker2Type.range,
-          daySplashColor: Theme.of(context).colorScheme.primary,
-          monthViewController: ScrollController(),
-          centerAlignModePicker: true,
-          hideMonthPickerDividers: true,
-          hideYearPickerDividers: true,
-          firstDayOfWeek: 1,
-        ),
-        value: [
-          _getStartDate() == null && _getEndDate() != null
-              ? _getEndDate()
-              : _getStartDate(),
-          _getEndDate()
-        ],
-        onValueChanged: _onValueChanged,
+        visible: _isDatePickExpanded,
+        child: _isOnTime ? _timePicker() : _datePicker());
+  }
+
+  _timePicker() {
+    return SizedBox(
+      height: _datePickerHeight,
+      child: CupertinoDatePicker(
+        key: ValueKey(_isOnStart),
+        mode: CupertinoDatePickerMode.time,
+        use24hFormat: true,
+        maximumDate: _getLastDate(),
+        minimumDate: _getFirstDate(),
+        initialDateTime: _isOnStart
+            ? _getStartDate() ?? TimeService.now()
+            : _getEndDate() ?? TimeService.now(),
+        onDateTimeChanged: (DateTime newDateTime) {
+          if (_isOnStart) {
+            _setStartDate(newDateTime);
+          } else {
+            _setEndDate(newDateTime);
+          }
+        },
       ),
+    );
+  }
+
+  Widget _datePicker() {
+    return CalendarDatePicker2(
+      key: _datePickerKey,
+      config: CalendarDatePicker2Config(
+        currentDate: TimeService.now(),
+        allowSameValueSelection: true,
+        firstDate: _getFirstDate(),
+        lastDate: _getLastDate(),
+        calendarType: CalendarDatePicker2Type.range,
+        daySplashColor: Theme.of(context).colorScheme.primary,
+        monthViewController: ScrollController(),
+        centerAlignModePicker: true,
+        hideMonthPickerDividers: true,
+        hideYearPickerDividers: true,
+        firstDayOfWeek: 1,
+      ),
+      value: [
+        _getStartDate() == null && _getEndDate() != null
+            ? _getEndDate()
+            : _getStartDate(),
+        _getEndDate()
+      ],
+      onValueChanged: _onValueChanged,
     );
   }
 
@@ -188,16 +224,35 @@ class _EditDatesPageState extends State<EditDatesPage> {
                           : Theme.of(context).colorScheme.tertiary,
                     ),
               ),
-              Text(
-                UtilService.dateFormat(
-                    isStart ? _getStartDate() : _getEndDate()),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: _isDatePickExpanded
-                          ? isStart == _isOnStart
-                              ? Theme.of(context).colorScheme.onSurface
-                              : Theme.of(context).colorScheme.tertiary
-                          : Theme.of(context).colorScheme.onSurface,
-                    ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    UtilService.dateFormat(
+                        isStart ? _getStartDate() : _getEndDate()),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: _isDatePickExpanded
+                              ? isStart == _isOnStart
+                                  ? Theme.of(context).colorScheme.onSurface
+                                  : Theme.of(context).colorScheme.tertiary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
+                  ),
+                  Text(
+                    _isDateWithTime
+                        ? UtilService.timeFormat(
+                            isStart ? _getStartDate() : _getEndDate())
+                        : ' ', // to prevent jumping
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: _isDatePickExpanded
+                              ? isStart == _isOnStart
+                                  ? Theme.of(context).colorScheme.onSurface
+                                  : Theme.of(context).colorScheme.tertiary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -376,5 +431,60 @@ class _EditDatesPageState extends State<EditDatesPage> {
     _editChallenge.setFrequencyAmount();
     _amountTextEditingController.text =
         _editChallenge.frequency.amount?.toString() ?? '';
+  }
+
+  _time() {
+    return Visibility(
+      visible: _isDatePickExpanded,
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              _isOnTime = !_isOnTime;
+            });
+          },
+          child: SizedBox(
+            height: SmallContainerInListItemComponent.height,
+            child: Visibility(
+              visible: _isOnStart && _getStartDate() != null ||
+                  !_isOnStart && _getEndDate() != null,
+              child: SmallContainerInContainerTextComponent(
+                text: _isOnTime
+                    ? _isOnStart
+                        ? UtilService.dateFormat(_getStartDate())
+                        : UtilService.dateFormat(_getEndDate())
+                    : _isOnStart
+                        ? UtilService.timeFormat(_getStartDate())
+                        : UtilService.timeFormat(_getEndDate()),
+                margin:
+                    const EdgeInsets.only(right: CardComponent.standardPadding),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // To get the height
+  double _getDatePickerHeight() {
+    final RenderBox renderBox =
+        _datePickerKey.currentContext?.findRenderObject() as RenderBox;
+    return renderBox.size.height;
+  }
+
+  _setDateWithTime() {
+    _isDateWithTime = _getStartDate() != null &&
+            _getStartDate()!
+                    .difference(UtilService.dateWithoutTime(_getStartDate()!))
+                    .inSeconds !=
+                0 ||
+        _getEndDate() != null &&
+            _getEndDate()!
+                    .difference(UtilService.dateWithoutTime(_getEndDate()!))
+                    .inSeconds !=
+                0;
+    return _isDateWithTime;
   }
 }

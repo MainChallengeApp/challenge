@@ -608,7 +608,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   onTapAddParticipants() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => AddParticipantsPage(
           participants: _editParticipants,
         ),
@@ -746,7 +746,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void _onTapTitle() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditTitlePage(
           challenge: _editChallenge,
         ),
@@ -759,7 +759,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void _onTapDescription() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditDescriptionPage(
           challenge: _editChallenge,
         ),
@@ -772,7 +772,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void _onTapGoal() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditGoalPage(
           challenge: _editChallenge,
         ),
@@ -785,7 +785,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void _onTapRepetitions() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditFrequencyPage(
           challenge: _editChallenge,
         ),
@@ -798,7 +798,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   void _onTapDates() {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => EditDatesPage(
           challenge: _editChallenge,
         ),

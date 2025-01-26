@@ -20,7 +20,6 @@ import 'package:challenge/ui/components/list_items/list_item_repetition_expanded
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/link_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -101,8 +100,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
         (participant) => participant.user.id == widget.participant.user.id,
         orElse: () => widget.participant);
 
-    _attempt = _participant.attempts
-        .firstWhere((attempt) => attempt.number == _attempt.number);
+    _attempt = _participant.attempts.firstWhere(
+        (attempt) => attempt.number == _attempt.number,
+        orElse: () => widget.attempt);
 
     _visibleRepetitions = calcVisibleRepetitions();
 
@@ -255,7 +255,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   onTapProgress(RepetitionModel repetition, ProgressModel progress) {
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => ProgressMediaListPage(
           initialMediaList: _attempt.media
               .where((element) => progress.mediaIds.contains(element.id))
@@ -290,7 +290,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
-      NoAnimationPageRouteComponent(
+      MaterialPageRoute(
         builder: (context) => ProgressMediaListPage(
           repetition: repetition,
           initialMediaList: List.empty(growable: true),
