@@ -26,9 +26,9 @@ class EditDatesPage extends StatefulWidget {
   final ChallengeModel challenge;
 
   const EditDatesPage({
-    Key? key,
+    super.key,
     required this.challenge,
-  }) : super(key: key);
+  });
 
   @override
   State<EditDatesPage> createState() => _EditDatesPageState();
@@ -39,7 +39,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
   bool _isOnStart = true;
   bool _isOnTime = false;
   bool _isDatePickExpanded = true;
-  late bool _isDateWithTime = _setDateWithTime();
+  late bool _isDateWithTime = _setIsDateWithTime();
   late final bool _isAmountVisible =
       _editChallenge.frequency.type == FrequencyTypeEnum.daily;
 
@@ -49,6 +49,8 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   final GlobalKey _datePickerKey = GlobalKey();
   late final double _datePickerHeight = _getDatePickerHeight();
+
+  bool _shouldRecreatePicker = false;
 
   @override
   initState() {
@@ -70,7 +72,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   @override
   Widget build(BuildContext context) {
-    _setDateWithTime();
+    _setIsDateWithTime();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -125,25 +127,30 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   _timePicker() {
+    if (_shouldRecreatePicker) {
+      Future.microtask(() => setState(() => _shouldRecreatePicker = false));
+    }
     return SizedBox(
       height: _datePickerHeight,
-      child: CupertinoDatePicker(
-        key: ValueKey(_isOnStart),
-        mode: CupertinoDatePickerMode.time,
-        use24hFormat: true,
-        maximumDate: _getLastDate(),
-        minimumDate: _getFirstDate(),
-        initialDateTime: _isOnStart
-            ? _getStartDate() ?? TimeService.now()
-            : _getEndDate() ?? TimeService.now(),
-        onDateTimeChanged: (DateTime newDateTime) {
-          if (_isOnStart) {
-            _setStartDate(newDateTime);
-          } else {
-            _setEndDate(newDateTime);
-          }
-        },
-      ),
+      child: _shouldRecreatePicker
+          ? Container()
+          : CupertinoDatePicker(
+              key: ValueKey(_isOnStart),
+              mode: CupertinoDatePickerMode.time,
+              use24hFormat: true,
+              maximumDate: _isOnStart ? _getEndDate() : null,
+              minimumDate: _isOnStart ? null : _getStartDate(),
+              initialDateTime: _isOnStart
+                  ? _getStartDate() ?? TimeService.now()
+                  : _getEndDate() ?? TimeService.now(),
+              onDateTimeChanged: (DateTime newDateTime) {
+                if (_isOnStart) {
+                  _setStartDate(newDateTime);
+                } else {
+                  _setEndDate(newDateTime);
+                }
+              },
+            ),
     );
   }
 
@@ -202,6 +209,11 @@ class _EditDatesPageState extends State<EditDatesPage> {
             _isOnStart = isStart;
             _isDatePickExpanded = true;
             _amountFocusNode.unfocus();
+            if (isStart && _getStartDate() == null) {
+              _isOnTime = false;
+            } else if (!isStart && _getEndDate() == null) {
+              _isOnTime = false;
+            }
           });
         },
         child: Container(
@@ -265,23 +277,42 @@ class _EditDatesPageState extends State<EditDatesPage> {
     return Visibility(
       visible: _isDatePickExpanded,
       child: CustomButtonComponent(
-        onTap: () {
-          setState(() {
-            if (_isOnStart) {
-              _setStartDate(null);
-            } else {
-              _setEndDate(null);
-            }
-            if (_editChallenge.frequency.type == FrequencyTypeEnum.daily) {
-              _editChallenge.frequency.amount = null;
-              _amountTextEditingController.text = '';
-            }
-          });
-        },
+        onTap: _onTapReset,
         text: 'Reset',
         margin: const EdgeInsets.all(CardComponent.standardPadding),
       ),
     );
+  }
+
+  void _onTapReset() {
+    setState(() {
+      if (_isOnTime) {
+        if (_editChallenge.frequency.type == FrequencyTypeEnum.daily) {
+          _setStartDate(_getStartDate() != null
+              ? UtilService.dateWithoutTime(_getStartDate()!)
+              : null);
+          _setEndDate(_getEndDate() != null
+              ? UtilService.dateWithoutTime(_getEndDate()!)
+              : null);
+        } else if (_isOnStart && _getStartDate() != null) {
+          _setStartDate(UtilService.dateWithoutTime(_getStartDate()!));
+        } else if (!_isOnStart && _getEndDate() != null) {
+          _setEndDate(UtilService.dateWithoutTime(_getEndDate()!));
+        }
+        _shouldRecreatePicker = true;
+        return;
+      }
+
+      if (_isOnStart) {
+        _setStartDate(null);
+      } else {
+        _setEndDate(null);
+      }
+      if (_editChallenge.frequency.type == FrequencyTypeEnum.daily) {
+        _editChallenge.frequency.amount = null;
+        _amountTextEditingController.text = '';
+      }
+    });
   }
 
   SpaceColumnComponent _actionButtons() {
@@ -474,7 +505,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
     return renderBox.size.height;
   }
 
-  _setDateWithTime() {
+  _setIsDateWithTime() {
     _isDateWithTime = _getStartDate() != null &&
             _getStartDate()!
                     .difference(UtilService.dateWithoutTime(_getStartDate()!))
@@ -485,6 +516,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
                     .difference(UtilService.dateWithoutTime(_getEndDate()!))
                     .inSeconds !=
                 0;
+    _isDateWithTime = _isDateWithTime || _isOnTime;
     return _isDateWithTime;
   }
 }

@@ -740,7 +740,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                         UtilService.dateWithoutTime(_editChallenge.endDate!))
                     .inSeconds !=
                 0;
-    return '${UtilService.dateFormat(date)}${dateWithTime ? ',' : ''} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
+    return '${UtilService.dateFormat(date)}${dateWithTime && date != null ? ',' : ''} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
   }
 
   void _onTapTitle() {
