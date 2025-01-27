@@ -39,7 +39,7 @@ class ListItemIconTextTextComponent extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                text2,
+                text2.replaceAll('\n', ' '),
                 style: Theme.of(context).textTheme.titleMediaNormalTertiary,
                 textAlign: TextAlign.end,
                 overflow: TextOverflow.ellipsis,

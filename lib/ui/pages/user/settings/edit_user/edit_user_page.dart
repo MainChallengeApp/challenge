@@ -87,7 +87,7 @@ class _EditUserPageState extends State<EditUserPage> {
                 icon: IconEnum.bio.icon,
                 onTap: _onTapBio,
                 text: 'Bio',
-                text2: _user.bio?.replaceAll('\n', ' ') ?? ''),
+                text2: _user.bio ?? ''),
           ),
         ],
       ),
