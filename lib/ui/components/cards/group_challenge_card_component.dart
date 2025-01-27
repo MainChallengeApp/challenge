@@ -191,7 +191,6 @@ class _GroupChallengeCardComponentState
             child: StartAndEndDateComponent.attempt(
               editAttempt: _latestAttempt,
               groupChallenge: _groupChallenge,
-              isLocked: true,
             ),
           );
   }

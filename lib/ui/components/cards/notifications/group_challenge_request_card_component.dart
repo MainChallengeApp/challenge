@@ -63,7 +63,6 @@ class _GroupChallengeRequestCardComponentState
               child: StartAndEndDateComponent.challenge(
                 editChallenge:
                     widget.groupChallengeRequestNotification.groupChallenge,
-                isLocked: true,
               ),
             )),
         Visibility(
