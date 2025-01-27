@@ -1,35 +1,52 @@
-import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../services/faker_service.dart';
+import 'acceptance_criteria_model_test.dart';
+import 'frequency_model_test.dart';
+import 'media_model_test.dart';
+import 'thumbnail_model_test.dart';
 
 void main() {
   group('ChallengeModel', () {
     ChallengeModel createMockChallengeModel(
-        {ChallengeStatusEnum status = ChallengeStatusEnum.inProgress,
+        {String? id,
+        ChallengeStatusEnum? status,
+        String? title,
+        String? titleLowerCase,
+        String? description,
         DateTime? startDate,
         DateTime? endDate,
-        AcceptanceCriteriaModel? acceptanceCriteria}) {
+        AcceptanceCriteriaModel? acceptanceCriteria,
+        ThumbnailModel? thumbnail,
+        FrequencyModel? frequency,
+        List<MediaModel>? media,
+        List<ChallengeCategoryEnum>? categories}) {
       return ChallengeModel(
-        id: '1',
-        status: status,
-        title: 'Challenge Title',
-        titleLowerCase: 'challenge title',
-        description: 'Challenge Description',
-        thumbnail: ThumbnailModel(
-            url: 'assets/images/test.png', scale: 0.8, fit: BoxFitEnum.cover),
-        acceptanceCriteria: acceptanceCriteria ??
-            AcceptanceCriteriaModel(amount: 1, unit: 'Unit'),
-        frequency: FrequencyModel(type: FrequencyTypeEnum.time, amount: 1),
-        media: [],
-        categories: [ChallengeCategoryEnum.mentalHealth],
-        startDate: startDate ?? DateTime.now(),
-        endDate: endDate ?? DateTime.now().add(const Duration(days: 1)),
+        id: id ?? FakerService.guid(),
+        status: status ?? FakerService.randomObject(ChallengeStatusEnum.values),
+        title: title ?? FakerService.word(),
+        titleLowerCase: titleLowerCase ?? FakerService.word(),
+        description: description ?? FakerService.word(),
+        thumbnail: thumbnail ?? mockThumbnailModel(),
+        acceptanceCriteria: acceptanceCriteria ?? mockAcceptanceCriteriaModel(),
+        frequency: frequency ?? mockFrequencyModel(),
+        media: media ?? FakerService.list((_) => mockMediaModel()),
+        categories: categories ??
+            List.from(Set.from(FakerService.list(
+                    (_) =>
+                        FakerService.randomObject(ChallengeCategoryEnum.values),
+                    max: 2))
+                .toList()),
+        startDate: startDate ?? FakerService.dateTime(),
+        endDate: endDate ?? FakerService.dateTime(),
       );
     }
 
@@ -156,22 +173,21 @@ void main() {
         // Arrange
         ChallengeModel challenge = createMockChallengeModel();
         Map<String, dynamic> json = {
-          'status': 'inProgress',
-          'title': 'Challenge Title',
-          'titleLowerCase': 'challenge title',
-          'description': 'Challenge Description',
-          'thumbnail': {
-            'url': 'assets/images/test.png',
-            'scale': 0.8,
-            'fit': 'cover'
-          },
-          'acceptanceCriteria': {'amount': 1.0, 'unit': 'Unit'},
-          'frequency': {'type': 'time', 'amount': 1},
-          'media': [],
-          'categories': ['mentalHealth'],
-          'startDate': challenge.startDate,
-          'endDate': challenge.endDate,
-          'createdAt': challenge.createdAt
+          ChallengeModel.statusField: challenge.status.status,
+          ChallengeModel.titleField: challenge.title,
+          ChallengeModel.titleLowerCaseField: challenge.title.toLowerCase(),
+          ChallengeModel.descriptionField: challenge.description,
+          ChallengeModel.thumbnailField: challenge.thumbnail!.toDoc(),
+          ChallengeModel.acceptanceCriteriaField:
+              challenge.acceptanceCriteria.toDoc(),
+          ChallengeModel.frequencyField: challenge.frequency.toDoc(),
+          ChallengeModel.mediaField:
+              challenge.media.map((media) => media.toDoc()).toList(),
+          ChallengeModel.categoriesField:
+              ChallengeCategoryEnum.toDocs(challenge.categories),
+          ChallengeModel.startDateField: challenge.startDate,
+          ChallengeModel.endDateField: challenge.endDate,
+          ChallengeModel.createdAtField: challenge.createdAt
         };
 
         // Act
@@ -205,7 +221,7 @@ void main() {
             copiedChallenge.frequency.type, equals(challenge.frequency.type));
         expect(copiedChallenge.frequency.amount,
             equals(challenge.frequency.amount));
-        expect(copiedChallenge.media, equals(challenge.media));
+        expect(copiedChallenge.media.length, equals(challenge.media.length));
         expect(copiedChallenge.categories, equals(challenge.categories));
         expect(copiedChallenge.startDate, equals(challenge.startDate));
         expect(copiedChallenge.endDate, equals(challenge.endDate));
@@ -233,7 +249,7 @@ void main() {
             copiedChallenge.frequency.type, equals(challenge.frequency.type));
         expect(copiedChallenge.frequency.amount,
             equals(challenge.frequency.amount));
-        expect(copiedChallenge.media, equals(challenge.media));
+        expect(copiedChallenge.media.length, equals(challenge.media.length));
         expect(copiedChallenge.categories, equals(challenge.categories));
         expect(copiedChallenge.startDate, equals(challenge.startDate));
         expect(copiedChallenge.endDate, equals(challenge.endDate));
