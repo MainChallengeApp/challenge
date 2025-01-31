@@ -30,7 +30,9 @@ class _ChallengeTotalPercentageComponentState
             horizontal: ContainerInContainerComponent.standardPaddingSmall),
         height: SmallContainerInListItemComponent.height,
         border: Border.all(
-            color: Theme.of(context).colorScheme.surface, width: 0.5),
+            color: Theme.of(context).colorScheme.surface,
+            width: 0.5,
+            strokeAlign: BorderSide.strokeAlignOutside),
         color: (widget.attempt.isFailed()
             ? Theme.of(context).colorScheme.red
             : widget.attempt.isSucceeded()

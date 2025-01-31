@@ -22,6 +22,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final bool isHeightDynamic;
   final double? borderSize;
   final Key? slidableKey;
+  final bool? isEnabled;
 
   const ListItemContainerComponent(
       {super.key,
@@ -37,7 +38,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.onTapColor,
       this.isHeightDynamic = false,
       this.borderSize,
-      this.slidableKey});
+      this.slidableKey,
+      this.isEnabled = true});
 
   @override
   State<ListItemContainerComponent> createState() =>
@@ -52,40 +54,50 @@ class _ListItemContainerComponentState
 
   @override
   Widget build(BuildContext context) {
+    bool isEnabled = widget.isEnabled ?? true;
     return Slidable(
       key: widget.slidableKey,
-      endActionPane: widget.endActionPane?.call(closeSlidable),
+      endActionPane:
+          isEnabled ? widget.endActionPane?.call(closeSlidable) : null,
       child: Builder(builder: (context) {
         context2 = context;
         return GestureDetector(
-          onTap: () {
-            setState(() {
-              isTapVisible = true;
-            });
-            widget.onTap?.call();
-            Future.delayed(const Duration(milliseconds: 100), () {
-              if (mounted) {
-                setState(() {
-                  isTapVisible = false;
-                });
-              }
-            });
-          },
-          onTapDown: (details) {
-            setState(() {
-              isTapVisible = true;
-            });
-          },
-          onTapUp: (details) {
-            setState(() {
-              isTapVisible = false;
-            });
-          },
-          onTapCancel: () {
-            setState(() {
-              isTapVisible = false;
-            });
-          },
+          onTap: isEnabled
+              ? () {
+                  setState(() {
+                    isTapVisible = true;
+                  });
+                  widget.onTap?.call();
+                  Future.delayed(const Duration(milliseconds: 100), () {
+                    if (mounted) {
+                      setState(() {
+                        isTapVisible = false;
+                      });
+                    }
+                  });
+                }
+              : null,
+          onTapDown: isEnabled
+              ? (details) {
+                  setState(() {
+                    isTapVisible = true;
+                  });
+                }
+              : null,
+          onTapUp: isEnabled
+              ? (details) {
+                  setState(() {
+                    isTapVisible = false;
+                  });
+                }
+              : null,
+          onTapCancel: isEnabled
+              ? () {
+                  setState(() {
+                    isTapVisible = false;
+                  });
+                }
+              : null,
           onHorizontalDragUpdate: widget.onHorizontalDragUpdate,
           child: Stack(
             children: [
@@ -113,7 +125,7 @@ class _ListItemContainerComponentState
                 child: widget.child,
               ),
               Visibility(
-                visible: widget.onTap != null && isTapVisible,
+                visible: widget.onTap != null && isTapVisible || !isEnabled,
                 child: Positioned.fill(
                   child: Container(
                     width: double.infinity,

@@ -14,6 +14,7 @@ class ListItemIconTextChildComponent extends StatefulWidget {
   final String text;
   final int flex;
   final String? labelText;
+  final bool? isEnabled;
 
   const ListItemIconTextChildComponent(
       {super.key,
@@ -25,7 +26,8 @@ class ListItemIconTextChildComponent extends StatefulWidget {
       this.margin,
       this.padding,
       this.flex = 1,
-      this.labelText});
+      this.labelText,
+      this.isEnabled});
 
   @override
   State<ListItemIconTextChildComponent> createState() =>
@@ -39,6 +41,7 @@ class _ListItemIconTextChildComponentState
     return Stack(
       children: [
         ListItemIconChildComponent(
+            isEnabled: widget.isEnabled,
             icon: widget.icon,
             onTap: widget.onTap,
             margin: widget.margin,

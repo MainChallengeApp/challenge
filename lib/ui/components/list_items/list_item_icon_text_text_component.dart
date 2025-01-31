@@ -4,6 +4,14 @@ import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class ListItemIconTextTextComponent extends StatelessWidget {
+  final void Function()? onTap;
+  final IconData icon;
+  final Color? iconColor;
+  final EdgeInsetsGeometry? margin;
+  final String text;
+  final String text2;
+  final bool? isEnabled;
+
   const ListItemIconTextTextComponent(
       {super.key,
       this.onTap,
@@ -11,19 +19,13 @@ class ListItemIconTextTextComponent extends StatelessWidget {
       required this.text,
       this.iconColor,
       this.margin,
-      required this.text2});
-
-  final void Function()? onTap;
-
-  final IconData icon;
-  final Color? iconColor;
-  final EdgeInsetsGeometry? margin;
-  final String text;
-  final String text2;
+      required this.text2,
+      this.isEnabled});
 
   @override
   Widget build(BuildContext context) {
     return ListItemIconChildComponent(
+        isEnabled: isEnabled,
         icon: icon,
         onTap: onTap,
         margin: margin,

@@ -401,7 +401,7 @@ class AttemptModel {
     startDate = TimeService.now();
     if (getEndDate(groupChallenge) == null ||
         getFrequency(groupChallenge).amount != null) {
-      setEndDate(groupChallenge);
+      calcEndDate(groupChallenge);
     } else {
       setFrequencyAmount(groupChallenge);
     }
@@ -414,7 +414,7 @@ class AttemptModel {
     currentRepetition.start();
   }
 
-  setStartDate(GroupChallengeModel groupChallenge) {
+  calcStartDate(GroupChallengeModel groupChallenge) {
     DateTime? endDate = getEndDate(groupChallenge);
     DateTime? startDate = getStartDate(groupChallenge);
     FrequencyModel frequency = getFrequency(groupChallenge);
@@ -432,7 +432,7 @@ class AttemptModel {
     }
   }
 
-  setEndDate(GroupChallengeModel groupChallenge) {
+  calcEndDate(GroupChallengeModel groupChallenge) {
     DateTime? startDate = getStartDate(groupChallenge);
     FrequencyModel frequency = getFrequency(groupChallenge);
 

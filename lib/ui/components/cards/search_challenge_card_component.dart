@@ -85,7 +85,6 @@ class _SearchChallengeCardComponentState
       MaterialPageRoute(
         builder: (context) => EditChallengePage(
           challenge: widget.challenge,
-          isSearchEdit: true,
           isNewChallenge: true,
         ),
       ),

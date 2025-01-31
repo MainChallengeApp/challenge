@@ -3,14 +3,12 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/services/database_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
-import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_dropdown.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
@@ -120,79 +118,24 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
 
   SpaceColumnComponent _type() {
     return SpaceColumnComponent(
-      child: Stack(
-        children: [
-          Visibility(
-            visible: _isTypeExpanded,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: ListItemContainerComponent(
-                isHeightDynamic: true,
-                padding: const EdgeInsets.only(
-                    left: CardComponent.standardPadding,
-                    right: CardComponent.standardPadding,
-                    bottom: CardComponent.standardPadding,
-                    top: ListItemContainerComponent.standardHeight +
-                        SpaceComponent.standardHeight -
-                        2),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: FrequencyTypeEnum.values
-                        .map((type) => _typeEntry(
-                            type, type == FrequencyTypeEnum.values.last))
-                        .toList(),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          ListItemIconTextChildComponent(
+        child: ListItemIconDropdown<FrequencyTypeEnum>(
+            list: FrequencyTypeEnum.values,
+            isExpanded: _isTypeExpanded,
+            initialEntry: _editChallenge.frequency.type,
             onTap: _onTapType,
+            onTapEntry: _onTapTypeEntry,
+            getText: (type) =>
+                type.typeToString(_editChallenge.frequency.amount),
             icon: IconEnum.frequencyType.icon,
-            text: _editChallenge.frequency.typeToString(),
-            labelText: 'Type',
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Icon(
-                _isTypeExpanded
-                    ? IconEnum.arrowUp.icon
-                    : IconEnum.arrowDown.icon,
-                color: Theme.of(context).colorScheme.tertiary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+            labelText: 'Type'));
   }
 
-  Widget _typeEntry(FrequencyTypeEnum type, bool isLast) {
-    return SpaceColumnComponent(
-      height: isLast ? 0 : null,
-      child: GestureDetector(
-        onTap: () {
-          setState(() {
-            _editChallenge.frequency.type = type;
-            _isTypeExpanded = false;
-            _editChallenge.calcEndDate();
-          });
-        },
-        child: CustomContainerComponent(
-          child: Row(children: [
-            Expanded(
-                child:
-                    Text(type.typeToString(_editChallenge.frequency.amount))),
-            Icon(
-              IconEnum.autoFill.icon,
-              size: Theme.of(context).textTheme.titleLarge?.fontSize,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ]),
-        ),
-      ),
-    );
+  _onTapTypeEntry(FrequencyTypeEnum type) {
+    setState(() {
+      _editChallenge.frequency.type = type;
+      _isTypeExpanded = false;
+      _editChallenge.calcEndDate();
+    });
   }
 
   SpaceColumnComponent _actionButtons() {

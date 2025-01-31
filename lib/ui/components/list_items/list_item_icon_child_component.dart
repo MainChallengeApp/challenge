@@ -3,6 +3,14 @@ import 'package:challenge/ui/components/simple_components/icon_container_in_list
 import 'package:flutter/material.dart';
 
 class ListItemIconChildComponent extends StatelessWidget {
+  final void Function()? onTap;
+  final IconData icon;
+  final Color? iconColor;
+  final Widget child;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final bool? isEnabled;
+
   const ListItemIconChildComponent(
       {super.key,
       this.onTap,
@@ -10,19 +18,13 @@ class ListItemIconChildComponent extends StatelessWidget {
       required this.child,
       this.iconColor,
       this.margin,
-      this.padding});
-
-  final void Function()? onTap;
-
-  final IconData icon;
-  final Color? iconColor;
-  final Widget child;
-  final EdgeInsetsGeometry? margin;
-  final EdgeInsetsGeometry? padding;
+      this.padding,
+      this.isEnabled});
 
   @override
   Widget build(BuildContext context) {
     return ListItemContainerComponent(
+      isEnabled: isEnabled,
       margin: margin,
       padding: padding,
       onTap: onTap,

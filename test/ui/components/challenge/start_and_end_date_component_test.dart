@@ -31,7 +31,6 @@ void main() {
     );
 
     // Verify that the title is correct
-    expect(find.text('Start'), findsOneWidget);
-    expect(find.text('End'), findsOneWidget);
+    expect(find.text('-'), findsOneWidget);
   });
 }

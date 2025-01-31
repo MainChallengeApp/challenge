@@ -1,7 +1,10 @@
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
+import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
+import 'package:challenge/models/challenge/frequency_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/services/database_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
@@ -23,28 +26,42 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class EditDatesPage extends StatefulWidget {
-  final ChallengeModel challenge;
+  final ChallengeModel? challenge;
+  final AttemptModel? attempt;
+  final GroupChallengeModel? groupChallenge;
 
-  const EditDatesPage({
+  const EditDatesPage.challenge({
     super.key,
     required this.challenge,
-  });
+  })  : attempt = null,
+        groupChallenge = null;
+
+  const EditDatesPage.attempt({
+    super.key,
+    required this.attempt,
+    required this.groupChallenge,
+  }) : challenge = null;
 
   @override
   State<EditDatesPage> createState() => _EditDatesPageState();
 }
 
 class _EditDatesPageState extends State<EditDatesPage> {
-  late final ChallengeModel _editChallenge = widget.challenge.copy();
+  late final bool _isChallenge = widget.challenge != null;
+  late final ChallengeModel? _editChallenge =
+      _isChallenge ? widget.challenge!.copy() : null;
+  late final AttemptModel? _editAttempt =
+      !_isChallenge ? widget.attempt!.copy() : null;
+
   bool _isOnStart = true;
   bool _isOnTime = false;
   bool _isDatePickExpanded = true;
   late bool _isDateWithTime = _setIsDateWithTime();
   late final bool _isAmountVisible =
-      _editChallenge.frequency.type == FrequencyTypeEnum.daily;
+      _getFrequency().type == FrequencyTypeEnum.daily;
 
   late final TextEditingController _amountTextEditingController =
-      TextEditingController(text: _editChallenge.frequency.amount?.toString());
+      TextEditingController(text: _getFrequency().amount?.toString());
   final FocusNode _amountFocusNode = FocusNode();
 
   final GlobalKey _datePickerKey = GlobalKey();
@@ -55,6 +72,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
   @override
   initState() {
     super.initState();
+
     _amountFocusNode.addListener(() {
       if (_amountFocusNode.hasFocus) {
         setState(() {
@@ -138,16 +156,24 @@ class _EditDatesPageState extends State<EditDatesPage> {
               key: ValueKey(_isOnStart),
               mode: CupertinoDatePickerMode.time,
               use24hFormat: true,
-              maximumDate: _isOnStart ? _getEndDate() : null,
-              minimumDate: _isOnStart ? null : _getStartDate(),
+              maximumDate: _getFirstDate(),
+              minimumDate: _getLastDate(),
               initialDateTime: _isOnStart
                   ? _getStartDate() ?? TimeService.now()
                   : _getEndDate() ?? TimeService.now(),
               onDateTimeChanged: (DateTime newDateTime) {
+                DateTime? startDate = _getStartDate();
+                DateTime? endDate = _getEndDate();
                 if (_isOnStart) {
                   _setStartDate(newDateTime);
+                  if (endDate != null && endDate.isBefore(newDateTime)) {
+                    _setEndDate(_getStartDate());
+                  }
                 } else {
                   _setEndDate(newDateTime);
+                  if (startDate != null && newDateTime.isBefore(startDate)) {
+                    _setStartDate(_getEndDate());
+                  }
                 }
               },
             ),
@@ -287,7 +313,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
   void _onTapReset() {
     setState(() {
       if (_isOnTime) {
-        if (_editChallenge.frequency.type == FrequencyTypeEnum.daily) {
+        if (_getFrequency().type == FrequencyTypeEnum.daily) {
           _setStartDate(_getStartDate() != null
               ? UtilService.dateWithoutTime(_getStartDate()!)
               : null);
@@ -308,8 +334,8 @@ class _EditDatesPageState extends State<EditDatesPage> {
       } else {
         _setEndDate(null);
       }
-      if (_editChallenge.frequency.type == FrequencyTypeEnum.daily) {
-        _editChallenge.frequency.amount = null;
+      if (_getFrequency().type == FrequencyTypeEnum.daily) {
+        _getFrequency().amount = null;
         _amountTextEditingController.text = '';
       }
     });
@@ -364,18 +390,28 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   DateTime? _getStartDate() {
-    return _editChallenge.startDate;
+    return _isChallenge ? _editChallenge!.startDate : _editAttempt!.startDate;
   }
 
   DateTime? _getEndDate() {
-    return _editChallenge.endDate;
+    return _isChallenge ? _editChallenge!.endDate : _editAttempt!.endDate;
+  }
+
+  FrequencyModel _getFrequency() {
+    return _isChallenge
+        ? _editChallenge!.frequency
+        : _editAttempt!.getFrequency(widget.groupChallenge!);
   }
 
   void _setStartDate(DateTime? date) {
     setState(() {
-      _editChallenge.startDate = date;
-      if (_editChallenge.frequency.type == FrequencyTypeEnum.daily &&
-          _editChallenge.frequency.amount == null) {
+      if (_isChallenge) {
+        _editChallenge!.startDate = date;
+      } else {
+        _editAttempt!.startDate = date;
+      }
+      if (_getFrequency().type == FrequencyTypeEnum.daily &&
+          _getFrequency().amount == null) {
         _calcFrequencyAmount();
         return;
       }
@@ -385,9 +421,13 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   void _setEndDate(DateTime? date) {
     setState(() {
-      _editChallenge.endDate = date;
-      if (_editChallenge.frequency.type == FrequencyTypeEnum.daily &&
-          _editChallenge.frequency.amount == null) {
+      if (_isChallenge) {
+        _editChallenge!.endDate = date;
+      } else {
+        _editAttempt!.endDate = date;
+      }
+      if (_getFrequency().type == FrequencyTypeEnum.daily &&
+          _getFrequency().amount == null) {
         _calcFrequencyAmount();
         return;
       }
@@ -396,19 +436,27 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   void _calcEndDate() {
-    _editChallenge.calcEndDate();
+    if (_isChallenge) {
+      _editChallenge!.calcEndDate();
+    } else {
+      _editAttempt!.calcEndDate(widget.groupChallenge!);
+    }
   }
 
   void _calcStartDate() {
-    _editChallenge.calcStartDate();
+    if (_isChallenge) {
+      _editChallenge!.calcStartDate();
+    } else {
+      _editAttempt!.calcStartDate(widget.groupChallenge!);
+    }
   }
 
   DateTime? _getFirstDate() {
-    return null; // You can set a minimum date if needed
+    return _isChallenge ? null : widget.groupChallenge!.startDate;
   }
 
   DateTime? _getLastDate() {
-    return null; // You can set a maximum date if needed
+    return _isChallenge ? null : widget.groupChallenge!.endDate;
   }
 
   _amount() {
@@ -426,12 +474,12 @@ class _EditDatesPageState extends State<EditDatesPage> {
           onChangeTextField: (value) {
             setState(() {
               if (value.isEmpty) {
-                _editChallenge.frequency.amount = null;
-                _editChallenge.calcEndDate();
+                _getFrequency().amount = null;
+                _calcEndDate();
                 return;
               }
-              _editChallenge.frequency.amount = int.parse(value);
-              _editChallenge.calcEndDate();
+              _getFrequency().amount = int.parse(value);
+              _calcEndDate();
             });
           },
           onSubmitted: (_) {
@@ -448,9 +496,14 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   void _onTapAccept() {
-    widget.challenge.startDate = _editChallenge.startDate;
-    widget.challenge.endDate = _editChallenge.endDate;
-    widget.challenge.frequency.amount = _editChallenge.frequency.amount;
+    if (_isChallenge) {
+      widget.challenge!.startDate = _editChallenge!.startDate;
+      widget.challenge!.endDate = _editChallenge!.endDate;
+      widget.challenge!.frequency.amount = _getFrequency().amount;
+    } else {
+      widget.attempt!.startDate = _editAttempt!.startDate;
+      widget.attempt!.endDate = _editAttempt!.endDate;
+    }
     Navigator.of(context).pop();
   }
 
@@ -459,9 +512,13 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   void _calcFrequencyAmount() {
-    _editChallenge.setFrequencyAmount();
+    if (_isChallenge) {
+      _editChallenge!.setFrequencyAmount();
+    } else {
+      _editAttempt!.setFrequencyAmount(widget.groupChallenge!);
+    }
     _amountTextEditingController.text =
-        _editChallenge.frequency.amount?.toString() ?? '';
+        _getFrequency().amount?.toString() ?? '';
   }
 
   _time() {

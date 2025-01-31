@@ -403,7 +403,6 @@ class _SearchListPageState extends State<SearchListPage> {
         builder: (context) => EditChallengePage(
           challenge: ChallengeModel.empty(title: _textEditingController.text),
           isNewChallenge: true,
-          isSearchNewChallenge: true,
         ),
       ),
     ).then((_) {

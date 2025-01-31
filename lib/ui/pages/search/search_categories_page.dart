@@ -217,7 +217,6 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => EditChallengePage(
           challenge: ChallengeModel.empty(),
           isNewChallenge: true,
-          isSearchNewChallenge: true,
         ),
       ),
     ).then((_) {

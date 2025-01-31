@@ -9,13 +9,16 @@ import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_dropdown.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_icon_text_text_error_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -39,53 +42,40 @@ class EditChallengePage extends StatefulWidget {
   final ChallengeModel challenge;
   final bool isNewChallenge;
   final bool isTryAgain;
-  final bool isSearchEdit;
-  final bool isSearchNewChallenge;
 
-  const EditChallengePage(
-      {super.key,
-      required this.challenge,
-      this.isSearchEdit = false,
-      this.isNewChallenge = false,
-      this.isTryAgain = false,
-      this.isSearchNewChallenge = false});
+  const EditChallengePage({
+    super.key,
+    required this.challenge,
+    this.isNewChallenge = false,
+    this.isTryAgain = false,
+  });
 
   @override
   State<EditChallengePage> createState() => _EditChallengePageState();
 }
 
 class _EditChallengePageState extends State<EditChallengePage> {
-  bool isDescriptionExpanded = false;
-  late String title =
-      widget.isNewChallenge ? 'New Challenge' : 'Edit Challenge';
-
-  late final _groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
-
-  late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  late final _usersProvider = getIt<UsersProvider>();
+  late final _tabProvider = getIt<TabProvider>();
 
   late final ChallengeModel _editChallenge =
       widget.challenge.copy(isTryAgain: widget.isTryAgain, withId: true);
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
-
-  bool isLoading = false;
-
   List<UserModel> _editParticipants = [];
-
-  // ignore: unused_field
-  int? _selectedAttemptNumber;
   AttemptModel? _selectedAttempt;
 
-  late bool _isUserAbleToEditChallenge;
+  bool _isScopeExpanded = false;
+  bool _isUserAbleToEditChallenge = false;
+  bool _isLoading = false;
+  String? _titleErrorText;
 
   @override
   void initState() {
     super.initState();
     _setEditParticipants();
     _setIsUserAbleToEditChallenge();
-    _setSelectedAttempt();
+    _setInitialSelectedAttempt();
   }
 
   @override
@@ -94,100 +84,27 @@ class _EditChallengePageState extends State<EditChallengePage> {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
         setState(() {
-          isDescriptionExpanded = false;
+          _isScopeExpanded = false;
         });
       },
       child: ScaffoldComponent(
-          resizeToAvoidBottomInset: isDescriptionExpanded ? true : false,
-          appBar: AppBarComponent(title: title),
+          appBar: AppBarComponent(
+              title:
+                  widget.isNewChallenge ? 'New Challenge' : 'Edit Challenge'),
           isBottomNavigationVisible: false,
           body: Column(
             children: [
               Expanded(
                 child: ListView(
                   children: [
-                    SpaceColumnComponent(
-                        child: ListItemIconTextChildComponent(
-                      onTap: _onTapThumbnail,
-                      icon: IconEnum.picture.icon,
-                      text: 'Thumbnail',
-                      child: ImageInListItemComponent(
-                        url: _editChallenge.thumbnail?.url ??
-                            AppIconComponent.path,
-                        scale: _editChallenge.thumbnail?.scale ??
-                            AppIconComponent.scale,
-                        fit: _editChallenge.thumbnail?.fit.fit,
-                      ),
-                    )),
-                    SpaceColumnComponent(
-                        child: ListItemIconTextTextComponent(
-                            onTap: _onTapTitle,
-                            icon: IconEnum.title.icon,
-                            text: 'Title',
-                            text2: _editChallenge.title)),
-                    SpaceColumnComponent(
-                        heightMultiplier: 2,
-                        child: ListItemIconTextTextComponent(
-                            onTap: _onTapDescription,
-                            icon: IconEnum.description.icon,
-                            text: 'Description',
-                            text2: _editChallenge.description)),
-                    SpaceColumnComponent(
-                        child: ListItemIconTextTextComponent(
-                            onTap: _onTapGoal,
-                            icon: IconEnum.goal.icon,
-                            text: 'Goal',
-                            text2:
-                                '${UtilService.doubleAsIntString(_editChallenge.acceptanceCriteria.amount)} ${_editChallenge.acceptanceCriteria.unit}')),
-                    SpaceColumnComponent(
-                        child: ListItemIconTextTextComponent(
-                            onTap: _onTapRepetitions,
-                            icon: IconEnum.repetition.icon,
-                            text: 'Repetitions',
-                            text2:
-                                '${_editChallenge.frequency.amount ?? 'max.'} ${_editChallenge.frequency.typeToString()}')),
-                    SpaceColumnComponent(
-                        heightMultiplier: 2,
-                        child: ListItemIconTextChildComponent(
-                          onTap: _onTapDates,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal:
-                                  ListItemContainerComponent.standardPadding),
-                          icon: IconEnum.dates.icon,
-                          text: 'Dates',
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                _getStartAndEndDateString(
-                                    _editChallenge.startDate),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMediaNormalTertiary,
-                                textAlign: TextAlign.end,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                _getStartAndEndDateString(
-                                    _editChallenge.endDate),
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMediaNormalTertiary,
-                                textAlign: TextAlign.end,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ],
-                          ),
-                        )),
-                    SpaceColumnComponent(
-                        child: ListItemIconTextTextComponent(
-                      onTap: _onTapParticipants,
-                      text: 'Participants',
-                      icon: IconEnum.groupChallenge.icon,
-                      text2:
-                          '(${_editParticipants.length}) ${_editParticipants.map((user) => user.id == _usersProvider.user.id ? 'you' : user.username).join(', ')}',
-                    )),
+                    _scope(),
+                    _thumbnail(),
+                    _title(),
+                    _description(),
+                    _goal(),
+                    _repetitions(),
+                    _dates(),
+                    _participants(),
                   ],
                 ),
               ),
@@ -195,6 +112,150 @@ class _EditChallengePageState extends State<EditChallengePage> {
             ],
           )),
     );
+  }
+
+  Visibility _participants() {
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          child: ListItemIconTextTextComponent(
+        isEnabled: _isUserAbleToEditChallenge,
+        onTap: _onTapParticipants,
+        text: 'Participants',
+        icon: IconEnum.groupChallenge.icon,
+        text2:
+            '(${_editParticipants.length}) ${_editParticipants.map((user) => user.id == _usersProvider.user.id ? 'you' : user.username).join(', ')}',
+      )),
+    );
+  }
+
+  SpaceColumnComponent _dates() {
+    return SpaceColumnComponent(
+        heightMultiplier: 2,
+        child: ListItemIconTextChildComponent(
+          isEnabled: _isUserAbleToEditChallenge || _selectedAttempt != null,
+          onTap: _onTapDates,
+          padding: const EdgeInsets.symmetric(
+              horizontal: ListItemContainerComponent.standardPadding),
+          icon: IconEnum.dates.icon,
+          text: 'Dates',
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                _getStartAndEndDateString(isStartDate: true),
+                style: Theme.of(context).textTheme.titleMediaNormalTertiary,
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                _getStartAndEndDateString(isStartDate: false),
+                style: Theme.of(context).textTheme.titleMediaNormalTertiary,
+                textAlign: TextAlign.end,
+                overflow: TextOverflow.ellipsis,
+              )
+            ],
+          ),
+        ));
+  }
+
+  Visibility _repetitions() {
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          child: ListItemIconTextTextComponent(
+              isEnabled: _isUserAbleToEditChallenge,
+              onTap: _onTapRepetitions,
+              icon: IconEnum.repetition.icon,
+              text: 'Repetitions',
+              text2:
+                  '${_editChallenge.frequency.amount ?? 'max.'} ${_editChallenge.frequency.typeToString()}')),
+    );
+  }
+
+  Visibility _goal() {
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          child: ListItemIconTextTextComponent(
+              isEnabled: _isUserAbleToEditChallenge,
+              onTap: _onTapGoal,
+              icon: IconEnum.goal.icon,
+              text: 'Goal',
+              text2:
+                  '${UtilService.doubleAsIntString(_editChallenge.acceptanceCriteria.amount)} ${_editChallenge.acceptanceCriteria.unit}')),
+    );
+  }
+
+  Visibility _description() {
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          heightMultiplier: 2,
+          child: ListItemIconTextTextComponent(
+              isEnabled: _isUserAbleToEditChallenge,
+              onTap: _onTapDescription,
+              icon: IconEnum.description.icon,
+              text: 'Description',
+              text2: _editChallenge.description)),
+    );
+  }
+
+  Visibility _title() {
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          child: ListItemIconTextTextErrorComponent(
+              isEnabled: _isUserAbleToEditChallenge,
+              onTap: _onTapTitle,
+              icon: IconEnum.title.icon,
+              text: 'Title',
+              errorText: _titleErrorText,
+              text2: _editChallenge.title)),
+    );
+  }
+
+  Visibility _thumbnail() {
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          child: ListItemIconTextChildComponent(
+        isEnabled: _isUserAbleToEditChallenge,
+        onTap: _onTapThumbnail,
+        icon: IconEnum.picture.icon,
+        text: 'Thumbnail',
+        child: ImageInListItemComponent(
+          url: _editChallenge.thumbnail?.url ?? AppIconComponent.path,
+          scale: _editChallenge.thumbnail?.scale ?? AppIconComponent.scale,
+          fit: _editChallenge.thumbnail?.fit.fit,
+        ),
+      )),
+    );
+  }
+
+  StatelessWidget _scope() {
+    return widget.isNewChallenge
+        ? Container()
+        : SpaceColumnComponent(
+            heightMultiplier: 2,
+            child: ListItemIconDropdown<AttemptModel?>(
+                icon: IconEnum.settings.icon,
+                isExpanded: _isScopeExpanded,
+                initialEntry: _selectedAttempt,
+                labelText: 'Scope',
+                getText: (AttemptModel? attempt) =>
+                    attempt != null ? 'Attempt ${attempt.number}' : 'Challenge',
+                list: [
+                  null,
+                  ...(_editChallenge as GroupChallengeModel)
+                      .getParticipant(_usersProvider.user.id)
+                      .attempts
+                ],
+                onTapEntry: (attempt) => setState(() {
+                      _selectedAttempt = attempt;
+                    })),
+          );
   }
 
   bool _setIsUserAbleToEditChallenge() {
@@ -230,53 +291,47 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   _cancelAndSaveOrAcceptButton() {
-    return Visibility(
-      visible: !isDescriptionExpanded,
-      child: Column(
-        children: [
-          const SpaceComponent(),
-          SpaceColumnComponent(
-            height: BottomNavigationComponent.standardMargin,
-            child: Row(
-              children: [
-                const SpaceComponent(width: CardComponent.standardSideMargin),
-                Expanded(
-                  child: ListItemButtonComponent(
-                    onTap: _onTapCancel,
-                    isMainButton: false,
-                    text: 'Cancel',
-                    margin: EdgeInsets.zero,
-                  ),
+    return Column(
+      children: [
+        const SpaceComponent(),
+        SpaceColumnComponent(
+          height: BottomNavigationComponent.standardMargin,
+          child: Row(
+            children: [
+              const SpaceComponent(width: CardComponent.standardSideMargin),
+              Expanded(
+                child: ListItemButtonComponent(
+                  onTap: _onTapCancel,
+                  isMainButton: false,
+                  text: 'Cancel',
+                  margin: EdgeInsets.zero,
                 ),
-                const SpaceComponent(),
-                widget.isSearchEdit ||
-                        widget.isSearchNewChallenge ||
-                        widget.isNewChallenge ||
-                        widget.isTryAgain
-                    ? Expanded(
-                        child: ListItemButtonComponent(
-                          onTap: _onTapAccept,
-                          text: 'Accept',
-                          isMainButton: true,
-                          isLoading: isLoading,
-                          margin: EdgeInsets.zero,
-                        ),
-                      )
-                    : Expanded(
-                        child: ListItemButtonComponent(
-                          onTap: _onTapSave,
-                          text: 'Save',
-                          isMainButton: true,
-                          isLoading: isLoading,
-                          margin: EdgeInsets.zero,
-                        ),
+              ),
+              const SpaceComponent(),
+              widget.isNewChallenge || widget.isTryAgain
+                  ? Expanded(
+                      child: ListItemButtonComponent(
+                        onTap: _onTapAccept,
+                        text: 'Accept',
+                        isMainButton: true,
+                        isLoading: _isLoading,
+                        margin: EdgeInsets.zero,
                       ),
-                const SpaceComponent(width: CardComponent.standardSideMargin),
-              ],
-            ),
+                    )
+                  : Expanded(
+                      child: ListItemButtonComponent(
+                        onTap: _onTapSave,
+                        text: 'Save',
+                        isMainButton: true,
+                        isLoading: _isLoading,
+                        margin: EdgeInsets.zero,
+                      ),
+                    ),
+              const SpaceComponent(width: CardComponent.standardSideMargin),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -285,11 +340,15 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void _onTapAccept() async {
-    if (isLoading) {
+    if (_checkInputs() == false) {
+      return;
+    }
+
+    if (_isLoading) {
       return;
     }
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
     ChallengeModel challengeCopy = _editChallenge.copy();
 
@@ -297,7 +356,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
         _editParticipants, _usersProvider.user, GroupChallengeOptionsModel());
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
 
     // ignore: use_build_context_synchronously
@@ -320,11 +379,14 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void _onTapSave() async {
-    if (isLoading) {
+    if (_checkInputs() == false) {
+      return;
+    }
+    if (_isLoading) {
       return;
     }
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
     if (_selectedAttempt == null) {
       GroupChallengeModel groupChallengeCopy =
@@ -343,7 +405,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
           _selectedAttempt!);
     }
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
     // ignore: use_build_context_synchronously
     Navigator.pop(context);
@@ -376,7 +438,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     }
   }
 
-  void _setSelectedAttempt() {
+  void _setInitialSelectedAttempt() {
     if (_isUserAbleToEditChallenge) {
       return;
     }
@@ -385,24 +447,30 @@ class _EditChallengePageState extends State<EditChallengePage> {
       _selectedAttempt = (_editChallenge as GroupChallengeModel)
           .getParticipant(_usersProvider.user.id)
           .getLatestAttempt();
-      _selectedAttemptNumber = _selectedAttempt!.number;
     }
   }
 
-  _getStartAndEndDateString(DateTime? date) {
-    bool dateWithTime = _editChallenge.startDate != null &&
-            _editChallenge.startDate!
-                    .difference(
-                        UtilService.dateWithoutTime(_editChallenge.startDate!))
+  _getStartAndEndDateString({required bool isStartDate}) {
+    DateTime? startDate = _selectedAttempt == null
+        ? _editChallenge.startDate
+        : _selectedAttempt!.startDate;
+    DateTime? endDate = _selectedAttempt == null
+        ? _editChallenge.endDate
+        : _selectedAttempt!.endDate;
+
+    bool dateWithTime = startDate != null &&
+            startDate
+                    .difference(UtilService.dateWithoutTime(startDate))
                     .inSeconds !=
                 0 ||
-        _editChallenge.endDate != null &&
-            _editChallenge.endDate!
-                    .difference(
-                        UtilService.dateWithoutTime(_editChallenge.endDate!))
+        endDate != null &&
+            endDate
+                    .difference(UtilService.dateWithoutTime(endDate))
                     .inSeconds !=
                 0;
-    return '${UtilService.dateFormat(date)}${dateWithTime && date != null ? ',' : ''} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
+
+    DateTime? date = isStartDate ? startDate : endDate;
+    return '${UtilService.dateFormat(date)}${dateWithTime && (date) != null ? ',' : ''} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
   }
 
   void _onTapTitle() {
@@ -414,7 +482,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
         ),
       ),
     ).then((_) {
-      setState(() {});
+      setState(() {
+        _titleErrorText = null;
+      });
     });
   }
 
@@ -461,9 +531,16 @@ class _EditChallengePageState extends State<EditChallengePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EditDatesPage(
-          challenge: _editChallenge,
-        ),
+        builder: (context) {
+          return _selectedAttempt == null
+              ? EditDatesPage.challenge(
+                  challenge: _editChallenge,
+                )
+              : EditDatesPage.attempt(
+                  attempt: _selectedAttempt!,
+                  groupChallenge: _editChallenge as GroupChallengeModel,
+                );
+        },
       ),
     ).then((_) {
       setState(() {});
@@ -494,5 +571,22 @@ class _EditChallengePageState extends State<EditChallengePage> {
     ).then((_) {
       setState(() {});
     });
+  }
+
+  _checkInputs() {
+    if (_editChallenge.title.isEmpty) {
+      setState(() {
+        _titleErrorText = null;
+      });
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (mounted) {
+          setState(() {
+            _titleErrorText = 'Title is required';
+          });
+        }
+      });
+      return false;
+    }
+    return true;
   }
 }
