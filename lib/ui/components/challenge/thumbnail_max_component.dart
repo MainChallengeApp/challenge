@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
@@ -87,35 +89,42 @@ class ThumbnailMaxComponent extends StatelessWidget {
                               ])),
               ),
             ),
-            if (attempt != null)
-              Align(
-                alignment: Alignment.bottomRight,
-                child: ContainerInContainerComponent(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.all(5),
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${attempt!.media.length}',
-                        textAlign: TextAlign.end,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      const SizedBox(width: 2),
-                      Icon(
-                        Icons.inventory_2_outlined,
-                        color: Theme.of(context).colorScheme.tertiary,
-                        size: Theme.of(context).textTheme.bodySmall?.fontSize,
-                      )
-                    ],
-                  ),
-                ),
-              ),
+            _mediaAmount(context),
           ],
         ),
       ),
     );
+  }
+
+  _mediaAmount(BuildContext context) {
+    return attempt == null
+        ? const SizedBox()
+        : Positioned(
+            right: 0,
+            bottom: 0,
+            child: ContainerInContainerComponent(
+              margin: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ContainerInContainerComponent
+                          .standardPaddingSmall +
+                      0.5), // + 0.5 more equal to total challenge percentage
+              height: SmallContainerInListItemComponent.height,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${attempt!.media.length} ',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        color: Theme.of(context).colorScheme.tertiary),
+                  ),
+                  Icon(
+                    IconEnum.media.icon,
+                    color: Theme.of(context).colorScheme.tertiary,
+                    size: Theme.of(context).textTheme.bodySmall?.fontSize,
+                  )
+                ],
+              ),
+            ));
   }
 }

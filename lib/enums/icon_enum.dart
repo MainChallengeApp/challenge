@@ -26,6 +26,7 @@ enum IconEnum {
   inbox(Icons.inbox_outlined),
   info(Icons.info_outline_rounded),
   logout(Icons.logout_rounded),
+  media(Icons.inventory_2_outlined),
   more(Icons.more_horiz_rounded),
   newChallenge(Icons.add_rounded),
   notification(Icons.notifications_outlined),

@@ -4,7 +4,7 @@ import 'package:challenge/ui/components/simple_components/custom_container_compo
 import 'package:flutter/material.dart';
 
 class SmallContainerInListItemComponent extends StatelessWidget {
-  static double height = CustomContainerComponent.standardHeight * 0.55;
+  static double height = CustomContainerComponent.standardHeight * 0.55 - 1;
 
   final Widget child;
   final EdgeInsets? margin;
@@ -19,7 +19,7 @@ class SmallContainerInListItemComponent extends StatelessWidget {
         borderRadius: const BorderRadius.all(
             Radius.circular(ListItemIconTextComponent.standardIconRadius)),
         padding: EdgeInsets.zero,
-        margin: EdgeInsets.zero,
+        margin: margin ?? EdgeInsets.zero,
         child: Center(child: child));
   }
 }

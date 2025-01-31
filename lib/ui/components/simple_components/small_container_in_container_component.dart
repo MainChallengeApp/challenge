@@ -5,14 +5,17 @@ import 'package:flutter/material.dart';
 
 class SmallContainerInContainerComponent extends StatelessWidget {
   final Widget child;
+  final EdgeInsetsGeometry? margin;
 
-  const SmallContainerInContainerComponent({super.key, required this.child});
+  const SmallContainerInContainerComponent(
+      {super.key, required this.child, this.margin});
 
   @override
   Widget build(BuildContext context) {
     return ContainerInContainerComponent(
-        margin: const EdgeInsets.only(
-            left: CustomContainerComponent.standardPadding),
+        margin: margin ??
+            const EdgeInsets.only(
+                left: CustomContainerComponent.standardPadding),
         padding: const EdgeInsets.symmetric(
             horizontal: ContainerInContainerComponent.standardPaddingSmall),
         height: SmallContainerInListItemComponent.height,
