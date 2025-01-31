@@ -53,18 +53,24 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
         Expanded(
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(_getStartDate() == null
-                ? '-'
-                : '${UtilService.dateFormat(_getStartDate()!)} ${_isDateWithTime ? ' ${UtilService.timeFormat(_getStartDate()!)}' : ''}'),
+            child: Text(
+              _getStartDate() == null
+                  ? 'Start Date'
+                  : '${UtilService.dateFormat(_getStartDate()!)} ${_isDateWithTime ? ' ${UtilService.timeFormat(_getStartDate()!)}' : ''}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ),
         const Text('-'),
         Expanded(
           child: Align(
             alignment: Alignment.centerRight,
-            child: Text(_getEndDate() == null
-                ? '-'
-                : '${UtilService.dateFormat(_getEndDate()!)} ${_isDateWithTime ? ' ${UtilService.timeFormat(_getEndDate()!)}' : ''}'),
+            child: Text(
+              _getEndDate() == null
+                  ? 'End Date'
+                  : '${UtilService.dateFormat(_getEndDate()!)} ${_isDateWithTime ? ' ${UtilService.timeFormat(_getEndDate()!)}' : ''}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
         ),
       ],
@@ -125,12 +131,6 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   }
 
   _calcDateProgress() {
-    if (_getStartDate() != null &&
-        _getEndDate() == null &&
-        _getStartDate()!.isBefore(TimeService.now())) {
-      return 0.25;
-    }
-
     if (_getStartDate() == null || _getEndDate() == null) {
       return 0.0;
     }
