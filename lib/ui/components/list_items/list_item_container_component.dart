@@ -59,7 +59,17 @@ class _ListItemContainerComponentState
         context2 = context;
         return GestureDetector(
           onTap: () {
+            setState(() {
+              isTapVisible = true;
+            });
             widget.onTap?.call();
+            Future.delayed(const Duration(milliseconds: 100), () {
+              if (mounted) {
+                setState(() {
+                  isTapVisible = false;
+                });
+              }
+            });
           },
           onTapDown: (details) {
             setState(() {

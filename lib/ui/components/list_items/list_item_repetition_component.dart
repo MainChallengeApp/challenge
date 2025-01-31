@@ -35,23 +35,19 @@ class _ListItemRepetitionComponentState
   @override
   Widget build(BuildContext context) {
     widget.repetition.evaluateRepetitionStatus();
-    return Column(
-      children: [
-        ListItemFractionComponent(
-          initialProgress: min(
-              1,
-              widget.repetition.getLastProgressPercentage(
-                  widget.groupChallenge, widget.attempt)),
-          isFailed: widget.attempt.isFailed(),
-          onTap: widget.onTap,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [repetitionIcon(), repetition(), progress()],
-            ),
-          ),
+    return ListItemFractionComponent(
+      initialProgress: min(
+          1,
+          widget.repetition.getLastProgressPercentage(
+              widget.groupChallenge, widget.attempt)),
+      isFailed: widget.attempt.isFailed(),
+      onTap: widget.onTap,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [repetitionIcon(), repetition(), progress()],
         ),
-      ],
+      ),
     );
   }
 

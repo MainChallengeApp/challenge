@@ -50,7 +50,19 @@ class _TapContainerComponentState extends State<TapContainerComponent> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: () {
+        setState(() {
+          isTapVisible = true;
+        });
+        widget.onTap?.call();
+        Future.delayed(const Duration(milliseconds: 100), () {
+          if (mounted) {
+            setState(() {
+              isTapVisible = false;
+            });
+          }
+        });
+      },
       onTapDown: (details) {
         setState(() {
           isTapVisible = true;
