@@ -59,6 +59,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
   late bool _isDateWithTime = _setIsDateWithTime();
   late final bool _isAmountVisible =
       _getFrequency().type == FrequencyTypeEnum.daily;
+  late final bool _isAmountEditable = _isChallenge;
 
   late final TextEditingController _amountTextEditingController =
       TextEditingController(text: _getFrequency().amount?.toString());
@@ -68,6 +69,9 @@ class _EditDatesPageState extends State<EditDatesPage> {
   late final double _datePickerHeight = _getDatePickerHeight();
 
   bool _shouldRecreatePicker = false;
+
+  late final DateTime? _originalEndDate = _getEndDate();
+  late final DateTime? _originalStartDate = _getStartDate();
 
   @override
   initState() {
@@ -95,7 +99,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
         setState(() {
-          if (_isAmountVisible) {
+          if (_isAmountVisible && _isAmountEditable) {
             _isDatePickExpanded = false;
           }
         });
@@ -156,8 +160,8 @@ class _EditDatesPageState extends State<EditDatesPage> {
               key: ValueKey(_isOnStart),
               mode: CupertinoDatePickerMode.time,
               use24hFormat: true,
-              maximumDate: _getFirstDate(),
-              minimumDate: _getLastDate(),
+              maximumDate: _getLastDate(),
+              minimumDate: _getFirstDate(),
               initialDateTime: _isOnStart
                   ? _getStartDate() ?? TimeService.now()
                   : _getEndDate() ?? TimeService.now(),
@@ -232,6 +236,11 @@ class _EditDatesPageState extends State<EditDatesPage> {
       child: GestureDetector(
         onTap: () {
           setState(() {
+            if (!_isChallenge &&
+                _getFrequency().type == FrequencyTypeEnum.daily &&
+                _getFrequency().amount == null) {
+              return;
+            }
             _isOnStart = isStart;
             _isDatePickExpanded = true;
             _amountFocusNode.unfocus();
@@ -335,8 +344,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
         _setEndDate(null);
       }
       if (_getFrequency().type == FrequencyTypeEnum.daily) {
-        _getFrequency().amount = null;
-        _amountTextEditingController.text = '';
+        _calcFrequencyAmount();
       }
     });
   }
@@ -376,9 +384,17 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   void _onValueChanged(List<DateTime?> newDates) {
     if (_isOnStart) {
-      _setStartDate(newDates.last);
+      DateTime? startDate = _getStartDate();
+      Duration timeDifference =
+          startDate?.difference(UtilService.dateWithoutTime(startDate)) ??
+              const Duration();
+      _setStartDate(newDates.last?.add(timeDifference));
     } else {
-      _setEndDate(newDates.last);
+      DateTime? endDate = _getEndDate();
+      Duration timeDifference =
+          endDate?.difference(UtilService.dateWithoutTime(endDate)) ??
+              const Duration();
+      _setEndDate(newDates.last?.add(timeDifference));
     }
     if (_getStartDate() != null && _getEndDate() != null) {
       if (_isOnStart && _getStartDate()!.isAfter(_getEndDate()!)) {
@@ -390,11 +406,15 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   DateTime? _getStartDate() {
-    return _isChallenge ? _editChallenge!.startDate : _editAttempt!.startDate;
+    return _isChallenge
+        ? _editChallenge!.startDate
+        : _editAttempt!.getStartDate(widget.groupChallenge!);
   }
 
   DateTime? _getEndDate() {
-    return _isChallenge ? _editChallenge!.endDate : _editAttempt!.endDate;
+    return _isChallenge
+        ? _editChallenge!.endDate
+        : _editAttempt!.getEndDate(widget.groupChallenge!);
   }
 
   FrequencyModel _getFrequency() {
@@ -413,7 +433,6 @@ class _EditDatesPageState extends State<EditDatesPage> {
       if (_getFrequency().type == FrequencyTypeEnum.daily &&
           _getFrequency().amount == null) {
         _calcFrequencyAmount();
-        return;
       }
       _calcEndDate();
     });
@@ -429,7 +448,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
       if (_getFrequency().type == FrequencyTypeEnum.daily &&
           _getFrequency().amount == null) {
         _calcFrequencyAmount();
-        return;
+        // return;
       }
       _calcStartDate();
     });
@@ -452,11 +471,54 @@ class _EditDatesPageState extends State<EditDatesPage> {
   }
 
   DateTime? _getFirstDate() {
-    return _isChallenge ? null : widget.groupChallenge!.startDate;
+    if (_isChallenge) {
+      return null;
+    }
+
+    if (_isOnStart) {
+      return widget.groupChallenge!.startDate;
+    }
+
+    if (!_isOnStart) {
+      FrequencyModel frequency = _getFrequency();
+      if (frequency.type == FrequencyTypeEnum.daily &&
+          frequency.amount != null) {
+        return _originalStartDate?.add(Duration(days: frequency.amount!));
+      }
+      return _originalStartDate;
+    }
+
+    if (widget.groupChallenge!.startDate == null) {
+      return null;
+    }
+    return widget.attempt?.startDate
+                ?.isBefore(widget.groupChallenge!.startDate!) ??
+            false
+        ? null
+        : widget.groupChallenge!.startDate;
   }
 
   DateTime? _getLastDate() {
-    return _isChallenge ? null : widget.groupChallenge!.endDate;
+    if (_isChallenge) {
+      return null;
+    }
+
+    if (_isOnStart) {
+      FrequencyModel frequency = _getFrequency();
+      if (frequency.type == FrequencyTypeEnum.daily &&
+          frequency.amount != null) {
+        return _originalEndDate?.subtract(Duration(days: frequency.amount!));
+      }
+      return _originalEndDate;
+    }
+
+    if (widget.groupChallenge!.endDate == null) {
+      return null;
+    }
+    return widget.attempt!.endDate?.isAfter(widget.groupChallenge!.endDate!) ??
+            false
+        ? null
+        : widget.groupChallenge!.endDate;
   }
 
   _amount() {
@@ -464,6 +526,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
       visible: _isAmountVisible,
       child: SpaceColumnComponent(
         child: ListItemIconTextInputComponent(
+          isEnabled: _isAmountEditable,
           icon: IconEnum.numbers.icon,
           textEditingController: _amountTextEditingController,
           focusNode: _amountFocusNode,
@@ -555,7 +618,6 @@ class _EditDatesPageState extends State<EditDatesPage> {
     );
   }
 
-  // To get the height
   double _getDatePickerHeight() {
     final RenderBox renderBox =
         _datePickerKey.currentContext?.findRenderObject() as RenderBox;

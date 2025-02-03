@@ -55,7 +55,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           SpaceColumnComponent(
             child: ListItemSearchBarComponent(
               onTap: onTapSearchBar,
-              isEnabled: false,
+              isEditable: false,
               textEditingController: TextEditingController(),
               hintText: 'Search for Challenges and Users',
             ),

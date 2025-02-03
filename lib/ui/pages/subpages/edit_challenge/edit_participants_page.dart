@@ -1,6 +1,7 @@
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/database_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/edit_challenge/add_participants_overview_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -16,30 +17,26 @@ import 'package:challenge/ui/components/simple_components/snack_bar_component.da
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class AddParticipantsPage extends StatefulWidget {
+class EditParticipantsPage extends StatefulWidget {
   final List<UserModel> participants;
 
-  const AddParticipantsPage({super.key, required this.participants});
+  const EditParticipantsPage({super.key, required this.participants});
 
   @override
-  State<AddParticipantsPage> createState() => _AddParticipantsPageState();
+  State<EditParticipantsPage> createState() => _EditParticipantsPageState();
 }
 
-class _AddParticipantsPageState extends State<AddParticipantsPage> {
-  String title = 'Add Participants';
+class _EditParticipantsPageState extends State<EditParticipantsPage> {
+  late final _usersProvider = getIt<UsersProvider>();
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  final _textEditingController = TextEditingController();
 
-  final textEditingController = TextEditingController();
+  late final List<UserModel> _editParticipants = List.from(widget.participants);
 
-  late List<UserModel> editParticipants = List.from(widget.participants);
+  final _scrollController = ScrollController();
 
-  final scrollController = ScrollController();
-
-  late List<UserModel> filteredConnections =
+  late List<UserModel> _filteredConnections =
       List.from(_usersProvider.confirmedConnections);
 
   @override
@@ -48,7 +45,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
     _usersProvider.getConnections().then((_) {
       if (mounted) {
         setState(() {
-          filteredConnections = List.from(_usersProvider.confirmedConnections);
+          _filteredConnections = List.from(_usersProvider.confirmedConnections);
         });
       }
     });
@@ -61,68 +58,68 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         child: ScaffoldComponent(
-          appBar: AppBarComponent(title: title),
+          appBar: const AppBarComponent(title: 'Edit Participants'),
           isBottomNavigationVisible: false,
           body: Column(
             children: [
               Expanded(
                 child: Column(
                   children: [
-                    searchBar(),
-                    addParticipantsOverview(),
-                    searchUsersList()
+                    _searchBar(),
+                    _addParticipantsOverview(),
+                    _searchUsersList()
                   ],
                 ),
               ),
-              cancelAndAcceptButton()
+              _cancelAndAcceptButton()
             ],
           ),
         ));
   }
 
-  searchUsersList() {
+  _searchUsersList() {
     return Expanded(
       child: RefreshIndicatorComponent(
-        scrollController: scrollController,
+        scrollController: _scrollController,
         onRefresh: () async {
           await _usersProvider.getConnections().then((_) {
             setState(() {
-              filteredConnections =
+              _filteredConnections =
                   List.from(_usersProvider.confirmedConnections);
             });
           });
         },
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            controller: scrollController,
+            controller: _scrollController,
             itemCount: 1 + // 1 + for Invite Friends button
                 1 + // +1 for 'Connections' title
-                filteredConnections.length +
-                (filteredConnections
+                _filteredConnections.length +
+                (_filteredConnections
                         .isEmpty // +1 for 'No Connections' list item
                     ? 1
                     : 0),
             itemBuilder: (context, index) {
               if (index == 0) {
-                return inviteFriends();
+                return _inviteFriends();
               }
 
               int newIndex = index - 1; // -1 for 'Invite Friends' button
 
-              return connectionsSearchList(newIndex);
+              return _connectionsSearchList(newIndex);
             }),
       ),
     );
   }
 
-  SpaceColumnComponent inviteFriends() {
+  SpaceColumnComponent _inviteFriends() {
     return SpaceColumnComponent(
         child: ListItemInviteFriendsComponent(
       username: _usersProvider.user.username,
     ));
   }
 
-  SpaceColumnComponent addParticipantsOverview() {
+  SpaceColumnComponent _addParticipantsOverview() {
     return SpaceColumnComponent(
         child: ListItemContainerComponent(
             padding: const EdgeInsets.all(SpaceComponent.standardHeight)
@@ -133,46 +130,46 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
             isHeightDynamic: true,
             child: AddParticipantsOverviewComponent(
               userId: _usersProvider.user.id,
-              participants: editParticipants,
-              onRemoveParticipant: onRemoveParticipant,
+              participants: _editParticipants,
+              onRemoveParticipant: _onRemoveParticipant,
             )));
   }
 
-  SpaceColumnComponent searchBar() {
+  SpaceColumnComponent _searchBar() {
     return SpaceColumnComponent(
         child: ListItemSearchBarComponent(
-      textEditingController: textEditingController,
-      changeList: changeList,
+      textEditingController: _textEditingController,
+      changeList: _changeList,
     ));
   }
 
-  void onTapUser(UserModel tappedUser) {
+  void _onTapUser(UserModel tappedUser) {
     setState(() {
-      if (editParticipants
+      if (_editParticipants
           .any((participant) => participant.id == tappedUser.id)) {
-        editParticipants.removeWhere((user) => user.id == tappedUser.id);
+        _editParticipants.removeWhere((user) => user.id == tappedUser.id);
         return;
       }
-      if (editParticipants.length >= DatabaseService.maxGroupChallengeMember) {
+      if (_editParticipants.length >= DatabaseService.maxGroupChallengeMember) {
         SnackBarComponent.showSnackBar(
             'You can only add up to ${DatabaseService.maxGroupChallengeMember} members');
         return;
       }
-      editParticipants.add(tappedUser);
+      _editParticipants.add(tappedUser);
     });
   }
 
-  onTapAccept() {
+  _onTapAccept() {
     widget.participants.clear();
-    widget.participants.addAll(editParticipants);
-    Navigator.pop(context, editParticipants);
+    widget.participants.addAll(_editParticipants);
+    Navigator.pop(context, _editParticipants);
   }
 
-  onTapCancel() {
+  _onTapCancel() {
     Navigator.pop(context);
   }
 
-  cancelAndAcceptButton() {
+  _cancelAndAcceptButton() {
     return Padding(
       padding: const EdgeInsets.only(
           left: ListItemContainerComponent.standardMargin,
@@ -183,7 +180,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
         children: [
           Expanded(
             child: ListItemButtonComponent(
-              onTap: onTapCancel,
+              onTap: _onTapCancel,
               text: 'Cancel',
               isMainButton: false,
               margin: const EdgeInsets.only(
@@ -193,7 +190,7 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
           ),
           Expanded(
             child: ListItemButtonComponent(
-                onTap: onTapAccept,
+                onTap: _onTapAccept,
                 text: 'Accept',
                 isMainButton: true,
                 margin: const EdgeInsets.only(
@@ -205,13 +202,13 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
     );
   }
 
-  onRemoveParticipant(String userId) {
+  _onRemoveParticipant(String userId) {
     setState(() {
-      editParticipants.removeWhere((user) => user.id == userId);
+      _editParticipants.removeWhere((user) => user.id == userId);
     });
   }
 
-  listSubTitle(String title) {
+  _listSubTitle(String title) {
     return SpaceColumnComponent(
       heightMultiplier: 0.5,
       child: Align(
@@ -229,33 +226,33 @@ class _AddParticipantsPageState extends State<AddParticipantsPage> {
     );
   }
 
-  connectionsSearchList(int index) {
+  _connectionsSearchList(int index) {
     if (index == 0) {
-      return listSubTitle('Connections');
+      return _listSubTitle('Connections');
     }
 
-    if (filteredConnections.isEmpty) {
+    if (_filteredConnections.isEmpty) {
       return const SpaceColumnComponent(
         child: ListItemInfoComponent(
-          text: 'No Connections found',
+          text: 'Connect to uses to add them to your challenge',
         ),
       );
     }
 
-    final user = filteredConnections[index - 1];
+    final user = _filteredConnections[index - 1];
     return SpaceColumnComponent(
       child: ListItemUserComponent(
-        onTap: () => onTapUser(user),
+        onTap: () => _onTapUser(user),
         user: user,
         isSelected:
-            editParticipants.any((participant) => participant.id == user.id),
+            _editParticipants.any((participant) => participant.id == user.id),
       ),
     );
   }
 
-  changeList(String searchText) {
+  _changeList(String searchText) {
     setState(() {
-      filteredConnections = _usersProvider.confirmedConnections.where((user) {
+      _filteredConnections = _usersProvider.confirmedConnections.where((user) {
         return user.username.toLowerCase().startsWith(searchText.toLowerCase());
       }).toList();
     });

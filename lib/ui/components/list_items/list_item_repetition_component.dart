@@ -57,7 +57,7 @@ class _ListItemRepetitionComponentState
             right: ContainerInContainerComponent.standardMargin),
         height: SmallContainerInListItemComponent.height,
         text:
-            '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? '∞'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
+            '${widget.repetition.repetitionNumber}/${widget.attempt.getFrequency(widget.groupChallenge).amount ?? 'max.'} ${widget.attempt.getFrequency(widget.groupChallenge).typeToString()}');
   }
 
   progress() {

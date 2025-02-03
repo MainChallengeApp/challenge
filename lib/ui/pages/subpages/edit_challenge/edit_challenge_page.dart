@@ -27,11 +27,11 @@ import 'package:challenge/ui/components/simple_components/image_in_list_item_com
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
-import 'package:challenge/ui/pages/subpages/edit_challenge/add_participants_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_dates_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_description_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_frequency_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_goal_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_participants_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_thumbnail_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_title_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -89,8 +89,8 @@ class _EditChallengePageState extends State<EditChallengePage> {
       },
       child: ScaffoldComponent(
           appBar: AppBarComponent(
-              title:
-                  widget.isNewChallenge ? 'New Challenge' : 'Edit Challenge'),
+            title: widget.isNewChallenge ? 'New Challenge' : 'Edit Challenge',
+          ),
           isBottomNavigationVisible: false,
           body: Column(
             children: [
@@ -453,10 +453,10 @@ class _EditChallengePageState extends State<EditChallengePage> {
   _getStartAndEndDateString({required bool isStartDate}) {
     DateTime? startDate = _selectedAttempt == null
         ? _editChallenge.startDate
-        : _selectedAttempt!.startDate;
+        : _selectedAttempt!.getStartDate(_editChallenge as GroupChallengeModel);
     DateTime? endDate = _selectedAttempt == null
         ? _editChallenge.endDate
-        : _selectedAttempt!.endDate;
+        : _selectedAttempt!.getEndDate(_editChallenge as GroupChallengeModel);
 
     bool dateWithTime = startDate != null &&
             startDate
@@ -551,7 +551,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddParticipantsPage(
+        builder: (context) => EditParticipantsPage(
           participants: _editParticipants,
         ),
       ),

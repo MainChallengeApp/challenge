@@ -447,33 +447,26 @@ class AttemptModel {
   }
 
   setFrequencyAmount(GroupChallengeModel groupChallenge) {
-    if (getStartDate(groupChallenge) == null &&
-        getEndDate(groupChallenge) == null) return;
+    DateTime? startDate = getStartDate(groupChallenge);
+    DateTime? endDate = getEndDate(groupChallenge);
+    FrequencyModel frequency = getFrequency(groupChallenge);
 
-    if (getStartDate(groupChallenge) != null &&
-        getEndDate(groupChallenge) != null &&
-        getFrequency(groupChallenge).type == FrequencyTypeEnum.daily) {
-      int amount = getEndDate(groupChallenge)!
-              .difference(getStartDate(groupChallenge)!)
-              .inDays +
-          (getEndDate(groupChallenge)!
-                          .difference(getStartDate(groupChallenge)!)
-                          .inSeconds -
-                      getEndDate(groupChallenge)!
-                              .difference(getStartDate(groupChallenge)!)
-                              .inDays *
-                          24 *
-                          60 *
-                          60 >
+    if (startDate == null && endDate == null) return;
+
+    if (startDate != null &&
+        endDate != null &&
+        frequency.type == FrequencyTypeEnum.daily) {
+      int amount = endDate.difference(startDate).inDays +
+          (endDate.difference(startDate).inSeconds -
+                      endDate.difference(startDate).inDays * 24 * 60 * 60 >
                   0
               ? 1
               : 0); // if there is not a whole day difference, add one day
       if (amount >= 0) {
-        getFrequency(groupChallenge).amount = amount;
+        frequency.amount = amount;
       }
-    } else if (getFrequency(groupChallenge).type == FrequencyTypeEnum.daily &&
-        getEndDate(groupChallenge) == null) {
-      getFrequency(groupChallenge).amount = null;
+    } else if (frequency.type == FrequencyTypeEnum.daily && endDate == null) {
+      frequency.amount = null;
     }
   }
 

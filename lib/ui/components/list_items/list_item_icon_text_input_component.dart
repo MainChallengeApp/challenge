@@ -20,7 +20,8 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final IconData? actionIcon;
   final Function()? onTapActionIcon;
   final Function()? onTap;
-  final bool? isEnabled;
+  final bool isEnabled;
+  final bool isEditable;
   final bool? autoFocus;
   final FocusNode? focusNode;
   final List<TextInputFormatter>? inputFormatters;
@@ -44,7 +45,8 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.actionIcon,
     this.onTapActionIcon,
     this.onTap,
-    this.isEnabled,
+    this.isEnabled = true,
+    this.isEditable = true,
     this.autoFocus,
     this.focusNode,
     this.inputFormatters,
@@ -77,7 +79,9 @@ class _ListItemIconTextInputComponentState
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _animation =
+        Tween<double>(begin: widget.hintText == null ? 0.0 : 1, end: 1.0)
+            .animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
@@ -139,6 +143,7 @@ class _ListItemIconTextInputComponentState
 
   _listItem() {
     return ListItemIconChildComponent(
+      isEnabled: widget.isEnabled,
       onTap: widget.onTap,
       icon: widget.icon,
       margin: widget.margin,
@@ -165,7 +170,7 @@ class _ListItemIconTextInputComponentState
               inputFormatters: widget.inputFormatters,
               keyboardType: widget.keyboardType,
               style: Theme.of(context).textTheme.titleMedium,
-              enabled: widget.isEnabled,
+              enabled: widget.isEnabled && widget.isEditable,
               autofocus: widget.autoFocus ?? false,
               focusNode: focusNode,
               autocorrect: widget.autoCorrection,
@@ -173,12 +178,7 @@ class _ListItemIconTextInputComponentState
               decoration: InputDecoration(
                 isCollapsed: true,
                 border: InputBorder.none,
-                hintText: widget.lableText == null
-                    ? widget.hintText
-                    : widget.textEditingController.text.isEmpty &&
-                            focusNode.hasFocus
-                        ? widget.hintText
-                        : '',
+                hintText: widget.hintText,
                 hintStyle: Theme.of(context)
                     .textTheme
                     .titleMedium
@@ -188,7 +188,8 @@ class _ListItemIconTextInputComponentState
           ),
           Visibility(
             visible: widget.removeActionIcon &&
-                widget.textEditingController.text.isNotEmpty,
+                widget.textEditingController.text.isNotEmpty &&
+                widget.isEnabled,
             child: Padding(
               padding: const EdgeInsets.only(
                   left: ListItemContainerComponent.standardPadding),

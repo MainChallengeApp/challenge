@@ -130,12 +130,13 @@ class _AcceptanceCriteriaComponentState
             ? ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
-                text: '${frequency.amount ?? '∞'} ${frequency.typeToString()}')
+                text:
+                    '${frequency.amount ?? 'max.'} ${frequency.typeToString()}')
             : ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
                 text:
-                    '${widget.attempt!.getCurrentRepetitionNumber(widget.groupChallenge)}/${frequency.amount ?? '∞'} ${frequency.typeToString()}');
+                    '${widget.attempt!.getCurrentRepetitionNumber(widget.groupChallenge)}/${frequency.amount ?? 'max.'} ${frequency.typeToString()}');
   }
 
   repetitionProgressAbsolute() {

@@ -7,6 +7,7 @@ class ListItemSearchBarComponent extends StatefulWidget {
   final Function(String)? changeList;
   final TextEditingController textEditingController;
   final bool isEnabled;
+  final bool isEditable;
   final bool autoFocus;
   final Function()? onTap;
   final Function(PointerDownEvent)? onTapOutside;
@@ -19,7 +20,8 @@ class ListItemSearchBarComponent extends StatefulWidget {
       this.autoFocus = false,
       this.hintText = 'Search',
       this.onTap,
-      this.onTapOutside});
+      this.onTapOutside,
+      this.isEditable = true});
 
   @override
   State<ListItemSearchBarComponent> createState() =>
@@ -36,6 +38,7 @@ class _ListItemSearchBarComponentState
       icon: IconEnum.search.icon,
       textEditingController: widget.textEditingController,
       isEnabled: widget.isEnabled,
+      isEditable: widget.isEditable,
       hintText: widget.hintText,
       textInputAction: TextInputAction.search,
       autoFocus: widget.autoFocus,

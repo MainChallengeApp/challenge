@@ -174,7 +174,11 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
   void _onTapAccept() {
     widget.challenge.frequency.amount = _editChallenge.frequency.amount;
     widget.challenge.frequency.type = _editChallenge.frequency.type;
-    widget.challenge.calcEndDate();
+    if (widget.challenge.startDate != null) {
+      widget.challenge.calcEndDate();
+    } else if (widget.challenge.endDate != null) {
+      widget.challenge.calcStartDate();
+    }
     Navigator.of(context).pop();
   }
 
