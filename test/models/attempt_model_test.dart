@@ -272,6 +272,7 @@ main() {
         AttemptModel attempt = mockAttemptModel(
             startDate: null,
             frequency: mockFrequencyModel(type: FrequencyTypeEnum.daily));
+        attempt.startDate = null;
         // Act
         int currentRepetitionNumber =
             attempt.getCurrentRepetitionNumber(groupChallenge);
