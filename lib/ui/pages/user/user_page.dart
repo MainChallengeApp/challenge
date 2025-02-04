@@ -52,8 +52,6 @@ class _UserPageState extends State<UserPage> {
 
   late UserModel user;
 
-  bool isBioExpanded = false;
-
   @override
   void initState() {
     super.initState();
@@ -111,63 +109,60 @@ class _UserPageState extends State<UserPage> {
       child: BioComponent(
         bio: user.bio,
         onTap: onTapBio,
-        isBioExpanded: isBioExpanded,
+        isBioExpanded: false,
       ),
     );
   }
 
   _challengesAndConnections(UserModel user) {
-    return Visibility(
-      visible: !isBioExpanded,
-      child: SpaceColumnComponent(
-        child: Row(
-          children: [
-            Expanded(
-              child: TapContainerComponent(
-                onTap: () {
-                  context.read<TabProvider>().selectTab(TabItemEnum.home);
+    return SpaceColumnComponent(
+      child: Row(
+        children: [
+          Expanded(
+            child: TapContainerComponent(
+              onTap: () {
+                context.read<TabProvider>().selectTab(TabItemEnum.home);
 
-                  var homeNavigator = _tabProvider
-                      .navigatorKeys[TabItemEnum.home]!.currentState!;
+                var homeNavigator =
+                    _tabProvider.navigatorKeys[TabItemEnum.home]!.currentState!;
 
-                  homeNavigator.popUntil((route) => route.isFirst);
-                },
-                child: Column(
-                  children: [
-                    Text(
-                      listeningGroupChallengesProvider.groupChallenges.length
-                          .toString(),
-                      style: Theme.of(context).textTheme.bodyMediumBlack,
-                    ),
-                    Text(
-                      'Challenges',
-                      style: Theme.of(context).textTheme.subTitle,
-                    ),
-                  ],
-                ),
+                homeNavigator.popUntil((route) => route.isFirst);
+              },
+              child: Column(
+                children: [
+                  Text(
+                    listeningGroupChallengesProvider.groupChallenges.length
+                        .toString(),
+                    style: Theme.of(context).textTheme.bodyMediumBlack,
+                  ),
+                  Text(
+                    'Challenges',
+                    style: Theme.of(context).textTheme.subTitle,
+                  ),
+                ],
               ),
             ),
-            const SpaceComponent(),
-            Expanded(
-              child: TapContainerComponent(
-                onTap: onTapConnections,
-                child: Column(
-                  children: [
-                    Text(
-                      listeningUsersProvider.confirmedConnections.length
-                          .toString(),
-                      style: Theme.of(context).textTheme.bodyMediumBlack,
-                    ),
-                    Text(
-                      'Connections',
-                      style: Theme.of(context).textTheme.subTitle,
-                    ),
-                  ],
-                ),
+          ),
+          const SpaceComponent(),
+          Expanded(
+            child: TapContainerComponent(
+              onTap: onTapConnections,
+              child: Column(
+                children: [
+                  Text(
+                    listeningUsersProvider.confirmedConnections.length
+                        .toString(),
+                    style: Theme.of(context).textTheme.bodyMediumBlack,
+                  ),
+                  Text(
+                    'Connections',
+                    style: Theme.of(context).textTheme.subTitle,
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -181,7 +176,7 @@ class _UserPageState extends State<UserPage> {
   }
 
   _expandedSpace() {
-    return isBioExpanded ? Container() : Expanded(child: Container());
+    return const Expanded(child: SizedBox());
   }
 
   _username(UserModel user) {

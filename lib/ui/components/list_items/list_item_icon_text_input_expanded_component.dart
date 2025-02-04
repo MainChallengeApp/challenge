@@ -81,6 +81,7 @@ class _ListItemIconTextInputExpandedComponentState
                 child: TextField(
                   expands: true,
                   scrollController: _scrollController,
+                  scrollPhysics: const AlwaysScrollableScrollPhysics(),
                   controller: widget.textEditingController,
                   maxLength: widget.maxLength,
                   buildCounter: (BuildContext context,

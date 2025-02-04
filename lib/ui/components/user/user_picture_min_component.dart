@@ -1,4 +1,3 @@
-import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -19,38 +18,22 @@ class UserPictureMinComponent extends StatefulWidget {
 }
 
 class _UserPictureMinComponentState extends State<UserPictureMinComponent> {
-  var mediaService = MediaService();
+  final _mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
     return TapContainerComponent(
-      onTap: widget.onTap,
-      isQuadratic: true,
-      height: 2 * CustomContainerComponent.standardHeight,
-      backgroundColor: Theme.of(context).colorScheme.themeColor4,
-      borderWidth: 0,
-      padding: const EdgeInsets.all(0),
-      child: ClipRRect(
+        onTap: widget.onTap,
+        isQuadratic: true,
+        height: 2 * CustomContainerComponent.standardHeight,
+        backgroundColor: Theme.of(context).colorScheme.themeColor4,
+        borderWidth: 0,
+        padding: const EdgeInsets.all(0),
+        child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(
               CustomContainerComponent.standardRadius - 2)), // TODO: -2 ?
-          child: widget.userPictureUrl == null
-              ? Icon(
-                  IconEnum.user.icon,
-                  color: Theme.of(context).colorScheme.tertiary,
-                )
-              : mediaService.isUrlLocal(widget.userPictureUrl!)
-                  ? Image.asset(widget.userPictureUrl!,
-                      fit: BoxFitEnum.cover.fit,
-                      errorBuilder: (context, error, stackTrace) => Center(
-                            child: Icon(IconEnum.user.icon,
-                                color: Theme.of(context).colorScheme.tertiary),
-                          ))
-                  : Image.network(widget.userPictureUrl!,
-                      fit: BoxFitEnum.cover.fit,
-                      errorBuilder: (context, error, stackTrace) => Center(
-                            child: Icon(IconEnum.user.icon,
-                                color: Theme.of(context).colorScheme.tertiary),
-                          ))),
-    );
+          child: _mediaService.getImage(context, widget.userPictureUrl,
+              icon: IconEnum.user.icon, fit: BoxFit.cover),
+        ));
   }
 }

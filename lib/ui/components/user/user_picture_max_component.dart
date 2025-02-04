@@ -1,4 +1,3 @@
-import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -16,7 +15,7 @@ class UserPictureMaxComponent extends StatefulWidget {
 }
 
 class _UserPictureMaxComponentState extends State<UserPictureMaxComponent> {
-  var mediaService = MediaService();
+  final _mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -29,26 +28,8 @@ class _UserPictureMaxComponentState extends State<UserPictureMaxComponent> {
         child: ClipRRect(
             borderRadius: const BorderRadius.all(
                 Radius.circular(CustomContainerComponent.standardRadius)),
-            child: widget.userPictureUrl == null
-                ? Icon(
-                    IconEnum.user.icon,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  )
-                : mediaService.isUrlLocal(widget.userPictureUrl!)
-                    ? Image.asset(widget.userPictureUrl!,
-                        fit: BoxFitEnum.cover.fit,
-                        errorBuilder: (context, error, stackTrace) => Center(
-                              child: Icon(IconEnum.user.icon,
-                                  color:
-                                      Theme.of(context).colorScheme.tertiary),
-                            ))
-                    : Image.network(widget.userPictureUrl!,
-                        fit: BoxFitEnum.cover.fit,
-                        errorBuilder: (context, error, stackTrace) => Center(
-                              child: Icon(IconEnum.user.icon,
-                                  color:
-                                      Theme.of(context).colorScheme.tertiary),
-                            ))),
+            child: _mediaService.getImage(context, widget.userPictureUrl,
+                icon: IconEnum.user.icon)),
       ),
     );
   }

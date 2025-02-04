@@ -38,48 +38,6 @@ class _ListItemMediaSmallComponentState
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.titleMedium,
         ));
-
-    // ListItemContainerComponent(
-    //   endActionPane: endActionPane,
-    //   onTap: onTap,
-    //   child: Row(
-    //     children: [
-    //       Container(
-    //         decoration: const BoxDecoration(
-    //             color: Theme.of(context).colorScheme.themeColor4,
-    //             borderRadius: BorderRadius.all(Radius.circular(
-    //                 ListItemIconTextComponent.standardIconRadius))),
-    //         width: 40,
-    //         height: 40,
-    //         margin: const EdgeInsets.only(right: 12),
-    //         child: ClipRRect(
-    //             borderRadius: const BorderRadius.all(Radius.circular(
-    //                 ListItemIconTextComponent.standardIconRadius)),
-    //             child: media.isImage()
-    //                 ? media.isLocal()
-    //                     ? Image.asset(media.source,
-    //                         fit: BoxFit.cover,
-    //                         errorBuilder: (context, error, stackTrace) =>
-    //                             const Center(
-    //                               child: Icon(Icons.question_mark,
-    //                                   color: Theme.of(context).colorScheme.tertiary),
-    //                             ))
-    //                     : Image.network(media.source,
-    //                         fit: BoxFit.cover,
-    //                         errorBuilder: (context, error, stackTrace) =>
-    //                             const Center(
-    //                               child: Icon(Icons.question_mark,
-    //                                   color: Theme.of(context).colorScheme.tertiary),
-    //                             ))
-    //                 : null),
-    //       ),
-    //       Text(
-    //         media.title,
-    //         overflow: TextOverflow.ellipsis,
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 
   ActionPane endActionPane(Function closeSlidable) {
