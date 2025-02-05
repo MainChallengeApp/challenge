@@ -25,7 +25,7 @@ class _UserPictureMinComponentState extends State<UserPictureMinComponent> {
     return TapContainerComponent(
         onTap: widget.onTap,
         isQuadratic: true,
-        height: 2 * CustomContainerComponent.standardHeight,
+        height: 3 * CustomContainerComponent.standardHeight,
         backgroundColor: Theme.of(context).colorScheme.themeColor4,
         borderWidth: 0,
         padding: const EdgeInsets.all(0),
