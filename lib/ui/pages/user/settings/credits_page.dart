@@ -13,7 +13,7 @@ class CreditsPage extends StatelessWidget {
       appBar: AppBarComponent(title: _title),
       body: const Center(
         child: Text(
-          'My Mom\n\n\nYou\n\n\nChallenge Icons made by Freepik from www.flaticon.com',
+          'Jesus Christ\n\n\nMy Parents\n\n\nYou\n\n\nChallenge Icons made by Freepik from www.flaticon.com',
           textAlign: TextAlign.center,
         ),
       ),
