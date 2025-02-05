@@ -10,6 +10,7 @@ import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -68,7 +69,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
   bool _isScopeExpanded = false;
   bool _isUserAbleToEditChallenge = false;
   bool _isLoading = false;
-  String? _titleErrorText;
+
+  String? _tempTitleErrorText;
+  final String _titleErrorTextKey = 'title';
+  late final Map<String, String?> _errorTexts = {
+    _titleErrorTextKey: null,
+  };
 
   @override
   void initState() {
@@ -211,7 +217,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
               onTap: _onTapTitle,
               icon: IconEnum.title.icon,
               text: 'Title',
-              errorText: _titleErrorText,
+              errorText: _errorTexts[_titleErrorTextKey],
               text2: _editChallenge.title)),
     );
   }
@@ -439,10 +445,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void _setInitialSelectedAttempt() {
-    if (_isUserAbleToEditChallenge) {
-      return;
-    }
-
     if (_editChallenge is GroupChallengeModel) {
       _selectedAttempt = (_editChallenge as GroupChallengeModel)
           .getParticipant(_usersProvider.user.id)
@@ -470,7 +472,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                 0;
 
     DateTime? date = isStartDate ? startDate : endDate;
-    return '${UtilService.dateFormat(date)}${dateWithTime && (date) != null ? ',' : ''} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
+    return '${UtilService.dateFormat(date)} ${dateWithTime ? UtilService.timeFormat(date) : ''}';
   }
 
   void _onTapTitle() {
@@ -483,7 +485,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
       ),
     ).then((_) {
       setState(() {
-        _titleErrorText = null;
+        _errorTexts[_titleErrorTextKey] = null;
       });
     });
   }
@@ -575,16 +577,9 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   _checkInputs() {
     if (_editChallenge.title.isEmpty) {
-      setState(() {
-        _titleErrorText = null;
-      });
-      Future.delayed(const Duration(milliseconds: 100), () {
-        if (mounted) {
-          setState(() {
-            _titleErrorText = 'Title is required';
-          });
-        }
-      });
+      _tempTitleErrorText = 'Title is required';
+      ErrorTextService.showErrorText(
+          setState, _errorTexts, _titleErrorTextKey, _tempTitleErrorText);
       return false;
     }
     return true;

@@ -35,6 +35,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
       autoFocus: widget.autoFocus,
       lableText: widget.lableText ?? 'Email',
       removeActionIcon: true,
+      textInputAction: TextInputAction.next,
     );
   }
 }

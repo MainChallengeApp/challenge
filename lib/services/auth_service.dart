@@ -92,6 +92,8 @@ class AuthService {
         return 'Invalide Credentials';
       case 'invalid-credential':
         return 'Invalid Credential';
+      case 'too-many-requests':
+        return 'Too many requests. Try again later';
       default:
         return null;
     }

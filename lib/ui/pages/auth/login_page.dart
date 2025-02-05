@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
@@ -36,8 +37,14 @@ class _LoginPageState extends State<LoginPage> {
 
   late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
-  String? emailErrorText;
-  String? passwordErrorText;
+  final String _emailErrorTextKey = 'email';
+  final String _passwordErrorTextKey = 'password';
+  late final Map<String, String?> _errorTexts = {
+    _emailErrorTextKey: null,
+    _passwordErrorTextKey: null
+  };
+  String? _tempEmailErrorText;
+  String? _tempPasswordErrorText;
 
   bool isLoading = false;
 
@@ -87,10 +94,12 @@ class _LoginPageState extends State<LoginPage> {
     return SpaceColumnComponent(
       child: ListItemPasswordComponent(
         textEditingController: passwordTextEditingController,
-        errorText: passwordErrorText,
+        errorText: _errorTexts[_passwordErrorTextKey],
         onChangeTextField: (_) => setState(() {
-          passwordErrorText = null;
-          emailErrorText = null;
+          _errorTexts[_emailErrorTextKey] = null;
+          _errorTexts[_passwordErrorTextKey] = null;
+          _tempEmailErrorText = null;
+          _tempPasswordErrorText = null;
         }),
         onSubmitted: (_) => onTapLogin(),
       ),
@@ -101,10 +110,12 @@ class _LoginPageState extends State<LoginPage> {
     return SpaceColumnComponent(
       child: ListItemEmailComponent(
         textEditingController: emailTextEditingController,
-        errorText: emailErrorText,
+        errorText: _errorTexts[_emailErrorTextKey],
         onChangeTextField: (_) => setState(() {
-          emailErrorText = null;
-          passwordErrorText = null;
+          _errorTexts[_emailErrorTextKey] = null;
+          _errorTexts[_passwordErrorTextKey] = null;
+          _tempEmailErrorText = null;
+          _tempPasswordErrorText = null;
         }),
       ),
     );
@@ -133,25 +144,24 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    setState(() {
-      emailTextEditingController.text = emailTextEditingController.text.trim();
-    });
+    emailTextEditingController.text = emailTextEditingController.text.trim();
 
     if (!authService.isValidEmail(emailTextEditingController.text) ||
         !authService.isValidPassword(passwordTextEditingController.text)) {
-      setState(() {
-        emailErrorText =
-            authService.isValidEmail(emailTextEditingController.text)
-                ? null
-                : 'Invalid email';
-        passwordErrorText =
-            authService.isValidPassword(passwordTextEditingController.text)
-                ? null
-                : 'Invalid password';
-      });
+      _tempEmailErrorText =
+          authService.isValidEmail(emailTextEditingController.text)
+              ? null
+              : 'Invalid email';
+      _tempPasswordErrorText =
+          authService.isValidPassword(passwordTextEditingController.text)
+              ? null
+              : 'Invalid password';
+      ErrorTextService.showErrorText(
+          setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);
+      ErrorTextService.showErrorText(
+          setState, _errorTexts, _passwordErrorTextKey, _tempPasswordErrorText);
       return;
     }
-
     setState(() {
       isLoading = true;
     });
@@ -161,24 +171,25 @@ class _LoginPageState extends State<LoginPage> {
           emailTextEditingController.text, passwordTextEditingController.text);
       await usersProvider.login();
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        emailErrorText = authService.getEmailErrorMessage(e.code);
-        passwordErrorText = authService.getPasswordErrorMessage(e.code);
-        if (emailErrorText == null && passwordErrorText == null) {
-          emailErrorText = 'Login failed';
-          passwordErrorText = 'Login failed';
-        }
-      });
+      _tempEmailErrorText = authService.getEmailErrorMessage(e.code);
+      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      if (_tempEmailErrorText == null && _tempPasswordErrorText == null) {
+        _tempEmailErrorText = 'Login failed';
+        _tempPasswordErrorText = 'Login failed';
+      }
     } on Exception {
-      setState(() {
-        emailErrorText = 'Login failed';
-        passwordErrorText = 'Login failed';
-      });
+      _tempEmailErrorText = 'Login failed';
+      _tempPasswordErrorText = 'Login failed';
     } finally {
       if (mounted) {
         setState(() {
           isLoading = false;
         });
+
+        ErrorTextService.showErrorText(
+            setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);
+        ErrorTextService.showErrorText(setState, _errorTexts,
+            _passwordErrorTextKey, _tempPasswordErrorText);
       }
     }
   }
@@ -237,17 +248,15 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    setState(() {
-      emailTextEditingController.text = emailTextEditingController.text.trim();
-    });
+    emailTextEditingController.text = emailTextEditingController.text.trim();
 
     if (!authService.isValidEmail(emailTextEditingController.text)) {
-      setState(() {
-        emailErrorText =
-            authService.isValidEmail(emailTextEditingController.text)
-                ? null
-                : 'Invalid email';
-      });
+      _tempEmailErrorText =
+          authService.isValidEmail(emailTextEditingController.text)
+              ? null
+              : 'Invalid emailo';
+      ErrorTextService.showErrorText(
+          setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);
       return;
     }
 
@@ -257,28 +266,26 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       await authService.sendPasswordResetEmail(emailTextEditingController.text);
-      setState(() {
-        passwordErrorText = 'Password reset email sent';
-      });
+      _tempPasswordErrorText = 'Password reset email sent';
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        emailErrorText = authService.getEmailErrorMessage(e.code);
-        passwordErrorText = authService.getPasswordErrorMessage(e.code);
-        if (emailErrorText == null && passwordErrorText == null) {
-          emailErrorText = 'Setting password failed';
-          passwordErrorText = 'Setting password failed';
-        }
-      });
+      _tempEmailErrorText = authService.getEmailErrorMessage(e.code);
+      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      if (_tempEmailErrorText == null && _tempPasswordErrorText == null) {
+        _tempEmailErrorText = 'Setting password failed';
+        _tempPasswordErrorText = 'Setting password failed';
+      }
     } on Exception {
-      setState(() {
-        emailErrorText = 'Setting password failed';
-        passwordErrorText = 'Setting password failed';
-      });
+      _tempEmailErrorText = 'Setting password failed';
+      _tempPasswordErrorText = 'Setting password failed';
     } finally {
       if (mounted) {
         setState(() {
           isLoading = false;
         });
+        ErrorTextService.showErrorText(
+            setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);
+        ErrorTextService.showErrorText(setState, _errorTexts,
+            _passwordErrorTextKey, _tempPasswordErrorText);
       }
     }
   }

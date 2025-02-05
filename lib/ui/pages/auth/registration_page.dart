@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
@@ -35,20 +36,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
       TextEditingController(text: widget.initialEmail);
   TextEditingController passwordTextEditingController = TextEditingController();
 
-  String? emailErrorText;
-  String? passwordErrorText;
+  String? _tempEmailErrorText;
+  String? _tempPasswordErrorText;
+  final String _emailErrorTextKey = 'email';
+  final String _passwordErrorTextKey = 'password';
+  late final Map<String, String?> _errorTexts = {
+    _emailErrorTextKey: null,
+    _passwordErrorTextKey: null,
+  };
 
   bool isLoading = false;
-
-  final String _title = 'Registration';
 
   @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
-      appBar: AppBarComponent(
-        title: _title,
+      appBar: const AppBarComponent(
+        title: 'Registration',
         isFirstPageInRoute: true,
-        leadingIcon: const LeadingAppIconComponent(),
+        leadingIcon: LeadingAppIconComponent(),
       ),
       isBottomNavigationVisible: false,
       resizeToAvoidBottomInset: true,
@@ -90,10 +95,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return SpaceColumnComponent(
       child: ListItemPasswordComponent(
         textEditingController: passwordTextEditingController,
-        errorText: passwordErrorText,
+        errorText: _errorTexts[_passwordErrorTextKey],
         onChangeTextField: (_) => setState(() {
-          emailErrorText = null;
-          passwordErrorText = null;
+          _errorTexts[_passwordErrorTextKey] = null;
+          _errorTexts[_emailErrorTextKey] = null;
+          _tempEmailErrorText = null;
+          _tempPasswordErrorText = null;
         }),
         onSubmitted: (_) => onTapRegister(),
       ),
@@ -104,10 +111,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return SpaceColumnComponent(
       child: ListItemEmailComponent(
         textEditingController: emailTextEditingController,
-        errorText: emailErrorText,
+        errorText: _tempEmailErrorText,
         onChangeTextField: (_) => setState(() {
-          emailErrorText = null;
-          passwordErrorText = null;
+          _errorTexts[_emailErrorTextKey] = null;
+          _errorTexts[_passwordErrorTextKey] = null;
+          _tempEmailErrorText = null;
+          _tempPasswordErrorText = null;
         }),
       ),
     );
@@ -137,17 +146,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (isLoading) {
       return;
     }
-    if (!authService.isValidEmail(emailTextEditingController.text)) {
-      setState(() {
-        emailErrorText = 'Invalid Email';
-      });
-      return;
-    }
 
-    if (!authService.isValidPassword(passwordTextEditingController.text)) {
-      setState(() {
-        passwordErrorText = 'Invalid Password';
-      });
+    emailTextEditingController.text = emailTextEditingController.text.trim();
+
+    if (!authService.isValidEmail(emailTextEditingController.text) ||
+        !authService.isValidPassword(passwordTextEditingController.text)) {
+      _tempEmailErrorText =
+          authService.isValidEmail(emailTextEditingController.text)
+              ? null
+              : 'Invalid Email';
+      _tempPasswordErrorText =
+          authService.isValidPassword(passwordTextEditingController.text)
+              ? null
+              : 'Invalid Password';
+      ErrorTextService.showErrorText(
+          setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);
+      ErrorTextService.showErrorText(
+          setState, _errorTexts, _passwordErrorTextKey, _tempPasswordErrorText);
       return;
     }
 
@@ -161,24 +176,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
       await usersProvider.createUser();
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        emailErrorText = authService.getEmailErrorMessage(e.code);
-        passwordErrorText = authService.getPasswordErrorMessage(e.code);
-        if (emailErrorText == null && passwordErrorText == null) {
-          emailErrorText = 'Registration failed';
-          passwordErrorText = 'Registration failed';
-        }
-      });
+      _tempEmailErrorText = authService.getEmailErrorMessage(e.code);
+      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      if (_tempEmailErrorText == null && _tempPasswordErrorText == null) {
+        _tempEmailErrorText = 'Registration failed';
+        _tempPasswordErrorText = 'Registration failed';
+      }
     } on Exception {
-      setState(() {
-        emailErrorText = 'Registration failed';
-        passwordErrorText = 'Registration failed';
-      });
+      _tempEmailErrorText = 'Registration failed';
+      _tempPasswordErrorText = 'Registration failed';
     } finally {
       if (mounted) {
         setState(() {
           isLoading = false;
         });
+
+        ErrorTextService.showErrorText(
+            setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);
+        ErrorTextService.showErrorText(setState, _errorTexts,
+            _passwordErrorTextKey, _tempPasswordErrorText);
       }
     }
   }

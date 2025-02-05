@@ -1,13 +1,15 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
-import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/themes/theme_constants.dart';
+import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,8 +29,11 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
   final TextEditingController passwordTextEditingController =
       TextEditingController();
 
-  String? emailErrorText;
-  String? passwordErrorText;
+  String? _tempPasswordErrorText;
+  final String _passwordErrorTextKey = 'password';
+  late final Map<String, String?> _errorTexts = {
+    _passwordErrorTextKey: null,
+  };
 
   final authService = AuthService();
 
@@ -50,29 +55,19 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SpaceColumnComponent(
-                      child: CustomContainerComponent(
-                        borderRadius: CardComponent.standardBorderRadius,
-                        margin: const EdgeInsets.symmetric(horizontal: 20),
-                        padding: const EdgeInsets.all(20),
-                        isHeightDynamic: true,
-                        child: Center(
-                          child: Text(
-                            'This action will delete all your data and cannot be undone.\n\nEnter your password to delete your user.',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ),
-                      ),
-                    ),
+                    const SpaceColumnComponent(
+                        child: ListItemInfoComponent(
+                            title: 'Delete User',
+                            text:
+                                'This action will delete all your data and cannot be undone.\n\nEnter your password to delete your user.')),
                     SpaceColumnComponent(
                       heightMultiplier: 2,
                       child: ListItemPasswordComponent(
                           textEditingController: passwordTextEditingController,
-                          errorText: passwordErrorText,
+                          errorText: _errorTexts[_passwordErrorTextKey],
                           onChangeTextField: (_) => setState(() {
-                                emailErrorText = null;
-                                passwordErrorText = null;
+                                _errorTexts[_passwordErrorTextKey] = null;
+                                _tempPasswordErrorText = null;
                               })),
                     ),
                   ],
@@ -80,13 +75,32 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
               ),
             ),
             SpaceColumnComponent(
-              height: 20,
-              child: ListItemButtonComponent(
-                  onTap: onTapDeleteUser,
-                  text: 'Delete',
-                  isLoading: isLoading,
-                  isMainButton: false,
-                  textColor: Theme.of(context).colorScheme.red),
+              height: BottomNavigationComponent.standardMargin,
+              child: Row(
+                children: [
+                  const SpaceComponent(
+                    width: ListItemContainerComponent.standardMargin,
+                  ),
+                  Expanded(
+                    child: ListItemButtonComponent(
+                        margin: const EdgeInsets.all(0),
+                        onTap: _onTapCancel,
+                        isMainButton: false,
+                        text: 'Cancel'),
+                  ),
+                  const SpaceComponent(),
+                  Expanded(
+                    child: ListItemButtonComponent(
+                        margin: const EdgeInsets.all(0),
+                        onTap: _onTapDeleteUser,
+                        text: 'Delete',
+                        isLoading: isLoading),
+                  ),
+                  const SpaceComponent(
+                    width: ListItemContainerComponent.standardMargin,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -94,7 +108,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
     );
   }
 
-  void onTapDeleteUser() async {
+  void _onTapDeleteUser() async {
     if (isLoading) {
       return;
     }
@@ -110,23 +124,25 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
       await authService.deleteUser();
       usersProvider.resetLocalUser();
     } on FirebaseAuthException catch (e) {
-      setState(() {
-        emailErrorText = authService.getEmailErrorMessage(e.code);
-        passwordErrorText = authService.getPasswordErrorMessage(e.code);
-        if (emailErrorText == null && passwordErrorText == null) {
-          emailErrorText = 'Deletion failed';
-          passwordErrorText = 'Deletion failed';
-        }
-      });
+      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      _tempPasswordErrorText ??= 'Deletion failed';
+      setState(() {});
     } on Exception {
       setState(() {
-        emailErrorText = 'Deletion failed';
-        passwordErrorText = 'Deletion failed';
+        _tempPasswordErrorText = 'Deletion failed';
       });
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+        ErrorTextService.showErrorText(setState, _errorTexts,
+            _passwordErrorTextKey, _tempPasswordErrorText);
+      }
     }
+  }
+
+  void _onTapCancel() {
+    Navigator.pop(context);
   }
 }
