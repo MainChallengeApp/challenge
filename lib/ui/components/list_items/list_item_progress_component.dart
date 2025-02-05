@@ -134,6 +134,8 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
         margin: const EdgeInsets.only(
             right: ContainerInContainerComponent.standardMargin),
         height: SmallContainerInListItemComponent.height,
+        padding: const EdgeInsets.symmetric(
+            horizontal: ContainerInContainerComponent.standardPadding),
         child: Center(
           child: Row(children: [
             Text(

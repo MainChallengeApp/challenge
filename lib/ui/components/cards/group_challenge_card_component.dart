@@ -191,6 +191,13 @@ class _GroupChallengeCardComponentState
             child: StartAndEndDateComponent.attempt(
               editAttempt: _latestAttempt,
               groupChallenge: _groupChallenge,
+              reloadParentPage: () {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  if (mounted) {
+                    setState(() {});
+                  }
+                });
+              },
             ),
           );
   }

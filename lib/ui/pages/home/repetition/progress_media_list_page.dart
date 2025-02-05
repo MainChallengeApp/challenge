@@ -10,7 +10,6 @@ import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
-import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -83,8 +82,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   late final _notificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: false);
 
-  MediaService mediaService = MediaService();
-  StorageService storageService = StorageService();
+  final _mediaService = MediaService();
 
   bool _isSaveLoading = false;
 
@@ -164,10 +162,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     MediaModel media = widget.initialMediaList.reversed.elementAt(newIndex);
     return SpaceColumnComponent(
       child: ListItemMediaSmallComponent(
-        onTap: () => push(context, index: newIndex),
+        onTap: () => _onTapMedia(context, index: newIndex),
         media: media,
         isEditableByUser: widget.isEditableByUser,
-        onTapDeleteMedia: () => onTapDeleteMedia(media),
+        onTapDeleteMedia: () => _onTapDeleteMedia(media),
       ),
     );
   }
@@ -210,7 +208,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     ));
   }
 
-  void push(BuildContext context, {required int index}) {
+  void _onTapMedia(BuildContext context, {required int index}) {
     Navigator.push(
       context,
       NoAnimationPageRouteComponent(
@@ -219,7 +217,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
           initialMediaIndex: index,
           attempt: widget.attempt,
           isEditableByUser: widget.isEditableByUser,
-          onTapDelete: onTapDeleteMedia,
+          onTapDelete: _onTapDeleteMedia,
         ),
       ),
     ).then((_) => setState(() {}));
@@ -260,7 +258,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Cancel',
-        onTap: onTapCancel,
+        onTap: _onTapCancel,
         isMainButton: false,
         margin: const EdgeInsets.only(
             left: BottomNavigationComponent.standardMargin),
@@ -309,7 +307,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       child: ListItemButtonComponent(
         text: 'Delete',
         textColor: Theme.of(context).colorScheme.red,
-        onTap: onTapDelete,
+        onTap: _onTapDelete,
         isMainButton: false,
         margin: const EdgeInsets.only(left: 20),
       ),
@@ -382,7 +380,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   _onTapUploadMedia() async {
-    MediaModel? media = await mediaService.openImagePicker(context);
+    MediaModel? media = await _mediaService.openImagePicker(context);
     if (media == null) {
       return;
     }
@@ -394,7 +392,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     });
   }
 
-  void onTapCancel() {
+  void _onTapCancel() {
     if (!widget.isEditableByUser || widget.progress == null) {
       Navigator.pop(context);
       return;
@@ -405,7 +403,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     });
   }
 
-  void onTapDelete() {
+  void _onTapDelete() {
     if (widget.repetition == null || widget.progress == null) {
       return;
     }
@@ -419,7 +417,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     Navigator.pop(context);
   }
 
-  void onTapDeleteMedia(MediaModel media) {
+  void _onTapDeleteMedia(MediaModel media) {
     _groupChallengesProvider.deleteMediaFromAttempt(
         widget.groupChallenge, widget.participant, widget.attempt, media);
     setState(() {

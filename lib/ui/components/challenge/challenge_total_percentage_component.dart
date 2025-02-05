@@ -24,6 +24,7 @@ class _ChallengeTotalPercentageComponentState
     extends State<ChallengeTotalPercentageComponent> {
   @override
   Widget build(BuildContext context) {
+    widget.attempt.checkStatus(widget.groupChallenge);
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.all(0),
         padding: const EdgeInsets.symmetric(

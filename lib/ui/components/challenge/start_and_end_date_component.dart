@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class StartAndEndDateComponent extends StatefulWidget {
@@ -32,73 +34,92 @@ class StartAndEndDateComponent extends StatefulWidget {
 
 class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   bool _isDateWithTime = false;
+  late Timer _timer;
+
+  @override
+  initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     _setIsDateWithTime();
-    return CustomContainerComponent(
-      child: Column(
-        children: [
-          _startAndEndDates(),
-          const SpaceComponent(height: 5),
-          _dateProgress()
-        ],
+    return ClipRRect(
+      borderRadius:
+          BorderRadius.circular(CustomContainerComponent.standardRadius),
+      child: SizedBox(
+        height: CustomContainerComponent.standardHeight,
+        child: Stack(
+          children: [
+            FractionallySizedBox(
+              widthFactor: _calcDateProgress(),
+              heightFactor: 1,
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.themeColor4,
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                        CustomContainerComponent.standardRadius))),
+              ),
+            ),
+            CustomContainerComponent(
+              backgroundColor: Colors.transparent,
+              padding: const EdgeInsets.symmetric(
+                  horizontal: CustomContainerComponent.standardPadding),
+              child: _startAndEndDates(),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Row _startAndEndDates() {
-    return Row(
+  _startAndEndDates() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
+        Row(
+          children: [
+            Text(
+              'Start',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const Expanded(child: SizedBox()),
+            Text(
               _getStartDate() == null
-                  ? 'Start Date'
+                  ? '-'
                   : '${UtilService.dateFormat(_getStartDate()!)} ${_isDateWithTime ? ' ${UtilService.timeFormat(_getStartDate()!)}' : ''}',
               style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
+            )
+          ],
         ),
-        const Text('-'),
-        Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Text(
+        Row(
+          children: [
+            Text(
+              'End',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.bold),
+            ),
+            const Expanded(child: SizedBox()),
+            Text(
               _getEndDate() == null
-                  ? 'End Date'
+                  ? '-'
                   : '${UtilService.dateFormat(_getEndDate()!)} ${_isDateWithTime ? ' ${UtilService.timeFormat(_getEndDate()!)}' : ''}',
               style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
+            )
+          ],
         ),
       ],
-    );
-  }
-
-  Container _dateProgress() {
-    return Container(
-      width: double.infinity,
-      height: 5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: Theme.of(context).colorScheme.surface,
-        border: Border.all(
-            color: Theme.of(context).colorScheme.tertiary.withOpacity(0.5),
-            width: 1,
-            strokeAlign: BorderSide.strokeAlignInside),
-      ),
-      child: FractionallySizedBox(
-        alignment: Alignment.centerLeft,
-        widthFactor: _calcDateProgress(),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Theme.of(context).colorScheme.tertiary.withOpacity(0.5),
-          ),
-        ),
-      ),
     );
   }
 
@@ -141,8 +162,13 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
       return 0.0;
     }
     if (now > endDate) {
+      if (_timer.isActive) {
+        widget.reloadParentPage?.call();
+        _timer.cancel();
+      }
       return 1.0;
     }
+
     return (now - startDate) / (endDate - startDate);
   }
 }
