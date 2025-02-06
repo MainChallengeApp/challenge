@@ -2,6 +2,7 @@ import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/reports_provider.dart';
+import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,9 @@ void setupDependencies(BuildContext context) {
 
   getIt.registerSingleton<GroupChallengesProvider>(
       Provider.of<GroupChallengesProvider>(context, listen: false));
+
+  getIt.registerSingleton<SearchChallengesProvider>(
+      Provider.of<SearchChallengesProvider>(context, listen: false));
 
   getIt.registerSingleton<ReportsProvider>(
       Provider.of<ReportsProvider>(context, listen: false));

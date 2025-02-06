@@ -1,6 +1,8 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/search_challenge_card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
@@ -30,14 +32,13 @@ class SearchChallengePage extends StatefulWidget {
 }
 
 class _SearchChallengePageState extends State<SearchChallengePage> {
-  late PageController pageController =
+  late final PageController _pageController =
       PageController(initialPage: widget.initChallengeIndex);
 
-  final mediaService = MediaService();
+  final _mediaService = MediaService();
 
-  late final searchChallengeProvider =
-      Provider.of<SearchChallengesProvider>(context, listen: false);
-  late final listeningSearchChallengeProvider =
+  late final _searchChallengeProvider = getIt<SearchChallengesProvider>();
+  late final _listeningSearchChallengeProvider =
       Provider.of<SearchChallengesProvider>(context);
 
   bool _isLoading = false;
@@ -45,13 +46,17 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   @override
   initState() {
     super.initState();
+
+    ScrollService.fixOverScroll(_pageController,
+        () => _listeningSearchChallengeProvider.searchChallenges.length);
+
     if (widget.isRandom) {
       if (mounted) {
         setState(() {
           _isLoading = true;
         });
       }
-      searchChallengeProvider.initRandomChallenges().then((_) {
+      _searchChallengeProvider.initRandomChallenges().then((_) {
         if (mounted) {
           setState(() {
             _isLoading = false;
@@ -73,9 +78,9 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (var challenge in listeningSearchChallengeProvider.searchChallenges) {
+    for (var challenge in _listeningSearchChallengeProvider.searchChallenges) {
       if (!challenge.hasThumbnail() ||
-          mediaService.isUrlLocal(challenge.thumbnail!.url)) {
+          _mediaService.isUrlLocal(challenge.thumbnail!.url)) {
         continue;
       }
       precacheImage(NetworkImage(challenge.thumbnail!.url), context);
@@ -89,7 +94,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
       body: Center(
         child: _isLoading
             ? const LoadingCircleComponent()
-            : listeningSearchChallengeProvider.searchChallenges.isEmpty
+            : _listeningSearchChallengeProvider.searchChallenges.isEmpty
                 ? ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: const [
@@ -97,12 +102,12 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
                     ],
                   )
                 : PageView(
-                    controller: pageController,
+                    controller: _pageController,
                     onPageChanged: onPageChanged,
                     scrollDirection: Axis.vertical,
                     physics: const AlwaysScrollableScrollPhysics(),
                     children:
-                        listeningSearchChallengeProvider.searchChallenges.map(
+                        _listeningSearchChallengeProvider.searchChallenges.map(
                       (challenge) {
                         return SearchChallengeCardComponent(
                             challenge: challenge);
@@ -113,15 +118,15 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   }
 
   void onPageChanged(int value) {
-    if (value != searchChallengeProvider.searchChallenges.length - 1) {
+    if (value != _searchChallengeProvider.searchChallenges.length - 1) {
       return;
     }
 
     if (widget.isRandom) {
-      searchChallengeProvider.getRandomPaginated();
+      _searchChallengeProvider.getRandomPaginated();
       return;
     }
-    searchChallengeProvider.getSearchedPaginated(
+    _searchChallengeProvider.getSearchedPaginated(
         searchText: widget.searchText, categories: widget.categories);
   }
 }

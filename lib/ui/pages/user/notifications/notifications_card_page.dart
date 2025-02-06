@@ -9,6 +9,8 @@ import 'package:challenge/models/notification/group_challenge_request_notificati
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/models/notification/progress_added_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/notifications/connection_accepted_card_component.dart';
 import 'package:challenge/ui/components/cards/notifications/connection_request_card_component.dart';
@@ -32,36 +34,40 @@ class NotificationsCardPage extends StatefulWidget {
 }
 
 class _NotificationsCardPageState extends State<NotificationsCardPage> {
-  late final notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
-  late final listeningNotificationsProvider =
+  late final _notificationsProvider = getIt<NotificationsProvider>();
+  late final _listeningNotificationsProvider =
       Provider.of<NotificationsProvider>(context);
 
-  late PageController pageController = PageController(
+  late final PageController _pageController = PageController(
       initialPage: max(
-          notificationsProvider.userNotifications.indexWhere(
+          _notificationsProvider.userNotifications.indexWhere(
               (NotificationModel notification) =>
                   notification.id == widget.initialNotificationId),
           0));
 
-  final String _title = 'Notifications';
+  @override
+  initState() {
+    super.initState();
+    ScrollService.fixOverScroll(_pageController,
+        () => _listeningNotificationsProvider.userNotifications.length);
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (listeningNotificationsProvider.userNotifications.isEmpty) {
+    if (_listeningNotificationsProvider.userNotifications.isEmpty) {
       _navigatorPop(context);
       return Container();
     }
 
     return ScaffoldComponent(
-      appBar: AppBarComponent(
-        title: _title,
+      appBar: const AppBarComponent(
+        title: 'Notifications',
       ),
       body: PageView(
         scrollDirection: Axis.vertical,
         physics: const AlwaysScrollableScrollPhysics(),
-        controller: pageController,
-        children: listeningNotificationsProvider.userNotifications
+        controller: _pageController,
+        children: _listeningNotificationsProvider.userNotifications
             .map((NotificationModel notification) {
           switch (notification.type) {
             case NotificationTypeEnum.connectionRequest:

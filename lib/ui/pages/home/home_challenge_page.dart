@@ -5,6 +5,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/group_challenge_card_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -48,6 +49,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
   initState() {
     super.initState();
     _groupChallengesProvider.getById(widget.initialChallengeId);
+    ScrollService.fixOverScroll(
+        _pageController, () => _filteredChallenges.length);
   }
 
   @override

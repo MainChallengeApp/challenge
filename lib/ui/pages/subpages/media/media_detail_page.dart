@@ -2,6 +2,7 @@ import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/media/image_media_card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -34,7 +35,7 @@ class MediaDetailPage extends StatefulWidget {
 
 class _MediaDetailPageState extends State<MediaDetailPage>
     with SingleTickerProviderStateMixin {
-  late PageController controller =
+  late final PageController _pageController =
       PageController(initialPage: widget.initialMediaIndex);
   late String currentTitle =
       widget.mediaList.reversed.toList()[widget.initialMediaIndex].title;
@@ -45,14 +46,14 @@ class _MediaDetailPageState extends State<MediaDetailPage>
 
   bool _isFullScreen = false;
 
-  late AnimationController _controller;
+  late AnimationController _animationController;
   late Animation<Offset> _actionButtonsAnimation;
   late Animation<Offset> _appBarAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _animationController = AnimationController(
       duration: const Duration(milliseconds: 100),
       vsync: this,
     );
@@ -60,7 +61,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
       begin: Offset.zero,
       end: const Offset(0.0, 1.0),
     ).animate(CurvedAnimation(
-      parent: _controller,
+      parent: _animationController,
       curve: Curves.easeInOut,
     ));
 
@@ -68,9 +69,11 @@ class _MediaDetailPageState extends State<MediaDetailPage>
       begin: Offset.zero,
       end: const Offset(0.0, -1.0),
     ).animate(CurvedAnimation(
-      parent: _controller,
+      parent: _animationController,
       curve: Curves.easeInOut,
     ));
+
+    ScrollService.fixOverScroll(_pageController, () => widget.mediaList.length);
   }
 
   @override
@@ -85,12 +88,12 @@ class _MediaDetailPageState extends State<MediaDetailPage>
 
   AnimatedBuilder _actionButtons() {
     return AnimatedBuilder(
-      animation: _controller,
+      animation: _animationController,
       builder: (context, child) {
         return ClipRect(
           child: Align(
             alignment: Alignment.bottomCenter,
-            heightFactor: 1.0 - _controller.value,
+            heightFactor: 1.0 - _animationController.value,
             child: SlideTransition(
               position: _actionButtonsAnimation,
               child: _actionButtonsButtons(),
@@ -107,7 +110,9 @@ class _MediaDetailPageState extends State<MediaDetailPage>
         onTap: () {
           setState(() {
             _isFullScreen = !_isFullScreen;
-            _isFullScreen ? _controller.forward() : _controller.reverse();
+            _isFullScreen
+                ? _animationController.forward()
+                : _animationController.reverse();
           });
         },
         child: Stack(
@@ -116,7 +121,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
               physics: const AlwaysScrollableScrollPhysics(),
               onPageChanged: _onSwipeMedia,
               scrollDirection: Axis.vertical,
-              controller: controller,
+              controller: _pageController,
               children: widget.mediaList.reversed.map((media) {
                 switch (media.type) {
                   case MediaTypeEnum.image:
@@ -138,12 +143,12 @@ class _MediaDetailPageState extends State<MediaDetailPage>
 
   AnimatedBuilder _appBar() {
     return AnimatedBuilder(
-      animation: _controller,
+      animation: _animationController,
       builder: (context, child) {
         return ClipRect(
           child: Align(
             alignment: Alignment.topCenter,
-            heightFactor: 1.0 - _controller.value,
+            heightFactor: 1.0 - _animationController.value,
             child: SlideTransition(
               position: _appBarAnimation,
               child: AppBarComponent(

@@ -210,14 +210,7 @@ class _SearchListPageState extends State<SearchListPage> {
               if (index == searchChallenges.length) {
                 return _listeningSearchChallengesProvider
                         .isEndOfSearchedListReached
-                    ? SpaceColumnComponent(
-                        child: ListItemIconTextComponent(
-                        onTap: onTapNewChallenge,
-                        icon: Icons.add,
-                        title: _textEditingController.text == ''
-                            ? 'New Challenge'
-                            : _textEditingController.text,
-                      ))
+                    ? SpaceColumnComponent(child: _newChallengeListItem())
                     : const Center(
                         child: SpaceColumnComponent(
                             child: LoadingCircleComponent()),
@@ -234,6 +227,15 @@ class _SearchListPageState extends State<SearchListPage> {
               );
             }),
       ),
+    );
+  }
+
+  ListItemIconTextComponent _newChallengeListItem() {
+    return ListItemIconTextComponent(
+      onTap: onTapNewChallenge,
+      icon: Icons.add,
+      title:
+          'New Challenge${_textEditingController.text.isEmpty ? '' : ' "${_textEditingController.text}"'}',
     );
   }
 
@@ -292,7 +294,8 @@ class _SearchListPageState extends State<SearchListPage> {
         child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: _scrollController,
-            itemCount: allSearchResults.length + 1, // + 1 for loading circle
+            itemCount: allSearchResults.length +
+                1, // + 1 for loading circle/invite friends and new challenge
             itemBuilder: (BuildContext content, int index) {
               _numberOfBuilds++;
 
@@ -300,10 +303,15 @@ class _SearchListPageState extends State<SearchListPage> {
                 return _listeningUsersProvider.isEndOfSearchedListReached &&
                         _listeningSearchChallengesProvider
                             .isEndOfSearchedListReached
-                    ? SpaceColumnComponent(
-                        child: ListItemInviteFriendsComponent(
-                        username: _usersProvider.user.username,
-                      ))
+                    ? Column(
+                        children: [
+                          SpaceColumnComponent(child: _newChallengeListItem()),
+                          SpaceColumnComponent(
+                              child: ListItemInviteFriendsComponent(
+                            username: _usersProvider.user.username,
+                          )),
+                        ],
+                      )
                     : const Center(
                         child: SpaceColumnComponent(
                             child: LoadingCircleComponent()),
