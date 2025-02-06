@@ -47,6 +47,12 @@ class _StartAndEndDateComponentState extends State<StartAndEndDateComponent> {
   }
 
   @override
+  dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     _setIsDateWithTime();
     return ClipRRect(
