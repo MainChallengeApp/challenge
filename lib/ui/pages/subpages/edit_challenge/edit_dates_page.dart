@@ -70,12 +70,15 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   bool _shouldRecreatePicker = false;
 
-  late final DateTime? _originalEndDate = _getEndDate();
-  late final DateTime? _originalStartDate = _getStartDate();
+  late final DateTime? _originalEndDate;
+  late final DateTime? _originalStartDate;
 
   @override
   initState() {
     super.initState();
+
+    _originalEndDate = _getEndDate();
+    _originalStartDate = _getStartDate();
 
     _amountFocusNode.addListener(() {
       if (_amountFocusNode.hasFocus) {
