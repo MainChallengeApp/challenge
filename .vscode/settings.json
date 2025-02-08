@@ -29,19 +29,13 @@
   ],
   "editor.codeActionsOnSave": ["source.organizeImports", "source.fixAll"],
   "conventionalCommits.scopes": [
-    "pagination",
-    "general",
-    "notifications",
-    "block_user",
-    "group_challenges",
-    "migrations",
-    "rename",
     "search",
-    "connections",
-    "time_safety",
+    "challenges",
+    "user",
+    "notifications",
+    "migrations",
     "tests",
     "firebase",
-    "media"
   ],
   "cSpell.ignoreWords": [
     "avfoundation",

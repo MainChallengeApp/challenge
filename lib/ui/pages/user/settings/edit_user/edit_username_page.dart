@@ -68,6 +68,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 textEditingController: _userNameTextEditingController,
                 hintText: _usersProvider.user.username,
                 errorText: _errorText,
+                autoCorrection: false,
                 inputFormatters: [
                   TextInputFormatter.withFunction(
                     (TextEditingValue oldValue, TextEditingValue newValue) {
