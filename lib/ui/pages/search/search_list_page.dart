@@ -220,7 +220,7 @@ class _SearchListPageState extends State<SearchListPage> {
               ChallengeModel challenge = searchChallenges[index];
               return SpaceColumnComponent(
                 child: ListItemChallengeSmallComponent(
-                  onTap: () => onTapChallenge(index: index),
+                  onTap: () => _onTapChallenge(index: index),
                   challenge: challenge,
                   isSearch: true,
                 ),
@@ -232,10 +232,10 @@ class _SearchListPageState extends State<SearchListPage> {
 
   ListItemIconTextComponent _newChallengeListItem() {
     return ListItemIconTextComponent(
-      onTap: onTapNewChallenge,
+      onTap: _onTapNewChallenge,
       icon: Icons.add,
       title:
-          'New Challenge${_textEditingController.text.isEmpty ? '' : ' "${_textEditingController.text}"'}',
+          'New Challenge${_textEditingController.text.isEmpty ? '' : ': ${_textEditingController.text}'}',
     );
   }
 
@@ -342,7 +342,7 @@ class _SearchListPageState extends State<SearchListPage> {
     );
   }
 
-  onTapChallenge({required int index}) {
+  _onTapChallenge({required int index}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -404,7 +404,7 @@ class _SearchListPageState extends State<SearchListPage> {
         ));
   }
 
-  onTapNewChallenge() {
+  _onTapNewChallenge() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -422,7 +422,7 @@ class _SearchListPageState extends State<SearchListPage> {
   }
 
   Future<void> _onChangeList(String searchText) async {
-    if (searchText.isEmpty) {
+    if (searchText.isEmpty && widget.categories.isEmpty) {
       setState(() {});
       return;
     }
