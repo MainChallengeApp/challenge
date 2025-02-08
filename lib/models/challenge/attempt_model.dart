@@ -334,6 +334,10 @@ class AttemptModel {
     return status == ChallengeStatusEnum.backlog;
   }
 
+  bool isFinished() {
+    return isSucceeded() || isFailed();
+  }
+
   ChallengeStatusEnum checkStatus(GroupChallengeModel groupChallenge) {
     DateTime now = TimeService.now();
     if (isCompleted(groupChallenge) &&
@@ -551,26 +555,49 @@ class AttemptModel {
   AcceptanceCriteriaModel getAcceptanceCriteria(
       GroupChallengeModel groupChallenge) {
     return groupChallenge.groupChallengeOptions.isProgressIndividuell ||
-            status == ChallengeStatusEnum.failed ||
-            status == ChallengeStatusEnum.success
+            isFinished()
         ? acceptanceCriteria
         : groupChallenge.acceptanceCriteria;
   }
 
   FrequencyModel getFrequency(GroupChallengeModel groupChallenge) {
     return groupChallenge.groupChallengeOptions.isProgressIndividuell ||
-            status == ChallengeStatusEnum.failed ||
-            status == ChallengeStatusEnum.success
+            isFinished()
         ? frequency
         : groupChallenge.frequency;
   }
 
   DateTime? getEndDate(GroupChallengeModel groupChallenge) {
-    return endDate ?? groupChallenge.endDate;
+    if (isFinished()) {
+      return endDate;
+    }
+    if (endDate == null) {
+      return groupChallenge.endDate;
+    }
+
+    if (groupChallenge.startDate == null ||
+        endDate!.isAfter(groupChallenge.startDate!) ||
+        endDate!.isAtSameMomentAs(groupChallenge.startDate!)) {
+      return endDate;
+    }
+    return groupChallenge.endDate;
   }
 
   DateTime? getStartDate(GroupChallengeModel groupChallenge) {
-    return startDate ?? groupChallenge.startDate;
+    if (isFinished()) {
+      return startDate;
+    }
+
+    if (startDate == null) {
+      return groupChallenge.startDate;
+    }
+
+    if (groupChallenge.endDate == null ||
+        startDate!.isBefore(groupChallenge.endDate!) ||
+        startDate!.isAtSameMomentAs(groupChallenge.endDate!)) {
+      return startDate;
+    }
+    return groupChallenge.startDate;
   }
 
   void setGoals(double goal) {

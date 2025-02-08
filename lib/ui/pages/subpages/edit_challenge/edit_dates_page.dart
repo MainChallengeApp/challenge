@@ -70,15 +70,9 @@ class _EditDatesPageState extends State<EditDatesPage> {
 
   bool _shouldRecreatePicker = false;
 
-  late final DateTime? _originalEndDate;
-  late final DateTime? _originalStartDate;
-
   @override
   initState() {
     super.initState();
-
-    _originalEndDate = _getEndDate();
-    _originalStartDate = _getStartDate();
 
     _amountFocusNode.addListener(() {
       if (_amountFocusNode.hasFocus) {
@@ -431,7 +425,14 @@ class _EditDatesPageState extends State<EditDatesPage> {
       if (_isChallenge) {
         _editChallenge!.startDate = date;
       } else {
-        _editAttempt!.startDate = date;
+        if (widget.groupChallenge != null &&
+            widget.groupChallenge!.startDate != null &&
+            date != null &&
+            date.isBefore(widget.groupChallenge!.startDate!)) {
+          _editAttempt!.startDate = widget.groupChallenge!.startDate;
+        } else {
+          _editAttempt!.startDate = date;
+        }
       }
       if (_getFrequency().type == FrequencyTypeEnum.daily &&
           _getFrequency().amount == null) {
@@ -446,7 +447,14 @@ class _EditDatesPageState extends State<EditDatesPage> {
       if (_isChallenge) {
         _editChallenge!.endDate = date;
       } else {
-        _editAttempt!.endDate = date;
+        if (widget.groupChallenge != null &&
+            widget.groupChallenge!.endDate != null &&
+            date != null &&
+            date.isAfter(widget.groupChallenge!.endDate!)) {
+          _editAttempt!.endDate = widget.groupChallenge!.endDate;
+        } else {
+          _editAttempt!.endDate = date;
+        }
       }
       if (_getFrequency().type == FrequencyTypeEnum.daily &&
           _getFrequency().amount == null) {
@@ -486,9 +494,10 @@ class _EditDatesPageState extends State<EditDatesPage> {
       FrequencyModel frequency = _getFrequency();
       if (frequency.type == FrequencyTypeEnum.daily &&
           frequency.amount != null) {
-        return _originalStartDate?.add(Duration(days: frequency.amount!));
+        return widget.groupChallenge?.startDate
+            ?.add(Duration(days: frequency.amount!));
       }
-      return _originalStartDate;
+      return widget.groupChallenge?.startDate;
     }
 
     if (widget.groupChallenge!.startDate == null) {
@@ -510,9 +519,10 @@ class _EditDatesPageState extends State<EditDatesPage> {
       FrequencyModel frequency = _getFrequency();
       if (frequency.type == FrequencyTypeEnum.daily &&
           frequency.amount != null) {
-        return _originalEndDate?.subtract(Duration(days: frequency.amount!));
+        return widget.groupChallenge?.endDate
+            ?.subtract(Duration(days: frequency.amount!));
       }
-      return _originalEndDate;
+      return widget.groupChallenge?.endDate;
     }
 
     if (widget.groupChallenge!.endDate == null) {
