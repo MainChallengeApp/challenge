@@ -8,6 +8,7 @@ import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -415,10 +416,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
                     text: 'Start',
                     isLoading: _isActionButtonLoading,
                     margin: EdgeInsets.zero,
-                    isMainButton: widget.attempt
-                                .getStartDate(widget.groupChallenge) ==
-                            null ||
-                        widget.groupChallenge.userId == _usersProvider.user.id,
+                    isMainButton: _groupChallenge.startDate == null ||
+                        _groupChallenge.startDate!.isBefore(TimeService.now()),
                   ),
                 ),
                 const SpaceComponent(

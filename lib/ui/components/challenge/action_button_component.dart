@@ -2,6 +2,7 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:flutter/material.dart';
 
@@ -87,11 +88,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
       },
       text: 'Start',
       isPrimaryButton: widget.groupChallenge.startDate == null ||
-          (widget.attempt.isInProgress() &&
-              widget.attempt
-                      .getCurrentRepetition(widget.groupChallenge)
-                      ?.startDate ==
-                  null),
+          widget.groupChallenge.startDate!.isBefore(TimeService.now()),
       isLoading: _loading,
     );
   }
