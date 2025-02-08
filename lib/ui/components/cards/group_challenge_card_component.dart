@@ -70,6 +70,7 @@ class _GroupChallengeCardComponentState
         orElse: () => widget.groupChallenge);
     _participant = _groupChallenge.getParticipant(_usersProvider.user.id);
     _latestAttempt = _participant.getLatestAttempt();
+    _groupChallenge.checkStatus();
     return Slidable(
       closeOnScroll: true,
       key: ObjectKey(_groupChallenge),
