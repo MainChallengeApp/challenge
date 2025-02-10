@@ -150,6 +150,7 @@ class GroupChallengesProvider with ChangeNotifier {
   Future<void> startAttemptOrChallenge(GroupChallengeModel groupChallenge,
       ParticipantModel participant, AttemptModel attempt) async {
     if (groupChallenge.startDate == null ||
+        attempt.getStartDate(groupChallenge) == null ||
         groupChallenge.startDate!
             .isBefore(attempt.getStartDate(groupChallenge)!)) {
       attempt.start(groupChallenge);

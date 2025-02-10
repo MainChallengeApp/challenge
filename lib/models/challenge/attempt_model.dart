@@ -588,6 +588,10 @@ class AttemptModel {
       return startDate;
     }
 
+    if (number != 1) {
+      return startDate;
+    }
+
     if (startDate == null) {
       return groupChallenge.startDate;
     }
