@@ -289,12 +289,13 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   void onTapNewProgress(RepetitionModel repetition) async {
     // ignore: use_build_context_synchronously
+    var initialMediaList = List<MediaModel>.empty(growable: true);
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ProgressMediaListPage(
           repetition: repetition,
-          initialMediaList: List.empty(growable: true),
+          initialMediaList: initialMediaList,
           attempt: _attempt,
           groupChallenge: _groupChallenge,
           participant: _participant,

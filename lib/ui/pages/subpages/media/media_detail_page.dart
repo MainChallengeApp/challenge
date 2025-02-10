@@ -1,7 +1,6 @@
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/media_model.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/media/image_media_card_component.dart';
@@ -37,12 +36,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
     with SingleTickerProviderStateMixin {
   late final PageController _pageController =
       PageController(initialPage: widget.initialMediaIndex);
-  late String currentTitle =
-      widget.mediaList.reversed.toList()[widget.initialMediaIndex].title;
-  late int currentMediaIndex = widget.initialMediaIndex;
-  String title = 'Media';
-
-  MediaService mediaService = MediaService();
+  late int _currentMediaIndex = widget.initialMediaIndex;
 
   bool _isFullScreen = false;
 
@@ -151,8 +145,8 @@ class _MediaDetailPageState extends State<MediaDetailPage>
             heightFactor: 1.0 - _animationController.value,
             child: SlideTransition(
               position: _appBarAnimation,
-              child: AppBarComponent(
-                title: title,
+              child: const AppBarComponent(
+                title: 'Media',
               ),
             ),
           ),
@@ -178,13 +172,13 @@ class _MediaDetailPageState extends State<MediaDetailPage>
 
   void _onSwipeMedia(int value) {
     setState(() {
-      currentMediaIndex = value;
+      _currentMediaIndex = value;
     });
   }
 
   void _onTapDelete() {
     setState(() {
-      MediaModel media = widget.mediaList.reversed.toList()[currentMediaIndex];
+      MediaModel media = widget.mediaList.reversed.toList()[_currentMediaIndex];
       widget.mediaList.removeWhere((element) => element.id == media.id);
 
       widget.onTapDelete?.call(media);
@@ -194,8 +188,8 @@ class _MediaDetailPageState extends State<MediaDetailPage>
         return;
       }
 
-      if (currentMediaIndex >= widget.mediaList.length) {
-        currentMediaIndex = widget.mediaList.length - 1;
+      if (_currentMediaIndex >= widget.mediaList.length) {
+        _currentMediaIndex = widget.mediaList.length - 1;
       }
     });
   }

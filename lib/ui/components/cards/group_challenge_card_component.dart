@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
@@ -376,6 +377,7 @@ class _GroupChallengeCardComponentState
     if (_latestAttempt.getCurrentRepetition(_groupChallenge) == null) {
       return;
     }
+    var initialMediaList = List<MediaModel>.empty(growable: true);
 
     Navigator.push(
       // ignore: use_build_context_synchronously
@@ -383,7 +385,7 @@ class _GroupChallengeCardComponentState
       MaterialPageRoute(
         builder: (context) => ProgressMediaListPage(
           repetition: _latestAttempt.getCurrentRepetition(_groupChallenge)!,
-          initialMediaList: List.empty(growable: true),
+          initialMediaList: initialMediaList,
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
