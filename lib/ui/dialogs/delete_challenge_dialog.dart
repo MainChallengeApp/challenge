@@ -39,13 +39,13 @@ class _DeleteChallengeDialogState extends State<DeleteChallengeDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Delete ${widget.challengeTitle}?',
+      title: 'Delete Challenge?',
       text:
-          'Do you really want to delete this Challenge?\n\nThis action can not be undone.\n',
+          'Do you really want to delete the Challenge:\n\n ${widget.challengeTitle}\n\nThis action can not be undone.\n',
       buttons: [
-        Expanded(child: yesButton(context)),
-        const SpaceComponent(),
         Expanded(child: noButton(context)),
+        const SpaceComponent(),
+        Expanded(child: yesButton(context)),
       ],
     );
   }
@@ -66,6 +66,7 @@ class _DeleteChallengeDialogState extends State<DeleteChallengeDialog> {
         },
         text: 'Delete',
         isLoading: isLoading,
+        isPrimaryButton: true,
       ),
     );
   }
@@ -78,7 +79,6 @@ class _DeleteChallengeDialogState extends State<DeleteChallengeDialog> {
           Navigator.pop(context);
         },
         text: 'Cancel',
-        isPrimaryButton: true,
       ),
     );
   }
