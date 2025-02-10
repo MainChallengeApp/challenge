@@ -4,6 +4,7 @@ import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
@@ -31,22 +32,22 @@ class ConnectionsPage extends StatefulWidget {
 class _ConnectionsPageState extends State<ConnectionsPage> {
   final String _title = 'Connections';
 
-  TextEditingController searchTextEditingController = TextEditingController();
+  final _searchTextEditingController = TextEditingController();
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider =
+  late final _usersProvider = getIt<UsersProvider>();
+  late final _listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
 
-  late final tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final _tabProvider = getIt<TabProvider>();
 
-  List<UserModel> filteredConfirmedConnections = [];
+  List<UserModel> _filteredConfirmedConnections = [];
 
-  ScrollController scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    usersProvider.getConnections();
+    _usersProvider.getConnections();
   }
 
   @override
@@ -64,26 +65,26 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   searchBar() {
     return SpaceColumnComponent(
       child: ListItemSearchBarComponent(
-        textEditingController: searchTextEditingController,
+        textEditingController: _searchTextEditingController,
         changeList: changeList,
       ),
     );
   }
 
   connectionsList() {
-    filteredConfirmedConnections = listeningUsersProvider.confirmedConnections
+    _filteredConfirmedConnections = _listeningUsersProvider.confirmedConnections
         .where((connection) => connection.username
             .toLowerCase()
-            .contains(searchTextEditingController.text.toLowerCase()))
+            .contains(_searchTextEditingController.text.toLowerCase()))
         .toList();
     return Expanded(
       child: RefreshIndicatorComponent(
         onRefresh: onRefreshList,
-        scrollController: scrollController,
+        scrollController: _scrollController,
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
-          itemCount: filteredConfirmedConnections.length +
+          controller: _scrollController,
+          itemCount: _filteredConfirmedConnections.length +
               1 +
               1, // +1 for openRequests
           itemBuilder: (context, index) {
@@ -102,7 +103,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
             }
 
             UserModel connection =
-                filteredConfirmedConnections.elementAt(index - 1 - 1);
+                _filteredConfirmedConnections.elementAt(index - 1 - 1);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
                   onTap: () => onTapUser(connection), user: connection),
@@ -114,18 +115,18 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
   }
 
   Future<void> onRefreshList() async {
-    await usersProvider.getConnections();
+    await _usersProvider.getConnections();
   }
 
   openConnectionRequestsListItem() {
     return Visibility(
-      visible: listeningUsersProvider.openConnectionRequests.isNotEmpty,
+      visible: _listeningUsersProvider.openConnectionRequests.isNotEmpty,
       child: SpaceColumnComponent(
         child: ListItemIconTextTextComponent(
             icon: IconEnum.openRequests.icon,
             text: 'Open Requests',
-            text2:
-                listeningUsersProvider.openConnectionRequests.length.toString(),
+            text2: _listeningUsersProvider.openConnectionRequests.length
+                .toString(),
             onTap: onTapOpenConnectionRequests),
       ),
     );
@@ -147,8 +148,8 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         builder: (context) => SearchUserPage(
           title: _title,
           initUserId: user.id,
-          getUsersList: () => listeningUsersProvider.confirmedConnections,
-          searchText: searchTextEditingController.text,
+          getUsersList: () => _listeningUsersProvider.confirmedConnections,
+          searchText: _searchTextEditingController.text,
           isListPaginated: false,
         ),
       ),
@@ -161,7 +162,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   void onTapAddConnection() {
     var searchNavigator =
-        tabProvider.navigatorKeys[TabItemEnum.search]!.currentState!;
+        _tabProvider.navigatorKeys[TabItemEnum.search]!.currentState!;
 
     searchNavigator.popUntil((route) => route.isFirst);
 
@@ -174,6 +175,6 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
         ),
       ),
     );
-    tabProvider.selectTab(TabItemEnum.search);
+    _tabProvider.selectTab(TabItemEnum.search);
   }
 }

@@ -24,7 +24,7 @@ class ScaffoldComponent extends StatefulWidget {
 }
 
 class _ScaffoldComponentState extends State<ScaffoldComponent> {
-  final TabProvider _tabProvider = getIt<TabProvider>();
+  final _tabProvider = getIt<TabProvider>();
 
   @override
   initState() {

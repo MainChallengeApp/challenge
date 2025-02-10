@@ -5,7 +5,7 @@ import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
@@ -35,61 +35,57 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-  ScrollController scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
-  AuthService authService = AuthService();
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider =
+  late final _tabProvider = getIt<TabProvider>();
+  late final _usersProvider = getIt<UsersProvider>();
+  late final _listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
-
-  late final listeningGroupChallengesProvider =
+  late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(context, listen: true);
-
-  late final listeningNotificationsProvider =
+  late final _listeningNotificationsProvider =
       Provider.of<NotificationsProvider>(context, listen: true);
 
-  late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
-
-  late UserModel user;
+  late UserModel _user;
 
   @override
   void initState() {
     super.initState();
-    usersProvider.getUser().then((_) {
-      usersProvider.getConnections();
-      listeningNotificationsProvider.getUserNotifications();
+    _usersProvider.getUser().then((_) {
+      _usersProvider.getConnections();
+      _listeningNotificationsProvider.getUserNotifications();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    user = listeningUsersProvider.user;
+    _user = _listeningUsersProvider.user;
     return ScaffoldComponent(
         appBar: AppBarComponent(
           title: widget.title,
           isFirstPageInRoute: true,
-          actions: actions(user),
+          actions: actions(_user),
         ),
         body: Container(
           color: Colors.white,
           child: RefreshIndicatorComponent(
             onRefresh: () async {
-              await usersProvider.getUser().then((_) async {
-                await usersProvider.getConnections();
-                await listeningNotificationsProvider.getUserNotifications();
+              await _usersProvider.getUser().then((_) async {
+                await _usersProvider.getConnections();
+                await _listeningNotificationsProvider.getUserNotifications();
               });
             },
-            scrollController: scrollController,
+            scrollController: _scrollController,
             child: CardComponent(
               scrollPhysics: const AlwaysScrollableScrollPhysics(),
-              scrollController: scrollController,
+              scrollController: _scrollController,
               children: [
-                _profilePicture(user),
-                _username(user),
-                _bio(user),
-                _challengesAndConnections(user),
+                _profilePicture(_user),
+                _username(_user),
+                _bio(_user),
+                _challengesAndConnections(_user),
                 _expandedSpace(),
-                _notifications(user)
+                _notifications(_user)
               ],
             ),
           ),
@@ -131,7 +127,7 @@ class _UserPageState extends State<UserPage> {
               child: Column(
                 children: [
                   Text(
-                    listeningGroupChallengesProvider.groupChallenges.length
+                    _listeningGroupChallengesProvider.groupChallenges.length
                         .toString(),
                     style: Theme.of(context).textTheme.bodyMediumBlack,
                   ),
@@ -150,7 +146,7 @@ class _UserPageState extends State<UserPage> {
               child: Column(
                 children: [
                   Text(
-                    listeningUsersProvider.confirmedConnections.length
+                    _listeningUsersProvider.confirmedConnections.length
                         .toString(),
                     style: Theme.of(context).textTheme.bodyMediumBlack,
                   ),
@@ -171,7 +167,7 @@ class _UserPageState extends State<UserPage> {
     return CustomButtonComponent(
       onTap: onTapNotifications,
       text:
-          '${listeningNotificationsProvider.userNotifications.isEmpty ? '' : '${listeningNotificationsProvider.userNotifications.length} '}Notification${listeningNotificationsProvider.userNotifications.length == 1 ? '' : 's'}',
+          '${_listeningNotificationsProvider.userNotifications.isEmpty ? '' : '${_listeningNotificationsProvider.userNotifications.length} '}Notification${_listeningNotificationsProvider.userNotifications.length == 1 ? '' : 's'}',
     );
   }
 
@@ -198,7 +194,7 @@ class _UserPageState extends State<UserPage> {
         context,
         MaterialPageRoute(
           builder: (context) => EditPicturePage(
-            user: user,
+            user: _user,
           ),
         )).then((_) {
       _tabProvider.setBottomNavigationVisibility(true);
@@ -213,7 +209,7 @@ class _UserPageState extends State<UserPage> {
         context,
         MaterialPageRoute(
           builder: (context) => EditUsernamePage(
-            user: user,
+            user: _user,
           ),
         )).then((_) {
       _tabProvider.setBottomNavigationVisibility(true);
@@ -263,7 +259,7 @@ class _UserPageState extends State<UserPage> {
         context,
         MaterialPageRoute(
           builder: (context) => EditBioPage(
-            user: user,
+            user: _user,
           ),
         )).then((_) {
       _tabProvider.setBottomNavigationVisibility(true);

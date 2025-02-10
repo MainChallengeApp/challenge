@@ -4,6 +4,7 @@ import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/notification/progress_added_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
@@ -14,7 +15,6 @@ import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/home/ranking_page.dart';
 import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProgressAddedCardComponent extends StatefulWidget {
   final ProgressAddedNotificationModel progressAddedNotification;
@@ -33,10 +33,8 @@ class _ProgressAddedCardComponentState
     extends State<ProgressAddedCardComponent> {
   bool isLoadingAcceptButton = false;
 
-  late final notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
-
-  late final _tabProvider = Provider.of<TabProvider>(context, listen: false);
+  late final _notificationsProvider = getIt<NotificationsProvider>();
+  late final _tabProvider = getIt<TabProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +72,7 @@ class _ProgressAddedCardComponentState
     setState(() {
       isLoadingAcceptButton = true;
     });
-    await notificationsProvider
+    await _notificationsProvider
         .deleteNotification(widget.progressAddedNotification.id);
 
     _tabProvider.selectTab(TabItemEnum.home);
