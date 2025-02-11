@@ -5,7 +5,7 @@ import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

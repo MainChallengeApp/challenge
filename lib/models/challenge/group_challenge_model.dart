@@ -4,7 +4,7 @@ import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

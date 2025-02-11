@@ -1,7 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
@@ -228,19 +228,19 @@ class _GroupChallengeCardComponentState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DocumentationButtonComponent(
-              iconData: Icons.numbers_rounded,
+              iconData: IconEnum.numbers.icon,
               onTap: () => SnackBarComponent.showSnackBar(
                   'The Numbers feature will be added soon.'),
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
-              iconData: Icons.notes_rounded,
+              iconData: IconEnum.notes.icon,
               onTap: () => SnackBarComponent.showSnackBar(
                   'The Notes feature will be added soon.'),
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
-              iconData: Icons.gps_not_fixed_rounded,
+              iconData: IconEnum.gps.icon,
               onTap: () => SnackBarComponent.showSnackBar(
                   'The GPS feature will be added soon.'),
               isGrayedOut: true,

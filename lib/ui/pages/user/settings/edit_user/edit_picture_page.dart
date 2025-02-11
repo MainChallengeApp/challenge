@@ -1,5 +1,5 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/media_service.dart';
@@ -161,12 +161,12 @@ class _EditPicturePageState extends State<EditPicturePage> {
   }
 
   void onTapUpload() async {
-    MediaModel? media = await mediaService.openImagePicker(context);
-    if (media == null) {
+    ImageMediaModel? imageMedia = await mediaService.openImagePicker(context);
+    if (imageMedia == null) {
       return;
     }
     setState(() {
-      editUser.pictureUrl = media.source;
+      editUser.pictureUrl = imageMedia.source;
     });
   }
 

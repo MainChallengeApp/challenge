@@ -4,7 +4,7 @@ import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 

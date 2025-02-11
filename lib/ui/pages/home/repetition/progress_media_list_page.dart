@@ -2,7 +2,8 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
@@ -381,7 +382,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   _onTapUploadMedia() async {
-    MediaModel? media = await _mediaService.openImagePicker(context);
+    ImageMediaModel? media = await _mediaService.openImagePicker(context);
     if (media == null) {
       return;
     }

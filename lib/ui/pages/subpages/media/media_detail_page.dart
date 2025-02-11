@@ -1,6 +1,7 @@
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/media/image_media_card_component.dart';
@@ -120,7 +121,8 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                 switch (media.type) {
                   case MediaTypeEnum.image:
                     return ImageMediaCardComponent(
-                        media: media, isFullScreen: _isFullScreen);
+                        imageMedia: media as ImageMediaModel,
+                        isFullScreen: _isFullScreen);
                   case MediaTypeEnum.video:
                     return Container();
                   default:

@@ -6,7 +6,8 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -221,9 +222,11 @@ class GroupChallengesProvider with ChangeNotifier {
     try {
       for (var attempt in participant.attempts) {
         for (var media in attempt.media) {
-          if (_mediaService.isUrlLocal(media.source)) {
-            MediaModel? uploadedMedia = await _mediaService.uploadLocalMedia(
-                media, groupChallenge, participant.user.id);
+          if (media is ImageMediaModel &&
+              _mediaService.isUrlLocal(media.source)) {
+            ImageMediaModel? uploadedMedia =
+                await _mediaService.uploadLocalImageMedia(
+                    media, groupChallenge, participant.user.id);
             if (uploadedMedia == null) {
               ErrorOccurredDialog.show(
                   errorText:
@@ -295,15 +298,17 @@ class GroupChallengesProvider with ChangeNotifier {
       ParticipantModel participant,
       AttemptModel attempt,
       MediaModel media) async {
-    if (!_mediaService.isUrlLocal(media.source)) {
-      return;
+    if (media is ImageMediaModel) {
+      if (!_mediaService.isUrlLocal(media.source)) {
+        return;
+      }
+      ImageMediaModel? uploadedMedia = await _mediaService
+          .uploadLocalImageMedia(media, groupChallenge, participant.user.id);
+      if (uploadedMedia == null) {
+        return;
+      }
+      attempt.media.add(uploadedMedia);
     }
-    MediaModel? uploadedMedia = await _mediaService.uploadLocalMedia(
-        media, groupChallenge, participant.user.id);
-    if (uploadedMedia == null) {
-      return;
-    }
-    attempt.media.add(uploadedMedia);
     await updateAttempt(groupChallenge, participant, attempt);
   }
 
@@ -312,13 +317,15 @@ class GroupChallengesProvider with ChangeNotifier {
       ParticipantModel participant,
       AttemptModel attempt,
       MediaModel media) async {
-    File file = File(media.source);
-    file.exists().then((value) {
-      if (value) {
-        file.delete();
-      }
-    });
-    await _mediaService.deleteMedia(media);
+    if (media is ImageMediaModel) {
+      File file = File(media.source);
+      file.exists().then((value) {
+        if (value) {
+          file.delete();
+        }
+      });
+      await _mediaService.deleteMedia(media);
+    }
     attempt.removeMedia(media);
     await updateAttempt(groupChallenge, participant, attempt);
   }

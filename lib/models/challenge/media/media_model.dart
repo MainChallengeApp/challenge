@@ -1,24 +1,23 @@
 import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/exceptions/media_type_is_not_supported_exception.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:uuid/uuid.dart';
 
-class MediaModel {
+abstract class MediaModel {
   String? id;
   static const String idField = 'id';
-
-  MediaTypeEnum type;
-  static const String typeField = 'type';
 
   String title;
   static const String titleField = 'title';
 
-  String source;
-  static const String sourceField = 'source';
+  MediaTypeEnum type;
+  static const String typeField = 'type';
 
-  MediaModel(
-      {this.id,
-      required this.type,
-      required this.title,
-      required this.source}) {
+  MediaModel({
+    this.id,
+    required this.title,
+    required this.type,
+  }) {
     if (id == null || id!.isEmpty) {
       id = const Uuid().v4();
     }
@@ -26,11 +25,16 @@ class MediaModel {
 
   static fromDocs(docs) {
     List<MediaModel> list = [];
-    docs?.forEach((e) => list.add(MediaModel(
-        type: MediaTypeEnum.fromString(e[typeField]),
-        title: e[titleField],
-        source: e[sourceField],
-        id: e[idField])));
+    docs?.forEach((media) {
+      if (media.containsKey(typeField) == false) {
+        throw const MediaTypeIsNotSupportedException('null');
+      }
+      if (media[typeField] == MediaTypeEnum.image.text) {
+        list.add(ImageMediaModel.fromDoc(media));
+      } else {
+        throw MediaTypeIsNotSupportedException(media[typeField]);
+      }
+    });
     return list;
   }
 
@@ -39,7 +43,6 @@ class MediaModel {
       idField: id,
       typeField: type.text,
       titleField: title,
-      sourceField: source
     };
   }
 
@@ -54,16 +57,10 @@ class MediaModel {
   static copyList(List<MediaModel> mediaList) {
     List<MediaModel> mediaListCopy = [];
     for (var media in mediaList) {
-      mediaListCopy.add(MediaModel(
-          id: media.id,
-          type: media.type,
-          title: media.title,
-          source: media.source));
+      mediaListCopy.add(media.copy());
     }
     return mediaListCopy;
   }
 
-  bool isImage() {
-    return type == MediaTypeEnum.image;
-  }
+  copy();
 }

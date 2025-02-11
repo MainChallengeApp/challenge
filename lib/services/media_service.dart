@@ -5,10 +5,10 @@ import 'package:challenge/collections/group_challenges_collection.dart';
 import 'package:challenge/collections/users_collection.dart';
 import 'package:challenge/enums/box_fit_enum.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:challenge/services/time_service.dart';
@@ -20,7 +20,7 @@ import 'package:image_picker/image_picker.dart';
 class MediaService {
   final storageService = StorageService();
 
-  Future<MediaModel?> openImagePicker(BuildContext context) async {
+  Future<ImageMediaModel?> openImagePicker(BuildContext context) async {
     try {
       final picker = ImagePicker();
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -29,8 +29,7 @@ class MediaService {
         return null;
       }
 
-      MediaModel media = MediaModel(
-          type: MediaTypeEnum.image,
+      ImageMediaModel media = ImageMediaModel(
           title: TimeService.now().toString().split('.')[0],
           source: pickedFile.path);
 
@@ -48,7 +47,7 @@ class MediaService {
     }
   }
 
-  Future<MediaModel?> uploadLocalMedia(MediaModel media,
+  Future<ImageMediaModel?> uploadLocalImageMedia(ImageMediaModel media,
       GroupChallengeModel groupChallenge, String userId) async {
     if (!isUrlLocal(media.source)) {
       return media;
@@ -98,26 +97,28 @@ class MediaService {
   }
 
   deleteMedia(MediaModel media) {
-    File file = File(media.source);
-    file.exists().then((value) {
-      if (value) {
-        file.delete();
+    if (media is ImageMediaModel) {
+      File file = File(media.source);
+      file.exists().then((value) {
+        if (value) {
+          file.delete();
+        }
+      });
+
+      if (isUrlLocal(media.source)) {
+        return;
       }
-    });
 
-    if (isUrlLocal(media.source)) {
-      return;
+      storageService.deleteFileByUrl(media.source);
     }
-
-    storageService.deleteFileByUrl(media.source);
   }
 
   deleteMediaInChallengeByIds(List<String> mediaIds, AttemptModel attempt) {
     for (var mediaId in mediaIds) {
-      MediaModel media =
+      MediaModel mediaToDelete =
           attempt.media.firstWhere((element) => element.id == mediaId);
-      attempt.removeMedia(media);
-      deleteMedia(media);
+      attempt.removeMedia(mediaToDelete);
+      deleteMedia(mediaToDelete);
     }
   }
 

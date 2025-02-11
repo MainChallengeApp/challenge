@@ -1,5 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -29,15 +30,39 @@ class _ListItemMediaSmallComponentState
     extends State<ListItemMediaSmallComponent> {
   @override
   Widget build(BuildContext context) {
+    String? url = _getUrl();
+    IconData? icon = _getIcon();
+
     return ListItemImageChildComponent(
         endActionPane: widget.isEditableByUser ? endActionPane : null,
         onTap: widget.onTap,
-        url: widget.media.source,
+        url: url,
+        icon: icon,
         child: Text(
           widget.media.title,
           overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.titleMedium,
         ));
+  }
+
+  String? _getUrl() {
+    if (widget.media is ImageMediaModel) {
+      return (widget.media as ImageMediaModel).source;
+    } else {
+      return null;
+    }
+  }
+
+  IconData? _getIcon() {
+    if (widget.media is ImageMediaModel) {
+      return IconEnum.picture.icon;
+    } else {
+      return null;
+    }
+    //TODO:
+    return widget.media is ImageMediaModel
+        ? IconEnum.picture.icon
+        : IconEnum.notes.icon;
   }
 
   ActionPane endActionPane(Function closeSlidable) {

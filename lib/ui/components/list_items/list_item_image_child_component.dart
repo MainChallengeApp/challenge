@@ -13,7 +13,7 @@ class ListItemImageChildComponent extends StatelessWidget {
   final double? scale;
   final bool? isBackgroundBlurred;
   final Widget child;
-  final IconData icon;
+  final IconData? icon;
   final EdgeInsetsGeometry? margin;
   final mediaService = MediaService();
 

@@ -1,6 +1,7 @@
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -132,17 +133,17 @@ class _MediaListPageState extends State<MediaListPage> {
   }
 
   onTapUploadMedia() async {
-    MediaModel? media = await mediaService.openImagePicker(context);
-    if (media == null) {
+    ImageMediaModel? imageMedia = await mediaService.openImagePicker(context);
+    if (imageMedia == null) {
       return;
     }
 
     setState(() {
-      widget.attempt.media.add(media);
+      widget.attempt.media.add(imageMedia);
     });
 
-    MediaModel? mediaWithUrl = await mediaService.uploadLocalMedia(
-        media, widget.groupChallenge, widget.participant.user.id);
+    ImageMediaModel? mediaWithUrl = await mediaService.uploadLocalImageMedia(
+        imageMedia, widget.groupChallenge, widget.participant.user.id);
 
     if (mediaWithUrl == null) {
       return;

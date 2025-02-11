@@ -1,4 +1,4 @@
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_text_component.dart';
@@ -6,11 +6,11 @@ import 'package:challenge/ui/components/simple_components/small_container_in_lis
 import 'package:flutter/material.dart';
 
 class ImageMediaCardComponent extends StatefulWidget {
-  final MediaModel media;
+  final ImageMediaModel imageMedia;
   final bool isFullScreen;
   const ImageMediaCardComponent({
     super.key,
-    required this.media,
+    required this.imageMedia,
     required this.isFullScreen,
   });
 
@@ -92,7 +92,7 @@ class _ImageMediaCardComponentState extends State<ImageMediaCardComponent>
             ContainerInContainerTextComponent(
                 height: SmallContainerInListItemComponent.height,
                 margin: const EdgeInsets.all(CardComponent.standardPadding),
-                text: widget.media.title),
+                text: widget.imageMedia.title),
           ],
         ),
       ),
@@ -100,7 +100,7 @@ class _ImageMediaCardComponentState extends State<ImageMediaCardComponent>
   }
 
   _image() {
-    return _mediaService.getImage(context, widget.media.source,
+    return _mediaService.getImage(context, widget.imageMedia.source,
         fit: BoxFit.contain, icon: Icons.question_mark);
   }
 

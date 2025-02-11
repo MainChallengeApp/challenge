@@ -4,10 +4,10 @@ import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
-import 'package:challenge/models/challenge/media_model.dart';
+import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
@@ -53,7 +53,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
   final List<MediaModel> _currentMedia = [];
   CameraDescription? _currentCamera;
   bool _isCameraFeedback = false;
-  bool _isRecording = false;
+  final bool _isRecording = false;
   final UsersProvider _usersProvider = getIt<UsersProvider>();
   final GroupChallengesProvider _groupChallengesProvider =
       getIt<GroupChallengesProvider>();
@@ -173,8 +173,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
         image = await _flipHorizontally(image);
       }
 
-      MediaModel media = MediaModel(
-        type: MediaTypeEnum.image,
+      ImageMediaModel media = ImageMediaModel(
         title: TimeService.now().toString().split('.')[0],
         source: image.path,
       );
@@ -220,38 +219,38 @@ class _CameraStateMedia extends State<MediaCameraPage>
   }
 
   // ignore: unused_element
-  Future<void> _toggleVideoRecording() async {
-    if (_isRecording) {
-      try {
-        final XFile video = await _controller!.stopVideoRecording();
-        if (!mounted) return;
-        setState(() {
-          _isRecording = false;
-          MediaModel media = MediaModel(
-            type: MediaTypeEnum.video,
-            title: TimeService.now().toString().split('.')[0],
-            source: video.path,
-          );
-          widget.mediaList.add(media);
-          _currentMedia.add(media);
-        });
-      } catch (e) {
-        ErrorOccurredDialog.show(
-            errorText: 'Failed to stop video recording: $e');
-      }
-    } else {
-      try {
-        await _controller!.prepareForVideoRecording();
-        await _controller!.startVideoRecording();
-        setState(() {
-          _isRecording = true;
-        });
-      } catch (e) {
-        ErrorOccurredDialog.show(
-            errorText: 'Failed to start video recording: $e');
-      }
-    }
-  }
+  // Future<void> _toggleVideoRecording() async {
+  //   if (_isRecording) {
+  //     try {
+  //       final XFile video = await _controller!.stopVideoRecording();
+  //       if (!mounted) return;
+  //       setState(() {
+  //         _isRecording = false;
+  //         MediaModel media = MediaModel(
+  //           type: MediaTypeEnum.video,
+  //           title: TimeService.now().toString().split('.')[0],
+  //           source: video.path,
+  //         );
+  //         widget.mediaList.add(media);
+  //         _currentMedia.add(media);
+  //       });
+  //     } catch (e) {
+  //       ErrorOccurredDialog.show(
+  //           errorText: 'Failed to stop video recording: $e');
+  //     }
+  //   } else {
+  //     try {
+  //       await _controller!.prepareForVideoRecording();
+  //       await _controller!.startVideoRecording();
+  //       setState(() {
+  //         _isRecording = true;
+  //       });
+  //     } catch (e) {
+  //       ErrorOccurredDialog.show(
+  //           errorText: 'Failed to start video recording: $e');
+  //     }
+  //   }
+  // }
 
   void _toggleFlash() async {
     if (_controller == null) return;
@@ -437,6 +436,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
   }
 
   Widget _buildAcceptButton() {
+    String? imageThumbnailUrl = _getImageThumbnailUrl();
     return GestureDetector(
         onTap: () {
           if (_isTakingPicture) {
@@ -477,8 +477,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
               if (_currentMedia.isNotEmpty)
                 ClipRRect(
                     borderRadius: BorderRadius.circular(14),
-                    child: _mediaService.getImage(
-                        context, _currentMedia.last.source,
+                    child: _mediaService.getImage(context, imageThumbnailUrl,
                         fit: BoxFit.cover)),
               Center(
                 child: Icon(
@@ -489,6 +488,13 @@ class _CameraStateMedia extends State<MediaCameraPage>
             ],
           ),
         ));
+  }
+
+  String? _getImageThumbnailUrl() {
+    if (_currentMedia.last is ImageMediaModel) {
+      return (_currentMedia.last as ImageMediaModel).source;
+    }
+    return null;
   }
 }
 

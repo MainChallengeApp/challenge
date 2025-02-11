@@ -8,7 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 import 'acceptance_criteria_model.dart';
-import 'media_model.dart';
+import 'media/media_model.dart';
 
 class ChallengeModel {
   String id;
