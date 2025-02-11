@@ -166,24 +166,24 @@ class GroupChallengeModel extends ChallengeModel {
       AttemptModel bAttempt = b.getParticipant(userId).getLatestAttempt();
 
       // Check if a is succeeded or failed and b is not
-      if ((aAttempt.isSucceeded() || aAttempt.isFailed()) &&
-          !(bAttempt.isSucceeded() || bAttempt.isFailed())) {
+      if ((aAttempt.isSucceeded(a) || aAttempt.isFailed(a)) &&
+          !(bAttempt.isSucceeded(b) || bAttempt.isFailed(b))) {
         return 1;
       }
 
       // Check if b is succeeded or failed and a is not
-      if ((bAttempt.isSucceeded() || bAttempt.isFailed()) &&
-          !(aAttempt.isSucceeded() || aAttempt.isFailed())) {
+      if ((bAttempt.isSucceeded(b) || bAttempt.isFailed(b)) &&
+          !(aAttempt.isSucceeded(a) || aAttempt.isFailed(a))) {
         return -1;
       }
 
       // Check if a is in progress and b is in backlog
-      if (aAttempt.isInProgress() && bAttempt.isInBacklog()) {
+      if (aAttempt.isInProgress(a) && bAttempt.isInBacklog(b)) {
         return 1;
       }
 
       // Check if b is in progress and a is in backlog
-      if (bAttempt.isInProgress() && aAttempt.isInBacklog()) {
+      if (bAttempt.isInProgress(b) && aAttempt.isInBacklog(a)) {
         return -1;
       }
 
@@ -202,8 +202,8 @@ class GroupChallengeModel extends ChallengeModel {
         return -1;
       }
 
-      if ((aAttempt.isSucceeded() || aAttempt.isFailed()) &&
-          (bAttempt.isSucceeded() || bAttempt.isFailed()) &&
+      if ((aAttempt.isSucceeded(a) || aAttempt.isFailed(a)) &&
+          (bAttempt.isSucceeded(b) || bAttempt.isFailed(b)) &&
           aAttempt.getEndDate(a) != null &&
           bAttempt.getEndDate(b) != null) {
         if (aAttempt.getEndDate(a)!.compareTo(bAttempt.getEndDate(b)!) > 0) {

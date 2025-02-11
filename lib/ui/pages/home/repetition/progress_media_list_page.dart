@@ -323,11 +323,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       _isSaveLoading = true;
     });
 
-    if (widget.attempt.isInBacklog() && editProgress.progress > 0) {
+    if (widget.attempt.isInBacklog(widget.groupChallenge) &&
+        editProgress.progress > 0) {
       widget.attempt.start(widget.groupChallenge);
       widget.repetition =
           widget.attempt.getLastRepetition(widget.groupChallenge);
-    } else if (widget.attempt.isInProgress() &&
+    } else if (widget.attempt.isInProgress(widget.groupChallenge) &&
         _currentRepetition != null &&
         _currentRepetition!.isInBacklog() &&
         editProgress.progress > 0) {

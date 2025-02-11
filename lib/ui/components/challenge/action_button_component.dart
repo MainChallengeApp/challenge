@@ -53,11 +53,11 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
 
   bool _shouldShowStartButton() {
     widget.attempt.checkStatus(widget.groupChallenge);
-    if (widget.attempt.isInBacklog()) {
+    if (widget.attempt.isInBacklog(widget.groupChallenge)) {
       return true;
     }
     if (widget.attempt.getCurrentRepetition(widget.groupChallenge) == null &&
-        widget.attempt.isInProgress()) {
+        widget.attempt.isInProgress(widget.groupChallenge)) {
       return true;
     }
     widget.attempt
@@ -94,7 +94,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowEndButton() {
-    if (!widget.attempt.isInProgress()) {
+    if (!widget.attempt.isInProgress(widget.groupChallenge)) {
       return false;
     }
 
@@ -107,7 +107,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
                 widget.attempt
                         .getCurrentRepetitionNumber(widget.groupChallenge) ==
                     frequency.getMaxAmountOfRepetitions()) &&
-            widget.attempt.isInProgress() ||
+            widget.attempt.isInProgress(widget.groupChallenge) ||
         widget.attempt.getCurrentRepetition(widget.groupChallenge) != null &&
             widget.attempt
                 .getCurrentRepetition(widget.groupChallenge)!
@@ -115,7 +115,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowNextButton() {
-    if (!widget.attempt.isInProgress()) {
+    if (!widget.attempt.isInProgress(widget.groupChallenge)) {
       return false;
     }
 
@@ -206,7 +206,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowAcceptAgainButton() {
-    return widget.attempt.isSucceeded();
+    return widget.attempt.isSucceeded(widget.groupChallenge);
   }
 
   Widget _buildAcceptAgainButton() {
@@ -233,7 +233,7 @@ class _ActionButtonComponentState extends State<ActionButtonComponent> {
   }
 
   bool _shouldShowTryAgainButton() {
-    return widget.attempt.isFailed();
+    return widget.attempt.isFailed(widget.groupChallenge);
   }
 
   Widget _buildTryAgainButton() {

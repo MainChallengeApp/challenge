@@ -221,7 +221,8 @@ class _GroupChallengeCardComponentState
 
   _documentationButtons() {
     return Visibility(
-      visible: !_isDescriptionExpanded && _latestAttempt.isInProgress(),
+      visible: !_isDescriptionExpanded &&
+          _latestAttempt.isInProgress(_groupChallenge),
       child: SpaceColumnComponent(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

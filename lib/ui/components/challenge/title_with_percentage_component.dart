@@ -49,7 +49,7 @@ class _TitleWithPercentageComponentState
               ),
             )),
         Visibility(
-          visible: !widget.attempt.isInBacklog(),
+          visible: !widget.attempt.isInBacklog(widget.groupChallenge),
           child: Padding(
             padding: const EdgeInsets.only(
                 left: CustomContainerComponent.standardPadding),

@@ -41,7 +41,7 @@ class _ListItemParticipantComponentState
   @override
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
-        isFailed: widget.attempt.isFailed(),
+        isFailed: widget.attempt.isFailed(widget.groupChallenge),
         onTap: widget.onTap,
         initialProgress:
             widget.attempt.getCurrentPercentage(widget.groupChallenge),
@@ -96,7 +96,7 @@ class _ListItemParticipantComponentState
 
   _statusOrPercentage() {
     return widget.participant.isAccepted()
-        ? widget.attempt.isInBacklog()
+        ? widget.attempt.isInBacklog(widget.groupChallenge)
             ? ContainerInContainerComponent(
                 margin: const EdgeInsets.all(0),
                 padding: const EdgeInsets.symmetric(

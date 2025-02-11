@@ -53,7 +53,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
   ScrollController scrollController = ScrollController();
 
   late var expandedRepetitionIndexList = [
-    if (_attempt.isInProgress())
+    if (_attempt.isInProgress(widget.groupChallenge))
       _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
   ];
 
@@ -185,17 +185,18 @@ class _RepetitionPageState extends State<RepetitionPage> {
   }
 
   List<Widget> progressList(RepetitionModel repetition) {
-    var progressListItems =
-        (_attempt.isInProgress() || _attempt.isInBacklog()) && _isEditableByUser
-            ? <Widget>[
-                LinkListItemComponent(
-                    child: ListItemIconTextComponent(
-                  icon: Icons.add_rounded,
-                  title: 'New Progress',
-                  onTap: () => onTapNewProgress(repetition),
-                ))
-              ]
-            : List<Widget>.empty(growable: true);
+    var progressListItems = (_attempt.isInProgress(widget.groupChallenge) ||
+                _attempt.isInBacklog(widget.groupChallenge)) &&
+            _isEditableByUser
+        ? <Widget>[
+            LinkListItemComponent(
+                child: ListItemIconTextComponent(
+              icon: Icons.add_rounded,
+              title: 'New Progress',
+              onTap: () => onTapNewProgress(repetition),
+            ))
+          ]
+        : List<Widget>.empty(growable: true);
     for (var progress in repetition.progressList.reversed) {
       progressListItems.add(LinkListItemComponent(
           child: ListItemProgressComponent(
@@ -397,7 +398,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
       padding: const EdgeInsets.only(
           bottom: BottomNavigationComponent.standardMargin,
           top: SpaceComponent.standardHeight),
-      child: _attempt.isInBacklog()
+      child: _attempt.isInBacklog(widget.groupChallenge)
           ? Row(
               children: [
                 const SpaceComponent(
@@ -426,7 +427,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 ),
               ],
             )
-          : _attempt.isInProgress()
+          : _attempt.isInProgress(widget.groupChallenge)
               ? ListItemButtonComponent(
                   onTap: onTapEndChallenge,
                   text: 'End',
@@ -434,7 +435,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
                   isMainButton: _attempt.isCompleted(_groupChallenge),
                 )
               : _attempt.number == _participant.getLatestAttempt().number &&
-                      (_attempt.isFailed() || _attempt.isSucceeded())
+                      (_attempt.isFailed(widget.groupChallenge) ||
+                          _attempt.isSucceeded(widget.groupChallenge))
                   ? Row(
                       children: [
                         const SpaceComponent(
@@ -451,7 +453,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                         Expanded(
                           child: ListItemButtonComponent(
                             onTap: onTapTryAgain,
-                            text: _attempt.isFailed()
+                            text: _attempt.isFailed(widget.groupChallenge)
                                 ? 'Try Again'
                                 : 'Accept Again',
                             isLoading: _isActionButtonLoading,

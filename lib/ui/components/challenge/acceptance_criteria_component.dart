@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
@@ -44,7 +43,7 @@ class _AcceptanceCriteriaComponentState
           FractionallySizedBox(
             widthFactor: widget.attempt == null
                 ? 0
-                : !widget.attempt!.isInProgress()
+                : !widget.attempt!.isInProgress(widget.groupChallenge)
                     ? min(
                         widget.attempt!
                             .getCurrentPercentage(widget.groupChallenge),
@@ -59,7 +58,7 @@ class _AcceptanceCriteriaComponentState
               height: 40,
               decoration: BoxDecoration(
                   color: widget.attempt != null &&
-                          widget.attempt!.status == ChallengeStatusEnum.failed
+                          widget.attempt!.isFailed(widget.groupChallenge)
                       ? Theme.of(context).colorScheme.red
                       : Theme.of(context).colorScheme.green,
                   borderRadius: const BorderRadius.all(Radius.circular(
@@ -99,7 +98,8 @@ class _AcceptanceCriteriaComponentState
 
   Visibility newProgress() {
     return Visibility(
-      visible: widget.attempt != null && widget.attempt!.isInProgress(),
+      visible: widget.attempt != null &&
+          widget.attempt!.isInProgress(widget.groupChallenge),
       child: GestureDetector(
         onTap: widget.onTapNewProgress,
         child: ContainerInContainerComponent(
@@ -126,7 +126,8 @@ class _AcceptanceCriteriaComponentState
 
     return (frequency.amount == 1 && frequency.type == FrequencyTypeEnum.time)
         ? Container()
-        : widget.attempt == null || widget.attempt!.isInBacklog()
+        : widget.attempt == null ||
+                widget.attempt!.isInBacklog(widget.groupChallenge)
             ? ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),
@@ -149,9 +150,9 @@ class _AcceptanceCriteriaComponentState
 
     return acceptanceCriteria.unit != '' || acceptanceCriteria.amount != 0
         ? widget.attempt != null &&
-                (widget.attempt!.isInProgress() ||
+                (widget.attempt!.isInProgress(widget.groupChallenge) ||
                     (frequency.amount != null && frequency.amount! == 1) &&
-                        !widget.attempt!.isInBacklog())
+                        !widget.attempt!.isInBacklog(widget.groupChallenge))
             ? ContainerInContainerTextComponent(
                 margin: const EdgeInsets.only(
                     right: ContainerInContainerComponent.standardMargin),

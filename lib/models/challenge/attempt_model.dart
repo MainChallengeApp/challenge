@@ -140,7 +140,7 @@ class AttemptModel {
         int repetitionNumber, int currentRepetitionNumber) {
       if (repetitionNumber < currentRepetitionNumber) {
         return RepetitionStatusEnum.failed;
-      } else if (isInProgress() &&
+      } else if (isInProgress(groupChallenge) &&
           repetitionNumber == currentRepetitionNumber) {
         return RepetitionStatusEnum.inProgress;
       } else {
@@ -322,33 +322,37 @@ class AttemptModel {
     return true;
   }
 
-  bool isSucceeded() {
-    return status == ChallengeStatusEnum.success;
+  bool isSucceeded(GroupChallengeModel groupChallenge) {
+    return checkStatus(groupChallenge) == ChallengeStatusEnum.success;
   }
 
-  bool isFailed() {
-    return status == ChallengeStatusEnum.failed;
+  bool isFailed(GroupChallengeModel groupChallenge) {
+    return checkStatus(groupChallenge) == ChallengeStatusEnum.failed;
   }
 
-  bool isInBacklog() {
-    return status == ChallengeStatusEnum.backlog;
+  bool isInBacklog(GroupChallengeModel groupChallenge) {
+    return checkStatus(groupChallenge) == ChallengeStatusEnum.backlog;
   }
 
-  bool isFinished() {
-    return isSucceeded() || isFailed();
+  bool isFinished(GroupChallengeModel groupChallenge) {
+    return isSucceeded(groupChallenge) || isFailed(groupChallenge);
+  }
+
+  bool isInProgress(GroupChallengeModel groupChallenge) {
+    return checkStatus(groupChallenge) == ChallengeStatusEnum.inProgress;
   }
 
   ChallengeStatusEnum checkStatus(GroupChallengeModel groupChallenge) {
     DateTime now = TimeService.now();
+    DateTime? startDate = getStartDate(groupChallenge);
+    DateTime? endDate = getEndDate(groupChallenge);
     if (isCompleted(groupChallenge) &&
-        getEndDate(groupChallenge) != null &&
-        getEndDate(groupChallenge)!.isBefore(now)) {
+        endDate != null &&
+        endDate.isBefore(now)) {
       status = ChallengeStatusEnum.success;
-    } else if (getEndDate(groupChallenge) != null &&
-        getEndDate(groupChallenge)!.isBefore(now)) {
+    } else if (endDate != null && endDate.isBefore(now)) {
       status = ChallengeStatusEnum.failed;
-    } else if (getStartDate(groupChallenge) == null ||
-        now.isBefore(getStartDate(groupChallenge)!)) {
+    } else if (startDate == null || now.isBefore(startDate)) {
       status = ChallengeStatusEnum.backlog;
     } else {
       status = ChallengeStatusEnum.inProgress;
@@ -475,7 +479,7 @@ class AttemptModel {
   }
 
   end(GroupChallengeModel groupChallenge) {
-    if (isInProgress()) {
+    if (isInProgress(groupChallenge)) {
       endDate = TimeService.now();
       acceptanceCriteria = getAcceptanceCriteria(groupChallenge);
       frequency = getFrequency(groupChallenge);
@@ -491,10 +495,6 @@ class AttemptModel {
         status = ChallengeStatusEnum.failed;
       }
     }
-  }
-
-  bool isInProgress() {
-    return status == ChallengeStatusEnum.inProgress;
   }
 
   double getCurrentPercentage(GroupChallengeModel groupChallenge) {
@@ -555,20 +555,23 @@ class AttemptModel {
   AcceptanceCriteriaModel getAcceptanceCriteria(
       GroupChallengeModel groupChallenge) {
     return groupChallenge.groupChallengeOptions.isProgressIndividuell ||
-            isFinished()
+            status == ChallengeStatusEnum.success ||
+            status == ChallengeStatusEnum.failed
         ? acceptanceCriteria
         : groupChallenge.acceptanceCriteria;
   }
 
   FrequencyModel getFrequency(GroupChallengeModel groupChallenge) {
     return groupChallenge.groupChallengeOptions.isProgressIndividuell ||
-            isFinished()
+            status == ChallengeStatusEnum.success ||
+            status == ChallengeStatusEnum.failed
         ? frequency
         : groupChallenge.frequency;
   }
 
   DateTime? getEndDate(GroupChallengeModel groupChallenge) {
-    if (isFinished()) {
+    if (status == ChallengeStatusEnum.success ||
+        status == ChallengeStatusEnum.failed) {
       return endDate;
     }
     if (endDate == null) {
@@ -584,7 +587,8 @@ class AttemptModel {
   }
 
   DateTime? getStartDate(GroupChallengeModel groupChallenge) {
-    if (isFinished()) {
+    if (status == ChallengeStatusEnum.success ||
+        status == ChallengeStatusEnum.failed) {
       return startDate;
     }
 

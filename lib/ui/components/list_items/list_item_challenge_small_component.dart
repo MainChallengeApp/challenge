@@ -76,7 +76,9 @@ class _ListItemChallengeSmallComponentState
 
   _percentageDone() {
     return Visibility(
-        visible: widget.attempt != null && !widget.attempt!.isInBacklog(),
+        visible: widget.attempt != null &&
+            !widget.attempt!
+                .isInBacklog(widget.challenge as GroupChallengeModel),
         child: Padding(
           padding: const EdgeInsets.only(
               left: CustomContainerComponent.standardPadding),

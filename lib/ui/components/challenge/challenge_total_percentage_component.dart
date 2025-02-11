@@ -34,12 +34,13 @@ class _ChallengeTotalPercentageComponentState
             color: Theme.of(context).colorScheme.surface,
             width: 0.5,
             strokeAlign: BorderSide.strokeAlignOutside),
-        color: (widget.attempt.isFailed()
+        color: (widget.attempt.isFailed(widget.groupChallenge)
             ? Theme.of(context).colorScheme.red
-            : widget.attempt.isSucceeded()
+            : widget.attempt.isSucceeded(widget.groupChallenge)
                 ? Theme.of(context).colorScheme.green
                 : null),
-        textColor: widget.attempt.isFailed() || widget.attempt.isSucceeded()
+        textColor: widget.attempt.isFailed(widget.groupChallenge) ||
+                widget.attempt.isSucceeded(widget.groupChallenge)
             ? Theme.of(context).colorScheme.surface
             : Theme.of(context).colorScheme.tertiary,
         text:

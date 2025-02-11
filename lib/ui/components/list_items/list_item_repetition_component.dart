@@ -40,7 +40,7 @@ class _ListItemRepetitionComponentState
           1,
           widget.repetition.getLastProgressPercentage(
               widget.groupChallenge, widget.attempt)),
-      isFailed: widget.attempt.isFailed(),
+      isFailed: widget.attempt.isFailed(widget.groupChallenge),
       onTap: widget.onTap,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
