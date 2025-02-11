@@ -319,7 +319,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                       child: ListItemButtonComponent(
                         onTap: _onTapAccept,
                         text: 'Accept',
-                        isMainButton: true,
+                        isMainButton: _areInputsCorrect(),
                         isLoading: _isLoading,
                         margin: EdgeInsets.zero,
                       ),
@@ -328,7 +328,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                       child: ListItemButtonComponent(
                         onTap: _onTapSave,
                         text: 'Save',
-                        isMainButton: true,
+                        isMainButton: _areInputsCorrect(),
                         isLoading: _isLoading,
                         margin: EdgeInsets.zero,
                       ),
@@ -346,7 +346,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void _onTapAccept() async {
-    if (_checkInputs() == false) {
+    if (_showErrorTexts() == true) {
       return;
     }
 
@@ -385,7 +385,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   void _onTapSave() async {
-    if (_checkInputs() == false) {
+    if (_showErrorTexts() == true) {
       return;
     }
     if (_isLoading) {
@@ -575,13 +575,20 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
   }
 
-  _checkInputs() {
+  bool _areInputsCorrect() {
+    _tempTitleErrorText = null;
     if (_editChallenge.title.isEmpty) {
       _tempTitleErrorText = 'Title is required';
-      ErrorTextService.showErrorText(
-          setState, _errorTexts, _titleErrorTextKey, _tempTitleErrorText);
+    }
+    return _tempTitleErrorText == null;
+  }
+
+  _showErrorTexts() {
+    if (_areInputsCorrect()) {
       return false;
     }
+    ErrorTextService.showErrorText(
+        setState, _errorTexts, _titleErrorTextKey, _tempTitleErrorText);
     return true;
   }
 }
