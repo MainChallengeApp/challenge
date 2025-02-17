@@ -55,13 +55,15 @@ class RepetitionModel {
   }
 
   isInProgress() {
-    return repetitionStatus == RepetitionStatusEnum.inProgress &&
-        startDate != null;
+    return evaluateRepetitionStatus() == RepetitionStatusEnum.inProgress;
   }
 
   bool isInBacklog() {
-    return repetitionStatus == RepetitionStatusEnum.backlog ||
-        startDate == null;
+    return evaluateRepetitionStatus() == RepetitionStatusEnum.backlog;
+  }
+
+  isFailed() {
+    return evaluateRepetitionStatus() == RepetitionStatusEnum.failed;
   }
 
   void start() {

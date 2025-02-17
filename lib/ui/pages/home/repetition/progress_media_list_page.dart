@@ -1,5 +1,4 @@
 import 'package:challenge/enums/icon_enum.dart';
-import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
@@ -14,6 +13,7 @@ import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_media_small_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_progress_component.dart';
@@ -29,15 +29,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
 class ProgressMediaListPage extends StatefulWidget {
-  ProgressMediaListPage(
+  const ProgressMediaListPage(
       {super.key,
       required this.attempt,
       required this.initialMediaList,
       this.repetition,
       this.progress,
-      this.isSaveInsteadOfEditButtonVisible = true,
+      this.isSaveAndNotEditButtonVisible = true,
       this.amountOfPops = 1,
       required this.groupChallenge,
       required this.participant,
@@ -46,11 +45,11 @@ class ProgressMediaListPage extends StatefulWidget {
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
-  RepetitionModel? repetition;
+  final RepetitionModel? repetition;
   final List<MediaModel> initialMediaList;
-  ProgressModel? progress;
-  bool isSaveInsteadOfEditButtonVisible;
-  int amountOfPops;
+  final ProgressModel? progress;
+  final bool isSaveAndNotEditButtonVisible;
+  final int amountOfPops;
   final bool isEditableByUser;
 
   @override
@@ -58,7 +57,8 @@ class ProgressMediaListPage extends StatefulWidget {
 }
 
 class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
-  ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+  late final RepetitionModel _editRepetition = _getEditRepetition();
 
   late final RepetitionModel? _currentRepetition =
       widget.attempt.getCurrentRepetition(widget.groupChallenge);
@@ -66,13 +66,12 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
       widget.progress,
       widget.initialMediaList.map((e) => e.id!).toList(),
-      widget.repetition != null && widget.repetition!.getLastProgress() != null
-          ? widget.repetition!.getLastProgress()!.progress
+      _editRepetition.getLastProgress() != null
+          ? _editRepetition.getLastProgress()!.progress
           : 0,
-      widget.repetition?.repetitionNumber ==
-              _currentRepetition?.repetitionNumber
+      _editRepetition.repetitionNumber == _currentRepetition?.repetitionNumber
           ? null
-          : widget.repetition?.startDate);
+          : _editRepetition.startDate);
 
   late TextEditingController progressTextEditingController =
       TextEditingController(
@@ -86,8 +85,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   final _mediaService = MediaService();
 
   bool _isSaveLoading = false;
-
-  final String _title = 'Progress';
+  late bool _isSaveAndNotEditButtonVisible =
+      widget.isSaveAndNotEditButtonVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +94,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         appBar: AppBarComponent(
             title: widget.progress == null
                 ? 'New Progress'
-                : '$_title ${widget.repetition != null ? widget.repetition!.progressList.indexWhere((element) => element == widget.progress) + 1 : 1}'),
+                : 'Progress ${_editRepetition.progressList.indexWhere((element) => element == widget.progress) + 1}'),
         isBottomNavigationVisible: false,
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -103,7 +102,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             children: [
               _buildList(),
               widget.isEditableByUser
-                  ? widget.isSaveInsteadOfEditButtonVisible
+                  ? _isSaveAndNotEditButtonVisible
                       ? cancelAndSaveButton()
                       : deleteAndEditButton()
                   : Align(
@@ -112,7 +111,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: Row(
                           children: [
+                            const SpaceComponent(
+                              width: ListItemContainerComponent.standardMargin,
+                            ),
                             cancelButton(),
+                            const SpaceComponent(
+                              width: ListItemContainerComponent.standardMargin,
+                            ),
                           ],
                         ),
                       ),
@@ -124,31 +129,29 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   Widget _buildList() {
     return CupertinoScrollbar(
-      controller: scrollController,
+      controller: _scrollController,
       child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
+          controller: _scrollController,
           itemCount: widget.initialMediaList.length +
               1 +
-              (widget.isSaveInsteadOfEditButtonVisible
+              (_isSaveAndNotEditButtonVisible
                   ? 2
                   : 0) // +1 for progress controller list item
           , // +1 for progress bar +1 for upload Media
           itemBuilder: (BuildContext content, int index) {
             if (index == 0) {
-              widget.repetition ??=
-                  widget.attempt.addRepetition(widget.groupChallenge);
               return _progressListItem();
             }
 
             if (index == 1 &&
-                widget.isSaveInsteadOfEditButtonVisible &&
+                _isSaveAndNotEditButtonVisible &&
                 widget.isEditableByUser) {
               return _progressControllerListItem();
             }
 
             if (index == 2 &&
-                widget.isSaveInsteadOfEditButtonVisible &&
+                _isSaveAndNotEditButtonVisible &&
                 widget.isEditableByUser) {
               return _uploadMediaListItem();
             }
@@ -159,7 +162,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   SpaceColumnComponent _mediaListItem(int index) {
-    int newIndex = index - (widget.isSaveInsteadOfEditButtonVisible ? 3 : 1);
+    int newIndex = index - (_isSaveAndNotEditButtonVisible ? 3 : 1);
     MediaModel media = widget.initialMediaList.reversed.elementAt(newIndex);
     return SpaceColumnComponent(
       child: ListItemMediaSmallComponent(
@@ -199,11 +202,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       attempt: widget.attempt,
       groupChallenge: widget.groupChallenge,
       progressTextEditingController: progressTextEditingController,
-      isEditable:
-          widget.isSaveInsteadOfEditButtonVisible && widget.isEditableByUser,
-      isFailed: widget.repetition != null
-          ? widget.repetition!.repetitionStatus == RepetitionStatusEnum.failed
-          : false,
+      isEditable: _isSaveAndNotEditButtonVisible && widget.isEditableByUser,
+      isFailed: _editRepetition.isFailed(),
       unit: widget.attempt.getAcceptanceCriteria(widget.groupChallenge).unit,
       setStateProgressList: () => setState(() {}),
     ));
@@ -216,6 +216,8 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         builder: (context) => MediaDetailPage(
           mediaList: widget.initialMediaList,
           initialMediaIndex: index,
+          groupChallenge: widget.groupChallenge,
+          participant: widget.participant,
           attempt: widget.attempt,
           isEditableByUser: widget.isEditableByUser,
           onTapDelete: _onTapDeleteMedia,
@@ -225,7 +227,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   }
 
   cancelAndSaveButton() {
-    return widget.isSaveInsteadOfEditButtonVisible
+    return _isSaveAndNotEditButtonVisible
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -233,9 +235,15 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
                   bottom: BottomNavigationComponent.standardMargin),
               child: Row(
                 children: [
+                  const SpaceComponent(
+                    width: ListItemContainerComponent.standardMargin,
+                  ),
                   cancelButton(),
                   const SpaceComponent(),
                   saveButton(),
+                  const SpaceComponent(
+                    width: ListItemContainerComponent.standardMargin,
+                  ),
                 ],
               ),
             ),
@@ -247,9 +255,9 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     return Expanded(
       child: ListItemButtonComponent(
         text: 'Save',
-        onTap: onTapSave,
+        onTap: _onTapSave,
         isMainButton: true,
-        margin: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.all(0),
         isLoading: _isSaveLoading,
       ),
     );
@@ -261,14 +269,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         text: 'Cancel',
         onTap: _onTapCancel,
         isMainButton: false,
-        margin: const EdgeInsets.only(
-            left: BottomNavigationComponent.standardMargin),
+        margin: const EdgeInsets.all(0),
       ),
     );
   }
 
   deleteAndEditButton() {
-    return !widget.isSaveInsteadOfEditButtonVisible
+    return !_isSaveAndNotEditButtonVisible
         ? Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
@@ -292,14 +299,15 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         text: 'Edit',
         onTap: onTapEdit,
         isMainButton: true,
-        margin: const EdgeInsets.only(right: 20),
+        margin: const EdgeInsets.only(
+            right: BottomNavigationComponent.standardMargin),
       ),
     );
   }
 
   void onTapEdit() {
     setState(() {
-      widget.isSaveInsteadOfEditButtonVisible = true;
+      _isSaveAndNotEditButtonVisible = true;
     });
   }
 
@@ -310,12 +318,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
         textColor: Theme.of(context).colorScheme.red,
         onTap: _onTapDelete,
         isMainButton: false,
-        margin: const EdgeInsets.only(left: 20),
+        margin: const EdgeInsets.only(
+            left: BottomNavigationComponent.standardMargin),
       ),
     );
   }
 
-  void onTapSave() async {
+  void _onTapSave() async {
     if (_isSaveLoading) {
       return;
     }
@@ -327,37 +336,30 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     if (widget.attempt.isInBacklog(widget.groupChallenge) &&
         editProgress.progress > 0) {
       widget.attempt.start(widget.groupChallenge);
-      widget.repetition =
-          widget.attempt.getLastRepetition(widget.groupChallenge);
-    } else if (widget.attempt.isInProgress(widget.groupChallenge) &&
-        _currentRepetition != null &&
-        _currentRepetition!.isInBacklog() &&
-        editProgress.progress > 0) {
-      _currentRepetition!.start();
-      widget.repetition = _currentRepetition;
     }
 
-    widget.repetition ??= widget.attempt.addRepetition(widget.groupChallenge);
+    if (_editRepetition.isInBacklog() && editProgress.progress > 0) {
+      _editRepetition.start();
+    }
 
     if (widget.progress == null) {
-      widget.repetition!.addProgress(progress: editProgress);
+      _editRepetition.addProgress(progress: editProgress);
     } else {
       widget.progress!.updateProgress(editProgress);
     }
 
     int index = widget.attempt.repetitions.indexWhere((repetitionEntry) =>
-        repetitionEntry.repetitionNumber ==
-        widget.repetition!.repetitionNumber);
+        repetitionEntry.repetitionNumber == _editRepetition.repetitionNumber);
 
     if (index == -1) {
-      widget.attempt.repetitions.add(widget.repetition!);
+      widget.attempt.repetitions.add(_editRepetition);
     } else {
-      widget.attempt.repetitions[index] = widget.repetition!;
+      widget.attempt.repetitions[index] = _editRepetition;
     }
 
     widget.attempt.startDate ??= widget.attempt.repetitions
         .firstWhere((repetition) => repetition.repetitionNumber == 1,
-            orElse: () => widget.repetition!)
+            orElse: () => _editRepetition)
         .startDate;
 
     // make acceptanceCriteria fix in case it gets changed after finishing the challenge
@@ -372,7 +374,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
     setState(() {
       _isSaveLoading = false;
-      widget.isSaveInsteadOfEditButtonVisible = false;
+      _isSaveAndNotEditButtonVisible = false;
     });
 
     for (int i = 0; i < widget.amountOfPops; i++) {
@@ -401,19 +403,19 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
     }
 
     setState(() {
-      widget.isSaveInsteadOfEditButtonVisible = false;
+      _isSaveAndNotEditButtonVisible = false;
     });
   }
 
   void _onTapDelete() {
-    if (widget.repetition == null || widget.progress == null) {
+    if (widget.progress == null) {
       return;
     }
 
     setState(() {
-      widget.repetition!.deleteProgress(widget.progress!);
+      _editRepetition.deleteProgress(widget.progress!);
     });
-    widget.attempt.replaceRepetition(widget.repetition!);
+    widget.attempt.replaceRepetition(_editRepetition);
     _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, widget.attempt);
     Navigator.pop(context);
@@ -426,5 +428,14 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       widget.initialMediaList.removeWhere((element) => element.id == media.id);
       editProgress.mediaIds.removeWhere((mediaId) => mediaId == media.id);
     });
+  }
+
+  RepetitionModel _getEditRepetition() {
+    if (widget.repetition != null) {
+      return widget.repetition!;
+    }
+
+    return widget.attempt.getCurrentRepetition(widget.groupChallenge) ??
+        widget.attempt.addRepetition(widget.groupChallenge);
   }
 }

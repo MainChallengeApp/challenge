@@ -68,6 +68,8 @@ class _ListItemIconTextInputExpandedComponentState
     return Expanded(
       child: ListItemContainerComponent(
         isHeightDynamic: true,
+        onTapColor: Colors.transparent,
+        onTap: _onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -78,48 +80,54 @@ class _ListItemIconTextInputExpandedComponentState
             Expanded(
               child: CupertinoScrollbar(
                 controller: _scrollController,
-                child: TextField(
-                  expands: true,
-                  scrollController: _scrollController,
-                  scrollPhysics: const AlwaysScrollableScrollPhysics(),
-                  controller: widget.textEditingController,
-                  maxLength: widget.maxLength,
-                  buildCounter: (BuildContext context,
-                          {required int currentLength,
-                          required bool isFocused,
-                          int? maxLength}) =>
-                      null,
-                  maxLines: null,
-                  style: Theme.of(context).textTheme.textInputSmall,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: widget.hintText,
-                    hintStyle: Theme.of(context).textTheme.textInputHintSmall,
-                    contentPadding: const EdgeInsets.only(
-                        bottom: BottomNavigationComponent.standardMargin),
-                    isDense: true,
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: TextField(
+                    maxLines: null,
+                    controller: widget.textEditingController,
+                    maxLength: widget.maxLength,
+                    buildCounter: (BuildContext context,
+                            {required int currentLength,
+                            required bool isFocused,
+                            int? maxLength}) =>
+                        null,
+                    style: Theme.of(context).textTheme.textInputSmall,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: widget.hintText,
+                      hintStyle: Theme.of(context).textTheme.textInputHintSmall,
+                      contentPadding: const EdgeInsets.only(
+                          bottom: BottomNavigationComponent.standardMargin),
+                      isDense: true,
+                    ),
+                    onChanged: widget.onChangeTextField,
+                    onSubmitted: widget.onSubmitted,
+                    autofocus: widget.autoFocus ?? false,
+                    focusNode: _focusNode,
+                    enableSuggestions: widget.enableSuggestions,
                   ),
-                  onChanged: widget.onChangeTextField,
-                  onSubmitted: widget.onSubmitted,
-                  autofocus: widget.autoFocus ?? false,
-                  focusNode: _focusNode,
-                  enableSuggestions: widget.enableSuggestions,
                 ),
               ),
             ),
             Visibility(
               visible: widget.maxLength != null,
               child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Text(
-                    '${widget.textEditingController.text.length}/${widget.maxLength}',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  )),
+                alignment: Alignment.bottomRight,
+                child: Text(
+                  '${widget.textEditingController.text.length}/${widget.maxLength}',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
             )
           ],
         ),
       ),
     );
+  }
+
+  _onTap() {
+    _focusNode.requestFocus();
   }
 
   Row _iconAndTitle() {

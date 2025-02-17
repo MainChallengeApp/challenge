@@ -29,13 +29,11 @@ import 'package:path/path.dart' as path;
 class MediaCameraPage extends StatefulWidget {
   const MediaCameraPage({
     Key? key,
-    required this.mediaList,
     required this.attempt,
     required this.groupChallenge,
     required this.participant,
   }) : super(key: key);
 
-  final List<MediaModel> mediaList;
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
@@ -491,7 +489,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
   }
 
   String? _getImageThumbnailUrl() {
-    if (_currentMedia.last is ImageMediaModel) {
+    if (_currentMedia.isNotEmpty && _currentMedia.last is ImageMediaModel) {
       return (_currentMedia.last as ImageMediaModel).source;
     }
     return null;

@@ -1,22 +1,29 @@
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
+import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
+import 'package:challenge/models/challenge/media/note_media_model.dart';
+import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/media/image_media_card_component.dart';
+import 'package:challenge/ui/components/cards/media/note_media_card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/pages/subpages/media/media_note_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class MediaDetailPage extends StatefulWidget {
   final List<MediaModel> mediaList;
   final int initialMediaIndex;
+  final GroupChallengeModel groupChallenge;
+  final ParticipantModel participant;
   final AttemptModel attempt;
   final void Function(MediaModel)? onTapDelete;
   final bool isEditableByUser;
@@ -27,7 +34,9 @@ class MediaDetailPage extends StatefulWidget {
       required this.initialMediaIndex,
       required this.attempt,
       this.onTapDelete,
-      this.isEditableByUser = true});
+      this.isEditableByUser = true,
+      required this.groupChallenge,
+      required this.participant});
 
   @override
   State<MediaDetailPage> createState() => _MediaDetailPageState();
@@ -85,14 +94,12 @@ class _MediaDetailPageState extends State<MediaDetailPage>
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
-        return ClipRect(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            heightFactor: 1.0 - _animationController.value,
-            child: SlideTransition(
-              position: _actionButtonsAnimation,
-              child: _actionButtonsButtons(),
-            ),
+        return Align(
+          alignment: Alignment.bottomCenter,
+          heightFactor: 1.0 - _animationController.value,
+          child: SlideTransition(
+            position: _actionButtonsAnimation,
+            child: _actionButtonsButtons(),
           ),
         );
       },
@@ -123,8 +130,11 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                     return ImageMediaCardComponent(
                         imageMedia: media as ImageMediaModel,
                         isFullScreen: _isFullScreen);
-                  case MediaTypeEnum.video:
-                    return Container();
+                  case MediaTypeEnum.note:
+                    return NoteMediaCardComponent(
+                      noteMedia: media as NoteMediaModel,
+                      isFullScreen: _isFullScreen,
+                    );
                   default:
                     return Container();
                 }
@@ -200,31 +210,71 @@ class _MediaDetailPageState extends State<MediaDetailPage>
     return SpaceColumnComponent(
       height: BottomNavigationComponent.standardMargin,
       child: Row(
-        children: [
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardMargin,
-          ),
-          Expanded(
-              child: ListItemButtonComponent(
-            onTap: _onTapDelete,
-            text: 'Delete',
-            margin: EdgeInsets.zero,
-            textColor: Theme.of(context).colorScheme.red,
-            isMainButton: false,
-          )),
-          // TODO: Implement Edit media
-          // const SpaceComponent(),
-          // Expanded(
-          //     child: ListItemButtonComponent(
-          //   onTap: () {},
-          //   text: 'Edit',
-          //   margin: EdgeInsets.zero,
-          // )),
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardMargin,
-          ),
-        ],
+        children: widget.isEditableByUser
+            ? [
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
+                ),
+                Expanded(
+                    child: ListItemButtonComponent(
+                  onTap: _onTapDelete,
+                  text: 'Delete',
+                  margin: EdgeInsets.zero,
+                  textColor: Theme.of(context).colorScheme.red,
+                  isMainButton: false,
+                )),
+                const SpaceComponent(),
+                Expanded(
+                    child: ListItemButtonComponent(
+                  onTap: _onTapEdit,
+                  text: 'Edit',
+                  margin: EdgeInsets.zero,
+                )),
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
+                ),
+              ]
+            : [
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
+                ),
+                Expanded(
+                    child: ListItemButtonComponent(
+                  onTap: _onTapCancel,
+                  text: 'Cancel',
+                  margin: EdgeInsets.zero,
+                  isMainButton: false,
+                )),
+                const SpaceComponent(
+                  width: ListItemContainerComponent.standardMargin,
+                ),
+              ],
       ),
     );
+  }
+
+  void _onTapEdit() {
+    MediaModel media = widget.mediaList.reversed.toList()[_currentMediaIndex];
+    switch (media.type) {
+      case MediaTypeEnum.note:
+        Navigator.push(context, MaterialPageRoute(builder: (builder) {
+          return MediaNotePage(
+            noteMedia: media as NoteMediaModel,
+            groupChallenge: widget.groupChallenge,
+            participant: widget.participant,
+            attempt: widget.attempt,
+            isEdit: true,
+          );
+        })).then((_) {
+          setState(() {});
+        });
+        break;
+      default:
+        break;
+    }
+  }
+
+  void _onTapCancel() {
+    Navigator.pop(context);
   }
 }

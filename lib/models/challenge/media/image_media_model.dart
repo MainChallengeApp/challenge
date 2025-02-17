@@ -25,23 +25,6 @@ class ImageMediaModel extends MediaModel {
     return {...super.toDoc(), sourceField: source};
   }
 
-  static copyMediaIdList(List<String> mediaIdList) {
-    List<String> mediaIdListCopy = [];
-    for (var id in mediaIdList) {
-      mediaIdListCopy.add(id);
-    }
-    return mediaIdListCopy;
-  }
-
-  static copyList(List<ImageMediaModel> mediaList) {
-    List<ImageMediaModel> mediaListCopy = [];
-    for (var media in mediaList) {
-      mediaListCopy.add(ImageMediaModel(
-          id: media.id, title: media.title, source: media.source));
-    }
-    return mediaListCopy;
-  }
-
   @override
   copy() {
     return ImageMediaModel(id: id, title: title, source: source);

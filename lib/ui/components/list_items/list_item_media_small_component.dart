@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
+import 'package:challenge/models/challenge/media/note_media_model.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -56,13 +57,11 @@ class _ListItemMediaSmallComponentState
   IconData? _getIcon() {
     if (widget.media is ImageMediaModel) {
       return IconEnum.picture.icon;
+    } else if (widget.media is NoteMediaModel) {
+      return IconEnum.notes.icon;
     } else {
       return null;
     }
-    //TODO:
-    return widget.media is ImageMediaModel
-        ? IconEnum.picture.icon
-        : IconEnum.notes.icon;
   }
 
   ActionPane endActionPane(Function closeSlidable) {

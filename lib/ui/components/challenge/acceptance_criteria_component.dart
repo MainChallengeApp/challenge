@@ -43,15 +43,9 @@ class _AcceptanceCriteriaComponentState
           FractionallySizedBox(
             widthFactor: widget.attempt == null
                 ? 0
-                : !widget.attempt!.isInProgress(widget.groupChallenge)
-                    ? min(
-                        widget.attempt!
-                            .getCurrentPercentage(widget.groupChallenge),
-                        1)
-                    : min(
-                        widget.attempt!.getCurrentRepetitionProgressPercentage(
-                            widget.groupChallenge),
-                        1),
+                : min(
+                    widget.attempt!.getCurrentPercentage(widget.groupChallenge),
+                    1),
             heightFactor: 1,
             child: Container(
               // width: 40,

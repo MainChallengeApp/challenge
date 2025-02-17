@@ -117,10 +117,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         ),
         isBottomNavigationVisible: false,
         body: Column(
-          children: [
-            _buildList(),
-            _isEditableByUser ? actionButton() : Container()
-          ],
+          children: [_buildList(), _actionButton()],
         ));
   }
 
@@ -267,7 +264,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           participant: _participant,
           repetition: repetition,
           progress: progress,
-          isSaveInsteadOfEditButtonVisible: false,
+          isSaveAndNotEditButtonVisible: false,
           isEditableByUser: _isEditableByUser,
           amountOfPops: 0,
         ),
@@ -300,7 +297,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
           attempt: _attempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
-          isSaveInsteadOfEditButtonVisible: true,
+          isSaveAndNotEditButtonVisible: true,
           isEditableByUser: _isEditableByUser,
         ),
       ),
@@ -332,7 +329,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         _groupChallenge, _participant, _attempt);
   }
 
-  actionButton() {
+  _actionButton() {
     void onTapStartChallenge() async {
       setState(() {
         _isActionButtonLoading = true;
@@ -394,84 +391,111 @@ class _RepetitionPageState extends State<RepetitionPage> {
       margin: EdgeInsets.zero,
     );
 
-    return Padding(
-      padding: const EdgeInsets.only(
-          bottom: BottomNavigationComponent.standardMargin,
-          top: SpaceComponent.standardHeight),
-      child: _attempt.isInBacklog(widget.groupChallenge)
-          ? Row(
-              children: [
-                const SpaceComponent(
-                  width: ListItemContainerComponent.standardMargin,
-                ),
-                Visibility(
-                    visible: _participant.attempts.length > 1,
-                    child: Expanded(child: deleteAttemptButton)),
-                Visibility(
-                    visible: _participant.attempts.length > 1,
-                    child: const SpaceComponent(
-                      width: ListItemContainerComponent.standardMargin,
-                    )),
-                Expanded(
-                  child: ListItemButtonComponent(
-                    onTap: onTapStartChallenge,
-                    text: 'Start',
-                    isLoading: _isActionButtonLoading,
-                    margin: EdgeInsets.zero,
-                    isMainButton: _groupChallenge.startDate == null ||
-                        _groupChallenge.startDate!.isBefore(TimeService.now()),
-                  ),
-                ),
-                const SpaceComponent(
-                  width: ListItemContainerComponent.standardMargin,
-                ),
-              ],
-            )
-          : _attempt.isInProgress(widget.groupChallenge)
-              ? ListItemButtonComponent(
-                  onTap: onTapEndChallenge,
-                  text: 'End',
-                  isLoading: _isActionButtonLoading,
-                  isMainButton: _attempt.isCompleted(_groupChallenge),
-                )
-              : _attempt.number == _participant.getLatestAttempt().number &&
-                      (_attempt.isFailed(widget.groupChallenge) ||
-                          _attempt.isSucceeded(widget.groupChallenge))
-                  ? Row(
-                      children: [
-                        const SpaceComponent(
-                          width: ListItemContainerComponent.standardMargin,
+    return _isEditableByUser
+        ? Padding(
+            padding: const EdgeInsets.only(
+                bottom: BottomNavigationComponent.standardMargin,
+                top: SpaceComponent.standardHeight),
+            child: _attempt.isInBacklog(widget.groupChallenge)
+                ? Row(
+                    children: [
+                      const SpaceComponent(
+                        width: ListItemContainerComponent.standardMargin,
+                      ),
+                      Visibility(
+                          visible: _participant.attempts.length > 1,
+                          child: Expanded(child: deleteAttemptButton)),
+                      Visibility(
+                          visible: _participant.attempts.length > 1,
+                          child: const SpaceComponent(
+                            width: ListItemContainerComponent.standardMargin,
+                          )),
+                      Expanded(
+                        child: ListItemButtonComponent(
+                          onTap: onTapStartChallenge,
+                          text: 'Start',
+                          isLoading: _isActionButtonLoading,
+                          margin: EdgeInsets.zero,
+                          isMainButton: _groupChallenge.startDate == null ||
+                              _groupChallenge.startDate!
+                                  .isBefore(TimeService.now()),
                         ),
-                        Visibility(
-                            visible: _participant.attempts.length > 1,
-                            child: Expanded(child: deleteAttemptButton)),
-                        Visibility(
-                            visible: _participant.attempts.length > 1,
-                            child: const SpaceComponent(
-                              width: ListItemContainerComponent.standardMargin,
-                            )),
-                        Expanded(
-                          child: ListItemButtonComponent(
-                            onTap: onTapTryAgain,
-                            text: _attempt.isFailed(widget.groupChallenge)
-                                ? 'Try Again'
-                                : 'Accept Again',
-                            isLoading: _isActionButtonLoading,
-                            margin: EdgeInsets.zero,
+                      ),
+                      const SpaceComponent(
+                        width: ListItemContainerComponent.standardMargin,
+                      ),
+                    ],
+                  )
+                : _attempt.isInProgress(widget.groupChallenge)
+                    ? ListItemButtonComponent(
+                        onTap: onTapEndChallenge,
+                        text: 'End',
+                        isLoading: _isActionButtonLoading,
+                        isMainButton: _attempt.isCompleted(_groupChallenge),
+                      )
+                    : _attempt.number ==
+                                _participant.getLatestAttempt().number &&
+                            (_attempt.isFailed(widget.groupChallenge) ||
+                                _attempt.isSucceeded(widget.groupChallenge))
+                        ? Row(
+                            children: [
+                              const SpaceComponent(
+                                width:
+                                    ListItemContainerComponent.standardMargin,
+                              ),
+                              Visibility(
+                                  visible: _participant.attempts.length > 1,
+                                  child: Expanded(child: deleteAttemptButton)),
+                              Visibility(
+                                  visible: _participant.attempts.length > 1,
+                                  child: const SpaceComponent(
+                                    width: ListItemContainerComponent
+                                        .standardMargin,
+                                  )),
+                              Expanded(
+                                child: ListItemButtonComponent(
+                                  onTap: onTapTryAgain,
+                                  text: _attempt.isFailed(widget.groupChallenge)
+                                      ? 'Try Again'
+                                      : 'Accept Again',
+                                  isLoading: _isActionButtonLoading,
+                                  margin: EdgeInsets.zero,
+                                ),
+                              ),
+                              const SpaceComponent(
+                                width:
+                                    ListItemContainerComponent.standardMargin,
+                              ),
+                            ],
+                          )
+                        : ListItemButtonComponent(
+                            onTap: onTapDeleteAttempt,
+                            text: 'Delete Attempt',
+                            textColor: Theme.of(context).colorScheme.red,
+                            isMainButton: false,
                           ),
-                        ),
-                        const SpaceComponent(
-                          width: ListItemContainerComponent.standardMargin,
-                        ),
-                      ],
-                    )
-                  : ListItemButtonComponent(
-                      onTap: onTapDeleteAttempt,
-                      text: 'Delete Attempt',
-                      textColor: Theme.of(context).colorScheme.red,
-                      isMainButton: false,
-                    ),
+          )
+        : _cancelButton();
+  }
+
+  _cancelButton() {
+    return Column(
+      children: [
+        const SpaceComponent(),
+        ListItemButtonComponent(
+          onTap: _onTapCancel,
+          text: 'Cancel',
+          isMainButton: false,
+        ),
+        const SpaceComponent(
+          height: BottomNavigationComponent.standardMargin,
+        )
+      ],
     );
+  }
+
+  void _onTapCancel() {
+    Navigator.pop(context);
   }
 
   _userDidNotStartChallenge() {

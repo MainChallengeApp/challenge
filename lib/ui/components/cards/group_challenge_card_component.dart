@@ -2,12 +2,14 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
+import 'package:challenge/models/challenge/media/note_media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/acceptance_criteria_component.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
@@ -29,6 +31,7 @@ import 'package:challenge/ui/pages/home/repetition/repetition_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_list_page.dart';
+import 'package:challenge/ui/pages/subpages/media/media_note_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -228,6 +231,12 @@ class _GroupChallengeCardComponentState
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DocumentationButtonComponent(
+              iconData: IconEnum.gps.icon,
+              onTap: () => SnackBarComponent.showSnackBar(
+                  'The GPS feature will be added soon.'),
+              isGrayedOut: true,
+            ),
+            DocumentationButtonComponent(
               iconData: IconEnum.numbers.icon,
               onTap: () => SnackBarComponent.showSnackBar(
                   'The Numbers feature will be added soon.'),
@@ -235,15 +244,7 @@ class _GroupChallengeCardComponentState
             ),
             DocumentationButtonComponent(
               iconData: IconEnum.notes.icon,
-              onTap: () => SnackBarComponent.showSnackBar(
-                  'The Notes feature will be added soon.'),
-              isGrayedOut: true,
-            ),
-            DocumentationButtonComponent(
-              iconData: IconEnum.gps.icon,
-              onTap: () => SnackBarComponent.showSnackBar(
-                  'The GPS feature will be added soon.'),
-              isGrayedOut: true,
+              onTap: _onTapNote,
             ),
             DocumentationButtonComponent(
                 iconData: IconEnum.camera.icon, onTap: _onTapCamera),
@@ -391,7 +392,7 @@ class _GroupChallengeCardComponentState
           groupChallenge: _groupChallenge,
           participant: _participant,
           isEditableByUser: _participant.user.id == _usersProvider.user.id,
-          isSaveInsteadOfEditButtonVisible: true,
+          isSaveAndNotEditButtonVisible: true,
         ),
       ),
     ).then((_) {
@@ -402,13 +403,11 @@ class _GroupChallengeCardComponentState
     });
   }
 
-  void _onTapCamera() async {
+  void _onTapCamera() {
     Navigator.push(
-      // ignore: use_build_context_synchronously
       context,
       NoAnimationPageRouteComponent(
         builder: (context) => MediaCameraPage(
-          mediaList: _latestAttempt.media,
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
@@ -416,7 +415,32 @@ class _GroupChallengeCardComponentState
       ),
     ).then((_) {
       _tabProvider.setBottomNavigationVisibility(true);
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  void _onTapNote() {
+    NoteMediaModel noteMedia = NoteMediaModel(
+      title: TimeService.now().toString().split('.')[0],
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MediaNotePage(
+          attempt: _latestAttempt,
+          groupChallenge: _groupChallenge,
+          participant: _participant,
+          noteMedia: noteMedia,
+          autoFocus: true,
+        ),
+      ),
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
 }

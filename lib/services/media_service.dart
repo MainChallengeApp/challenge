@@ -115,10 +115,12 @@ class MediaService {
 
   deleteMediaInChallengeByIds(List<String> mediaIds, AttemptModel attempt) {
     for (var mediaId in mediaIds) {
-      MediaModel mediaToDelete =
-          attempt.media.firstWhere((element) => element.id == mediaId);
-      attempt.removeMedia(mediaToDelete);
-      deleteMedia(mediaToDelete);
+      if (attempt.media.any((mediaEntry) => mediaEntry.id == mediaId)) {
+        MediaModel mediaToDelete =
+            attempt.media.firstWhere((element) => element.id == mediaId);
+        attempt.removeMedia(mediaToDelete);
+        deleteMedia(mediaToDelete);
+      }
     }
   }
 

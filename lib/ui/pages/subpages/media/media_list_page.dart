@@ -5,6 +5,7 @@ import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
@@ -15,7 +16,6 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class MediaListPage extends StatefulWidget {
   const MediaListPage(
@@ -34,22 +34,17 @@ class MediaListPage extends StatefulWidget {
 }
 
 class _MediaListPageState extends State<MediaListPage> {
-  String searchBarText = '';
+  final _searchTextEditingController = TextEditingController();
 
-  ScrollController scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
-  late final groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
-  MediaService mediaService = MediaService();
+  final _mediaService = MediaService();
 
-  late List<MediaModel> mediaList = widget.attempt.media
-      .where((element) =>
-          element.title.toLowerCase().contains(searchBarText.toLowerCase()))
-      .toList();
+  late List<MediaModel> mediaList;
 
   @override
   Widget build(BuildContext context) {
@@ -64,25 +59,26 @@ class _MediaListPageState extends State<MediaListPage> {
 
   _buildList() {
     mediaList = widget.attempt.media
-        .where((element) =>
-            element.title.toLowerCase().contains(searchBarText.toLowerCase()))
+        .where((element) => element.title
+            .toLowerCase()
+            .contains(_searchTextEditingController.text.toLowerCase()))
         .toList();
 
     return Column(
       children: [
         SpaceColumnComponent(
           child: ListItemSearchBarComponent(
-            changeList: changeList,
-            textEditingController: TextEditingController(text: searchBarText),
-            hintText: 'Search in your Media...',
+            changeList: _changeList,
+            textEditingController: _searchTextEditingController,
+            hintText: 'Search in your Media',
           ),
         ),
         Expanded(
           child: CupertinoScrollbar(
-            controller: scrollController,
+            controller: _scrollController,
             child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
-                controller: scrollController,
+                controller: _scrollController,
                 itemCount: mediaList.length + 1, //+ 1 for new Media
                 itemBuilder: (BuildContext content, int index) {
                   if (index == 0) {
@@ -90,18 +86,19 @@ class _MediaListPageState extends State<MediaListPage> {
                       child: ListItemIconTextComponent(
                         icon: Icons.file_upload_rounded,
                         title: 'Upload Media',
-                        onTap: onTapUploadMedia,
+                        onTap: _onTapUploadMedia,
                       ),
                     );
                   }
-                  MediaModel media = mediaList.reversed.elementAt(index - 1);
+                  int newIndex = index - 1;
+                  MediaModel media = mediaList.reversed.elementAt(newIndex);
                   return SpaceColumnComponent(
                     child: ListItemMediaSmallComponent(
-                      onTap: () => _onTapMedia(context, index: index - 1),
+                      onTap: () => _onTapMedia(context, index: newIndex),
                       media: media,
                       isEditableByUser:
                           widget.participant.user.id == _usersProvider.user.id,
-                      onTapDeleteMedia: () => onTapDeleteMedia(media),
+                      onTapDeleteMedia: () => _onTapDeleteMedia(media),
                     ),
                   );
                 }),
@@ -111,10 +108,8 @@ class _MediaListPageState extends State<MediaListPage> {
     );
   }
 
-  changeList(String value) {
-    setState(() {
-      searchBarText = value;
-    });
+  _changeList(String value) {
+    setState(() {});
   }
 
   void _onTapMedia(BuildContext context, {required int index}) {
@@ -123,17 +118,20 @@ class _MediaListPageState extends State<MediaListPage> {
       MaterialPageRoute(
           builder: (context) => MediaDetailPage(
                 mediaList: widget.attempt.media
-                    .where((element) => element.title.contains(searchBarText))
+                    .where((element) => element.title
+                        .contains(_searchTextEditingController.text))
                     .toList(),
                 initialMediaIndex: index,
+                groupChallenge: widget.groupChallenge,
+                participant: widget.participant,
                 attempt: widget.attempt,
-                onTapDelete: onTapDeleteMedia,
+                onTapDelete: _onTapDeleteMedia,
               )),
     ).then((_) => setState(() {}));
   }
 
-  onTapUploadMedia() async {
-    ImageMediaModel? imageMedia = await mediaService.openImagePicker(context);
+  _onTapUploadMedia() async {
+    ImageMediaModel? imageMedia = await _mediaService.openImagePicker(context);
     if (imageMedia == null) {
       return;
     }
@@ -142,20 +140,20 @@ class _MediaListPageState extends State<MediaListPage> {
       widget.attempt.media.add(imageMedia);
     });
 
-    ImageMediaModel? mediaWithUrl = await mediaService.uploadLocalImageMedia(
+    ImageMediaModel? mediaWithUrl = await _mediaService.uploadLocalImageMedia(
         imageMedia, widget.groupChallenge, widget.participant.user.id);
 
     if (mediaWithUrl == null) {
       return;
     }
 
-    groupChallengesProvider.updateAttempt(
+    _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, widget.attempt);
   }
 
-  onTapDeleteMedia(MediaModel media) {
+  _onTapDeleteMedia(MediaModel media) {
     {
-      groupChallengesProvider.deleteMediaFromAttempt(
+      _groupChallengesProvider.deleteMediaFromAttempt(
           widget.groupChallenge, widget.participant, widget.attempt, media);
       setState(() {
         mediaList.removeWhere((element) => element.id == media.id);

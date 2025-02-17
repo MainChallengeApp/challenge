@@ -1,6 +1,7 @@
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/exceptions/media_type_is_not_supported_exception.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
+import 'package:challenge/models/challenge/media/note_media_model.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class MediaModel {
@@ -31,6 +32,8 @@ abstract class MediaModel {
       }
       if (media[typeField] == MediaTypeEnum.image.text) {
         list.add(ImageMediaModel.fromDoc(media));
+      } else if (media[typeField] == MediaTypeEnum.note.text) {
+        list.add(NoteMediaModel.fromDoc(media));
       } else {
         throw MediaTypeIsNotSupportedException(media[typeField]);
       }

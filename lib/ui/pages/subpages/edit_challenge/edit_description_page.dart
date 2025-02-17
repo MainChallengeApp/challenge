@@ -26,8 +26,6 @@ class EditDescriptionPage extends StatefulWidget {
 class _EditDescriptionPageState extends State<EditDescriptionPage> {
   late String _editDescription = widget.challenge.description;
 
-  final String _title = 'Edit Description';
-
   late final _descriptionTextEditingController =
       TextEditingController(text: _editDescription);
 
@@ -38,8 +36,8 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: _title,
+        appBar: const AppBarComponent(
+          title: 'Edit Description',
         ),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,

@@ -543,6 +543,13 @@ class AttemptModel {
     return '';
   }
 
+  addMedia(MediaModel media) {
+    if (this.media.any((mediaEntry) => mediaEntry.id == media.id)) {
+      return;
+    }
+    this.media.add(media);
+  }
+
   removeMedia(MediaModel media) {
     this.media.removeWhere((element) => element.id == media.id);
     for (var repetition in repetitions) {
@@ -570,12 +577,12 @@ class AttemptModel {
   }
 
   DateTime? getEndDate(GroupChallengeModel groupChallenge) {
+    if (endDate == null) {
+      return groupChallenge.endDate;
+    }
     if (status == ChallengeStatusEnum.success ||
         status == ChallengeStatusEnum.failed) {
       return endDate;
-    }
-    if (endDate == null) {
-      return groupChallenge.endDate;
     }
 
     if (groupChallenge.startDate == null ||
