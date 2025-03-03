@@ -1,11 +1,8 @@
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/app_version_service.dart';
-import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
-import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/app.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
+import 'package:challenge/ui/pages/auth/update_app_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -37,36 +34,9 @@ class AuthGatePage extends StatelessWidget {
                 },
               );
             } else {
-              return updateTheAppMessage(context);
+              return const UpdateAppPage();
             }
           }),
-    );
-  }
-
-  Scaffold updateTheAppMessage(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CustomContainerComponent(
-          margin: const EdgeInsets.all(40),
-          padding: const EdgeInsets.all(20),
-          borderRadius: CardComponent.standardBorderRadius,
-          borderWidth: 2,
-          isHeightDynamic: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SpaceColumnComponent(child: Icon(IconEnum.info.icon, size: 50)),
-              SpaceColumnComponent(
-                child: Text(
-                  'Due to major updates you need to update the app to the latest version to access it.',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

@@ -31,8 +31,8 @@ class TabProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  BuildContext getCurrentContext() {
-    return _navigatorKeys[_currentTab]!.currentContext!;
+  BuildContext getCurrentContext({BuildContext? context}) {
+    return context ?? _navigatorKeys[_currentTab]!.currentContext!;
   }
 
   void setBottomNavigationVisibility(bool isVisible) {
