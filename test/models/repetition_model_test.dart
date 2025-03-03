@@ -98,7 +98,8 @@ void main() {
         // Arrange
         RepetitionModel repetition = mockRepetitionModel(
             repetitionStatus: RepetitionStatusEnum.inProgress,
-            startDate: TimeService.now());
+            startDate: TimeService.now(),
+            endDate: null);
         // Act
         bool result = repetition.isInProgress();
         // Assert
@@ -107,22 +108,9 @@ void main() {
 
       test('should return false when repetitionStatus is not inProgress', () {
         // Arrange
-        RepetitionModel repetition = mockRepetitionModel(
-            repetitionStatus: FakerService.randomObject(RepetitionStatusEnum
-                .values
-                .where((repetitionStatus) =>
-                    repetitionStatus != RepetitionStatusEnum.inProgress)
-                .toList()));
-        // Act
-        bool result = repetition.isInProgress();
-        // Assert
-        expect(result, isFalse);
-      });
-
-      test('should return false when startDate is null', () {
-        // Arrange
         RepetitionModel repetition = mockRepetitionModel();
         repetition.startDate = null;
+        repetition.endDate = null;
         // Act
         bool result = repetition.isInProgress();
         // Assert
@@ -133,18 +121,9 @@ void main() {
     group('isInBacklog()', () {
       test('should return true when repetitionStatus is backlog', () {
         // Arrange
-        RepetitionModel repetition =
-            mockRepetitionModel(repetitionStatus: RepetitionStatusEnum.backlog);
-        // Act
-        bool result = repetition.isInBacklog();
-        // Assert
-        expect(result, isTrue);
-      });
-
-      test('should return true when startDate is null', () {
-        // Arrange
         RepetitionModel repetition = mockRepetitionModel();
         repetition.startDate = null;
+        repetition.endDate = null;
         // Act
         bool result = repetition.isInBacklog();
         // Assert
@@ -155,8 +134,8 @@ void main() {
           'should return false when repetitionStatus is not backlog and startDate is not null',
           () {
         // Arrange
-        RepetitionModel repetition = mockRepetitionModel(
-            repetitionStatus: RepetitionStatusEnum.inProgress);
+        RepetitionModel repetition =
+            mockRepetitionModel(startDate: TimeService.now());
         // Act
         bool result = repetition.isInBacklog();
         // Assert
