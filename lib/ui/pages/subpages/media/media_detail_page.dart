@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
@@ -217,18 +218,30 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                 ),
                 Expanded(
                     child: ListItemButtonComponent(
-                  onTap: _onTapDelete,
-                  text: 'Delete',
+                  onTap: _onTapCancel,
+                  text: '',
+                  icon: IconEnum.arrowLeft.icon,
                   margin: EdgeInsets.zero,
-                  textColor: Theme.of(context).colorScheme.red,
                   isMainButton: false,
                 )),
                 const SpaceComponent(),
                 Expanded(
                     child: ListItemButtonComponent(
                   onTap: _onTapEdit,
-                  text: 'Edit',
+                  text: '',
+                  icon: IconEnum.edit.icon,
                   margin: EdgeInsets.zero,
+                  isMainButton: false,
+                )),
+                const SpaceComponent(),
+                Expanded(
+                    child: ListItemButtonComponent(
+                  onTap: _onTapDelete,
+                  text: '',
+                  icon: IconEnum.delete.icon,
+                  margin: EdgeInsets.zero,
+                  textColor: Theme.of(context).colorScheme.red,
+                  isMainButton: false,
                 )),
                 const SpaceComponent(
                   width: ListItemContainerComponent.standardMargin,

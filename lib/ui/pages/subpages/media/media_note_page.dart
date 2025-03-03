@@ -83,7 +83,7 @@ class _MediaNotePageState extends State<MediaNotePage> {
           children: [
             SpaceColumnComponent(
               child: ListItemIconTextInputComponent(
-                icon: IconEnum.notes.icon,
+                icon: IconEnum.title.icon,
                 textEditingController: _titleTextEditingController,
                 lableText: 'Title',
                 autoFocus: false,

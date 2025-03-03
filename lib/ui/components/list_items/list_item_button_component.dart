@@ -3,16 +3,6 @@ import 'package:challenge/ui/components/loading_circle/loading_circle_component.
 import 'package:flutter/material.dart';
 
 class ListItemButtonComponent extends StatelessWidget {
-  const ListItemButtonComponent(
-      {super.key,
-      required this.onTap,
-      this.isMainButton = true,
-      required this.text,
-      this.margin,
-      this.padding,
-      this.textColor,
-      this.isLoading = false});
-
   final VoidCallback onTap;
   final bool isMainButton;
   final String text;
@@ -20,6 +10,18 @@ class ListItemButtonComponent extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Color? textColor;
   final bool isLoading;
+  final IconData? icon;
+
+  const ListItemButtonComponent(
+      {super.key,
+      required this.onTap,
+      this.isMainButton = true,
+      required this.text,
+      this.icon,
+      this.margin,
+      this.padding,
+      this.textColor,
+      this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +40,30 @@ class ListItemButtonComponent extends StatelessWidget {
                       ? Theme.of(context).colorScheme.onSecondary
                       : null,
                 )
-              : Text(text,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: textColor ??
-                          (isMainButton
-                              ? Theme.of(context).colorScheme.onSecondary
-                              : Theme.of(context).colorScheme.onSurface)))),
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (icon != null)
+                      Icon(icon,
+                          color: textColor ??
+                              (isMainButton
+                                  ? Theme.of(context).colorScheme.onSecondary
+                                  : Theme.of(context).colorScheme.onSurface)),
+                    Text(text,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                                color: textColor ??
+                                    (isMainButton
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onSurface))),
+                  ],
+                )),
     );
   }
 }
