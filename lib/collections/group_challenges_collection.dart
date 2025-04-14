@@ -78,14 +78,22 @@ class GroupChallengesCollection extends Collection {
             .collection(participantsSubCollection)
             .get();
 
-        List<ParticipantModel> participants =
+        List<ParticipantModel?> participants =
             await Future.wait(participantsQuerySnapshot.docs.map((doc) async {
-          UserModel user = await _usersCollection.getById(doc.id);
-          return ParticipantModel.fromDoc(doc, user);
+          try {
+            UserModel user = await _usersCollection.getById(doc.id);
+            return ParticipantModel.fromDoc(doc, user);
+          } catch (e) {
+            return null;
+          }
         }));
+        List<ParticipantModel> participantsWithoutNull = participants
+            .where((participant) => participant != null)
+            .cast<ParticipantModel>()
+            .toList();
 
-        groupChallenges
-            .add(GroupChallengeModel.fromDoc(groupChallengeDoc, participants));
+        groupChallenges.add(GroupChallengeModel.fromDoc(
+            groupChallengeDoc, participantsWithoutNull));
       }
     }
 
