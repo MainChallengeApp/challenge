@@ -1,3 +1,4 @@
+import 'package:challenge/services/env_vars_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
@@ -40,8 +41,8 @@ class _UpdateAppPageState extends State<UpdateAppPage> {
 
   void _onTapUpdate(BuildContext context) async {
     // Open the app store with link
-    String link =
-        'https://apps.apple.com/de/app/challenge-your-best-version/id6472225791';
+    var envVarsService = await EnvVarsService.create();
+    String link = envVarsService.appStoreLink;
 
     // Open the app store with link
     if (await canLaunchUrlString(link)) {

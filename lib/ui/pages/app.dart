@@ -66,14 +66,18 @@ class AppState extends State<App> {
           setState(() {});
         }
         authService.logout();
-        ErrorOccurredDialog.show(errorText: error.toString());
+        if (mounted) {
+          ErrorOccurredDialog.show(
+              errorText: error.toString(), context: context);
+        }
       }).timeout((const Duration(seconds: 5)), onTimeout: () {
         isLoadingUserChallenges = false;
         if (mounted) {
           setState(() {});
+          ErrorOccurredDialog.show(
+              errorText: 'Timeout: Could not load user challenges',
+              context: context);
         }
-        ErrorOccurredDialog.show(
-            errorText: 'Timeout: Could not load user challenges');
       });
     }).catchError((error) {
       isLoadingUser = false;
@@ -162,9 +166,6 @@ class AppState extends State<App> {
             tabItem: tabItem,
           ),
         );
-
-      default:
-        throw Exception('TabItem not found');
     }
   }
 }

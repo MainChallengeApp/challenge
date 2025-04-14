@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 class ErrorOccurredDialog {
   static final tabProvider = getIt<TabProvider>();
 
-  static Future<void> show({required String? errorText}) async {
+  static Future<void> show(
+      {required String? errorText, BuildContext? context}) async {
     await showDialog(
-      context: tabProvider.getCurrentContext(),
+      context: tabProvider.getCurrentContext(context: context),
       builder: (context) {
         return CustomDialog(
             title: 'Error Occurred',
