@@ -5,26 +5,46 @@ The app for finding new challenges, tracking and completing them!
 ## Contents
 
 1. [Getting Started](#getting-started)
-2. [Testing](#testing)
+2. [Setup Emulator](#setup-emulator)
+3. [Testing](#testing)
    1. [Run all tests](#run-all-tests)
    2. [Run all tests in watch mode](#run-all-tests-in-watch-mode)
    3. [Upload to TestFlight](#upload-to-testflight)
-3. [Updating Version](#updating-version)
-4. [Release new Version](#release-new-version)
+4. [Updating Version](#updating-version)
+5. [Release new Version](#release-new-version)
    1. [Apple AppStore](#apple-appstore)
    2. [Google PlayStore](#google-playstore)
-5. [CI/CD or just Pipelines](#cicd-or-just-pipelines)
-6. [Adding an Index](#adding-an-index)
-7. [Push Notifications](#push-notifications)
-8. [Common Errors](#common-errors)
+6. [CI/CD or just Pipelines](#cicd-or-just-pipelines)
+7. [Adding an Index](#adding-an-index)
+8. [Push Notifications](#push-notifications)
+9. [Common Errors](#common-errors)
    1. [Module 'camera_avfoundation' not found](#module-camera_avfoundation-not-found)
 
 ## Getting Started
 
-1. install flutter
-2. run `dart pub global activate flutterfire_cli` to install flutterfire
-3. run `flutterfire configure` to configure the Firebase project
-4. run `flutter run`
+1. git clone
+2. install recommended vs code extensions
+3. run `copy .env.local .env` and fill out credentials
+4. install flutter
+5. run `npm install -g firebase-tools` to install firebase
+6. run `firebase login`to login into firebase
+7. run `dart pub global activate flutterfire_cli` to install flutterfire
+8. run `flutterfire configure` to configure the Firebase project
+9. [setup firebase emulator](#setup-emulator)
+10. open and select iPhone Simulator
+11. run `flutter run`
+
+## Setup Emulator
+
+1. run `cd firebase`
+2. run `npm i`
+3. run `npm run generate:firestore:rules`
+4. run `npm emulator:reset`
+5. run `cd functions`
+6. run `npm i`
+7. run `npm run build`
+8. run `cd ..`
+9. run `npm run emulator`
 
 ## Testing
 
