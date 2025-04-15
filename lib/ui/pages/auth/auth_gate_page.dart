@@ -1,20 +1,26 @@
 import 'package:challenge/services/app_version_service.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/app.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:challenge/ui/pages/auth/update_app_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AuthGatePage extends StatelessWidget {
+class AuthGatePage extends StatefulWidget {
   const AuthGatePage({super.key});
 
+  @override
+  State<AuthGatePage> createState() => _AuthGatePageState();
+}
+
+class _AuthGatePageState extends State<AuthGatePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: FutureBuilder(
-          future: AppVersionService.isDeviceAppVersionUpToDate(),
+          future: isDeviceAppVersionUpToDate(),
           builder: (context, isDeviceAppVersionUpToDate) {
             if (isDeviceAppVersionUpToDate.connectionState ==
                 ConnectionState.waiting) {
@@ -38,5 +44,15 @@ class AuthGatePage extends StatelessWidget {
             }
           }),
     );
+  }
+
+  Future<bool> isDeviceAppVersionUpToDate() async {
+    try {
+      return await AppVersionService.isDeviceAppVersionUpToDate();
+    } on Exception {
+      ErrorOccurredDialog.show(
+          errorText: 'Connection to backend failed', context: context);
+      return false;
+    }
   }
 }
