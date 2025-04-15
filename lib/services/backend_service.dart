@@ -35,8 +35,6 @@ class BackendService {
       case EnvironmentEnum.prod:
         environmentOptions = firebaseProd;
         break;
-      default:
-        environmentOptions = firebaseDev;
     }
     await Firebase.initializeApp(
         options: environmentOptions, name: 'challenge-${environment.string}');

@@ -402,7 +402,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
         height: 40,
         decoration: BoxDecoration(
           color: _flashMode == FlashMode.off
-              ? Colors.white.withOpacity(0.3)
+              ? Colors.white.withValues(alpha: 0.3)
               : Theme.of(context).colorScheme.primary,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
@@ -421,7 +421,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
   Widget _buildCaptureButton() {
     return TapContainerComponent(
       onTap: _takePicture,
-      onTapColor: Theme.of(context).colorScheme.primary.withOpacity(0.9),
+      onTapColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.9),
       isQuadratic: true,
       height: 60,
       borderRadius: 20,
@@ -462,7 +462,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
           width: 40,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               width: 1,
@@ -502,7 +502,7 @@ class _CameraFeedbackOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white.withOpacity(0.8),
+      color: Colors.white.withValues(alpha: 0.8),
     );
   }
 }

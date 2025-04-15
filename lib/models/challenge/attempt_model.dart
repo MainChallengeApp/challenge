@@ -231,8 +231,6 @@ class AttemptModel {
       case FrequencyTypeEnum.time:
         return getTimeRepetitions(
             startDate, endDate, now, frequency, groupChallenge);
-      default:
-        return repetitions;
     }
   }
 
@@ -400,8 +398,6 @@ class AttemptModel {
         return getDailyRepetitionNumber(now, startDate, endDate, frequency);
       case FrequencyTypeEnum.time:
         return getTimeRepetitionNumber(now, startDate, frequency);
-      default:
-        return 0;
     }
   }
 

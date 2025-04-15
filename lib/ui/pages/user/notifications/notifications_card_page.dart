@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:challenge/enums/notification_type_enum.dart';
-import 'package:challenge/exceptions/notification_type_is_not_supported_exception.dart';
 import 'package:challenge/models/notification/connection_accepted_notification_model.dart';
 import 'package:challenge/models/notification/connection_request_notification_model.dart';
 import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
@@ -90,9 +89,6 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
               return ProgressAddedCardComponent(
                   progressAddedNotification:
                       notification as ProgressAddedNotificationModel);
-            default:
-              throw NotificationTypeIsNotSupportedException(
-                  notification.type.toString());
           }
         }).toList(),
       ),
