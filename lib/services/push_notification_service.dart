@@ -16,7 +16,7 @@ class PushNotificationService {
   final _notificationsProvider = getIt<NotificationsProvider>();
 
   Future<String?> getToken() async {
-    return await _fcm.getAPNSToken();
+    return _fcm.getToken();
   }
 
   Future<NotificationSettings> requestPermission() async {
