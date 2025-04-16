@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    setOrientationToPortraitUp();
+    _setOrientationToPortraitUp();
     WidgetsBinding.instance.addObserver(this);
     TimeService.initializeTrustedTime();
     setupDependencies(context);
@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         home: const AuthGatePage());
   }
 
-  void setOrientationToPortraitUp() {
+  void _setOrientationToPortraitUp() {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
