@@ -85,7 +85,7 @@ class _MediaNotePageState extends State<MediaNotePage> {
               child: ListItemIconTextInputComponent(
                 icon: IconEnum.title.icon,
                 textEditingController: _titleTextEditingController,
-                lableText: 'Title',
+                labelText: 'Title',
                 autoFocus: false,
                 hintText: widget.noteMedia.title,
                 maxLength: DatabaseService.maxCharactersShort,

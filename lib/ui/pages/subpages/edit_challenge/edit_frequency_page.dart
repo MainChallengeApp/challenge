@@ -108,7 +108,7 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
           _onTapAccept();
         },
         textInputAction: TextInputAction.next,
-        lableText: 'Amount',
+        labelText: 'Amount',
         hintText: 'max.',
         maxLength: DatabaseService.maxFrequencyAmountLength,
         removeActionIcon: true,

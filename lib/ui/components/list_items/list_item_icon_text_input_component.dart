@@ -27,7 +27,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool autoCorrection;
   final bool enableSuggestions;
-  final String? lableText;
+  final String? labelText;
   final int? maxLength;
   final bool removeActionIcon;
   final EdgeInsetsGeometry? margin;
@@ -54,7 +54,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.onTapOutside,
     this.autoCorrection = true,
     this.enableSuggestions = true,
-    this.lableText,
+    this.labelText,
     this.maxLength,
     this.removeActionIcon = false,
     this.margin,
@@ -229,7 +229,7 @@ class _ListItemIconTextInputComponentState
           top: Tween<double>(
             begin: ListItemContainerComponent.standardPadding +
                 ListItemIconTextComponent.iconContainerSize / 2 -
-                (_getTextSize(widget.lableText,
+                (_getTextSize(widget.labelText,
                             Theme.of(context).textTheme.titleMedium)
                         .height /
                     2) +
@@ -245,7 +245,7 @@ class _ListItemIconTextInputComponentState
               focusNode.requestFocus();
             },
             child: Text(
-              widget.lableText ?? '',
+              widget.labelText ?? '',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontSize: Tween<double?>(
                       begin: Theme.of(context).textTheme.titleMedium?.fontSize,

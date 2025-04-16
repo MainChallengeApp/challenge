@@ -42,7 +42,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
       onChangeTextField: widget.onChangeTextField,
       onSubmitted: widget.onSubmitted,
       errorText: widget.errorText,
-      lableText: 'Password',
+      labelText: 'Password',
       keyboardType: TextInputType.visiblePassword,
       removeActionIcon: true,
     );

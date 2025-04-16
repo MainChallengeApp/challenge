@@ -33,7 +33,7 @@ class _ListItemEmailComponentState extends State<ListItemEmailComponent> {
       errorText: widget.errorText,
       keyboardType: TextInputType.emailAddress,
       autoFocus: widget.autoFocus,
-      lableText: widget.lableText ?? 'Email',
+      labelText: widget.lableText ?? 'Email',
       removeActionIcon: true,
       textInputAction: TextInputAction.next,
     );

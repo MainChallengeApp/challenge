@@ -197,7 +197,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
               });
             },
             onSubmitted: (_) => _unitFocusNode.unfocus(),
-            lableText: 'Unit',
+            labelText: 'Unit',
             autoCorrection: false,
             removeActionIcon: true,
             actionIcon: _isUnitExpanded
@@ -289,7 +289,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
           _onTapAccept();
         },
         textInputAction: TextInputAction.next,
-        lableText: 'Amount',
+        labelText: 'Amount',
         hintText: '1',
         maxLength: DatabaseService.maxAcceptanceCriteriaAmountLength,
         removeActionIcon: true,

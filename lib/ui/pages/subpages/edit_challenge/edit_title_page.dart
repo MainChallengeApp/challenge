@@ -62,7 +62,7 @@ class _EditTitlePageState extends State<EditTitlePage> {
                           _errorText = null;
                         });
                       },
-                      lableText: 'Title',
+                      labelText: 'Title',
                     ),
                   ),
                 ],

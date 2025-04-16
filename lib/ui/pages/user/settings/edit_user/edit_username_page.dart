@@ -86,7 +86,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                     _errorText = null;
                   });
                 },
-                lableText: 'Username',
+                labelText: 'Username',
                 removeActionIcon: true,
               ),
             ),

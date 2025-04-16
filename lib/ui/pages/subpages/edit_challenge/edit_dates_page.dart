@@ -562,7 +562,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
             _onTapAccept();
           },
           textInputAction: TextInputAction.next,
-          lableText: 'Day Amount',
+          labelText: 'Day Amount',
           hintText: 'max.',
           maxLength: DatabaseService.maxFrequencyAmountLength,
           removeActionIcon: true,
