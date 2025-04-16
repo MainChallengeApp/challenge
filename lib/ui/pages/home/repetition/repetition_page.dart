@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/repetition_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
@@ -188,7 +189,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         ? <Widget>[
             LinkListItemComponent(
                 child: ListItemIconTextComponent(
-              icon: Icons.add_rounded,
+              icon: IconEnum.add.icon,
               title: 'New Progress',
               onTap: () => onTapNewProgress(repetition),
             ))

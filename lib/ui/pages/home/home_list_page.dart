@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
@@ -136,7 +137,7 @@ class _HomeListPageState extends State<HomeListPage> {
     return SpaceColumnComponent(
       child: ListItemIconTextComponent(
         onTap: () => _tapOnNewChallenge(),
-        icon: Icons.add_rounded,
+        icon: IconEnum.add.icon,
         title: 'New Challenge',
       ),
     );

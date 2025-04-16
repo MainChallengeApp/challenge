@@ -53,7 +53,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   Widget build(BuildContext context) {
     return ListItemFractionComponent(
       margin: widget.margin,
-      endActionPane: widget.isSlidable ? endActionPane : null,
+      endActionPane: widget.isSlidable ? _endActionPane : null,
       onTap: widget.onTap,
       onHorizontalDragUpdate: widget.isEditable
           ? (details) {
@@ -108,13 +108,13 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
-          children: [progressIcon(), progress(), mediaItemAmount()],
+          children: [_progressIcon(), _progress(), _mediaItemAmount()],
         ),
       ),
     );
   }
 
-  progress() {
+  _progress() {
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.only(
             right: ContainerInContainerComponent.standardMargin),
@@ -123,13 +123,13 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
             '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.unit}');
   }
 
-  progressIcon() {
-    return const IconContainerInListItemComponent(
-      icon: Icons.bolt_rounded,
+  _progressIcon() {
+    return IconContainerInListItemComponent(
+      icon: IconEnum.progress.icon,
     );
   }
 
-  mediaItemAmount() {
+  _mediaItemAmount() {
     return ContainerInContainerComponent(
         margin: const EdgeInsets.only(
             right: ContainerInContainerComponent.standardMargin),
@@ -143,7 +143,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
               style: Theme.of(context).textTheme.bodySmall,
             ),
             Icon(
-              Icons.inventory_2_outlined,
+              IconEnum.media.icon,
               size: Theme.of(context).textTheme.bodySmall?.fontSize,
               color: Theme.of(context).colorScheme.tertiary,
             ),
@@ -151,7 +151,7 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
         ));
   }
 
-  ActionPane endActionPane(Function closeSlidable) {
+  ActionPane _endActionPane(Function closeSlidable) {
     return ActionPane(
       extentRatio: 0.22,
       motion: const ScrollMotion(),

@@ -411,7 +411,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
           ),
         ),
         child: Icon(
-          Icons.flashlight_on_outlined,
+          IconEnum.flashLight.icon,
           color: _flashMode == FlashMode.off ? Colors.black : Colors.white,
         ),
       ),
@@ -426,7 +426,7 @@ class _CameraStateMedia extends State<MediaCameraPage>
       height: 60,
       borderRadius: 20,
       child: Icon(
-        _isRecording ? Icons.stop : IconEnum.camera.icon,
+        _isRecording ? IconEnum.stopRecording.icon : IconEnum.camera.icon,
         color: _isRecording ? Colors.white : Colors.black,
         size: 30,
       ),

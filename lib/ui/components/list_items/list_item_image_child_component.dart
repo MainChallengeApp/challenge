@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
@@ -17,18 +18,19 @@ class ListItemImageChildComponent extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final mediaService = MediaService();
 
-  ListItemImageChildComponent(
-      {super.key,
-      this.onTap,
-      required this.url,
-      required this.child,
-      this.fit,
-      this.scale,
-      this.icon = Icons.question_mark,
-      this.endActionPane,
-      this.margin,
-      this.slidableKey,
-      this.isBackgroundBlurred = false});
+  ListItemImageChildComponent({
+    super.key,
+    this.onTap,
+    required this.url,
+    required this.child,
+    this.fit,
+    this.scale,
+    this.endActionPane,
+    this.margin,
+    this.slidableKey,
+    this.isBackgroundBlurred = false,
+    IconData? icon,
+  }) : icon = icon ?? IconEnum.questionMark.icon;
 
   @override
   Widget build(BuildContext context) {

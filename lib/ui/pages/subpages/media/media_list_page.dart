@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
@@ -84,7 +85,7 @@ class _MediaListPageState extends State<MediaListPage> {
                   if (index == 0) {
                     return SpaceColumnComponent(
                       child: ListItemIconTextComponent(
-                        icon: Icons.file_upload_rounded,
+                        icon: IconEnum.upload.icon,
                         title: 'Upload Media',
                         onTap: _onTapUploadMedia,
                       ),

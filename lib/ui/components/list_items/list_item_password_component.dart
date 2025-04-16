@@ -35,8 +35,7 @@ class _ListItemPasswordComponentState extends State<ListItemPasswordComponent> {
   Widget build(BuildContext context) {
     return ListItemIconTextInputComponent(
       icon: IconEnum.password.icon,
-      actionIcon:
-          isHidden ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+      actionIcon: isHidden ? IconEnum.visible.icon : IconEnum.notVisible.icon,
       onTapActionIcon: onTapActionIcon,
       textEditingController: widget.textEditingController,
       isHidden: isHidden,

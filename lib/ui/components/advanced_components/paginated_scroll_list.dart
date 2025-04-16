@@ -19,7 +19,6 @@
 // class _PaginatedScrollListState extends State<PaginatedScrollList> {
 //   final scrollController = ScrollController();
 
-
 //   @override
 //   void initState() {
 //     super.initState();
@@ -55,7 +54,7 @@
 //                     ? SpaceColumnComponent(
 //                         child: ListItemIconTextComponent(
 //                         onTap: onTapNewChallenge,
-//                         icon: Icons.add,
+//                         icon: IconEnum.add.icon,
 //                         title: textEditingController.text == ''
 //                             ? 'New Challenge'
 //                             : textEditingController.text,

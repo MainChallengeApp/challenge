@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:flutter/material.dart';
 
@@ -41,8 +42,8 @@ class AppBarComponent extends StatelessWidget implements PreferredSizeWidget {
           elevation: 0,
           leading: leadingIcon ??
               (isFirstPageInRoute
-                  ? const Icon(
-                      Icons.chevron_left,
+                  ? Icon(
+                      IconEnum.arrowLeft.icon,
                       color: Colors.transparent,
                     )
                   : null),

@@ -20,6 +20,7 @@ enum IconEnum {
   edit(Icons.edit_rounded),
   email(Icons.email_rounded),
   feedback(Icons.feedback_outlined),
+  flashLight(Icons.flash_on_outlined),
   frequencyType(Icons.event_repeat_outlined),
   goal(Icons.emoji_events_outlined),
   gps(Icons.gps_not_fixed_rounded),
@@ -32,6 +33,7 @@ enum IconEnum {
   newChallenge(Icons.add_rounded),
   notification(Icons.notifications_outlined),
   notes(Icons.notes_rounded),
+  notVisible(Icons.visibility_off_outlined),
   numbers(Icons.numbers_rounded),
   openRequests(Icons.outbox_rounded),
   openResponses(Icons.move_to_inbox_rounded),
@@ -48,11 +50,13 @@ enum IconEnum {
   select(Icons.check_rounded),
   settings(Icons.settings_outlined),
   shuffle(Icons.shuffle_rounded),
+  stopRecording(Icons.stop_rounded),
   title(Icons.title_rounded),
   unit(Icons.square_foot_outlined),
   upload(Icons.upload_rounded),
   user(Icons.person_rounded),
   username(Icons.alternate_email_rounded),
+  visible(Icons.visibility_outlined),
   ;
 
   const IconEnum(this.icon);

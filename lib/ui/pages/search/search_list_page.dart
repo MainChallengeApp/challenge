@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/search_filter_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/user/user_model.dart';
@@ -233,7 +234,7 @@ class _SearchListPageState extends State<SearchListPage> {
   ListItemIconTextComponent _newChallengeListItem() {
     return ListItemIconTextComponent(
       onTap: _onTapNewChallenge,
-      icon: Icons.add,
+      icon: IconEnum.add.icon,
       title:
           'New Challenge${_textEditingController.text.isEmpty ? '' : ': ${_textEditingController.text}'}',
     );

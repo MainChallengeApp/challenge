@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -101,7 +102,7 @@ class _ImageMediaCardComponentState extends State<ImageMediaCardComponent>
 
   _image() {
     return _mediaService.getImage(context, widget.imageMedia.source,
-        fit: BoxFit.contain, icon: Icons.question_mark);
+        fit: BoxFit.contain, icon: IconEnum.questionMark.icon);
   }
 
   void _animateBorderRadius() {
