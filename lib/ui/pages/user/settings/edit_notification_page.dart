@@ -1,19 +1,22 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/push_notification_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/simple_components/switch_component.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_picture_page.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 
 class EditNotificationPage extends StatefulWidget {
   final bool isRegistration;
@@ -28,16 +31,14 @@ class EditNotificationPage extends StatefulWidget {
 }
 
 class _EditNotificationPageState extends State<EditNotificationPage> {
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
-  late bool editAllowNotifications = _usersProvider.user.allowNotifications;
+  late bool _editAllowNotifications = _usersProvider.user.allowNotifications;
 
   final _pushNotificationService = PushNotificationService();
+  final _localNotificationService = LocalPushNotificationService();
 
   bool _isLoading = false;
-
-  final String _title = 'Notifications';
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +47,8 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: _title,
+        appBar: const AppBarComponent(
+          title: 'Notifications',
         ),
         isBottomNavigationVisible: false,
         body: Column(
@@ -57,30 +58,12 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
               child: ListView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 children: [
-                  SpaceColumnComponent(
-                    child: ListItemIconTextChildComponent(
-                      icon: IconEnum.notification.icon,
-                      text: 'Allow Notifications',
-                      padding: const EdgeInsets.all(
-                              ListItemContainerComponent.standardPadding)
-                          .copyWith(
-                              right:
-                                  ListItemContainerComponent.standardPadding -
-                                      5),
-                      child: SwitchComponent(
-                          value: editAllowNotifications,
-                          onChanged: (value) {
-                            setState(() {
-                              editAllowNotifications = value;
-                            });
-                          }),
-                    ),
-                  ),
+                  _allowNotificationsSwitch(),
                 ],
               ),
             ),
             SpaceColumnComponent(
-              height: 20,
+              height: BottomNavigationComponent.standardMargin,
               child: Row(
                 children: [
                   Expanded(
@@ -102,7 +85,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                       onTap: onTapAllowOrSave,
                       isMainButton: true,
                       text: !_usersProvider.user.allowNotifications &&
-                              !editAllowNotifications
+                              !_editAllowNotifications
                           ? 'Allow'
                           : 'Save',
                       isLoading: _isLoading,
@@ -117,18 +100,38 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
     );
   }
 
+  SpaceColumnComponent _allowNotificationsSwitch() {
+    return SpaceColumnComponent(
+      child: ListItemIconTextChildComponent(
+        icon: IconEnum.notification.icon,
+        text: 'Allow Notifications',
+        padding:
+            const EdgeInsets.all(ListItemContainerComponent.standardPadding)
+                .copyWith(
+                    right: ListItemContainerComponent.standardPadding - 5),
+        child: SwitchComponent(
+            value: _editAllowNotifications,
+            onChanged: (value) {
+              setState(() {
+                _editAllowNotifications = value;
+              });
+            }),
+      ),
+    );
+  }
+
   void onTapAllowOrSave() async {
     if (_isLoading) {
       return;
     }
 
     setState(() {
-      if (!_usersProvider.user.allowNotifications && !editAllowNotifications) {
-        editAllowNotifications = true;
+      if (!_usersProvider.user.allowNotifications && !_editAllowNotifications) {
+        _editAllowNotifications = true;
       }
     });
 
-    if (_usersProvider.user.allowNotifications == editAllowNotifications) {
+    if (_usersProvider.user.allowNotifications == _editAllowNotifications) {
       if (widget.isRegistration) {
         nextInRegistration();
         return;
@@ -136,7 +139,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
       return;
     }
 
-    if (editAllowNotifications) {
+    if (_editAllowNotifications) {
       final settings = await _pushNotificationService.requestPermission();
       if (settings.authorizationStatus == AuthorizationStatus.denied) {
         openAppSettings();
@@ -149,9 +152,18 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
     setState(() {
       _isLoading = true;
     });
-
-    _usersProvider.user.allowNotifications = editAllowNotifications;
-    await _usersProvider.update(_usersProvider.user);
+    try {
+      _usersProvider.user.allowNotifications = _editAllowNotifications;
+      await _usersProvider.update(_usersProvider.user);
+      if (_usersProvider.user.allowNotifications) {
+        await _localNotificationService.activateAllChallengeNotifications();
+      } else {
+        await _localNotificationService.cancelAllNotifications();
+      }
+    } catch (_) {
+      ErrorOccurredDialog.show(
+          errorText: 'Error occurred during updating user');
+    }
 
     setState(() {
       _isLoading = false;
@@ -171,7 +183,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
             builder: (builder) => EditPicturePage(
                 user: _usersProvider.user, isRegistration: true))).then((_) {
       setState(() {
-        editAllowNotifications = _usersProvider.user.allowNotifications;
+        _editAllowNotifications = _usersProvider.user.allowNotifications;
       });
     });
   }

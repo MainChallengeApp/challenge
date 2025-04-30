@@ -3,6 +3,7 @@ import 'package:challenge/enums/participant_status_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
+import 'package:challenge/models/challenge/reminder_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,21 +20,36 @@ class ParticipantModel {
   ParticipantStatusEnum status;
   static const String statusField = 'status';
 
+  ReminderModel? reminder;
+  static const String reminderField = 'reminder';
+
   ParticipantModel({
     this.id,
     required this.user,
     this.attempts = const [],
     required this.status,
+    this.reminder,
   });
 
-  static ParticipantModel fromChallengeModel(
+  factory ParticipantModel.fromChallengeModel(
       {required ChallengeModel challenge,
       required UserModel user,
-      required ParticipantStatusEnum status}) {
+      required ParticipantStatusEnum status,
+      ReminderModel? reminder}) {
     return ParticipantModel(
       user: user,
       attempts: [AttemptModel.fromChallengeModel(challenge: challenge)],
       status: status,
+      reminder: reminder,
+    );
+  }
+
+  factory ParticipantModel.empty() {
+    return ParticipantModel(
+      user: UserModel.empty(),
+      attempts: [],
+      status: ParticipantStatusEnum.accepted,
+      reminder: null,
     );
   }
 
@@ -42,10 +58,15 @@ class ParticipantModel {
       userIdField: user.id,
       statusField: status.text,
       attemptsField: attempts.map((attempt) => attempt.toDoc()).toList(),
+      reminderField: reminder?.toDoc(),
     };
   }
 
   static ParticipantModel fromDoc(DocumentSnapshot doc, UserModel user) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    if (data.isEmpty) {
+      throw Exception('ParticipantModel.fromDoc: Document is empty');
+    }
     try {
       return ParticipantModel(
           id: doc.id,
@@ -54,7 +75,11 @@ class ParticipantModel {
           attempts: doc[attemptsField] != null
               ? List<AttemptModel>.from(doc[attemptsField]
                   .map((attempt) => AttemptModel.fromDoc(attempt)))
-              : []);
+              : [],
+          reminder:
+              data.containsKey(reminderField) && doc[reminderField] != null
+                  ? ReminderModel.fromDoc(doc[reminderField])
+                  : null);
     } on Exception {
       rethrow;
     }
@@ -73,6 +98,7 @@ class ParticipantModel {
       user: user,
       status: status,
       attempts: AttemptModel.copyList(attempts),
+      reminder: reminder?.copy(),
     );
   }
 

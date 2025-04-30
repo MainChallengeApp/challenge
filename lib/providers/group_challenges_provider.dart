@@ -9,10 +9,12 @@ import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/challenge/reminder_model.dart';
 import 'package:challenge/models/notification/group_challenge_request_notification_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/services/util_service.dart';
@@ -25,6 +27,7 @@ class GroupChallengesProvider with ChangeNotifier {
   final _groupChallengesCollection = GroupChallengesCollection();
   final _authService = AuthService();
   final _mediaService = MediaService();
+  final _localNotificationService = LocalPushNotificationService();
 
   List<GroupChallengeModel> _groupChallenges = [];
   List<GroupChallengeModel> get groupChallenges => _groupChallenges;
@@ -37,16 +40,18 @@ class GroupChallengesProvider with ChangeNotifier {
   GroupChallengesProvider({required this.context});
 
   Future<String> create(
-      ChallengeModel challenge,
-      List<UserModel> participantUsers,
-      UserModel currentUser,
-      GroupChallengeOptionsModel groupChallengeOptions) async {
+      {required ChallengeModel challenge,
+      required List<UserModel> participantUsers,
+      required UserModel currentUser,
+      required GroupChallengeOptionsModel groupChallengeOptions,
+      ReminderModel? reminder}) async {
     final groupChallenge =
         GroupChallengeModel.fromChallengeWithParticipantUsers(
       challenge: challenge,
       userId: _authService.getCurrentUserId(),
       participantUsers: participantUsers,
       groupChallengeOptions: groupChallengeOptions,
+      reminder: reminder,
     );
     _groupChallenges.insert(0, groupChallenge);
     sortLocalList();
@@ -140,6 +145,12 @@ class GroupChallengesProvider with ChangeNotifier {
       groupChallenge.participants
           .removeWhere((participant) => participant.user.id == participantId);
       updateLocalList(groupChallenge);
+    }
+    ParticipantModel participant =
+        groupChallenge.getParticipant(_authService.getCurrentUserId());
+    if (participant.reminder != null) {
+      await _localNotificationService
+          .cancelNotificationById(participant.reminder!.id);
     }
   }
 

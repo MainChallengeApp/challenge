@@ -65,6 +65,9 @@ dependencies:
   permission_handler: ^11.3.1
   calendar_date_picker2: ^1.1.8
   image_cropper: ^8.1.0
+  flutter_local_notifications: ^14.1.1
+  timezone: ^0.9.1
+  flutter_native_timezone: ^2.0.0
 
 dev_dependencies:
   flutter_test:

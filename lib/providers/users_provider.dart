@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:async/async.dart';
 import 'package:challenge/collections/users_collection.dart';
@@ -243,9 +244,13 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    String? fcmToken = await _pushNotificationService.getToken();
-    _user.removeFcmToken(fcmToken);
-    await update(_user);
+    try {
+      String? fcmToken = await _pushNotificationService.getToken();
+      _user.removeFcmToken(fcmToken);
+      await update(_user);
+    } catch (e) {
+      log(e.toString());
+    }
     resetLocalUser();
     await _authService.logout();
   }
@@ -263,9 +268,13 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> addFcmToken() async {
-    String? fcmToken = await _pushNotificationService.getToken();
-    _user.addFcmToken(fcmToken);
-    await update(_user);
+    try {
+      String? fcmToken = await _pushNotificationService.getToken();
+      _user.addFcmToken(fcmToken);
+      await update(_user);
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
   Future<void> login() async {

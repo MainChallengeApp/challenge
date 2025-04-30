@@ -7,6 +7,7 @@ import 'package:challenge/ui/components/list_items/list_item_container_component
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -113,7 +114,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
               ),
             ),
             SpaceColumnComponent(
-              height: 20,
+              height: BottomNavigationComponent.standardMargin,
               child: Row(
                 children: [
                   Expanded(

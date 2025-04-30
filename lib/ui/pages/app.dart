@@ -5,6 +5,7 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/push_notification_service.dart';
 import 'package:challenge/ui/animations/bottom_navigation_animation.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
@@ -25,53 +26,53 @@ class App extends StatefulWidget {
 }
 
 class AppState extends State<App> {
-  late final groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider =
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  final _usersProvider = getIt<UsersProvider>();
+  final _tabProvider = getIt<TabProvider>();
+  late final _listeningUsersProvider =
       Provider.of<UsersProvider>(context, listen: true);
-  late final tabProvider = getIt<TabProvider>();
-
   final _notificationsProvider = getIt<NotificationsProvider>();
 
-  final authService = AuthService();
+  final _authService = AuthService();
   final _pushNotificationService = PushNotificationService();
+  final _localNotificationService = LocalPushNotificationService();
 
-  bool isLoadingUser = true;
-  bool isLoadingUserChallenges = true;
+  bool _isLoadingUser = true;
+  bool _isLoadingUserChallenges = true;
 
   @override
   void initState() {
     super.initState();
 
-    usersProvider.getUser().then((_) {
-      isLoadingUser = false;
+    _usersProvider.getUser().then((_) {
+      _isLoadingUser = false;
       if (mounted) {
         setState(() {});
       }
 
-      groupChallengesProvider.getAllOfUser().then((value) {
+      _groupChallengesProvider.getAllOfUser().then((value) {
         if (value.isEmpty) {
-          tabProvider.selectTab(TabItemEnum.search);
+          _tabProvider.selectTab(TabItemEnum.search);
         } else {
-          tabProvider.selectTab(TabItemEnum.home);
+          _tabProvider.selectTab(TabItemEnum.home);
         }
-        isLoadingUserChallenges = false;
+        _isLoadingUserChallenges = false;
+        _localNotificationService.activateAllChallengeNotifications();
         if (mounted) {
           setState(() {});
         }
       }).catchError((error) {
-        isLoadingUserChallenges = false;
+        _isLoadingUserChallenges = false;
         if (mounted) {
           setState(() {});
         }
-        authService.logout();
+        _authService.logout();
         if (mounted) {
           ErrorOccurredDialog.show(
               errorText: error.toString(), context: context);
         }
       }).timeout((const Duration(seconds: 5)), onTimeout: () {
-        isLoadingUserChallenges = false;
+        _isLoadingUserChallenges = false;
         if (mounted) {
           setState(() {});
           ErrorOccurredDialog.show(
@@ -80,12 +81,12 @@ class AppState extends State<App> {
         }
       });
     }).catchError((error) {
-      isLoadingUser = false;
-      isLoadingUserChallenges = false;
+      _isLoadingUser = false;
+      _isLoadingUserChallenges = false;
       if (mounted) {
         setState(() {});
       }
-      authService.logout();
+      _authService.logout();
       ErrorOccurredDialog.show(errorText: error.toString());
     });
 
@@ -102,15 +103,15 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoadingUser || isLoadingUserChallenges
+    return _isLoadingUser || _isLoadingUserChallenges
         ? const Scaffold(
             body: Center(
               child: LoadingCircleComponent(),
             ),
           )
-        : listeningUsersProvider.user.username == ''
+        : _listeningUsersProvider.user.username == ''
             ? EditUsernamePage(
-                user: listeningUsersProvider.user, isRegistration: true)
+                user: _listeningUsersProvider.user, isRegistration: true)
             : ScaffoldMessenger(
                 child: Scaffold(
                   resizeToAvoidBottomInset: false,
@@ -146,7 +147,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: currentTab != tabItem,
           child: SearchTabNavigator(
-            navigatorKey: tabProvider.navigatorKeys[tabItem],
+            navigatorKey: _tabProvider.navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );
@@ -154,7 +155,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: currentTab != tabItem,
           child: HomeTabNavigator(
-            navigatorKey: tabProvider.navigatorKeys[tabItem],
+            navigatorKey: _tabProvider.navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );
@@ -162,7 +163,7 @@ class AppState extends State<App> {
         return Offstage(
           offstage: currentTab != tabItem,
           child: UserTabNavigator(
-            navigatorKey: tabProvider.navigatorKeys[tabItem],
+            navigatorKey: _tabProvider.navigatorKeys[tabItem],
             tabItem: tabItem,
           ),
         );

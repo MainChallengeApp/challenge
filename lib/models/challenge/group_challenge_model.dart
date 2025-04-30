@@ -6,6 +6,7 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/challenge/reminder_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -43,6 +44,7 @@ class GroupChallengeModel extends ChallengeModel {
     required this.userId,
     required List<UserModel> participantUsers,
     required this.groupChallengeOptions,
+    ReminderModel? reminder,
   }) : super(
           id: challenge.id,
           status: challenge.status,
@@ -63,7 +65,8 @@ class GroupChallengeModel extends ChallengeModel {
             user: participantUser,
             status: userId == participantUser.id
                 ? ParticipantStatusEnum.accepted
-                : ParticipantStatusEnum.invited))
+                : ParticipantStatusEnum.invited,
+            reminder: userId == participantUser.id ? reminder : null))
         .toList();
   }
 

@@ -16,8 +16,7 @@ The app for finding new challenges, tracking and completing them!
    2. [Google PlayStore](#google-playstore)
 6. [CI/CD or just Pipelines](#cicd-or-just-pipelines)
 7. [Adding an Index](#adding-an-index)
-8. [Push Notifications](#push-notifications)
-9. [Common Errors](#common-errors)
+8. [Common Errors](#common-errors)
    1. [Module 'camera_avfoundation' not found](#module-camera_avfoundation-not-found)
 
 ## Getting Started
@@ -94,17 +93,6 @@ Firebase throws an error if an index is needed. The error contains a link to cre
 4. `firebase firestore:indexes > firestore.indexes.json`
 5. `firebase deploy --only firestore:indexes --project=test`
 6. `firebase deploy --only firestore:indexes --project=prod`
-
-## Push Notifications
-
-> Not fully integrated yet.
-
-Push Notifications are not fully integrated yet because we do not have firebase cloud functions integrated yet. Without cloud functions we would need to store the credentials on the users device to generate an oAuth2 token and this is not secure. But we are able to test Push Notifications on a physical test device:
-
-1. add `PushNotificationService().initNotifications()` to the main function.
-2. run the application on a physical device
-3. run ../oauth/generate_oauth.py and generate the oAuth2 token (this script is not in git because of the necessary secrets. Ask the developer leader for the script.)
-4. open lib/rest/.rest replace the `oAuth2Token` and `deviceToken` and run the request `push-notification`
 
 ## Common Errors
 

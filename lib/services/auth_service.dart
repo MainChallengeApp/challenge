@@ -1,19 +1,21 @@
 import 'package:challenge/services/database_service.dart';
+import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  final auth = FirebaseAuth.instance;
-  final storageService = StorageService();
-  final databaseService = DatabaseService();
+  final _auth = FirebaseAuth.instance;
+  final _storageService = StorageService();
+  final _databaseService = DatabaseService();
+  final _localNotificationService = LocalPushNotificationService();
 
-  User? getCurrentUser() => auth.currentUser;
-  String getCurrentUserId() => auth.currentUser!.uid;
+  User? getCurrentUser() => _auth.currentUser;
+  String getCurrentUserId() => _auth.currentUser!.uid;
 
   Future<UserCredential> loginEmailPassword(
       String email, String password) async {
     try {
-      final userCredential = await auth.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       return userCredential;
     } on FirebaseAuthException {
@@ -24,7 +26,7 @@ class AuthService {
   Future<UserCredential> registerEmailPassword(
       String email, String password) async {
     try {
-      final userCredential = await auth.createUserWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       return userCredential;
     } on FirebaseAuthException {
@@ -33,14 +35,15 @@ class AuthService {
   }
 
   Future<void> logout() async {
-    await auth.signOut();
+    await _auth.signOut();
+    await _localNotificationService.cancelAllNotifications();
   }
 
   Future<void> deleteUser() async {
     try {
-      await storageService.deleteUserFiles(getCurrentUserId());
-      await databaseService.deleteUserFromDatabase(getCurrentUserId());
-      await auth.currentUser!.delete();
+      await _storageService.deleteUserFiles(getCurrentUserId());
+      await _databaseService.deleteUserFromDatabase(getCurrentUserId());
+      await _auth.currentUser!.delete();
     } on FirebaseAuthException {
       rethrow;
     }
@@ -48,7 +51,7 @@ class AuthService {
 
   Future<void> sendPasswordResetEmail(String email) async {
     try {
-      await auth.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException {
       rethrow;
     }
@@ -56,10 +59,10 @@ class AuthService {
 
   Future<void> updatePassword(String password) async {
     try {
-      if (auth.currentUser == null) {
+      if (_auth.currentUser == null) {
         throw FirebaseAuthException(code: 'user-not-found');
       }
-      await auth.currentUser!.updatePassword(password);
+      await _auth.currentUser!.updatePassword(password);
     } on FirebaseAuthException {
       rethrow;
     }
@@ -67,10 +70,10 @@ class AuthService {
 
   Future<void> updateEmail(String email) async {
     try {
-      if (auth.currentUser == null) {
+      if (_auth.currentUser == null) {
         throw FirebaseAuthException(code: 'user-not-found');
       }
-      await auth.currentUser!.verifyBeforeUpdateEmail(email);
+      await _auth.currentUser!.verifyBeforeUpdateEmail(email);
     } on FirebaseAuthException {
       rethrow;
     }
@@ -89,7 +92,7 @@ class AuthService {
       case 'weak-password':
         return 'Password is too weak';
       case 'wrong-password':
-        return 'Invalide Credentials';
+        return 'Invalid Credentials';
       case 'invalid-credential':
         return 'Invalid Credential';
       case 'too-many-requests':
@@ -104,7 +107,7 @@ class AuthService {
       case 'email-already-in-use':
         return 'Email already in use';
       case 'wrong-password':
-        return 'Invalide Credentials';
+        return 'Invalid Credentials';
       case 'user-not-found':
         return 'User not found';
       case 'user-disabled':

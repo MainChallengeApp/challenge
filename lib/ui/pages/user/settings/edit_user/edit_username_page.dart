@@ -6,6 +6,7 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -91,7 +92,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
               ),
             ),
             SpaceColumnComponent(
-              height: 20,
+              height: BottomNavigationComponent.standardMargin,
               child: Row(
                 children: [
                   Expanded(

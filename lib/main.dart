@@ -6,6 +6,7 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/backend_service.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
+import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/pages/auth/auth_gate_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -63,6 +64,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     TimeService.initializeTrustedTime();
     setupDependencies(context);
+    LocalPushNotificationService().initialize();
   }
 
   @override

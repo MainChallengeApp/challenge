@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/tab_item_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
@@ -5,12 +7,14 @@ import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_options_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/models/challenge/reminder_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/error_text_service.dart';
+import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -27,12 +31,14 @@ import 'package:challenge/ui/components/simple_components/app_icon_component.dar
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_dates_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_description_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_frequency_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_goal_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_participants_page.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_reminder_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_thumbnail_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_title_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
@@ -59,12 +65,14 @@ class _EditChallengePageState extends State<EditChallengePage> {
   late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
   late final _usersProvider = getIt<UsersProvider>();
   late final _tabProvider = getIt<TabProvider>();
+  final _localPushNotificationService = LocalPushNotificationService();
 
   late final ChallengeModel _editChallenge =
       widget.challenge.copy(isTryAgain: widget.isTryAgain, withId: true);
 
   List<UserModel> _editParticipants = [];
   AttemptModel? _selectedAttempt;
+  late final ParticipantModel _participant = _getParticipant();
 
   bool _isScopeExpanded = false;
   bool _isUserAbleToEditChallenge = false;
@@ -110,6 +118,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                     _goal(),
                     _repetitions(),
                     _dates(),
+                    _reminder(),
                     _participants(),
                   ],
                 ),
@@ -137,33 +146,32 @@ class _EditChallengePageState extends State<EditChallengePage> {
 
   SpaceColumnComponent _dates() {
     return SpaceColumnComponent(
-        heightMultiplier: 2,
         child: ListItemIconTextChildComponent(
-          isEnabled: _isUserAbleToEditChallenge || _selectedAttempt != null,
-          onTap: _onTapDates,
-          padding: const EdgeInsets.symmetric(
-              horizontal: ListItemContainerComponent.standardPadding),
-          icon: IconEnum.dates.icon,
-          text: 'Dates',
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                _getStartAndEndDateString(isStartDate: true),
-                style: Theme.of(context).textTheme.titleMediaNormalTertiary,
-                textAlign: TextAlign.end,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                _getStartAndEndDateString(isStartDate: false),
-                style: Theme.of(context).textTheme.titleMediaNormalTertiary,
-                textAlign: TextAlign.end,
-                overflow: TextOverflow.ellipsis,
-              )
-            ],
+      isEnabled: _isUserAbleToEditChallenge || _selectedAttempt != null,
+      onTap: _onTapDates,
+      padding: const EdgeInsets.symmetric(
+          horizontal: ListItemContainerComponent.standardPadding),
+      icon: IconEnum.dates.icon,
+      text: 'Dates',
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            _getStartAndEndDateString(isStartDate: true),
+            style: Theme.of(context).textTheme.titleMediaNormalTertiary,
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
           ),
-        ));
+          Text(
+            _getStartAndEndDateString(isStartDate: false),
+            style: Theme.of(context).textTheme.titleMediaNormalTertiary,
+            textAlign: TextAlign.end,
+            overflow: TextOverflow.ellipsis,
+          )
+        ],
+      ),
+    ));
   }
 
   Visibility _repetitions() {
@@ -177,6 +185,23 @@ class _EditChallengePageState extends State<EditChallengePage> {
               text: 'Repetitions',
               text2:
                   '${_editChallenge.frequency.amount ?? 'max.'} ${_editChallenge.frequency.typeToString()}')),
+    );
+  }
+
+  _reminder() {
+    ReminderModel? reminder = _participant.reminder;
+
+    return Visibility(
+      visible: _selectedAttempt == null,
+      child: SpaceColumnComponent(
+          heightMultiplier: 2,
+          child: ListItemIconTextTextComponent(
+              onTap: _onTapReminder,
+              icon: IconEnum.notification.icon,
+              text: 'Daily Reminder',
+              text2: reminder == null || !reminder.isActive
+                  ? 'Off'
+                  : reminder.timeToString())),
     );
   }
 
@@ -357,9 +382,28 @@ class _EditChallengePageState extends State<EditChallengePage> {
       _isLoading = true;
     });
     ChallengeModel challengeCopy = _editChallenge.copy();
+    try {
+      challengeCopy.id = await _groupChallengesProvider.create(
+          challenge: challengeCopy,
+          participantUsers: _editParticipants,
+          currentUser: _usersProvider.user,
+          groupChallengeOptions: GroupChallengeOptionsModel(),
+          reminder: _participant.reminder);
 
-    challengeCopy.id = await _groupChallengesProvider.create(challengeCopy,
-        _editParticipants, _usersProvider.user, GroupChallengeOptionsModel());
+      if (_participant.reminder != null && _participant.reminder!.isActive) {
+        await _localPushNotificationService.setUpChallengeReminder(
+            challengeTitle: challengeCopy.title,
+            reminder: _participant.reminder!);
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        ErrorOccurredDialog.show(
+            errorText: 'Error while creating challenge', context: context);
+      });
+      log(e.toString());
+      return;
+    }
 
     setState(() {
       _isLoading = false;
@@ -395,13 +439,17 @@ class _EditChallengePageState extends State<EditChallengePage> {
       _isLoading = true;
     });
     if (_selectedAttempt == null) {
-      GroupChallengeModel groupChallengeCopy =
-          _editChallenge.copy(withId: true) as GroupChallengeModel;
+      if (_isUserAbleToEditChallenge) {
+        GroupChallengeModel groupChallengeCopy =
+            _editChallenge.copy(withId: true) as GroupChallengeModel;
 
-      groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
+        groupChallengeCopy.setGoals(_editChallenge.acceptanceCriteria.amount);
 
-      await _groupChallengesProvider.update(groupChallengeCopy);
-      await _updateParticipants(groupChallengeCopy);
+        await _groupChallengesProvider.update(groupChallengeCopy);
+        await _updateParticipants(groupChallengeCopy);
+      }
+      await _groupChallengesProvider.updateParticipant(
+          _editChallenge as GroupChallengeModel, _participant);
     } else {
       ParticipantModel participant = (_editChallenge as GroupChallengeModel)
           .getParticipant(_usersProvider.user.id);
@@ -409,6 +457,16 @@ class _EditChallengePageState extends State<EditChallengePage> {
           _editChallenge as GroupChallengeModel,
           participant,
           _selectedAttempt!);
+    }
+    if (_participant.reminder != null) {
+      if (_participant.reminder!.isActive) {
+        await _localPushNotificationService.setUpChallengeReminder(
+            challengeTitle: _editChallenge.title,
+            reminder: _participant.reminder!);
+      } else {
+        await _localPushNotificationService
+            .cancelNotificationById(_participant.reminder!.id);
+      }
     }
     setState(() {
       _isLoading = false;
@@ -529,6 +587,19 @@ class _EditChallengePageState extends State<EditChallengePage> {
     });
   }
 
+  void _onTapReminder() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditReminderPage(
+          participant: _participant,
+        ),
+      ),
+    ).then((_) {
+      setState(() {});
+    });
+  }
+
   void _onTapDates() {
     Navigator.push(
       context,
@@ -590,5 +661,12 @@ class _EditChallengePageState extends State<EditChallengePage> {
     ErrorTextService.showErrorText(
         setState, _errorTexts, _titleErrorTextKey, _tempTitleErrorText);
     return true;
+  }
+
+  ParticipantModel _getParticipant() {
+    return widget.challenge is GroupChallengeModel
+        ? (_editChallenge as GroupChallengeModel)
+            .getParticipant(_usersProvider.user.id)
+        : ParticipantModel.empty();
   }
 }
