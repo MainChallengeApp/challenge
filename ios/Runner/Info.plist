@@ -34,6 +34,11 @@
       <string>remote-notification</string>
       <string>processing</string>
     </array>
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+    <array>
+      <string>de.dreimus.challenge.app.refresh</string>
+      <string>de.dreimus.challenge.app.cleanup</string>
+    </array>
     <key>NSCameraUsageDescription</key>
     <string>We need access to your camera to take photos for documenting your Challenges.</string>
     <key>NSMicrophoneUsageDescription</key>
