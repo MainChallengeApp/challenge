@@ -158,7 +158,7 @@ class NotificationsCollection extends Collection {
     _subscription = query.snapshots().listen(
       (QuerySnapshot snapshot) {
         for (var change in snapshot.docChanges) {
-          if (change.type case DocumentChangeType.added) {
+          if (change.type == DocumentChangeType.added) {
             onAdd(change.doc);
           }
         }

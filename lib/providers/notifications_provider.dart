@@ -166,6 +166,10 @@ class NotificationsProvider with ChangeNotifier {
         return;
       }
 
+      if (_userNotifications.any((element) => element.id == notification.id)) {
+        return;
+      }
+
       _userNotifications.add(notification);
       sortUserNotifications();
     });

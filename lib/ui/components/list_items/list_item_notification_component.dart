@@ -99,7 +99,7 @@ class _ListItemNotificationComponentState
       motion: const ScrollMotion(),
       dismissible: DismissiblePane(
           onDismissed: () async {
-            await _onTapDeleteChallenge();
+            await _onTapDeleteNotification();
           },
           dismissThreshold: 0.8),
       children: [
@@ -117,7 +117,7 @@ class _ListItemNotificationComponentState
           borderRadius: 24,
           onTap: () async {
             await closeSlidable();
-            await _onTapDeleteChallenge();
+            await _onTapDeleteNotification();
           },
           child: Center(
               child: Icon(
@@ -129,7 +129,7 @@ class _ListItemNotificationComponentState
     );
   }
 
-  Future<void> _onTapDeleteChallenge() async {
+  Future<void> _onTapDeleteNotification() async {
     await _notificationsProvider.deleteNotification(widget.notification.id);
     if (widget.notification is ConnectionRequestNotificationModel) {
       await _usersProvider.disconnectFromUser(widget.notification.fromUser
