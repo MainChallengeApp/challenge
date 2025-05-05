@@ -37,14 +37,11 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final _scrollController = ScrollController();
 
-  late final _tabProvider = getIt<TabProvider>();
-  late final _usersProvider = getIt<UsersProvider>();
-  late final _listeningUsersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
-  late final _listeningGroupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: true);
-  late final _listeningNotificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: true);
+  final _tabProvider = getIt<TabProvider>();
+  final _usersProvider = getIt<UsersProvider>();
+  late UsersProvider _listeningUsersProvider;
+  late GroupChallengesProvider _listeningGroupChallengesProvider;
+  late NotificationsProvider _listeningNotificationsProvider;
 
   late UserModel _user;
 
@@ -59,6 +56,11 @@ class _UserPageState extends State<UserPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
+    _listeningGroupChallengesProvider =
+        Provider.of<GroupChallengesProvider>(context);
+    _listeningNotificationsProvider =
+        Provider.of<NotificationsProvider>(context);
     _user = _listeningUsersProvider.user;
     return ScaffoldComponent(
         appBar: AppBarComponent(

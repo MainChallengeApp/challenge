@@ -26,7 +26,7 @@ class _ConnectionAcceptedCardComponentState
     extends State<ConnectionAcceptedCardComponent> {
   bool isLoadingAcceptButton = false;
 
-  late final _notificationsProvider = getIt<NotificationsProvider>();
+  final _notificationsProvider = getIt<NotificationsProvider>();
 
   final UsersProvider _usersProvider = getIt<UsersProvider>();
 

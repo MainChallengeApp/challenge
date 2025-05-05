@@ -178,9 +178,7 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> getSearchedPaginated(
-      {String? searchText,
-      bool isInit = false,
-      bool shouldNotify = true}) async {
+      {String? searchText, bool isInit = false}) async {
     try {
       if (!_isEndOfSearchedListReached || isInit) {
         final fetchedSearchUsers = await usersCollection.getSearchedPaginated(
@@ -202,9 +200,7 @@ class UsersProvider with ChangeNotifier {
 
         _searchUsers.addAll(fetchedSearchUsers);
 
-        if (shouldNotify) {
-          notifyListeners();
-        }
+        notifyListeners();
       }
     } on Exception {
       rethrow;
@@ -268,19 +264,17 @@ class UsersProvider with ChangeNotifier {
   }
 
   Future<void> addFcmToken() async {
-    try {
-      String? fcmToken = await _pushNotificationService.getToken();
-      _user.addFcmToken(fcmToken);
-      await update(_user);
-    } catch (e) {
-      log(e.toString());
-    }
+    String? fcmToken = await _pushNotificationService.getToken();
+    _user.addFcmToken(fcmToken);
+    await update(_user);
   }
 
   Future<void> login() async {
     await getUser();
     String? fcmToken = await _pushNotificationService.getToken();
-    _user.addFcmToken(fcmToken);
+    if (_user.allowNotifications) {
+      _user.addFcmToken(fcmToken);
+    }
     await update(_user);
   }
 }

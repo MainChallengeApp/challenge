@@ -1,5 +1,6 @@
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
@@ -17,32 +18,31 @@ class BlockedUsersPage extends StatefulWidget {
 }
 
 class _BlockedUsersPageState extends State<BlockedUsersPage> {
-  final String _title = 'Blocked Users';
+  final _usersProvider = getIt<UsersProvider>();
+  late UsersProvider _listeningUsersProvider;
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider = Provider.of<UsersProvider>(context);
-
-  ScrollController scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   @override
   initState() {
     super.initState();
-    usersProvider.getBlockedUser();
+    _usersProvider.getBlockedUser();
   }
 
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     return ScaffoldComponent(
-      appBar: AppBarComponent(title: _title),
+      appBar: const AppBarComponent(title: 'Blocked Users'),
       body: RefreshIndicatorComponent(
         onRefresh: () async {
-          await usersProvider.getBlockedUser();
+          await _usersProvider.getBlockedUser();
         },
-        scrollController: scrollController,
+        scrollController: _scrollController,
         child: ListView.builder(
-          controller: scrollController,
+          controller: _scrollController,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: listeningUsersProvider.blockedUsers.length +
+          itemCount: _listeningUsersProvider.blockedUsers.length +
               1, // +1 for add blocked user
           itemBuilder: (context, index) {
             if (index == 0) {
@@ -53,10 +53,10 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
               );
             }
 
-            UserModel user = listeningUsersProvider.blockedUsers[index - 1];
+            UserModel user = _listeningUsersProvider.blockedUsers[index - 1];
             return SpaceColumnComponent(
                 child: ListItemUserComponent(
-              onTap: () => onTapUser(user),
+              onTap: () => _onTapUser(user),
               user: user,
             ));
           },
@@ -65,12 +65,12 @@ class _BlockedUsersPageState extends State<BlockedUsersPage> {
     );
   }
 
-  onTapUser(UserModel user) {
+  _onTapUser(UserModel user) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => SearchUserPage(
-          getUsersList: () => listeningUsersProvider.blockedUsers,
+          getUsersList: () => _listeningUsersProvider.blockedUsers,
           initUserId: user.id,
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -7,13 +8,11 @@ import 'package:challenge/ui/components/list_items/list_item_email_component.dar
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/leading_app_icon_component.dart';
-import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatefulWidget {
   final String initialEmail;
@@ -29,12 +28,12 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  AuthService authService = AuthService();
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  final _authService = AuthService();
+  final _usersProvider = getIt<UsersProvider>();
 
-  late TextEditingController emailTextEditingController =
+  late final _emailTextEditingController =
       TextEditingController(text: widget.initialEmail);
-  TextEditingController passwordTextEditingController = TextEditingController();
+  final _passwordTextEditingController = TextEditingController();
 
   String? _tempEmailErrorText;
   String? _tempPasswordErrorText;
@@ -45,7 +44,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     _passwordErrorTextKey: null,
   };
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +60,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
         physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
-            spacing(),
-            emailInput(),
-            passwordInput(),
+            _spacing(),
+            _emailInput(),
+            _passwordInput(),
             _space(),
-            registerButton(),
-            switchToLoginButton(),
+            _registerButton(),
+            _switchToLoginButton(),
           ],
         ),
       ),
@@ -79,22 +78,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  SpaceColumnComponent registerButton() {
+  SpaceColumnComponent _registerButton() {
     return SpaceColumnComponent(
       heightMultiplier: 2,
       child: ListItemButtonComponent(
-        onTap: onTapRegister,
-        isMainButton: isMainButton(),
+        onTap: _onTapRegister,
+        isMainButton: _isMainButton(),
         text: 'Register',
-        isLoading: isLoading,
+        isLoading: _isLoading,
       ),
     );
   }
 
-  SpaceColumnComponent passwordInput() {
+  SpaceColumnComponent _passwordInput() {
     return SpaceColumnComponent(
       child: ListItemPasswordComponent(
-        textEditingController: passwordTextEditingController,
+        textEditingController: _passwordTextEditingController,
         errorText: _errorTexts[_passwordErrorTextKey],
         onChangeTextField: (_) => setState(() {
           _errorTexts[_passwordErrorTextKey] = null;
@@ -102,15 +101,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
           _tempEmailErrorText = null;
           _tempPasswordErrorText = null;
         }),
-        onSubmitted: (_) => onTapRegister(),
+        onSubmitted: (_) => _onTapRegister(),
       ),
     );
   }
 
-  SpaceColumnComponent emailInput() {
+  SpaceColumnComponent _emailInput() {
     return SpaceColumnComponent(
       child: ListItemEmailComponent(
-        textEditingController: emailTextEditingController,
+        textEditingController: _emailTextEditingController,
         errorText: _tempEmailErrorText,
         onChangeTextField: (_) => setState(() {
           _errorTexts[_emailErrorTextKey] = null;
@@ -122,41 +121,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  SpaceComponent spacing() {
+  SpaceComponent _spacing() {
     return SpaceComponent(
       height: LoginOrRegistrationPage.spaceTop,
     );
   }
 
-  Container appIcon() {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-        image: AssetImage(
-          AppIconComponent.path,
-        ),
-        fit: BoxFit.contain,
-      )),
-    );
-  }
-
-  onTapRegister() async {
-    if (isLoading) {
+  _onTapRegister() async {
+    if (_isLoading) {
       return;
     }
 
-    emailTextEditingController.text = emailTextEditingController.text.trim();
+    _emailTextEditingController.text = _emailTextEditingController.text.trim();
 
-    if (!authService.isValidEmail(emailTextEditingController.text) ||
-        !authService.isValidPassword(passwordTextEditingController.text)) {
+    if (!_authService.isValidEmail(_emailTextEditingController.text) ||
+        !_authService.isValidPassword(_passwordTextEditingController.text)) {
       _tempEmailErrorText =
-          authService.isValidEmail(emailTextEditingController.text)
+          _authService.isValidEmail(_emailTextEditingController.text)
               ? null
               : 'Invalid Email';
       _tempPasswordErrorText =
-          authService.isValidPassword(passwordTextEditingController.text)
+          _authService.isValidPassword(_passwordTextEditingController.text)
               ? null
               : 'Invalid Password';
       ErrorTextService.showErrorText(
@@ -167,17 +152,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     try {
-      await authService.registerEmailPassword(
-          emailTextEditingController.text, passwordTextEditingController.text);
+      await _authService.registerEmailPassword(_emailTextEditingController.text,
+          _passwordTextEditingController.text);
 
-      await usersProvider.createUser();
+      await _usersProvider.createUser();
     } on FirebaseAuthException catch (e) {
-      _tempEmailErrorText = authService.getEmailErrorMessage(e.code);
-      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      _tempEmailErrorText = _authService.getEmailErrorMessage(e.code);
+      _tempPasswordErrorText = _authService.getPasswordErrorMessage(e.code);
       if (_tempEmailErrorText == null && _tempPasswordErrorText == null) {
         _tempEmailErrorText = 'Registration failed';
         _tempPasswordErrorText = 'Registration failed';
@@ -188,7 +173,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     } finally {
       if (mounted) {
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
 
         ErrorTextService.showErrorText(
@@ -199,9 +184,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
   }
 
-  switchToLoginButton() {
+  _switchToLoginButton() {
     return GestureDetector(
-      onTap: () => widget.onTapSwitchToLogin(emailTextEditingController.text),
+      onTap: () => widget.onTapSwitchToLogin(_emailTextEditingController.text),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -224,8 +209,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  isMainButton() {
-    return authService.isValidEmail(emailTextEditingController.text) &&
-        authService.isValidPassword(passwordTextEditingController.text);
+  _isMainButton() {
+    return _authService.isValidEmail(_emailTextEditingController.text) &&
+        _authService.isValidPassword(_passwordTextEditingController.text);
   }
 }

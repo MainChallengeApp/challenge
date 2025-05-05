@@ -1,12 +1,12 @@
 import 'package:challenge/models/notification/group_challenge_accepted_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class GroupChallengeAcceptedCardComponent extends StatefulWidget {
   final GroupChallengeAcceptedNotificationModel
@@ -26,8 +26,7 @@ class _GroupChallengeAcceptedCardComponentState
     extends State<GroupChallengeAcceptedCardComponent> {
   bool isLoadingAcceptButton = false;
 
-  late final notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
+  final notificationsProvider = getIt<NotificationsProvider>();
 
   @override
   Widget build(BuildContext context) {

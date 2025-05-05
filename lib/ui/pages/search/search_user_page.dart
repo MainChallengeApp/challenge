@@ -38,7 +38,7 @@ class _SearchUserPageState extends State<SearchUserPage> {
 
   final _mediaService = MediaService();
 
-  late final _usersProvider = getIt<UsersProvider>();
+  final _usersProvider = getIt<UsersProvider>();
 
   @override
   void initState() {

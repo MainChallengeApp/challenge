@@ -30,7 +30,7 @@ class UserCardComponent extends StatefulWidget {
 
 class _UserCardComponentState extends State<UserCardComponent> {
   final _usersProvider = getIt<UsersProvider>();
-  late final _listeningUsersProvider = Provider.of<UsersProvider>(context);
+  late UsersProvider _listeningUsersProvider;
   final _reportsProvider = getIt<ReportsProvider>();
 
   bool _isBioExpanded = false;
@@ -40,6 +40,7 @@ class _UserCardComponentState extends State<UserCardComponent> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     return CardComponent(
       children: [
         _profilePicture(),

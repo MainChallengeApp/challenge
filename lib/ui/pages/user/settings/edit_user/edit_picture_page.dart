@@ -2,6 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
@@ -16,7 +17,6 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/user/user_picture_max_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EditPicturePage extends StatefulWidget {
   final UserModel user;
@@ -33,15 +33,13 @@ class EditPicturePage extends StatefulWidget {
 }
 
 class _EditPicturePageState extends State<EditPicturePage> {
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
-  late UserModel editUser = widget.user.copy();
+  late final UserModel _editUser = widget.user.copy();
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
-  final String _title = 'Edit Picture';
-
-  var mediaService = MediaService();
+  final _mediaService = MediaService();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +48,7 @@ class _EditPicturePageState extends State<EditPicturePage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(title: _title),
+        appBar: const AppBarComponent(title: 'Edit Picture'),
         isBottomNavigationVisible: false,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,18 +68,18 @@ class _EditPicturePageState extends State<EditPicturePage> {
                       padding:
                           const EdgeInsets.all(CardComponent.standardPadding),
                       child: UserPictureMaxComponent(
-                          userPictureUrl: editUser.pictureUrl),
+                          userPictureUrl: _editUser.pictureUrl),
                     ),
                   ),
                   SpaceColumnComponent(
                     child: ListItemIconTextComponent(
-                        onTap: onTapUpload,
+                        onTap: _onTapUpload,
                         icon: IconEnum.upload.icon,
                         title: 'Upload'),
                   ),
                   SpaceColumnComponent(
                     child: ListItemIconTextComponent(
-                        onTap: onTapRemove,
+                        onTap: _onTapRemove,
                         icon: IconEnum.remove.icon,
                         title: 'Remove'),
                   )
@@ -98,7 +96,8 @@ class _EditPicturePageState extends State<EditPicturePage> {
                   children: [
                     Expanded(
                       child: ListItemButtonComponent(
-                        onTap: widget.isRegistration ? onTapSkip : onTapCancel,
+                        onTap:
+                            widget.isRegistration ? _onTapSkip : _onTapCancel,
                         text: widget.isRegistration ? 'Skip' : 'Cancel',
                         isMainButton: false,
                         margin: const EdgeInsets.only(
@@ -112,9 +111,9 @@ class _EditPicturePageState extends State<EditPicturePage> {
                       child: ListItemButtonComponent(
                         margin: const EdgeInsets.only(
                             right: ListItemContainerComponent.standardMargin),
-                        onTap: onTapSave,
+                        onTap: _onTapSave,
                         text: 'Save',
-                        isLoading: isLoading,
+                        isLoading: _isLoading,
                       ),
                     ),
                   ],
@@ -127,24 +126,25 @@ class _EditPicturePageState extends State<EditPicturePage> {
     );
   }
 
-  void onTapSave() async {
-    if (isLoading) {
+  void _onTapSave() async {
+    if (_isLoading) {
       return;
     }
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
-    editUser.pictureUrl = await mediaService.uploadLocalUserPicture(editUser);
+    _editUser.pictureUrl =
+        await _mediaService.uploadLocalUserPicture(_editUser);
 
-    await usersProvider.update(editUser);
+    await _usersProvider.update(_editUser);
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
 
     if (widget.isRegistration) {
-      nextInRegistration();
+      _nextInRegistration();
       return;
     }
 
@@ -152,36 +152,36 @@ class _EditPicturePageState extends State<EditPicturePage> {
     Navigator.pop(context);
   }
 
-  void onTapCancel() {
+  void _onTapCancel() {
     Navigator.pop(context);
   }
 
-  void onTapSkip() {
-    nextInRegistration();
+  void _onTapSkip() {
+    _nextInRegistration();
   }
 
-  void onTapUpload() async {
-    ImageMediaModel? imageMedia = await mediaService.openImagePicker(context);
+  void _onTapUpload() async {
+    ImageMediaModel? imageMedia = await _mediaService.openImagePicker(context);
     if (imageMedia == null) {
       return;
     }
     setState(() {
-      editUser.pictureUrl = imageMedia.source;
+      _editUser.pictureUrl = imageMedia.source;
     });
   }
 
-  void onTapRemove() {
+  void _onTapRemove() {
     setState(() {
-      editUser.pictureUrl = null;
+      _editUser.pictureUrl = null;
     });
   }
 
-  void nextInRegistration() {
+  void _nextInRegistration() {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (builder) => EditBioPage(
-                  user: editUser,
+                  user: _editUser,
                   isRegistration: true,
                 )));
   }

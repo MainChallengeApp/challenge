@@ -3,8 +3,6 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
-import 'package:challenge/providers/users_provider.dart';
-import 'package:challenge/services/media_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/challenge/group_challenge_icon_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
@@ -15,7 +13,6 @@ import 'package:challenge/ui/components/simple_components/tap_container_componen
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 
 class ListItemChallengeSmallComponent extends StatefulWidget {
   const ListItemChallengeSmallComponent({
@@ -44,15 +41,11 @@ class ListItemChallengeSmallComponent extends StatefulWidget {
 
 class _ListItemChallengeSmallComponentState
     extends State<ListItemChallengeSmallComponent> {
-  final mediaService = MediaService();
-
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-
   @override
   Widget build(BuildContext context) {
     return ListItemImageChildComponent(
         url: widget.challenge.thumbnail?.url ?? AppIconComponent.path,
-        endActionPane: endActionPane,
+        endActionPane: _endActionPane,
         onTap: widget.onTap,
         scale: widget.challenge.thumbnail?.scale ?? AppIconComponent.scale,
         isBackgroundBlurred:
@@ -92,7 +85,7 @@ class _ListItemChallengeSmallComponentState
         ));
   }
 
-  ActionPane? endActionPane(Function closeSlidable) {
+  ActionPane? _endActionPane(Function closeSlidable) {
     return widget.isSearch
         ? null
         : ActionPane(
@@ -104,18 +97,18 @@ class _ListItemChallengeSmallComponentState
             //   },
             // ),
             children: [
-                editSlider(closeSlidable),
+                _editSlider(closeSlidable),
                 const SpaceComponent(
                   width: 20,
                 ),
-                deleteSlider(closeSlidable),
+                _deleteSlider(closeSlidable),
                 const SpaceComponent(
                   width: 20,
                 )
               ]);
   }
 
-  deleteSlider(Function closeSlidable) {
+  _deleteSlider(Function closeSlidable) {
     return Expanded(
       child: TapContainerComponent(
         height: double.infinity,
@@ -143,7 +136,7 @@ class _ListItemChallengeSmallComponentState
             participant: widget.participant));
   }
 
-  editSlider(Function closeSlidable) {
+  _editSlider(Function closeSlidable) {
     return Expanded(
       child: TapContainerComponent(
         height: double.infinity,

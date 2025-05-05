@@ -25,23 +25,17 @@ class EditEmailPage extends StatefulWidget {
 }
 
 class _EditEmailPageState extends State<EditEmailPage> {
-  bool isLoading = false;
+  bool _isLoading = false;
 
-  final String _title = 'Edit Email';
+  final _authService = AuthService();
 
-  var authService = AuthService();
+  final _passwordTextEditingController = TextEditingController();
+  final _newEmailTextEditingController = TextEditingController();
 
-  late String email = authService.getCurrentUser() != null
-      ? authService.getCurrentUser()!.email!
-      : 'Email not found';
+  String? _passwordError;
+  String? _newEmailError;
 
-  TextEditingController passwordTextEditingController = TextEditingController();
-  TextEditingController newEmailTextEditingController = TextEditingController();
-
-  String? passwordError;
-  String? newEmailError;
-
-  bool isEmailSentMessageVisible = false;
+  bool _isEmailSentMessageVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +44,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(title: _title),
+        appBar: const AppBarComponent(title: 'Edit Email'),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
         body: Column(
@@ -62,29 +56,29 @@ class _EditEmailPageState extends State<EditEmailPage> {
                   children: [
                     SpaceColumnComponent(
                       child: ListItemEmailComponent(
-                          textEditingController: newEmailTextEditingController,
-                          errorText: newEmailError,
+                          textEditingController: _newEmailTextEditingController,
+                          errorText: _newEmailError,
                           lableText: 'New Email',
                           autoFocus: true,
                           onChangeTextField: (value) {
                             setState(() {
-                              newEmailError = null;
+                              _newEmailError = null;
                             });
                           }),
                     ),
                     SpaceColumnComponent(
                       heightMultiplier: 2,
                       child: ListItemPasswordComponent(
-                          textEditingController: passwordTextEditingController,
-                          errorText: passwordError,
+                          textEditingController: _passwordTextEditingController,
+                          errorText: _passwordError,
                           onChangeTextField: (value) {
                             setState(() {
-                              passwordError = null;
+                              _passwordError = null;
                             });
                           }),
                     ),
                     Visibility(
-                        visible: isEmailSentMessageVisible,
+                        visible: _isEmailSentMessageVisible,
                         child: SpaceColumnComponent(
                             child: CustomContainerComponent(
                           padding: const EdgeInsets.all(
@@ -119,7 +113,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                 children: [
                   Expanded(
                     child: ListItemButtonComponent(
-                      onTap: onTapCancel,
+                      onTap: _onTapCancel,
                       text: 'Cancel',
                       isMainButton: false,
                       margin: const EdgeInsets.only(
@@ -133,13 +127,13 @@ class _EditEmailPageState extends State<EditEmailPage> {
                     child: ListItemButtonComponent(
                       margin: const EdgeInsets.only(
                           right: ListItemContainerComponent.standardMargin),
-                      onTap: onTapSendLink,
+                      onTap: _onTapSendLink,
                       text: 'Send Link',
-                      isLoading: isLoading,
-                      isMainButton: authService.isValidPassword(
-                              passwordTextEditingController.text) &&
-                          authService
-                              .isValidEmail(newEmailTextEditingController.text),
+                      isLoading: _isLoading,
+                      isMainButton: _authService.isValidPassword(
+                              _passwordTextEditingController.text) &&
+                          _authService.isValidEmail(
+                              _newEmailTextEditingController.text),
                     ),
                   ),
                 ],
@@ -151,21 +145,21 @@ class _EditEmailPageState extends State<EditEmailPage> {
     );
   }
 
-  void onTapSendLink() async {
-    if (isLoading) {
+  void _onTapSendLink() async {
+    if (_isLoading) {
       return;
     }
 
-    if (!authService.isValidPassword(passwordTextEditingController.text) ||
-        !authService.isValidEmail(newEmailTextEditingController.text)) {
+    if (!_authService.isValidPassword(_passwordTextEditingController.text) ||
+        !_authService.isValidEmail(_newEmailTextEditingController.text)) {
       setState(() {
-        newEmailError =
-            authService.isValidEmail(newEmailTextEditingController.text)
+        _newEmailError =
+            _authService.isValidEmail(_newEmailTextEditingController.text)
                 ? null
                 : 'Invalid email';
 
-        passwordError =
-            authService.isValidPassword(passwordTextEditingController.text)
+        _passwordError =
+            _authService.isValidPassword(_passwordTextEditingController.text)
                 ? null
                 : 'Invalid password';
       });
@@ -173,51 +167,49 @@ class _EditEmailPageState extends State<EditEmailPage> {
     }
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
-    await authService.getCurrentUser()?.reload();
-    if (newEmailTextEditingController.text ==
-        (authService.getCurrentUser()?.email ?? '')) {
+    await _authService.getCurrentUser()?.reload();
+    if (_newEmailTextEditingController.text ==
+        (_authService.getCurrentUser()?.email ?? '')) {
       setState(() {
-        newEmailError = 'this is your current email';
-        isLoading = false;
+        _newEmailError = 'this is your current email';
+        _isLoading = false;
       });
       return;
     }
 
     try {
-      await authService.loginEmailPassword(
-          authService.getCurrentUser()?.email ?? '',
-          passwordTextEditingController.text);
-      await authService.updateEmail(newEmailTextEditingController.text);
+      await _authService.loginEmailPassword(
+          _authService.getCurrentUser()?.email ?? '',
+          _passwordTextEditingController.text);
+      await _authService.updateEmail(_newEmailTextEditingController.text);
       setState(() {
-        isEmailSentMessageVisible = true;
+        _isEmailSentMessageVisible = true;
       });
     } on FirebaseAuthException catch (e) {
       setState(() {
-        passwordError = authService.getPasswordErrorMessage(e.code);
-        passwordError ??= 'Login failed';
+        _passwordError = _authService.getPasswordErrorMessage(e.code);
+        _passwordError ??= 'Login failed';
       });
     } on Exception {
       setState(() {
-        passwordError = 'Login failed';
+        _passwordError = 'Login failed';
       });
     } finally {
       if (mounted) {
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
       }
     }
 
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
-    // ignore: use_build_context_synchronously
-    // Navigator.pop(context);
   }
 
-  void onTapCancel() {
+  void _onTapCancel() {
     Navigator.pop(context);
   }
 }

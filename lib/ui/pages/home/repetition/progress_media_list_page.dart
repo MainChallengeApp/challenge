@@ -27,7 +27,6 @@ import 'package:challenge/ui/pages/subpages/media/media_detail_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ProgressMediaListPage extends StatefulWidget {
   const ProgressMediaListPage(
@@ -79,8 +78,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
 
   final _groupChallengesProvider = getIt<GroupChallengesProvider>();
 
-  late final _notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
+  final _notificationsProvider = getIt<NotificationsProvider>();
 
   final _mediaService = MediaService();
 

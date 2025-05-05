@@ -37,9 +37,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   final _mediaService = MediaService();
 
-  late final _searchChallengeProvider = getIt<SearchChallengesProvider>();
-  late final _listeningSearchChallengeProvider =
-      Provider.of<SearchChallengesProvider>(context);
+  final _searchChallengeProvider = getIt<SearchChallengesProvider>();
+  late SearchChallengesProvider _listeningSearchChallengeProvider;
 
   bool _isLoading = false;
 
@@ -48,7 +47,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     super.initState();
 
     ScrollService.fixOverScroll(_pageController,
-        () => _listeningSearchChallengeProvider.searchChallenges.length);
+        () => _searchChallengeProvider.searchChallenges.length);
 
     if (widget.isRandom) {
       if (mounted) {
@@ -78,7 +77,7 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    for (var challenge in _listeningSearchChallengeProvider.searchChallenges) {
+    for (var challenge in _searchChallengeProvider.searchChallenges) {
       if (!challenge.hasThumbnail() ||
           _mediaService.isUrlLocal(challenge.thumbnail!.url)) {
         continue;
@@ -89,6 +88,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningSearchChallengeProvider =
+        Provider.of<SearchChallengesProvider>(context);
     return ScaffoldComponent(
       appBar: AppBarComponent(title: widget.title),
       body: Center(

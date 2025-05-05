@@ -34,11 +34,10 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   final _searchTextEditingController = TextEditingController();
 
-  late final _usersProvider = getIt<UsersProvider>();
-  late final _listeningUsersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
+  final _usersProvider = getIt<UsersProvider>();
+  late UsersProvider _listeningUsersProvider;
 
-  late final _tabProvider = getIt<TabProvider>();
+  final _tabProvider = getIt<TabProvider>();
 
   List<UserModel> _filteredConfirmedConnections = [];
 
@@ -52,6 +51,7 @@ class _ConnectionsPageState extends State<ConnectionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     return ScaffoldComponent(
       appBar: AppBarComponent(
         title: _title,

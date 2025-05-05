@@ -62,9 +62,9 @@ class EditChallengePage extends StatefulWidget {
 }
 
 class _EditChallengePageState extends State<EditChallengePage> {
-  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
-  late final _usersProvider = getIt<UsersProvider>();
-  late final _tabProvider = getIt<TabProvider>();
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  final _usersProvider = getIt<UsersProvider>();
+  final _tabProvider = getIt<TabProvider>();
   final _localPushNotificationService = LocalPushNotificationService();
 
   late final ChallengeModel _editChallenge =

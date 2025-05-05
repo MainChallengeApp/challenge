@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 class CreditsPage extends StatelessWidget {
   const CreditsPage({super.key});
 
-  final String _title = 'Credits';
-
   @override
   Widget build(BuildContext context) {
-    return ScaffoldComponent(
-      appBar: AppBarComponent(title: _title),
-      body: const Center(
+    return const ScaffoldComponent(
+      appBar: AppBarComponent(title: 'Credits'),
+      body: Center(
         child: Text(
           'Jesus Christ\n\n\nMy Parents\n\n\nYou\n\n\nChallenge Icons made by Freepik from www.flaticon.com',
           textAlign: TextAlign.center,

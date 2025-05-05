@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -13,7 +14,6 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/auth/login_or_registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   final String initialEmail;
@@ -29,13 +29,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late TextEditingController emailTextEditingController =
+  late final _emailTextEditingController =
       TextEditingController(text: widget.initialEmail);
-  TextEditingController passwordTextEditingController = TextEditingController();
+  final _passwordTextEditingController = TextEditingController();
 
-  AuthService authService = AuthService();
+  final _authService = AuthService();
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
   final String _emailErrorTextKey = 'email';
   final String _passwordErrorTextKey = 'password';
@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   String? _tempEmailErrorText;
   String? _tempPasswordErrorText;
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
         onTap: onTapLogin,
         isMainButton: isMainButton(),
         text: 'Login',
-        isLoading: isLoading,
+        isLoading: _isLoading,
       ),
     );
   }
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
   SpaceColumnComponent passwordInput() {
     return SpaceColumnComponent(
       child: ListItemPasswordComponent(
-        textEditingController: passwordTextEditingController,
+        textEditingController: _passwordTextEditingController,
         errorText: _errorTexts[_passwordErrorTextKey],
         onChangeTextField: (_) => setState(() {
           _errorTexts[_emailErrorTextKey] = null;
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
   SpaceColumnComponent emailInput() {
     return SpaceColumnComponent(
       child: ListItemEmailComponent(
-        textEditingController: emailTextEditingController,
+        textEditingController: _emailTextEditingController,
         errorText: _errorTexts[_emailErrorTextKey],
         onChangeTextField: (_) => setState(() {
           _errorTexts[_emailErrorTextKey] = null;
@@ -140,20 +140,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   onTapLogin() async {
-    if (isLoading) {
+    if (_isLoading) {
       return;
     }
 
-    emailTextEditingController.text = emailTextEditingController.text.trim();
+    _emailTextEditingController.text = _emailTextEditingController.text.trim();
 
-    if (!authService.isValidEmail(emailTextEditingController.text) ||
-        !authService.isValidPassword(passwordTextEditingController.text)) {
+    if (!_authService.isValidEmail(_emailTextEditingController.text) ||
+        !_authService.isValidPassword(_passwordTextEditingController.text)) {
       _tempEmailErrorText =
-          authService.isValidEmail(emailTextEditingController.text)
+          _authService.isValidEmail(_emailTextEditingController.text)
               ? null
               : 'Invalid email';
       _tempPasswordErrorText =
-          authService.isValidPassword(passwordTextEditingController.text)
+          _authService.isValidPassword(_passwordTextEditingController.text)
               ? null
               : 'Invalid password';
       ErrorTextService.showErrorText(
@@ -163,16 +163,16 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     try {
-      await authService.loginEmailPassword(
-          emailTextEditingController.text, passwordTextEditingController.text);
-      await usersProvider.login();
+      await _authService.loginEmailPassword(_emailTextEditingController.text,
+          _passwordTextEditingController.text);
+      await _usersProvider.login();
     } on FirebaseAuthException catch (e) {
-      _tempEmailErrorText = authService.getEmailErrorMessage(e.code);
-      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      _tempEmailErrorText = _authService.getEmailErrorMessage(e.code);
+      _tempPasswordErrorText = _authService.getPasswordErrorMessage(e.code);
       if (_tempEmailErrorText == null && _tempPasswordErrorText == null) {
         _tempEmailErrorText = 'Login failed';
         _tempPasswordErrorText = 'Login failed';
@@ -183,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
     } finally {
       if (mounted) {
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
 
         ErrorTextService.showErrorText(
@@ -197,7 +197,7 @@ class _LoginPageState extends State<LoginPage> {
   switchToRegistrationButton() {
     return GestureDetector(
       onTap: () =>
-          widget.onTapSwitchToRegistration(emailTextEditingController.text),
+          widget.onTapSwitchToRegistration(_emailTextEditingController.text),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -239,20 +239,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   isMainButton() {
-    return authService.isValidEmail(emailTextEditingController.text) &&
-        authService.isValidPassword(passwordTextEditingController.text);
+    return _authService.isValidEmail(_emailTextEditingController.text) &&
+        _authService.isValidPassword(_passwordTextEditingController.text);
   }
 
   void onTapForgotPassword() async {
-    if (isLoading) {
+    if (_isLoading) {
       return;
     }
 
-    emailTextEditingController.text = emailTextEditingController.text.trim();
+    _emailTextEditingController.text = _emailTextEditingController.text.trim();
 
-    if (!authService.isValidEmail(emailTextEditingController.text)) {
+    if (!_authService.isValidEmail(_emailTextEditingController.text)) {
       _tempEmailErrorText =
-          authService.isValidEmail(emailTextEditingController.text)
+          _authService.isValidEmail(_emailTextEditingController.text)
               ? null
               : 'Invalid emailo';
       ErrorTextService.showErrorText(
@@ -261,15 +261,16 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     try {
-      await authService.sendPasswordResetEmail(emailTextEditingController.text);
+      await _authService
+          .sendPasswordResetEmail(_emailTextEditingController.text);
       _tempPasswordErrorText = 'Password reset email sent';
     } on FirebaseAuthException catch (e) {
-      _tempEmailErrorText = authService.getEmailErrorMessage(e.code);
-      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      _tempEmailErrorText = _authService.getEmailErrorMessage(e.code);
+      _tempPasswordErrorText = _authService.getPasswordErrorMessage(e.code);
       if (_tempEmailErrorText == null && _tempPasswordErrorText == null) {
         _tempEmailErrorText = 'Setting password failed';
         _tempPasswordErrorText = 'Setting password failed';
@@ -280,7 +281,7 @@ class _LoginPageState extends State<LoginPage> {
     } finally {
       if (mounted) {
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
         ErrorTextService.showErrorText(
             setState, _errorTexts, _emailErrorTextKey, _tempEmailErrorText);

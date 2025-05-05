@@ -24,10 +24,7 @@ class EditTitlePage extends StatefulWidget {
 
 class _EditTitlePageState extends State<EditTitlePage> {
   late String _editTitle = widget.challenge.title;
-
-  final String _title = 'Edit Title';
   String? _errorText;
-
   late final _titleTextEditingController =
       TextEditingController(text: _editTitle);
 
@@ -38,8 +35,8 @@ class _EditTitlePageState extends State<EditTitlePage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: _title,
+        appBar: const AppBarComponent(
+          title: 'Edit Title',
         ),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,

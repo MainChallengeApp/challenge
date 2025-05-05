@@ -3,6 +3,7 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/challenge/action_button_component.dart';
 import 'package:challenge/ui/components/challenge/date_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -38,24 +39,18 @@ class ListItemRepetitionExpandedComponent extends StatefulWidget {
 
 class _ListItemRepetitionExpandedComponentState
     extends State<ListItemRepetitionExpandedComponent> {
-  late final groupChallengesProvider = Provider.of<GroupChallengesProvider>(
-    context,
-    listen: false,
-  );
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
 
-  late final listeningGroupChallengesProvider =
+  late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(
     context,
     listen: true,
   );
 
-  late BuildContext pageContext;
-
   @override
   Widget build(BuildContext context) {
-    listeningGroupChallengesProvider.groupChallenges;
+    _listeningGroupChallengesProvider.groupChallenges;
 
-    pageContext = context;
     widget.repetition.evaluateRepetitionStatus();
     return Stack(
       children: [
@@ -94,7 +89,7 @@ class _ListItemRepetitionExpandedComponentState
                               onTapAgain: () => {},
                               onTapEnd: (_) => {},
                               onTapNext: (_) => {},
-                              onTapStart: onTapStart,
+                              onTapStart: _onTapStart,
                             ),
                           )
                         : Padding(
@@ -119,10 +114,10 @@ class _ListItemRepetitionExpandedComponentState
                               child: ActionButtonComponent(
                                   groupChallenge: widget.groupChallenge,
                                   attempt: widget.attempt,
-                                  onTapStart: onTapStart,
-                                  onTapEnd: onTapEnd,
+                                  onTapStart: _onTapStart,
+                                  onTapEnd: _onTapEnd,
                                   onTapAgain: () => {},
-                                  onTapNext: onTapNext),
+                                  onTapNext: _onTapNext),
                             )
                           : Padding(
                               padding: const EdgeInsets.only(
@@ -146,7 +141,7 @@ class _ListItemRepetitionExpandedComponentState
     );
   }
 
-  onTapNext(AttemptModel attempt) async {
+  _onTapNext(AttemptModel attempt) async {
     attempt.endRepetition(widget.groupChallenge);
     widget.onTapNextRepetition.call(
       attempt
@@ -156,23 +151,23 @@ class _ListItemRepetitionExpandedComponentState
           .repetitionNumber,
     );
     setState(() {});
-    groupChallengesProvider.updateAttempt(
+    _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, attempt);
   }
 
-  onTapEnd(AttemptModel attempt) {
+  _onTapEnd(AttemptModel attempt) {
     EndChallengeDialog.show(
-        context: pageContext,
+        context: context,
         challengeTitle: widget.groupChallenge.title,
         onTapYes: () {
-          groupChallengesProvider.endAttempt(
+          _groupChallengesProvider.endAttempt(
               widget.groupChallenge, widget.participant, attempt);
         });
   }
 
-  onTapStart(AttemptModel attempt) async {
+  _onTapStart(AttemptModel attempt) async {
     attempt.getCurrentRepetition(widget.groupChallenge)?.start();
-    await groupChallengesProvider.updateAttempt(
+    await _groupChallengesProvider.updateAttempt(
         widget.groupChallenge, widget.participant, attempt);
   }
 }

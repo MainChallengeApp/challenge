@@ -35,7 +35,6 @@ import 'package:challenge/ui/pages/subpages/media/media_note_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 
 class GroupChallengeCardComponent extends StatefulWidget {
   final GroupChallengeModel groupChallenge;
@@ -49,16 +48,10 @@ class GroupChallengeCardComponent extends StatefulWidget {
 
 class _GroupChallengeCardComponentState
     extends State<GroupChallengeCardComponent> {
-  // providers
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
-
-  late final _groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
-
+  final _usersProvider = getIt<UsersProvider>();
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
   final _tabProvider = getIt<TabProvider>();
 
-  // state variables
   late ParticipantModel _participant =
       widget.groupChallenge.getParticipant(_usersProvider.user.id);
   late AttemptModel _latestAttempt = _participant.getLatestAttempt();

@@ -1,6 +1,7 @@
 import 'package:challenge/models/notification/connection_request_notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
@@ -8,7 +9,6 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ConnectionRequestCardComponent extends StatefulWidget {
   final ConnectionRequestNotificationModel requestConnectionNotification;
@@ -28,9 +28,8 @@ class _ConnectionRequestCardComponentState
   bool isLoadingAcceptButton = false;
   bool isLoadingDeclineButton = false;
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
+  final usersProvider = getIt<UsersProvider>();
+  final notificationsProvider = getIt<NotificationsProvider>();
 
   @override
   Widget build(BuildContext context) {

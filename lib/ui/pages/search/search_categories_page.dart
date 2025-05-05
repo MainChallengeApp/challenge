@@ -16,7 +16,6 @@ import 'package:challenge/ui/pages/search/search_list_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'search_challenge_page.dart';
 
@@ -32,8 +31,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
   late List<ChallengeModel> challenges;
   final ScrollController scrollController = ScrollController();
 
-  late final searchChallengesProvider =
-      Provider.of<SearchChallengesProvider>(context, listen: false);
+  final searchChallengesProvider = getIt<SearchChallengesProvider>();
   final _tabProvider = getIt<TabProvider>();
 
   @override

@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/simple_components/container_in_container_component.dart';
@@ -29,78 +30,89 @@ class ListItemUserComponent extends StatefulWidget {
 }
 
 class _ListItemUserComponentState extends State<ListItemUserComponent> {
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
+  final _usersProvider = getIt<UsersProvider>();
+  late UsersProvider _listeningUsersProvider;
 
-  bool loadingAction = false;
+  bool _loadingAction = false;
 
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     return ListItemImageChildComponent(
         url: widget.user.pictureUrl,
         icon: IconEnum.user.icon,
         onTap: widget.onTap,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Expanded(
-              child: Text(
-                widget.user.username,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            const SpaceComponent(
-              width: 10,
-            ),
-            GestureDetector(
-              onTap: onTapConnect,
-              child: Visibility(
-                visible:
-                    !listeningUsersProvider.user.isBlocked(widget.user.id) &&
-                        !listeningUsersProvider.user.connectionIds.contains(
-                            widget.user.id), // different from isConnectedWith()
-                child: ContainerInListItemComponent(
-                  margin: const EdgeInsets.all(0),
-                  child: Center(
-                      child: loadingAction
-                          ? const LoadingCircleComponent()
-                          : Icon(
-                              IconEnum.connect.icon,
-                              color: Theme.of(context).colorScheme.tertiary,
-                              size: 20,
-                            )),
-                ),
-              ),
-            ),
-            Visibility(
-                visible: widget.isSelected,
-                child: ContainerInContainerComponent(
-                    height: SmallContainerInListItemComponent.height,
-                    width: SmallContainerInListItemComponent.height,
-                    margin: const EdgeInsets.only(
-                        left: ContainerInContainerComponent.standardMargin),
-                    padding: const EdgeInsets.all(0),
-                    child: Center(
-                        child: Icon(
-                      IconEnum.select.icon,
-                      color: Theme.of(context).colorScheme.tertiary,
-                      size: 20,
-                    )))),
+            _userName(),
+            _space(),
+            _connectIcon(),
+            _isSelectedIcon(),
           ],
         ));
   }
 
-  void onTapConnect() async {
+  SpaceComponent _space() {
+    return const SpaceComponent(
+        width: ContainerInContainerComponent.standardPaddingSmall);
+  }
+
+  Visibility _isSelectedIcon() {
+    return Visibility(
+        visible: widget.isSelected,
+        child: ContainerInContainerComponent(
+            height: SmallContainerInListItemComponent.height,
+            width: SmallContainerInListItemComponent.height,
+            padding: const EdgeInsets.all(0),
+            child: Center(
+                child: Icon(
+              IconEnum.select.icon,
+              color: Theme.of(context).colorScheme.tertiary,
+              size: Theme.of(context).textTheme.titleLarge?.fontSize,
+            ))));
+  }
+
+  GestureDetector _connectIcon() {
+    return GestureDetector(
+      onTap: _onTapConnect,
+      child: Visibility(
+        visible: !_listeningUsersProvider.user.isBlocked(widget.user.id) &&
+            !_listeningUsersProvider.user.connectionIds
+                .contains(widget.user.id), // different from isConnectedWith()
+        child: ContainerInListItemComponent(
+          margin: const EdgeInsets.all(0),
+          child: Center(
+              child: _loadingAction
+                  ? const LoadingCircleComponent()
+                  : Icon(
+                      IconEnum.connect.icon,
+                      color: Theme.of(context).colorScheme.tertiary,
+                      size: Theme.of(context).textTheme.titleLarge?.fontSize,
+                    )),
+        ),
+      ),
+    );
+  }
+
+  Expanded _userName() {
+    return Expanded(
+      child: Text(
+        widget.user.username,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+  }
+
+  void _onTapConnect() async {
     setState(() {
-      loadingAction = true;
+      _loadingAction = true;
     });
-    await usersProvider.connectToUser(widget.user.id);
+    await _usersProvider.connectToUser(widget.user.id);
     if (mounted) {
       setState(() {
-        loadingAction = false;
+        _loadingAction = false;
       });
     }
   }

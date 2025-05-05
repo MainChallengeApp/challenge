@@ -26,7 +26,6 @@ class HomeChallengePage extends StatefulWidget {
 }
 
 class _HomeChallengePageState extends State<HomeChallengePage> {
-  final String _title = TabItemEnum.home.name;
   late final PageController _pageController =
       PageController(initialPage: _currentChallengeIndex);
 
@@ -37,11 +36,10 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
           .indexWhere((challenge) => challenge.id == widget.initialChallengeId),
       0);
 
-  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
-  late final _listeningGroupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: true);
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  late GroupChallengesProvider _listeningGroupChallengesProvider;
 
-  late final _usersProvider = getIt<UsersProvider>();
+  final _usersProvider = getIt<UsersProvider>();
 
   List<GroupChallengeModel> _filteredChallenges = [];
 
@@ -55,6 +53,8 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningGroupChallengesProvider =
+        Provider.of<GroupChallengesProvider>(context);
     _mergeAndSortChallenges();
 
     if (_filteredChallenges.isEmpty) {
@@ -65,7 +65,7 @@ class _HomeChallengePageState extends State<HomeChallengePage> {
     _jumpToCurrentChallenge();
 
     return ScaffoldComponent(
-      appBar: AppBarComponent(title: _title),
+      appBar: AppBarComponent(title: TabItemEnum.home.name),
       body: PageView(
           controller: _pageController,
           onPageChanged: _onPageChanged,

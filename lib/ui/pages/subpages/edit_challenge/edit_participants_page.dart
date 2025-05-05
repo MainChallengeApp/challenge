@@ -28,7 +28,7 @@ class EditParticipantsPage extends StatefulWidget {
 }
 
 class _EditParticipantsPageState extends State<EditParticipantsPage> {
-  late final _usersProvider = getIt<UsersProvider>();
+  final _usersProvider = getIt<UsersProvider>();
 
   final _textEditingController = TextEditingController();
 

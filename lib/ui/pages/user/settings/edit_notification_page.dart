@@ -68,7 +68,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                 children: [
                   Expanded(
                     child: ListItemButtonComponent(
-                      onTap: onTapSkipOrCancel,
+                      onTap: _onTapSkipOrCancel,
                       text: widget.isRegistration ? 'Skip' : 'Cancel',
                       isMainButton: false,
                       margin: const EdgeInsets.only(
@@ -82,7 +82,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
                     child: ListItemButtonComponent(
                       margin: const EdgeInsets.only(
                           right: ListItemContainerComponent.standardMargin),
-                      onTap: onTapAllowOrSave,
+                      onTap: _onTapAllowOrSave,
                       isMainButton: true,
                       text: !_usersProvider.user.allowNotifications &&
                               !_editAllowNotifications
@@ -120,7 +120,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
     );
   }
 
-  void onTapAllowOrSave() async {
+  void _onTapAllowOrSave() async {
     if (_isLoading) {
       return;
     }
@@ -133,7 +133,7 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
 
     if (_usersProvider.user.allowNotifications == _editAllowNotifications) {
       if (widget.isRegistration) {
-        nextInRegistration();
+        _nextInRegistration();
         return;
       }
       return;
@@ -170,12 +170,12 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
     });
 
     if (widget.isRegistration) {
-      nextInRegistration();
+      _nextInRegistration();
       return;
     }
   }
 
-  void nextInRegistration() {
+  void _nextInRegistration() {
     Navigator.push(
         // ignore: use_build_context_synchronously
         context,
@@ -188,9 +188,9 @@ class _EditNotificationPageState extends State<EditNotificationPage> {
     });
   }
 
-  void onTapSkipOrCancel() {
+  void _onTapSkipOrCancel() {
     if (widget.isRegistration) {
-      nextInRegistration();
+      _nextInRegistration();
       return;
     }
     Navigator.pop(context);

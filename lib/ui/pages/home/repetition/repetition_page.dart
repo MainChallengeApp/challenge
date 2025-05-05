@@ -8,6 +8,7 @@ import 'package:challenge/models/challenge/progress_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
@@ -50,24 +51,19 @@ class RepetitionPage extends StatefulWidget {
 }
 
 class _RepetitionPageState extends State<RepetitionPage> {
-  final String _title = 'Repetitions';
-  ScrollController scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   late var expandedRepetitionIndexList = [
     if (_attempt.isInProgress(widget.groupChallenge))
       _attempt.getCurrentRepetitionNumber(widget.groupChallenge)
   ];
 
-  late final _groupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
 
-  late final _listeningGroupChallengeProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: true);
+  late GroupChallengesProvider _listeningGroupChallengeProvider;
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
-
-  final mediaService = MediaService();
+  final _usersProvider = getIt<UsersProvider>();
+  final _mediaService = MediaService();
 
   late final bool _isEditableByUser =
       widget.participant.user.id == _usersProvider.user.id;
@@ -94,6 +90,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningGroupChallengeProvider =
+        Provider.of<GroupChallengesProvider>(context);
     _groupChallenge = _listeningGroupChallengeProvider.groupChallenges
         .firstWhere((groupChallenge) => groupChallenge.id == _groupChallenge.id,
             orElse: () => _groupChallenge);
@@ -106,15 +104,15 @@ class _RepetitionPageState extends State<RepetitionPage> {
         (attempt) => attempt.number == _attempt.number,
         orElse: () => widget.attempt);
 
-    _visibleRepetitions = calcVisibleRepetitions();
+    _visibleRepetitions = _calcVisibleRepetitions();
 
     _isChallengeNotStarted =
         _attempt.getAllRepetitions(_groupChallenge).isEmpty &&
             !_isEditableByUser;
 
     return ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: _title,
+        appBar: const AppBarComponent(
+          title: 'Repetitions',
         ),
         isBottomNavigationVisible: false,
         body: Column(
@@ -130,11 +128,11 @@ class _RepetitionPageState extends State<RepetitionPage> {
               await _groupChallengesProvider.getById(_groupChallenge.id);
           setState(() {});
         },
-        scrollController: scrollController,
+        scrollController: _scrollController,
         child: CupertinoScrollbar(
-          controller: scrollController,
+          controller: _scrollController,
           child: ListView.builder(
-              controller: scrollController,
+              controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               itemCount: _calcItemCount(),
               itemBuilder: (BuildContext content, int index) {
@@ -157,7 +155,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     int newIndex = index - 1;
     RepetitionModel repetition = _visibleRepetitions[newIndex];
     repetition.evaluateRepetitionStatus();
-    return repetitionListItem(repetition);
+    return _repetitionListItem(repetition);
   }
 
   SpaceColumnComponent _listItemParticipantExpanded() {
@@ -191,7 +189,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
                 child: ListItemIconTextComponent(
               icon: IconEnum.add.icon,
               title: 'New Progress',
-              onTap: () => onTapNewProgress(repetition),
+              onTap: () => _onTapNewProgress(repetition),
             ))
           ]
         : List<Widget>.empty(growable: true);
@@ -199,9 +197,9 @@ class _RepetitionPageState extends State<RepetitionPage> {
       progressListItems.add(LinkListItemComponent(
           child: ListItemProgressComponent(
         isFailed: repetition.repetitionStatus == RepetitionStatusEnum.failed,
-        onTap: () => onTapProgress(repetition, progress),
+        onTap: () => _onTapProgress(repetition, progress),
         isSlidable: _isEditableByUser,
-        onTapDeleteProgress: () => onTapDeleteProgress(repetition, progress),
+        onTapDeleteProgress: () => _onTapDeleteProgress(repetition, progress),
         progress: progress,
         attempt: _attempt,
         groupChallenge: _groupChallenge,
@@ -214,7 +212,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     return progressListItems;
   }
 
-  repetitionListItem(RepetitionModel repetition) {
+  _repetitionListItem(RepetitionModel repetition) {
     bool isRepetitionExpanded =
         expandedRepetitionIndexList.contains(repetition.repetitionNumber);
 
@@ -222,7 +220,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
       children: [
         isRepetitionExpanded
             ? ListItemRepetitionExpandedComponent(
-                onTap: () => onTapRepetition(repetition),
+                onTap: () => _onTapRepetition(repetition),
                 repetition: repetition,
                 attempt: _attempt,
                 groupChallenge: _groupChallenge,
@@ -236,7 +234,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
               )
             : SpaceColumnComponent(
                 child: ListItemRepetitionComponent(
-                  onTap: () => onTapRepetition(repetition),
+                  onTap: () => _onTapRepetition(repetition),
                   repetition: repetition,
                   attempt: _attempt,
                   groupChallenge: _groupChallenge,
@@ -252,7 +250,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     return item;
   }
 
-  onTapProgress(RepetitionModel repetition, ProgressModel progress) {
+  _onTapProgress(RepetitionModel repetition, ProgressModel progress) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -273,20 +271,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     ).then((_) => setState(() {}));
   }
 
-  String splitTitle(String title) {
-    // Find the index of the last '/' in the string
-    int lastIndex = title.lastIndexOf('/');
-
-    if (lastIndex != -1 && lastIndex > 0) {
-      // Extract the portion of the string up to the last '/'
-      String result = title.substring(0, lastIndex);
-      return result;
-    } else {
-      return title;
-    }
-  }
-
-  void onTapNewProgress(RepetitionModel repetition) async {
+  void _onTapNewProgress(RepetitionModel repetition) async {
     // ignore: use_build_context_synchronously
     var initialMediaList = List<MediaModel>.empty(growable: true);
     Navigator.push(
@@ -307,7 +292,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
         }));
   }
 
-  onTapRepetition(RepetitionModel repetition) {
+  _onTapRepetition(RepetitionModel repetition) {
     setState(() {
       // expandedRepetitionIndexList.clear();
       if (expandedRepetitionIndexList.contains(repetition.repetitionNumber)) {
@@ -319,8 +304,8 @@ class _RepetitionPageState extends State<RepetitionPage> {
     });
   }
 
-  onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
-    mediaService.deleteMediaInChallengeByIds(
+  _onTapDeleteProgress(RepetitionModel repetition, ProgressModel progress) {
+    _mediaService.deleteMediaInChallengeByIds(
         MediaModel.copyMediaIdList(progress.mediaIds), _attempt);
     setState(() {
       repetition.deleteProgress(progress);
@@ -507,7 +492,7 @@ class _RepetitionPageState extends State<RepetitionPage> {
     );
   }
 
-  List<RepetitionModel> calcVisibleRepetitions() {
+  List<RepetitionModel> _calcVisibleRepetitions() {
     int currentRepetitionNumber =
         _attempt.getCurrentRepetitionNumber(_groupChallenge);
     List<RepetitionModel> visibleRepetitions = _attempt

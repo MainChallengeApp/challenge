@@ -3,6 +3,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/challenge/challenge_total_percentage_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_fraction_component.dart';
@@ -12,7 +13,6 @@ import 'package:challenge/ui/components/simple_components/image_in_list_item_com
 import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ListItemParticipantComponent extends StatefulWidget {
   const ListItemParticipantComponent({
@@ -35,8 +35,7 @@ class ListItemParticipantComponent extends StatefulWidget {
 
 class _ListItemParticipantComponentState
     extends State<ListItemParticipantComponent> {
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
   @override
   Widget build(BuildContext context) {

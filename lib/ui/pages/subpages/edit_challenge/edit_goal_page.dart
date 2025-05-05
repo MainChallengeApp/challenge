@@ -32,8 +32,6 @@ class _EditGoalPageState extends State<EditGoalPage> {
   late double _editAmount = widget.challenge.acceptanceCriteria.amount;
   late String _editUnit = widget.challenge.acceptanceCriteria.unit;
 
-  final String _title = 'Edit Goal';
-
   late final _unitTextEditingController =
       TextEditingController(text: _editUnit);
   late final _amountTextEditingController =
@@ -42,7 +40,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
   final _unitFocusNode = FocusNode();
   final _amountFocusNode = FocusNode();
 
-  List<Unit> unitsSingularPlural = Unit.getUnits();
+  final List<Unit> _unitsSingularPlural = Unit.getUnits();
 
   bool _isUnitExpanded = false;
 
@@ -82,8 +80,8 @@ class _EditGoalPageState extends State<EditGoalPage> {
         });
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(
-          title: _title,
+        appBar: const AppBarComponent(
+          title: 'Edit Goal',
         ),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
@@ -132,7 +130,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
   }
 
   _unit() {
-    unitsSingularPlural.sort((a, b) {
+    _unitsSingularPlural.sort((a, b) {
       // Function to calculate how well a unit matches the search term
       int matchScore(Unit unit) {
         String unitName = _editAmount == 1 ? unit.singular : unit.plural;
@@ -178,9 +176,9 @@ class _EditGoalPageState extends State<EditGoalPage> {
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: unitsSingularPlural
+                    children: _unitsSingularPlural
                         .map((unit) => _suggestedUnit(
-                            unit, unit == unitsSingularPlural.last))
+                            unit, unit == _unitsSingularPlural.last))
                         .toList(),
                   ),
                 ),
@@ -272,7 +270,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
 
             // Update _editUnit for singular/plural value if exists in unitsSingularPlural
             // Update _editUnit for singular/plural value if exists in unitsSingularPlural
-            final matchingUnits = unitsSingularPlural.where((unit) =>
+            final matchingUnits = _unitsSingularPlural.where((unit) =>
                 unit.singular.toLowerCase() == _editUnit.toLowerCase() ||
                 unit.plural.toLowerCase() == _editUnit.toLowerCase());
 

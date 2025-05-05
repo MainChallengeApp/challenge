@@ -24,8 +24,7 @@ class SearchChallengesProvider with ChangeNotifier {
   Future<void> getSearchedPaginated(
       {String searchText = '',
       List<ChallengeCategoryEnum> categories = const [],
-      bool isInit = false,
-      bool shouldNotify = true}) async {
+      bool isInit = false}) async {
     try {
       if (!_isEndOfSearchedListReached || isInit) {
         final fetchedSearchChallenges =
@@ -46,9 +45,7 @@ class SearchChallengesProvider with ChangeNotifier {
 
         _searchChallenges.addAll(fetchedSearchChallenges);
 
-        if (shouldNotify) {
-          notifyListeners();
-        }
+        notifyListeners();
       }
     } on Exception {
       rethrow;

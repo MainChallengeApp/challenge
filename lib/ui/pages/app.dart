@@ -29,8 +29,7 @@ class AppState extends State<App> {
   final _groupChallengesProvider = getIt<GroupChallengesProvider>();
   final _usersProvider = getIt<UsersProvider>();
   final _tabProvider = getIt<TabProvider>();
-  late final _listeningUsersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
+  late UsersProvider _listeningUsersProvider;
   final _notificationsProvider = getIt<NotificationsProvider>();
 
   final _authService = AuthService();
@@ -103,6 +102,7 @@ class AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     return _isLoadingUser || _isLoadingUserChallenges
         ? const Scaffold(
             body: Center(
@@ -124,7 +124,6 @@ class AppState extends State<App> {
                     ],
                   ),
                   backgroundColor: Theme.of(context).colorScheme.surface,
-                  // bottomNavigationBar: const BottomNavigationComponent(),
                 ),
               );
   }

@@ -1,5 +1,6 @@
 import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/auth_service.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -12,7 +13,6 @@ import 'package:challenge/ui/components/simple_components/space_column_component
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class DeleteUserPage extends StatefulWidget {
   const DeleteUserPage({super.key});
@@ -22,12 +22,9 @@ class DeleteUserPage extends StatefulWidget {
 }
 
 class _DeleteUserPageState extends State<DeleteUserPage> {
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
-  final String titleText = 'Delete User';
-
-  final TextEditingController passwordTextEditingController =
-      TextEditingController();
+  final _passwordTextEditingController = TextEditingController();
 
   String? _tempPasswordErrorText;
   final String _passwordErrorTextKey = 'password';
@@ -35,9 +32,9 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
     _passwordErrorTextKey: null,
   };
 
-  final authService = AuthService();
+  final _authService = AuthService();
 
-  bool isLoading = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +43,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
         FocusScope.of(context).unfocus();
       },
       child: ScaffoldComponent(
-        appBar: AppBarComponent(title: titleText),
+        appBar: const AppBarComponent(title: 'Delete User'),
         isBottomNavigationVisible: false,
         resizeToAvoidBottomInset: true,
         body: Column(
@@ -63,7 +60,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                     SpaceColumnComponent(
                       heightMultiplier: 2,
                       child: ListItemPasswordComponent(
-                          textEditingController: passwordTextEditingController,
+                          textEditingController: _passwordTextEditingController,
                           errorText: _errorTexts[_passwordErrorTextKey],
                           onChangeTextField: (_) => setState(() {
                                 _errorTexts[_passwordErrorTextKey] = null;
@@ -94,7 +91,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                         margin: const EdgeInsets.all(0),
                         onTap: _onTapDeleteUser,
                         text: 'Delete',
-                        isLoading: isLoading),
+                        isLoading: _isLoading),
                   ),
                   const SpaceComponent(
                     width: ListItemContainerComponent.standardMargin,
@@ -109,22 +106,22 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
   }
 
   void _onTapDeleteUser() async {
-    if (isLoading) {
+    if (_isLoading) {
       return;
     }
 
     setState(() {
-      isLoading = true;
+      _isLoading = true;
     });
 
     try {
-      await authService.loginEmailPassword(
-          authService.getCurrentUser()?.email ?? '',
-          passwordTextEditingController.text);
-      await authService.deleteUser();
-      usersProvider.resetLocalUser();
+      await _authService.loginEmailPassword(
+          _authService.getCurrentUser()?.email ?? '',
+          _passwordTextEditingController.text);
+      await _authService.deleteUser();
+      _usersProvider.resetLocalUser();
     } on FirebaseAuthException catch (e) {
-      _tempPasswordErrorText = authService.getPasswordErrorMessage(e.code);
+      _tempPasswordErrorText = _authService.getPasswordErrorMessage(e.code);
       _tempPasswordErrorText ??= 'Deletion failed';
       setState(() {});
     } on Exception {
@@ -134,7 +131,7 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
     } finally {
       if (mounted) {
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
         ErrorTextService.showErrorText(setState, _errorTexts,
             _passwordErrorTextKey, _tempPasswordErrorText);

@@ -115,7 +115,7 @@ class _AddParticipantsOverviewComponentState
           child: Icon(
             IconEnum.removeFullCircle.icon,
             color: Theme.of(context).colorScheme.tertiary,
-            size: 20,
+            size: Theme.of(context).textTheme.titleLarge?.fontSize,
             weight: 10,
           ),
         ),

@@ -37,7 +37,7 @@ class _SearchAllPageState extends State<SearchAllPage> {
 
   final _mediaService = MediaService();
 
-  late final _usersProvider = getIt<UsersProvider>();
+  final _usersProvider = getIt<UsersProvider>();
 
   @override
   initState() {

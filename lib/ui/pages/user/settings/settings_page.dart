@@ -33,13 +33,11 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final ScrollController _scrollController = ScrollController();
-  late final _usersProvider = getIt<UsersProvider>();
-  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
-  late final _notificationsProvider = getIt<NotificationsProvider>();
+  final _scrollController = ScrollController();
+  final _usersProvider = getIt<UsersProvider>();
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  final _notificationsProvider = getIt<NotificationsProvider>();
   final _tabProvider = getIt<TabProvider>();
-
-  late final String _title = 'Settings';
 
   bool _isLogoutLoading = false;
 
@@ -51,8 +49,8 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
-      appBar: AppBarComponent(
-        title: _title,
+      appBar: const AppBarComponent(
+        title: 'Settings',
       ),
       body: Container(
         color: Colors.white,

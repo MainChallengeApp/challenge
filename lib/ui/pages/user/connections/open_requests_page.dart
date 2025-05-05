@@ -1,5 +1,6 @@
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
@@ -20,61 +21,59 @@ class OpenRequestsPage extends StatefulWidget {
 }
 
 class _OpenRequestsPageState extends State<OpenRequestsPage> {
-  String title = 'Open Requests';
+  final _searchTextEditingController = TextEditingController();
 
-  TextEditingController searchTextEditingController = TextEditingController();
+  final _scrollController = ScrollController();
 
-  ScrollController scrollController = ScrollController();
+  final _usersProvider = getIt<UsersProvider>();
+  late UsersProvider _listeningUsersProvider;
 
-  late final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-  late final listeningUsersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
-
-  List<UserModel> filteredOpenConnectionRequests = [];
+  List<UserModel> _filteredOpenConnectionRequests = [];
 
   @override
   Widget build(BuildContext context) {
-    filteredOpenConnectionRequests = listeningUsersProvider
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
+    _filteredOpenConnectionRequests = _listeningUsersProvider
         .openConnectionRequests
         .where((connectionRequest) => connectionRequest.username
             .toLowerCase()
-            .contains(searchTextEditingController.text.toLowerCase()))
+            .contains(_searchTextEditingController.text.toLowerCase()))
         .toList();
 
     return ScaffoldComponent(
-      appBar: AppBarComponent(
-        title: title,
+      appBar: const AppBarComponent(
+        title: 'Open Requests',
       ),
       body: Column(
-        children: [searchBar(), connectionsList()],
+        children: [_searchBar(), _connectionsList()],
       ),
     );
   }
 
-  searchBar() {
+  _searchBar() {
     return SpaceColumnComponent(
       child: ListItemSearchBarComponent(
-        textEditingController: searchTextEditingController,
-        changeList: changeList,
+        textEditingController: _searchTextEditingController,
+        changeList: _changeList,
       ),
     );
   }
 
-  connectionsList() {
+  _connectionsList() {
     return Expanded(
       child: RefreshIndicatorComponent(
-        onRefresh: onRefreshList,
-        scrollController: scrollController,
+        onRefresh: _onRefreshList,
+        scrollController: _scrollController,
         child: ListView.builder(
-          itemCount: filteredOpenConnectionRequests.length,
+          itemCount: _filteredOpenConnectionRequests.length,
           physics: const AlwaysScrollableScrollPhysics(),
-          controller: scrollController,
+          controller: _scrollController,
           itemBuilder: (context, index) {
             UserModel connection =
-                filteredOpenConnectionRequests.elementAt(index);
+                _filteredOpenConnectionRequests.elementAt(index);
             return SpaceColumnComponent(
               child: ListItemUserComponent(
-                  onTap: () => onTapConnection(connection), user: connection),
+                  onTap: () => _onTapConnection(connection), user: connection),
             );
           },
         ),
@@ -82,32 +81,32 @@ class _OpenRequestsPageState extends State<OpenRequestsPage> {
     );
   }
 
-  onTapConnection(UserModel user) {
+  _onTapConnection(UserModel user) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => SearchUserPage(
           initUserId: user.id,
-          getUsersList: () => listeningUsersProvider.openConnectionRequests,
-          searchText: searchTextEditingController.text,
+          getUsersList: () => _listeningUsersProvider.openConnectionRequests,
+          searchText: _searchTextEditingController.text,
           isListPaginated: false,
         ),
       ),
     );
   }
 
-  Future<void> onRefreshList() async {
-    await scrollController.animateTo(-35,
+  Future<void> _onRefreshList() async {
+    await _scrollController.animateTo(-35,
         duration: const Duration(milliseconds: 500),
         curve: Curves.linearToEaseOut);
-    scrollController.animateTo(0,
+    _scrollController.animateTo(0,
         duration: const Duration(minutes: 1), curve: Curves.easeInOut);
-    await usersProvider.getConnections();
-    scrollController.animateTo(0,
+    await _usersProvider.getConnections();
+    _scrollController.animateTo(0,
         duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
   }
 
-  changeList(String p1) {
+  _changeList(String p1) {
     setState(() {});
   }
 }

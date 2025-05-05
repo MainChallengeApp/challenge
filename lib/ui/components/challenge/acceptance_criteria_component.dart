@@ -78,11 +78,14 @@ class _AcceptanceCriteriaComponentState
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
-                        children: [repetition(), repetitionProgressAbsolute()],
+                        children: [
+                          _repetition(),
+                          _repetitionProgressAbsolute()
+                        ],
                       ),
                     ),
                   ),
-                  newProgress()
+                  _newProgress()
                 ],
               ))
         ],
@@ -90,7 +93,7 @@ class _AcceptanceCriteriaComponentState
     );
   }
 
-  Visibility newProgress() {
+  Visibility _newProgress() {
     return Visibility(
       visible: widget.attempt != null &&
           widget.attempt!.isInProgress(widget.groupChallenge),
@@ -105,7 +108,7 @@ class _AcceptanceCriteriaComponentState
             child: Center(
               child: Icon(
                 IconEnum.newChallenge.icon,
-                size: 20,
+                size: Theme.of(context).textTheme.titleLarge?.fontSize,
                 color: Colors.black,
               ),
             )),
@@ -113,7 +116,7 @@ class _AcceptanceCriteriaComponentState
     );
   }
 
-  repetition() {
+  _repetition() {
     FrequencyModel frequency = widget.attempt == null
         ? widget.groupChallenge.frequency
         : widget.attempt!.getFrequency(widget.groupChallenge);
@@ -134,7 +137,7 @@ class _AcceptanceCriteriaComponentState
                     '${widget.attempt!.getCurrentRepetitionNumber(widget.groupChallenge)}/${frequency.amount ?? 'max.'} ${frequency.typeToString()}');
   }
 
-  repetitionProgressAbsolute() {
+  _repetitionProgressAbsolute() {
     FrequencyModel frequency = widget.attempt == null
         ? widget.groupChallenge.frequency
         : widget.attempt!.getFrequency(widget.groupChallenge);

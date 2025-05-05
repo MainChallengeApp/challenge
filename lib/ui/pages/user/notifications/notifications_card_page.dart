@@ -33,9 +33,8 @@ class NotificationsCardPage extends StatefulWidget {
 }
 
 class _NotificationsCardPageState extends State<NotificationsCardPage> {
-  late final _notificationsProvider = getIt<NotificationsProvider>();
-  late final _listeningNotificationsProvider =
-      Provider.of<NotificationsProvider>(context);
+  final _notificationsProvider = getIt<NotificationsProvider>();
+  late NotificationsProvider _listeningNotificationsProvider;
 
   late final PageController _pageController = PageController(
       initialPage: max(
@@ -53,6 +52,8 @@ class _NotificationsCardPageState extends State<NotificationsCardPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningNotificationsProvider =
+        Provider.of<NotificationsProvider>(context);
     if (_listeningNotificationsProvider.userNotifications.isEmpty) {
       _navigatorPop(context);
       return Container();

@@ -1,6 +1,7 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/user/user_model.dart';
 import 'package:challenge/providers/users_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
@@ -13,7 +14,6 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class EditUsernamePage extends StatefulWidget {
   final UserModel user;
@@ -32,14 +32,11 @@ class EditUsernamePage extends StatefulWidget {
 }
 
 class _EditUsernamePageState extends State<EditUsernamePage> {
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
 
   late final UserModel _editUser = widget.user.copy();
 
   bool _isLoading = false;
-
-  final String _title = 'Edit Username';
 
   late final _userNameTextEditingController = TextEditingController(
     text: _editUser.username,
@@ -55,7 +52,7 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
       },
       child: ScaffoldComponent(
         appBar: AppBarComponent(
-          title: _title,
+          title: 'Edit Username',
           isFirstPageInRoute: widget.isRegistration,
         ),
         isBottomNavigationVisible: false,

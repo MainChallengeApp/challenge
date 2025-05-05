@@ -33,8 +33,8 @@ class _ProgressAddedCardComponentState
     extends State<ProgressAddedCardComponent> {
   bool isLoadingAcceptButton = false;
 
-  late final _notificationsProvider = getIt<NotificationsProvider>();
-  late final _tabProvider = getIt<TabProvider>();
+  final _notificationsProvider = getIt<NotificationsProvider>();
+  final _tabProvider = getIt<TabProvider>();
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_participant_component.dart';
@@ -23,14 +24,9 @@ class RankingPage extends StatefulWidget {
 }
 
 class _RankingPageState extends State<RankingPage> {
-  final String _title = 'Ranking';
   late GroupChallengeModel _groupChallenge = widget.groupChallenge;
 
-  late final _groupChallengesProvider = Provider.of<GroupChallengesProvider>(
-    context,
-    listen: false,
-  );
-
+  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
   late final _listeningGroupChallengesProvider =
       Provider.of<GroupChallengesProvider>(
     context,
@@ -63,7 +59,7 @@ class _RankingPageState extends State<RankingPage> {
             orElse: () => _groupChallenge);
     _groupChallenge.sortParticipants();
     return ScaffoldComponent(
-      appBar: AppBarComponent(title: _title),
+      appBar: const AppBarComponent(title: 'Ranking'),
       isBottomNavigationVisible: false,
       body: RefreshIndicatorComponent(
         onRefresh: () async {

@@ -29,12 +29,10 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
-  late final _listeningUsersProvider = Provider.of<UsersProvider>(context);
+  late UsersProvider _listeningUsersProvider;
   final _tabProvider = getIt<TabProvider>();
 
   late UserModel _user;
-
-  final String _title = 'Edit User';
 
   final _authService = AuthService();
 
@@ -43,9 +41,10 @@ class _EditUserPageState extends State<EditUserPage> {
       : 'Email not found';
   @override
   Widget build(BuildContext context) {
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     _user = _listeningUsersProvider.user;
     return ScaffoldComponent(
-      appBar: AppBarComponent(title: _title),
+      appBar: const AppBarComponent(title: 'Edit User'),
       body: ListView(
         children: [
           SpaceColumnComponent(

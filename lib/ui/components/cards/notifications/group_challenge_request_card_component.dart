@@ -15,7 +15,6 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/user/user_picture_min_component.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class GroupChallengeRequestCardComponent extends StatefulWidget {
   final GroupChallengeRequestNotificationModel
@@ -37,8 +36,7 @@ class _GroupChallengeRequestCardComponentState
   bool _isLoadingDeclineButton = false;
   bool _isDescriptionExpanded = false;
 
-  late final _groupChallengeProvider =
-      Provider.of<GroupChallengesProvider>(context, listen: false);
+  final _groupChallengeProvider = getIt<GroupChallengesProvider>();
   final _tabProvider = getIt<TabProvider>();
 
   @override

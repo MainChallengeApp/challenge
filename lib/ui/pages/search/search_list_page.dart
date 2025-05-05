@@ -60,14 +60,10 @@ class _SearchListPageState extends State<SearchListPage> {
   double _challengesScrollPosition = 0.0;
   double _usersScrollPosition = 0.0;
 
-  late final _searchChallengesProvider =
-      Provider.of<SearchChallengesProvider>(context, listen: false);
-  late final _listeningSearchChallengesProvider =
-      Provider.of<SearchChallengesProvider>(context, listen: true);
-
-  late final _usersProvider = getIt<UsersProvider>();
-  late final _listeningUsersProvider =
-      Provider.of<UsersProvider>(context, listen: true);
+  final _searchChallengesProvider = getIt<SearchChallengesProvider>();
+  late SearchChallengesProvider _listeningSearchChallengesProvider;
+  final _usersProvider = getIt<UsersProvider>();
+  late UsersProvider _listeningUsersProvider;
   final _tabProvider = getIt<TabProvider>();
 
   int _numberOfBuilds = 0;
@@ -112,6 +108,9 @@ class _SearchListPageState extends State<SearchListPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningSearchChallengesProvider =
+        Provider.of<SearchChallengesProvider>(context);
+    _listeningUsersProvider = Provider.of<UsersProvider>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: ScaffoldComponent(
@@ -131,7 +130,7 @@ class _SearchListPageState extends State<SearchListPage> {
               Expanded(
                   child: _textEditingController.text.isEmpty &&
                           widget.categories.isEmpty
-                      ? buildRecentSearches()
+                      ? _buildRecentSearches()
                       : _selectedSearchFilter == SearchFilterEnum.challenges
                           ? _buildChallengesList()
                           : _selectedSearchFilter == SearchFilterEnum.users
@@ -272,7 +271,7 @@ class _SearchListPageState extends State<SearchListPage> {
               UserModel user = searchedUsers[index];
               return SpaceColumnComponent(
                 child: ListItemUserComponent(
-                  onTap: () => onTapUser(user: user, index: index),
+                  onTap: () => _onTapUser(user: user, index: index),
                   user: user,
                   isSearch: true,
                 ),
@@ -390,7 +389,7 @@ class _SearchListPageState extends State<SearchListPage> {
     return allSearchResults;
   }
 
-  onTapUser({required UserModel user, required int index}) {
+  _onTapUser({required UserModel user, required int index}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -428,16 +427,12 @@ class _SearchListPageState extends State<SearchListPage> {
       return;
     }
     await _searchChallengesProvider.getSearchedPaginated(
-        searchText: searchText,
-        categories: widget.categories,
-        isInit: true,
-        shouldNotify: false);
+        searchText: searchText, categories: widget.categories, isInit: true);
     await _usersProvider.getSearchedPaginated(
-        searchText: searchText, isInit: true, shouldNotify: false);
-    setState(() {});
+        searchText: searchText, isInit: true);
   }
 
-  buildRecentSearches() {
+  _buildRecentSearches() {
     return RefreshIndicatorComponent(
       scrollController: _scrollController,
       onRefresh: () async {

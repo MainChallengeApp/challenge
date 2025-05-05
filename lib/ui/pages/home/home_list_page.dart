@@ -28,12 +28,10 @@ class HomeListPage extends StatefulWidget {
 }
 
 class _HomeListPageState extends State<HomeListPage> {
-  late final _groupChallengesProvider = getIt<GroupChallengesProvider>();
-  late final _listeningGroupChallengesProvider =
-      Provider.of<GroupChallengesProvider>(context);
+  final _groupChallengesProvider = getIt<GroupChallengesProvider>();
+  late GroupChallengesProvider _listeningGroupChallengesProvider;
 
-  late final _usersProvider =
-      Provider.of<UsersProvider>(context, listen: false);
+  final _usersProvider = getIt<UsersProvider>();
   final _tabProvider = getIt<TabProvider>();
 
   List<GroupChallengeModel> _filteredChallenges = [];
@@ -56,6 +54,8 @@ class _HomeListPageState extends State<HomeListPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listeningGroupChallengesProvider =
+        Provider.of<GroupChallengesProvider>(context);
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: ScaffoldComponent(

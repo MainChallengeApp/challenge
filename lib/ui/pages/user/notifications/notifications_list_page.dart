@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:challenge/models/notification/notification_model.dart';
 import 'package:challenge/providers/notifications_provider.dart';
+import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_notification_component.dart';
@@ -20,54 +21,52 @@ class NotificationsListPage extends StatefulWidget {
 }
 
 class _NotificationsListPageState extends State<NotificationsListPage> {
-  final String title = 'Notifications';
+  final _notificationsProvider = getIt<NotificationsProvider>();
+  late NotificationsProvider _listeningNotificationsProvider;
 
-  late final notificationsProvider =
-      Provider.of<NotificationsProvider>(context, listen: false);
-  late final listeningNotificationsProvider =
-      Provider.of<NotificationsProvider>(context);
-
-  ScrollController scrollController = ScrollController();
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    notificationsProvider.getUserNotifications();
+    _notificationsProvider.getUserNotifications();
   }
 
   @override
   Widget build(BuildContext context) {
+    _listeningNotificationsProvider =
+        Provider.of<NotificationsProvider>(context);
     return ScaffoldComponent(
-      appBar: AppBarComponent(
-        title: title,
+      appBar: const AppBarComponent(
+        title: 'Notifications',
       ),
-      body: list(),
+      body: _list(),
     );
   }
 
-  list() {
+  _list() {
     return RefreshIndicatorComponent(
-      scrollController: scrollController,
+      scrollController: _scrollController,
       onRefresh: () async {
-        await notificationsProvider.getUserNotifications();
+        await _notificationsProvider.getUserNotifications();
       },
       child: ListView.builder(
-        controller: scrollController,
+        controller: _scrollController,
         itemCount:
-            max(listeningNotificationsProvider.userNotifications.length, 1),
+            max(_listeningNotificationsProvider.userNotifications.length, 1),
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-          if (listeningNotificationsProvider.userNotifications.isEmpty) {
+          if (_listeningNotificationsProvider.userNotifications.isEmpty) {
             return const SpaceColumnComponent(
               child: ListItemInfoComponent(text: 'No Notifications'),
             );
           }
           NotificationModel notification =
-              listeningNotificationsProvider.userNotifications[index];
+              _listeningNotificationsProvider.userNotifications[index];
           return SpaceColumnComponent(
             child: ListItemNotificationComponent(
               notification: notification,
-              onTap: () => onTapNotification(notification.id),
+              onTap: () => _onTapNotification(notification.id),
             ),
           );
         },
@@ -75,7 +74,7 @@ class _NotificationsListPageState extends State<NotificationsListPage> {
     );
   }
 
-  void onTapNotification(String notificationId) {
+  void _onTapNotification(String notificationId) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return NotificationsCardPage(initialNotificationId: notificationId);
     }));
