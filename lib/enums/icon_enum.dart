@@ -20,7 +20,7 @@ enum IconEnum {
   edit(Icons.edit_rounded),
   email(Icons.email_rounded),
   feedback(Icons.feedback_outlined),
-  flashLight(Icons.flash_on_outlined),
+  flashLight(Icons.flashlight_on_outlined),
   frequencyType(Icons.event_repeat_outlined),
   goal(Icons.emoji_events_outlined),
   gps(Icons.gps_not_fixed_rounded),
