@@ -80,7 +80,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: ListItemIconTextComponent(
                 onTap: onTapFeedback,
                 icon: IconEnum.feedback.icon,
-                title: 'Feedback'),
+                title: 'Contact Founder'),
           ),
           SpaceColumnComponent(
             child: ListItemIconTextComponent(
