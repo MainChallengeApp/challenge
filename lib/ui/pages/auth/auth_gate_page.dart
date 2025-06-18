@@ -15,44 +15,63 @@ class AuthGatePage extends StatefulWidget {
 }
 
 class _AuthGatePageState extends State<AuthGatePage> {
+  final _app = const App();
+  bool _isVersionChecked = false;
+  bool _isVersionUpToDate = false;
+  User? _currentUser;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: FutureBuilder(
-          future: isDeviceAppVersionUpToDate(),
-          builder: (context, isDeviceAppVersionUpToDate) {
-            if (isDeviceAppVersionUpToDate.connectionState ==
-                ConnectionState.waiting) {
-              return const Center(child: LoadingCircleComponent());
-            } else if (isDeviceAppVersionUpToDate.hasData &&
-                isDeviceAppVersionUpToDate.data == true) {
-              return StreamBuilder(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: LoadingCircleComponent());
-                  } else if (snapshot.hasData) {
-                    return const App();
-                  } else {
-                    return const LoginOrRegistrationPage();
-                  }
-                },
-              );
-            } else {
-              return const UpdateAppPage();
-            }
-          }),
-    );
+  void initState() {
+    super.initState();
+    _checkVersion();
+    _listenToAuthChanges();
   }
 
-  Future<bool> isDeviceAppVersionUpToDate() async {
-    try {
-      return await AppVersionService.isDeviceAppVersionUpToDate();
-    } on Exception {
-      ErrorOccurredDialog.show(
-          errorText: 'Connection to backend failed', context: context);
-      return false;
+  @override
+  Widget build(BuildContext context) {
+    if (!_isVersionChecked) {
+      return const Center(child: LoadingCircleComponent());
     }
+
+    if (!_isVersionUpToDate) {
+      return const UpdateAppPage();
+    }
+
+    if (_currentUser == null) {
+      return const LoginOrRegistrationPage();
+    }
+
+    return _app;
+  }
+
+  void _checkVersion() async {
+    try {
+      final isUpToDate = await AppVersionService.isDeviceAppVersionUpToDate();
+      if (mounted) {
+        setState(() {
+          _isVersionChecked = true;
+          _isVersionUpToDate = isUpToDate;
+        });
+      }
+    } on Exception {
+      if (mounted) {
+        ErrorOccurredDialog.show(
+            errorText: 'Connection to backend failed', context: context);
+        setState(() {
+          _isVersionChecked = true;
+          _isVersionUpToDate = false;
+        });
+      }
+    }
+  }
+
+  void _listenToAuthChanges() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (mounted) {
+        setState(() {
+          _currentUser = user;
+        });
+      }
+    });
   }
 }
