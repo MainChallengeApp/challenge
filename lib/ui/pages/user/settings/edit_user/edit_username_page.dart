@@ -4,13 +4,11 @@ import 'package:challenge/providers/users_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -88,40 +86,29 @@ class _EditUsernamePageState extends State<EditUsernamePage> {
                 removeActionIcon: true,
               ),
             ),
-            SpaceColumnComponent(
-              height: BottomNavigationComponent.standardMargin,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: _onTapCancel,
-                      text: 'Cancel',
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(
-                          left: ListItemContainerComponent.standardMargin),
-                    ),
-                  ),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      margin: const EdgeInsets.only(
-                          right: ListItemContainerComponent.standardMargin),
-                      onTap: _onTapSave,
-                      isMainButton:
-                          _userNameTextEditingController.text.trim().isNotEmpty,
-                      text: 'Save',
-                      isLoading: _isLoading,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _actionButtons(),
           ],
         ),
       ),
     );
+  }
+
+  _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        text: 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
+      ),
+      ListItemButtonComponent(
+        onTap: _onTapSave,
+        text: 'Save',
+        isLoading: _isLoading,
+        isMainButton: _userNameTextEditingController.text.trim().isNotEmpty,
+        margin: EdgeInsets.zero,
+      ),
+    ]);
   }
 
   void _onTapSave() async {

@@ -17,7 +17,6 @@ import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/services/local_push_notification_service.dart';
 import 'package:challenge/services/util_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
-import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_dropdown.dart';
@@ -25,9 +24,9 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_child_com
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_text_error_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -123,6 +122,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
                   ],
                 ),
               ),
+              const SpaceComponent(),
               _cancelAndSaveOrAcceptButton(),
             ],
           )),
@@ -322,48 +322,29 @@ class _EditChallengePageState extends State<EditChallengePage> {
   }
 
   _cancelAndSaveOrAcceptButton() {
-    return Column(
-      children: [
-        const SpaceComponent(),
-        SpaceColumnComponent(
-          height: BottomNavigationComponent.standardMargin,
-          child: Row(
-            children: [
-              const SpaceComponent(width: CardComponent.standardSideMargin),
-              Expanded(
-                child: ListItemButtonComponent(
-                  onTap: _onTapCancel,
-                  isMainButton: false,
-                  text: 'Cancel',
-                  margin: EdgeInsets.zero,
-                ),
-              ),
-              const SpaceComponent(),
-              widget.isNewChallenge || widget.isTryAgain
-                  ? Expanded(
-                      child: ListItemButtonComponent(
-                        onTap: _onTapAccept,
-                        text: 'Accept',
-                        isMainButton: _areInputsCorrect(),
-                        isLoading: _isLoading,
-                        margin: EdgeInsets.zero,
-                      ),
-                    )
-                  : Expanded(
-                      child: ListItemButtonComponent(
-                        onTap: _onTapSave,
-                        text: 'Save',
-                        isMainButton: _areInputsCorrect(),
-                        isLoading: _isLoading,
-                        margin: EdgeInsets.zero,
-                      ),
-                    ),
-              const SpaceComponent(width: CardComponent.standardSideMargin),
-            ],
-          ),
-        ),
-      ],
-    );
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        isMainButton: false,
+        text: 'Cancel',
+        margin: EdgeInsets.zero,
+      ),
+      widget.isNewChallenge || widget.isTryAgain
+          ? ListItemButtonComponent(
+              onTap: _onTapAccept,
+              text: 'Accept',
+              isMainButton: _areInputsCorrect(),
+              isLoading: _isLoading,
+              margin: EdgeInsets.zero,
+            )
+          : ListItemButtonComponent(
+              onTap: _onTapSave,
+              text: 'Save',
+              isMainButton: _areInputsCorrect(),
+              isLoading: _isLoading,
+              margin: EdgeInsets.zero,
+            ),
+    ]);
   }
 
   void _onTapCancel() {

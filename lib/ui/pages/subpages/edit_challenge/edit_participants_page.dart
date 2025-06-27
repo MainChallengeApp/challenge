@@ -12,7 +12,7 @@ import 'package:challenge/ui/components/list_items/list_item_search_bar_componen
 import 'package:challenge/ui/components/list_items/list_item_user_component.dart';
 import 'package:challenge/ui/components/loading_circle/refresh_indicator_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -170,36 +170,20 @@ class _EditParticipantsPageState extends State<EditParticipantsPage> {
   }
 
   _cancelAndAcceptButton() {
-    return Padding(
-      padding: const EdgeInsets.only(
-          left: ListItemContainerComponent.standardMargin,
-          right: ListItemContainerComponent.standardMargin,
-          bottom: BottomNavigationComponent.standardMargin,
-          top: BottomNavigationComponent.standardMargin),
-      child: Row(
-        children: [
-          Expanded(
-            child: ListItemButtonComponent(
-              onTap: _onTapCancel,
-              text: 'Cancel',
-              isMainButton: false,
-              margin: const EdgeInsets.only(
-                right: ListItemContainerComponent.standardMargin / 2,
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListItemButtonComponent(
-                onTap: _onTapAccept,
-                text: 'Accept',
-                isMainButton: true,
-                margin: const EdgeInsets.only(
-                  left: ListItemContainerComponent.standardMargin / 2,
-                )),
-          ),
-        ],
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        text: 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
       ),
-    );
+      ListItemButtonComponent(
+        onTap: _onTapAccept,
+        text: 'Accept',
+        isMainButton: true,
+        margin: EdgeInsets.zero,
+      ),
+    ]);
   }
 
   _onRemoveParticipant(String userId) {

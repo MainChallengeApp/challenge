@@ -4,13 +4,11 @@ import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/error_text_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -71,38 +69,26 @@ class _DeleteUserPageState extends State<DeleteUserPage> {
                 ),
               ),
             ),
-            SpaceColumnComponent(
-              height: BottomNavigationComponent.standardMargin,
-              child: Row(
-                children: [
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                        margin: const EdgeInsets.all(0),
-                        onTap: _onTapCancel,
-                        isMainButton: false,
-                        text: 'Cancel'),
-                  ),
-                  const SpaceComponent(),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                        margin: const EdgeInsets.all(0),
-                        onTap: _onTapDeleteUser,
-                        text: 'Delete',
-                        isLoading: _isLoading),
-                  ),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                ],
-              ),
-            ),
+            _actionButtons(),
           ],
         ),
       ),
     );
+  }
+
+  _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+          margin: EdgeInsets.zero,
+          onTap: _onTapCancel,
+          isMainButton: false,
+          text: 'Cancel'),
+      ListItemButtonComponent(
+          margin: EdgeInsets.zero,
+          onTap: _onTapDeleteUser,
+          text: 'Delete',
+          isLoading: _isLoading),
+    ]);
   }
 
   void _onTapDeleteUser() async {

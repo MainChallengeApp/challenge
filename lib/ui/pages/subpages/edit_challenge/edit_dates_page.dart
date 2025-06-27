@@ -14,7 +14,7 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/small_container_in_container_text_component.dart';
@@ -118,6 +118,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
                 ],
               ),
             ),
+            const SpaceComponent(),
             _actionButtons(),
           ],
         ),
@@ -346,37 +347,21 @@ class _EditDatesPageState extends State<EditDatesPage> {
     });
   }
 
-  SpaceColumnComponent _actionButtons() {
-    return SpaceColumnComponent(
-      height: BottomNavigationComponent.standardMargin,
-      isSpaceOnTop: true,
-      child: Row(
-        children: [
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardMargin,
-          ),
-          Expanded(
-            child: ListItemButtonComponent(
-              onTap: _onTapCancel,
-              text: 'Cancel',
-              isMainButton: false,
-              margin: EdgeInsets.zero,
-            ),
-          ),
-          const SpaceComponent(),
-          Expanded(
-            child: ListItemButtonComponent(
-              margin: EdgeInsets.zero,
-              onTap: _onTapAccept,
-              text: 'Accept',
-            ),
-          ),
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardMargin,
-          ),
-        ],
+  _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        text: 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
       ),
-    );
+      ListItemButtonComponent(
+        onTap: _onTapAccept,
+        text: 'Accept',
+        isMainButton: true,
+        margin: EdgeInsets.zero,
+      ),
+    ]);
   }
 
   void _onValueChanged(List<DateTime?> newDates) {

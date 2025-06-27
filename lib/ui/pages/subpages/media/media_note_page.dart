@@ -13,6 +13,7 @@ import 'package:challenge/ui/components/list_items/list_item_container_component
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
@@ -148,21 +149,11 @@ class _MediaNotePageState extends State<MediaNotePage> {
               ),
             ),
             const SpaceComponent(),
-            SpaceColumnComponent(
-              height: BottomNavigationComponent.standardMargin,
-              child: Row(
-                children: [
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                  _cancelButton(),
-                  const SpaceComponent(),
-                  _acceptOrSaveButton(),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                ],
-              ),
+            BottomButtonsComponent(
+              buttons: [
+                _cancelButton(),
+                _acceptOrSaveButton(),
+              ],
             ),
           ],
         ),
@@ -170,33 +161,27 @@ class _MediaNotePageState extends State<MediaNotePage> {
     );
   }
 
-  Expanded _acceptOrSaveButton() {
+  _acceptOrSaveButton() {
     return widget.isEdit
-        ? Expanded(
-            child: ListItemButtonComponent(
-              margin: EdgeInsets.zero,
-              onTap: _onTapSave,
-              isLoading: _isLoadingSave,
-              text: 'Save',
-            ),
+        ? ListItemButtonComponent(
+            margin: EdgeInsets.zero,
+            onTap: _onTapSave,
+            isLoading: _isLoadingSave,
+            text: 'Save',
           )
-        : Expanded(
-            child: ListItemButtonComponent(
-              margin: EdgeInsets.zero,
-              onTap: _onTapAccept,
-              text: 'Accept',
-            ),
+        : ListItemButtonComponent(
+            margin: EdgeInsets.zero,
+            onTap: _onTapAccept,
+            text: 'Accept',
           );
   }
 
-  Expanded _cancelButton() {
-    return Expanded(
-      child: ListItemButtonComponent(
-        onTap: _onTapCancel,
-        text: 'Cancel',
-        isMainButton: false,
-        margin: EdgeInsets.zero,
-      ),
+  _cancelButton() {
+    return ListItemButtonComponent(
+      onTap: _onTapCancel,
+      text: 'Cancel',
+      isMainButton: false,
+      margin: EdgeInsets.zero,
     );
   }
 

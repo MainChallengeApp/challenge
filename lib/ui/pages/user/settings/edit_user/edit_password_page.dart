@@ -6,11 +6,10 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -88,42 +87,32 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                 ],
               ),
             ),
-            SpaceColumnComponent(
-              height: BottomNavigationComponent.standardMargin,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: onTapCancel,
-                      text: 'Cancel',
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(
-                          left: ListItemContainerComponent.standardMargin),
-                    ),
-                  ),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      margin: const EdgeInsets.only(
-                          right: ListItemContainerComponent.standardMargin),
-                      onTap: onTapSendLink,
-                      text: 'Send Link',
-                      isLoading: isLoading,
-                      isMainButton: true,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _actionButtons(),
           ],
         ),
       ),
     );
   }
 
-  void onTapSendLink() async {
+  _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        text: 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
+      ),
+      ListItemButtonComponent(
+        onTap: _onTapSendLink,
+        text: 'Send Link',
+        isLoading: isLoading,
+        isMainButton: true,
+        margin: EdgeInsets.zero,
+      ),
+    ]);
+  }
+
+  void _onTapSendLink() async {
     if (isLoading) {
       return;
     }
@@ -162,7 +151,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
     // Navigator.pop(context);
   }
 
-  void onTapCancel() {
+  void _onTapCancel() {
     Navigator.pop(context);
   }
 }

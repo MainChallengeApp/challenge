@@ -7,11 +7,10 @@ import 'package:challenge/ui/components/list_items/list_item_container_component
 import 'package:challenge/ui/components/list_items/list_item_email_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_password_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -107,42 +106,31 @@ class _EditEmailPageState extends State<EditEmailPage> {
                 ),
               ),
             ),
-            SpaceColumnComponent(
-              height: BottomNavigationComponent.standardMargin,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      onTap: _onTapCancel,
-                      text: 'Cancel',
-                      isMainButton: false,
-                      margin: const EdgeInsets.only(
-                          left: ListItemContainerComponent.standardMargin),
-                    ),
-                  ),
-                  const SpaceComponent(
-                    width: ListItemContainerComponent.standardMargin,
-                  ),
-                  Expanded(
-                    child: ListItemButtonComponent(
-                      margin: const EdgeInsets.only(
-                          right: ListItemContainerComponent.standardMargin),
-                      onTap: _onTapSendLink,
-                      text: 'Send Link',
-                      isLoading: _isLoading,
-                      isMainButton: _authService.isValidPassword(
-                              _passwordTextEditingController.text) &&
-                          _authService.isValidEmail(
-                              _newEmailTextEditingController.text),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _actionButtons(),
           ],
         ),
       ),
     );
+  }
+
+  _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        text: 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
+      ),
+      ListItemButtonComponent(
+        onTap: _onTapSendLink,
+        text: 'Send Link',
+        isLoading: _isLoading,
+        isMainButton:
+            _authService.isValidPassword(_passwordTextEditingController.text) &&
+                _authService.isValidEmail(_newEmailTextEditingController.text),
+        margin: EdgeInsets.zero,
+      ),
+    ]);
   }
 
   void _onTapSendLink() async {

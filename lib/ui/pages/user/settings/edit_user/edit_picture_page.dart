@@ -10,10 +10,9 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/components/user/user_picture_max_component.dart';
 import 'package:challenge/ui/pages/user/settings/edit_user/edit_bio_page.dart';
 import 'package:flutter/material.dart';
@@ -86,44 +85,29 @@ class _EditPicturePageState extends State<EditPicturePage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: BottomNavigationComponent.standardMargin,
-              ),
-              child: SpaceColumnComponent(
-                height: BottomNavigationComponent.standardMargin,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ListItemButtonComponent(
-                        onTap:
-                            widget.isRegistration ? _onTapSkip : _onTapCancel,
-                        text: widget.isRegistration ? 'Skip' : 'Cancel',
-                        isMainButton: false,
-                        margin: const EdgeInsets.only(
-                            left: ListItemContainerComponent.standardMargin),
-                      ),
-                    ),
-                    const SpaceComponent(
-                      width: ListItemContainerComponent.standardMargin,
-                    ),
-                    Expanded(
-                      child: ListItemButtonComponent(
-                        margin: const EdgeInsets.only(
-                            right: ListItemContainerComponent.standardMargin),
-                        onTap: _onTapSave,
-                        text: 'Save',
-                        isLoading: _isLoading,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            _actionButtons(),
           ],
         ),
       ),
     );
+  }
+
+  BottomButtonsComponent _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: widget.isRegistration ? _onTapSkip : _onTapCancel,
+        text: widget.isRegistration ? 'Skip' : 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
+      ),
+      ListItemButtonComponent(
+        onTap: _onTapSave,
+        text: 'Save',
+        isLoading: _isLoading,
+        isMainButton: true,
+        margin: EdgeInsets.zero,
+      ),
+    ]);
   }
 
   void _onTapSave() async {

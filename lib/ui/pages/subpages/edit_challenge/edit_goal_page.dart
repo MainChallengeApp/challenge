@@ -9,7 +9,7 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
-import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -96,37 +96,20 @@ class _EditGoalPageState extends State<EditGoalPage> {
     );
   }
 
-  SpaceColumnComponent _actionButtons() {
-    return SpaceColumnComponent(
-      height: BottomNavigationComponent.standardMargin,
-      isSpaceOnTop: true,
-      child: Row(
-        children: [
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardMargin,
-          ),
-          Expanded(
-            child: ListItemButtonComponent(
-              onTap: _onTapCancel,
-              text: 'Cancel',
-              isMainButton: false,
-              margin: EdgeInsets.zero,
-            ),
-          ),
-          const SpaceComponent(),
-          Expanded(
-            child: ListItemButtonComponent(
-              margin: EdgeInsets.zero,
-              onTap: _onTapAccept,
-              text: 'Accept',
-            ),
-          ),
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardMargin,
-          ),
-        ],
+  _actionButtons() {
+    return BottomButtonsComponent(buttons: [
+      ListItemButtonComponent(
+        onTap: _onTapCancel,
+        text: 'Cancel',
+        isMainButton: false,
+        margin: EdgeInsets.zero,
       ),
-    );
+      ListItemButtonComponent(
+        margin: EdgeInsets.zero,
+        onTap: _onTapAccept,
+        text: 'Accept',
+      )
+    ]);
   }
 
   _unit() {
