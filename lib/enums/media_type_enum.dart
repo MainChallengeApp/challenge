@@ -3,7 +3,8 @@ import 'package:challenge/exceptions/media_type_is_not_supported_exception.dart'
 enum MediaTypeEnum {
   image('image'),
   note('note'),
-  video('video');
+  video('video'),
+  stopwatch('stopwatch');
 
   const MediaTypeEnum(this.text);
 

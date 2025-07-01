@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:uuid/uuid.dart';
@@ -7,7 +8,11 @@ class ImageMediaModel extends MediaModel {
   static const String sourceField = 'source';
 
   ImageMediaModel({String? id, required String title, required this.source})
-      : super(id: id, title: title, type: MediaTypeEnum.image) {
+      : super(
+            id: id,
+            title: title,
+            type: MediaTypeEnum.image,
+            icon: IconEnum.picture.icon) {
     if (id == null || id.isEmpty) {
       id = const Uuid().v4();
     }

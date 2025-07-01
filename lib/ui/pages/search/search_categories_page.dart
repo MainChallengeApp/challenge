@@ -7,6 +7,7 @@ import 'package:challenge/providers/tab_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/categories/category_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_search_bar_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
@@ -67,13 +68,13 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                     child: Row(
                   children: [
                     const SpaceComponent(
-                      width: 20,
+                      width: ListItemContainerComponent.standardMargin,
                     ),
                     mental(),
                     const SpaceComponent(),
                     physical(),
                     const SpaceComponent(
-                      width: 20,
+                      width: ListItemContainerComponent.standardMargin,
                     ),
                   ],
                 )),
@@ -81,13 +82,13 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                     child: Row(
                   children: [
                     const SpaceComponent(
-                      width: 20,
+                      width: ListItemContainerComponent.standardMargin,
                     ),
                     social(),
                     const SpaceComponent(),
                     other(),
                     const SpaceComponent(
-                      width: 20,
+                      width: ListItemContainerComponent.standardMargin,
                     ),
                   ],
                 )),
@@ -95,13 +96,13 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                     child: Row(
                   children: [
                     const SpaceComponent(
-                      width: 20,
+                      width: ListItemContainerComponent.standardMargin,
                     ),
                     newChallenge(),
                     const SpaceComponent(),
                     shuffle(),
                     const SpaceComponent(
-                      width: 20,
+                      width: ListItemContainerComponent.standardMargin,
                     ),
                   ],
                 ))

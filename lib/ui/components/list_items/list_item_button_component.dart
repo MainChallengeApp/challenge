@@ -11,6 +11,7 @@ class ListItemButtonComponent extends StatelessWidget {
   final Color? textColor;
   final bool isLoading;
   final IconData? icon;
+  final bool isEnabled;
 
   const ListItemButtonComponent(
       {super.key,
@@ -21,7 +22,8 @@ class ListItemButtonComponent extends StatelessWidget {
       this.margin,
       this.padding,
       this.textColor,
-      this.isLoading = false});
+      this.isLoading = false,
+      this.isEnabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class ListItemButtonComponent extends StatelessWidget {
       onTapColor: isMainButton ? Colors.white.withAlpha(20) : null,
       margin: margin,
       padding: padding,
+      isEnabled: isEnabled,
       child: Center(
           child: isLoading
               ? LoadingCircleComponent(

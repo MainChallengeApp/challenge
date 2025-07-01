@@ -1,3 +1,4 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:uuid/uuid.dart';
@@ -7,7 +8,11 @@ class NoteMediaModel extends MediaModel {
   static const String contentField = 'content';
 
   NoteMediaModel({String? id, required String title, this.content = ''})
-      : super(id: id, title: title, type: MediaTypeEnum.note) {
+      : super(
+            id: id,
+            title: title,
+            type: MediaTypeEnum.note,
+            icon: IconEnum.notes.icon) {
     if (id == null || id.isEmpty) {
       id = const Uuid().v4();
     }

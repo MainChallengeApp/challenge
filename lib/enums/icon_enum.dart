@@ -51,6 +51,7 @@ enum IconEnum {
   settings(Icons.settings_outlined),
   shuffle(Icons.shuffle_rounded),
   stopRecording(Icons.stop_rounded),
+  stopwatch(Icons.timer_outlined),
   title(Icons.title_rounded),
   unit(Icons.square_foot_outlined),
   upload(Icons.upload_rounded),

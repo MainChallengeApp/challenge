@@ -1,7 +1,6 @@
 import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
-import 'package:challenge/models/challenge/media/note_media_model.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_image_child_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
@@ -31,14 +30,11 @@ class _ListItemMediaSmallComponentState
     extends State<ListItemMediaSmallComponent> {
   @override
   Widget build(BuildContext context) {
-    String? url = _getUrl();
-    IconData? icon = _getIcon();
-
     return ListItemImageChildComponent(
         endActionPane: widget.isEditableByUser ? endActionPane : null,
         onTap: widget.onTap,
-        url: url,
-        icon: icon,
+        url: _getUrl(),
+        icon: widget.media.icon,
         child: Text(
           widget.media.title,
           overflow: TextOverflow.ellipsis,
@@ -49,16 +45,6 @@ class _ListItemMediaSmallComponentState
   String? _getUrl() {
     if (widget.media is ImageMediaModel) {
       return (widget.media as ImageMediaModel).source;
-    } else {
-      return null;
-    }
-  }
-
-  IconData? _getIcon() {
-    if (widget.media is ImageMediaModel) {
-      return IconEnum.picture.icon;
-    } else if (widget.media is NoteMediaModel) {
-      return IconEnum.notes.icon;
     } else {
       return null;
     }

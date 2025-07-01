@@ -2,6 +2,8 @@ import 'package:challenge/enums/media_type_enum.dart';
 import 'package:challenge/exceptions/media_type_is_not_supported_exception.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/challenge/media/note_media_model.dart';
+import 'package:challenge/models/challenge/media/stopwatch_media_model.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class MediaModel {
@@ -14,10 +16,13 @@ abstract class MediaModel {
   MediaTypeEnum type;
   static const String typeField = 'type';
 
+  IconData icon;
+
   MediaModel({
     this.id,
     required this.title,
     required this.type,
+    required this.icon,
   }) {
     if (id == null || id!.isEmpty) {
       id = const Uuid().v4();
@@ -34,6 +39,8 @@ abstract class MediaModel {
         list.add(ImageMediaModel.fromDoc(media));
       } else if (media[typeField] == MediaTypeEnum.note.text) {
         list.add(NoteMediaModel.fromDoc(media));
+      } else if (media[typeField] == MediaTypeEnum.stopwatch.text) {
+        list.add(StopwatchMediaModel.fromDoc(media));
       } else {
         throw MediaTypeIsNotSupportedException(media[typeField]);
       }

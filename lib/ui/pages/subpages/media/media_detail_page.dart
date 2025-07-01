@@ -5,11 +5,13 @@ import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/image_media_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/media/note_media_model.dart';
+import 'package:challenge/models/challenge/media/stopwatch_media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/media/image_media_card_component.dart';
 import 'package:challenge/ui/components/cards/media/note_media_card_component.dart';
+import 'package:challenge/ui/components/cards/media/stopwatch_media_card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
@@ -136,6 +138,11 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                       noteMedia: media as NoteMediaModel,
                       isFullScreen: _isFullScreen,
                     );
+                  case MediaTypeEnum.stopwatch:
+                    return StopwatchMediaCardComponent(
+                      stopwatchMedia: media as StopwatchMediaModel,
+                      isFullScreen: _isFullScreen,
+                    );
                   default:
                     return Container();
                 }
@@ -208,6 +215,9 @@ class _MediaDetailPageState extends State<MediaDetailPage>
   }
 
   _actionButtonsButtons() {
+    bool isEditableType =
+        widget.mediaList.reversed.toList()[_currentMediaIndex].type ==
+            MediaTypeEnum.note;
     return SpaceColumnComponent(
       height: BottomNavigationComponent.standardMargin,
       child: Row(
@@ -232,6 +242,7 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                   icon: IconEnum.edit.icon,
                   margin: EdgeInsets.zero,
                   isMainButton: false,
+                  isEnabled: isEditableType,
                 )),
                 const SpaceComponent(),
                 Expanded(

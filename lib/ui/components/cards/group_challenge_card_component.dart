@@ -3,6 +3,7 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/media/note_media_model.dart';
+import 'package:challenge/models/challenge/media/stopwatch_media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
@@ -32,6 +33,7 @@ import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.d
 import 'package:challenge/ui/pages/subpages/media/media_camera_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_list_page.dart';
 import 'package:challenge/ui/pages/subpages/media/media_note_page.dart';
+import 'package:challenge/ui/pages/subpages/media/media_stopwatch_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -98,7 +100,7 @@ class _GroupChallengeCardComponentState
         _separator(),
         _deleteSlider(),
         const SpaceComponent(
-          width: BottomNavigationComponent.standardMargin,
+          width: CardComponent.standardSideMargin,
         ),
       ],
     );
@@ -230,10 +232,8 @@ class _GroupChallengeCardComponentState
               isGrayedOut: true,
             ),
             DocumentationButtonComponent(
-              iconData: IconEnum.numbers.icon,
-              onTap: () => SnackBarComponent.showSnackBar(
-                  'The Numbers feature will be added soon.'),
-              isGrayedOut: true,
+              iconData: IconEnum.stopwatch.icon,
+              onTap: _onTapNumbers,
             ),
             DocumentationButtonComponent(
               iconData: IconEnum.notes.icon,
@@ -427,6 +427,26 @@ class _GroupChallengeCardComponentState
           participant: _participant,
           noteMedia: noteMedia,
           autoFocus: true,
+        ),
+      ),
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  void _onTapNumbers() {
+    StopwatchMediaModel stopwatchMedia = StopwatchMediaModel();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MediaStopwatchPage(
+          attempt: _latestAttempt,
+          groupChallenge: _groupChallenge,
+          participant: _participant,
+          stopwatchMedia: stopwatchMedia,
         ),
       ),
     ).then((_) {
