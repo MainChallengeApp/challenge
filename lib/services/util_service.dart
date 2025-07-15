@@ -41,4 +41,12 @@ class UtilService {
         ? ''
         : '${date.hour <= 9 ? '0' : ''}${date.hour}:${date.minute <= 9 ? '0' : ''}${date.minute}';
   }
+
+  static T? firstWhereOrNull<T>(List<T> list, bool Function(T) test) {
+    try {
+      return list.firstWhere(test);
+    } catch (e) {
+      return null;
+    }
+  }
 }

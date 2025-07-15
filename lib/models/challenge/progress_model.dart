@@ -1,6 +1,9 @@
+import 'package:challenge/enums/media_type_enum.dart';
+import 'package:challenge/enums/unit_enum.dart';
 import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
+import 'package:challenge/models/challenge/media/stopwatch_media_model.dart';
 import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -94,5 +97,53 @@ class ProgressModel {
           mediaIds: mediaIds, progress: progressProgress, date: date);
     }
     return progress.copyProgress();
+  }
+
+  double getSmartProgress(List<MediaModel> mediaList, AttemptModel attempt,
+      GroupChallengeModel groupChallenge) {
+    UnitEnum? unit =
+        UnitEnum.getUnit(attempt.getAcceptanceCriteria(groupChallenge).unit);
+    if (unit == null) {
+      return progress;
+    }
+
+    double? smartProgress;
+    switch (unit) {
+      case UnitEnum.entry:
+        smartProgress = progress + 1;
+        break;
+      case UnitEnum.image:
+        smartProgress = mediaList
+            .where((e) => e.type == MediaTypeEnum.image)
+            .length
+            .toDouble();
+      case UnitEnum.note:
+        smartProgress = mediaList
+            .where((e) => e.type == MediaTypeEnum.note)
+            .length
+            .toDouble();
+      case UnitEnum.minute:
+        smartProgress = mediaList
+            .where((e) => e.type == MediaTypeEnum.stopwatch)
+            .map((media) =>
+                (media as StopwatchMediaModel).getDuration().inMinutes)
+            .fold(0, (a, b) => a + b)
+            .toDouble();
+      case UnitEnum.hour:
+        smartProgress = mediaList
+            .where((e) => e.type == MediaTypeEnum.stopwatch)
+            .map(
+                (media) => (media as StopwatchMediaModel).getDuration().inHours)
+            .fold(0, (a, b) => a + b)
+            .toDouble();
+      default:
+        break;
+    }
+
+    if (smartProgress != null) {
+      progress = smartProgress;
+    }
+
+    return progress;
   }
 }

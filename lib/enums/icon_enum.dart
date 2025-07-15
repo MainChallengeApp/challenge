@@ -27,6 +27,7 @@ enum IconEnum {
   groupChallenge(Icons.groups_rounded),
   inbox(Icons.inbox_outlined),
   info(Icons.info_outline_rounded),
+  isSmart(Icons.auto_awesome_rounded),
   logout(Icons.logout_rounded),
   media(Icons.inventory_2_outlined),
   more(Icons.more_horiz_rounded),

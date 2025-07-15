@@ -50,4 +50,10 @@ class StopwatchMediaModel extends MediaModel {
     final milliseconds = duration.inMilliseconds % 1000;
     return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}.${milliseconds.toString().padLeft(3, '0').substring(0, 2)}';
   }
+
+  Duration getDuration() {
+    return rounds
+        .map((round) => round.duration)
+        .fold(Duration.zero, (a, b) => a + b);
+  }
 }

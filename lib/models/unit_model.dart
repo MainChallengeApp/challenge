@@ -1,22 +1,16 @@
+import 'package:challenge/enums/unit_enum.dart';
+
 class Unit {
   final String singular;
   final String plural;
+  final bool isSmart;
 
-  Unit({required this.singular, required this.plural});
+  Unit({required this.singular, required this.plural, this.isSmart = false});
 
-  static getUnits() {
-    return [
-      Unit(singular: 'Piece', plural: 'Pieces'),
-      Unit(singular: 'Point', plural: 'Points'),
-      Unit(singular: 'Hour', plural: 'Hours'),
-      Unit(singular: 'Minute', plural: 'Minutes'),
-      Unit(singular: 'Kilogram', plural: 'Kilograms'),
-      Unit(singular: 'Gram', plural: 'Grams'),
-      Unit(singular: 'Liter', plural: 'Liters'),
-      Unit(singular: 'Milliliter', plural: 'Milliliters'),
-      Unit(singular: 'Kilometer', plural: 'Kilometers'),
-      Unit(singular: 'Meter', plural: 'Meters'),
-      Unit(singular: 'Centimeter', plural: 'Centimeters'),
-    ];
+  static List<Unit> getUnits() {
+    return UnitEnum.getUnits()
+        .map((e) =>
+            Unit(singular: e.singular, plural: e.plural, isSmart: e.isSmart))
+        .toList();
   }
 }

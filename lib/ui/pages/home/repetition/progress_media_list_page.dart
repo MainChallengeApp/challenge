@@ -87,6 +87,13 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
       widget.isSaveAndNotEditButtonVisible;
 
   @override
+  void initState() {
+    super.initState();
+    editProgress.getSmartProgress(
+        widget.initialMediaList, widget.attempt, widget.groupChallenge);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldComponent(
         appBar: AppBarComponent(

@@ -210,7 +210,21 @@ class _EditGoalPageState extends State<EditGoalPage> {
         child: CustomContainerComponent(
           child: Row(children: [
             Expanded(
-                child: Text(_editAmount == 1 ? unit.singular : unit.plural)),
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(_editAmount == 1 ? unit.singular : unit.plural),
+                const SpaceComponent(width: 4),
+                Visibility(
+                  visible: unit.isSmart,
+                  child: Icon(
+                    IconEnum.isSmart.icon,
+                    size: Theme.of(context).textTheme.bodyLarge?.fontSize,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                ),
+              ],
+            )),
             Icon(
               IconEnum.autoFill.icon,
               size: Theme.of(context).textTheme.titleLarge?.fontSize,
