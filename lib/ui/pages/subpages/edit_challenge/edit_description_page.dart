@@ -6,7 +6,6 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_expanded_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class EditDescriptionPage extends StatefulWidget {
@@ -53,7 +52,6 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
               maxLength: DatabaseService.maxCharactersLong,
               removeActionIcon: true,
             ),
-            const SpaceComponent(),
             BottomButtonsComponent(buttons: [
               ListItemButtonComponent(
                 onTap: _onTapCancel,

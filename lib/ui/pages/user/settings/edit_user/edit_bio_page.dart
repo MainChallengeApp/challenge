@@ -9,7 +9,6 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_expanded_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class EditBioPage extends StatefulWidget {
@@ -64,7 +63,6 @@ class _EditBioPageState extends State<EditBioPage> {
               onSubmitted: (_) => _onTapSave(),
               removeActionIcon: true,
             ),
-            const SpaceComponent(),
             BottomButtonsComponent(
               buttons: [
                 ListItemButtonComponent(

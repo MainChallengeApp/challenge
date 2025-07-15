@@ -118,7 +118,6 @@ class _EditDatesPageState extends State<EditDatesPage> {
                 ],
               ),
             ),
-            const SpaceComponent(),
             _actionButtons(),
           ],
         ),

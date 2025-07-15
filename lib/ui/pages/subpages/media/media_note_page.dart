@@ -15,7 +15,6 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/pages/home/repetition/progress_media_list_page.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -148,7 +147,6 @@ class _MediaNotePageState extends State<MediaNotePage> {
                 ),
               ),
             ),
-            const SpaceComponent(),
             BottomButtonsComponent(
               buttons: [
                 _cancelButton(),

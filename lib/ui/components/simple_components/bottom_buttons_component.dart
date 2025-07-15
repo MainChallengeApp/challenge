@@ -5,23 +5,29 @@ import 'package:flutter/material.dart';
 
 class BottomButtonsComponent extends StatelessWidget {
   const BottomButtonsComponent({super.key, required this.buttons});
+
   final List<Widget> buttons;
 
   @override
   Widget build(BuildContext context) {
-    return SpaceColumnComponent(
-      height: BottomNavigationComponent.standardMargin,
-      child: Row(
-        children: [
-          const SpaceComponent(
-            width: BottomNavigationComponent.standardMargin,
+    return Column(
+      children: [
+        const SpaceComponent(),
+        SpaceColumnComponent(
+          height: BottomNavigationComponent.standardMargin,
+          child: Row(
+            children: [
+              const SpaceComponent(
+                width: BottomNavigationComponent.standardMargin,
+              ),
+              ..._buttons(),
+              const SpaceComponent(
+                width: BottomNavigationComponent.standardMargin,
+              ),
+            ],
           ),
-          ..._buttons(),
-          const SpaceComponent(
-            width: BottomNavigationComponent.standardMargin,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

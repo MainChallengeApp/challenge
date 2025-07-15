@@ -9,7 +9,6 @@ import 'package:challenge/ui/components/list_items/list_item_icon_text_input_com
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -75,7 +74,6 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
                 ],
               ),
             ),
-            const SpaceComponent(),
             _actionButtons(),
           ],
         ),

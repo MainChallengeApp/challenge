@@ -60,7 +60,6 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
               _roundsList()
             ],
           )),
-          const SpaceComponent(),
           _actionButtons(),
         ],
       ),

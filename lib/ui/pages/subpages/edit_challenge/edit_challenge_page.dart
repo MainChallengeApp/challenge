@@ -29,7 +29,6 @@ import 'package:challenge/ui/components/simple_components/app_icon_component.dar
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
 import 'package:challenge/ui/pages/home/home_challenge_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_dates_page.dart';
@@ -122,7 +121,6 @@ class _EditChallengePageState extends State<EditChallengePage> {
                   ],
                 ),
               ),
-              const SpaceComponent(),
               _cancelAndSaveOrAcceptButton(),
             ],
           )),
