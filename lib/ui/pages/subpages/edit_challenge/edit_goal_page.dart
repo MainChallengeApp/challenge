@@ -10,9 +10,9 @@ import 'package:challenge/ui/components/list_items/list_item_container_component
 import 'package:challenge/ui/components/list_items/list_item_icon_text_input_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_container_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -199,7 +199,7 @@ class _EditGoalPageState extends State<EditGoalPage> {
   Widget _suggestedUnit(Unit unit, bool isLast) {
     return SpaceColumnComponent(
       height: isLast ? 0 : null,
-      child: GestureDetector(
+      child: TapContainerComponent(
         onTap: () {
           setState(() {
             _editUnit = _editAmount == 1 ? unit.singular : unit.plural;
@@ -207,31 +207,29 @@ class _EditGoalPageState extends State<EditGoalPage> {
             _isUnitExpanded = false;
           });
         },
-        child: CustomContainerComponent(
-          child: Row(children: [
-            Expanded(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(_editAmount == 1 ? unit.singular : unit.plural),
-                const SpaceComponent(width: 4),
-                Visibility(
-                  visible: unit.isSmart,
-                  child: Icon(
-                    IconEnum.isSmart.icon,
-                    size: Theme.of(context).textTheme.bodyLarge?.fontSize,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
+        child: Row(children: [
+          Expanded(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(_editAmount == 1 ? unit.singular : unit.plural),
+              const SpaceComponent(width: 4),
+              Visibility(
+                visible: unit.isSmart,
+                child: Icon(
+                  IconEnum.isSmart.icon,
+                  size: Theme.of(context).textTheme.bodyLarge?.fontSize,
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
-              ],
-            )),
-            Icon(
-              IconEnum.autoFill.icon,
-              size: Theme.of(context).textTheme.titleLarge?.fontSize,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ]),
-        ),
+              ),
+            ],
+          )),
+          Icon(
+            IconEnum.autoFill.icon,
+            size: Theme.of(context).textTheme.titleLarge?.fontSize,
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ]),
       ),
     );
   }
