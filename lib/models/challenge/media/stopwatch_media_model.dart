@@ -8,8 +8,10 @@ class StopwatchMediaModel extends MediaModel {
   List<StopwatchRoundModel> rounds;
   static const String roundsField = 'rounds';
 
-  StopwatchMediaModel({String? id, String? title, this.rounds = const []})
-      : super(
+  StopwatchMediaModel(
+      {String? id, String? title, List<StopwatchRoundModel>? rounds})
+      : rounds = rounds ?? [],
+        super(
             id: id,
             title: title ?? 'Stopwatch',
             type: MediaTypeEnum.stopwatch,

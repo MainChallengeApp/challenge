@@ -3,7 +3,6 @@ import 'package:challenge/models/challenge/attempt_model.dart';
 import 'package:challenge/models/challenge/group_challenge_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
 import 'package:challenge/models/challenge/media/note_media_model.dart';
-import 'package:challenge/models/challenge/media/stopwatch_media_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
 import 'package:challenge/models/challenge/repetition_model.dart';
 import 'package:challenge/providers/group_challenges_provider.dart';
@@ -438,7 +437,6 @@ class _GroupChallengeCardComponentState
   }
 
   void _onTapNumbers() {
-    StopwatchMediaModel stopwatchMedia = StopwatchMediaModel();
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -446,7 +444,6 @@ class _GroupChallengeCardComponentState
           attempt: _latestAttempt,
           groupChallenge: _groupChallenge,
           participant: _participant,
-          stopwatchMedia: stopwatchMedia,
         ),
       ),
     ).then((_) {

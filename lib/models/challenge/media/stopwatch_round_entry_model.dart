@@ -1,3 +1,4 @@
+import 'package:challenge/services/time_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StopwatchRoundEntryModel {
@@ -9,7 +10,8 @@ class StopwatchRoundEntryModel {
 
   StopwatchRoundEntryModel({required this.startTime, this.stopTime});
 
-  Duration get duration => (stopTime ?? DateTime.now()).difference(startTime);
+  Duration get duration =>
+      (stopTime ?? TimeService.now()).difference(startTime);
 
   static fromDoc(doc) {
     return StopwatchRoundEntryModel(

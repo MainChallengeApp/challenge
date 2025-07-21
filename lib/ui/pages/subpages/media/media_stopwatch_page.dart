@@ -7,6 +7,7 @@ import 'package:challenge/models/challenge/media/stopwatch_media_model.dart';
 import 'package:challenge/models/challenge/media/stopwatch_round_entry_model.dart';
 import 'package:challenge/models/challenge/media/stopwatch_round_model.dart';
 import 'package:challenge/models/challenge/participant_model.dart';
+import 'package:challenge/services/time_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
@@ -24,14 +25,12 @@ class MediaStopwatchPage extends StatefulWidget {
   final AttemptModel attempt;
   final GroupChallengeModel groupChallenge;
   final ParticipantModel participant;
-  final StopwatchMediaModel stopwatchMedia;
 
   const MediaStopwatchPage({
     Key? key,
     required this.attempt,
     required this.groupChallenge,
     required this.participant,
-    required this.stopwatchMedia,
   }) : super(key: key);
 
   @override
@@ -39,9 +38,9 @@ class MediaStopwatchPage extends StatefulWidget {
 }
 
 class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
-  final List<StopwatchRoundModel> _rounds = [];
   Timer? _timer;
   bool _isStopwatchRunning = false;
+  final StopwatchMediaModel _stopwatchMedia = StopwatchMediaModel();
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +53,7 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
         children: [
           Expanded(
               child: Column(
-            children: [
-              _stopwatchAndButtons(context),
-              const SpaceComponent(),
-              _roundsList()
-            ],
+            children: [_stopwatchAndButtons(), _roundsList()],
           )),
           _actionButtons(),
         ],
@@ -76,19 +71,21 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
   }
 
   Expanded _roundsList() {
-    if (_rounds.isEmpty) {
+    if (_stopwatchMedia.rounds.isEmpty) {
       return const Expanded(child: SizedBox());
     }
 
-    final shortestDurationIndex = _rounds
-        .indexOf(_rounds.reduce((a, b) => a.duration < b.duration ? a : b));
-    final longestDurationIndex = _rounds
-        .indexOf(_rounds.reduce((a, b) => a.duration > b.duration ? a : b));
+    final shortestDurationIndex = _stopwatchMedia.rounds.indexOf(_stopwatchMedia
+        .rounds
+        .reduce((a, b) => a.duration < b.duration ? a : b));
+    final longestDurationIndex = _stopwatchMedia.rounds.indexOf(_stopwatchMedia
+        .rounds
+        .reduce((a, b) => a.duration > b.duration ? a : b));
 
     return Expanded(
       child: ListView(
         children: [
-          ..._rounds.reversed
+          ..._stopwatchMedia.rounds.reversed
               .map((round) => _roundEntry(
                   round, shortestDurationIndex, longestDurationIndex))
               .toList(),
@@ -102,48 +99,55 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
     return SpaceColumnComponent(
       child: ListItemStopwatchComponent(
         round: round,
-        roundNumber: _rounds.indexOf(round) + 1,
-        onTapDelete: () {
-          _rounds.removeAt(_rounds.indexOf(round));
-          if (_rounds.isEmpty) {
-            _isStopwatchRunning = false;
-          }
-          setState(() {});
-        },
-        isShortest: _rounds.length > 1 &&
-            _rounds.indexOf(round) == shortestDurationIndex,
-        isLongest: _rounds.length > 1 &&
-            _rounds.indexOf(round) == longestDurationIndex,
+        roundNumber: _stopwatchMedia.rounds.indexOf(round) + 1,
+        onTapDelete: () => _onTapDeleteRound(round),
+        isShortest: _stopwatchMedia.rounds.length > 1 &&
+            _stopwatchMedia.rounds.indexOf(round) == shortestDurationIndex,
+        isLongest: _stopwatchMedia.rounds.length > 1 &&
+            _stopwatchMedia.rounds.indexOf(round) == longestDurationIndex,
       ),
     );
   }
 
-  ListItemContainerComponent _stopwatchAndButtons(BuildContext context) {
-    return ListItemContainerComponent(
-      isHeightDynamic: true,
-      padding: const EdgeInsets.all(CardComponent.standardPadding),
-      child: Column(
-        children: [
-          Text(
-            _stopwatchDuration(),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              letterSpacing: 2,
-              fontFeatures: const [
-                FontFeature.tabularFigures(),
+  void _onTapDeleteRound(StopwatchRoundModel round) {
+    final isLastRound = _stopwatchMedia.rounds.last == round;
+    _stopwatchMedia.rounds.removeAt(_stopwatchMedia.rounds.indexOf(round));
+    if (_stopwatchMedia.rounds.isEmpty) {
+      _isStopwatchRunning = false;
+    } else if (isLastRound && _isStopwatchRunning) {
+      _onTapStart();
+    }
+    setState(() {});
+  }
+
+  _stopwatchAndButtons() {
+    return SpaceColumnComponent(
+      child: ListItemContainerComponent(
+        isHeightDynamic: true,
+        padding: const EdgeInsets.all(CardComponent.standardPadding),
+        child: Column(
+          children: [
+            Text(
+              _stopwatchDuration(),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 2,
+                fontFeatures: const [
+                  FontFeature.tabularFigures(),
+                ],
+              ),
+            ),
+            const SpaceComponent(),
+            Row(
+              children: [
+                Expanded(child: _resetAndRoundButton()),
+                const SpaceComponent(),
+                Expanded(child: _startAndStopButton()),
               ],
             ),
-          ),
-          const SpaceComponent(),
-          Row(
-            children: [
-              Expanded(child: _resetAndRoundButton()),
-              const SpaceComponent(),
-              Expanded(child: _startAndStopButton()),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -174,10 +178,9 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
     if (_isStopwatchRunning) {
       _onTapStop();
     }
-    widget.stopwatchMedia.rounds = _rounds;
-    widget.stopwatchMedia.title = 'Stopwatch: ${_stopwatchDuration()}';
-    widget.attempt.addMedia(widget.stopwatchMedia);
-    List<MediaModel> initialMediaList = [widget.stopwatchMedia];
+    _stopwatchMedia.title = 'Stopwatch: ${_stopwatchDuration()}';
+    widget.attempt.addMedia(_stopwatchMedia);
+    List<MediaModel> initialMediaList = [_stopwatchMedia];
     Navigator.push(context, MaterialPageRoute(builder: (builder) {
       return ProgressMediaListPage(
         attempt: widget.attempt,
@@ -191,11 +194,11 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
   }
 
   String _stopwatchDuration() {
-    if (_rounds.isEmpty) {
+    if (_stopwatchMedia.rounds.isEmpty) {
       return '00:00:00.00';
     }
 
-    final duration = _rounds.fold(Duration.zero, (a, b) => a + b.duration);
+    final duration = _stopwatchMedia.getDuration();
     return StopwatchMediaModel.durationToTimeString(duration);
   }
 
@@ -217,12 +220,12 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
   void _onTapStart() {
     setState(() {
       _isStopwatchRunning = true;
-      if (_rounds.isEmpty) {
-        _rounds.add(StopwatchRoundModel(
-            entries: [StopwatchRoundEntryModel(startTime: DateTime.now())]));
+      if (_stopwatchMedia.rounds.isEmpty) {
+        _stopwatchMedia.rounds.add(StopwatchRoundModel(
+            entries: [StopwatchRoundEntryModel(startTime: TimeService.now())]));
       } else {
-        _rounds.last.entries
-            .add(StopwatchRoundEntryModel(startTime: DateTime.now()));
+        _stopwatchMedia.rounds.last.entries
+            .add(StopwatchRoundEntryModel(startTime: TimeService.now()));
       }
     });
     _timer = Timer.periodic(const Duration(milliseconds: 10), (_) {
@@ -236,7 +239,7 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
     _timer?.cancel();
     setState(() {
       _isStopwatchRunning = false;
-      _rounds.last.entries.last.stopTime = DateTime.now();
+      _stopwatchMedia.rounds.last.entries.last.stopTime = TimeService.now();
     });
   }
 
@@ -245,12 +248,13 @@ class _MediaStopwatchPageState extends State<MediaStopwatchPage> {
       onTap: () {
         setState(() {
           if (_isStopwatchRunning) {
-            _rounds.last.entries.last.stopTime = DateTime.now();
-            _rounds.add(StopwatchRoundModel(entries: [
-              StopwatchRoundEntryModel(startTime: DateTime.now())
+            _stopwatchMedia.rounds.last.entries.last.stopTime =
+                TimeService.now();
+            _stopwatchMedia.rounds.add(StopwatchRoundModel(entries: [
+              StopwatchRoundEntryModel(startTime: TimeService.now())
             ]));
           } else {
-            _rounds.clear();
+            _stopwatchMedia.rounds.clear();
             _timer?.cancel();
             _isStopwatchRunning = false;
           }
