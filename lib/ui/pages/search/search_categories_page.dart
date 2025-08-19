@@ -100,7 +100,7 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
                     ),
                     newChallenge(),
                     const SpaceComponent(),
-                    shuffle(),
+                    _shuffle(),
                     const SpaceComponent(
                       width: ListItemContainerComponent.standardMargin,
                     ),
@@ -114,12 +114,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
     );
   }
 
-  Expanded shuffle() {
+  _shuffle() {
     return Expanded(
         child: CategoryComponent(
       text: 'Shuffle',
       icon: IconEnum.shuffle.icon,
-      onTap: onTapRandom,
+      onTap: _onTapShuffle,
     ));
   }
 
@@ -191,10 +191,15 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           initialSearchFilter: SearchFilterEnum.challenges,
         ),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
-  void onTapRandom() {
+  void _onTapShuffle() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -206,7 +211,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
           isRandom: true,
         ),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   onTapNewChallenge() {

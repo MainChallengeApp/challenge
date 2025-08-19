@@ -1,14 +1,18 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
+import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/providers/search_challenges_provider.dart';
 import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/services/media_service.dart';
 import 'package:challenge/services/scroll_service.dart';
 import 'package:challenge/ui/components/advanced_components/scaffold_component.dart';
 import 'package:challenge/ui/components/cards/search_challenge_card_component.dart';
+import 'package:challenge/ui/components/list_items/list_item_button_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/loading_circle/loading_circle_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
+import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
+import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +43,8 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
 
   final _searchChallengeProvider = getIt<SearchChallengesProvider>();
   late SearchChallengesProvider _listeningSearchChallengeProvider;
+  ChallengeModel get _getChallenge => _listeningSearchChallengeProvider
+      .searchChallenges[_pageController.page!.toInt()];
 
   bool _isLoading = false;
 
@@ -92,29 +98,58 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
         Provider.of<SearchChallengesProvider>(context);
     return ScaffoldComponent(
       appBar: AppBarComponent(title: widget.title),
+      isBottomNavigationVisible: false,
       body: Center(
-        child: _isLoading
-            ? const LoadingCircleComponent()
-            : _listeningSearchChallengeProvider.searchChallenges.isEmpty
-                ? ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children: const [
-                      ListItemInfoComponent(text: 'No Challenges found'),
-                    ],
-                  )
-                : PageView(
-                    controller: _pageController,
-                    onPageChanged: onPageChanged,
-                    scrollDirection: Axis.vertical,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    children:
-                        _listeningSearchChallengeProvider.searchChallenges.map(
-                      (challenge) {
-                        return SearchChallengeCardComponent(
-                            challenge: challenge);
-                      },
-                    ).toList()),
+        child: _isLoading ? const LoadingCircleComponent() : _page(),
       ),
+    );
+  }
+
+  Widget _page() {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Expanded(
+          child: _listeningSearchChallengeProvider.searchChallenges.isEmpty
+              ? ListView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children: const [
+                    ListItemInfoComponent(text: 'No Challenges found'),
+                  ],
+                )
+              : PageView(
+                  controller: _pageController,
+                  onPageChanged: onPageChanged,
+                  scrollDirection: Axis.vertical,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  children:
+                      _listeningSearchChallengeProvider.searchChallenges.map(
+                    (challenge) {
+                      return SearchChallengeCardComponent(challenge: challenge);
+                    },
+                  ).toList()),
+        ),
+        BottomButtonsComponent(
+          hasTopMargin: false,
+          buttons: [
+            ListItemButtonComponent(
+              onTap: () {
+                _pageController.nextPage(
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeInOut);
+              },
+              margin: EdgeInsets.zero,
+              isMainButton: false,
+              text: 'Skip',
+            ),
+            ListItemButtonComponent(
+              onTap: () => _onTapSelect(),
+              margin: EdgeInsets.zero,
+              text: 'Select',
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -129,5 +164,17 @@ class _SearchChallengePageState extends State<SearchChallengePage> {
     }
     _searchChallengeProvider.getSearchedPaginated(
         searchText: widget.searchText, categories: widget.categories);
+  }
+
+  void _onTapSelect() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditChallengePage(
+          challenge: _getChallenge,
+          isNewChallenge: true,
+        ),
+      ),
+    );
   }
 }

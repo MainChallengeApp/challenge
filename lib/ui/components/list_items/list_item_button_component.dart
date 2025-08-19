@@ -52,19 +52,26 @@ class ListItemButtonComponent extends StatelessWidget {
                               (isMainButton
                                   ? Theme.of(context).colorScheme.onSecondary
                                   : Theme.of(context).colorScheme.onSurface)),
-                    Text(text,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                                color: textColor ??
-                                    (isMainButton
-                                        ? Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .onSurface))),
+                    Expanded(
+                      child: Center(
+                        child: Text(
+                          text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(
+                                  color: textColor ??
+                                      (isMainButton
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurface)),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
                   ],
                 )),
     );

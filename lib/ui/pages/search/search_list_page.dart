@@ -115,6 +115,7 @@ class _SearchListPageState extends State<SearchListPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: ScaffoldComponent(
           appBar: AppBarComponent(title: widget.title),
+          isBottomNavigationVisible: false,
           body: Column(
             children: [
               SpaceColumnComponent(

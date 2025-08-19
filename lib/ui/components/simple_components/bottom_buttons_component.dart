@@ -4,15 +4,20 @@ import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:flutter/material.dart';
 
 class BottomButtonsComponent extends StatelessWidget {
-  const BottomButtonsComponent({super.key, required this.buttons});
+  const BottomButtonsComponent(
+      {super.key, required this.buttons, this.hasTopMargin = true});
 
   final List<Widget> buttons;
+  final bool hasTopMargin;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SpaceComponent(),
+        Visibility(
+          visible: hasTopMargin,
+          child: const SpaceComponent(),
+        ),
         SpaceColumnComponent(
           height: BottomNavigationComponent.standardMargin,
           child: Row(

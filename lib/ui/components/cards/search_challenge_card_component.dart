@@ -1,16 +1,15 @@
+import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
-import 'package:challenge/providers/tab_provider.dart';
-import 'package:challenge/services/dependency_injection_service.dart';
 import 'package:challenge/ui/components/cards/card_component.dart';
 import 'package:challenge/ui/components/challenge/thumbnail_max_component.dart';
 import 'package:challenge/ui/components/search/search_description_component.dart';
-import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/snack_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/tap_container_component.dart';
 import 'package:challenge/ui/components/simple_components/title_component.dart';
-import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchChallengeCardComponent extends StatefulWidget {
   final ChallengeModel challenge;
@@ -25,18 +24,11 @@ class SearchChallengeCardComponent extends StatefulWidget {
 class _SearchChallengeCardComponentState
     extends State<SearchChallengeCardComponent> {
   BuildContext? panelContext;
-  final _tabProvider = getIt<TabProvider>();
 
   @override
   Widget build(BuildContext context) {
     return CardComponent(
-      children: [
-        _thumbnail(),
-        _title(),
-        _description(),
-        _space(),
-        _selectButton()
-      ],
+      children: [_thumbnail(), _title(), _description(), _space(), _adButton()],
     );
   }
 
@@ -71,28 +63,24 @@ class _SearchChallengeCardComponentState
     );
   }
 
-  _selectButton() {
-    return CustomButtonComponent(
-      onTap: () => _onTapSelect(),
-      isPrimaryButton: true,
-      text: 'Select',
+  _adButton() {
+    return TapContainerComponent(
+      onTap: _onTapAd,
+      child: Row(children: [
+        const Expanded(
+          child: Text('Ad'),
+        ),
+        Icon(
+          IconEnum.link.icon,
+          size: Theme.of(context).textTheme.titleLarge?.fontSize,
+          color: Theme.of(context).colorScheme.tertiary,
+        ),
+      ]),
     );
   }
 
-  void _onTapSelect() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EditChallengePage(
-          challenge: widget.challenge,
-          isNewChallenge: true,
-        ),
-      ),
-    ).then((_) {
-      _tabProvider.setBottomNavigationVisibility(true);
-      if (mounted) {
-        setState(() {});
-      }
-    });
+  void _onTapAd() {
+    launchUrl(Uri.parse('https://www.amazon.de'),
+        mode: LaunchMode.externalApplication);
   }
 }

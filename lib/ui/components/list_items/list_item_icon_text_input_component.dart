@@ -31,6 +31,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
   final int? maxLength;
   final bool removeActionIcon;
   final EdgeInsetsGeometry? margin;
+  final String? infoText;
 
   const ListItemIconTextInputComponent({
     super.key,
@@ -58,6 +59,7 @@ class ListItemIconTextInputComponent extends StatefulWidget {
     this.maxLength,
     this.removeActionIcon = false,
     this.margin,
+    this.infoText,
   });
 
   @override
@@ -147,6 +149,7 @@ class _ListItemIconTextInputComponentState
       onTap: widget.onTap,
       icon: widget.icon,
       margin: widget.margin,
+      infoText: widget.infoText,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

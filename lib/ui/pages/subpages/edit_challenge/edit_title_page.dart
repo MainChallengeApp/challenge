@@ -58,6 +58,7 @@ class _EditTitlePageState extends State<EditTitlePage> {
                         });
                       },
                       labelText: 'Title',
+                      infoText: 'Give your challenge a meaningful title',
                     ),
                   ),
                 ],
