@@ -16,6 +16,7 @@ class ListItemIconDropdown<T> extends StatefulWidget {
   final String labelText;
   final bool isExpanded;
   final T? initialEntry;
+  final String? infoText;
 
   const ListItemIconDropdown(
       {super.key,
@@ -26,7 +27,8 @@ class ListItemIconDropdown<T> extends StatefulWidget {
       required this.labelText,
       this.isExpanded = false,
       this.onTap,
-      this.initialEntry});
+      this.initialEntry,
+      this.infoText});
 
   @override
   State<ListItemIconDropdown<T>> createState() =>
@@ -76,6 +78,7 @@ class _ListItemIconDropdownState<T> extends State<ListItemIconDropdown<T>> {
           ),
         ),
         ListItemIconTextChildComponent(
+          infoText: _isExpanded ? null : widget.infoText,
           onTap: () {
             setState(() => _isExpanded = !_isExpanded);
             widget.onTap?.call();

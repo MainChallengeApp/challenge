@@ -17,11 +17,8 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/custom_button_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
-import 'package:challenge/ui/components/simple_components/small_container_in_container_text_component.dart';
-import 'package:challenge/ui/components/simple_components/small_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -66,9 +63,8 @@ class _EditDatesPageState extends State<EditDatesPage> {
   final FocusNode _amountFocusNode = FocusNode();
 
   final GlobalKey _datePickerKey = GlobalKey();
-  late final double _datePickerHeight = _getDatePickerHeight();
-
-  bool _shouldRecreatePicker = false;
+  late var _datePickerScrollController =
+      PageController(initialPage: _getInitialPage());
 
   @override
   initState() {
@@ -133,77 +129,38 @@ class _EditDatesPageState extends State<EditDatesPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_dates(), _picker(), _time(), _resetButton()],
+          children: [_dates(), _datePicker(), _pickerActionButtons()],
         ),
       ),
     );
   }
 
-  _picker() {
-    return Visibility(
-        visible: _isDatePickExpanded,
-        child: _isOnTime ? _timePicker() : _datePicker());
-  }
-
-  _timePicker() {
-    if (_shouldRecreatePicker) {
-      Future.microtask(() => setState(() => _shouldRecreatePicker = false));
-    }
-    return SizedBox(
-      height: _datePickerHeight,
-      child: _shouldRecreatePicker
-          ? Container()
-          : CupertinoDatePicker(
-              key: ValueKey(_isOnStart),
-              mode: CupertinoDatePickerMode.time,
-              use24hFormat: true,
-              maximumDate: _getLastDate(),
-              minimumDate: _getFirstDate(),
-              initialDateTime: _isOnStart
-                  ? _getStartDate() ?? TimeService.now()
-                  : _getEndDate() ?? TimeService.now(),
-              onDateTimeChanged: (DateTime newDateTime) {
-                DateTime? startDate = _getStartDate();
-                DateTime? endDate = _getEndDate();
-                if (_isOnStart) {
-                  _setStartDate(newDateTime);
-                  if (endDate != null && endDate.isBefore(newDateTime)) {
-                    _setEndDate(_getStartDate());
-                  }
-                } else {
-                  _setEndDate(newDateTime);
-                  if (startDate != null && newDateTime.isBefore(startDate)) {
-                    _setStartDate(_getEndDate());
-                  }
-                }
-              },
-            ),
-    );
-  }
-
   Widget _datePicker() {
-    return CalendarDatePicker2(
-      key: _datePickerKey,
-      config: CalendarDatePicker2Config(
-        currentDate: TimeService.now(),
-        allowSameValueSelection: true,
-        firstDate: _getFirstDate(),
-        lastDate: _getLastDate(),
-        calendarType: CalendarDatePicker2Type.range,
-        daySplashColor: Theme.of(context).colorScheme.primary,
-        monthViewController: ScrollController(),
-        centerAlignModePicker: true,
-        hideMonthPickerDividers: true,
-        hideYearPickerDividers: true,
-        firstDayOfWeek: 1,
+    return Visibility(
+      visible: _isDatePickExpanded,
+      child: CalendarDatePicker2(
+        key: _datePickerKey,
+        config: CalendarDatePicker2Config(
+          currentDate: TimeService.now(),
+          allowSameValueSelection: true,
+          firstDate: _getFirstDate(),
+          lastDate: _getLastDate(),
+          calendarType: CalendarDatePicker2Type.range,
+          daySplashColor: Theme.of(context).colorScheme.primary,
+          dayViewController: _getDatePickerScrollController(),
+          centerAlignModePicker: true,
+          hideMonthPickerDividers: true,
+          hideYearPickerDividers: true,
+          firstDayOfWeek: 1,
+        ),
+        value: [
+          _getStartDate() == null && _getEndDate() != null
+              ? _getEndDate()
+              : _getStartDate(),
+          _getEndDate()
+        ],
+        onValueChanged: _onValueChanged,
       ),
-      value: [
-        _getStartDate() == null && _getEndDate() != null
-            ? _getEndDate()
-            : _getStartDate(),
-        _getEndDate()
-      ],
-      onValueChanged: _onValueChanged,
     );
   }
 
@@ -305,13 +262,34 @@ class _EditDatesPageState extends State<EditDatesPage> {
     );
   }
 
-  Widget _resetButton() {
+  Widget _pickerActionButtons() {
     return Visibility(
       visible: _isDatePickExpanded,
-      child: CustomButtonComponent(
-        onTap: _onTapReset,
-        text: 'Reset',
-        margin: const EdgeInsets.all(CardComponent.standardPadding),
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomButtonComponent(
+              onTap: _onTapReset,
+              text: 'Reset',
+              margin: const EdgeInsets.only(
+                left: CardComponent.standardPadding,
+                right: CardComponent.standardPadding / 2,
+                bottom: CardComponent.standardPadding,
+              ),
+            ),
+          ),
+          Expanded(
+            child: CustomButtonComponent(
+              onTap: _onTapToday,
+              text: 'Today',
+              margin: const EdgeInsets.only(
+                left: CardComponent.standardPadding / 2,
+                right: CardComponent.standardPadding,
+                bottom: CardComponent.standardPadding,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -331,7 +309,6 @@ class _EditDatesPageState extends State<EditDatesPage> {
         } else if (!_isOnStart && _getEndDate() != null) {
           _setEndDate(UtilService.dateWithoutTime(_getEndDate()!));
         }
-        _shouldRecreatePicker = true;
         return;
       }
 
@@ -370,6 +347,10 @@ class _EditDatesPageState extends State<EditDatesPage> {
           startDate?.difference(UtilService.dateWithoutTime(startDate)) ??
               const Duration();
       _setStartDate(newDates.last?.add(timeDifference));
+      if (_getFrequency().type == FrequencyTypeEnum.time ||
+          _getFrequency().amount == null) {
+        _isOnStart = false;
+      }
     } else {
       DateTime? endDate = _getEndDate();
       Duration timeDifference =
@@ -548,6 +529,7 @@ class _EditDatesPageState extends State<EditDatesPage> {
           textInputAction: TextInputAction.next,
           labelText: 'Day Amount',
           hintText: 'max.',
+          infoText: 'How many days do you want to do this challenge?',
           maxLength: DatabaseService.maxFrequencyAmountLength,
           removeActionIcon: true,
         ),
@@ -581,46 +563,6 @@ class _EditDatesPageState extends State<EditDatesPage> {
         _getFrequency().amount?.toString() ?? '';
   }
 
-  _time() {
-    return Visibility(
-      visible: _isDatePickExpanded,
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              _isOnTime = !_isOnTime;
-            });
-          },
-          child: SizedBox(
-            height: SmallContainerInListItemComponent.height,
-            child: Visibility(
-              visible: _isOnStart && _getStartDate() != null ||
-                  !_isOnStart && _getEndDate() != null,
-              child: SmallContainerInContainerTextComponent(
-                text: _isOnTime
-                    ? _isOnStart
-                        ? UtilService.dateFormat(_getStartDate())
-                        : UtilService.dateFormat(_getEndDate())
-                    : _isOnStart
-                        ? UtilService.timeFormat(_getStartDate())
-                        : UtilService.timeFormat(_getEndDate()),
-                margin:
-                    const EdgeInsets.only(right: CardComponent.standardPadding),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  double _getDatePickerHeight() {
-    final RenderBox renderBox =
-        _datePickerKey.currentContext?.findRenderObject() as RenderBox;
-    return renderBox.size.height;
-  }
-
   _setIsDateWithTime() {
     _isDateWithTime = _getStartDate() != null &&
             _getStartDate()!
@@ -634,5 +576,36 @@ class _EditDatesPageState extends State<EditDatesPage> {
                 0;
     _isDateWithTime = _isDateWithTime || _isOnTime;
     return _isDateWithTime;
+  }
+
+  void _onTapToday() {
+    _datePickerScrollController.animateToPage(
+      _getInitialPage(),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  int _getInitialPage() {
+    final firstDate = _getFirstDate();
+    final firstDateYear = firstDate?.year ?? 1970;
+    final firstDateMonth = firstDate?.month ?? 1;
+    final today = TimeService.now();
+    final todayYear = today.year;
+    final todayMonth = today.month;
+
+    final yearDifference = todayYear - firstDateYear;
+    final monthDifference = todayMonth - firstDateMonth;
+
+    return yearDifference * 12 + monthDifference;
+  }
+
+  _getDatePickerScrollController() {
+    if (_datePickerScrollController.hasClients) {
+      return _datePickerScrollController;
+    }
+    _datePickerScrollController =
+        PageController(initialPage: _getInitialPage());
+    return _datePickerScrollController;
   }
 }

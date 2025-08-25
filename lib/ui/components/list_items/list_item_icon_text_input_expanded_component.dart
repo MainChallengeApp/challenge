@@ -2,6 +2,7 @@ import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/navigation/bottom_navigation_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
+import 'package:challenge/ui/components/simple_components/info_text_component.dart';
 import 'package:challenge/ui/components/simple_components/space_component.dart';
 import 'package:challenge/ui/themes/theme_constants.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,6 +24,7 @@ class ListItemIconTextInputExpandedComponent extends StatefulWidget {
   final String lableText;
   final int? maxLength;
   final bool removeActionIcon;
+  final String? infoText;
 
   const ListItemIconTextInputExpandedComponent({
     super.key,
@@ -41,6 +43,7 @@ class ListItemIconTextInputExpandedComponent extends StatefulWidget {
     this.maxLength,
     this.focusNode,
     this.removeActionIcon = false,
+    this.infoText,
   });
 
   @override
@@ -66,62 +69,72 @@ class _ListItemIconTextInputExpandedComponentState
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListItemContainerComponent(
-        isHeightDynamic: true,
-        onTapColor: Colors.transparent,
-        onTap: _onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _iconAndTitle(),
-            const SpaceComponent(
-              height: ListItemContainerComponent.standardPadding,
-            ),
-            Expanded(
-              child: CupertinoScrollbar(
-                controller: _scrollController,
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: TextField(
-                    maxLines: null,
-                    controller: widget.textEditingController,
-                    maxLength: widget.maxLength,
-                    buildCounter: (BuildContext context,
-                            {required int currentLength,
-                            required bool isFocused,
-                            int? maxLength}) =>
-                        null,
-                    style: Theme.of(context).textTheme.textInputSmall,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: widget.hintText,
-                      hintStyle: Theme.of(context).textTheme.textInputHintSmall,
-                      contentPadding: const EdgeInsets.only(
-                          bottom: BottomNavigationComponent.standardMargin),
-                      isDense: true,
-                    ),
-                    onChanged: widget.onChangeTextField,
-                    onSubmitted: widget.onSubmitted,
-                    autofocus: widget.autoFocus ?? false,
-                    focusNode: _focusNode,
-                    enableSuggestions: widget.enableSuggestions,
+      child: Column(
+        children: [
+          Expanded(
+            child: ListItemContainerComponent(
+              isHeightDynamic: true,
+              onTapColor: Colors.transparent,
+              onTap: _onTap,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _iconAndTitle(),
+                  const SpaceComponent(
+                    height: ListItemContainerComponent.standardPadding,
                   ),
-                ),
+                  Expanded(
+                    child: CupertinoScrollbar(
+                      controller: _scrollController,
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: TextField(
+                          maxLines: null,
+                          controller: widget.textEditingController,
+                          maxLength: widget.maxLength,
+                          buildCounter: (BuildContext context,
+                                  {required int currentLength,
+                                  required bool isFocused,
+                                  int? maxLength}) =>
+                              null,
+                          style: Theme.of(context).textTheme.textInputSmall,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: widget.hintText,
+                            hintStyle:
+                                Theme.of(context).textTheme.textInputHintSmall,
+                            contentPadding: const EdgeInsets.only(
+                                bottom:
+                                    BottomNavigationComponent.standardMargin),
+                            isDense: true,
+                          ),
+                          onChanged: widget.onChangeTextField,
+                          onSubmitted: widget.onSubmitted,
+                          autofocus: widget.autoFocus ?? false,
+                          focusNode: _focusNode,
+                          enableSuggestions: widget.enableSuggestions,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: widget.maxLength != null,
+                    child: Align(
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        '${widget.textEditingController.text.length}/${widget.maxLength}',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Visibility(
-              visible: widget.maxLength != null,
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: Text(
-                  '${widget.textEditingController.text.length}/${widget.maxLength}',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ),
-            )
-          ],
-        ),
+          ),
+          if (widget.infoText != null)
+            InfoTextComponent(text: widget.infoText!),
+        ],
       ),
     );
   }

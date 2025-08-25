@@ -1,7 +1,6 @@
-import 'package:challenge/enums/icon_enum.dart';
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
-import 'package:challenge/ui/components/simple_components/space_component.dart';
+import 'package:challenge/ui/components/simple_components/info_text_component.dart';
 import 'package:flutter/material.dart';
 
 class ListItemIconChildComponent extends StatefulWidget {
@@ -54,39 +53,8 @@ class _ListItemIconChildComponentState
             ],
           ),
         ),
-        if (widget.infoText != null) _infoText(),
+        if (widget.infoText != null) InfoTextComponent(text: widget.infoText!),
       ],
-    );
-  }
-
-  Padding _infoText() {
-    return Padding(
-      padding: const EdgeInsets.only(
-          top: ListItemContainerComponent.standardPadding / 2,
-          left: ListItemContainerComponent.standardMargin +
-              ListItemContainerComponent.standardPadding),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(
-            IconEnum.info.icon,
-            color: Theme.of(context).colorScheme.tertiary,
-            size: 16,
-          ),
-          const SpaceComponent(
-            width: ListItemContainerComponent.standardPadding / 2,
-            height: 0,
-          ),
-          Expanded(
-            child: Text(
-              widget.infoText!,
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

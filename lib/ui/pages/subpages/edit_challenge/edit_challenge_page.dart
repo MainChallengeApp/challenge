@@ -27,7 +27,6 @@ import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/navigation/no_animation_page_route_component.dart';
 import 'package:challenge/ui/components/simple_components/app_icon_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
-import 'package:challenge/ui/components/simple_components/icon_container_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/image_in_list_item_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/dialogs/error_occurred_dialog.dart';
@@ -110,16 +109,16 @@ class _EditChallengePageState extends State<EditChallengePage> {
               Expanded(
                 child: ListView(
                   children: [
-                    _editStep(),
+                    // _editStep(),
                     _scope(),
                     _title(),
                     _description(),
                     _thumbnail(),
-                    // _goal(),
-                    // _repetitions(),
-                    // _dates(),
-                    // _reminder(),
-                    // _participants(),
+                    _goal(),
+                    _repetitions(),
+                    _dates(),
+                    _reminder(),
+                    _participants(),
                   ],
                 ),
               ),
@@ -194,7 +193,7 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return Visibility(
       visible: _selectedAttempt == null,
       child: SpaceColumnComponent(
-          heightMultiplier: 2,
+          heightMultiplier: 3,
           child: ListItemIconTextTextComponent(
               onTap: _onTapReminder,
               icon: IconEnum.notification.icon,
@@ -250,17 +249,18 @@ class _EditChallengePageState extends State<EditChallengePage> {
     return Visibility(
       visible: _selectedAttempt == null,
       child: SpaceColumnComponent(
+          heightMultiplier: 3,
           child: ListItemIconTextChildComponent(
-        isEnabled: _isUserAbleToEditChallenge,
-        onTap: _onTapThumbnail,
-        icon: IconEnum.picture.icon,
-        text: 'Thumbnail',
-        child: ImageInListItemComponent(
-          url: _editChallenge.thumbnail?.url ?? AppIconComponent.path,
-          scale: _editChallenge.thumbnail?.scale ?? AppIconComponent.scale,
-          fit: _editChallenge.thumbnail?.fit.fit,
-        ),
-      )),
+            isEnabled: _isUserAbleToEditChallenge,
+            onTap: _onTapThumbnail,
+            icon: IconEnum.picture.icon,
+            text: 'Thumbnail',
+            child: ImageInListItemComponent(
+              url: _editChallenge.thumbnail?.url ?? AppIconComponent.path,
+              scale: _editChallenge.thumbnail?.scale ?? AppIconComponent.scale,
+              fit: _editChallenge.thumbnail?.fit.fit,
+            ),
+          )),
     );
   }
 
@@ -648,33 +648,5 @@ class _EditChallengePageState extends State<EditChallengePage> {
         ? (_editChallenge as GroupChallengeModel)
             .getParticipant(_usersProvider.user.id)
         : ParticipantModel.empty();
-  }
-
-  _editStep() {
-    return SpaceColumnComponent(
-      heightMultiplier: 2,
-      child: ListItemContainerComponent(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconContainerInListItemComponent(
-              icon: IconEnum.info.icon,
-            ),
-            Icon(
-              IconEnum.settings.icon,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-            Icon(
-              IconEnum.groupChallengeOutline.icon,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-            Icon(
-              IconEnum.summary.icon,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

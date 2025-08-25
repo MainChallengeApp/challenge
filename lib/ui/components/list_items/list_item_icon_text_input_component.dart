@@ -81,9 +81,10 @@ class _ListItemIconTextInputComponentState
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-    _animation =
-        Tween<double>(begin: widget.hintText == null ? 0.0 : 1, end: 1.0)
-            .animate(
+    _animation = Tween<double>(
+            begin: widget.hintText == null || widget.hintText == '' ? 0.0 : 1,
+            end: 1.0)
+        .animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
@@ -124,7 +125,6 @@ class _ListItemIconTextInputComponentState
   void dispose() {
     focusNode.removeListener(_handleFocusChange);
     widget.textEditingController.removeListener(_handleTextChange);
-    widget.textEditingController.dispose();
     _animationController.dispose();
     if (widget.focusNode == null) {
       focusNode.dispose();

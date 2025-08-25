@@ -27,6 +27,12 @@ class _EditTitlePageState extends State<EditTitlePage> {
       TextEditingController(text: _editTitle);
 
   @override
+  void dispose() {
+    _titleTextEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {

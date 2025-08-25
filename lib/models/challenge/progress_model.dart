@@ -107,30 +107,31 @@ class ProgressModel {
       return progress;
     }
 
-    double? smartProgress;
+    double? smartProgress =
+        attempt.getCurrentRepetitionProgressAbsolute(groupChallenge);
     switch (unit) {
       case UnitEnum.entry:
         smartProgress = progress + 1;
         break;
       case UnitEnum.image:
-        smartProgress = mediaList
+        smartProgress += mediaList
             .where((e) => e.type == MediaTypeEnum.image)
             .length
             .toDouble();
       case UnitEnum.note:
-        smartProgress = mediaList
+        smartProgress += mediaList
             .where((e) => e.type == MediaTypeEnum.note)
             .length
             .toDouble();
       case UnitEnum.minute:
-        smartProgress = mediaList
+        smartProgress += mediaList
             .where((e) => e.type == MediaTypeEnum.stopwatch)
             .map((media) =>
                 (media as StopwatchMediaModel).getDuration().inMinutes)
             .fold(0, (a, b) => a + b)
             .toDouble();
       case UnitEnum.hour:
-        smartProgress = mediaList
+        smartProgress += mediaList
             .where((e) => e.type == MediaTypeEnum.stopwatch)
             .map(
                 (media) => (media as StopwatchMediaModel).getDuration().inHours)
@@ -140,10 +141,7 @@ class ProgressModel {
         break;
     }
 
-    if (smartProgress != null) {
-      progress = smartProgress;
-    }
-
+    progress = smartProgress;
     return progress;
   }
 }

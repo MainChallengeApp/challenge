@@ -80,7 +80,7 @@ class _EditThumbnailPageState extends State<EditThumbnailPage> {
       body: Column(
         children: [
           Expanded(
-            child: Column(
+            child: ListView(
               children: [
                 _thumbnail(),
                 _uploadButton(),

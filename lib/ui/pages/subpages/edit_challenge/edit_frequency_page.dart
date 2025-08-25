@@ -69,8 +69,8 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
             Expanded(
               child: Column(
                 children: [
-                  _amount(),
                   _type(),
+                  _amount(),
                 ],
               ),
             ),
@@ -81,35 +81,38 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
     );
   }
 
-  SpaceColumnComponent _amount() {
-    return SpaceColumnComponent(
-      child: ListItemIconTextInputComponent(
-        icon: IconEnum.numbers.icon,
-        textEditingController: _amountTextEditingController,
-        autoFocus: true,
-        focusNode: _amountFocusNode,
-        keyboardType: const TextInputType.numberWithOptions(),
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp(r'[1-9]+[0-9]*')),
-        ],
-        onChangeTextField: (value) {
-          setState(() {
-            if (value.isEmpty) {
-              _editChallenge.frequency.amount = null;
-              return;
-            }
-            _editChallenge.frequency.amount = int.parse(value);
-            _editChallenge.calcEndDate();
-          });
-        },
-        onSubmitted: (_) {
-          _onTapAccept();
-        },
-        textInputAction: TextInputAction.next,
-        labelText: 'Amount',
-        hintText: 'max.',
-        maxLength: DatabaseService.maxFrequencyAmountLength,
-        removeActionIcon: true,
+  _amount() {
+    return Visibility(
+      visible: !_isTypeExpanded,
+      child: SpaceColumnComponent(
+        child: ListItemIconTextInputComponent(
+          icon: IconEnum.numbers.icon,
+          textEditingController: _amountTextEditingController,
+          focusNode: _amountFocusNode,
+          keyboardType: const TextInputType.numberWithOptions(),
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.allow(RegExp(r'[1-9]+[0-9]*')),
+          ],
+          onChangeTextField: (value) {
+            setState(() {
+              if (value.isEmpty) {
+                _editChallenge.frequency.amount = null;
+                return;
+              }
+              _editChallenge.frequency.amount = int.parse(value);
+              _editChallenge.calcEndDate();
+            });
+          },
+          onSubmitted: (_) {
+            _onTapAccept();
+          },
+          textInputAction: TextInputAction.next,
+          labelText: 'Amount',
+          hintText: 'max.',
+          infoText: 'How often do you want to do this challenge?',
+          maxLength: DatabaseService.maxFrequencyAmountLength,
+          removeActionIcon: true,
+        ),
       ),
     );
   }
@@ -125,6 +128,7 @@ class _EditFrequencyPageState extends State<EditFrequencyPage> {
             getText: (type) =>
                 type.typeToString(_editChallenge.frequency.amount),
             icon: IconEnum.frequencyType.icon,
+            infoText: 'What type of frequency do you want to set?',
             labelText: 'Type'));
   }
 

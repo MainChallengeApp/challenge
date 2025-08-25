@@ -51,6 +51,7 @@ class _EditDescriptionPageState extends State<EditDescriptionPage> {
               onSubmitted: (_) => _onTapAccept(),
               maxLength: DatabaseService.maxCharactersLong,
               removeActionIcon: true,
+              infoText: 'Describe your challenge in detail',
             ),
             BottomButtonsComponent(buttons: [
               ListItemButtonComponent(

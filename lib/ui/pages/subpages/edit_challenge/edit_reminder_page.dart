@@ -9,7 +9,6 @@ import 'package:challenge/ui/components/list_items/list_item_button_component.da
 import 'package:challenge/ui/components/list_items/list_item_container_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_child_component.dart';
 import 'package:challenge/ui/components/list_items/list_item_icon_text_component.dart';
-import 'package:challenge/ui/components/list_items/list_item_info_component.dart';
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/bottom_buttons_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
@@ -49,7 +48,7 @@ class _EditReminderPageState extends State<EditReminderPage> {
           Expanded(
             child: Column(
               children: [
-                _information(),
+                // _information(),
                 _allowNotificationsInSettings(),
                 _isReminderActive(),
                 _picker(),
@@ -85,6 +84,8 @@ class _EditReminderPageState extends State<EditReminderPage> {
                 .copyWith(
                     right: ListItemContainerComponent.standardPadding - 5),
         text: 'Daily Reminder',
+        infoText:
+            'This is a local reminder. It will not be shared with other participants.',
         child: SwitchComponent(
             value: _editReminder.isActive,
             onChanged: (isActive) {
@@ -148,15 +149,6 @@ class _EditReminderPageState extends State<EditReminderPage> {
 
   void _onTapCancel() {
     Navigator.of(context).pop();
-  }
-
-  _information() {
-    return const SpaceColumnComponent(
-      child: ListItemInfoComponent(
-        text:
-            'This is a local reminder. It will not be shared with other participants.',
-      ),
-    );
   }
 
   void _onTapAllowNotificationsInSettings() {

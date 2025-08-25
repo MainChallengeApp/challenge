@@ -23,6 +23,7 @@ class ListItemContainerComponent extends StatefulWidget {
   final double? borderSize;
   final Key? slidableKey;
   final bool? isEnabled;
+  final String? infoText;
 
   const ListItemContainerComponent(
       {super.key,
@@ -39,7 +40,8 @@ class ListItemContainerComponent extends StatefulWidget {
       this.isHeightDynamic = false,
       this.borderSize,
       this.slidableKey,
-      this.isEnabled = true});
+      this.isEnabled = true,
+      this.infoText});
 
   @override
   State<ListItemContainerComponent> createState() =>
