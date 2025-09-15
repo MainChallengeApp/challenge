@@ -15,7 +15,16 @@ type SearchChallengeType = {
   createdAt: Date;
 };
 
-export const seedDatabaseDefinition = functions.https.onCall(async (_) => {
+export const seedDatabaseDefinition = functions.https.onRequest(async (request, response) => {
+  if (
+    process.env.SEED_DATABASE_TOKEN == undefined ||
+    request.query.token == undefined ||
+    request.query.token !== process.env.SEED_DATABASE_TOKEN
+  ) {
+    response.status(401).send({ error: 'Unauthorized' });
+    return;
+  }
+
   const seedDataString = fs.readFileSync('assets/search_challenges.json');
   const seedData = JSON.parse(seedDataString.toString());
   const db = admin.firestore();
@@ -72,5 +81,5 @@ export const seedDatabaseDefinition = functions.https.onCall(async (_) => {
   //   });
 
   await batch.commit();
-  return 'Database seeded successfully';
+  response.status(200).send({ message: 'Database seeded successfully' });
 });
