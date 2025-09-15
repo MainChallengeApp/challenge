@@ -6,6 +6,7 @@
     "emulator": "firebase emulators:start --import=./firebase-emulator-data --export-on-exit=./firebase-emulator-data",
     "emulator:no-persist": "firebase emulators:start",
     "emulator:reset": "cp -r firebase-emulator-data-backup firebase-emulator-data",
+    "emulator:free-port": "lsof -i :9151 | grep LISTEN | awk '{print $2}' | xargs kill -9",
     "generate:firestore:rules": "node scripts/generate_firestore_rules.js",
     "use:env": "source ../scripts/load_env_vars.sh && firebase use $ENVIRONMENT --non-interactive",
     "deploy:firestore:rules": "npm run generate:firestore:rules && npm run use:env && firebase deploy --only firestore:rules --token $FIREBASE_TOKEN",
