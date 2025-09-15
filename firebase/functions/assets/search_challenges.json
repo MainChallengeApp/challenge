@@ -9,14 +9,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Act" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Act"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Support the App <3",
+      "url": "https://paypal.me/reimusdl"
+    }
   },
   {
     "status": "backlog",
@@ -28,14 +41,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 15.0, "unit": "Minutes" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 15.0,
+      "unit": "Minutes"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Daily Affirmations",
+      "url": "https://amzn.to/4n6z0gd"
+    }
   },
   {
     "status": "backlog",
@@ -47,14 +72,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Bow with Arrows",
+      "url": "https://amzn.to/466mZlf"
+    }
   },
   {
     "status": "backlog",
@@ -66,14 +103,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 20.0, "unit": "Kilometers" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 20.0,
+      "unit": "Kilometers"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Phone Mount for your Bike",
+      "url": "https://amzn.to/3HU5uva"
+    }
   },
   {
     "status": "backlog",
@@ -85,14 +134,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Boulder Starter Kit",
+      "url": "https://amzn.to/47cSf32"
+    }
   },
   {
     "status": "backlog",
@@ -104,14 +165,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "List" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "List"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "500 things you must do in life",
+      "url": "https://amzn.to/3JBwIXY"
+    }
   },
   {
     "status": "backlog",
@@ -123,14 +196,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Jump" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Jump"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Bungee Jumping Rope",
+      "url": "https://amzn.to/46aXnnd"
+    }
   },
   {
     "status": "backlog",
@@ -142,14 +228,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Hours" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Hours"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Vacuum Cleaner Robot",
+      "url": "https://amzn.to/3JRxQXs"
+    }
   },
   {
     "status": "backlog",
@@ -161,14 +260,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1000.0, "unit": "Stairs" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1000.0,
+      "unit": "Stairs"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Twister Stepper",
+      "url": "https://amzn.to/45V9Gmm"
+    }
   },
   {
     "status": "backlog",
@@ -180,14 +291,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Shower" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Shower"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Nie wieder krank' by Wim Hof",
+      "url": "https://amzn.to/4m7CUop"
+    }
   },
   {
     "status": "backlog",
@@ -199,14 +323,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Thing" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Thing"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "DIY Wood Tools Set",
+      "url": "https://amzn.to/4lR5JF7"
+    }
   },
   {
     "status": "backlog",
@@ -218,14 +355,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 30, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "social"]
+    "categories": [
+      "physicalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "JBL Music Box",
+      "url": "https://amzn.to/45Fs188"
+    }
   },
   {
     "status": "backlog",
@@ -237,14 +387,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Entry" },
-    "frequency": { "amount": 100, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Entry"
+    },
+    "frequency": {
+      "amount": 100,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "5 Min Diary",
+      "url": "https://amzn.to/47PUglX"
+    }
   },
   {
     "status": "backlog",
@@ -256,14 +418,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 365, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 365,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'365 Low-Carb-Rezepte' by Eva Neisser",
+      "url": "https://amzn.to/4fT1Az8"
+    }
   },
   {
     "status": "backlog",
@@ -275,14 +450,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Optimization" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Optimization"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Digital Cleaning' by Herbert Hertramph",
+      "url": "https://amzn.to/46bXOOc"
+    }
   },
   {
     "status": "backlog",
@@ -294,14 +481,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Dive" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Dive"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Mini Scuba Tank",
+      "url": "https://amzn.to/4mDXrBX"
+    }
   },
   {
     "status": "backlog",
@@ -313,14 +512,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Donation" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Donation"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Feel free to donate :)",
+      "url": "https://paypal.me/reimusdl"
+    }
   },
   {
     "status": "backlog",
@@ -332,14 +544,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Drawing" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Drawing"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Die Kunst des Zeichnens' by Maria Ellen Karin Zurowetz",
+      "url": "https://amzn.to/3UOGLeF"
+    }
   },
   {
     "status": "backlog",
@@ -351,14 +575,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Entry" },
-    "frequency": { "amount": 100, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Entry"
+    },
+    "frequency": {
+      "amount": 100,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Mein Traumtagebuch' by Caitlin Keegan",
+      "url": "https://amzn.to/3USaIdQ"
+    }
   },
   {
     "status": "backlog",
@@ -370,14 +606,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 2.0, "unit": "Liters" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 2.0,
+      "unit": "Liters"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "STANLEY Water Bottle",
+      "url": "https://amzn.to/4my1OhH"
+    }
   },
   {
     "status": "backlog",
@@ -389,14 +638,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "'Natürlich vegan' by Julius Fiedler",
+      "url": "https://amzn.to/462mM1s"
+    }
   },
   {
     "status": "backlog",
@@ -408,14 +669,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "'Vegetarisches XXL Kochbuch' by Laura Graf",
+      "url": "https://amzn.to/4mykg9Z"
+    }
   },
   {
     "status": "backlog",
@@ -427,14 +700,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Presentation" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Presentation"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["social"]
+    "categories": [
+      "social"
+    ],
+    "ad": {
+      "text": "'Elevator Pitch' by Evelyn Leigh",
+      "url": "https://amzn.to/3HzjoTv"
+    }
   },
   {
     "status": "backlog",
@@ -446,14 +731,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Good Night Tea",
+      "url": "https://amzn.to/4oXdWKG"
+    }
   },
   {
     "status": "backlog",
@@ -465,14 +762,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Place" },
-    "frequency": { "amount": 1, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Place"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Snackbox",
+      "url": "https://amzn.to/47gMNMH"
+    }
   },
   {
     "status": "backlog",
@@ -484,14 +793,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Fear" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Fear"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Liebe Angst, halt doch mal die Klappe!' by Klara Hanstein",
+      "url": "https://amzn.to/4p3j5Bh"
+    }
   },
   {
     "status": "backlog",
@@ -503,14 +824,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Fish" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Fish"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Fishing Starter Kit",
+      "url": "https://amzn.to/469IhhM"
+    }
   },
   {
     "status": "backlog",
@@ -522,14 +856,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Execution" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Execution"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Gym Mat",
+      "url": "https://amzn.to/41qU4pq"
+    }
   },
   {
     "status": "backlog",
@@ -541,14 +887,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Person" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Person"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "'Vergebung befreit' by Sascha Ansahl",
+      "url": "https://amzn.to/47R3v5j"
+    }
   },
   {
     "status": "backlog",
@@ -560,14 +919,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 100, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 100,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Pull-Up Bar",
+      "url": "https://amzn.to/41YIpyd"
+    }
   },
   {
     "status": "backlog",
@@ -579,14 +950,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Gardening Tools",
+      "url": "https://amzn.to/4lOkoRK"
+    }
   },
   {
     "status": "backlog",
@@ -598,14 +982,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 3.0, "unit": "Entries" },
-    "frequency": { "amount": 100, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 3.0,
+      "unit": "Entries"
+    },
+    "frequency": {
+      "amount": 100,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Gratitude Journal",
+      "url": "https://amzn.to/3JGJnZH"
+    }
   },
   {
     "status": "backlog",
@@ -617,14 +1014,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Feedback" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Feedback"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Rate the App",
+      "url": "https://apps.apple.com/de/app/challenge-your-best-version/id6472225791"
+    }
   },
   {
     "status": "backlog",
@@ -636,14 +1046,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 30, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Nike Gym Bag",
+      "url": "https://amzn.to/3JzzE7C"
+    }
   },
   {
     "status": "backlog",
@@ -655,14 +1077,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Minute" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Minute"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Gym Mat",
+      "url": "https://amzn.to/41qU4pq"
+    }
   },
   {
     "status": "backlog",
@@ -674,14 +1108,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Meter" },
-    "frequency": { "amount": 1, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Meter"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Nike Spike Shoes",
+      "url": "https://amzn.to/46a7SHw"
+    }
   },
   {
     "status": "backlog",
@@ -693,14 +1139,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 10.0, "unit": "Kilometers" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 10.0,
+      "unit": "Kilometers"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Hiking Socks",
+      "url": "https://amzn.to/3HPrd7A"
+    }
   },
   {
     "status": "backlog",
@@ -712,14 +1171,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Flight" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Flight"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Binoculars",
+      "url": "https://amzn.to/3HVjQLM"
+    }
   },
   {
     "status": "backlog",
@@ -731,14 +1202,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 3.0, "unit": "Minutes" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 3.0,
+      "unit": "Minutes"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Ice Bath Can",
+      "url": "https://amzn.to/3UPifKn"
+    }
   },
   {
     "status": "backlog",
@@ -750,14 +1234,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Juggling Balls",
+      "url": "https://amzn.to/4mCnGsz"
+    }
   },
   {
     "status": "backlog",
@@ -769,14 +1265,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Kayak",
+      "url": "https://amzn.to/41mfQe0"
+    }
   },
   {
     "status": "backlog",
@@ -788,14 +1296,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 10000.0, "unit": "Euro" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 10000.0,
+      "unit": "Euro"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "'Think and Grow Rich' by Napoleon Hill",
+      "url": "https://amzn.to/45BI4Uv"
+    }
   },
   {
     "status": "backlog",
@@ -807,14 +1327,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 42.195, "unit": "Kilometers" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 42.195,
+      "unit": "Kilometers"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Drinking Bag",
+      "url": "https://amzn.to/3Jyptjz"
+    }
   },
   {
     "status": "backlog",
@@ -826,14 +1358,28 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth", "social"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Venum MMA Shorts",
+      "url": "https://amzn.to/45PTrHe"
+    }
   },
   {
     "status": "backlog",
@@ -845,14 +1391,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 10.0, "unit": "Minutes" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 10.0,
+      "unit": "Minutes"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Meditation Pillow",
+      "url": "https://amzn.to/3HWMOuP"
+    }
   },
   {
     "status": "backlog",
@@ -864,14 +1422,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Good Morning Tea",
+      "url": "https://amzn.to/4lReVJD"
+    }
   },
   {
     "status": "backlog",
@@ -883,14 +1453,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "City" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "City"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Germany Travel Guide",
+      "url": "https://amzn.to/4oVWkPx"
+    }
   },
   {
     "status": "backlog",
@@ -902,14 +1484,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Culture" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Culture"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "'Überall zu Hause?!' by Sarah Lanier",
+      "url": "https://amzn.to/4oViRfp"
+    }
   },
   {
     "status": "backlog",
@@ -921,14 +1515,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 30, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Piano Keyboard",
+      "url": "https://amzn.to/4oWSRjI"
+    }
   },
   {
     "status": "backlog",
@@ -940,14 +1546,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 100, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 100,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "'Wie man jede Sprache in nur 7 Wochen lernt' by Udo Gollub",
+      "url": "https://amzn.to/46dgBYm"
+    }
   },
   {
     "status": "backlog",
@@ -959,14 +1578,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Person" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Person"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "'Wie man Freunde gewinnt' by Dale Carnegie",
+      "url": "https://amzn.to/3VFigRu"
+    }
   },
   {
     "status": "backlog",
@@ -978,14 +1610,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Recipe" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Recipe"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "'Hundert Klassiker' by Steffen Henssler",
+      "url": "https://amzn.to/46cZhCL"
+    }
   },
   {
     "status": "backlog",
@@ -997,14 +1641,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Night" },
-    "frequency": { "amount": 1, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Night"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Sleeping Mat",
+      "url": "https://amzn.to/4m9YtEC"
+    }
   },
   {
     "status": "backlog",
@@ -1016,14 +1672,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Friend" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Friend"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Book of friends",
+      "url": "https://amzn.to/4mMjrdQ"
+    }
   },
   {
     "status": "backlog",
@@ -1035,14 +1704,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Work of art" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Work of art"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Origami Paper",
+      "url": "https://amzn.to/4pezFhm"
+    }
   },
   {
     "status": "backlog",
@@ -1054,14 +1735,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Plaster",
+      "url": "https://amzn.to/4plakmf"
+    }
   },
   {
     "status": "backlog",
@@ -1073,14 +1766,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 10.0, "unit": "Photos" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 10.0,
+      "unit": "Photos"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "iPhone Camera Lens",
+      "url": "https://amzn.to/45VhHco"
+    }
   },
   {
     "status": "backlog",
@@ -1092,14 +1797,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 2.0, "unit": "Minutes" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 2.0,
+      "unit": "Minutes"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Gym Mat",
+      "url": "https://amzn.to/41qU4pq"
+    }
   },
   {
     "status": "backlog",
@@ -1111,14 +1828,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Episodes" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Episodes"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["social"]
+    "categories": [
+      "social"
+    ],
+    "ad": {
+      "text": "Microphone",
+      "url": "https://amzn.to/46t2zD6"
+    }
   },
   {
     "status": "backlog",
@@ -1130,14 +1859,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["social"]
+    "categories": [
+      "social"
+    ],
+    "ad": {
+      "text": "'Poesie Manuskript' by lingo the poet",
+      "url": "https://amzn.to/469EjVh"
+    }
   },
   {
     "status": "backlog",
@@ -1149,14 +1890,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Work of art" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Work of art"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["other"]
+    "categories": [
+      "other"
+    ],
+    "ad": {
+      "text": "Pottery Starter-Kit",
+      "url": "https://amzn.to/4mhhdlS"
+    }
   },
   {
     "status": "backlog",
@@ -1168,14 +1921,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Presentation" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Presentation"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["social"]
+    "categories": [
+      "social"
+    ],
+    "ad": {
+      "text": "Presenter",
+      "url": "https://amzn.to/42nLcBd"
+    }
   },
   {
     "status": "backlog",
@@ -1187,14 +1952,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 100.0, "unit": "Pushups" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 100.0,
+      "unit": "Pushups"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Push Up Holder",
+      "url": "https://amzn.to/46s96Ou"
+    }
   },
   {
     "status": "backlog",
@@ -1206,14 +1983,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Book" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Book"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth"]
+    "categories": [
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Reading Lamp",
+      "url": "https://amzn.to/469EwYz"
+    }
   },
   {
     "status": "backlog",
@@ -1225,14 +2014,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": null, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": null,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Endlich Nichtraucher!' by Allen Carr",
+      "url": "https://amzn.to/4m6JHOX"
+    }
   },
   {
     "status": "backlog",
@@ -1244,14 +2046,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 2.0, "unit": "Kilometers" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 2.0,
+      "unit": "Kilometers"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Drinking Bag",
+      "url": "https://amzn.to/47yAwmX"
+    }
   },
   {
     "status": "backlog",
@@ -1263,14 +2077,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Nurture by Nature Relax & Calm",
+      "url": "https://amzn.to/3V8aL5w"
+    }
   },
   {
     "status": "backlog",
@@ -1282,14 +2109,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 15.0, "unit": "Minutes" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 15.0,
+      "unit": "Minutes"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Skipping Rope",
+      "url": "https://amzn.to/4mafi2r"
+    }
   },
   {
     "status": "backlog",
@@ -1301,14 +2140,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Jump" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Jump"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Skydiver's Information Manual 2025' by United States Parachute Association",
+      "url": "https://amzn.to/4nspZOV"
+    }
   },
   {
     "status": "backlog",
@@ -1320,14 +2172,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Wake-Up Light",
+      "url": "https://amzn.to/4n58MLi"
+    }
   },
   {
     "status": "backlog",
@@ -1339,14 +2204,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "'Digitale Balance' by Christophe Koch",
+      "url": "https://amzn.to/4mhmt96"
+    }
   },
   {
     "status": "backlog",
@@ -1358,14 +2236,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 10000.0, "unit": "Steps" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 10000.0,
+      "unit": "Steps"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Step Counter",
+      "url": "https://amzn.to/3V7kBoc"
+    }
   },
   {
     "status": "backlog",
@@ -1377,14 +2267,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 15.0, "unit": "Minutes" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 15.0,
+      "unit": "Minutes"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Gym Mat",
+      "url": "https://amzn.to/41qU4pq"
+    }
   },
   {
     "status": "backlog",
@@ -1396,14 +2298,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 7, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 7,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Sugar Substitute",
+      "url": "https://amzn.to/4mOhvl7"
+    }
   },
   {
     "status": "backlog",
@@ -1415,14 +2330,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Survival Kit",
+      "url": "https://amzn.to/46cCR4q"
+    }
   },
   {
     "status": "backlog",
@@ -1434,14 +2362,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Swimming Goggles",
+      "url": "https://amzn.to/4m6ZYU6"
+    }
   },
   {
     "status": "backlog",
@@ -1453,14 +2393,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Multivitamin",
+      "url": "https://amzn.to/4ghLTlB"
+    }
   },
   {
     "status": "backlog",
@@ -1472,14 +2425,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 10, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 10,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["mentalHealth", "social"]
+    "categories": [
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "'Übungen und Spiele für Schauspieler und Nicht-Schauspieler' by Till Baumann",
+      "url": "https://amzn.to/47zH0Sr"
+    }
   },
   {
     "status": "backlog",
@@ -1491,14 +2457,28 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Day" },
-    "frequency": { "amount": 14, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Day"
+    },
+    "frequency": {
+      "amount": 14,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth", "social"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Suitcase",
+      "url": "https://amzn.to/46hWCHW"
+    }
   },
   {
     "status": "backlog",
@@ -1510,14 +2490,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Walk" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Walk"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth"]
+    "categories": [
+      "physicalHealth"
+    ],
+    "ad": {
+      "text": "Water Bottle",
+      "url": "https://amzn.to/41Wcajn"
+    }
   },
   {
     "status": "backlog",
@@ -1529,14 +2521,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "social"]
+    "categories": [
+      "physicalHealth",
+      "social"
+    ],
+    "ad": {
+      "text": "Water Proof Bag",
+      "url": "https://amzn.to/4nag40G"
+    }
   },
   {
     "status": "backlog",
@@ -1548,14 +2553,27 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 80.0, "unit": "Kg" },
-    "frequency": { "amount": 1, "type": "time" },
+    "acceptanceCriteria": {
+      "amount": 80.0,
+      "unit": "Kg"
+    },
+    "frequency": {
+      "amount": 1,
+      "type": "time"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "Protein Bars",
+      "url": "https://amzn.to/4n7oiqe"
+    }
   },
   {
     "status": "backlog",
@@ -1567,13 +2585,26 @@
       "scale": 0.8,
       "fit": "contain"
     },
-    "acceptanceCriteria": { "amount": 1.0, "unit": "Session" },
-    "frequency": { "amount": 30, "type": "daily" },
+    "acceptanceCriteria": {
+      "amount": 1.0,
+      "unit": "Session"
+    },
+    "frequency": {
+      "amount": 30,
+      "type": "daily"
+    },
     "media": [],
     "repetitions": [],
     "startDate": null,
     "endDate": null,
     "createdAt": "now",
-    "categories": ["physicalHealth", "mentalHealth"]
+    "categories": [
+      "physicalHealth",
+      "mentalHealth"
+    ],
+    "ad": {
+      "text": "'Die Wim-Hof-Methode' by Wim Hof",
+      "url": "https://amzn.to/4mflBBG"
+    }
   }
 ]

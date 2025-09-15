@@ -32,7 +32,7 @@ class ListItemButtonComponent extends StatelessWidget {
           ? Theme.of(context).colorScheme.secondary
           : Theme.of(context).colorScheme.surface,
       onTap: onTap,
-      onTapColor: isMainButton ? Colors.white.withAlpha(20) : null,
+      onTapColor: isMainButton ? Colors.white.withAlpha(50) : null,
       margin: margin,
       padding: padding,
       isEnabled: isEnabled,

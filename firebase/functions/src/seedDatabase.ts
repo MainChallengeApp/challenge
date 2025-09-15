@@ -72,5 +72,5 @@ export const seedDatabaseDefinition = functions.https.onCall(async (_) => {
   //   });
 
   await batch.commit();
-  // res.send('Database seeded successfully');
+  return 'Database seeded successfully';
 });

@@ -1,6 +1,7 @@
 import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
+import 'package:challenge/models/challenge/ad_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/thumbnail_model.dart';
 import 'package:challenge/services/time_service.dart';
@@ -50,6 +51,9 @@ class ChallengeModel {
   DateTime createdAt;
   static const String createdAtField = 'createdAt';
 
+  AdModel? ad;
+  static const String adField = 'ad';
+
   ChallengeModel(
       {required this.id,
       required this.status,
@@ -63,7 +67,8 @@ class ChallengeModel {
       required this.frequency,
       required this.media,
       this.categories = const [],
-      DateTime? createdAt})
+      DateTime? createdAt,
+      this.ad})
       : createdAt = createdAt ?? TimeService.now();
 
   ChallengeModel.empty({
@@ -76,6 +81,7 @@ class ChallengeModel {
     this.categories = const [],
     this.thumbnail,
     DateTime? createdAt,
+    this.ad,
   }) : createdAt = createdAt ?? TimeService.now() {
     id = const Uuid().v4();
     acceptanceCriteria = AcceptanceCriteriaModel.empty();
@@ -85,6 +91,7 @@ class ChallengeModel {
 
   static ChallengeModel fromDoc(DocumentSnapshot doc) {
     try {
+      final data = doc.data() as Map<String, dynamic>;
       ChallengeModel challenge = ChallengeModel(
         id: doc.id,
         status: ChallengeStatusEnum.fromString(doc[statusField]),
@@ -106,6 +113,9 @@ class ChallengeModel {
         media: MediaModel.fromDocs(doc[mediaField]),
         categories: ChallengeCategoryEnum.fromDocs(doc[categoriesField]),
         createdAt: (doc[createdAtField] as Timestamp).toDate(),
+        ad: data.containsKey(adField) && data[adField] != null
+            ? AdModel.fromDoc(data[adField])
+            : null,
       );
 
       return challenge;
@@ -127,7 +137,8 @@ class ChallengeModel {
       frequencyField: frequency.toDoc(),
       mediaField: media.map((media) => media.toDoc()).toList(),
       categoriesField: ChallengeCategoryEnum.toDocs(categories),
-      createdAtField: createdAt
+      createdAtField: createdAt,
+      adField: ad?.toDoc(),
     };
   }
 
@@ -145,7 +156,8 @@ class ChallengeModel {
         frequency: frequency.copy(),
         media: isTryAgain ? [] : MediaModel.copyList(media),
         categories: ChallengeCategoryEnum.copyCategoryList(categories),
-        createdAt: createdAt);
+        createdAt: createdAt,
+        ad: ad?.copy());
   }
 
   bool searchInChallenge(String searchText) {

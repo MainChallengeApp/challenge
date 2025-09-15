@@ -23,7 +23,6 @@ import 'package:challenge/ui/components/loading_circle/refresh_indicator_compone
 import 'package:challenge/ui/components/navigation/app_bar_component.dart';
 import 'package:challenge/ui/components/simple_components/space_column_component.dart';
 import 'package:challenge/ui/pages/search/search_all_page.dart';
-import 'package:challenge/ui/pages/search/search_user_page.dart';
 import 'package:challenge/ui/pages/subpages/edit_challenge/edit_challenge_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -394,10 +393,14 @@ class _SearchListPageState extends State<SearchListPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SearchUserPage(
-          getUsersList: () => searchedUsers,
-          initUserId: user.id,
+        builder: (context) => SearchAllPage(
+          initialIndex: index,
           searchText: _textEditingController.text,
+          getList: () => _listeningUsersProvider.searchUsers,
+          getPagination: () {
+            _usersProvider.getSearchedPaginated(
+                searchText: _textEditingController.text);
+          },
         ),
       ),
     ).then((value) => setState(

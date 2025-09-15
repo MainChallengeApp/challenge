@@ -2,6 +2,7 @@ import 'package:challenge/enums/challenge_category_enum.dart';
 import 'package:challenge/enums/challenge_status_enum.dart';
 import 'package:challenge/enums/frequency_type_enum.dart.dart';
 import 'package:challenge/models/challenge/acceptance_criteria_model.dart';
+import 'package:challenge/models/challenge/ad_model.dart';
 import 'package:challenge/models/challenge/challenge_model.dart';
 import 'package:challenge/models/challenge/frequency_model.dart';
 import 'package:challenge/models/challenge/media/media_model.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../services/faker_service.dart';
 import 'acceptance_criteria_model_test.dart';
+import 'ad_model_test.dart';
 import 'frequency_model_test.dart';
 import 'media_model_test.dart';
 import 'thumbnail_model_test.dart';
@@ -28,7 +30,8 @@ void main() {
         ThumbnailModel? thumbnail,
         FrequencyModel? frequency,
         List<MediaModel>? media,
-        List<ChallengeCategoryEnum>? categories}) {
+        List<ChallengeCategoryEnum>? categories,
+        AdModel? ad}) {
       return ChallengeModel(
         id: id ?? FakerService.guid(),
         status: status ?? FakerService.randomObject(ChallengeStatusEnum.values),
@@ -47,6 +50,7 @@ void main() {
                 .toList()),
         startDate: startDate ?? FakerService.dateTime(),
         endDate: endDate ?? FakerService.dateTime(),
+        ad: ad ?? mockAdModel(),
       );
     }
 
@@ -177,7 +181,7 @@ void main() {
           ChallengeModel.titleField: challenge.title,
           ChallengeModel.titleLowerCaseField: challenge.title.toLowerCase(),
           ChallengeModel.descriptionField: challenge.description,
-          ChallengeModel.thumbnailField: challenge.thumbnail!.toDoc(),
+          ChallengeModel.thumbnailField: challenge.thumbnail?.toDoc(),
           ChallengeModel.acceptanceCriteriaField:
               challenge.acceptanceCriteria.toDoc(),
           ChallengeModel.frequencyField: challenge.frequency.toDoc(),
@@ -187,7 +191,8 @@ void main() {
               ChallengeCategoryEnum.toDocs(challenge.categories),
           ChallengeModel.startDateField: challenge.startDate,
           ChallengeModel.endDateField: challenge.endDate,
-          ChallengeModel.createdAtField: challenge.createdAt
+          ChallengeModel.createdAtField: challenge.createdAt,
+          ChallengeModel.adField: challenge.ad?.toDoc(),
         };
 
         // Act

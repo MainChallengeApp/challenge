@@ -178,7 +178,12 @@ class _SearchCategoriesPageState extends State<SearchCategoriesPage> {
         builder: (context) => const SearchListPage(
             isUserSearchActive: true, isSearchBarAutoFocus: true),
       ),
-    );
+    ).then((_) {
+      _tabProvider.setBottomNavigationVisibility(true);
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void onTapCategory(List<ChallengeCategoryEnum> categories, String title) {

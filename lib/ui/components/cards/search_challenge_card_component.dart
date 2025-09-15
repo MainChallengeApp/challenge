@@ -32,7 +32,10 @@ class _SearchChallengeCardComponentState
     );
   }
 
-  SpaceComponent _space() => const SpaceComponent();
+  _space() {
+    return Visibility(
+        visible: widget.challenge.ad != null, child: const SpaceComponent());
+  }
 
   _thumbnail() {
     return SpaceColumnComponent(
@@ -64,23 +67,27 @@ class _SearchChallengeCardComponentState
   }
 
   _adButton() {
-    return TapContainerComponent(
-      onTap: _onTapAd,
-      child: Row(children: [
-        const Expanded(
-          child: Text('Ad'),
-        ),
-        Icon(
-          IconEnum.link.icon,
-          size: Theme.of(context).textTheme.titleLarge?.fontSize,
-          color: Theme.of(context).colorScheme.tertiary,
-        ),
-      ]),
+    return Visibility(
+      visible: widget.challenge.ad != null,
+      child: TapContainerComponent(
+        onTap: _onTapAd,
+        child: Row(children: [
+          Expanded(
+            child: Text(widget.challenge.ad?.text ?? '',
+                overflow: TextOverflow.ellipsis, maxLines: 1),
+          ),
+          Icon(
+            IconEnum.link.icon,
+            size: Theme.of(context).textTheme.titleLarge?.fontSize,
+            color: Theme.of(context).colorScheme.tertiary,
+          ),
+        ]),
+      ),
     );
   }
 
   void _onTapAd() {
-    launchUrl(Uri.parse('https://www.amazon.de'),
+    launchUrl(Uri.parse(widget.challenge.ad!.url),
         mode: LaunchMode.externalApplication);
   }
 }
