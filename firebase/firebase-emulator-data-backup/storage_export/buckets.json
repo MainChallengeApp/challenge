@@ -2,6 +2,9 @@
   "buckets": [
     {
       "id": "challenge-dev-sdgi.appspot.com"
+    },
+    {
+      "id": "challenge-test-f5e32.appspot.com"
     }
   ]
 }
