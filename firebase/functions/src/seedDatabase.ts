@@ -2,18 +2,11 @@ import * as admin from 'firebase-admin';
 import { getDownloadURL } from 'firebase-admin/storage';
 import * as functions from 'firebase-functions';
 import * as fs from 'fs';
+import { SearchChallengeType } from './types/searchChallenge.type';
 
 if (!admin.apps.length) {
   admin.initializeApp();
 }
-
-type SearchChallengeType = {
-  id: string;
-  thumbnail: {
-    url: string;
-  };
-  createdAt: Date;
-};
 
 export const seedDatabaseDefinition = functions.https.onRequest(async (request, response) => {
   if (
@@ -21,7 +14,7 @@ export const seedDatabaseDefinition = functions.https.onRequest(async (request, 
     request.query.token == undefined ||
     request.query.token !== process.env.SEED_DATABASE_TOKEN
   ) {
-    response.status(401).send({ error: 'Unauthorized' });
+    response.status(401).send();
     return;
   }
 
@@ -30,56 +23,40 @@ export const seedDatabaseDefinition = functions.https.onRequest(async (request, 
   const db = admin.firestore();
   const searchChallengesSnapshot = await db.collection('search_challenges').get();
 
-  // delete all search challenges
+  await Promise.all(
+    seedData.map(async (searchChallenge: SearchChallengeType) => {
+      const oldSearchChallenge = searchChallengesSnapshot.docs.find(
+        (doc) => doc.data().titleLowerCase === searchChallenge.titleLowerCase // id would be better
+      );
+
+      if (oldSearchChallenge) {
+        searchChallenge.thumbnail.url = oldSearchChallenge?.data().thumbnail.url;
+      } else {
+        searchChallenge.thumbnail.url = await uploadThumbnail(searchChallenge);
+      }
+
+      searchChallenge.createdAt = new Date();
+      await db.collection('search_challenges').add(searchChallenge);
+    })
+  );
+
+  // delete all old search challenges
   await searchChallengesSnapshot.forEach(async (doc) => {
     await db.collection('search_challenges').doc(doc.id).delete();
   });
 
-  const batch = db.batch();
-  const bucket = admin.storage().bucket();
-
-  await Promise.all(
-    seedData.map(async (searchChallenge: SearchChallengeType) => {
-      searchChallenge.createdAt = new Date();
-      const searchChallengeRef = db.collection('search_challenges').doc();
-
-      // Path to your asset file
-      const assetPath = searchChallenge.thumbnail.url;
-
-      // Read the file
-      const fileBuffer = fs.readFileSync(assetPath);
-
-      // Generate a unique filename
-      const fileName = `search_challenges/${searchChallengeRef.id}/thumbnail.jpg`;
-
-      // Get a reference to the storage bucket
-
-      // Upload the file to Firebase Storage
-      const file = bucket.file(fileName);
-      await file.save(fileBuffer, {
-        metadata: {
-          contentType: 'image/jpeg', // Adjust this based on your file type
-        },
-      });
-
-      // Update the searchChallenge object with the new URL
-      searchChallenge.thumbnail.url = await getDownloadURL(file);
-      await db.collection('search_challenges').doc(searchChallengeRef.id).set(searchChallenge);
-
-      // batch.set(searchChallengeRef, searchChallenge);
-    })
-  );
-
-  //   seedData.groupChallenges.forEach((groupChallenge: any) => {
-  //     const groupChallengeRef = db.collection("groupChallenges").doc(groupChallenge.id);
-  //     batch.set(groupChallengeRef, groupChallenge);
-  //   });
-
-  //   seedData.notifications.forEach((notification: any) => {
-  //     const notificationRef = db.collection("notifications").doc(notification.id);
-  //     batch.set(notificationRef, notification);
-  //   });
-
-  await batch.commit();
   response.status(200).send({ message: 'Database seeded successfully' });
 });
+
+async function uploadThumbnail(searchChallenge: SearchChallengeType) {
+  const bucket = admin.storage().bucket();
+  const fileBuffer = fs.readFileSync(searchChallenge.thumbnail.url);
+  const fileName = `search_challenges/${searchChallenge.id}/thumbnail.jpg`;
+  const file = bucket.file(fileName);
+  await file.save(fileBuffer, {
+    metadata: {
+      contentType: 'image/jpeg', // Adjust this based on your file type
+    },
+  });
+  return await getDownloadURL(file);
+}
