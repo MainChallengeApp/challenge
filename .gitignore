@@ -51,3 +51,6 @@ coverage/lcov.info
 **/node_modules/
 firebase/firestore.rules
 firebase/firebase-emulator-data/
+
+# FVM Version Cache
+.fvm/
