@@ -65,6 +65,7 @@ class _BottomNavigationComponentState extends State<BottomNavigationComponent> {
               fontWeight: FontWeight.w600,
               fontFamily: IconEnum.search.icon.fontFamily,
             ),
+            textScaler: TextScaler.noScaling,
           )
         : tabItem == TabItemEnum.home
             ? const ImageIcon(
