@@ -115,12 +115,15 @@ class _ListItemProgressComponentState extends State<ListItemProgressComponent> {
   }
 
   _progress() {
+    final progress = UtilService.doubleAsIntString(widget.progress.progress);
+    final goal = UtilService.doubleAsIntString(
+        widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount);
+    final unit = widget.unit;
     return ContainerInContainerTextComponent(
         margin: const EdgeInsets.only(
             right: ContainerInContainerComponent.standardMargin),
         height: SmallContainerInListItemComponent.height,
-        text:
-            '${UtilService.doubleAsIntString(widget.progress.progress)}/${UtilService.doubleAsIntString(widget.attempt.getAcceptanceCriteria(widget.groupChallenge).amount)} ${widget.unit}');
+        text: '$progress/$goal $unit');
   }
 
   _progressIcon() {

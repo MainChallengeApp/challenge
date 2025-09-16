@@ -62,15 +62,7 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   late final RepetitionModel? _currentRepetition =
       widget.attempt.getCurrentRepetition(widget.groupChallenge);
 
-  late ProgressModel editProgress = ProgressModel.copyOrCreateProgress(
-      widget.progress,
-      widget.initialMediaList.map((e) => e.id!).toList(),
-      _editRepetition.getLastProgress() != null
-          ? _editRepetition.getLastProgress()!.progress
-          : 0,
-      _editRepetition.repetitionNumber == _currentRepetition?.repetitionNumber
-          ? null
-          : _editRepetition.startDate);
+  late ProgressModel editProgress = _initializeProgress();
 
   late TextEditingController progressTextEditingController =
       TextEditingController(
@@ -89,8 +81,10 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
   @override
   void initState() {
     super.initState();
-    editProgress.getSmartProgress(
-        widget.initialMediaList, widget.attempt, widget.groupChallenge);
+    if (widget.progress == null) {
+      editProgress.getSmartProgress(
+          widget.initialMediaList, widget.attempt, widget.groupChallenge);
+    }
   }
 
   @override
@@ -164,6 +158,18 @@ class _ProgressMediaListPageState extends State<ProgressMediaListPage> {
             return _mediaListItem(index);
           }),
     );
+  }
+
+  ProgressModel _initializeProgress() {
+    final mediaIds = widget.initialMediaList.map((e) => e.id!).toList();
+    final lastProgress = _editRepetition.getLastProgress()?.progress ?? 0;
+    final date =
+        _editRepetition.repetitionNumber == _currentRepetition?.repetitionNumber
+            ? null
+            : _editRepetition.startDate;
+
+    return ProgressModel.copyOrCreateProgress(
+        widget.progress, mediaIds, lastProgress, date);
   }
 
   SpaceColumnComponent _mediaListItem(int index) {
