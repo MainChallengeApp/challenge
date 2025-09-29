@@ -229,7 +229,6 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                 Expanded(
                     child: ListItemButtonComponent(
                   onTap: _onTapCancel,
-                  text: '',
                   icon: IconEnum.arrowLeft.icon,
                   margin: EdgeInsets.zero,
                   isMainButton: false,
@@ -238,7 +237,6 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                 Expanded(
                     child: ListItemButtonComponent(
                   onTap: _onTapEdit,
-                  text: '',
                   icon: IconEnum.edit.icon,
                   margin: EdgeInsets.zero,
                   isMainButton: false,
@@ -248,7 +246,6 @@ class _MediaDetailPageState extends State<MediaDetailPage>
                 Expanded(
                     child: ListItemButtonComponent(
                   onTap: _onTapDelete,
-                  text: '',
                   icon: IconEnum.delete.icon,
                   margin: EdgeInsets.zero,
                   textColor: Theme.of(context).colorScheme.red,
